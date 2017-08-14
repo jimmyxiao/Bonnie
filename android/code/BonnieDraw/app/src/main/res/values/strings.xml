@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BonnieDraw</string>
+    <string name="gcm_sender_id">############</string>
+    <string name="downloading">下載中…</string>
+    <string name="open_menu">開啟選單</string>
+    <string name="close_menu">關閉選單</string>
+    <string name="request_network_access">請開啟網路</string>
+    <string name="request_storage_access">請開啟儲存權限</string>
+</resources>
