@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <EditTextPreference
+            android:key="autoplay_intervaltime"
+            android:defaultValue="10"
+            android:inputType="number"
+            android:title="自動撥放間隔時間"
+            android:summary="在自動撥放時每筆劃的間隔時間(秒)"
+            android:dialogTitle="在自動撥放時每筆劃的間隔時間(秒)" />
+            
+
+</PreferenceScreen>

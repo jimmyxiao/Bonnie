@@ -1,0 +1,93 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white"
+     >
+
+    <FrameLayout
+        android:id="@+id/view_freepain"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+            android:background="@drawable/white"
+        android:layout_above="@+id/id_layout_tool"
+         >
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/id_layout_tool"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/id_btn_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="記錄" />
+
+            <Button
+                android:id="@+id/id_btn_autoplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="自動撥放" />
+
+            <Button
+                android:id="@+id/id_btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="單次撥放" />
+
+            <Button
+                android:id="@+id/id_btn_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="清除" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/id_btn_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="下一歩" />
+
+            <Button
+                android:id="@+id/id_btn_previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="上一步" />
+
+            <Button
+                android:id="@+id/id_btn_colorpicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="選色" />
+            
+            <Button
+                android:id="@+id/id_btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="存檔" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
