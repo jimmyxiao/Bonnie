@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single"
+        android:id="@+id/groupTop">
+        <item
+            android:id="@+id/menu_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/menu_hot"
+            android:icon="@drawable/ic_whatshot_black_24dp"
+            android:title="Hot" />
+
+        <item
+            android:id="@+id/menu_libray"
+            android:icon="@drawable/ic_photo_library_black_24dp"
+            android:title="Library"
+            android:visible="false" />
+
+        <item
+            android:id="@+id/menu_paint"
+            android:icon="@drawable/ic_create_black_24dp"
+            android:title="Paint"
+            android:visible="false" />
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/groupBottom">
+        <item
+            android:id="@+id/menu_setting"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="Setting" />
+
+        <item
+            android:id="@+id/menu_description"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="Description" />
+    </group>
+
+
+</menu>

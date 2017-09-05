@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "31231497602",
+    "project_id": "bonniedraw-3857e"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31231497602:android:89987981642035d4",
+        "android_client_info": {
+          "package_name": "com.sctw.bonniedraw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31231497602-3bpq9feiodl5h2tjc48ho6kci2hgijie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sctw.bonniedraw",
+            "certificate_hash": "d8500d3b1716b9ee9921df7cfcae6e9abd0eb6e6"
+          }
+        },
+        {
+          "client_id": "31231497602-qi4uspocbrm2bvminmh0fa27ettpr6rt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKZFFEflk44lLyInSfYC8GF6ktUT-DlxY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
