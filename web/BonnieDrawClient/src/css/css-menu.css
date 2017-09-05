@@ -78,7 +78,7 @@
 }
 #cssmenu > ul > li:hover > a,
 #cssmenu > ul > li.active > a {
-  color: #d82727;
+  color: #f26f45;
   outline: none;
 }
 #cssmenu > ul > li.has-sub > a {
@@ -168,14 +168,11 @@
   width: 170px;
   font-size: 14px;
   text-decoration: none;
-  color: #dddddd;
+  color: #fff;
   font-weight: 400;
-  background: rgb(216,39,39); /* Old browsers */
-  background: -moz-linear-gradient(top, rgba(216,39,39,1) 0%, rgba(196,37,37,1) 44%, rgba(191,41,36,1) 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(216,39,39,1) 0%,rgba(196,37,37,1) 44%,rgba(191,41,36,1) 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(216,39,39,1) 0%,rgba(196,37,37,1) 44%,rgba(191,41,36,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d82727', endColorstr='#bf2924',GradientType=0 ); /* IE6-9 */
+  background: #f26f45;
 }
+  
 #cssmenu ul ul li:last-child > a,
 #cssmenu ul ul li.last-item > a {
   border-bottom: 0;
@@ -183,11 +180,7 @@
 #cssmenu ul ul li:hover > a,
 #cssmenu ul ul li a:hover {
   color: #ffffff;
-  background: rgb(216,39,39); /* Old browsers */
-  background: -moz-linear-gradient(top, rgba(216,39,39,1) 0%, rgba(196,37,37,1) 100%, rgba(191,41,36,1) 44%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(216,39,39,1) 0%,rgba(196,37,37,1) 100%,rgba(191,41,36,1) 44%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(216,39,39,1) 0%,rgba(196,37,37,1) 100%,rgba(191,41,36,1) 44%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d82727', endColorstr='#bf2924',GradientType=0 ); /* IE6-9 */
+  background: #ee4b16;
 }
 #cssmenu ul ul li.has-sub > a:after {
   position: absolute;
@@ -221,7 +214,7 @@
   -webkit-transform:rotate(-90deg);
   -moz-transform:rotate(-90deg);
 }
-@media all and (max-width: 768px), only screen and (-webkit-min-device-pixel-ratio: 2) and (max-width: 1024px), only screen and (min--moz-device-pixel-ratio: 2) and (max-width: 1024px), only screen and (-o-min-device-pixel-ratio: 2/1) and (max-width: 1024px), only screen and (min-device-pixel-ratio: 2) and (max-width: 1024px), only screen and (min-resolution: 192dpi) and (max-width: 1024px), only screen and (min-resolution: 2dppx) and (max-width: 1024px) {
+@media all and (max-width: 768px), only screen and (-webkit-min-device-pixel-ratio: 2) and (max-width: 992px), only screen and (min--moz-device-pixel-ratio: 2) and (max-width: 992px), only screen and (-o-min-device-pixel-ratio: 2/1) and (max-width: 992px), only screen and (min-device-pixel-ratio: 2) and (max-width: 992px), only screen and (min-resolution: 192dpi) and (max-width: 992px), only screen and (min-resolution: 2dppx) and (max-width: 992px) {
   #cssmenu {
     width: 100%;
   }
