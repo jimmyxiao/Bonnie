@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.works.dao.WorksMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.works.model.Works">
+    <id column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="PRIVACY_TYPE" jdbcType="INTEGER" property="privacyType" />
+    <result column="DEVICE_TYPE" jdbcType="INTEGER" property="deviceType" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="IMAGE_PATH" jdbcType="VARCHAR" property="imagePath" />
+    <result column="BDW_PATH" jdbcType="VARCHAR" property="bdwPath" />
+    <result column="LANGUAGE_ID" jdbcType="INTEGER" property="languageId" />
+    <result column="COUNTRY_ID" jdbcType="INTEGER" property="countryId" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="CREATED_BY" jdbcType="INTEGER" property="createdBy" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATED_BY" jdbcType="INTEGER" property="updatedBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    WORKS_ID, USER_ID, PRIVACY_TYPE, DEVICE_TYPE, TITLE, DESCRIPTION, IMAGE_PATH, BDW_PATH, 
+    LANGUAGE_ID, COUNTRY_ID, STATUS, CREATION_DATE, CREATED_BY, UPDATE_DATE, UPDATED_BY
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from works
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from works
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.works.model.Works">
+    insert into works (WORKS_ID, USER_ID, PRIVACY_TYPE, 
+      DEVICE_TYPE, TITLE, DESCRIPTION, 
+      IMAGE_PATH, BDW_PATH, LANGUAGE_ID, 
+      COUNTRY_ID, STATUS, CREATION_DATE, 
+      CREATED_BY, UPDATE_DATE, UPDATED_BY
+      )
+    values (#{worksId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{privacyType,jdbcType=INTEGER}, 
+      #{deviceType,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{imagePath,jdbcType=VARCHAR}, #{bdwPath,jdbcType=VARCHAR}, #{languageId,jdbcType=INTEGER}, 
+      #{countryId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{creationDate,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.works.model.Works">
+    insert into works
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="worksId != null">
+        WORKS_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="privacyType != null">
+        PRIVACY_TYPE,
+      </if>
+      <if test="deviceType != null">
+        DEVICE_TYPE,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="imagePath != null">
+        IMAGE_PATH,
+      </if>
+      <if test="bdwPath != null">
+        BDW_PATH,
+      </if>
+      <if test="languageId != null">
+        LANGUAGE_ID,
+      </if>
+      <if test="countryId != null">
+        COUNTRY_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE,
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="updatedBy != null">
+        UPDATED_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="worksId != null">
+        #{worksId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="privacyType != null">
+        #{privacyType,jdbcType=INTEGER},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="bdwPath != null">
+        #{bdwPath,jdbcType=VARCHAR},
+      </if>
+      <if test="languageId != null">
+        #{languageId,jdbcType=INTEGER},
+      </if>
+      <if test="countryId != null">
+        #{countryId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.works.model.Works">
+    update works
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="privacyType != null">
+        PRIVACY_TYPE = #{privacyType,jdbcType=INTEGER},
+      </if>
+      <if test="deviceType != null">
+        DEVICE_TYPE = #{deviceType,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        IMAGE_PATH = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="bdwPath != null">
+        BDW_PATH = #{bdwPath,jdbcType=VARCHAR},
+      </if>
+      <if test="languageId != null">
+        LANGUAGE_ID = #{languageId,jdbcType=INTEGER},
+      </if>
+      <if test="countryId != null">
+        COUNTRY_ID = #{countryId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        UPDATED_BY = #{updatedBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.works.model.Works">
+    update works
+    set USER_ID = #{userId,jdbcType=INTEGER},
+      PRIVACY_TYPE = #{privacyType,jdbcType=INTEGER},
+      DEVICE_TYPE = #{deviceType,jdbcType=INTEGER},
+      TITLE = #{title,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      IMAGE_PATH = #{imagePath,jdbcType=VARCHAR},
+      BDW_PATH = #{bdwPath,jdbcType=VARCHAR},
+      LANGUAGE_ID = #{languageId,jdbcType=INTEGER},
+      COUNTRY_ID = #{countryId,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      CREATED_BY = #{createdBy,jdbcType=INTEGER},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATED_BY = #{updatedBy,jdbcType=INTEGER}
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.systemsetup.dao.SystemSetupMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.systemsetup.model.SystemSetup">
+    <id column="SYSTEM_SETUP_ID" jdbcType="INTEGER" property="systemSetupId" />
+    <result column="MAIL_HOST" jdbcType="VARCHAR" property="mailHost" />
+    <result column="MAIL_PORT" jdbcType="INTEGER" property="mailPort" />
+    <result column="MAIL_USERNAME" jdbcType="VARCHAR" property="mailUsername" />
+    <result column="MAIL_PASSWORD" jdbcType="VARCHAR" property="mailPassword" />
+    <result column="MAIL_PROTOCOL" jdbcType="VARCHAR" property="mailProtocol" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SYSTEM_SETUP_ID, MAIL_HOST, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_PROTOCOL
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from system_setup
+    where SYSTEM_SETUP_ID = #{systemSetupId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from system_setup
+    where SYSTEM_SETUP_ID = #{systemSetupId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.systemsetup.model.SystemSetup">
+    insert into system_setup (SYSTEM_SETUP_ID, MAIL_HOST, MAIL_PORT, 
+      MAIL_USERNAME, MAIL_PASSWORD, MAIL_PROTOCOL
+      )
+    values (#{systemSetupId,jdbcType=INTEGER}, #{mailHost,jdbcType=VARCHAR}, #{mailPort,jdbcType=INTEGER}, 
+      #{mailUsername,jdbcType=VARCHAR}, #{mailPassword,jdbcType=VARCHAR}, #{mailProtocol,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.systemsetup.model.SystemSetup">
+    insert into system_setup
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="systemSetupId != null">
+        SYSTEM_SETUP_ID,
+      </if>
+      <if test="mailHost != null">
+        MAIL_HOST,
+      </if>
+      <if test="mailPort != null">
+        MAIL_PORT,
+      </if>
+      <if test="mailUsername != null">
+        MAIL_USERNAME,
+      </if>
+      <if test="mailPassword != null">
+        MAIL_PASSWORD,
+      </if>
+      <if test="mailProtocol != null">
+        MAIL_PROTOCOL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="systemSetupId != null">
+        #{systemSetupId,jdbcType=INTEGER},
+      </if>
+      <if test="mailHost != null">
+        #{mailHost,jdbcType=VARCHAR},
+      </if>
+      <if test="mailPort != null">
+        #{mailPort,jdbcType=INTEGER},
+      </if>
+      <if test="mailUsername != null">
+        #{mailUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="mailPassword != null">
+        #{mailPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="mailProtocol != null">
+        #{mailProtocol,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.systemsetup.model.SystemSetup">
+    update system_setup
+    <set>
+      <if test="mailHost != null">
+        MAIL_HOST = #{mailHost,jdbcType=VARCHAR},
+      </if>
+      <if test="mailPort != null">
+        MAIL_PORT = #{mailPort,jdbcType=INTEGER},
+      </if>
+      <if test="mailUsername != null">
+        MAIL_USERNAME = #{mailUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="mailPassword != null">
+        MAIL_PASSWORD = #{mailPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="mailProtocol != null">
+        MAIL_PROTOCOL = #{mailProtocol,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SYSTEM_SETUP_ID = #{systemSetupId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.systemsetup.model.SystemSetup">
+    update system_setup
+    set MAIL_HOST = #{mailHost,jdbcType=VARCHAR},
+      MAIL_PORT = #{mailPort,jdbcType=INTEGER},
+      MAIL_USERNAME = #{mailUsername,jdbcType=VARCHAR},
+      MAIL_PASSWORD = #{mailPassword,jdbcType=VARCHAR},
+      MAIL_PROTOCOL = #{mailProtocol,jdbcType=VARCHAR}
+    where SYSTEM_SETUP_ID = #{systemSetupId,jdbcType=INTEGER}
+  </update>
+</mapper>

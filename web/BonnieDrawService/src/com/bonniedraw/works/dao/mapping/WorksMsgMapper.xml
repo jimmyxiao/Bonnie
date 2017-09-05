@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.works.dao.WorksMsgMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.works.model.WorksMsg">
+    <id column="WORKS_MSG_ID" jdbcType="INTEGER" property="worksMsgId" />
+    <result column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="MESSAGE" jdbcType="VARCHAR" property="message" />
+    <result column="MSG_ORDER" jdbcType="INTEGER" property="msgOrder" />
+    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    WORKS_MSG_ID, WORKS_ID, USER_ID, MESSAGE, MSG_ORDER, CREATION_DATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from works_msg
+    where WORKS_MSG_ID = #{worksMsgId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from works_msg
+    where WORKS_MSG_ID = #{worksMsgId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.works.model.WorksMsg">
+    insert into works_msg (WORKS_MSG_ID, WORKS_ID, USER_ID, 
+      MESSAGE, MSG_ORDER, CREATION_DATE
+      )
+    values (#{worksMsgId,jdbcType=INTEGER}, #{worksId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{message,jdbcType=VARCHAR}, #{msgOrder,jdbcType=INTEGER}, #{creationDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.works.model.WorksMsg">
+    insert into works_msg
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="worksMsgId != null">
+        WORKS_MSG_ID,
+      </if>
+      <if test="worksId != null">
+        WORKS_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="message != null">
+        MESSAGE,
+      </if>
+      <if test="msgOrder != null">
+        MSG_ORDER,
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="worksMsgId != null">
+        #{worksMsgId,jdbcType=INTEGER},
+      </if>
+      <if test="worksId != null">
+        #{worksId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="msgOrder != null">
+        #{msgOrder,jdbcType=INTEGER},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.works.model.WorksMsg">
+    update works_msg
+    <set>
+      <if test="worksId != null">
+        WORKS_ID = #{worksId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="message != null">
+        MESSAGE = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="msgOrder != null">
+        MSG_ORDER = #{msgOrder,jdbcType=INTEGER},
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where WORKS_MSG_ID = #{worksMsgId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.works.model.WorksMsg">
+    update works_msg
+    set WORKS_ID = #{worksId,jdbcType=INTEGER},
+      USER_ID = #{userId,jdbcType=INTEGER},
+      MESSAGE = #{message,jdbcType=VARCHAR},
+      MSG_ORDER = #{msgOrder,jdbcType=INTEGER},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP}
+    where WORKS_MSG_ID = #{worksMsgId,jdbcType=INTEGER}
+  </update>
+</mapper>

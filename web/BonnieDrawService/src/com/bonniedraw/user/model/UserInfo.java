@@ -13,29 +13,31 @@ public class UserInfo {
 
     private String userName;
 
+    private String nickName;
+
     private String email;
 
     private String secEmail;
 
     private String description;
 
-    private Boolean userEnable;
+    private String webLink;
 
-    private Integer gender;
-
-    private String fbId;
-
-    private String googleId;
-
-    private String twitterId;
-
-    private Integer regFrom;
-
-    private String profilePicture;
+    private String phoneCountryCode;
 
     private String phoneNo;
 
+    private Integer gender;
+
+    private String regThirdId;
+
+    private String profilePicture;
+
     private Date birthday;
+
+    private Integer status;
+
+    private Integer languageId;
 
     private Date creationDate;
 
@@ -85,6 +87,14 @@ public class UserInfo {
         this.userName = userName == null ? null : userName.trim();
     }
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
+    }
+
     public String getEmail() {
         return email;
     }
@@ -109,60 +119,20 @@ public class UserInfo {
         this.description = description == null ? null : description.trim();
     }
 
-    public Boolean getUserEnable() {
-        return userEnable;
+    public String getWebLink() {
+        return webLink;
     }
 
-    public void setUserEnable(Boolean userEnable) {
-        this.userEnable = userEnable;
+    public void setWebLink(String webLink) {
+        this.webLink = webLink == null ? null : webLink.trim();
     }
 
-    public Integer getGender() {
-        return gender;
+    public String getPhoneCountryCode() {
+        return phoneCountryCode;
     }
 
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public String getFbId() {
-        return fbId;
-    }
-
-    public void setFbId(String fbId) {
-        this.fbId = fbId == null ? null : fbId.trim();
-    }
-
-    public String getGoogleId() {
-        return googleId;
-    }
-
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId == null ? null : googleId.trim();
-    }
-
-    public String getTwitterId() {
-        return twitterId;
-    }
-
-    public void setTwitterId(String twitterId) {
-        this.twitterId = twitterId == null ? null : twitterId.trim();
-    }
-
-    public Integer getRegFrom() {
-        return regFrom;
-    }
-
-    public void setRegFrom(Integer regFrom) {
-        this.regFrom = regFrom;
-    }
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture == null ? null : profilePicture.trim();
+    public void setPhoneCountryCode(String phoneCountryCode) {
+        this.phoneCountryCode = phoneCountryCode == null ? null : phoneCountryCode.trim();
     }
 
     public String getPhoneNo() {
@@ -173,12 +143,52 @@ public class UserInfo {
         this.phoneNo = phoneNo == null ? null : phoneNo.trim();
     }
 
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public String getRegThirdId() {
+        return regThirdId;
+    }
+
+    public void setRegThirdId(String regThirdId) {
+        this.regThirdId = regThirdId == null ? null : regThirdId.trim();
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture == null ? null : profilePicture.trim();
+    }
+
     public Date getBirthday() {
         return birthday;
     }
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(Integer languageId) {
+        this.languageId = languageId;
     }
 
     public Date getCreationDate() {

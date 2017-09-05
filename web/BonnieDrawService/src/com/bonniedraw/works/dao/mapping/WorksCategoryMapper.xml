@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.works.dao.WorksCategoryMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.works.model.WorksCategory">
+    <id column="WORKS_CATEGORY_ID" jdbcType="INTEGER" property="worksCategoryId" />
+    <result column="CATEGORY_ID" jdbcType="INTEGER" property="categoryId" />
+    <result column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    WORKS_CATEGORY_ID, CATEGORY_ID, WORKS_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from works_category
+    where WORKS_CATEGORY_ID = #{worksCategoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from works_category
+    where WORKS_CATEGORY_ID = #{worksCategoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.works.model.WorksCategory">
+    insert into works_category (WORKS_CATEGORY_ID, CATEGORY_ID, WORKS_ID
+      )
+    values (#{worksCategoryId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{worksId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.works.model.WorksCategory">
+    insert into works_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="worksCategoryId != null">
+        WORKS_CATEGORY_ID,
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID,
+      </if>
+      <if test="worksId != null">
+        WORKS_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="worksCategoryId != null">
+        #{worksCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="worksId != null">
+        #{worksId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.works.model.WorksCategory">
+    update works_category
+    <set>
+      <if test="categoryId != null">
+        CATEGORY_ID = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="worksId != null">
+        WORKS_ID = #{worksId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where WORKS_CATEGORY_ID = #{worksCategoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.works.model.WorksCategory">
+    update works_category
+    set CATEGORY_ID = #{categoryId,jdbcType=INTEGER},
+      WORKS_ID = #{worksId,jdbcType=INTEGER}
+    where WORKS_CATEGORY_ID = #{worksCategoryId,jdbcType=INTEGER}
+  </update>
+</mapper>

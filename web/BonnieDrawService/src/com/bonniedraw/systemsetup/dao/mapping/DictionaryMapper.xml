@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.systemsetup.dao.DictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.systemsetup.model.Dictionary">
+    <id column="DICTIONARY_ID" jdbcType="INTEGER" property="dictionaryId" />
+    <result column="DICTIONARY_TYPE" jdbcType="INTEGER" property="dictionaryType" />
+    <result column="DICTIONARY_CODE" jdbcType="INTEGER" property="dictionaryCode" />
+    <result column="DICTIONARY_NAME" jdbcType="VARCHAR" property="dictionaryName" />
+    <result column="DICTIONARY_ORDER" jdbcType="INTEGER" property="dictionaryOrder" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DICTIONARY_ID, DICTIONARY_TYPE, DICTIONARY_CODE, DICTIONARY_NAME, DICTIONARY_ORDER
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dictionary
+    where DICTIONARY_ID = #{dictionaryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dictionary
+    where DICTIONARY_ID = #{dictionaryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.systemsetup.model.Dictionary">
+    insert into dictionary (DICTIONARY_ID, DICTIONARY_TYPE, DICTIONARY_CODE, 
+      DICTIONARY_NAME, DICTIONARY_ORDER)
+    values (#{dictionaryId,jdbcType=INTEGER}, #{dictionaryType,jdbcType=INTEGER}, #{dictionaryCode,jdbcType=INTEGER}, 
+      #{dictionaryName,jdbcType=VARCHAR}, #{dictionaryOrder,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.systemsetup.model.Dictionary">
+    insert into dictionary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictionaryId != null">
+        DICTIONARY_ID,
+      </if>
+      <if test="dictionaryType != null">
+        DICTIONARY_TYPE,
+      </if>
+      <if test="dictionaryCode != null">
+        DICTIONARY_CODE,
+      </if>
+      <if test="dictionaryName != null">
+        DICTIONARY_NAME,
+      </if>
+      <if test="dictionaryOrder != null">
+        DICTIONARY_ORDER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictionaryId != null">
+        #{dictionaryId,jdbcType=INTEGER},
+      </if>
+      <if test="dictionaryType != null">
+        #{dictionaryType,jdbcType=INTEGER},
+      </if>
+      <if test="dictionaryCode != null">
+        #{dictionaryCode,jdbcType=INTEGER},
+      </if>
+      <if test="dictionaryName != null">
+        #{dictionaryName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryOrder != null">
+        #{dictionaryOrder,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.systemsetup.model.Dictionary">
+    update dictionary
+    <set>
+      <if test="dictionaryType != null">
+        DICTIONARY_TYPE = #{dictionaryType,jdbcType=INTEGER},
+      </if>
+      <if test="dictionaryCode != null">
+        DICTIONARY_CODE = #{dictionaryCode,jdbcType=INTEGER},
+      </if>
+      <if test="dictionaryName != null">
+        DICTIONARY_NAME = #{dictionaryName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryOrder != null">
+        DICTIONARY_ORDER = #{dictionaryOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    where DICTIONARY_ID = #{dictionaryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.systemsetup.model.Dictionary">
+    update dictionary
+    set DICTIONARY_TYPE = #{dictionaryType,jdbcType=INTEGER},
+      DICTIONARY_CODE = #{dictionaryCode,jdbcType=INTEGER},
+      DICTIONARY_NAME = #{dictionaryName,jdbcType=VARCHAR},
+      DICTIONARY_ORDER = #{dictionaryOrder,jdbcType=INTEGER}
+    where DICTIONARY_ID = #{dictionaryId,jdbcType=INTEGER}
+  </update>
+</mapper>
