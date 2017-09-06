@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>demo畫作 | BonnieDRW</title>
+	<title>demo畫作 | BonnieDRAW</title>
 	<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 	
 	<!-- Style Sheets -->
@@ -10,7 +10,8 @@
 	<!-- Font Icons -->
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
-	<link rel="stylesheet" type="text/css" href="css/socicon-styles.css">	
+	<link rel="stylesheet" type="text/css" href="css/socicon-styles.css">
+	<link rel="stylesheet" type="text/css" href="css/material-icons.min.css">	
 	<!-- Font Icons -->
 	<link rel="stylesheet" href="css/hover-min.css" />
 	<link rel="stylesheet" href="css/animate.css" />
@@ -51,17 +52,22 @@
 	<div id="main-bar">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-2 col-sm-5 col-xs-6 border-right">
+				<div class="col-md-2 col-sm-7 col-xs-7 border-right">
 					<div class="logo">
 						<a href="index.html">
 							<img class="img-responsive" src="images/logo.png" alt="Logo">	
 						</a>
 					</div>					
 				</div>
-				<div class="col-sm-7 col-xs-6 hidden-md hidden-lg text-right">
-					<button type="button" class="btn btn-default btn-create-album">
-						+ 上傳作品
-					</button>
+				<div class="col-md-10 col-sm-5 col-xs-5 hidden-md hidden-lg text-right"  style="padding-top:25px">
+					<div class="row">
+					<div class="col-sm-6 col-xs-6" style="margin:0;padding:5px;">
+					<img class="img-responsive" src="images/apple-store.png" alt="AppleStore">
+					</div>
+					<div class="col-sm-6 col-xs-6" style="margin:0;padding:5px;">
+					<img class="img-responsive" src="images/GooglePlay.png" alt="GooglePlay">
+					</div>
+					</div>
 				</div>
 				<div class="clearfix visible-sm"></div>
 				<div class="clearfix visible-xs"></div>
@@ -82,8 +88,7 @@
 								<img class="img-responsive play-svg svg" src="images/user.svg" alt="play" onerror="this.src='images/user.png'">
 							</div>
 							<div class="media-body">
-								<p>
-									Welcome Guest <a class="login-toggle" href="#">Login</a>
+								<p><a  href="login.html">登出</a>
 								</p>
 							</div>
 						</div>									
@@ -98,11 +103,13 @@
 	<div id="main-navigation">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-10 col-sm-12">
+				<div class="col-md-9 col-sm-12">
 					<div id="cssmenu">
 						<ul>
-						   <li><a href="column.html"><i class="fi ion-ios-film-outline"></i>我的畫作</a>					      
+						   <li><a href="hot-listing.html"><i class="fi ion-compose"></i>熱門畫作</a>
 						   </li>
+						   <li><a href="track-list.html"><i class="fi ion-android-desktop"></i>追蹤清單</a></li>
+						   <li><a href="column.html"><i class="fi ion-ios-film-outline"></i>我的畫作</a></li>
 						   <li><a href="#"><i class="fi ion-android-apps"></i>畫作類別</a>
 						   		<ul>
 							  	<li><a href="category-listing.html">類別一</a></li>
@@ -110,45 +117,24 @@
 							  	<li><a href="category-listing.html">類別三</a></li>
 							  	</ul>		
 						   </li>
-						   <li><a href="hot-listing.html"><i class="fi ion-compose"></i>熱門畫作</a>
-						   </li>
-						   <li><a href="#"><i class="fi ion-android-desktop"></i>追蹤清單</a></li>
-						   <li><a href="about.html"><i class="fi ion-person"></i>關於BonnieDRW</a></li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-md-2 text-right hidden-sm hidden-xs">
-					<button type="button" class="btn btn-default btn-create-album">
-						+ 上傳作品
-					</button>
+				<div class="col-md-3 text-right hidden-sm hidden-xs" style="padding-top:20px" >
+					<div class="row">
+					<div class="col-md-6 col-lg-6">
+					<img class="img-responsive" src="images/apple-store.png" alt="AppleStore">
+					</div>
+					<div class="col-md-6 col-lg-6">
+					<img class="img-responsive" src="images/GooglePlay.png" alt="GooglePlay">
+					</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- Main Navigation -->
 
-
-	<!-- Inner page Bar -->
-	<div id="page-bar">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-9 col-sm-8 col-xs-12">
-					<div class="page-title">
-						<h1 class="text-uppercase">demo畫作</h1>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-4 col-xs-12 text-right">
-					<ul class="breadcrumb">
-					    <li>
-					    	<a href="index.html"><i class="fi ion-ios-home"></i>Home</a>
-					    </li>
-					    <li class="active">demo畫作</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Inner page Bar -->
 
 	<!-- Secondary Section -->
 
@@ -165,6 +151,7 @@
 			                        </div>
 								</div>
 								<div class="vid-text">
+									<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
 									<p><span>By</span> <a href="#">Admin</a></p>
 									<h1>How to Make a Mountain Bike Film</h1>
 								</div>
@@ -187,9 +174,26 @@
 									<p>
 										Donec rutrum varius quam non euismod. Nullam arcu urna, dignissim accumsan bibendum ut, fermentum a quam. Suspendisse fermentum augue vel nulla iaculis id tempus massa consequat. Donec venenatis leo eu felis condimentum in feugiat dui vulputate. Morbi vel quam lorem, sed tempor nibh. Sed elementum nunc tellus. Vivamus in orci vel risus dapibus imperdiet eu et nisl.
 									</p>
-									<p>
-										Aliquam urna sapien, rhoncus eu eleifend ut, consectetur non purus. Proin mollis tortor vitae nisi egestas auctor. Nunc lacinia, diam sed vehicula convallis, lacus sem mattis risus, ac tincidunt quam dolor ut neque. Ut ut euismod sapien. Morbi volutpat, libero vel volutpat tristique, lectus orci auctor leo, eget adipiscing odio massa et mauris. Sed varius viverra urna sed venenatis. Nunc sit amet velit nec urna aliquam sollicitudin. Vestibulum condimentum, quam et aliquet ultrices, odio enim tempus ipsum, in facilisis dui nisi ut enim. Ut quis risus quis ante dictum auctor a sed turpis. Nulla vitae risus ut odio accumsan accumsan sollicitudin sit amet metus. Morbi ut urna at est posuere porta ac eu leo. Vivamus mollis sollicitudin varius. Pellentesque viverra, ligula id tincidunt ultrices, nunc nulla porttitor justo, sed varius risus urna et augue. Etiam et lectus lectus. Quisque vitae erat lorem, a mattis lectus.
-									</p>
+								</div>
+								<div class="_4a48i _277v9">
+								<ul class="_b0tqa">
+								<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="gabriellelee0530" href="#">gabriellelee0530</a><span><span>留言1</span></span></li>
+								<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="hsiuli" href="#">hsiuli</a><span><span>留言2</span></span></li>
+								<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="yinnn21_" href="#">yinnn21_</a><span><span>留言3</span></span></li></ul>
+								</div>
+								<div id="comment-frm-container">
+									<form class="comment-form">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<textarea name="comment-user-message" id="cmnt-user-msg" rows="4" class="form-control" placeholder="留言" required></textarea>
+													<div class="input-top-line"></div>
+													<div class="input-bottom-line"></div>
+												</div>
+											</div>
+											
+										</div>
+									</form>
 								</div>
 								<div class="related-item">
 									<div class="vid-heading overflow-hidden">
@@ -211,17 +215,12 @@
 														<div class="overlay-div"></div>
 													</div>
 													<div class="vid-text">
+														<section class="_hmd6j _8oo9w">
+														<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
+														<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>57689</span>
+														</section>
 														<p><span>By</span> <a href="#">Jhon Doe</a></p>
-														<h1><a href="video-detail.html">Sun Skating</a></h1>
-														<p class="vid-info-text">
-															<span>4 month ago</span>
-															<span>&#47;</span>
-															<span>
-																From <a href="#"><i class="fa fa-youtube-play"></i></a>
-															</span>
-															<span>&#47;</span>
-															<span>410 views</span>
-														</p>
+														<h1><a href="column-detail.html">Super Hero of Kids</a></h1>
 													</div>
 												</div>
 											</div>
@@ -235,17 +234,12 @@
 														<div class="overlay-div"></div>
 													</div>
 													<div class="vid-text">
+														<section class="_hmd6j _8oo9w">
+														<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
+														<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>57689</span>
+														</section>
 														<p><span>By</span> <a href="#">Jhon Doe</a></p>
-														<h1><a href="video-detail.html">Tennis Night</a></h1>
-														<p class="vid-info-text">
-															<span>4 month ago</span>
-															<span>&#47;</span>
-															<span>
-																From <a href="#"><i class="fa fa-youtube-play"></i></a>
-															</span>
-															<span>&#47;</span>
-															<span>410 views</span>
-														</p>
+														<h1><a href="column-detail.html">Super Hero of Kids</a></h1>
 													</div>
 												</div>
 											</div>
@@ -259,17 +253,12 @@
 														<div class="overlay-div"></div>
 													</div>
 													<div class="vid-text">
+														<section class="_hmd6j _8oo9w">
+														<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
+														<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>57689</span>
+														</section>
 														<p><span>By</span> <a href="#">Jhon Doe</a></p>
-														<h1><a href="video-detail.html">Wrestle Mania viii</a></h1>
-														<p class="vid-info-text">
-															<span>4 month ago</span>
-															<span>&#47;</span>
-															<span>
-																From <a href="#"><i class="fa fa-youtube-play"></i></a>
-															</span>
-															<span>&#47;</span>
-															<span>410 views</span>
-														</p>
+														<h1><a href="column-detail.html">Super Hero of Kids</a></h1>
 													</div>
 												</div>
 											</div>
@@ -292,7 +281,7 @@
 									<h1><a href="video-detail.html">Journey</a></h1>
 									<p>
 										<span><i class="fa fa-comment"></i> 10</span>
-										<span><i class="fa fa-eye"></i> 534</span>
+										<span><i class="fa fa-thumbs-o-up " aria-hidden="true"></i> 534</span>
 									</p>
 								</div>
 							</div>
@@ -304,7 +293,7 @@
 									<h1><a href="video-detail.html">Magic</a></h1>
 									<p>
 										<span><i class="fa fa-comment"></i> 10</span>
-										<span><i class="fa fa-eye"></i> 534</span>
+										<span><i class="fa fa-thumbs-o-up " aria-hidden="true"></i> 534</span>
 									</p>
 								</div>
 							</div>
@@ -316,7 +305,7 @@
 									<h1><a href="video-detail.html">Runner</a></h1>
 									<p>
 										<span><i class="fa fa-comment"></i> 10</span>
-										<span><i class="fa fa-eye"></i> 534</span>
+										<span><i class="fa fa-thumbs-o-up " aria-hidden="true"></i> 534</span>
 									</p>
 								</div>
 							</div>
@@ -328,7 +317,7 @@
 									<h1><a href="video-detail.html">Fantasy</a></h1>
 									<p>
 										<span><i class="fa fa-comment"></i> 10</span>
-										<span><i class="fa fa-eye"></i> 534</span>
+										<span><i class="fa fa-thumbs-o-up " aria-hidden="true"></i> 534</span>
 									</p>
 								</div>
 							</div>
@@ -343,7 +332,7 @@
 									<h1><a href="video-detail.html">Human Rights Violation</a></h1>
 									<p>
 										<span><i class="fa fa-comment"></i> 10</span>
-										<span><i class="fa fa-eye"></i> 534</span>
+										<span><i class="fa fa-thumbs-o-up " aria-hidden="true"></i> 534</span>
 									</p>
 								</div>
 							</div>
@@ -355,7 +344,7 @@
 									<h1><a href="video-detail.html">War Video Compilation</a></h1>
 									<p>
 										<span><i class="fa fa-comment"></i> 10</span>
-										<span><i class="fa fa-eye"></i> 534</span>
+										<span><i class="fa fa-thumbs-o-up " aria-hidden="true"></i> 534</span>
 									</p>
 								</div>
 							</div>							
@@ -495,21 +484,77 @@
 	<div id="copyright">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-12 text-center">
-					<p>
-						Copyright 2016 by My Tube. All right reserved. Template by <a href="http://www.ewebcraft.com">ewebcraft</a>
-					</p>
+				<div class="col-sm-6 col-xs-12 text-center">
+				 	<ul class="footer-menu">
+						<li><a href="about.html">關於BonnieDRAW</a></li>
+						<li><a href="#">隱私權</a></li>
+						<li><a href="#">使用條款</a></li>
+						<li>
+							<span class="pqycz">
+							語言
+							<select class="fsoey">
+							<option value="af">Afrikaans</option>
+							<option value="cs">Čeština</option>
+							<option value="da">Dansk</option>
+							<option value="de">Deutsch</option>
+							<option value="el">Ελληνικά</option>
+							<option value="en">English</option>
+							<option value="es">Español</option>
+							<option value="fi">Suomi</option>
+							<option value="fr">Français</option>
+							<option value="id">Bahasa Indonesia</option>
+							<option value="it">Italiano</option>
+							<option value="ja">日本語</option>
+							<option value="ko">한국어</option>
+							<option value="ms">Bahasa Melayu</option>
+							<option value="nb">Norsk</option>
+							<option value="nl">Nederlands</option>
+							<option value="pl">Polski</option>
+							<option value="pt-br">Português (Brasil)</option>
+							<option value="pt">Português (Portugal)</option>
+							<option value="ru">Русский</option>
+							<option value="sv">Svenska</option>
+							<option value="th">ภาษาไทย</option>
+							<option value="tl">Filipino</option>
+							<option value="tr">Türkçe</option>
+							<option value="zh-cn">中文(简体)</option>
+							<option value="zh-tw">中文(台灣)</option>
+							<option value="bn">বাংলা</option>
+							<option value="gu">ગુજરાતી</option>
+							<option value="hi">हिन्दी</option>
+							<option value="hr">Hrvatski</option>
+							<option value="hu">Magyar</option>
+							<option value="kn">ಕನ್ನಡ</option>
+							<option value="ml">മലയാളം</option>
+							<option value="mr">मराठी</option>
+							<option value="ne">नेपाली</option>
+							<option value="pa">ਪੰਜਾਬੀ</option>
+							<option value="si">සිංහල</option>
+							<option value="sk">Slovenčina</option>
+							<option value="ta">தமிழ்</option>
+							<option value="te">తెలుగు</option>
+							<option value="ur">اردو</option>
+							<option value="vi">Tiếng Việt</option>
+							<option value="zh-hk">中文(香港)</option>
+							<option value="bg">Български</option>
+							<option value="fr-ca">Français (Canada)</option>
+							<option value="ro">Română</option>
+							<option value="sr">Српски</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-6 col-xs-12 text-center">
+					<p>	© 2017 <a href="http://www.sourcecode.com">SourceCode</a></p>  
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- copyright -->
 
 	</div>
-
+<!-- 
 	<div id="login-box">
 		<i class="fa fa-remove login-toggle"></i>
-		<!-- Login from -->
 		<form class="user-form login-form form-active text-center">
 					<h1 class="form-heading">Log in to your account</h1>
 					<a href="#" class="btn btn-login w-facebook"><i class="fa fa-facebook"></i>Facebook</a>
@@ -534,7 +579,7 @@
 					</p>
 		</form>
 		
-		<!-- SignUp form -->
+		
 		<form class="user-form signUp-form text-center">
 					<h1 class="form-heading">Sign Up</h1>
 					<a href="#" class="btn btn-login w-facebook"><i class="fa fa-facebook"></i>Facebook</a>
@@ -559,7 +604,7 @@
 					</p>
 		</form>
 	</div>
-</div>		
+</div>	-->
 	
 	<!-- Scripts -->
 	<script src="js/wow.min.js"></script>
