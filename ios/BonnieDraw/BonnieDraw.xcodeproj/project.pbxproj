@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AA1F61663800945E04 /* AppDelegate.swift */; };
-		163F65AD1F61663800945E04 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AC1F61663800945E04 /* ViewController.swift */; };
 		163F65B01F61663900945E04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65AE1F61663900945E04 /* Main.storyboard */; };
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65B51F61663900945E04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B31F61663900945E04 /* LaunchScreen.storyboard */; };
+		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
 		C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BonnieDraw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		163F65A71F61663800945E04 /* BonnieDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BonnieDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		163F65AA1F61663800945E04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		163F65AC1F61663800945E04 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		163F65AA1F61663800945E04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = BonnieDraw/AppDelegate.swift; sourceTree = "<group>"; };
 		163F65AF1F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		163F65B11F61663900945E04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		163F65B41F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.release.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.release.xcconfig"; sourceTree = "<group>"; };
 		F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -44,6 +44,7 @@
 			isa = PBXGroup;
 			children = (
 				163F65A91F61663800945E04 /* BonnieDraw */,
+				163F65AA1F61663800945E04 /* AppDelegate.swift */,
 				163F65A81F61663800945E04 /* Products */,
 				F29E28AEB5FF0043D059DD98 /* Pods */,
 				5855718FD158A460A32D8B77 /* Frameworks */,
@@ -61,9 +62,8 @@
 		163F65A91F61663800945E04 /* BonnieDraw */ = {
 			isa = PBXGroup;
 			children = (
+				163F65BD1F616C0A00945E04 /* Controller */,
 				163F65BC1F61673100945E04 /* Resource */,
-				163F65AA1F61663800945E04 /* AppDelegate.swift */,
-				163F65AC1F61663800945E04 /* ViewController.swift */,
 			);
 			path = BonnieDraw;
 			sourceTree = "<group>";
@@ -72,11 +72,19 @@
 			isa = PBXGroup;
 			children = (
 				163F65AE1F61663900945E04 /* Main.storyboard */,
-				163F65B11F61663900945E04 /* Assets.xcassets */,
 				163F65B31F61663900945E04 /* LaunchScreen.storyboard */,
+				163F65B11F61663900945E04 /* Assets.xcassets */,
 				163F65B61F61663900945E04 /* Info.plist */,
 			);
 			name = Resource;
+			sourceTree = "<group>";
+		};
+		163F65BD1F616C0A00945E04 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				163F65BE1F616C4F00945E04 /* CanvasViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		5855718FD158A460A32D8B77 /* Frameworks */ = {
@@ -220,7 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				163F65AD1F61663800945E04 /* ViewController.swift in Sources */,
+				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
 				163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

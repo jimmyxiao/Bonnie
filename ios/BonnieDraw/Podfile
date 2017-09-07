@@ -6,5 +6,5 @@ target 'BonnieDraw' do
   use_frameworks!
 
   # Pods for BonnieDraw
-
+  pod 'KYDrawerController'
 end
