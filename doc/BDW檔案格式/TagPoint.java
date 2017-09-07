@@ -1,6 +1,5 @@
-package com.sctw.bonniedraw.paint;
+package com.sctw.bonniedraw.utility;
 
-import android.graphics.Paint;
 
 public class TagPoint {
 
@@ -28,12 +27,6 @@ public class TagPoint {
 	}
 	public void setiPosY(int iPosY) {
 		this.iPosY = iPosY;
-	}
-	public int getiTouchType() {
-		return iTouchType;
-	}
-	public void setiTouchType(int iTouchType) {
-		this.iTouchType = iTouchType;
 	}
 	public int getiColor() {
 		return iColor;

@@ -1,13 +1,13 @@
 package com.sctw.bonniedraw.utility;
 
-import com.sctw.bonniedraw.paint.TagPoint;
-
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+
+import com.sctw.bonniedraw.utility.TagPoint;
 
 /**
  * Created by Jimmy on 2017/9/7.
@@ -34,7 +34,7 @@ public class BDWFileWriter {
         }
         catch(IOException ex)
         {
-
+        	ex.printStackTrace();
         }
         return bres;
 
@@ -59,29 +59,31 @@ public class BDWFileWriter {
 
     public void writeTagPointToStream(TagPoint tagPoint,OutputStream bufStream)
     {
-        byte[] bData = new byte[1];
         try
         {
-            write_TagHeader(16, tagPoint.getTagCode() , bufStream);
-
+            write_TagHeader(17, tagPoint.getTagCode() , bufStream);
+            byte[] bData = new byte[2];
             FileDataFormat.IntToBuf2(tagPoint.getiPosX(), bData, 0, true);
             bufStream.write(bData,0,2);
             FileDataFormat.IntToBuf2(tagPoint.getiPosY(), bData, 0, true);
             bufStream.write(bData,0,2);
+            bData = new byte[4];
             FileDataFormat.IntToBuf4(tagPoint.getiColor(), bData, 0, true);
             bufStream.write(bData,0,4);
-            FileDataFormat.IntToBuf1(tagPoint.getiAction(), bData, 0, true);
+            bData = new byte[1];
+            FileDataFormat.IntToBuf1(tagPoint.getiAction(), bData, 0, true); 
             bufStream.write(bData,0,1);
             FileDataFormat.IntToBuf1(tagPoint.getiSize(), bData, 0, true);
             bufStream.write(bData,0,1);
             FileDataFormat.IntToBuf1(tagPoint.getiPaintType(), bData, 0, true);
             bufStream.write(bData,0,1);
+            bData = new byte[2];
             FileDataFormat.IntToBuf2(0, bData, 0, true);
             bufStream.write(bData,0,2);
         }
         catch(IOException ex)
         {
-
+        	ex.printStackTrace();
         }
 
     }
