@@ -7,12 +7,8 @@ import javax.servlet.http.HttpSession;
 import  com.bonniedraw.base.model.BaseModel;
 import com.bonniedraw.login.model.RespLogin;
 import com.bonniedraw.login.module.LoginInput;
-import com.bonniedraw.login.module.LoginOutput;
-import com.bonniedraw.user.model.UserInfo;
-import  com.bonniedraw.util.TimerUtil;
 import  com.bonniedraw.util.auth.AuthView;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

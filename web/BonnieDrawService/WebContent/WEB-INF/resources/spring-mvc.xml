@@ -19,6 +19,7 @@
 	<!-- 自動掃描元件-->
 	<context:component-scan base-package="com.bonniedraw.*.controller" />
 	<context:component-scan base-package="com.bonniedraw.base.service" />
+	<context:component-scan base-package="com.bonniedraw.util.MessageUtil" />
 	<!-- <context:component-scan base-package="com.bonniedraw.scheduled" /> -->
 	<task:annotation-driven/>
 
@@ -40,8 +41,7 @@
 	    	<mvc:exclude-mapping path="/service/**"/>
 	    	<mvc:exclude-mapping path="/loadFile/**"/>
 	    	<mvc:exclude-mapping path="/verified/**"/>  
-	    	<mvc:exclude-mapping path="/test"/>
-	    	<mvc:exclude-mapping path="/test2"/>
+	    	<mvc:exclude-mapping path="/BDService/**"/>
 	    	<bean class="com.bonniedraw.util.auth.AuthInterceptor"></bean>
     	</mvc:interceptor>
 	</mvc:interceptors>
@@ -99,5 +99,19 @@
             </props>
         </property>
     </bean>-->
+	
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+            	<value>com/bonniedraw/messages/message</value>
+            </list>
+        </property>
+    </bean>
+     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+       <property name="cookieMaxAge" value="604800"/>
+       <property name="defaultLocale" value="zh_TW"/>
+       <property name="cookieName" value="Language"></property>
+     </bean>
+    <!--<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />-->
 	
 </beans>  
