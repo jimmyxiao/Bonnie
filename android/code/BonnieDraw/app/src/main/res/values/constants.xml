@@ -1,4 +1,0 @@
-<resources>
-    <string name="content_authority">com.sctw.bonniedraw.provider</string>
-    <string name="sync_account_type">com.sctw.bonniedraw</string>
-</resources>
