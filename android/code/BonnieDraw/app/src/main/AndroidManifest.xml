@@ -44,7 +44,8 @@
             android:name=".paint.PaintActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_paint"
-            android:theme="@style/FullscreenTheme">
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
