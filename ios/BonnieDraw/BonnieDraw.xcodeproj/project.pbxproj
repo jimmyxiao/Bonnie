@@ -1,0 +1,397 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AA1F61663800945E04 /* AppDelegate.swift */; };
+		163F65AD1F61663800945E04 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AC1F61663800945E04 /* ViewController.swift */; };
+		163F65B01F61663900945E04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65AE1F61663900945E04 /* Main.storyboard */; };
+		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
+		163F65B51F61663900945E04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B31F61663900945E04 /* LaunchScreen.storyboard */; };
+		C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BonnieDraw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		163F65A71F61663800945E04 /* BonnieDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BonnieDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		163F65AA1F61663800945E04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		163F65AC1F61663800945E04 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		163F65AF1F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		163F65B11F61663900945E04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		163F65B41F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.release.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.release.xcconfig"; sourceTree = "<group>"; };
+		F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		163F65A41F61663800945E04 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		163F659E1F61663800945E04 = {
+			isa = PBXGroup;
+			children = (
+				163F65A91F61663800945E04 /* BonnieDraw */,
+				163F65A81F61663800945E04 /* Products */,
+				F29E28AEB5FF0043D059DD98 /* Pods */,
+				5855718FD158A460A32D8B77 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		163F65A81F61663800945E04 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				163F65A71F61663800945E04 /* BonnieDraw.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		163F65A91F61663800945E04 /* BonnieDraw */ = {
+			isa = PBXGroup;
+			children = (
+				163F65BC1F61673100945E04 /* Resource */,
+				163F65AA1F61663800945E04 /* AppDelegate.swift */,
+				163F65AC1F61663800945E04 /* ViewController.swift */,
+			);
+			path = BonnieDraw;
+			sourceTree = "<group>";
+		};
+		163F65BC1F61673100945E04 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				163F65AE1F61663900945E04 /* Main.storyboard */,
+				163F65B11F61663900945E04 /* Assets.xcassets */,
+				163F65B31F61663900945E04 /* LaunchScreen.storyboard */,
+				163F65B61F61663900945E04 /* Info.plist */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		5855718FD158A460A32D8B77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F29E28AEB5FF0043D059DD98 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */,
+				388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		163F65A61F61663800945E04 /* BonnieDraw */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 163F65B91F61663900945E04 /* Build configuration list for PBXNativeTarget "BonnieDraw" */;
+			buildPhases = (
+				4BDFC3806A1CEB7FA6FA26FD /* [CP] Check Pods Manifest.lock */,
+				163F65A31F61663800945E04 /* Sources */,
+				163F65A41F61663800945E04 /* Frameworks */,
+				163F65A51F61663800945E04 /* Resources */,
+				E582CE5F134C9329393F8078 /* [CP] Embed Pods Frameworks */,
+				306D15DA829BDA6EC351F7D6 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BonnieDraw;
+			productName = BonnieDraw;
+			productReference = 163F65A71F61663800945E04 /* BonnieDraw.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		163F659F1F61663800945E04 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = Professor;
+				TargetAttributes = {
+					163F65A61F61663800945E04 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 3MMZ7UBHWG;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 163F65A21F61663800945E04 /* Build configuration list for PBXProject "BonnieDraw" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 163F659E1F61663800945E04;
+			productRefGroup = 163F65A81F61663800945E04 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				163F65A61F61663800945E04 /* BonnieDraw */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		163F65A51F61663800945E04 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				163F65B51F61663900945E04 /* LaunchScreen.storyboard in Resources */,
+				163F65B21F61663900945E04 /* Assets.xcassets in Resources */,
+				163F65B01F61663900945E04 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		306D15DA829BDA6EC351F7D6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4BDFC3806A1CEB7FA6FA26FD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E582CE5F134C9329393F8078 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		163F65A31F61663800945E04 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				163F65AD1F61663800945E04 /* ViewController.swift in Sources */,
+				163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		163F65AE1F61663900945E04 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				163F65AF1F61663900945E04 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		163F65B31F61663900945E04 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				163F65B41F61663900945E04 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		163F65B71F61663900945E04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		163F65B81F61663900945E04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		163F65BA1F61663900945E04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 3MMZ7UBHWG;
+				INFOPLIST_FILE = BonnieDraw/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tw.sourcecode.BonnieDraw;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		163F65BB1F61663900945E04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 3MMZ7UBHWG;
+				INFOPLIST_FILE = BonnieDraw/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tw.sourcecode.BonnieDraw;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		163F65A21F61663800945E04 /* Build configuration list for PBXProject "BonnieDraw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				163F65B71F61663900945E04 /* Debug */,
+				163F65B81F61663900945E04 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		163F65B91F61663900945E04 /* Build configuration list for PBXNativeTarget "BonnieDraw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				163F65BA1F61663900945E04 /* Debug */,
+				163F65BB1F61663900945E04 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 163F659F1F61663800945E04 /* Project object */;
+}

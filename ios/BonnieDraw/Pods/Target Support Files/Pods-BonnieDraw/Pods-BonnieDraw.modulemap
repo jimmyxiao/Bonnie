@@ -1,0 +1,6 @@
+framework module Pods_BonnieDraw {
+  umbrella header "Pods-BonnieDraw-umbrella.h"
+
+  export *
+  module * { export * }
+}
