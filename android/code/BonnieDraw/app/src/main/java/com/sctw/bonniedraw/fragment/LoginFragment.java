@@ -39,8 +39,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.sctw.bonniedraw.activity.MainActivity.mGoogleApiClient;
@@ -66,6 +66,7 @@ public class LoginFragment extends Fragment {
     SharedPreferences prefs;
     AccessToken accessToken;
     URL profilePicUrl;
+    private boolean loginSuccess=false;
 
     public LoginFragment() {
     }
@@ -91,6 +92,8 @@ public class LoginFragment extends Fragment {
         callbackManager = CallbackManager.Factory.create();
         loginButton = view.findViewById(R.id.login_button);
         loginButton.setFragment(this);
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+
         prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
         checkLogin();
         facebookResult();
@@ -103,6 +106,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 accessToken = loginResult.getAccessToken();
+                Log.d("Token",accessToken.getToken());
                 GraphRequest request = GraphRequest.newMeRequest(
                         accessToken,
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -144,7 +148,7 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onError(FacebookException exception) {
-                System.out.println("onError");
+                Log.v("LoginActivity", exception.getCause().toString());
             }
         });
     }
@@ -217,8 +221,6 @@ public class LoginFragment extends Fragment {
                             .putString(GlobalVariable.userEmailStr, acct.getEmail())
                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
                             .apply();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

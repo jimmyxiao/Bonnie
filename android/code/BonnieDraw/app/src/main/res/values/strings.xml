@@ -2,13 +2,14 @@
     <string name="app_name">BonnieDraw</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
-    <string name="facebook_app_id">1946174198991716</string>
+    <string name="facebook_app_id">1376883092359322</string>
+    <string name="fb_login_protocol_scheme">fb1376883092359322</string>
+
 
     <string name="not_login">您尚未登入</string>
     <string name="please_click_icon_login">點擊圖像登入後可使用各項功能</string>
 
-    <string name="fb_login_protocol_scheme">fb1946174198991716</string>
-    <string name="server_client_id">31231497602-qi4uspocbrm2bvminmh0fa27ettpr6rt.apps.googleusercontent.com</string>
+    <string name="server_client_id">579888826124-32hn4mff2f1gmvo5kk6ep9u40hcoqv46.apps.googleusercontent.com</string>
 
     <string name="title_activity_paint">PaintActivity</string>
     <string name="dummy_button">Dummy Button</string>
