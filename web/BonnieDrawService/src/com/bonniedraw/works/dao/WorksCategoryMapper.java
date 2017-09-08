@@ -1,5 +1,7 @@
 package com.bonniedraw.works.dao;
 
+import java.util.List;
+
 import com.bonniedraw.works.model.WorksCategory;
 
 public interface WorksCategoryMapper {
@@ -14,4 +16,8 @@ public interface WorksCategoryMapper {
     int updateByPrimaryKeySelective(WorksCategory record);
 
     int updateByPrimaryKey(WorksCategory record);
+    
+    int insertWorksCategoryList(List<WorksCategory> categorieyList);
+    
+    int updateWorksCategoryList(List<WorksCategory> categorieyList);
 }

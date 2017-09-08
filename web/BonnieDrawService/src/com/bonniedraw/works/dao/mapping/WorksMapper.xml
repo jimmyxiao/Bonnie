@@ -32,7 +32,7 @@
     delete from works
     where WORKS_ID = #{worksId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.bonniedraw.works.model.Works">
+  <insert id="insert" parameterType="com.bonniedraw.works.model.Works" useGeneratedKeys="true" keyProperty="worksId">
     insert into works (WORKS_ID, USER_ID, PRIVACY_TYPE, 
       DEVICE_TYPE, TITLE, DESCRIPTION, 
       IMAGE_PATH, BDW_PATH, LANGUAGE_ID, 
@@ -46,7 +46,7 @@
       #{createdBy,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.bonniedraw.works.model.Works">
+  <insert id="insertSelective" parameterType="com.bonniedraw.works.model.Works" useGeneratedKeys="true" keyProperty="worksId">
     insert into works
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="worksId != null">
@@ -209,4 +209,69 @@
       UPDATED_BY = #{updatedBy,jdbcType=INTEGER}
     where WORKS_ID = #{worksId,jdbcType=INTEGER}
   </update>
+  
+  <resultMap type="com.bonniedraw.web_api.module.WorksResponse" id="WorksResponseModule">
+    <id column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="PRIVACY_TYPE" jdbcType="INTEGER" property="privacyType" />
+    <result column="DEVICE_TYPE" jdbcType="INTEGER" property="deviceType" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="IMAGE_PATH" jdbcType="VARCHAR" property="imagePath" />
+    <result column="BDW_PATH" jdbcType="VARCHAR" property="bdwPath" />
+    <result column="LANGUAGE_ID" jdbcType="INTEGER" property="languageId" />
+    <result column="COUNTRY_ID" jdbcType="INTEGER" property="countryId" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+      <collection property="likeList" ofType="com.bonniedraw.works.model.WorksLike" resultMap="LikeModuleMap"/>
+      <collection property="msgList" ofType="com.bonniedraw.works.model.WorksMsg" resultMap="MsgModuleMap"/>
+      <collection property="categoryList" ofType="com.bonniedraw.works.model.WorksCategory" resultMap="CategoryModuleMap"/>
+  </resultMap>
+  <resultMap id="LikeModuleMap" type="com.bonniedraw.works.model.WorksLike">
+    <id column="WORKS_LIKE_ID" jdbcType="INTEGER" property="worksLikeId" />
+    <result column="LIKE_WORKS_ID" jdbcType="INTEGER" property="worksId" />
+    <result column="LIKE_USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="LIKE_TYPE" jdbcType="INTEGER" property="likeType" />
+  </resultMap>
+  <resultMap id="MsgModuleMap" type="com.bonniedraw.works.model.WorksMsg">
+    <id column="WORKS_MSG_ID" jdbcType="INTEGER" property="worksMsgId" />
+    <result column="MSG_WORKS_ID" jdbcType="INTEGER" property="worksId" />
+    <result column="MSG_USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="MESSAGE" jdbcType="VARCHAR" property="message" />
+    <result column="MSG_ORDER" jdbcType="INTEGER" property="msgOrder" />
+    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+  </resultMap>
+  <resultMap id="CategoryModuleMap" type="com.bonniedraw.works.model.WorksCategory">
+    <id column="WORKS_CATEGORY_ID" jdbcType="INTEGER" property="worksCategoryId" />
+    <result column="CATEGORY_ID" jdbcType="INTEGER" property="categoryId" />
+    <result column="CATEGORY_WORKS_ID" jdbcType="INTEGER" property="worksId" />
+  </resultMap>
+  
+  <select id="queryWorks" parameterType="java.lang.Integer" resultMap="WorksResponseModule">
+    select 
+ 	wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_ID, wk.COUNTRY_ID, wk.STATUS, wk.UPDATE_DATE,
+ 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE,
+ 	wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER, wm.CREATION_DATE,
+ 	wc.WORKS_CATEGORY_ID, wc.CATEGORY_ID, wc.WORKS_ID as CATEGORY_WORKS_ID
+    from works wk 
+    left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
+    left outer join works_msg as wm on wm.WORKS_ID = wk.WORKS_ID
+    left outer join works_category as wc on wc.WORKS_ID = wk.WORKS_ID
+    where wk.WORKS_ID =  #{wid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryAllWorks" resultMap="WorksResponseModule">
+    select 
+ 	wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_ID, wk.COUNTRY_ID, wk.STATUS, wk.UPDATE_DATE,
+ 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE,
+ 	wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER, wm.CREATION_DATE,
+ 	wc.WORKS_CATEGORY_ID, wc.CATEGORY_ID, wc.WORKS_ID as CATEGORY_WORKS_ID
+    from works wk 
+    left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
+    left outer join works_msg as wm on wm.WORKS_ID = wk.WORKS_ID
+    left outer join works_category as wc on wc.WORKS_ID = wk.WORKS_ID
+  </select>
+  
 </mapper>

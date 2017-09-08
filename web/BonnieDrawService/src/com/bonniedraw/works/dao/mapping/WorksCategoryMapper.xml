@@ -68,4 +68,24 @@
       WORKS_ID = #{worksId,jdbcType=INTEGER}
     where WORKS_CATEGORY_ID = #{worksCategoryId,jdbcType=INTEGER}
   </update>
+  
+  <insert id="insertWorksCategoryList" parameterType="java.util.List">
+    insert into works_category (CATEGORY_ID, WORKS_ID)
+    values
+	<foreach collection="list" item="element" index="index" open="(" separator="),("  close=")">
+	   	#{element.categoryId,jdbcType=INTEGER}, #{element.worksId,jdbcType=INTEGER}
+	</foreach>
+  </insert>
+  
+	<update id="updateWorksCategoryList" parameterType="java.util.List">
+		<foreach collection="list" item="element" index="index" open="" close="" separator=";">
+			update works_category
+			<set>
+				CATEGORY_ID = #{element.categoryId,jdbcType=INTEGER},
+				WORKS_ID = #{element.worksId,jdbcType=INTEGER}
+			</set>
+			where WORKS_CATEGORY_ID = #{element..worksCategoryId,jdbcType=INTEGER}
+		</foreach>
+	</update>
+  
 </mapper>

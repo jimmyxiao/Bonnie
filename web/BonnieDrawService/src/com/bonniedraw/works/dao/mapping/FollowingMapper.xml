@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.works.dao.FollowingMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.works.model.Following">
+    <id column="FOLLOWING_ID" jdbcType="INTEGER" property="followingId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="FOLLOWING_USER_ID" jdbcType="INTEGER" property="followingUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FOLLOWING_ID, USER_ID, FOLLOWING_USER_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from following
+    where FOLLOWING_ID = #{followingId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from following
+    where FOLLOWING_ID = #{followingId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.works.model.Following">
+    insert into following (FOLLOWING_ID, USER_ID, FOLLOWING_USER_ID
+      )
+    values (#{followingId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{followingUserId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.works.model.Following">
+    insert into following
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="followingId != null">
+        FOLLOWING_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="followingUserId != null">
+        FOLLOWING_USER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="followingId != null">
+        #{followingId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="followingUserId != null">
+        #{followingUserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.works.model.Following">
+    update following
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="followingUserId != null">
+        FOLLOWING_USER_ID = #{followingUserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where FOLLOWING_ID = #{followingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.works.model.Following">
+    update following
+    set USER_ID = #{userId,jdbcType=INTEGER},
+      FOLLOWING_USER_ID = #{followingUserId,jdbcType=INTEGER}
+    where FOLLOWING_ID = #{followingId,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteByNotPrimaryKey" parameterType="com.bonniedraw.works.model.Following">
+    delete from following
+    where USER_ID = #{userId,jdbcType=INTEGER}
+    and FOLLOWING_USER_ID = #{followingUserId,jdbcType=INTEGER}
+  </delete>
+  
+</mapper>
