@@ -11,6 +11,7 @@ public class TagPoint {
 	int iSize = 0;
 	int iPaintType = 0;
 	int iReserved = 0;
+	int iOther = 0;
 
 	public int getTagCode() {
 		return tagCode;

@@ -61,7 +61,7 @@ public class BDWFileWriter {
     {
         try
         {
-            write_TagHeader(17, tagPoint.getTagCode() , bufStream);
+            write_TagHeader(18, tagPoint.getTagCode() , bufStream);
             byte[] bData = new byte[2];
             FileDataFormat.IntToBuf2(tagPoint.getiPosX(), bData, 0, true);
             bufStream.write(bData,0,2);
@@ -80,6 +80,9 @@ public class BDWFileWriter {
             bData = new byte[2];
             FileDataFormat.IntToBuf2(0, bData, 0, true);
             bufStream.write(bData,0,2);
+			bData = new byte[1];
+            FileDataFormat.IntToBuf1(0, bData, 0, true);
+            bufStream.write(bData,0,1);
         }
         catch(IOException ex)
         {

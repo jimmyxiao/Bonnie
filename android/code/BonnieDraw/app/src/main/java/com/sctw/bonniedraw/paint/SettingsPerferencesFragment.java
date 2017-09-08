@@ -15,5 +15,4 @@ public class SettingsPerferencesFragment extends PreferenceFragmentCompat {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("畫板設定");
         addPreferencesFromResource(R.xml.settings_perference);
     }
-
 }

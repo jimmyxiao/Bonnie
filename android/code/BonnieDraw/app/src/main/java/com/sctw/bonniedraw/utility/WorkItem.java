@@ -1,14 +1,14 @@
-package com.sctw.bonniedraw.paint;
+package com.sctw.bonniedraw.utility;
 
 /**
  * Created by Fatorin on 2017/8/30.
  */
 
-public class PaintControlItem {
+public class WorkItem {
     String name;
     int imgId;
 
-    public PaintControlItem(String name, int imgId) {
+    public WorkItem(String name, int imgId) {
         this.name = name;
         this.imgId = imgId;
     }

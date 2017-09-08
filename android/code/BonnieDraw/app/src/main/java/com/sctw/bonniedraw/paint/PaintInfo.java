@@ -1,15 +1,12 @@
 package com.sctw.bonniedraw.paint;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Created by Fatorin on 2017/8/29.
  */
 
-public class PaintInfo implements Serializable {
-
-    private static final long serialVersionUID = 2030890634370404316L;
+public class PaintInfo {
 
     private String imgName;
     private String imgAuthor;

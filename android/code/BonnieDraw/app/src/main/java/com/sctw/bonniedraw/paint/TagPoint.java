@@ -10,6 +10,7 @@ public class TagPoint {
     int iSize = 0;
     int iPaintType = 0;
     int iReserved = 0;
+    int iOther = 0;
 
     public int getTagCode() {
         return tagCode;
@@ -71,9 +72,17 @@ public class TagPoint {
         this.iReserved = iReserved;
     }
 
+    public int getiOther() {
+        return iOther;
+    }
+
+    public void setiOther(int iOther) {
+        this.iOther = iOther;
+    }
+
     @Override
     public String toString() {
-        return "TagPoint{" +"iColor=" + iColor +
-                ", iAction=" + iAction+"}";
+        return "TagPoint{" + "iColor=" + iColor +
+                ", iAction=" + iAction + "}";
     }
 }

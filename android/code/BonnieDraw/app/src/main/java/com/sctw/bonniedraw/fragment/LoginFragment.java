@@ -32,7 +32,6 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.activity.MainActivity;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 
 import org.json.JSONException;
@@ -44,10 +43,6 @@ import java.util.Arrays;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.sctw.bonniedraw.activity.MainActivity.mGoogleApiClient;
-import static com.sctw.bonniedraw.activity.MainActivity.navigationView;
-import static com.sctw.bonniedraw.activity.MainActivity.profile;
-import static com.sctw.bonniedraw.activity.MainActivity.userEmail;
-import static com.sctw.bonniedraw.activity.MainActivity.userName;
 
 
 /**
@@ -93,7 +88,6 @@ public class LoginFragment extends Fragment {
         loginButton = view.findViewById(R.id.login_button);
         loginButton.setFragment(this);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
-
         prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
         checkLogin();
         facebookResult();
@@ -115,11 +109,8 @@ public class LoginFragment extends Fragment {
                                     JSONObject object,
                                     GraphResponse response) {
                                 try {
-                                    userName.setText(object.getString("name"));
-                                    userEmail.setText(object.getString("email"));
                                     profilePicUrl = new URL(object.getJSONObject("picture").getJSONObject("data").getString("url"));
                                     Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-                                    profile.setImageBitmap(bitmap);
                                     prefs.edit()
                                             .putString(GlobalVariable.userPlatformStr, "1")
                                             .putString(GlobalVariable.userTokenStr, accessToken.toString())
@@ -137,8 +128,6 @@ public class LoginFragment extends Fragment {
                 request.setParameters(parameters);
                 request.executeAsync();
                 fragmentReplace(new HomeFragment());
-                MainActivity.openMenu(true);
-                navigationView.getMenu().getItem(0).setChecked(true);
             }
 
             @Override
@@ -160,7 +149,6 @@ public class LoginFragment extends Fragment {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             fragmentReplace(new HomeFragment());
-                            navigationView.getMenu().getItem(0).setChecked(true);
                         }
                     });
             alertDialog.setTitle("重複登入");
@@ -209,11 +197,8 @@ public class LoginFragment extends Fragment {
             if (result.isSuccess()) {
                 GoogleSignInAccount acct = result.getSignInAccount();
                 try {
-                    userName.setText(acct.getDisplayName());
-                    userEmail.setText(acct.getEmail());
                     profilePicUrl = new URL(acct.getPhotoUrl().toString());
                     Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-                    profile.setImageBitmap(bitmap);
                     prefs.edit()
                             .putString(GlobalVariable.userPlatformStr, "2")
                             .putString(GlobalVariable.userTokenStr, acct.getIdToken())
@@ -225,15 +210,12 @@ public class LoginFragment extends Fragment {
                     e.printStackTrace();
                 }
                 fragmentReplace(new HomeFragment());
-                MainActivity.openMenu(true);
-                navigationView.getMenu().getItem(0).setChecked(true);
             }
         }
     }
 
     public void fragmentReplace(Fragment fragment) {
         fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

@@ -89,7 +89,6 @@ public class RegisterFragment extends Fragment {
                                 dialog.dismiss();
                                 //寄送認證信，回到主畫面。
                                 fragmentTransaction = getFragmentManager().beginTransaction();
-                                fragmentTransaction.replace(R.id.main_container, new LoginFragment());
                                 fragmentTransaction.commit();
                             }
                         });
