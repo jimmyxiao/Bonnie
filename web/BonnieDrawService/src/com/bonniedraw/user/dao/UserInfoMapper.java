@@ -1,6 +1,7 @@
 package com.bonniedraw.user.dao;
 
 import com.bonniedraw.user.model.UserInfo;
+import com.bonniedraw.web_api.model.request.LoginRequestVO;
 
 public interface UserInfoMapper {
     int deleteByPrimaryKey(Integer userId);
@@ -14,4 +15,10 @@ public interface UserInfoMapper {
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
+    
+    UserInfo inspectAppPwd(LoginRequestVO loginRequestVO);
+    
+    int inspectRegister(LoginRequestVO loginRequestVO);
+    
+    UserInfo inspectOldPwd(UserInfo record);
 }

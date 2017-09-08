@@ -291,4 +291,29 @@
       UPDATED_BY = #{updatedBy,jdbcType=INTEGER}
     where USER_ID = #{userId,jdbcType=INTEGER}
   </update>
+  
+	<select id="inspectAppPwd" parameterType="com.bonniedraw.web_api.model.request.LoginRequestVO" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from user_info
+		where USER_CODE= #{uc,jdbcType=VARCHAR}  
+		<if test="ut == 1">
+			and USER_PW = #{up,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="inspectRegister" parameterType="com.bonniedraw.web_api.model.request.LoginRequestVO" resultType="java.lang.Integer">
+		select ifnull(sum(USER_ID),0)
+		from user_info
+		where USER_CODE = #{uc,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="inspectOldPwd" parameterType="com.bonniedraw.user.model.UserInfo" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from user_info
+		where USER_ID = #{userId,jdbcType=INTEGER}
+		and USER_PW = #{userPw,jdbcType=VARCHAR} 
+	</select>
+  
 </mapper>
