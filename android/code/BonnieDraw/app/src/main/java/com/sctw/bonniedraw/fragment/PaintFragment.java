@@ -13,7 +13,6 @@ import android.widget.Button;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paint.PaintActivity;
-import com.sctw.bonniedraw.paint.SettingsPerferencesFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +39,6 @@ public class PaintFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         createPaint= (Button) view.findViewById(R.id.create_new_paint);
-        replaySetting= (Button) view.findViewById(R.id.replay_setting);
 
         createPaint.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,15 +46,6 @@ public class PaintFragment extends Fragment {
                 Intent it=new Intent();
                 it.setClass(getActivity(), PaintActivity.class);
                 startActivity(it);
-            }
-        });
-
-        replaySetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragmentManager.beginTransaction();
-                SettingsPerferencesFragment settingsPerferencesFragment=new SettingsPerferencesFragment();
-                fragmentManager.beginTransaction().replace(R.id.main_viewpager,settingsPerferencesFragment);
             }
         });
     }

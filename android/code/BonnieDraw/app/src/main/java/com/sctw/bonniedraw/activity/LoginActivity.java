@@ -1,23 +1,15 @@
-package com.sctw.bonniedraw.fragment;
+package com.sctw.bonniedraw.activity;
 
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -30,7 +22,11 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 
@@ -41,58 +37,77 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.sctw.bonniedraw.activity.MainActivity.mGoogleApiClient;
-
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class LoginFragment extends Fragment {
+public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
-
-    Button signinButton;
-    LinearLayout emailLoginLayout;
-    LinearLayout facebookLayout;
-    LinearLayout googlePlusLayout;
-    FragmentTransaction fragmentTransaction;
-    CallbackManager callbackManager;
-    LoginButton loginButton;
-    SharedPreferences prefs;
-    AccessToken accessToken;
-    URL profilePicUrl;
-    private boolean loginSuccess=false;
-
-    public LoginFragment() {
-    }
-
+    private Button signinButton;
+    private LinearLayout emailLoginLayout;
+    private LoginButton fbLoginBtn;
+    private SignInButton googlePlusLoginBtn;
+    private CallbackManager callbackManager;
+    private SharedPreferences prefs;
+    private AccessToken accessToken;
+    private URL profilePicUrl;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_login, container, false);
-    }
-
-    @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("登入");
-        signinButton = (Button) view.findViewById(R.id.signinButton);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        signinButton = (Button) findViewById(R.id.signinButton);
         signinButton.setOnClickListener(signIn);
-        emailLoginLayout = (LinearLayout) view.findViewById(R.id.emailLayout);
+        emailLoginLayout = (LinearLayout) findViewById(R.id.emailLayout);
         emailLoginLayout.setOnClickListener(emailLogin);
-        facebookLayout = (LinearLayout) view.findViewById(R.id.facebookLayout);
-        facebookLayout.setOnClickListener(facebookLogin);
-        googlePlusLayout = (LinearLayout) view.findViewById(R.id.googlePlusLayout);
-        googlePlusLayout.setOnClickListener(googlePlusLogin);
+        fbLoginBtn = (LoginButton) findViewById(R.id.fbLoginBtn);
+        fbLoginBtn.setReadPermissions(Arrays.asList("public_profile", "email"));
+        googlePlusLoginBtn = (SignInButton) findViewById(R.id.googlePlusloginBtn);
+        googlePlusLoginBtn.setOnClickListener(googlePlusLogin);
         callbackManager = CallbackManager.Factory.create();
-        loginButton = (LoginButton) view.findViewById(R.id.login_button);
-        loginButton.setFragment(this);
-        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
-        prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
-        checkLogin();
-        facebookResult();
+        prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
+        checkLoginInfo(prefs);
+        googlePlusResult();
+    }
 
-        super.onViewCreated(view, savedInstanceState);
+    private View.OnClickListener facebookLogin = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        }
+    };
+
+    private View.OnClickListener emailLogin = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        }
+    };
+
+    private View.OnClickListener signIn = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        }
+    };
+
+    private View.OnClickListener googlePlusLogin = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        }
+    };
+
+    public void googlePlusResult() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        System.out.println(connectionResult.toString());
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     public void facebookResult() {
@@ -100,7 +115,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 accessToken = loginResult.getAccessToken();
-                Log.d("Token",accessToken.getToken());
+                Log.d("Token", accessToken.getToken());
                 GraphRequest request = GraphRequest.newMeRequest(
                         accessToken,
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -110,7 +125,6 @@ public class LoginFragment extends Fragment {
                                     GraphResponse response) {
                                 try {
                                     profilePicUrl = new URL(object.getJSONObject("picture").getJSONObject("data").getString("url"));
-                                    Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
                                     prefs.edit()
                                             .putString(GlobalVariable.userPlatformStr, "1")
                                             .putString(GlobalVariable.userTokenStr, accessToken.toString())
@@ -118,8 +132,10 @@ public class LoginFragment extends Fragment {
                                             .putString(GlobalVariable.userEmailStr, object.getString("email"))
                                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
                                             .apply();
+                                    transferMainPage();
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
+                                    Toast.makeText(getApplication(), "發生錯誤", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -127,7 +143,6 @@ public class LoginFragment extends Fragment {
                 parameters.putString("fields", "name,email,picture.width(72).height(72)");
                 request.setParameters(parameters);
                 request.executeAsync();
-                fragmentReplace(new HomeFragment());
             }
 
             @Override
@@ -142,51 +157,6 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private void checkLogin() {
-        if (prefs != null && !prefs.getString(GlobalVariable.userTokenStr, "").isEmpty()) {
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            fragmentReplace(new HomeFragment());
-                        }
-                    });
-            alertDialog.setTitle("重複登入");
-            alertDialog.setMessage("請勿重複登入，確認後會回到首頁。");
-            alertDialog.show();
-            alertDialog.setCancelable(false);
-        }
-    }
-
-    private View.OnClickListener googlePlusLogin = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-            startActivityForResult(signInIntent, RC_SIGN_IN);
-        }
-    };
-
-    private View.OnClickListener facebookLogin = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            loginButton.performClick();
-        }
-    };
-
-    private View.OnClickListener emailLogin = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            fragmentReplace(new LoginInfoFragment());
-        }
-    };
-
-    private View.OnClickListener signIn = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            fragmentReplace(new RegisterFragment());
-        }
-    };
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("requestCode", String.valueOf(requestCode));
@@ -198,7 +168,6 @@ public class LoginFragment extends Fragment {
                 GoogleSignInAccount acct = result.getSignInAccount();
                 try {
                     profilePicUrl = new URL(acct.getPhotoUrl().toString());
-                    Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
                     prefs.edit()
                             .putString(GlobalVariable.userPlatformStr, "2")
                             .putString(GlobalVariable.userTokenStr, acct.getIdToken())
@@ -206,18 +175,27 @@ public class LoginFragment extends Fragment {
                             .putString(GlobalVariable.userEmailStr, acct.getEmail())
                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
                             .apply();
+                    transferMainPage();
                 } catch (IOException e) {
+                    Toast.makeText(this, "發生錯誤", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
-                fragmentReplace(new HomeFragment());
             }
         }
     }
 
-    public void fragmentReplace(Fragment fragment) {
-        fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    private void checkLoginInfo(SharedPreferences prefs) {
+        if (prefs != null && !prefs.getString(GlobalVariable.userTokenStr, "").isEmpty()) {
+            transferMainPage();
+            //登入成功
+        } else {
+            Log.e("Not Found", "No LoginInfo");
+        }
     }
 
+    public void transferMainPage() {
+        Intent it = new Intent();
+        it.setClass(this, MainActivity.class);
+        startActivity(it);
+    }
 }

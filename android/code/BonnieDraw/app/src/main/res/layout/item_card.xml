@@ -18,27 +18,46 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/paint_imgId"
+                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentTop="false"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp" />
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp"
+                card_view:srcCompat="@drawable/ic_person_black_24dp" />
 
             <TextView
                 android:id="@+id/paint_control_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/paint_imgId"
-                android:text="ControlString"
+                android:layout_alignBottom="@+id/imageView"
+                android:layout_alignTop="@+id/imageView"
+                android:layout_toEndOf="@+id/imageView"
+                android:gravity="center"
+                android:text="用戶名稱"
                 android:textSize="14sp" />
 
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                card_view:srcCompat="@color/Amber"
+                android:layout_below="@+id/imageView"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/home_number_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/paint_control_text"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/paint_control_text"
+                android:layout_marginEnd="20dp"
+                android:gravity="center"
+                android:text="No" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
