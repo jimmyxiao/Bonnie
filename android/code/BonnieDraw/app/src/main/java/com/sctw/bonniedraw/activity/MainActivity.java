@@ -48,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
         toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
+        googlePlusResult();
+
+        initViewPager();
+    }
+
+    private void initViewPager() {
         mViewPager=(ViewPager) findViewById(R.id.main_viewpager);
         mBottomNavView=(BottomNavigationViewEx) findViewById(R.id.bottom_nav_view);
         mBottomNavView.setIconSize(36,36);
@@ -56,11 +66,6 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavView.setItemHeight(BottomNavigationViewEx.dp2px(this,66));
         mBottomNavView.setTextVisibility(false);
         fragments = new ArrayList<>();
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
-        googlePlusResult();
-
         // create music fragment and add it
         HomeFragment homeFragment = new HomeFragment();
         Bundle bundle = new Bundle();
