@@ -1,0 +1,133 @@
+
+	<head>
+		<title>登入 | BonnieDRAW</title>
+	</head>
+	<div id="wrapper">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1" >
+					<form class="text-center" role="form" name="myForm">
+						<div class="loginBox">
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2 col-xs-6 col-xs-offset-3">
+								<img src="assets/images/logo.png" class="img-responsive">
+							</div>
+						</div>
+						<h1 class="loginTitle">帳號登入</h1>
+						<div class="row">
+							<div class="col-md-12 col-xs-12">
+							<a href="#" class="btn btn-login w-facebook" style="width:100%;"><i class="fa fa-facebook"></i>Facebook</a>
+							</div>
+						</div>
+						<div class="row" style="margin-bottom:10px;">
+							<div class="col-md-6 col-sm-6 col-xs-12" >
+							<a href="#" class="btn btn-login w-twitter"  style="width:100%;"><i class="fa fa-twitter"></i>Twitter</a>
+							</div>
+								<div class="col-md-6 col-sm-6 col-xs-12" >
+									<a href="#" class="btn btn-login w-gplus"  style="width:100%;">Google+</a>
+								</div>
+							</div>
+							<p class="or-login"><span style="color:#666;">或</span></p>
+							<div class="form-group">
+								<input type="email" name="email" class="form-control" id="login-email" placeholder="用戶名稱" ng-model="user.email" required >
+							</div>
+							<div class="form-group">
+								<input type="password" name="password" class="form-control" id="login-password" placeholder="密碼" required>
+							</div>			
+							<button type="submit" value="login" class="btn btn-block btn2-login text-uppercase" ng-click="login(myForm.$valid)">
+								登入
+							</button>
+							<p class="forgot-password" style="margin:20px 0 0 0;">
+								<a href="sigup.html">忘記密碼?</a>
+							</p>
+						</div>
+						<div class="loginBoxBottom">
+							沒有帳號嗎?<a href="#/singup" style="color:#337ab7;padding-left:5px;">註冊</a>
+						</div>		
+					</form>
+					<div class="row login-download">
+						<p class="text-center">下載應用程式</p>
+						<div class="col-md-6 col-sm-6 col-xs-6" style="margin:0;padding:18px;">
+							<img class="img-responsive" src="assets/images/apple-store.png" alt="AppleStore">
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-6" style="margin:0;padding:18px;">
+							<img class="img-responsive" src="assets/images/GooglePlay.png" alt="GooglePlay">
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>	
+
+	<footer class=" footerBottom">
+		<div id="copyright">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6 col-xs-12 text-center">
+					 	<ul class="footer-menu">
+							<li><a href="about.html">關於BonnieDRAW</a></li>
+							<li><a href="#">隱私權</a></li>
+							<li><a href="#">使用條款</a></li>
+							<li>
+								<span class="pqycz">
+								語言</span>
+								<select class="fsoey">
+								<option value="af">Afrikaans</option>
+								<option value="cs">Čeština</option>
+								<option value="da">Dansk</option>
+								<option value="de">Deutsch</option>
+								<option value="el">Ελληνικά</option>
+								<option value="en">English</option>
+								<option value="es">Español</option>
+								<option value="fi">Suomi</option>
+								<option value="fr">Français</option>
+								<option value="id">Bahasa Indonesia</option>
+								<option value="it">Italiano</option>
+								<option value="ja">日本語</option>
+								<option value="ko">한국어</option>
+								<option value="ms">Bahasa Melayu</option>
+								<option value="nb">Norsk</option>
+								<option value="nl">Nederlands</option>
+								<option value="pl">Polski</option>
+								<option value="pt-br">Português (Brasil)</option>
+								<option value="pt">Português (Portugal)</option>
+								<option value="ru">Русский</option>
+								<option value="sv">Svenska</option>
+								<option value="th">ภาษาไทย</option>
+								<option value="tl">Filipino</option>
+								<option value="tr">Türkçe</option>
+								<option value="zh-cn">中文(简体)</option>
+								<option value="zh-tw">中文(台灣)</option>
+								<option value="bn">বাংলা</option>
+								<option value="gu">ગુજરાતી</option>
+								<option value="hi">हिन्दी</option>
+								<option value="hr">Hrvatski</option>
+								<option value="hu">Magyar</option>
+								<option value="kn">ಕನ್ನಡ</option>
+								<option value="ml">മലയാളം</option>
+								<option value="mr">मराठी</option>
+								<option value="ne">नेपाली</option>
+								<option value="pa">ਪੰਜਾਬੀ</option>
+								<option value="si">සිංහල</option>
+								<option value="sk">Slovenčina</option>
+								<option value="ta">தமிழ்</option>
+								<option value="te">తెలుగు</option>
+								<option value="ur">اردو</option>
+								<option value="vi">Tiếng Việt</option>
+								<option value="zh-hk">中文(香港)</option>
+								<option value="bg">Български</option>
+								<option value="fr-ca">Français (Canada)</option>
+								<option value="ro">Română</option>
+								<option value="sr">Српски</option>
+								</select>
+							</li>
+						</ul>
+					</div>
+					<div class="col-sm-6 col-xs-12 text-center">
+						<p>	© 2017 <a href="http://www.sourcecode.com">SourceCode</a></p>  
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- copyright -->
+		</footer>

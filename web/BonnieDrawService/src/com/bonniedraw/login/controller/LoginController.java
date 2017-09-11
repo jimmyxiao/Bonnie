@@ -7,6 +7,9 @@ import javax.servlet.http.HttpSession;
 import  com.bonniedraw.base.model.BaseModel;
 import com.bonniedraw.login.model.RespLogin;
 import com.bonniedraw.login.module.LoginInput;
+import com.bonniedraw.login.module.LoginOutput;
+import com.bonniedraw.user.model.UserInfo;
+import com.bonniedraw.util.TimerUtil;
 import  com.bonniedraw.util.auth.AuthView;
 
 import org.springframework.stereotype.Controller;
@@ -77,18 +80,22 @@ public class LoginController {
 		
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		RespLogin respLogin = new RespLogin();
-//		LoginOutput result = loginService.loginBackend(loginInput);
+		LoginOutput result = new LoginOutput();
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserId(1);
+		result.setStatus(1);
+		result.setUserInfo(userInfo);
 		
 //		if(result!=null && result.getStatus() == 1){
 //			String sessionId=(String)session.getId();
 //			result.setSessionId(sessionId);
-//			respLogin.setResult(true);
-//			respLogin.setData(result);
+			respLogin.setResult(true);
+			respLogin.setData(result);
 //			
 //			AdminInfo adminInfo = result.getAdminInfo();
-//			String strtp = String.valueOf(TimerUtil.getNowDate().getTime());
-//			session.setAttribute("time_key", strtp);
-//			session.setAttribute("loginSuccess", "yes");
+			String strtp = String.valueOf(TimerUtil.getNowDate().getTime());
+			session.setAttribute("time_key", strtp);
+			session.setAttribute("loginSuccess", "yes");
 //			session.setAttribute("userInfo", adminInfo);
 //			session.setAttribute("userId", adminInfo.getUserId());
 //			session.setAttribute("serviceKey", result.getSecurityKey());
