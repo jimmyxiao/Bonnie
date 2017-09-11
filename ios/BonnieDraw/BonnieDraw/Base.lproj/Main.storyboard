@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -90,7 +91,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bb6-Ol-Dzi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="871" y="-694"/>
+            <point key="canvasLocation" x="905" y="-583"/>
         </scene>
         <!--Canvas View Controller-->
         <scene sceneID="xzp-l9-xOe">
@@ -119,12 +120,20 @@
                                     <action selector="reset:" destination="uhE-RV-zqK" eventType="touchUpInside" id="S8c-E8-1gI"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIS-vG-omH">
+                                <rect key="frame" x="319" y="28" width="40" height="30"/>
+                                <state key="normal" title="Share"/>
+                                <connections>
+                                    <action selector="share:" destination="uhE-RV-zqK" eventType="touchUpInside" id="Ok2-LF-CWC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="PRt-0F-oH2" secondAttribute="trailing" id="3BS-wW-bnd"/>
                             <constraint firstItem="WlM-Ju-J9X" firstAttribute="top" secondItem="ps0-w4-1Dh" secondAttribute="bottom" constant="8" symbolic="YES" id="4Su-ke-0Tn"/>
                             <constraint firstItem="DNK-oG-evY" firstAttribute="leading" secondItem="s8T-WP-DKJ" secondAttribute="leading" id="6uB-6u-gRi"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bIS-vG-omH" secondAttribute="trailing" id="CHr-7s-vnJ"/>
                             <constraint firstItem="WlM-Ju-J9X" firstAttribute="leading" secondItem="s8T-WP-DKJ" secondAttribute="leading" constant="20" symbolic="YES" id="IX2-EE-Wqu"/>
                             <constraint firstItem="auI-UX-6T5" firstAttribute="top" secondItem="PRt-0F-oH2" secondAttribute="bottom" id="VOr-ce-bEu"/>
                             <constraint firstItem="auI-UX-6T5" firstAttribute="top" secondItem="DNK-oG-evY" secondAttribute="bottom" id="g9Z-c1-zVH"/>
@@ -132,6 +141,7 @@
                             <constraint firstItem="DNK-oG-evY" firstAttribute="top" secondItem="s8T-WP-DKJ" secondAttribute="top" id="k8k-QC-7UY"/>
                             <constraint firstItem="PRt-0F-oH2" firstAttribute="top" secondItem="s8T-WP-DKJ" secondAttribute="top" id="lPr-Ra-4vl"/>
                             <constraint firstItem="PRt-0F-oH2" firstAttribute="leading" secondItem="s8T-WP-DKJ" secondAttribute="leading" id="qIg-mv-9oY"/>
+                            <constraint firstItem="bIS-vG-omH" firstAttribute="top" secondItem="ps0-w4-1Dh" secondAttribute="bottom" constant="8" id="w4p-RI-vtN"/>
                         </constraints>
                     </view>
                     <connections>
@@ -141,7 +151,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qhx-cz-5i5" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="870" y="36"/>
+            <point key="canvasLocation" x="905" y="123"/>
         </scene>
     </scenes>
 </document>
