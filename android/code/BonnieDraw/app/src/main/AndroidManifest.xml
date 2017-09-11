@@ -49,6 +49,13 @@
             android:label="@string/title_activity_paint"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\\.bdw" />
+            </intent-filter>
         </activity>
 
     </application>

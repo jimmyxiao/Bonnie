@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -42,11 +43,15 @@ import android.widget.Toast;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paintpicker.ColorPicker;
 import com.sctw.bonniedraw.paintpicker.OnColorChangedListener;
+import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
+import com.sctw.bonniedraw.utility.GlobalVariable;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,15 +156,51 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 fname = getIntent().getExtras().getString("name");
             }
         }
+
+        checkRecord();
+
     }
+
+    private void checkRecord() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle.isEmpty()) {
+            return;
+        }
+        Uri uri = Uri.parse(bundle.getString(GlobalVariable.fileURIStr));
+        try {
+            InputStream in = getContentResolver().openInputStream(uri);
+            File file = File.createTempFile("temp.bdw",null, getApplicationContext().getCacheDir());
+            OutputStream out=new FileOutputStream(file);
+            byte[] buffer = new byte[1024];
+            int idx = 0;
+            while ((idx = in.read(buffer)) != -1) {
+                out.write(buffer, 0, idx);
+            }
+            out.close();
+            in.close();
+
+            BDWFileReader mReader=new BDWFileReader();
+            boolean result = mReader.readFromFile(file);
+            if(!result){
+                mTagPoint_a_record=mReader.m_tagArray;
+                Log.d("ARRAY",mTagPoint_a_record.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("URI TEST", String.valueOf(uri));
+        String aa = getContentResolver().getType(uri);
+        Log.d("URI TEST", aa);
+    }
+
     //強制正方形
     private void resizeWindow() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width=size.x;
-        myView.setLayoutParams(new LinearLayout.LayoutParams(width,width));
-        Log.d("width","width=="+String.valueOf(width));
+        int width = size.x;
+        myView.setLayoutParams(new LinearLayout.LayoutParams(width, width));
     }
 
     //
@@ -543,20 +584,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
 
     public void setOnclick() {
-        //畫筆設定
-        /*findViewById(R.id.id_btn_record).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(PaintActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                                REQUEST_EXTERNAL_STORAGE);
-                    }
-                } else {
-                    Snackbar.make(mViewFreePaint, "開啟儲存紀錄(未實作)", Snackbar.LENGTH_LONG).show();
-                }
-            }
-        });*/
 
         findViewById(R.id.id_btn_zoom).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -592,7 +619,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 playStateBtn(0);
                 if (miPointCount > 0)
                     handler_Timer_Play.postDelayed(rb_play, 50);
-                Log.d("Check", mTagPoint_a_record.toString());
             }
         });
 

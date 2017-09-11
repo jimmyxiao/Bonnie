@@ -82,7 +82,10 @@ public class TagPoint {
 
     @Override
     public String toString() {
-        return "TagPoint{" + "iColor=" + iColor +
-                ", iAction=" + iAction + "}";
+        return "TagPoint{" +
+                "iColor=" + iColor +
+                ", iAction=" + iAction +
+                ", iSize=" + iSize +
+                '}';
     }
 }

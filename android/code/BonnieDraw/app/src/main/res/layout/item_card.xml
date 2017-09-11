@@ -41,7 +41,7 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/card_imageview"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 card_view:srcCompat="@color/Amber"
@@ -58,6 +58,26 @@
                 android:layout_marginEnd="20dp"
                 android:gravity="center"
                 android:text="No" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_imageview"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    card_view:srcCompat="@drawable/com_facebook_favicon_blue" />
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    card_view:srcCompat="@drawable/common_google_signin_btn_icon_light_normal" />
+            </LinearLayout>
+
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

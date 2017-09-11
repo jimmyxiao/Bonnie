@@ -93,6 +93,7 @@ public class BDWFileReader {
             tagPoint.setiAction(iAction);
 
             iSize = FileDataFormat.byteToInt(buf[1]);
+			tagPoint.setiSize(iSize);
             iPaintType = FileDataFormat.byteToInt(buf[2]);
             tagPoint.setiPaintType(iPaintType);
 
