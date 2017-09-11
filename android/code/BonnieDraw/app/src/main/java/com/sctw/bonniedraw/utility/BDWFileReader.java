@@ -75,6 +75,7 @@ public class BDWFileReader {
             int iSize = 0;
             int iPaintType = 0;
             int iReserved = 0;
+            int iOther = 0;
 
             bdwFile.read(buf, 0, 2);
             iPosX = FileDataFormat.buf2ToInt(buf, 0, true);
@@ -99,6 +100,10 @@ public class BDWFileReader {
             bdwFile.read(buf, 0, 2);
             iReserved =  FileDataFormat.buf2ToInt(buf, 0, true);
             tagPoint.setiReserved(iReserved);
+
+            bdwFile.read(buf, 0, 1);
+            iOther =  FileDataFormat.byteToInt(buf[0]);
+            tagPoint.setiOther(iOther);
 
         }
         catch (Exception e)

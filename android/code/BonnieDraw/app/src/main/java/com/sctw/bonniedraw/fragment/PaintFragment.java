@@ -39,8 +39,8 @@ public class PaintFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        createPaint=view.findViewById(R.id.create_new_paint);
-        replaySetting=view.findViewById(R.id.replay_setting);
+        createPaint= (Button) view.findViewById(R.id.create_new_paint);
+        replaySetting= (Button) view.findViewById(R.id.replay_setting);
 
         createPaint.setOnClickListener(new View.OnClickListener() {
             @Override

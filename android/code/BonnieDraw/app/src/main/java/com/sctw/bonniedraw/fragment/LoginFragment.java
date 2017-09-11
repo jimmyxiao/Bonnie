@@ -76,16 +76,16 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("登入");
-        signinButton = view.findViewById(R.id.signinButton);
+        signinButton = (Button) view.findViewById(R.id.signinButton);
         signinButton.setOnClickListener(signIn);
-        emailLoginLayout = view.findViewById(R.id.emailLayout);
+        emailLoginLayout = (LinearLayout) view.findViewById(R.id.emailLayout);
         emailLoginLayout.setOnClickListener(emailLogin);
-        facebookLayout = view.findViewById(R.id.facebookLayout);
+        facebookLayout = (LinearLayout) view.findViewById(R.id.facebookLayout);
         facebookLayout.setOnClickListener(facebookLogin);
-        googlePlusLayout = view.findViewById(R.id.googlePlusLayout);
+        googlePlusLayout = (LinearLayout) view.findViewById(R.id.googlePlusLayout);
         googlePlusLayout.setOnClickListener(googlePlusLogin);
         callbackManager = CallbackManager.Factory.create();
-        loginButton = view.findViewById(R.id.login_button);
+        loginButton = (LoginButton) view.findViewById(R.id.login_button);
         loginButton.setFragment(this);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
         prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
