@@ -20,5 +20,7 @@ public interface UserInfoMapper {
     
     int inspectRegister(LoginRequestVO loginRequestVO);
     
+    int inspectRegisterByUserInfo(UserInfo userInfo);
+    
     UserInfo inspectOldPwd(UserInfo record);
 }

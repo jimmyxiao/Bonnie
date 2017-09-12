@@ -308,6 +308,12 @@
 		where USER_CODE = #{uc,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="inspectRegisterByUserInfo" parameterType="com.bonniedraw.user.model.UserInfo" resultType="java.lang.Integer">
+		select ifnull(sum(USER_ID),0)
+		from user_info
+		where USER_CODE = #{userCode, jdbcType=VARCHAR}
+	</select>
+	
 	<select id="inspectOldPwd" parameterType="com.bonniedraw.user.model.UserInfo" resultMap="BaseResultMap">
 		select 
 		<include refid="Base_Column_List" />

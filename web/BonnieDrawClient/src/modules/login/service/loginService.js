@@ -1,47 +1,16 @@
 app.factory('loginService', function(baseHttp) {
     return {
         login : function(params, callback) {
-            return baseHttp.service('loginBackend', params, callback);
+            return baseHttp.service('/BDService/login', params, callback);
         }
     }
 }).factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootScope', '$timeout','loginService',
     function (Base64, $http, $cookieStore, $rootScope, $timeout ,loginService) {
         var service = {};
-        $rootScope.queryKey = {
-    		userCode : '',
-    		userPwd : '',
-    		loginPlatform : 1,
-    		mask : '',
-    		ip:''
-		}
-        
-        $rootScope.wslogin = function(usercode, password){
-        	$rootScope.queryKey.userCode = usercode;
-        	$rootScope.queryKey.userPwd = password;
-    		$rootScope.queryKey_json = JSON.parse(JSON.stringify($rootScope.queryKey));
-    		loginService.login($rootScope.queryKey_json, function(data,status, headers,config) {
-    			var res_wslogin = {};
-    			if(data.result){
-    				res_wslogin = data.data;	
-    			}
-    			return res_wslogin;
-    		});
-    	}
-        
-        service.Login = function (usercode, password, callback){
+        service.Login = function (loginUser, callback){
             $timeout(function(){
-            	var res_login = {};
-            	$rootScope.queryKey.userCode = usercode;
-            	$rootScope.queryKey.userPwd = password;
-        		$rootScope.queryKey_json = JSON.parse(JSON.stringify($rootScope.queryKey));
-        		loginService.login($rootScope.queryKey_json, function(data,status, headers, config) {
-        			var res_wslogin = {};
-        			if(data.result){
-        				res_wslogin = data.data;	
-        			}else{
-        				res_wslogin.message = data.message;
-        			}
-        			callback(res_wslogin);
+        		loginService.login(loginUser, function(data, status, headers, config) {
+        			callback(data);
         		})
             }, 1000);
         }
@@ -52,7 +21,7 @@ app.factory('loginService', function(baseHttp) {
                 currentUser: {
                     usercode: usercode,
                     userId: userInfo.userId,
-                    securityKey: userInfo.securityKey,
+                    securityKey: userInfo.sk,
                     userType: userInfo.userType,
                     userName: userInfo.userName,
                     userInfo:userInfo

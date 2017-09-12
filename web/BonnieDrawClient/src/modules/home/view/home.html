@@ -1,11 +1,7 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>BonnieDRAW</title>
 </head>
-<body> -->
-
 <!-- Loader -->
 <!-- <div id="loader-container">
 	<div id="loader">
@@ -29,7 +25,7 @@
 			<div class="row">
 				<div class="col-md-2 col-sm-5 col-xs-6 border-right">
 					<div class="logo">
-						<a href="index.html">
+						<a href="#/home">
 							<img class="img-responsive" src="assets/images/logo.png" alt="Logo">	
 						</a>
 					</div>					
@@ -46,7 +42,7 @@
 				</div>
 				<div class="clearfix visible-sm"></div>
 				<div class="clearfix visible-xs"></div>
-				<div class="col-md-7 col-sm-6  col-xs-6 border-right sm-border-top">
+				<div class="col-md-7 col-sm-6 col-xs-6 border-right sm-border-top">
 					<div class="search-box">
 						<form method="post">
 							<input type="text" name="search" id="search" class="form-control" placeholder="Search" required>
@@ -64,7 +60,7 @@
 							</div>
 							<div class="media-body">
 								<p>
-									<a class="login-toggle" href="#">登出</a>
+									<a class="login-toggle" href="#" ng-click="logout()">登出</a>
 								</p>
 							</div>
 						</div>									
@@ -667,79 +663,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- copyright -->	
-	<div id="copyright">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6 col-sm-12 text-center">
-					<ul class="footer-menu">
-						<li><a href="about.html">關於BonnieDRAW</a></li>
-						<li><a href="#">隱私權</a></li>
-						<li><a href="#">使用條款</a></li>
-						<li>
-							<span class="pqycz">
-							語言
-							</span>
-							<select class="fsoey">
-							<option value="af">Afrikaans</option>
-							<option value="cs">Čeština</option>
-							<option value="da">Dansk</option>
-							<option value="de">Deutsch</option>
-							<option value="el">Ελληνικά</option>
-							<option value="en">English</option>
-							<option value="es">Español</option>
-							<option value="fi">Suomi</option>
-							<option value="fr">Français</option>
-							<option value="id">Bahasa Indonesia</option>
-							<option value="it">Italiano</option>
-							<option value="ja">日本語</option>
-							<option value="ko">한국어</option>
-							<option value="ms">Bahasa Melayu</option>
-							<option value="nb">Norsk</option>
-							<option value="nl">Nederlands</option>
-							<option value="pl">Polski</option>
-							<option value="pt-br">Português (Brasil)</option>
-							<option value="pt">Português (Portugal)</option>
-							<option value="ru">Русский</option>
-							<option value="sv">Svenska</option>
-							<option value="th">ภาษาไทย</option>
-							<option value="tl">Filipino</option>
-							<option value="tr">Türkçe</option>
-							<option value="zh-cn">中文(简体)</option>
-							<option value="zh-tw">中文(台灣)</option>
-							<option value="bn">বাংলা</option>
-							<option value="gu">ગુજરાતી</option>
-							<option value="hi">हिन्दी</option>
-							<option value="hr">Hrvatski</option>
-							<option value="hu">Magyar</option>
-							<option value="kn">ಕನ್ನಡ</option>
-							<option value="ml">മലയാളം</option>
-							<option value="mr">मराठी</option>
-							<option value="ne">नेपाली</option>
-							<option value="pa">ਪੰਜਾਬੀ</option>
-							<option value="si">සිංහල</option>
-							<option value="sk">Slovenčina</option>
-							<option value="ta">தமிழ்</option>
-							<option value="te">తెలుగు</option>
-							<option value="ur">اردو</option>
-							<option value="vi">Tiếng Việt</option>
-							<option value="zh-hk">中文(香港)</option>
-							<option value="bg">Български</option>
-							<option value="fr-ca">Français (Canada)</option>
-							<option value="ro">Română</option>
-							<option value="sr">Српски</option>
-							</select>
-						</li>
-					</ul>
-				</div>
-				<div class="col-sm-6 col-xs-12 text-center">
-					<p>	© 2017 <a href="http://www.sourcecode.com">SourceCode</a></p>  
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- copyright -->
-
+	<ng-include src="'modules/share/view/footer.html'"></ng-include>
 	</div>
 </div>

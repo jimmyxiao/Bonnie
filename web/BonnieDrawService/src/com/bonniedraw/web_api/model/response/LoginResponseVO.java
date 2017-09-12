@@ -1,5 +1,6 @@
 package com.bonniedraw.web_api.model.response;
 
+import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.web_api.model.ApiResponseVO;
 
 public class LoginResponseVO extends ApiResponseVO{
@@ -9,6 +10,9 @@ public class LoginResponseVO extends ApiResponseVO{
 	private String sk;
 	private String appVersionCode;
 	private String appUrl;
+	
+	// for web	
+	private UserInfo userInfo;
 
 	public int getUi() {
 		return ui;
@@ -56,6 +60,14 @@ public class LoginResponseVO extends ApiResponseVO{
 
 	public void setAppUrl(String appUrl) {
 		this.appUrl = appUrl;
+	}
+
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
 	}
 
 }

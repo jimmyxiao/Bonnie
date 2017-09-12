@@ -1,7 +1,6 @@
 'use strict';
 var locationIP='http://localhost:8080/';
 var rootUrl = locationIP + 'BonnieDrawService/';
-var loginUrl = locationIP + 'BonnieDrawClient/#/login';
 
 angular.module('Authentication', []);
 var app = angular.module('app',['ui.router', 'ngCookies', 'ui.bootstrap', 'ngSanitize','Authentication']);
@@ -13,7 +12,7 @@ app.factory('baseHttp', function($rootScope, $http){
 			function(data, status, headers, config){
 				callback(data, status, headers, config);
 			}).error(function(data, status, headers, config){
-				result = data;
+				alert('Oops ! has error ! try it again !');
 			}
 		)
 	}
@@ -35,24 +34,43 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       		controller:'homeController'
         }
       }
-  	})
-  	.state('login', {
+  	}).state('login', {
       url: '/login',
       views: {
         layout: {
-            templateUrl: "modules/login/view/login.html",
+            templateUrl: 'modules/login/view/login.html',
             controller: 'loginController'
         }
       }
-  	})
-  	.state('singup', {
+  	}).state('singup', {
       url: '/singup',
       views: {
         layout: {
-            templateUrl: "modules/login/view/singup.html"
+            templateUrl: 'modules/login/view/singup.html',
+            controller: 'registerController'
         }
       }
   	})
 }])
+
+app.run(function($rootScope, $location, $cookieStore, $http, $window, $state){
+	$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
+    if ($rootScope.rg_gl.currentUser) {
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
+ 	}
+
+   	$rootScope.$on('$locationChangeStart', function (event, next, current){
+   		var url = $location.path();
+		if ((url !== '/login' && url !== '/singup') && !$rootScope.rg_gl.currentUser) {
+	        $state.go('login');
+	    }
+	});
+
+	$rootScope.logout = function() {
+		$cookieStore.remove('rg_gl');
+		$state.go('login');
+	}
+})
+
 
 

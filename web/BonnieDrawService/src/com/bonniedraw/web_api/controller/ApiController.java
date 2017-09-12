@@ -24,6 +24,7 @@ import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.MobileUserService;
 import com.bonniedraw.util.EmailUtil;
 import com.bonniedraw.util.LogUtils;
+import com.bonniedraw.util.ServletUtil;
 import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.web_api.model.ApiRequestVO;
 import com.bonniedraw.web_api.model.request.FileUploadRequestVO;
@@ -95,7 +96,8 @@ public class ApiController {
 			if(ut == 2 && ValidateUtil.isBlank(loginRequestVO.getFbemail())){
 				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 			}else{
-				LoginResponseVO result = mobileUserService.login(loginRequestVO);
+				String ip = ServletUtil.getRequestIp(request);
+				LoginResponseVO result = mobileUserService.login(loginRequestVO,ip);
 				if(result !=null){
 					respResult = result;
 					int res = result.getRes();

@@ -13,6 +13,7 @@ import com.bonniedraw.login.model.Login;
 import com.bonniedraw.user.dao.UserInfoMapper;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.MobileUserService;
+import com.bonniedraw.util.EncryptUtil;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.SercurityUtil;
 import com.bonniedraw.util.TimerUtil;
@@ -29,7 +30,7 @@ public class MobileUserServiceImpl extends BaseService implements MobileUserServ
 	@Autowired
 	LoginMapper loginMapper;
 	
-	private LoginResponseVO callLogin(LoginRequestVO loginRequestVO){
+	private LoginResponseVO callLogin(LoginRequestVO loginRequestVO, String ipAddress){
 		LoginResponseVO result = new LoginResponseVO();
 		UserInfo userInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
 		if(userInfo != null){
@@ -40,6 +41,7 @@ public class MobileUserServiceImpl extends BaseService implements MobileUserServ
 			loginVO.setIsCurrent(1);
 			loginVO.setLoginResult(1);
 			loginVO.setSessionId(0);
+			loginVO.setDeviceIp(ipAddress);
 			switch (loginRequestVO.getDt()) {
 			case 1:
 				loginVO.setDeviceInfo("Android");
@@ -51,13 +53,17 @@ public class MobileUserServiceImpl extends BaseService implements MobileUserServ
 				loginVO.setDeviceInfo("Web");
 				break;
 			}
-			loginMapper.insertSelective(loginVO);
-			
-			result.setRes(1);
-			result.setUi(userInfo.getUserId());
-			result.setUt(loginRequestVO.getUt());
-			result.setLk(loginVO.getLoginToken());
-			result.setSk(loginVO.getServiceKey());
+			try {
+				loginMapper.insertSelective(loginVO);
+				result.setRes(1);
+				result.setUi(userInfo.getUserId());
+				result.setUt(loginRequestVO.getUt());
+				result.setLk(loginVO.getLoginToken());
+				result.setSk(loginVO.getServiceKey());
+				result.setUserInfo(userInfo);
+			} catch (Exception e) {
+				result.setRes(2);
+			}
 		}else{
 			result.setRes(2);
 		}
@@ -97,10 +103,15 @@ public class MobileUserServiceImpl extends BaseService implements MobileUserServ
 	}
 	
 	@Override
-	public LoginResponseVO login(LoginRequestVO loginRequestVO) {
+	public LoginResponseVO login(LoginRequestVO loginRequestVO, String ipAddress) {
 		switch (loginRequestVO.getFn()) {
 		case 1:
-			return callLogin(loginRequestVO);
+			try {
+				loginRequestVO.setUp(EncryptUtil.convertMD5(loginRequestVO.getUp()));
+				return callLogin(loginRequestVO, ipAddress);
+			} catch (Exception e1) {
+			}
+			break;
 		case 2:
 			return callRegister(loginRequestVO);
 		case 3:

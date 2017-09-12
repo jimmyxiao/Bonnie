@@ -10,7 +10,7 @@ public class LoginRequestVO {
 	private String fbemail;
 	private String captcha;
 	private String mask;
-
+	
 	public String getUc() {
 		return uc;
 	}
