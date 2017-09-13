@@ -3,7 +3,7 @@ var locationIP='http://localhost:8080/';
 var rootUrl = locationIP + 'BonnieDrawService/';
 
 angular.module('Authentication', []);
-var app = angular.module('app',['ui.router', 'ngCookies', 'ui.bootstrap', 'ngSanitize','Authentication']);
+var app = angular.module('app',['ui.router', 'ngCookies', 'ui.bootstrap', 'ngRoute', 'ngSanitize','Authentication']);
 
 app.factory('baseHttp', function($rootScope, $http){
 	function doService(url, params, callback, error){
@@ -31,9 +31,13 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       views: {
         layout: {
             templateUrl: 'modules/home/view/home.html',
-      		controller:'homeController'
+            controller:'homeController'
+        },
+        headerMenu:{
+        	templateUrl: 'modules/share/view/header-menu.html'
         }
-      }
+      },
+      reload: true
   	}).state('login', {
       url: '/login',
       views: {
@@ -54,6 +58,9 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 }])
 
 app.run(function($rootScope, $location, $cookieStore, $http, $window, $state){
+	$rootScope.title = '';
+	
+	// === develop when close , release when open ===
 	$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
     if ($rootScope.rg_gl.currentUser) {
         $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
@@ -65,6 +72,7 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state){
 	        $state.go('login');
 	    }
 	});
+	// =============================================
 
 	$rootScope.logout = function() {
 		$cookieStore.remove('rg_gl');
