@@ -7,106 +7,127 @@
     android:id="@+id/main_actitivy_layout"
     tools:context="com.sctw.bonniedraw.activity.LoginActivity">
 
-    <TextView
-        android:id="@+id/singleText"
+    <ImageView
+        android:id="@+id/logoImg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:text="BonnieDraw"
-        android:textAlignment="center"
-        android:textSize="36sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
 
-    <EditText
-        android:id="@+id/inputUserPhone"
+        app:srcCompat="@drawable/title_bar_img_logo"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/phoneLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/singleText"
-        android:layout_marginEnd="60dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="30dp"
-        android:hint="手機號碼"
-        android:inputType="phone"
-        android:maxLength="10"
-        android:textColorLink="@color/Grey" />
-
-    <EditText
-        android:id="@+id/inputUserName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/inputUserPhone"
+        android:layout_below="@+id/logoImg"
         android:layout_marginEnd="60dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="15dp"
-        android:hint="全名"
-        android:inputType="textPersonName"
-        android:textColorLink="@color/Grey" />
-
-    <EditText
-        android:id="@+id/inputUserEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/inputUserName"
-        android:layout_below="@+id/inputUserName"
-        android:layout_marginTop="15dp"
-        android:hint="帳號(E-mail)"
-        android:inputType="textEmailAddress"
-        android:textColorLink="@color/Grey"
-        android:layout_alignEnd="@+id/inputUserName" />
-
-    <EditText
-        android:id="@+id/inputUserPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/inputUserEmail"
-        android:layout_marginTop="15dp"
-        android:hint="使用者密碼"
-        android:inputType="textPassword"
-        android:textColorLink="@color/Grey"
-        android:layout_alignEnd="@+id/inputUserEmail"
-        android:layout_alignStart="@+id/inputUserEmail" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/inputUserPassword"
-        android:layout_alignStart="@+id/inputUserPassword"
-        android:layout_below="@+id/inputUserPassword"
-        android:text="格式：需各一個大寫小寫符號與特殊字元跟數字"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-
-    <EditText
-        android:id="@+id/inputUserRePassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/inputUserPassword"
-        android:layout_marginEnd="60dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
-        android:hint="重新確認密碼"
-        android:inputType="textPassword"
-        android:textColorLink="@color/Grey" />
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        app:errorEnabled="true">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputUserPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="手機號碼"
+            android:maxLength="10"
+            android:inputType="textPersonName"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/nameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        android:layout_below="@+id/phoneLayout"
+        android:layout_alignStart="@+id/phoneLayout"
+        android:layout_alignEnd="@+id/phoneLayout">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="全名"
+            android:inputType="textPersonName"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/emailLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        android:layout_below="@+id/nameLayout"
+        android:layout_alignStart="@+id/nameLayout"
+        android:layout_alignEnd="@+id/nameLayout">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputUserEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="帳號(E-mail)"
+            android:inputType="textEmailAddress"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterMaxLength="15"
+        app:passwordToggleEnabled="true"
+        android:layout_below="@+id/emailLayout"
+        android:layout_alignStart="@+id/emailLayout"
+        android:layout_alignEnd="@+id/emailLayout"
+        app:hintEnabled="true">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputUserPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="使用者密碼"
+            android:maxLength="15"
+            android:inputType="textPassword"
+            app:passwordToggleTint="@color/colorPrimaryDark"
+            app:passwordToggleTintMode="multiply"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/repasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterMaxLength="15"
+        app:passwordToggleEnabled="true"
+        android:layout_below="@+id/passwordLayout"
+        android:layout_alignStart="@+id/passwordLayout"
+        android:layout_alignEnd="@+id/passwordLayout">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputUserRePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="確認密碼"
+            android:maxLength="15"
+            android:inputType="textPassword"
+            app:passwordToggleTint="@color/colorPrimaryDark"
+            app:passwordToggleTintMode="multiply"/>
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/signInBtn"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_alignEnd="@+id/inputUserRePassword"
-        android:layout_alignStart="@+id/inputUserRePassword"
-        android:layout_below="@+id/inputUserRePassword"
-        android:layout_marginTop="20dp"
         android:background="@drawable/login_icon_email"
         android:text="註冊"
-        android:textColor="@color/White" />
+        android:textColor="@color/White"
+        android:layout_below="@+id/repasswordLayout"
+        android:layout_alignStart="@+id/repasswordLayout"
+        android:layout_alignEnd="@+id/repasswordLayout" />
 
     <TextView
         android:layout_width="wrap_content"

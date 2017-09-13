@@ -4,7 +4,11 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -13,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
@@ -26,11 +29,8 @@ import java.util.regex.Pattern;
  * A simple {@link Fragment} subclass.
  */
 public class SignInFragment extends Fragment {
-    EditText userPhone;
-    EditText userName;
-    EditText userEmail;
-    EditText userPassword;
-    EditText userRePassword;
+    TextInputLayout phoneLayout, nameLayout, emailLayout, passwordLayout, repasswordLayout;
+    TextInputEditText userPhone, userName, userEmail, userPassword, userRePassword;
     TextView signupButton;
     Drawable doneIcon;
     boolean userPhoneVaild, userNameVaild, userEmailVaild, userPwdVaild, userRePwdVaild = false;
@@ -38,6 +38,7 @@ public class SignInFragment extends Fragment {
     Matcher matcher;
     final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$";
     Button signInBtn;
+    FragmentManager fragmentManager;
 
     public SignInFragment() {
         // Required empty public constructor
@@ -54,11 +55,16 @@ public class SignInFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         pattern = Pattern.compile(PASSWORD_PATTERN);
-        userPhone = (EditText) view.findViewById(R.id.inputUserPhone);
-        userName = (EditText) view.findViewById(R.id.inputUserName);
-        userEmail = (EditText) view.findViewById(R.id.inputUserEmail);
-        userPassword = (EditText) view.findViewById(R.id.inputUserPassword);
-        userRePassword = (EditText) view.findViewById(R.id.inputUserRePassword);
+        phoneLayout = (TextInputLayout) view.findViewById(R.id.phoneLayout);
+        nameLayout = (TextInputLayout) view.findViewById(R.id.nameLayout);
+        emailLayout = (TextInputLayout) view.findViewById(R.id.emailLayout);
+        passwordLayout = (TextInputLayout) view.findViewById(R.id.passwordLayout);
+        repasswordLayout = (TextInputLayout) view.findViewById(R.id.repasswordLayout);
+        userPhone = (TextInputEditText) view.findViewById(R.id.inputUserPhone);
+        userName = (TextInputEditText) view.findViewById(R.id.inputUserName);
+        userEmail = (TextInputEditText) view.findViewById(R.id.inputUserEmail);
+        userPassword = (TextInputEditText) view.findViewById(R.id.inputUserPassword);
+        userRePassword = (TextInputEditText) view.findViewById(R.id.inputUserRePassword);
         userPhone.setOnFocusChangeListener(userPhoneOnFocus);
         userPhone.addTextChangedListener(userPhoneInvalid);
         userName.setOnFocusChangeListener(userNameOnFocus);
@@ -69,8 +75,10 @@ public class SignInFragment extends Fragment {
         userPassword.addTextChangedListener(userPasswordInvalid);
         userRePassword.setOnFocusChangeListener(userRePwdOnFocus);
         userRePassword.addTextChangedListener(userRePasswordInvalid);
-        signupButton=(TextView) view.findViewById(R.id.signupButton);
+        signupButton = (TextView) view.findViewById(R.id.signupButton);
         signupButton.setOnClickListener(signUp);
+        fragmentManager = getFragmentManager();
+
         doneIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_done_black_24dp, null);
         if (doneIcon != null) {
             doneIcon.setBounds(0, 0, doneIcon.getIntrinsicWidth(), doneIcon.getIntrinsicHeight());
@@ -82,10 +90,13 @@ public class SignInFragment extends Fragment {
     }
 
     //註冊按鈕
-    public View.OnClickListener signUp=new View.OnClickListener() {
+    public View.OnClickListener signUp = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            getActivity().onBackPressed();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.main_login_layout, new LoginFragment());
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            ft.commit();
         }
     };
 
@@ -133,7 +144,7 @@ public class SignInFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userPhone.getText().toString().trim().isEmpty()) {
-                userPhone.setError("請輸入手機號碼");
+                phoneLayout.setError("請輸入手機號碼");
             }
         }
     };
@@ -142,7 +153,7 @@ public class SignInFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userName.getText().toString().trim().isEmpty()) {
-                userName.setError("請輸入名字");
+                nameLayout.setError("請輸入名字");
             }
         }
     };
@@ -151,7 +162,7 @@ public class SignInFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userEmail.getText().toString().equals("")) {
-                userEmail.setError("請輸入信箱");
+                emailLayout.setError("請輸入信箱");
             }
         }
     };
@@ -160,7 +171,7 @@ public class SignInFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userPassword.getText().toString().equals("")) {
-                userPassword.setError("請輸入密碼");
+                passwordLayout.setError("請輸入密碼");
             }
         }
     };
@@ -169,7 +180,7 @@ public class SignInFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userRePassword.getText().toString().equals("")) {
-                userRePassword.setError("請再次輸入密碼");
+                repasswordLayout.setError("請再次輸入密碼");
             }
         }
     };
@@ -262,52 +273,52 @@ public class SignInFragment extends Fragment {
         switch (str) {
             case "phone":
                 if (userPhone.getText().toString().trim().isEmpty()) {
-                    userPhone.setError("請輸入手機號碼");
+                    phoneLayout.setError("請輸入手機號碼");
                     userPhoneVaild = false;
                 } else if (userPhone.getText().toString().length() < 10) {
-                    userPhone.setError("請輸入正確的手機號碼");
+                    phoneLayout.setError("請輸入正確的手機號碼");
                     userPhoneVaild = false;
                 } else {
-                    userPhone.setError("正確", doneIcon);
+                    phoneLayout.setError(null);
                     userPhoneVaild = true;
                 }
                 break;
             case "name":
                 if (userName.getText().toString().equals("")) {
-                    userName.setError("請輸入姓名");
+                    nameLayout.setError("請輸入姓名");
                     userNameVaild = false;
                 } else {
-                    userName.setError("正確", doneIcon);
+                    nameLayout.setError(null);
                     userNameVaild = true;
                 }
                 break;
             case "email":
                 if (userEmail.getText().toString().trim().isEmpty()) {
-                    userEmail.setError("請輸入Email");
+                    emailLayout.setError("請輸入Email");
                     userEmailVaild = false;
                 } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail.getText().toString()).matches()) {
-                    userEmail.setError("請輸入正確的Email");
+                    emailLayout.setError("請輸入正確的Email");
                     userEmailVaild = false;
                 } else {
-                    userEmail.setError("正確", doneIcon);
+                    emailLayout.setError(null);
                     userEmailVaild = true;
                 }
                 break;
             case "pwd":
                 if (userPassword.getText().toString().equals("")) {
-                    userPassword.setError("請輸入密碼");
+                    passwordLayout.setError("請輸入密碼");
                     userPwdVaild = false;
                 } else {
                     matcher = pattern.matcher(userPassword.getText().toString());
                     if (!matcher.matches()) {
                         userPwdVaild = false;
                         if (userPassword.getText().toString().length() < 6) {
-                            userPassword.setError("密碼至少需要6個字元");
+                            passwordLayout.setError("密碼至少需要6個字元");
                         } else {
-                            userPassword.setError("格式錯誤，請參照格式說明");
+                            passwordLayout.setError("密碼需要一個特殊符號、數字、大小寫字母");
                         }
                     } else {
-                        userPassword.setError("正確", doneIcon);
+                        passwordLayout.setError(null);
                         userPwdVaild = true;
                     }
                 }
@@ -315,16 +326,16 @@ public class SignInFragment extends Fragment {
 
             case "rePwd":
                 if (userRePassword.getText().toString().equals("")) {
-                    userRePassword.setError("請再次輸入密碼");
+                    repasswordLayout.setError("請再次輸入密碼");
                     userRePwdVaild = false;
                 } else {
                     String userPasswordString = userPassword.getText().toString();
                     String userRePasswordString = userRePassword.getText().toString();
                     if (userPasswordString.equals(userRePasswordString)) {
-                        userRePassword.setError("正確", doneIcon);
+                        repasswordLayout.setError(null);
                         userRePwdVaild = true;
                     } else {
-                        userRePassword.setError("密碼不一致");
+                        repasswordLayout.setError("密碼不一致");
                         userRePwdVaild = false;
                     }
                 }

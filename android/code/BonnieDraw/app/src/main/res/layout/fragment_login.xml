@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context="com.sctw.bonniedraw.fragment.LoginFragment">
+
+    <ImageView
+        android:id="@+id/logoImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/title_bar_img_logo" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/emailLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/logoImg"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputUserEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="帳號(E-mail)"
+            android:inputType="textEmailAddress" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/emailLayout"
+        android:layout_alignStart="@+id/emailLayout"
+        android:layout_below="@+id/emailLayout"
+        app:counterEnabled="true"
+        app:counterMaxLength="15"
+        app:passwordToggleEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputUserPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="使用者密碼"
+            android:inputType="textPassword"
+            android:maxLength="15"
+            app:passwordToggleTint="@color/colorPrimaryDark"
+            app:passwordToggleTintMode="multiply" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/forgetPasswordBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignEnd="@+id/passwordLayout"
+        android:layout_below="@+id/passwordLayout"
+        android:background="@color/Transparent"
+        android:text="忘記密碼?"
+        android:textColor="@color/Brown"
+        android:textColorLink="@color/Brown" />
+
+    <Button
+        android:id="@+id/emailLoginBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/forgetPasswordBtn"
+        android:layout_alignStart="@+id/passwordLayout"
+        android:layout_below="@+id/forgetPasswordBtn"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_icon_email"
+        android:text="登入"
+        android:textColor="@color/White" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emailLoginBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:text="或" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fbLoginBtnGone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/fbLoginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/emailLoginBtn"
+        android:layout_alignStart="@+id/emailLoginBtn"
+        android:layout_below="@+id/textView6"
+        android:background="@drawable/login_icon_fb"
+        android:text="Facebook"
+        android:textAllCaps="false"
+        android:textColor="@color/White" />
+
+    <Button
+        android:id="@+id/twitterLoginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/emailLoginBtn"
+        android:layout_alignStart="@+id/emailLoginBtn"
+        android:layout_below="@+id/fbLoginBtn"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/login_icon_twitter"
+        android:text="Twitter"
+        android:textAllCaps="false"
+        android:textColor="@color/White" />
+
+
+    <Button
+        android:id="@+id/googlePlusLoginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/emailLoginBtn"
+        android:layout_alignStart="@+id/emailLoginBtn"
+        android:layout_below="@+id/twitterLoginBtn"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/login_icon_googleplus"
+        android:text="Google+"
+        android:textAllCaps="false"
+        android:textColor="@color/White" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/LightGrey"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="您還沒有帳號? " />
+
+        <TextView
+            android:id="@+id/signinButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="註冊"
+            android:textColor="@color/Blue" />
+    </LinearLayout>
+
+</RelativeLayout>
