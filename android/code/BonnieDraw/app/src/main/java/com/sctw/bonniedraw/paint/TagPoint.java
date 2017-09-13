@@ -2,6 +2,8 @@ package com.sctw.bonniedraw.paint;
 
 public class TagPoint {
 
+
+
     static int tagCode = 0xA101;
     int iPosX = 0;
     int iPosY = 0;

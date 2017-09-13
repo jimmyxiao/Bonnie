@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -25,9 +28,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.fragment.SignInFragment;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 
 import org.json.JSONException;
@@ -39,49 +42,66 @@ import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
-    private Button signinButton;
-    private LinearLayout emailLoginLayout;
-    private LoginButton fbLoginBtn;
-    private SignInButton googlePlusLoginBtn;
+    public RelativeLayout loginLayout;
+    private TextView signinButton;
+    private Button emailLoginBtn;
+    private Button fbLoginBtn;
+    private Button twitterLoginBtn;
+    private LoginButton fbLoginBtnGone;
+    private Button googlePlusLoginBtn;
     private CallbackManager callbackManager;
     private SharedPreferences prefs;
     private AccessToken accessToken;
     private URL profilePicUrl;
     private GoogleApiClient mGoogleApiClient;
+    private FragmentManager fragmentManager;
+    private Button forgetPasswordBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        signinButton = (Button) findViewById(R.id.signinButton);
+        loginLayout = (RelativeLayout) findViewById(R.id.login_layout);
+        emailLoginBtn = (Button) findViewById(R.id.emailLoginBtn);
+        emailLoginBtn.setOnClickListener(emailLogin);
+        signinButton = (TextView) findViewById(R.id.signinButton);
         signinButton.setOnClickListener(signIn);
-        emailLoginLayout = (LinearLayout) findViewById(R.id.emailLayout);
-        emailLoginLayout.setOnClickListener(emailLogin);
-        fbLoginBtn = (LoginButton) findViewById(R.id.fbLoginBtn);
-        fbLoginBtn.setReadPermissions(Arrays.asList("public_profile", "email"));
-        googlePlusLoginBtn = (SignInButton) findViewById(R.id.googlePlusloginBtn);
-        googlePlusLoginBtn.setOnClickListener(googlePlusLogin);
+        fbLoginBtn = (Button) findViewById(R.id.fbLoginBtn);
+        fbLoginBtnGone = (LoginButton) findViewById(R.id.fbLoginBtnGone);
+        fbLoginBtnGone.setReadPermissions(Arrays.asList("public_profile", "email"));
         callbackManager = CallbackManager.Factory.create();
+        fbLoginBtn.setOnClickListener(facebookLogin);
+        twitterLoginBtn = (Button) findViewById(R.id.twitterLoginBtn);
+        twitterLoginBtn.setOnClickListener(twitterLogin);
+        googlePlusLoginBtn = (Button) findViewById(R.id.googlePlusLoginBtn);
+        googlePlusLoginBtn.setOnClickListener(googlePlusLogin);
         prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
+        fragmentManager = getSupportFragmentManager();
+        forgetPasswordBtn = (Button) findViewById(R.id.forgetPasswordBtn);
+        forgetPasswordBtn.setOnClickListener(forgetPwd);
         checkLoginInfo(prefs);
+        facebookResult();
         googlePlusResult();
     }
-
-    private View.OnClickListener facebookLogin = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-        }
-    };
 
     private View.OnClickListener emailLogin = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Toast.makeText(LoginActivity.this, "還不能用", Toast.LENGTH_SHORT).show();
         }
     };
 
-    private View.OnClickListener signIn = new View.OnClickListener() {
+    private View.OnClickListener facebookLogin = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            fbLoginBtnGone.performClick();
+        }
+    };
+
+    private View.OnClickListener twitterLogin = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(LoginActivity.this, "還不能用", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -90,6 +110,23 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, RC_SIGN_IN);
+        }
+    };
+    private View.OnClickListener signIn = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.main_login_layout, new SignInFragment());
+            ft.addToBackStack(null);
+            loginLayout.setVisibility(View.INVISIBLE);
+            ft.commit();
+        }
+    };
+
+    private View.OnClickListener forgetPwd = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
         }
     };
 
@@ -126,12 +163,13 @@ public class LoginActivity extends AppCompatActivity {
                                 try {
                                     profilePicUrl = new URL(object.getJSONObject("picture").getJSONObject("data").getString("url"));
                                     prefs.edit()
-                                            .putString(GlobalVariable.userPlatformStr, "1")
+                                            .putString(GlobalVariable.userPlatformStr, "2")
                                             .putString(GlobalVariable.userTokenStr, accessToken.toString())
                                             .putString(GlobalVariable.userNameStr, object.getString("name"))
                                             .putString(GlobalVariable.userEmailStr, object.getString("email"))
                                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
                                             .apply();
+                                    Log.d("TEST", "LOGIN STATE");
                                     transferMainPage();
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
@@ -169,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     profilePicUrl = new URL(acct.getPhotoUrl().toString());
                     prefs.edit()
-                            .putString(GlobalVariable.userPlatformStr, "2")
+                            .putString(GlobalVariable.userPlatformStr, "3")
                             .putString(GlobalVariable.userTokenStr, acct.getIdToken())
                             .putString(GlobalVariable.userNameStr, acct.getDisplayName())
                             .putString(GlobalVariable.userEmailStr, acct.getEmail())
@@ -197,5 +235,41 @@ public class LoginActivity extends AppCompatActivity {
         Intent it = new Intent();
         it.setClass(this, MainActivity.class);
         startActivity(it);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+            loginLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

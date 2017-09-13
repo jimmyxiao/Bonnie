@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#0099cc"
     android:orientation="vertical"
+    android:id="@+id/main_paint_layout"
     tools:context="com.sctw.bonniedraw.paint.PaintActivity">
 
     <android.support.constraint.ConstraintLayout

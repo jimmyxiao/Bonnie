@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_actitivy_layout"
+    tools:context="com.sctw.bonniedraw.activity.LoginActivity">
+
+    <TextView
+        android:id="@+id/singleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:text="BonnieDraw"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/inputUserPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/singleText"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp"
+        android:hint="手機號碼"
+        android:inputType="phone"
+        android:maxLength="10"
+        android:textColorLink="@color/Grey" />
+
+    <EditText
+        android:id="@+id/inputUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/inputUserPhone"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="15dp"
+        android:hint="全名"
+        android:inputType="textPersonName"
+        android:textColorLink="@color/Grey" />
+
+    <EditText
+        android:id="@+id/inputUserEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/inputUserName"
+        android:layout_below="@+id/inputUserName"
+        android:layout_marginTop="15dp"
+        android:hint="帳號(E-mail)"
+        android:inputType="textEmailAddress"
+        android:textColorLink="@color/Grey"
+        android:layout_alignEnd="@+id/inputUserName" />
+
+    <EditText
+        android:id="@+id/inputUserPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputUserEmail"
+        android:layout_marginTop="15dp"
+        android:hint="使用者密碼"
+        android:inputType="textPassword"
+        android:textColorLink="@color/Grey"
+        android:layout_alignEnd="@+id/inputUserEmail"
+        android:layout_alignStart="@+id/inputUserEmail" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/inputUserPassword"
+        android:layout_alignStart="@+id/inputUserPassword"
+        android:layout_below="@+id/inputUserPassword"
+        android:text="格式：需各一個大寫小寫符號與特殊字元跟數字"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+
+    <EditText
+        android:id="@+id/inputUserRePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/inputUserPassword"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="20dp"
+        android:hint="重新確認密碼"
+        android:inputType="textPassword"
+        android:textColorLink="@color/Grey" />
+
+    <Button
+        android:id="@+id/signInBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/inputUserRePassword"
+        android:layout_alignStart="@+id/inputUserRePassword"
+        android:layout_below="@+id/inputUserRePassword"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_icon_email"
+        android:text="註冊"
+        android:textColor="@color/White" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signInBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:text="或"
+        android:id="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/has_link_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="繼續使用XXX帳號登入"
+        android:textColorLink="@color/Brown"
+        android:layout_below="@+id/textView8"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/LightGrey"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="已經有帳號? " />
+
+        <TextView
+            android:id="@+id/signupButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="登入"
+            android:textColor="@color/Blue" />
+    </LinearLayout>
+
+</RelativeLayout>
