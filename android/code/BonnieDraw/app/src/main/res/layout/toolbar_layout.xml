@@ -10,13 +10,21 @@
     android:fitsSystemWindows="true"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <TextView
-        android:id="@+id/toolbar_title"
+    <ImageView
+        android:id="@+id/toolbar_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bonnie Draw"
         android:layout_gravity="center"
-        android:textSize="36sp"
-        android:textColor="@color/White"
-        android:fontFamily="sans-serif"/>
+        app:srcCompat="@drawable/title_bar_img_logo" />
+
+    <ImageButton
+        android:id="@+id/toolbar_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="30dp"
+        android:background="@color/Transparent"
+        app:srcCompat="@drawable/title_bar_ic_search" />
+
+
 </android.support.v7.widget.Toolbar>

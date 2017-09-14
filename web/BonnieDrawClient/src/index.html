@@ -38,11 +38,18 @@
 		<script src="modules/login/service/loginService.js"></script>
 		<script src="modules/login/controller/loginController.js"></script>
 		<script src="modules/login/controller/registerController.js"></script>
-		<script src="modules/home/controller/homeController.js"></script>		 
+		<script src="modules/home/controller/homeController.js"></script>
+		<script src="modules/share/controller/aboutController.js"></script>	
+		<script src="modules/user/controller/myfileController.js"></script>	
+		<script src="modules/user/controller/trackListController.js"></script>
+		<script src="modules/works/controller/categoryListingController.js"></script>		 
+		<script src="modules/works/controller/columnDetailController.js"></script>
+		<script src="modules/works/controller/columnController.js"></script>
+		<script src="modules/works/controller/hotListingController.js"></script>	
 	</head>
 	<body>
-		<div ui-view="headerMenu"></div>
-		<div ui-view="layout"></div>
+		<div ui-view="loader"></div>
+		<div ui-view="layout" autoscroll="true"></div>
 	</body>
 
 </html>

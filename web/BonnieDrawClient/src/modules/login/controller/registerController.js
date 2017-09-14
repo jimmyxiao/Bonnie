@@ -6,7 +6,8 @@ app.factory('registerService', function(baseHttp) {
     }
 })
 .controller('registerController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, registerService) {
-    	$scope.register = {
+    	$rootScope.title = '註冊 | BonnieDRAW';
+        $scope.register = {
     		phoneNo:null, userName:null, userCode:null, userPw:null, userType:1 
     	}
         $scope.callRegister = function (valid) {
