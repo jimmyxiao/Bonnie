@@ -3,6 +3,7 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">#5482ff</color>
+    <color name="colorPaintLayout">#f26f45</color>
 
     <color name="Black">#000000</color>
     <color name="Red">#F44336</color>

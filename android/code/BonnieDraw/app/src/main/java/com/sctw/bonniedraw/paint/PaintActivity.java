@@ -35,7 +35,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -103,7 +102,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mPaint.setStrokeWidth(12);
 
         myView = new MyView(this);
-        resizeWindow();
+        getDisplay();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String strprefs = prefs.getString(KEY_MY_PREFERENCE, "1");
         miAutoPlayIntervalTime = Integer.valueOf(strprefs) * 100;
@@ -196,12 +195,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     //強制正方形
-    private void resizeWindow() {
+    public void getDisplay() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         displayWidth = size.x;
-        myView.setLayoutParams(new LinearLayout.LayoutParams(displayWidth, displayWidth));
+        //myView.setLayoutParams(new LinearLayout.LayoutParams(displayWidth, displayWidth));
     }
 
     //
@@ -238,12 +237,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
         public void simpleLineDraw() {
             final float x = customPaintView.getWidth() / 8f;
-            final float y = customPaintView.getHeight() / 1.5f;
+            final float y = customPaintView.getHeight() / 2f;
             pCanvas.drawColor(Color.TRANSPARENT);
             pPath = new Path();
             pPath.moveTo(x, y);
-            pPath.cubicTo(x, y, x + 150, y - 100, x + 300, y - 25);
-            pPath.cubicTo(x + 300, y - 25, x + 450, y + 50, x + 600, y - 50);
+            pPath.cubicTo(x, y, x + 75, y - 40, x + 150, y);
+            pPath.cubicTo(x + 150, y, x + 225, y + 40, x + 300, y-10);
             invalidate();
         }
     }
@@ -263,7 +262,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             boolean brun = true;
             //提示關閉撥放
             if (miPointCount <= 1) {
-                btnNext.setText("關閉播放");
+                btnNext.setText("OFF");
             }
 
             if (miPointCount > 0) {
@@ -574,11 +573,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     public void setOnclick() {
 
-        findViewById(R.id.id_btn_zoom).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
 
         //撥放器
         btnAutoPlay.setOnClickListener(new Button.OnClickListener() {
@@ -586,7 +580,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void onClick(View v) {
                 mViewFreePaint.removeAllViews();
                 myView = new MyView(PaintActivity.this);
-                resizeWindow();
+                //resizeWindow();
                 mViewFreePaint.addView(myView);
                 miPointCount = mTagPoint_a_record.size();
                 miPointCurrent = 0;
@@ -601,7 +595,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void onClick(View v) {
                 mViewFreePaint.removeAllViews();
                 myView = new MyView(PaintActivity.this);
-                resizeWindow();
+                //resizeWindow();
                 mViewFreePaint.addView(myView);
                 Log.d("point", mTagPoint_a_record.toString());
                 miPointCount = mTagPoint_a_record.size();
@@ -667,7 +661,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 miPointCurrent = 0;
                 mViewFreePaint.removeAllViews();
                 myView = new MyView(PaintActivity.this);
-                resizeWindow();
+                //resizeWindow();
                 mViewFreePaint.addView(myView);
                 mTagPoint_a_record = new ArrayList<>();
                 undoTagPoint_a_record.clear();
