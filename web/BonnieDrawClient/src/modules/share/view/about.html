@@ -1,80 +1,72 @@
 <div id="wrapper">
 	<div id="main-content">
 		<div ui-view="headerMenu"></div>
-		<!-- 3 Column video -->
-		<div id="secondary-section" class="vids-3-column">
+		<!-- Inner page Bar -->
+		<div id="page-bar">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-9 col-sm-8">
-						<div class="st-3-column secondary-vid">
-							<div class="vid-heading overflow-hidden">
-								<span class="wow fadeInUp" data-wow-duration="0.8s">畫作類別</span>
-								<div class="hding-bottm-line wow zoomIn" data-wow-duration="0.8s"></div>
-							</div>
-							<div class="row">
-								<div class="vid-container">
-									<div class="col-md-4 col-sm-6" ng-repeat="data in mainSectionArr track by $index">
-										<div class="latest-vid-img-container">
-											<div class="vid-img">
-												<img class="img-responsive" ng-src="{{data.img}}" alt="video image">
-												<a href="video-detail.html" class="play-icon play-small-icon">
-							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
-							                	</a>
-												<div class="overlay-div"></div>
-											</div>
-											<div class="vid-text">
-												<section class="_hmd6j _8oo9w">
-													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled>
-														<i class="material-icons font-icon">{{data.text.title}}</i>
-													</a>
-													<span>
-														<i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{data.text.like}}
-													</span>
-												</section>
-												<p><span>By</span><a href="#">{{data.text.author}}</a></p>
-												<h1><a href="column-detail.html">{{data.text.description}}</a></h1>
-											</div>
+					<div class="col-md-9 col-sm-8 col-xs-12">
+						<div class="page-title">
+							<h1 class="text-uppercase">關於BonnieDRW</h1>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-4 col-xs-12 text-right">
+						<ul class="breadcrumb">
+						    <li>
+						    	<a href="#/index"><i class="fi ion-ios-home"></i>Home</a>
+						    </li>
+						    <li class="active">關於BonnieDRW</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Inner page Bar -->
+
+		<!-- 2 Column Video -->
+		<div id="about-us">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9 col-sm-12">
+						<div class="row auto-clear">
+							<div class="vid-container">
+								<div class="col-md-6 col-sm-6">
+									<div class="about-text">
+								    	<h1>Vestibulum quis leo fringilla, congue ex eget</h1>
+								    	<p>
+								    		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in lectus vitae tortor aliquet elementum non gravida enim. Cras sed pulvinar est. Quisque et sem fermentum, scelerisque erat id, vehicula felis.orem ipsum dolor sit amet, consectetur adipiscing elit. Donec in lectus vitae tortor aliquet elementum non gravida enim. Cras sed pulvinar est. Quisque et sem fermentum, scelerisque erat id, vehicula felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in lectus vitae tortor aliquet elementum non gravida enim. Cras sed pulvinar est. Quisque et sem fermentum, scelerisque erat id, vehicula felis.  
+								    	</p>
+								    	<p>
+								    		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in lectus vitae tortor aliquet elementum non gravida enim. Cras sed pulvinar est. Quisque et sem fermentum, scelerisque erat id, vehicula felis.orem ipsum dolor sit amet.
+								    	</p>
+									</div>								
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="about-img">
+										<img class="img-responsive" src="assets/images/about-us-img.jpg" alt="video image">
+									</div>
+								</div>
+								<div class="col-md-12 col-sm-12">
+									<div class="about-text about-det">
+								   		<h1>Vestibulum quis leo fringilla, congue ex eget</h1>
+								   		<p>
+								    		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in lectus vitae tortor aliquet elementum non gravida enim. Cras sed pulvinar est. Quisque et sem fermentum, scelerisque erat id, vehicula felis.orem ipsum dolor sit amet, consectetur adipiscing elit. Donec in lectus vitae tortor aliquet elementum non gravida enim. Cras sed pulvinar est. Quisque et sem fermentum, scelerisque erat id, vehicula felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in lectus vitae tortor aliquet elementum non gravida enim. Cras sed pulvinar est. Quisque et sem fermentum, scelerisque erat id, vehicula felis.  
+								    	</p>								   
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="about-video">
+										<div class="vid-player">
+											<div class="embed-responsive embed-responsive-16by9">
+				                            	<iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe>
+				                        	</div>
 										</div>
 									</div>
 								</div>
-
-								<!--  pagination top -->	
-								<div class="pagination-container text-center">
-									<ul class ="pagination">
-									   	<li>
-									   		<a href = "#">&laquo;</a>
-									   	</li>
-									   	<li class="active">
-									   		<a href = "#">1</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">2</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">3</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">4</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">5</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">&raquo;</a>
-									   	</li>
-									</ul>
-								</div>
-								<!-- pagination end -->
 							</div>
 						</div>
 					</div>
-
-					<div class="col-md-3 col-sm-4">
+					<div class="col-md-3 col-sm-12">
 						<div class="sidebar">
 							<div class="sidebar-vid most-liked">
 								<h1 class="sidebar-heading">你喜歡的</h1>

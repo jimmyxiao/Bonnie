@@ -1,21 +1,6 @@
-<!-- Loader -->
-<div id="loader-container">
-	<div id="loader">
-	  <ul>
-	    <li></li>
-	    <li></li>
-	    <li></li>
-	    <li></li>
-	    <li></li>
-	    <li></li>
-	  </ul>
-	</div>
-</div>
-<!-- Loader -->
-
 <div id="wrapper">
 	<div id="main-content">
-		<!-- <ng-include src="'modules/share/view/header-menu.html'"></ng-include> -->
+		<div ui-view="headerMenu"></div>
 
 		<!-- Main Section -->
 		<div id="main-section">
@@ -27,7 +12,7 @@
 			              		<a class="_eszkz _l9yih " href="#" role="button" aria-disabled><i class="material-icons author-font-icon">favorite_border</i></a>
 								<span style="float:left;"><i class="fa fa-thumbs-o-up author-font-icon" aria-hidden="true"></i>57689</span>
 			            	</div>
-			            	<a href="column-detail.html">
+			            	<a href="#/column-detail">
 			                	<img class="img-responsive hidden-sm hidden-xs" src="assets/images/main-vid-image-md-1.jpg" alt="video_thumb">
 			                	<img class="img-responsive hidden-md hidden-lg" src="assets/images/main-vid-image-smmd-1.jpg" alt="video_thumb">
 			                	<span class="play-icon">
@@ -38,7 +23,7 @@
 				                <span>
 				                    By <a href="#" title="Posts by admin" rel="author">Admin</a>
 				                </span>
-				                <a href="column-detail.html">Gladiators Fighting</a>
+				                <a href="#/column-detail">Gladiators Fighting</a>
 			            	</h3> 
 			            	<div class="bottom-shadow"></div>
 			            	<div class="overlay-div"></div>		
@@ -51,7 +36,7 @@
 	                  			<a class="_eszkz _l9yih " href="#" role="button" aria-disabled><i class="material-icons author-font-icon">favorite_border</i></a>
 								<span style="float:left;"><i class="fa fa-thumbs-o-up author-font-icon" aria-hidden="true"></i>{{data.like}}</span>
 	                		</div>
-	                  		<a href="column-detail.html">
+	                  		<a href="#/column-detail">
 	                    		<img class="img-responsive hidden-xs hidden-sm" ng-src="{{data.imgMds}}" alt="video_thumb">
 	                    		<img class="img-responsive hidden-md hidden-lg" src="{{data.imgSm}}" alt="video_thumb">
 	                    		<span class="play-icon play-small-icon">
@@ -62,7 +47,7 @@
 		                    	<span>
 		                    		By <a href="#" title="Posts by admin" rel="author">{{data.author}}</a>
 		                    	</span>
-			                    <a href="column-detail.html">{{data.description}}</a>
+			                    <a href="#/column-detail">{{data.description}}</a>
 	                  		</h3> 
 	                  		<div class="bottom-shadow"></div>
 	                  		<div class="overlay-div"></div>
@@ -89,7 +74,7 @@
 										<div class="latest-vid-img-container">		
 											<div class="vid-img">
 												<img class="img-responsive" ng-src="{{newUpload.img}}" alt="video image">
-												<a href="column-detail.html" class="play-icon play-small-icon">
+												<a href="#/column-detail" class="play-icon play-small-icon">
 							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">            	
 							                	</a>
 												<div class="overlay-div"></div>
@@ -100,7 +85,7 @@
 													<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{newUpload.text.like}}</span>
 												</section>
 												<p><span>By</span> <a href="#">{{newUpload.text.author}}</a></p>
-												<h1><a href="column-detail.html">{{newUpload.text.description}}</a></h1>
+												<h1><a href="#/column-detail">{{newUpload.text.description}}</a></h1>
 											</div>
 										</div>
 									</div>
@@ -119,7 +104,7 @@
 										<div class="latest-vid-img-container">		
 											<div class="vid-img">
 												<img class="img-responsive" ng-src="{{popularCreation.img}}" alt="video image">
-												<a href="column-detail.html" class="play-icon play-small-icon">
+												<a href="#/column-detail" class="play-icon play-small-icon">
 							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">
 							                	</a>
 												<div class="overlay-div"></div>
@@ -130,7 +115,7 @@
 													<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{popularCreation.text.like}}</span>
 												</section>
 												<p><span>By</span> <a href="#">{{popularCreation.text.author}}</a></p>
-												<h1><a href="column-detail.html">{{popularCreation.text.description}}</a></h1>
+												<h1><a href="#/column-detail">{{popularCreation.text.description}}</a></h1>
 											</div>
 										</div>
 									</div>				
@@ -148,7 +133,7 @@
 										<img ng-src="{{data.img}}" alt="video">
 									</div>
 									<div class="media-body">
-										<h1><a href="column-detail.html">{{data.title}}</a></h1>
+										<h1><a href="#/column-detail">{{data.title}}</a></h1>
 										<p>
 											<span><i class="fa fa-comment"></i>{{data.comment}}</span>
 											<span><i class="fa fa-eye"></i>{{data.view}}</span>
@@ -164,7 +149,7 @@
 										<img class="img-responsive" ng-src="{{data.img}}" alt="video">
 									</div>
 									<div class="most-viewd-text">
-										<h1><a href="column-detail.html">{{data.title}}</a></h1>
+										<h1><a href="#/column-detail">{{data.title}}</a></h1>
 										<p>
 											<span><i class="fa fa-comment"></i>{{data.comment}}</span>
 											<span><i class="fa fa-eye"></i>{{data.view}}</span>
@@ -186,6 +171,6 @@
 				</div>
 			</div>
 		</div>
-		<ng-include src="'modules/share/view/footer.html'"></ng-include>
+		<div ui-view="footer"></div>
 	</div>
 </div>

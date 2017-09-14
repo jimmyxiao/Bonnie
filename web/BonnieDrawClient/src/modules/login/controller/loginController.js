@@ -1,4 +1,5 @@
 app.controller('loginController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, AuthenticationService) {
+    	$rootScope.title = '登入 | BonnieDRAW';
     	$scope.loginUser = {
     		uc:null, up:null, ut:1, dt:3, fn:1
     	}
