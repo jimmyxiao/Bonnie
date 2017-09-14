@@ -9,13 +9,14 @@
 import UIKit
 
 let DEBUG = Bundle.main.infoDictionary?["Configuration"] as? String == "Debug"
+let LENGTH_BYTE_SIZE = 2
 
 enum Function: UInt16 {
     case draw = 0xa101
 }
 
 enum Action: UInt8 {
-    case down
+    case down = 1
     case up
     case move
 }

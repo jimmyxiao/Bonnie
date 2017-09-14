@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -105,11 +106,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PRt-0F-oH2" userLabel="MainImageView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DNK-oG-evY" userLabel="TempImageView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PRt-0F-oH2" userLabel="MainImageView" customClass="CanvasView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="146" width="375" height="375"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="PRt-0F-oH2" secondAttribute="height" multiplier="1:1" id="O3K-nW-DWp"/>
+                                </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WlM-Ju-J9X">
                                 <rect key="frame" x="20" y="28" width="39" height="30"/>
@@ -121,32 +123,26 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIS-vG-omH">
-                                <rect key="frame" x="319" y="28" width="40" height="30"/>
-                                <state key="normal" title="Share"/>
+                                <rect key="frame" x="329" y="28" width="30" height="30"/>
+                                <state key="normal" title="Play"/>
                                 <connections>
-                                    <action selector="share:" destination="uhE-RV-zqK" eventType="touchUpInside" id="Ok2-LF-CWC"/>
+                                    <action selector="play:" destination="uhE-RV-zqK" eventType="touchUpInside" id="WHN-5S-u5z"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="PRt-0F-oH2" secondAttribute="trailing" id="3BS-wW-bnd"/>
                             <constraint firstItem="WlM-Ju-J9X" firstAttribute="top" secondItem="ps0-w4-1Dh" secondAttribute="bottom" constant="8" symbolic="YES" id="4Su-ke-0Tn"/>
-                            <constraint firstItem="DNK-oG-evY" firstAttribute="leading" secondItem="s8T-WP-DKJ" secondAttribute="leading" id="6uB-6u-gRi"/>
+                            <constraint firstAttribute="trailing" secondItem="PRt-0F-oH2" secondAttribute="trailing" id="4yo-xc-rSG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bIS-vG-omH" secondAttribute="trailing" id="CHr-7s-vnJ"/>
                             <constraint firstItem="WlM-Ju-J9X" firstAttribute="leading" secondItem="s8T-WP-DKJ" secondAttribute="leading" constant="20" symbolic="YES" id="IX2-EE-Wqu"/>
-                            <constraint firstItem="auI-UX-6T5" firstAttribute="top" secondItem="PRt-0F-oH2" secondAttribute="bottom" id="VOr-ce-bEu"/>
-                            <constraint firstItem="auI-UX-6T5" firstAttribute="top" secondItem="DNK-oG-evY" secondAttribute="bottom" id="g9Z-c1-zVH"/>
-                            <constraint firstAttribute="trailing" secondItem="DNK-oG-evY" secondAttribute="trailing" id="iLY-ug-ztJ"/>
-                            <constraint firstItem="DNK-oG-evY" firstAttribute="top" secondItem="s8T-WP-DKJ" secondAttribute="top" id="k8k-QC-7UY"/>
-                            <constraint firstItem="PRt-0F-oH2" firstAttribute="top" secondItem="s8T-WP-DKJ" secondAttribute="top" id="lPr-Ra-4vl"/>
-                            <constraint firstItem="PRt-0F-oH2" firstAttribute="leading" secondItem="s8T-WP-DKJ" secondAttribute="leading" id="qIg-mv-9oY"/>
+                            <constraint firstItem="PRt-0F-oH2" firstAttribute="leading" secondItem="s8T-WP-DKJ" secondAttribute="leading" id="SaO-2d-wrA"/>
+                            <constraint firstItem="PRt-0F-oH2" firstAttribute="centerY" secondItem="s8T-WP-DKJ" secondAttribute="centerY" id="nvv-gF-F6m"/>
                             <constraint firstItem="bIS-vG-omH" firstAttribute="top" secondItem="ps0-w4-1Dh" secondAttribute="bottom" constant="8" id="w4p-RI-vtN"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="mainImageView" destination="PRt-0F-oH2" id="cMy-eb-15D"/>
-                        <outlet property="tempImageView" destination="DNK-oG-evY" id="oHa-28-Lz3"/>
+                        <outlet property="canvas" destination="PRt-0F-oH2" id="BY1-Cu-Wz0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qhx-cz-5i5" sceneMemberID="firstResponder"/>
