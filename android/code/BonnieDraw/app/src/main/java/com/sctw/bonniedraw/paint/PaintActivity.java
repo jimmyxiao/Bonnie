@@ -62,9 +62,6 @@ import java.util.List;
  */
 public class PaintActivity extends AppCompatActivity implements OnColorChangedListener {
     public static final String KEY_MY_PREFERENCE = "autoplay_intervaltime";
-    private static final int EVENT_COLOR_CHANGED = 0xff;
-    private static final int EVENT_PAINT_CHANGED = 0xfe;
-    private static final int EVENT_SIZE_CHANGED = 0xfd;
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
     private Boolean replayMode = false;
     private MyView myView;
@@ -79,10 +76,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private Handler handler_Timer_Play = new Handler();
     private static int miPointCount = 0, miPointCurrent = 0;
     private static int miAutoPlayIntervalTime = 10;
-    private boolean mbAutoPlay = false, mbPainStarted = false;
+    private boolean mbAutoPlay = false;
     private static int miColor_Paint = 0xFF000000;
-    boolean checkErase, checkCover = false;
     private boolean playState = false;
+    private boolean playing = false;
     private FrameLayout customPaintView;
     private PaintPreview mPaintPreview;
     private Bitmap pBitmap;
@@ -141,7 +138,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 System.out.println(getIntent().getExtras().getString("file"));
                 myView.loadBitmap(bMap); // load bitmap
                 fname = getIntent().getExtras().getString("name");
-                replayMode=true;
+                replayMode = true;
             }
         }
 
@@ -154,7 +151,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         checkRecord();
     }
 
-    private void previewPaint(){
+    private void previewPaint() {
         customPaintView.post(new Runnable() {
             @Override
             public void run() {
@@ -271,28 +268,27 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
             if (miPointCount > 0) {
                 TagPoint tagpoint = mTagPoint_a_record.get(miPointCurrent);
-                switch (tagpoint.getiAction()) {
+                switch (tagpoint.getiAction()-1) {
                     case MotionEvent.ACTION_DOWN:
-                        myView.touch_start(PxDpConvert.formatToDisplay(tagpoint.getiPosX(),displayWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(),displayWidth));
+                        playing=true;
+                        if (tagpoint.getiColor() != 0) {
+                            mPaint.setColor(tagpoint.getiColor());
+                        }
+                        if (tagpoint.getiSize() != 0) {
+                            mPaint.setStrokeWidth(PxDpConvert.formatToDisplay(tagpoint.getiSize(), displayWidth));
+                        }
+                        myView.touch_start(PxDpConvert.formatToDisplay(tagpoint.getiPosX(), displayWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), displayWidth));
                         myView.invalidate();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        myView.touch_move(PxDpConvert.formatToDisplay(tagpoint.getiPosX(),displayWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(),displayWidth));
+                        myView.touch_move(PxDpConvert.formatToDisplay(tagpoint.getiPosX(), displayWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), displayWidth));
                         myView.invalidate();
                         break;
                     case MotionEvent.ACTION_UP:
+                        playing=false;
                         brun = false;
                         myView.touch_up();
                         myView.invalidate();
-                        break;
-                    case EVENT_PAINT_CHANGED:
-                        mPaint.setColor(tagpoint.getiColor());
-                        mPaint.setStrokeWidth(PxDpConvert.formatToDisplay(tagpoint.getiSize(),displayWidth));
-                    case EVENT_COLOR_CHANGED:
-                        mPaint.setColor(tagpoint.getiColor());
-                        break;
-                    case EVENT_SIZE_CHANGED:
-                        mPaint.setStrokeWidth(PxDpConvert.formatToDisplay(tagpoint.getiSize(),displayWidth));
                         break;
                 }
                 miPointCount--;
@@ -431,26 +427,23 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             float x = event.getX();
             float y = event.getY();
             TagPoint tagpoint;
-            if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-                if (!mbPainStarted) {
-                    TagPoint paint_tagpoint = new TagPoint();
-                    paint_tagpoint.setiPosX(PxDpConvert.displayToFormat(x,displayWidth));
-                    paint_tagpoint.setiPosY(PxDpConvert.displayToFormat(y,displayWidth));
-                    paint_tagpoint.setiAction(EVENT_PAINT_CHANGED);
-                    paint_tagpoint.setiSize(PxDpConvert.displayToFormat(mPaint.getStrokeWidth(),displayWidth));
-                    paint_tagpoint.setiColor(mPaint.getColor());
-                    mTagPoint_a_record.add(paint_tagpoint);
-                    mbPainStarted = true;
-                }
-                mbPainStarted = true;
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                TagPoint paint_tagpoint = new TagPoint();
+                paint_tagpoint.setiPosX(PxDpConvert.displayToFormat(x, displayWidth));
+                paint_tagpoint.setiPosY(PxDpConvert.displayToFormat(y, displayWidth));
+                paint_tagpoint.setiAction(MotionEvent.ACTION_DOWN+1);
+                paint_tagpoint.setiSize(PxDpConvert.displayToFormat(mPaint.getStrokeWidth(), displayWidth));
+                paint_tagpoint.setiColor(mPaint.getColor());
+                mTagPoint_a_record.add(paint_tagpoint);
+            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 tagpoint = new TagPoint();
-                tagpoint.setiPosX(PxDpConvert.displayToFormat(x,displayWidth));
-                tagpoint.setiPosY(PxDpConvert.displayToFormat(y,displayWidth));
-                tagpoint.setiAction(event.getAction());
+                tagpoint.setiPosX(PxDpConvert.displayToFormat(x, displayWidth));
+                tagpoint.setiPosY(PxDpConvert.displayToFormat(y, displayWidth));
+                tagpoint.setiAction(event.getAction()+1);
                 mTagPoint_a_record.add(tagpoint);
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 tagpoint = new TagPoint();
-                tagpoint.setiAction(event.getAction());
+                tagpoint.setiAction(event.getAction()+1);
                 mTagPoint_a_record.add(tagpoint);
                 tempTagLength.add(mTagPoint_a_record.size());
             }
@@ -569,12 +562,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     public void colorChanged(int color) {
         mPaint.setColor(color);
-        TagPoint tagpoint = new TagPoint();
-        tagpoint.setiPosX(0);
-        tagpoint.setiPosY(0);
-        tagpoint.setiAction(EVENT_COLOR_CHANGED);
-        tagpoint.setiColor(mPaint.getColor());
-        mTagPoint_a_record.add(tagpoint);
         mPaintPreview.simpleLineDraw();
     }
 
@@ -616,6 +603,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 myView = new MyView(PaintActivity.this);
                 resizeWindow();
                 mViewFreePaint.addView(myView);
+                Log.d("point", mTagPoint_a_record.toString());
                 miPointCount = mTagPoint_a_record.size();
                 miPointCurrent = 0;
                 playStateBtn(0);
@@ -642,7 +630,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         btnPrevious.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (miPointCurrent > 0) {
+                if (playing) {
+                    Toast.makeText(PaintActivity.this, "請等畫完這一段再按", Toast.LENGTH_SHORT).show();
+                } else if (miPointCurrent > 0) {
                     playState = true;
                     btnNext.setText("下");
                     myView.onClickPrevious();
@@ -675,7 +665,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 playState = false;
                 miPointCount = 0;
                 miPointCurrent = 0;
-                mbPainStarted = false;
                 mViewFreePaint.removeAllViews();
                 myView = new MyView(PaintActivity.this);
                 resizeWindow();
@@ -716,12 +705,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                TagPoint tagpoint = new TagPoint();
-                tagpoint.setiPosX(0);
-                tagpoint.setiPosY(0);
-                tagpoint.setiAction(EVENT_SIZE_CHANGED);
-                tagpoint.setiSize(PxDpConvert.displayToFormat(mPaint.getStrokeWidth(),displayWidth));
-                mTagPoint_a_record.add(tagpoint);
             }
         });
     }
@@ -762,6 +745,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
     }
 
     @Override

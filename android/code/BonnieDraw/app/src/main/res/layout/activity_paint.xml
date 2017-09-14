@@ -1,11 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_paint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="@color/Orange"
     android:orientation="vertical"
-    android:id="@+id/main_paint_layout"
     tools:context="com.sctw.bonniedraw.paint.PaintActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -110,8 +110,9 @@
         android:id="@+id/paint_control_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:gravity="bottom"
-        android:layout_below="@id/view_freepain"
         android:orientation="vertical">
 
         <LinearLayout

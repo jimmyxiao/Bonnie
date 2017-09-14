@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -20,62 +21,109 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="8dp"
-                card_view:srcCompat="@drawable/ic_person_black_24dp" />
+                android:id="@+id/linearLayout">
 
-            <TextView
-                android:id="@+id/paint_control_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imageView"
-                android:layout_alignTop="@+id/imageView"
-                android:layout_toEndOf="@+id/imageView"
-                android:gravity="center"
-                android:text="用戶名稱"
-                android:textSize="14sp" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/paint_control_text"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:gravity="center_vertical"
+                    android:text="用戶名稱"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/home_number_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="No"/>
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/Transparent"
+                    card_view:srcCompat="@drawable/works_ic_more" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/card_imageview"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                card_view:srcCompat="@color/Amber"
-                android:layout_below="@+id/imageView"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:id="@+id/home_number_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/paint_control_text"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/paint_control_text"
-                android:layout_marginEnd="20dp"
-                android:gravity="center"
-                android:text="No" />
+                android:layout_height="240dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout"
+                card_view:srcCompat="@color/Teal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_imageview"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/linearLayout5">
 
                 <ImageButton
                     android:id="@+id/imageButton"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    card_view:srcCompat="@drawable/com_facebook_favicon_blue" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/Transparent"
+                    card_view:srcCompat="@drawable/work_ic_like" />
 
                 <ImageButton
                     android:id="@+id/imageButton2"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    card_view:srcCompat="@drawable/common_google_signin_btn_icon_light_normal" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/Transparent"
+                    card_view:srcCompat="@drawable/work_ic_message" />
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/Transparent"
+                    card_view:srcCompat="@drawable/work_ic_send" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="87人按讚" />
+
             </LinearLayout>
 
         </RelativeLayout>
