@@ -3,7 +3,7 @@ package com.sctw.bonniedraw.paintpicker;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.sctw.bonniedraw.R;
@@ -29,7 +29,7 @@ public class ColorPicker extends Dialog implements ColorsSelectedListener {
         setContentView(R.layout.color_picker);
 
         RecyclerView recyclerViewColors = (RecyclerView) findViewById(R.id.recyclerViewColors);
-        recyclerViewColors.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        LinearLayoutManager lm=new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         ColorsAdapter adapter = new ColorsAdapter(getContext().getResources().getIntArray(R.array.colors), this);
         recyclerViewColors.setAdapter(adapter);
 

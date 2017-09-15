@@ -2,28 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
         <item
-            android:id="@+id/menu_home"
+            android:id="@+id/ic_btn_home"
             android:icon="@drawable/bottom_bar_ic_home"
             android:title="Home" />
 
         <item
-            android:id="@+id/menu_hot"
+            android:id="@+id/ic_btn_like"
             android:icon="@drawable/bottom_bar_ic_like"
-            android:title="Hot" />
+            android:title="Like" />
 
         <item
-            android:id="@+id/menu_paint"
-            android:icon="@drawable/bottom_bar_ic_new"
-            android:title="Paint" />
+            android:title="NoUse" />
 
         <item
-            android:id="@+id/menu_library"
+            android:id="@+id/ic_btn_notice"
             android:icon="@drawable/bottom_bar_ic_notice"
-            android:title="Library" />
+            android:title="Notice" />
 
         <item
-            android:id="@+id/menu_profile"
+            android:id="@+id/ic_btn_user"
             android:icon="@drawable/bottom_bar_ic_user"
-            android:title="Description" />
+            android:title="User" />
 
 </menu>

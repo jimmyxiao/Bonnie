@@ -1,30 +1,32 @@
 package com.sctw.bonniedraw.activity;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.fragment.FollowFragment;
 import com.sctw.bonniedraw.fragment.HomeFragment;
-import com.sctw.bonniedraw.fragment.HotFragment;
+import com.sctw.bonniedraw.fragment.LikeFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
 import com.sctw.bonniedraw.paint.PaintActivity;
+import com.sctw.bonniedraw.utility.BottomNavigationViewEx;
 
 public class MainActivity extends AppCompatActivity {
-    private Toolbar toolbar;
-    private ImageButton toolbarSearch, icBtnPaint, icBtnHome, icBtnLike, icBtnNotice, icBtnUser;
+
+    private ImageButton icBtnPaint, icBtnHome, icBtnLike, icBtnNotice, icBtnUser;
+    private BottomNavigationViewEx mBottomNavigationViewEx;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -32,30 +34,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        toolbarSearch = (ImageButton) findViewById(R.id.toolbar_search);
-        setSupportActionBar(toolbar);
         icBtnPaint = (ImageButton) findViewById(R.id.ic_btn_paint);
-        icBtnHome = (ImageButton) findViewById(R.id.ic_btn_home);
-        icBtnLike = (ImageButton) findViewById(R.id.ic_btn_like);
-        icBtnNotice = (ImageButton) findViewById(R.id.ic_btn_notice);
-        icBtnUser = (ImageButton) findViewById(R.id.ic_btn_user);
+        mBottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.cotrol_panel_layout);
+        mBottomNavigationViewEx.enableShiftingMode(false);
+        mBottomNavigationViewEx.enableItemShiftingMode(false);
+        mBottomNavigationViewEx.setTextVisibility(false);
         fragmentManager = getSupportFragmentManager();
-        icBtnHome.setOnTouchListener(iconOnTouch);
-        icBtnLike.setOnTouchListener(iconOnTouch);
-        icBtnNotice.setOnTouchListener(iconOnTouch);
-        icBtnUser.setOnTouchListener(iconOnTouch);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_actitivy_layout, new HomeFragment());
-        fragmentTransaction.commit();
-
-        toolbarSearch.setOnClickListener(new View.OnClickListener() {
+        mBottomNavigationViewEx.getBottomNavigationItemView(2).setBackgroundColor(getResources().getColor(R.color.Transparent));
+        mBottomNavigationViewEx.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "搜尋", Toast.LENGTH_SHORT).show();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.ic_btn_home:
+                        changeFragment(new HomeFragment());
+                        return true;
+                    case R.id.ic_btn_like:
+                        changeFragment(new LikeFragment());
+                        return true;
+                    case R.id.ic_btn_notice:
+                        changeFragment(new FollowFragment());
+                        return true;
+                    case R.id.ic_btn_user:
+                        changeFragment(new ProfileFragment());
+                        return true;
+                    default:
+                        return false;
+                }
             }
         });
+
+
+
 
         icBtnPaint.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,47 +74,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(it);
             }
         });
+
+        mBottomNavigationViewEx.setCurrentItem(0);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
 
-    public View.OnTouchListener iconOnTouch = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            ImageButton view = (ImageButton) v;
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN: {
-                    view.getDrawable().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
-                    v.invalidate();
-                    break;
-                }
-                case MotionEvent.ACTION_UP:
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    switch (v.getId()) {
-                        case R.id.ic_btn_home:
-                            fragmentTransaction.replace(R.id.main_actitivy_layout, new HomeFragment());
-                            break;
-                        case R.id.ic_btn_like:
-                            fragmentTransaction.replace(R.id.main_actitivy_layout, new HotFragment());
-                            break;
-                        case R.id.ic_btn_notice:
-                            fragmentTransaction.replace(R.id.main_actitivy_layout, new FollowFragment());
-                            break;
-                        case R.id.ic_btn_user:
-                            fragmentTransaction.replace(R.id.main_actitivy_layout, new ProfileFragment());
-                            break;
-                    }
-                    fragmentTransaction.commit();
-                    // Your action here on button click
-                case MotionEvent.ACTION_CANCEL: {
-                    view.getDrawable().clearColorFilter();
-                    view.invalidate();
-                    break;
-                }
-            }
-            return true;
-        }
-    };
+    public void changeFragment(Fragment fragment) {
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_actitivy_layout, fragment);
+        fragmentTransaction.commit();
+    }
 
     @Override
     public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
@@ -114,7 +93,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (mBottomNavigationViewEx.getCurrentItem() != 0) {
+            mBottomNavigationViewEx.setCurrentItem(0);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

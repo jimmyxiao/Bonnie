@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +41,10 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
+    private Toolbar profileToolbar;
     private ImageView profilePhoto;
-    private TextView profileName;
-    private ImageButton logoutBotton;
+    private TextView profileUserName,profileUserId,profileWorks,profileUserFans,profileUserFollow;
+    private ImageButton logoutBotton,profileSettingBtn;
     SharedPreferences prefs;
     GoogleApiClient mGoogleApiClient;
 
@@ -62,9 +65,15 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
         profilePhoto = (ImageView) view.findViewById(R.id.profile_photo);
-        profileName = (TextView) view.findViewById(R.id.profile_name);
+        profileUserName = (TextView) view.findViewById(R.id.profile_userName);
+        profileUserId = (TextView) view.findViewById(R.id.profile_userId);
+        profileWorks = (TextView) view.findViewById(R.id.profile_userWorks);
+        profileUserFollow = (TextView) view.findViewById(R.id.profile_userFans);
+        profileUserFans = (TextView) view.findViewById(R.id.profile_userFollow);
         logoutBotton = (ImageButton) view.findViewById(R.id.logoutBtn);
-
+        profileToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        profileSettingBtn = (ImageButton) view.findViewById(R.id.profile_setting_btn);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(profileToolbar);
         String userName = prefs.getString(GlobalVariable.userNameStr, "Null");
         String userEmail = prefs.getString(GlobalVariable.userEmailStr, "Null");
         URL profilePicUrl = null;
@@ -75,8 +84,18 @@ public class ProfileFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        profileName.setText("姓名=" + userName + " 信箱=" + userEmail);
 
+        int temp=userEmail.indexOf('@');
+        profileUserId.setText(userEmail.substring(0,temp));
+        profileUserName.setText(userName);
+        profileUserName.setTextColor(getResources().getColor(R.color.Black));
+
+        profileSettingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "Click", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         logoutBotton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +104,7 @@ public class ProfileFragment extends Fragment {
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                profileName.setText("");
+                                profileUserName.setText("");
                                 profilePhoto.setImageResource(R.drawable.ic_person_black_24dp);
                                 logoutPlatform();
                             }

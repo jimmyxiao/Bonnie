@@ -6,111 +6,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="0dp">
-
-        <include
-            android:id="@+id/include"
-            layout="@layout/toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_weight="1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.design.widget.AppBarLayout>
-
     <FrameLayout
         android:id="@+id/main_actitivy_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/cotrol_panel_layout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp">
 
     </FrameLayout>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@+id/cotrol_panel_layout" />
 
     <ImageButton
         android:id="@+id/ic_btn_paint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:adjustViewBounds="true"
         android:background="@color/Transparent"
+        android:cropToPadding="false"
+        android:elevation="9dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/bottom_bar_ic_new" />
+        app:srcCompat="@drawable/bottom_bar_ic_new"
+        app:layout_constraintRight_toRightOf="parent" />
 
-    <LinearLayout
+    <com.sctw.bonniedraw.utility.BottomNavigationViewEx
         android:id="@+id/cotrol_panel_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ic_btn_paint"
         android:layout_marginTop="24dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0">
-
-        <ImageButton
-            android:id="@+id/ic_btn_home"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/White"
-            app:srcCompat="@drawable/bottom_bar_ic_home" />
-
-        <ImageButton
-            android:id="@+id/ic_btn_like"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/White"
-            app:srcCompat="@drawable/bottom_bar_ic_like" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/ic_btn_notice"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            app:srcCompat="@drawable/bottom_bar_ic_notice" />
-
-        <ImageButton
-            android:id="@+id/ic_btn_user"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            app:srcCompat="@drawable/bottom_bar_ic_user" />
-
-    </LinearLayout>
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/selector_item_color"
+        app:itemTextColor="@color/selector_item_color"
+        app:menu="@menu/bottom_nav_menu" />
 
 </android.support.constraint.ConstraintLayout>

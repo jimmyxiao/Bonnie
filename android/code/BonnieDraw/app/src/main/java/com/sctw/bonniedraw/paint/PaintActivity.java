@@ -29,8 +29,11 @@ import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -70,6 +73,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private int count = 0;
     private SeekBar lineWidthSeekBar;
     private Button btnAutoPlay, btnPlay, btnNext, btnPrevious, btnRedo, btnUndo;
+    private Button btnUpload;
     private List<Integer> tempTagLength = new ArrayList<Integer>();
     private List<TagPoint> mTagPoint_a_record, undoTagPoint_a_record;
     private Handler handler_Timer_Play = new Handler();
@@ -86,6 +90,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private Path pPath;
     private TextView paintStepTextView;
     private int displayWidth;
+    private ColorPicker colorPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +124,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         btnPrevious = (Button) findViewById(R.id.id_btn_previous);
         btnRedo = (Button) findViewById(R.id.btn_paint_redo);
         btnUndo = (Button) findViewById(R.id.btn_paint_undo);
+        btnUpload=(Button)findViewById(R.id.btnUpload);
+
+        colorPicker=new ColorPicker(this, this, "", Color.TRANSPARENT);
+        colorPicker.getWindow().setGravity(Gravity.END);
+        colorPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
         lineWidthSeekBar = (SeekBar) findViewById(R.id.line_width_seekbar);
         lineWidthSeekBar.setProgress(12);
         customPaintView = (FrameLayout) findViewById(R.id.custom_paint_view);
@@ -556,11 +567,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public void colorPicks() {
-        new ColorPicker(this, this, "", Color.WHITE).show();
+        colorPicker.show();
     }
 
     public void colorChanged(int color) {
         mPaint.setColor(color);
+        findViewById(R.id.id_btn_colorpicker).setBackgroundColor(color);
         mPaintPreview.simpleLineDraw();
     }
 
