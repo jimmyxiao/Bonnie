@@ -29,7 +29,7 @@ class CanvasView: UIImageView {
             }
         }
     }
-    var size: CGFloat = 10
+    var size: CGFloat = 8
     var opacity: CGFloat = 1
     var red: CGFloat = 0
     var green: CGFloat = 0
@@ -199,10 +199,10 @@ class CanvasView: UIImageView {
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first, let touches = event?.coalescedTouches(for: touch) {
+        if let touch = touches.first, let coalescedTouches = event?.coalescedTouches(for: touch) {
             var currentPoint = touch.location(in: self)
             var currentTime = Date().timeIntervalSince1970
-            for touch in touches {
+            for touch in coalescedTouches {
                 currentPoint = touch.location(in: self)
                 if bounds.contains(currentPoint) {
                     currentTime = Date().timeIntervalSince1970
@@ -224,10 +224,10 @@ class CanvasView: UIImageView {
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first, let touches = event?.coalescedTouches(for: touch) {
+        if let touch = touches.first, let coalescedTouches = event?.coalescedTouches(for: touch) {
             var currentPoint = touch.location(in: self)
             var currentTime = Date().timeIntervalSince1970
-            for touch in touches {
+            for touch in coalescedTouches {
                 currentPoint = touch.location(in: self)
                 if bounds.contains(currentPoint) {
                     currentTime = Date().timeIntervalSince1970
