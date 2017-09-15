@@ -8,17 +8,17 @@
 
 import UIKit
 
-struct Point {
+class Point: NSObject {
     let length: UInt16
     let function: Function
     let position: CGPoint
-    let color: (alpha: CGFloat, red: CGFloat, green: CGFloat, blue: CGFloat)
+    let color: UIColor
     let action: Action
     let size: CGFloat
     let type: Type
     let duration: TimeInterval
 
-    init(length: UInt16, function: Function, position: CGPoint, color: (alpha: CGFloat, red: CGFloat, green: CGFloat, blue: CGFloat), action: Action, size: CGFloat, type: Type, duration: TimeInterval) {
+    init(length: UInt16, function: Function, position: CGPoint, color: UIColor, action: Action, size: CGFloat, type: Type, duration: TimeInterval) {
         self.length = length
         self.function = function
         self.position = position
