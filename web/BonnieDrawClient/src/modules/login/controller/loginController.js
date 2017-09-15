@@ -10,7 +10,7 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
         	if(valid){
 	            $scope.dataLoading = true;
 	            AuthenticationService.Login($scope.loginUser, function(response,request) {
-	            	if(response.res){
+	            	if(response.res == 1){
 	            		$rootScope.sessionId  = response.sk;
 	            		$rootScope.user = response.userInfo;
 	                    AuthenticationService.SetCredentials($scope.loginUser.uc, response.userInfo);
@@ -20,6 +20,7 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
 	            		// util.alert(response.message);
 	            		$scope.dataLoading = false;
 	            		$scope.login_error = true ;
+	            		alert('登入失敗');
 	                }
 	            })
         	}else{

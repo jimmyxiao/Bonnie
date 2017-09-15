@@ -31,7 +31,7 @@ app.factory('baseHttp', function($rootScope, $http){
 })
 
 app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $urlRouterProvider) {	
-	$urlRouterProvider.otherwise('/');
+	$urlRouterProvider.otherwise('/login');
 	$stateProvider.state('404', {
     	url: '/page-not-found'
     	// templateUrl: 'modules/login/view/login.html'
@@ -195,17 +195,19 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state){
 	$rootScope.title = '';
 	$rootScope.iTunesStoreUrl = 'https://www.apple.com/tw/itunes/charts/free-apps/';
 	$rootScope.googlePlayStoreUrl = 'https://play.google.com/store';
+	$rootScope.nowUrl = '';
 	// === develop when close , release when open ===
-	$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
-    if ($rootScope.rg_gl.currentUser) {
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
- 	}
+	// $rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
+ //    if ($rootScope.rg_gl.currentUser) {
+ //        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
+ // 	}
 
    	$rootScope.$on('$locationChangeStart', function (event, next, current){
    		var url = $location.path();
-		if ((url !== '/login' && url !== '/singup') && !$rootScope.rg_gl.currentUser) {
-	        $state.go('login');
-	    }
+   		$rootScope.nowUrl = url;
+		// if ((url !== '/login' && url !== '/singup') && !$rootScope.rg_gl.currentUser) {
+	 //        $state.go('login');
+	 //    }
 	});
 	// =============================================
 	$rootScope.$on('$stateChangeError', function(event) {
