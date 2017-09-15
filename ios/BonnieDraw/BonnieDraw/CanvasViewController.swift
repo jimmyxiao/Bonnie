@@ -8,12 +8,8 @@
 
 import UIKit
 
-class CanvasViewController: UIViewController, CanvasViewDelegate {
+class CanvasViewController: UIViewController {
     @IBOutlet weak var canvas: CanvasView!
-
-    override func viewDidLoad() {
-        canvas.delegate = self
-    }
 
     @IBAction func reset(_ sender: AnyObject) {
         canvas.reset()
@@ -21,14 +17,5 @@ class CanvasViewController: UIViewController, CanvasViewDelegate {
 
     @IBAction func play(_ sender: UIButton) {
         canvas.play()
-    }
-
-    func canvasFileUrl() -> URL? {
-        do {
-            return try FileManager.default.url(for: .documentationDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("temp.bdw")
-        } catch let error {
-            Logger.d(error.localizedDescription)
-        }
-        return nil
     }
 }

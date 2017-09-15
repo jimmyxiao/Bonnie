@@ -9,26 +9,6 @@
 import UIKit
 
 class CanvasView: UIImageView {
-    var delegate: CanvasViewDelegate? {
-        didSet {
-            let imageView = UIImageView(frame: frame)
-            addAndFill(subView: imageView)
-            persistentLayer = imageView
-            if let url = delegate?.canvasFileUrl() {
-                do {
-                    let manager = FileManager.default
-                    if manager.fileExists(atPath: url.path) {
-                        try manager.removeItem(at: url)
-                    }
-                    manager.createFile(atPath: url.path, contents: nil, attributes: nil)
-                    handle = try FileHandle(forWritingTo: url)
-                    self.url = url
-                } catch let error {
-                    Logger.d(error.localizedDescription)
-                }
-            }
-        }
-    }
     var size: CGFloat = 8
     var opacity: CGFloat = 1
     var red: CGFloat = 0
@@ -45,23 +25,40 @@ class CanvasView: UIImageView {
     private var animationCurrentPoint: Point?
     private var animationTimer: Timer?
 
+    override func awakeFromNib() {
+        let imageView = UIImageView(frame: frame)
+        addAndFill(subView: imageView)
+        persistentLayer = imageView
+        do {
+            let manager = FileManager.default
+            let url = try FileManager.default.url(for: .documentationDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("temp.bdw")
+            if manager.fileExists(atPath: url.path) {
+                try manager.removeItem(at: url)
+            }
+            manager.createFile(atPath: url.path, contents: nil, attributes: nil)
+            handle = try FileHandle(forWritingTo: url)
+            self.url = url
+        } catch let error {
+            Logger.d(error.localizedDescription)
+        }
+    }
+
     func reset() {
         animationTimer?.invalidate()
         points.removeAll()
         image = nil
         persistentLayer?.image = nil
-        if let url = delegate?.canvasFileUrl() {
-            do {
-                let manager = FileManager.default
-                if manager.fileExists(atPath: url.path) {
-                    try manager.removeItem(at: url)
-                }
-                manager.createFile(atPath: url.path, contents: nil, attributes: nil)
-                handle = try FileHandle(forWritingTo: url)
-                self.url = url
-            } catch let error {
-                Logger.d(error.localizedDescription)
+        do {
+            let manager = FileManager.default
+            let url = try FileManager.default.url(for: .documentationDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("temp.bdw")
+            if manager.fileExists(atPath: url.path) {
+                try manager.removeItem(at: url)
             }
+            manager.createFile(atPath: url.path, contents: nil, attributes: nil)
+            handle = try FileHandle(forWritingTo: url)
+            self.url = url
+        } catch let error {
+            Logger.d(error.localizedDescription)
         }
     }
 
@@ -254,8 +251,4 @@ class CanvasView: UIImageView {
         image = nil
         savePointsToFile()
     }
-}
-
-protocol CanvasViewDelegate {
-    func canvasFileUrl() -> URL?
 }
