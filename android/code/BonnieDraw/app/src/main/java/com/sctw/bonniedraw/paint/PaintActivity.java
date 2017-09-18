@@ -21,13 +21,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -37,14 +35,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paintpicker.ColorPicker;
 import com.sctw.bonniedraw.paintpicker.OnColorChangedListener;
+import com.sctw.bonniedraw.paintpicker.OnSizeChangedListener;
+import com.sctw.bonniedraw.paintpicker.SizePicker;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -62,7 +60,7 @@ import java.util.List;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements OnColorChangedListener {
+public class PaintActivity extends AppCompatActivity implements OnColorChangedListener,OnSizeChangedListener {
     public static final String KEY_MY_PREFERENCE = "autoplay_intervaltime";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
     private Boolean replayMode = false;
@@ -71,7 +69,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private String fname; // file name
     private Paint mPaint;
     private int count = 0;
-    private SeekBar lineWidthSeekBar;
     private Button btnAutoPlay, btnPlay, btnNext, btnPrevious, btnRedo, btnUndo;
     private Button btnUpload;
     private List<Integer> tempTagLength = new ArrayList<Integer>();
@@ -84,13 +81,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private boolean playState = false;
     private boolean playing = false;
     private FrameLayout customPaintView;
-    private PaintPreview mPaintPreview;
     private Bitmap pBitmap;
     private Canvas pCanvas;
     private Path pPath;
     private TextView paintStepTextView;
     private int displayWidth;
     private ColorPicker colorPicker;
+    private SizePicker sizePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +101,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(12);
+        mPaint.setStrokeWidth(13);
 
         myView = new MyView(this);
         getDisplay();
@@ -125,18 +122,16 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         btnRedo = (Button) findViewById(R.id.btn_paint_redo);
         btnUndo = (Button) findViewById(R.id.btn_paint_undo);
         btnUpload=(Button)findViewById(R.id.btnUpload);
+        setOnclick();
 
         colorPicker=new ColorPicker(this, this, "", Color.WHITE);
         colorPicker.getWindow().setGravity(Gravity.END);
         colorPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-        lineWidthSeekBar = (SeekBar) findViewById(R.id.line_width_seekbar);
-        lineWidthSeekBar.setProgress(12);
-        customPaintView = (FrameLayout) findViewById(R.id.custom_paint_view);
-        setOnclick();
-        mPaintPreview = new PaintPreview(this);
-        mPaintPreview.setImageResource(R.drawable.transparent_grid);
-        mPaintPreview.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        colorPicker.getWindow().getAttributes().windowAnimations=R.style.ColorPickStyle;
+        sizePicker=new SizePicker(this,this,"",Color.WHITE);
+        sizePicker.getWindow().setGravity(Gravity.START);
+        sizePicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        sizePicker.getWindow().getAttributes().windowAnimations=R.style.ColorPickStyle;
 
         mTagPoint_a_record = new ArrayList<TagPoint>();
         undoTagPoint_a_record = new ArrayList<TagPoint>();
@@ -152,27 +147,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         }
 
-        //載入完畢後再載入畫筆預覽,重播模式不開啟預覽
-        //Preview Paint Effect
-        if (!replayMode) {
-            previewPaint();
-        }
-
         checkRecord();
-    }
-
-    private void previewPaint() {
-        customPaintView.post(new Runnable() {
-            @Override
-            public void run() {
-                BitmapFactory.Options option = new BitmapFactory.Options();
-                option.inJustDecodeBounds = true;
-                pBitmap = Bitmap.createBitmap(customPaintView.getWidth(), customPaintView.getHeight(), Bitmap.Config.ARGB_8888);
-                pCanvas = new Canvas(pBitmap);
-                customPaintView.addView(mPaintPreview);
-                mPaintPreview.simpleLineDraw();
-            }
-        });
     }
 
     private void checkRecord() {
@@ -227,35 +202,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 break;
         }
         return null;
-    }
-
-    //畫預覽圖
-    public class PaintPreview extends android.support.v7.widget.AppCompatImageView {
-
-        public PaintPreview(Context context) {
-            super(context);
-        }
-
-        public PaintPreview(Context context, @Nullable AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            canvas.drawPath(pPath, mPaint);
-        }
-
-        public void simpleLineDraw() {
-            final float x = customPaintView.getWidth() / 8f;
-            final float y = customPaintView.getHeight() / 2f;
-            pCanvas.drawColor(Color.TRANSPARENT);
-            pPath = new Path();
-            pPath.moveTo(x, y);
-            pPath.cubicTo(x, y, x + 75, y - 40, x + 150, y);
-            pPath.cubicTo(x + 150, y, x + 225, y + 40, x + 300, y-10);
-            invalidate();
-        }
     }
 
     @Override
@@ -566,19 +512,21 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     }
 
-    public void colorPicks() {
+    public void colorPicks(View view) {
         colorPicker.show();
     }
 
-    public void colorChanged(int color) {
-        mPaint.setColor(color);
-        findViewById(R.id.id_btn_colorpicker).setBackgroundColor(color);
-        mPaintPreview.simpleLineDraw();
+    public void sizesPicks(View view){sizePicker.show();}
+
+    @Override
+    public void sizeChanged(int size) {
+        mPaint.setStrokeWidth(size);
     }
 
     @Override
-    public void colorChanged(String key, int color) {
-        colorChanged(color);
+    public void colorChanged( int color) {
+        mPaint.setColor(color);
+        findViewById(R.id.id_btn_colorpicker).setBackgroundColor(color);
     }
     //End
 
@@ -685,39 +633,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
 
         findViewById(R.id.id_btn_save).setOnClickListener(savePictureBtn);
-
-        //顏色選擇
-        findViewById(R.id.id_btn_colorpicker).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                colorPicks();
-            }
-        });
-
-        lineWidthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (i == 0) {
-                    i = 1;
-                }
-                mPaint.setStrokeWidth(i);
-                mPaintPreview.simpleLineDraw();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
     }
 
     public void earse_mode(View view){
         mPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.White));
-        mPaintPreview.simpleLineDraw();
     }
 
     public void playStateBtn(int option) {

@@ -24,7 +24,7 @@ public class ColorsAdapter extends RecyclerView.Adapter<ColorsAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.oval_item_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_color_view, parent, false);
         return new ViewHolder(view);
     }
 
@@ -36,7 +36,7 @@ public class ColorsAdapter extends RecyclerView.Adapter<ColorsAdapter.ViewHolder
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onOvalColorSelected(colors[holder.getAdapterPosition()]);
+                listener.onColorSelected(colors[holder.getAdapterPosition()]);
             }
         });
     }

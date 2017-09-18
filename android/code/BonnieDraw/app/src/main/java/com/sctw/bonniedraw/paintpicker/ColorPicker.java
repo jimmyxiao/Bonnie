@@ -13,11 +13,9 @@ public class ColorPicker extends Dialog implements ColorsSelectedListener {
 
     private OnColorChangedListener mListener;
     private int mInitialColor;
-    private static String mKey;
 
     public ColorPicker(Context context, OnColorChangedListener listener, String key, int initialColor) {
         super(context);
-        mKey = key;
         mListener = listener;
         mInitialColor = initialColor;
     }
@@ -26,26 +24,18 @@ public class ColorPicker extends Dialog implements ColorsSelectedListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.color_picker);
+        setContentView(R.layout.paint_color_picker);
 
-        RecyclerView recyclerViewColors = (RecyclerView) findViewById(R.id.recyclerViewColors);
+        RecyclerView recyclerViewColors = (RecyclerView) findViewById(R.id.paint_color_recyclerview);
         LinearLayoutManager lm=new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewColors.setLayoutManager(lm);
         ColorsAdapter adapter = new ColorsAdapter(getContext().getResources().getIntArray(R.array.colors), this);
         recyclerViewColors.setAdapter(adapter);
-
-        OnColorChangedListener l = new OnColorChangedListener() {
-            public void colorChanged(String key, int color) {
-                mListener.colorChanged(key, color);
-                dismiss();
-            }
-        };
-
     }
 
     @Override
-    public void onOvalColorSelected(int color) {
-        mListener.colorChanged(mKey, color);
+    public void onColorSelected(int color) {
+        mListener.colorChanged(color);
         dismiss();
     }
 }

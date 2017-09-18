@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,8 @@ import com.sctw.bonniedraw.utility.GlobalVariable;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -43,10 +47,11 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class ProfileFragment extends Fragment {
     private Toolbar profileToolbar;
     private ImageView profilePhoto;
-    private TextView profileUserName,profileUserId,profileWorks,profileUserFans,profileUserFollow;
-    private ImageButton logoutBotton,profileSettingBtn;
+    private TextView profileUserName, profileUserId, profileWorks, profileUserFans, profileUserFollow;
+    private ImageButton logoutBotton, profileSettingBtn;
     SharedPreferences prefs;
     GoogleApiClient mGoogleApiClient;
+    RecyclerView profileRecyclerView;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -73,7 +78,7 @@ public class ProfileFragment extends Fragment {
         logoutBotton = (ImageButton) view.findViewById(R.id.logoutBtn);
         profileToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         profileSettingBtn = (ImageButton) view.findViewById(R.id.profile_setting_btn);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(profileToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(profileToolbar);
         String userName = prefs.getString(GlobalVariable.userNameStr, "Null");
         String userEmail = prefs.getString(GlobalVariable.userEmailStr, "Null");
         URL profilePicUrl = null;
@@ -85,8 +90,8 @@ public class ProfileFragment extends Fragment {
             e.printStackTrace();
         }
 
-        int temp=userEmail.indexOf('@');
-        profileUserId.setText(userEmail.substring(0,temp));
+        int temp = userEmail.indexOf('@');
+        profileUserId.setText(userEmail.substring(0, temp));
         profileUserName.setText(userName);
         profileUserName.setTextColor(getResources().getColor(R.color.Black));
 
@@ -120,9 +125,19 @@ public class ProfileFragment extends Fragment {
                 alertDialog.show();
             }
         });
+
+        profileRecyclerView = (RecyclerView) view.findViewById(R.id.profile_recyclerview);
+        ArrayList<String> myDataset = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            myDataset.add(Integer.toString(i));
+        }
+        ProfileFragment.MyAdapter mAdapter = new ProfileFragment.MyAdapter(myDataset);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(getActivity(),3);
+        profileRecyclerView.setLayoutManager(gridLayoutManager);
+        profileRecyclerView.setAdapter(mAdapter);
     }
 
-    public void logoutPlatform(){
+    public void logoutPlatform() {
         switch (prefs.getString(GlobalVariable.userPlatformStr, "Null")) {
             case "0":
                 break;
@@ -146,7 +161,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public void cleanValue(){
+    public void cleanValue() {
         prefs.edit().clear().apply();
         Intent i = new Intent(getActivity(), LoginActivity.class);
         startActivity(i);
@@ -163,5 +178,53 @@ public class ProfileFragment extends Fragment {
                 .build();
         mGoogleApiClient.connect();
         super.onStart();
+    }
+
+    public class MyAdapter extends RecyclerView.Adapter<ProfileFragment.MyAdapter.ViewHolder> {
+        private List<String> mData;
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public TextView mTextView;
+
+            public ViewHolder(View v) {
+                super(v);
+                mTextView = (TextView) v.findViewById(R.id.card_textview);
+            }
+        }
+
+        public MyAdapter(List<String> data) {
+            mData = data;
+        }
+
+        @Override
+        public ProfileFragment.MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.photocard_layout, parent, false);
+            ProfileFragment.MyAdapter.ViewHolder vh = new ProfileFragment.MyAdapter.ViewHolder(v);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(ProfileFragment.MyAdapter.ViewHolder holder, final int position) {
+            holder.mTextView.setText(mData.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(getActivity(), "Item " + position + " is long clicked.", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return mData.size();
+        }
     }
 }
