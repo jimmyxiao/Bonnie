@@ -30,6 +30,7 @@ public class ColorPicker extends Dialog implements ColorsSelectedListener {
 
         RecyclerView recyclerViewColors = (RecyclerView) findViewById(R.id.recyclerViewColors);
         LinearLayoutManager lm=new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerViewColors.setLayoutManager(lm);
         ColorsAdapter adapter = new ColorsAdapter(getContext().getResources().getIntArray(R.array.colors), this);
         recyclerViewColors.setAdapter(adapter);
 

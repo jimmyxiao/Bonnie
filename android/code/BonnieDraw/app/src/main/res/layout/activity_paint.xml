@@ -141,11 +141,12 @@
             app:srcCompat="@drawable/bottom_bar_ic_new" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/id_btn_erase"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
+            android:onClick="earse_mode"
             app:srcCompat="@drawable/paint_erase" />
 
         <Button

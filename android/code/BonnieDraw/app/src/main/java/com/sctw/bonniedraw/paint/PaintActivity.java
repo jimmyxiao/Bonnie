@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.util.AttributeSet;
@@ -32,7 +33,6 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -126,7 +126,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         btnUndo = (Button) findViewById(R.id.btn_paint_undo);
         btnUpload=(Button)findViewById(R.id.btnUpload);
 
-        colorPicker=new ColorPicker(this, this, "", Color.TRANSPARENT);
+        colorPicker=new ColorPicker(this, this, "", Color.WHITE);
         colorPicker.getWindow().setGravity(Gravity.END);
         colorPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
@@ -713,6 +713,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    public void earse_mode(View view){
+        mPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.White));
+        mPaintPreview.simpleLineDraw();
     }
 
     public void playStateBtn(int option) {
