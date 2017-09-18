@@ -1,12 +1,12 @@
 package com.bonniedraw.login.module;
 
 import com.bonniedraw.base.model.BaseVO;
-import com.bonniedraw.user.model.UserInfo;
+import com.bonniedraw.user.model.AdminInfo;
 
 public class LoginOutput extends BaseVO{
 	private Integer status;
 	private String securityKey;
-	private UserInfo userInfo;
+	private AdminInfo adminInfo;
 
 	public Integer getStatus() {
 		return status;
@@ -24,12 +24,12 @@ public class LoginOutput extends BaseVO{
 		this.securityKey = securityKey;
 	}
 
-	public UserInfo getUserInfo() {
-		return userInfo;
+	public AdminInfo getAdminInfo() {
+		return adminInfo;
 	}
 
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
+	public void setAdminInfo(AdminInfo adminInfo) {
+		this.adminInfo = adminInfo;
 	}
 
 }

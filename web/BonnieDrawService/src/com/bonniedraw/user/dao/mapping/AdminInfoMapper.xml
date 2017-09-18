@@ -150,4 +150,26 @@
       UPDATED_BY = #{updatedBy,jdbcType=INTEGER}
     where ADMIN_ID = #{adminId,jdbcType=INTEGER}
   </update>
+  
+	<select id="queryAdminList" resultMap="BaseResultMap">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from admin_info
+  	</select>
+  	
+  	<select id="selectByUserCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from admin_info
+    	where USER_CODE = #{userCode,jdbcType=VARCHAR}
+  	</select>
+  
+	<select id="inspectPwd" parameterType="com.bonniedraw.login.module.LoginInput" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from admin_info
+		where USER_CODE= #{userCode,jdbcType=VARCHAR}  
+		and USER_PW = #{userPwd,jdbcType=VARCHAR}
+	</select>
+  
 </mapper>

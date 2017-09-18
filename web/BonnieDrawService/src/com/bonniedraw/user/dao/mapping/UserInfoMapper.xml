@@ -321,5 +321,11 @@
 		where USER_ID = #{userId,jdbcType=INTEGER}
 		and USER_PW = #{userPw,jdbcType=VARCHAR} 
 	</select>
+	
+	<select id="queryUserList" resultMap="BaseResultMap">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from user_info
+  	</select>
   
 </mapper>

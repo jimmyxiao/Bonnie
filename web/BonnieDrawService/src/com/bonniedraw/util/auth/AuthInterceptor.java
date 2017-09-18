@@ -19,9 +19,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			HttpSession session = request.getSession();
 			String loginFailedUrl = request.getContextPath() + "/loginFailed";
 
-			Object userId = session.getAttribute("userId");
-			if ( userId != null){
-				String login_id = userId.toString();
+			Object passId = session.getAttribute("pass_id");
+			if (passId != null){
+				String login_id = passId.toString();
 				String time_key = (String) session.getAttribute("time_key");
 				int isLastLogin = LoginUtils.checkIsLastLogin(Integer.valueOf(login_id), Long.parseLong(time_key));
 				if (isLastLogin != 1){

@@ -35,18 +35,19 @@ app.config(['$routeProvider',function($routeProvider) {
 app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, locationIP, serviceName, backendName){
     rootUrl = locationIP + serviceName + '/';
     loginUrl = locationIP + backendName +'/#/login'; 
-    // === develop when close , release when open ===
-    // $rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
- //    if ($rootScope.rg_gl.currentUser) {
- //        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
- //     }
+
+    $rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
+    if ($rootScope.rg_gl.currentUser) {
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
+     }
 
     $rootScope.$on('$locationChangeStart', function (event, next, current){
-        // if ((url !== '/login') && !$rootScope.rg_gl.currentUser) {
-     //        $window.location.href = loginUrl;
-     //    }
+        var url = $location.path();
+        if ((url !== '/login') && !$rootScope.rg_gl.currentUser) {
+            $window.location.href = loginUrl;
+        }
     });
-    // =============================================
+
     $rootScope.$on('$stateChangeError', function(event) {
         $state.go('404');
     });
@@ -57,9 +58,9 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, lo
     }
 })
 
-app.controller('loginController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, AuthenticationService) {
+app.controller('loginController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, AuthenticationService, util) {
         $scope.loginUser = {
-    		uc:null, up:null, ut:1, dt:3, fn:1
+    		userCode:null, userPwd:null
     	}
 
     	AuthenticationService.ClearCredentials();
@@ -68,17 +69,15 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
         	if(valid){
 	            $scope.dataLoading = true;
 	            AuthenticationService.Login($scope.loginUser, function(response,request) {
-	            	if(response.res == 1){
-	            		$rootScope.sessionId  = response.sk;
-	            		$rootScope.user = response.userInfo;
-	                    AuthenticationService.SetCredentials($scope.loginUser.uc, response.userInfo);
+	            	if(response.result){
+	            		$rootScope.sessionId  = response.securityKey;
+	                    AuthenticationService.SetCredentials(response.data.adminInfo);
 	                    $window.location.href = 'index.html';
 	            	}else{
 	            		$scope.error_msg = response.message;
-	            		// util.alert(response.message);
+	            		util.alert(response.message);
 	            		$scope.dataLoading = false;
 	            		$scope.login_error = true ;
-	            		alert('登入失敗');
 	                }
 	            })
         	}else{
@@ -90,7 +89,7 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
 app.factory('loginService', function(baseHttp) {
     return {
         login : function(params, callback) {
-            return baseHttp.service('/BDService/login', params, callback);
+            return baseHttp.service('/ws/loginBackend', params, callback);
         }
     }
 }).factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootScope', '$timeout','loginService',
@@ -104,16 +103,12 @@ app.factory('loginService', function(baseHttp) {
             }, 1000);
         }
  
-        service.SetCredentials = function (usercode,userInfo){
-            var authdata = Base64.encode(usercode + ':' + userInfo.userId);
+        service.SetCredentials = function (adminInfo){
+            var authdata = Base64.encode(adminInfo.userCode + ':' + adminInfo.adminId);
             $rootScope.rg_gl = {
                 currentUser: {
-                    usercode: usercode,
-                    userId: userInfo.userId,
-                    securityKey: userInfo.sk,
-                    userType: userInfo.userType,
-                    userName: userInfo.userName,
-                    userInfo:userInfo
+                    userId:adminInfo.adminId,
+                    adminInfo:adminInfo
                 }
             }
 

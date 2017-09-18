@@ -3,7 +3,7 @@
 		// dev
 		.value("locationIP","http://localhost:8080/")
 		.value("serviceName","BonnieDrawService")
-		.value("backendName","BonnieDrawBackend");
+		.value("backendName","BonnieDrawBacken");
 
 		// release
 		// .value("locationIP","http://www.bonniedraw.com/")

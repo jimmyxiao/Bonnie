@@ -1,5 +1,7 @@
 package com.bonniedraw.user.dao;
 
+import java.util.List;
+
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
 
@@ -23,4 +25,7 @@ public interface UserInfoMapper {
     int inspectRegisterByUserInfo(UserInfo userInfo);
     
     UserInfo inspectOldPwd(UserInfo record);
+    
+    List<UserInfo> queryUserList();
+    
 }

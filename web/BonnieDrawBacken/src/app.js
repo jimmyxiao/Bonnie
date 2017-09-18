@@ -35,7 +35,8 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       	url: '/userManager',
       	views: {
       		"content":{
-      			templateUrl:'modules/user/view/userInfoList.html'
+      			templateUrl:'modules/user/view/userInfoList.html',
+      			controller:'userController'
       		}
       	},
       	reload: true
@@ -43,14 +44,16 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       	url: '/adminManager',
       	views: {
       		"content":{
-      			templateUrl:'modules/user/view/backendInfoList.html'
+      			templateUrl:'modules/user/view/adminList.html',
+      			controller:'adminController'
       		}
       	}
   	}).state('mailSet', {
       	url: '/mailSet',
       	views: {
       		"content":{
-      			templateUrl:'modules/systemset/view/system_setup.html'
+      			templateUrl:'modules/systemset/view/mailSet.html',
+      			controller:'mailSetController'
       		}
       	}
   	})
@@ -59,29 +62,31 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, locationIP, serviceName, backendName){
 	rootUrl = locationIP + serviceName + '/';
     loginUrl = locationIP + backendName +'/#/login'; 
-	$rootScope.nowUrl = $location.path();
-	// === develop when close , release when open ===
-	// $rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
- //    if ($rootScope.rg_gl.currentUser) {
- //        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
- // 	}else{
-	// 	$rootScope.logout();
-	// }	
+
+    $rootScope.logout = function() {
+		$cookieStore.remove('rg_gl');
+		$window.location.replace(loginUrl);
+	}
+
+	$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
+    if ($rootScope.rg_gl.currentUser) {
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
+ 		$rootScope.rootUser = $rootScope.rg_gl.currentUser.adminInfo;
+ 	}else{
+		$rootScope.logout();
+	}	
 
    	$rootScope.$on('$locationChangeStart', function (event, next, current){
-		// if ((url !== '/login' && url !== '/singup') && !$rootScope.rg_gl.currentUser) {
-	 //        $window.location.href = loginUrl;
-	 //    }
+   		var url = $location.path();
+		if ((url !== '/login') && !$rootScope.rg_gl.currentUser) {
+	        $window.location.href = loginUrl;
+	    }
 	});
-	// =============================================
+
 	$rootScope.$on('$stateChangeError', function(event) {
   		$state.go('404');
 	});
 
-	$rootScope.logout = function() {
-		$cookieStore.remove('rg_gl');
-		$window.location.replace(loginUrl);
-	}
 })
 
 
