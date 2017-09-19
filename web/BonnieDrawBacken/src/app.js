@@ -1,7 +1,8 @@
 'use strict';
 var rootUrl = '';
 var loginUrl ='';
-var app = angular.module('app',['ui.router', 'ngCookies', 'ui.bootstrap', 'ngSanitize', 'locationConfigModule']);
+
+var app = angular.module('app',['ui.router', 'ngCookies', 'ui.bootstrap', 'ngSanitize', 'TreeWidget', 'locationConfigModule']);
 
 app.factory('baseHttp', function($rootScope, $http){
 	function doService(url, params, callback, error){
@@ -31,7 +32,15 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       			templateUrl:'modules/share/view/page404.html'
       		}
       	}
-  	}).state('userManager', {
+  	}).state('adminManager', {
+        url: '/adminManager',
+        views: {
+          "content":{
+            templateUrl:'modules/user/view/adminList.html',
+            controller:'adminController'
+          }
+        }
+    }).state('userManager', {
       	url: '/userManager',
       	views: {
       		"content":{
@@ -40,15 +49,15 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       		}
       	},
       	reload: true
-  	}).state('adminManager', {
-      	url: '/adminManager',
-      	views: {
-      		"content":{
-      			templateUrl:'modules/user/view/adminList.html',
-      			controller:'adminController'
-      		}
-      	}
-  	}).state('mailSet', {
+  	}).state('directoryManager', {
+        url: '/directoryManager',
+        views: {
+          "content":{
+            templateUrl:'modules/directory/view/directoryList.html',
+            controller:'directoryController'
+          }
+        }
+    }).state('mailSet', {
       	url: '/mailSet',
       	views: {
       		"content":{

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.works.dao.NodeTreeMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.works.module.NodeTreeModule">
+    <id column="CATEGORY_ID" jdbcType="INTEGER" property="nodeId" />
+    <result column="CATEGORY_NAME" jdbcType="VARCHAR" property="name" />
+    <result column="ENABLE" jdbcType="BIT" property="disabled" />
+    <result column="CATEGORY_LEVEL" jdbcType="INTEGER" property="categoryLevel" />
+    <result column="CATEGORY_PARENT_ID" jdbcType="INTEGER" property="categoryParentId" />
+    <collection property="children" ofType="com.bonniedraw.works.module.NodeTreeModule" resultMap="SecResultMap"/>
+  </resultMap>
+  <resultMap id="SecResultMap" type="com.bonniedraw.works.module.NodeTreeModule">
+    <id column="sec_id" jdbcType="INTEGER" property="nodeId" />
+    <result column="sec_name" jdbcType="VARCHAR" property="name" />
+    <result column="sec_enable" jdbcType="BIT" property="disabled" />
+    <result column="sec_category_level" jdbcType="INTEGER" property="categoryLevel" />
+    <result column="sec_category_parent_id" jdbcType="INTEGER" property="categoryParentId" />
+    <collection property="children" ofType="com.bonniedraw.works.module.NodeTreeModule" resultMap="TriResultMap"/>
+  </resultMap>
+  <resultMap id="TriResultMap" type="com.bonniedraw.works.module.NodeTreeModule">
+    <id column="tri_id" jdbcType="INTEGER" property="nodeId" />
+    <result column="tri_name" jdbcType="VARCHAR" property="name" />
+    <result column="tri_enable" jdbcType="BIT" property="disabled" />
+    <result column="tri_category_level" jdbcType="INTEGER" property="categoryLevel" />
+    <result column="tri_category_parent_id" jdbcType="INTEGER" property="categoryParentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CATEGORY_ID, CATEGORY_NAME, ENABLE, CATEGORY_LEVEL, CATEGORY_PARENT_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category_info
+    where CATEGORY_ID = #{categoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from category_info
+    where CATEGORY_ID = #{categoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.works.model.CategoryInfo">
+    insert into category_info (CATEGORY_ID, CATEGORY_NAME, ENABLE, 
+      CATEGORY_LEVEL, CATEGORY_PARENT_ID)
+    values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, 
+      #{categoryLevel,jdbcType=INTEGER}, #{categoryParentId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.works.model.CategoryInfo">
+    insert into category_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="categoryId != null">
+        CATEGORY_ID,
+      </if>
+      <if test="categoryName != null">
+        CATEGORY_NAME,
+      </if>
+      <if test="enable != null">
+        ENABLE,
+      </if>
+      <if test="categoryLevel != null">
+        CATEGORY_LEVEL,
+      </if>
+      <if test="categoryParentId != null">
+        CATEGORY_PARENT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
+      </if>
+      <if test="categoryLevel != null">
+        #{categoryLevel,jdbcType=INTEGER},
+      </if>
+      <if test="categoryParentId != null">
+        #{categoryParentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.works.model.CategoryInfo">
+    update category_info
+    <set>
+      <if test="categoryName != null">
+        CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        ENABLE = #{enable,jdbcType=BIT},
+      </if>
+      <if test="categoryLevel != null">
+        CATEGORY_LEVEL = #{categoryLevel,jdbcType=INTEGER},
+      </if>
+      <if test="categoryParentId != null">
+        CATEGORY_PARENT_ID = #{categoryParentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where CATEGORY_ID = #{categoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.works.model.CategoryInfo">
+    update category_info
+    set CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+      ENABLE = #{enable,jdbcType=BIT},
+      CATEGORY_LEVEL = #{categoryLevel,jdbcType=INTEGER},
+      CATEGORY_PARENT_ID = #{categoryParentId,jdbcType=INTEGER}
+    where CATEGORY_ID = #{categoryId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryDirectoryList" resultMap="BaseResultMap">
+    select 
+	tmp.category_id, tmp.category_name, tmp.enable, tmp.category_level, tmp.category_parent_id,
+	tmp.sec_id, tmp.sec_name, tmp.sec_enable, tmp.sec_category_level, tmp.sec_category_parent_id,
+	tri.category_id as tri_id, tri.category_name as tri_name, tri.enable as tri_enable,
+	tri.category_level as tri_category_level, tri.category_parent_id as tri_category_parent_id from 
+	( select 
+	ma.category_id, ma.category_name, ma.enable, ma.category_level, ma.category_parent_id,
+	de.category_id as sec_id, de.category_name as sec_name, de.enable as sec_enable, 
+	de.category_level as sec_category_level, de.category_parent_id as sec_category_parent_id 
+	from category_info ma left join category_info de on ma.category_id = de.category_parent_id
+	where ma.category_id = 1
+ 	order by 
+ 	ma.category_level asc, ma.category_parent_id asc, ma.category_id asc, 
+ 	de.category_level asc, de.category_parent_id asc, de.category_id asc ) as tmp
+	left join category_info tri on tmp.sec_id = tri.category_parent_id
+  </select>
+  
+</mapper>
