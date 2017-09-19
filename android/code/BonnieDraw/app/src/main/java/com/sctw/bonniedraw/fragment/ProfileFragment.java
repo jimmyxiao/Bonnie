@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -48,15 +49,19 @@ public class ProfileFragment extends Fragment {
     private Toolbar profileToolbar;
     private ImageView profilePhoto;
     private TextView profileUserName, profileUserId, profileWorks, profileUserFans, profileUserFollow;
-    private ImageButton logoutBotton, profileSettingBtn;
+    private ImageButton logoutBotton, profileSettingBtn, profileGridBtn, profileListBtn;
     SharedPreferences prefs;
     GoogleApiClient mGoogleApiClient;
     RecyclerView profileRecyclerView;
+    ArrayList<String> myDataset;
+    ListAdapter mAdapter;
+    HomeAdapter homeAdapter;
+    GridLayoutManager gridLayoutManager;
+    LinearLayoutManager layoutManager;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +83,8 @@ public class ProfileFragment extends Fragment {
         logoutBotton = (ImageButton) view.findViewById(R.id.logoutBtn);
         profileToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         profileSettingBtn = (ImageButton) view.findViewById(R.id.profile_setting_btn);
+        profileGridBtn = (ImageButton) view.findViewById(R.id.profile_grid_btn);
+        profileListBtn = (ImageButton) view.findViewById(R.id.profile_list_btn);
         ((AppCompatActivity) getActivity()).setSupportActionBar(profileToolbar);
         String userName = prefs.getString(GlobalVariable.userNameStr, "Null");
         String userEmail = prefs.getString(GlobalVariable.userEmailStr, "Null");
@@ -126,15 +133,36 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        profileRecyclerView = (RecyclerView) view.findViewById(R.id.profile_recyclerview);
-        ArrayList<String> myDataset = new ArrayList<>();
+
+        gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        myDataset = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             myDataset.add(Integer.toString(i));
         }
-        ProfileFragment.MyAdapter mAdapter = new ProfileFragment.MyAdapter(myDataset);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(getActivity(),3);
+        profileRecyclerView = (RecyclerView) view.findViewById(R.id.profile_recyclerview);
+        mAdapter = new ListAdapter(myDataset);
         profileRecyclerView.setLayoutManager(gridLayoutManager);
         profileRecyclerView.setAdapter(mAdapter);
+
+        profileGridBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                profileRecyclerView.setLayoutManager(gridLayoutManager);
+                profileRecyclerView.setAdapter(mAdapter);
+            }
+        });
+
+        profileListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                homeAdapter = new HomeAdapter(myDataset);
+                profileRecyclerView.setLayoutManager(layoutManager);
+                profileRecyclerView.setAdapter(homeAdapter);
+            }
+        });
     }
 
     public void logoutPlatform() {
@@ -180,32 +208,33 @@ public class ProfileFragment extends Fragment {
         super.onStart();
     }
 
-    public class MyAdapter extends RecyclerView.Adapter<ProfileFragment.MyAdapter.ViewHolder> {
+    //Two Adapter
+    private class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         private List<String> mData;
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView mTextView;
+            TextView mTextView;
 
-            public ViewHolder(View v) {
+            ViewHolder(View v) {
                 super(v);
                 mTextView = (TextView) v.findViewById(R.id.card_textview);
             }
         }
 
-        public MyAdapter(List<String> data) {
+        public ListAdapter(List<String> data) {
             mData = data;
         }
 
         @Override
-        public ProfileFragment.MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.photocard_layout, parent, false);
-            ProfileFragment.MyAdapter.ViewHolder vh = new ProfileFragment.MyAdapter.ViewHolder(v);
+            ListAdapter.ViewHolder vh = new ListAdapter.ViewHolder(v);
             return vh;
         }
 
         @Override
-        public void onBindViewHolder(ProfileFragment.MyAdapter.ViewHolder holder, final int position) {
+        public void onBindViewHolder(ListAdapter.ViewHolder holder, final int position) {
             holder.mTextView.setText(mData.get(position));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -227,4 +256,53 @@ public class ProfileFragment extends Fragment {
             return mData.size();
         }
     }
+
+    public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+        List<String> data;
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            TextView mTextView;
+
+            ViewHolder(View v) {
+                super(v);
+                mTextView = (TextView) v.findViewById(R.id.home_number_text);
+            }
+        }
+
+        public HomeAdapter(List<String> data) {
+            this.data = data;
+        }
+
+        @Override
+        public HomeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_card, parent, false);
+            HomeAdapter.ViewHolder vh = new HomeAdapter.ViewHolder(v);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(final HomeAdapter.ViewHolder holder, int position) {
+            holder.mTextView.setText(data.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "Item " + holder.getAdapterPosition() + " is clicked.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(getActivity(), "Item " + holder.getAdapterPosition() + " is long clicked.", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+    }
+
 }

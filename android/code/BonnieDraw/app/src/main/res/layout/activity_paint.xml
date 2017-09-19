@@ -115,18 +115,20 @@
 
         <Button
             android:id="@+id/id_btn_size"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:background="@color/Transparent"
             android:drawableStart="@drawable/shape_oval"
             android:onClick="sizesPicks"
-            android:text="Size" />
+            android:paddingEnd="0dp"
+            android:paddingStart="16dp"
+            android:text="13 像素" />
 
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             app:srcCompat="@drawable/bottom_bar_ic_new" />
 
         <ImageButton

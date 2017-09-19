@@ -52,8 +52,8 @@ public class HomeFragment extends Fragment {
         for (int i = 0; i < 100; i++) {
             myDataset.add(Integer.toString(i));
         }
-        MyAdapter mAdapter = new MyAdapter(myDataset);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        HomeAdapter mAdapter = new HomeAdapter(myDataset);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         homeRecyclerView.setLayoutManager(layoutManager);
         homeRecyclerView.setAdapter(mAdapter);
@@ -66,43 +66,43 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-        private List<String> mData;
+     public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+        List<String> data;
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView mTextView;
+            TextView mTextView;
 
-            public ViewHolder(View v) {
+            ViewHolder(View v) {
                 super(v);
                 mTextView = (TextView) v.findViewById(R.id.home_number_text);
             }
         }
 
-        public MyAdapter(List<String> data) {
-            mData = data;
+        public HomeAdapter(List<String> data) {
+            this.data = data;
         }
 
         @Override
-        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public HomeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_card, parent, false);
-            ViewHolder vh = new ViewHolder(v);
+            HomeAdapter.ViewHolder vh = new HomeAdapter.ViewHolder(v);
             return vh;
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
-            holder.mTextView.setText(mData.get(position));
+        public void onBindViewHolder(final HomeAdapter.ViewHolder holder, int position) {
+            holder.mTextView.setText(data.get(position));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Item " + holder.getAdapterPosition() + " is clicked.", Toast.LENGTH_SHORT).show();
                 }
             });
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Toast.makeText(getActivity(), "Item " + position + " is long clicked.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Item " + holder.getAdapterPosition() + " is long clicked.", Toast.LENGTH_SHORT).show();
                     return true;
                 }
             });
@@ -110,8 +110,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mData.size();
+            return data.size();
         }
     }
-
 }

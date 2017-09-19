@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
@@ -63,7 +64,7 @@ import java.util.List;
 public class PaintActivity extends AppCompatActivity implements OnColorChangedListener,OnSizeChangedListener {
     public static final String KEY_MY_PREFERENCE = "autoplay_intervaltime";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
-    private Boolean replayMode = false;
+    private Boolean mbAutoPlay = false,replayMode = false,playState = false,playing = false,earseMode = false;
     private MyView myView;
     private FrameLayout mViewFreePaint;
     private String fname; // file name
@@ -71,20 +72,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private int count = 0;
     private Button btnAutoPlay, btnPlay, btnNext, btnPrevious, btnRedo, btnUndo;
     private Button btnUpload;
+    private ImageButton btnColorpicker;
     private List<Integer> tempTagLength = new ArrayList<Integer>();
     private List<TagPoint> mTagPoint_a_record, undoTagPoint_a_record;
     private Handler handler_Timer_Play = new Handler();
     private static int miPointCount = 0, miPointCurrent = 0;
     private static int miAutoPlayIntervalTime = 10;
-    private boolean mbAutoPlay = false;
-    private static int miColor_Paint = 0xFF000000;
-    private boolean playState = false;
-    private boolean playing = false;
-    private FrameLayout customPaintView;
-    private Bitmap pBitmap;
-    private Canvas pCanvas;
-    private Path pPath;
-    private TextView paintStepTextView;
     private int displayWidth;
     private ColorPicker colorPicker;
     private SizePicker sizePicker;
@@ -97,7 +90,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setColor(miColor_Paint);
+        mPaint.setColor(0xFF000000);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -132,6 +125,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         sizePicker.getWindow().setGravity(Gravity.START);
         sizePicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         sizePicker.getWindow().getAttributes().windowAnimations=R.style.ColorPickStyle;
+        btnColorpicker=(ImageButton)findViewById(R.id.id_btn_colorpicker);
 
         mTagPoint_a_record = new ArrayList<TagPoint>();
         undoTagPoint_a_record = new ArrayList<TagPoint>();
@@ -520,6 +514,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     @Override
     public void sizeChanged(int size) {
+        ((Button)findViewById(R.id.id_btn_size)).setText(size+" 像素");
         mPaint.setStrokeWidth(size);
     }
 
@@ -527,6 +522,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     public void colorChanged( int color) {
         mPaint.setColor(color);
         findViewById(R.id.id_btn_colorpicker).setBackgroundColor(color);
+        if(earseMode){
+            recoveryPaint();
+        }
     }
     //End
 
@@ -636,8 +634,22 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public void earse_mode(View view){
-        mPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.White));
+        if(!earseMode){
+            mPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.White));
+            ((ImageButton)findViewById(R.id.id_btn_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
+            earseMode=true;
+        }else{
+            recoveryPaint();
+        }
     }
+
+    public void recoveryPaint(){
+        ColorDrawable dw=(ColorDrawable)btnColorpicker.getBackground();
+        mPaint.setColor(dw.getColor());
+        ((ImageButton)findViewById(R.id.id_btn_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
+        earseMode=false;
+    }
+
 
     public void playStateBtn(int option) {
         switch (option) {
