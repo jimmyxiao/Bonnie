@@ -2222,6 +2222,8 @@ p.blog-vid-info-text {
 }
 
 .footerBottom{
+	clear: both;
+    overflow: hidden;
 	box-sizing: border-box;
 	position: relative;
     bottom: 0;
