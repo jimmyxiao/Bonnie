@@ -5,5 +5,5 @@ package com.sctw.bonniedraw.paintpicker;
  */
 
 public interface ColorsSelectedListener {
-    void onOvalColorSelected(int color);
+    void onColorSelected(int color);
 }

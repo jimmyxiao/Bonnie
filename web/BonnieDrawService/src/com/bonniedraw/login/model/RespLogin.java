@@ -7,7 +7,7 @@ public class RespLogin extends BaseModel {
 	private int index;
 	
 	public RespLogin() {
-		this.status = 1;
+		this.status = 2;
 	}
 
 	public int getStatus() {

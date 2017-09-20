@@ -4,8 +4,8 @@
 var locationIP='http://localhost:8080/';
 var rootUrl = locationIP + 'BonnieDrawService/';
 
-// releas
-// var locationIP='http://www.bonniedraw.com/';
+// release
+// var locationIP='https://www.bonniedraw.com/';
 // var rootUrl = locationIP + 'bonniedraw_service/';
 
 angular.module('Authentication', []);
@@ -32,9 +32,18 @@ app.factory('baseHttp', function($rootScope, $http){
 
 app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $urlRouterProvider) {	
 	$urlRouterProvider.otherwise('/login');
+
 	$stateProvider.state('404', {
     	url: '/page-not-found'
     	// templateUrl: 'modules/login/view/login.html'
+  	}).state('complete', {
+    	url: '/complete?token',
+    	views: {
+	        "layout": {
+    			templateUrl: 'complete.html',
+    			controller: 'completeController'
+    		}
+    	}
   	}).state('login', {
       	url: '/login',
 	    views: {
@@ -197,17 +206,17 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state){
 	$rootScope.googlePlayStoreUrl = 'https://play.google.com/store';
 	$rootScope.nowUrl = '';
 	// === develop when close , release when open ===
-	// $rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
- //    if ($rootScope.rg_gl.currentUser) {
- //        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
- // 	}
+	$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
+    if ($rootScope.rg_gl.currentUser) {
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
+ 	}
 
    	$rootScope.$on('$locationChangeStart', function (event, next, current){
    		var url = $location.path();
    		$rootScope.nowUrl = url;
-		// if ((url !== '/login' && url !== '/singup') && !$rootScope.rg_gl.currentUser) {
-	 //        $state.go('login');
-	 //    }
+		if ((url !== '/login' && url !== '/singup' && url !== '/complete') && !$rootScope.rg_gl.currentUser) {
+	        $state.go('login');
+	    }
 	});
 	// =============================================
 	$rootScope.$on('$stateChangeError', function(event) {

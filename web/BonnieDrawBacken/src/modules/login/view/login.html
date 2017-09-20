@@ -7,7 +7,7 @@
   		<meta http-equiv="X-UA-Compatible" content="IE=edge">
   		<meta name="description" content="">
     	<meta name="author" content="">
-  		<title>BonnieDraw Login</title>
+  		<title>BonnieDraw 管理平台 Login</title>
 		<link rel="stylesheet" href="bower_components/bootstrap/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="bower_components/bootstrap/css/bootstrap-datetimepicker.min.css" type="text/css">
 		<link rel="stylesheet" href="bower_components/jquery/css/jquery-ui.custom.min.css" />
@@ -33,6 +33,7 @@
    		
   		<script src="locationConfigModule.js"></script>
   		<script src="modules/login/login.js"></script>
+  		<script src="modules/common/js/common.js"></script>
 	</head>
 	<body ng-controller="loginController">
 		<div id="wrapper">
@@ -43,10 +44,10 @@
 							<div class="loginBox">
 								<h1 class="loginTitle">帳號登入</h1>
 								<div class="form-group">
-									<input type="email" name="email" class="form-control" id="login-email" placeholder="用戶名稱" ng-model="loginUser.uc" required >
+									<input type="text" class="form-control" placeholder="用戶名稱" ng-model="loginUser.userCode" required >
 								</div>
 								<div class="form-group">
-									<input type="password" name="password" class="form-control" id="login-password" placeholder="密碼" ng-model="loginUser.up" required >
+									<input type="password" name="password" class="form-control" id="login-password" placeholder="密碼" ng-model="loginUser.userPwd" required >
 								</div>			
 								<button ng-hide="dataLoading" type="submit" value="login" class="btn btn-block btn2-login text-uppercase">
 									登入

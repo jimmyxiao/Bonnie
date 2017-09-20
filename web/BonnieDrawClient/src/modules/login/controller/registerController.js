@@ -14,7 +14,7 @@ app.factory('registerService', function(baseHttp) {
         	if(valid){
 	            registerService.register($scope.register, function(data, status, headers, config) {
 	            	if(data.result){
-	            		alert('註冊成功');
+	            		alert(data.message);
 	            		$state.go('login');
 	            	}else{
 	            		alert('註冊失敗');

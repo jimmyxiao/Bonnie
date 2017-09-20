@@ -15,16 +15,15 @@ app.factory('loginService', function(baseHttp) {
             }, 1000);
         }
  
-        service.SetCredentials = function (usercode,userInfo){
-            var authdata = Base64.encode(usercode + ':' + userInfo.userId);
+        service.SetCredentials = function (response){
+            var authdata = Base64.encode(response.userInfo.userCode + ':' + response.userInfo.userId);
             $rootScope.rg_gl = {
                 currentUser: {
-                    usercode: usercode,
-                    userId: userInfo.userId,
-                    securityKey: userInfo.sk,
-                    userType: userInfo.userType,
-                    userName: userInfo.userName,
-                    userInfo:userInfo
+                    ut: response.ut,
+                    ui: response.ui,
+                    sk: response.sk,
+                    lk: response.lk,
+                    userInfo:response.userInfo
                 }
             }
 

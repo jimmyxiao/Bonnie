@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialogBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Transparent"
+    android:gravity="center_horizontal"
+    android:nestedScrollingEnabled="false"
+    android:orientation="vertical"
+    android:transitionGroup="false">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        android:background="@drawable/shape_save_border">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="作品名稱："
+            app:layout_constraintBottom_toBottomOf="@+id/paint_save_work_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/paint_save_work_name" />
+
+        <EditText
+            android:id="@+id/paint_save_work_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_save_border_text"
+            android:inputType="textPersonName"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/textView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="作品說明："
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/paint_save_work_name" />
+
+        <EditText
+            android:id="@+id/paint_save_work_description"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView3"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_save_border_text"
+            android:gravity="top|left"
+            android:hint="請輸入作品簡短說明，並在說明後加上「＃」，例：#BonnieDraw"
+            android:inputType="textMultiLine"
+            android:padding="8dp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView9"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/textView3"
+            app:layout_constraintRight_toRightOf="@+id/paint_save_work_name"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="所屬類別："
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/ll2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <CheckBox
+                android:id="@+id/paint_save_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="類別一"
+                app:layout_constraintLeft_toLeftOf="@+id/textView9"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+            <CheckBox
+                android:id="@+id/paint_save_class2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="類別二"
+                app:layout_constraintLeft_toRightOf="@+id/checkBox"
+                app:layout_constraintRight_toLeftOf="@+id/checkBox3"
+                app:layout_constraintTop_toTopOf="@+id/checkBox" />
+
+            <CheckBox
+                android:id="@+id/paint_save_class3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="類別三"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/checkBox2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <Button
+                android:id="@+id/paint_save_cencel"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/paint_save_icon"
+                android:text="取消"
+                android:textColor="@color/White" />
+
+            <Button
+                android:id="@+id/paint_save_done"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/paint_save_icon"
+                android:text="儲存&amp;分享"
+                android:textColor="@color/White" />
+        </LinearLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

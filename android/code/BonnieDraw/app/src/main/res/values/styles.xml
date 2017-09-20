@@ -33,4 +33,10 @@
         <item name="android:textColor">#FF4000</item>
     </style>
 
+
+    <style name="ColorPickStyle" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="@android:windowExitAnimation">@anim/slide_bottom</item>
+    </style>
+
 </resources>

@@ -23,7 +23,7 @@ public class SystemSetupServiceImpl extends BaseService implements SystemSetupSe
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int insertSystemSetup(SystemSetup systemSetup, Integer userId) {
+	public int insertSystemSetup(SystemSetup systemSetup) {
 		int success = 0;
 		try {	
 			systemSetupMapper.insert(systemSetup);
@@ -37,7 +37,7 @@ public class SystemSetupServiceImpl extends BaseService implements SystemSetupSe
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int updateSystemSetup(SystemSetup systemSetup, Integer userId) {
+	public int updateSystemSetup(SystemSetup systemSetup) {
 		int success = 0;
 		try{
 			systemSetupMapper.updateByPrimaryKey(systemSetup);
