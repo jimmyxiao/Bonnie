@@ -9,6 +9,7 @@
 import UIKit
 
 let DEBUG = Bundle.main.infoDictionary?["Configuration"] as? String == "Debug"
+let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 
 enum Function: UInt16 {

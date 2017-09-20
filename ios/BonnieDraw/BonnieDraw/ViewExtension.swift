@@ -37,7 +37,7 @@ extension UIView {
     func addTrailingBorder(withColor color: UIColor, width: CGFloat) {
         let layer = CALayer()
         layer.backgroundColor = color.cgColor
-        layer.frame = CGRect(x: bounds.width, y: 0, width: width, height: bounds.height)
+        layer.frame = CGRect(x: bounds.width - width, y: 0, width: width, height: bounds.height)
         self.layer.addSublayer(layer)
     }
 
@@ -51,7 +51,7 @@ extension UIView {
     func addBottomBorder(withColor color: UIColor, width: CGFloat) {
         let layer = CALayer()
         layer.backgroundColor = color.cgColor
-        layer.frame = CGRect(x: 0, y: bounds.height, width: bounds.width, height: width)
+        layer.frame = CGRect(x: 0, y: bounds.height - width, width: bounds.width, height: width)
         self.layer.addSublayer(layer)
     }
 }

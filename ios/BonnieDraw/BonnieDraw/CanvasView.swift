@@ -12,12 +12,10 @@ class CanvasView: UIView {
     var size: CGFloat = 8
     var color = UIColor.black
     private var lastTime = Date().timeIntervalSince1970
-    private var lastLastPoint = CGPoint.zero
     private var lastPoint = CGPoint.zero
     private var currentPoint = CGPoint.zero
     private var url: URL?
     private var paths = [Path]()
-    private var bytes = [UInt8]()
     private var animationPoints = [Point]()
     private var animationTimer: Timer?
 
@@ -82,7 +80,7 @@ class CanvasView: UIView {
         if !data.isEmpty {
             let scale = (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)
             let byteMax = CGFloat(UInt8.max)
-            bytes.append(contentsOf: [UInt8](data))
+            var bytes = [UInt8](data)
             while !bytes.isEmpty {
                 animationPoints.append(Point(
                         length: UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8,
@@ -104,7 +102,6 @@ class CanvasView: UIView {
             }
             let point = animationPoints.removeFirst()
             currentPoint = point.position
-            lastLastPoint = currentPoint
             lastPoint = currentPoint
             if bounds.contains(currentPoint) {
                 let path = UIBezierPath()
@@ -123,7 +120,6 @@ class CanvasView: UIView {
     private func animate() {
         var middle: CGPoint
         if bounds.contains(currentPoint) {
-            lastLastPoint = lastPoint
             lastPoint = currentPoint
             if !animationPoints.isEmpty {
                 let point = animationPoints.removeFirst()
@@ -137,7 +133,6 @@ class CanvasView: UIView {
                         self.setNeedsDisplay()
                     }
                 } else {
-                    lastLastPoint = currentPoint
                     lastPoint = currentPoint
                     if bounds.contains(currentPoint) {
                         let path = UIBezierPath()
@@ -198,7 +193,6 @@ class CanvasView: UIView {
         if let touch = touches.first {
             lastTime = Date().timeIntervalSince1970
             currentPoint = touch.location(in: self)
-            lastLastPoint = currentPoint
             lastPoint = currentPoint
             if bounds.contains(currentPoint) {
                 let path = UIBezierPath()
@@ -207,7 +201,7 @@ class CanvasView: UIView {
                 path.lineWidth = size
                 paths.append(
                         Path(bezierPath: path,
-                                points: [Point(length: 20,
+                                points: [Point(length: LENGTH_SIZE,
                                         function: .draw,
                                         position: currentPoint,
                                         color: color,
@@ -225,15 +219,14 @@ class CanvasView: UIView {
             var currentTime = Date().timeIntervalSince1970
             var middle: CGPoint
             for touch in coalescedTouches {
+                lastPoint = currentPoint
+                currentPoint = touch.location(in: self)
                 if bounds.contains(currentPoint) {
-                    lastLastPoint = lastPoint
-                    lastPoint = currentPoint
-                    currentPoint = touch.location(in: self)
                     middle = CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2)
                     currentTime = Date().timeIntervalSince1970
                     paths.last?.bezierPath.addQuadCurve(to: middle, controlPoint: lastPoint)
                     paths.last?.points.append(
-                            Point(length: 20,
+                            Point(length: LENGTH_SIZE,
                                     function: .draw,
                                     position: currentPoint,
                                     color: color,
@@ -253,15 +246,14 @@ class CanvasView: UIView {
             var currentTime = Date().timeIntervalSince1970
             var middle: CGPoint
             for touch in coalescedTouches {
+                lastPoint = currentPoint
+                currentPoint = touch.location(in: self)
                 if bounds.contains(currentPoint) {
-                    lastLastPoint = lastPoint
-                    lastPoint = currentPoint
-                    currentPoint = touch.location(in: self)
                     middle = CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2)
                     currentTime = Date().timeIntervalSince1970
                     paths.last?.bezierPath.addQuadCurve(to: middle, controlPoint: lastPoint)
                     paths.last?.points.append(
-                            Point(length: 20,
+                            Point(length: LENGTH_SIZE,
                                     function: .draw,
                                     position: currentPoint,
                                     color: color,
