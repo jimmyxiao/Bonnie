@@ -11,9 +11,8 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
 	            $scope.dataLoading = true;
 	            AuthenticationService.Login($scope.loginUser, function(response,request) {
 	            	if(response.res == 1){
-	            		$rootScope.sessionId  = response.sk;
 	            		$rootScope.user = response.userInfo;
-	                    AuthenticationService.SetCredentials($scope.loginUser.uc, response.userInfo);
+	                    AuthenticationService.SetCredentials(response);
 	                    $state.go('index');
 	            	}else{
 	            		$scope.error_msg = response.message;

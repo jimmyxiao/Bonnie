@@ -15,10 +15,12 @@ import com.bonniedraw.user.service.WebUserService;
 import com.bonniedraw.util.TimerUtil;
 import com.bonniedraw.util.ValidateUtil;
 import  com.bonniedraw.util.auth.AuthView;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -31,6 +33,28 @@ public class LoginController {
 	@Autowired
 	LoginService loginService;
 	
+	@RequestMapping(value="/complete")
+	public @ResponseBody BaseModel registerComplete(HttpServletRequest request, HttpServletResponse resp, @RequestParam String token){
+		BaseModel baseModel = new BaseModel();
+		baseModel.setResult(false);
+		String msg ="";
+		if(ValidateUtil.isNotBlank(token) && token.length()>10){
+			int res = webUserService.registerComplete(token);
+			if(res==1){
+				baseModel.setResult(true);
+			}else if(res==3){
+				msg="連結已失效，請重新申請";
+			}else {
+				msg="無註冊會員";
+			}
+		}else{
+			msg = "無效網址";
+		}
+		
+		baseModel.setMessage(msg);
+		return baseModel;
+	}
+	
 	@RequestMapping(value="/register")
 	public @ResponseBody BaseModel register(HttpServletRequest request, HttpServletResponse resp, @RequestBody UserInfo userInfo){
 		BaseModel baseModel = new BaseModel();
@@ -42,7 +66,7 @@ public class LoginController {
 			switch (res) {
 			case 1:
 				baseModel.setResult(true);
-				msg = "成功";
+				msg = "信件已發送";
 				break;
 			case 2:
 				msg = "失敗";

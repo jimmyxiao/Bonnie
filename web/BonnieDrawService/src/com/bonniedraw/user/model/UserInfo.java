@@ -39,6 +39,10 @@ public class UserInfo {
 
     private Integer languageId;
 
+    private String regData;
+
+    private Date regValidDate;
+
     private Date creationDate;
 
     private Integer createdBy;
@@ -189,6 +193,22 @@ public class UserInfo {
 
     public void setLanguageId(Integer languageId) {
         this.languageId = languageId;
+    }
+
+    public String getRegData() {
+        return regData;
+    }
+
+    public void setRegData(String regData) {
+        this.regData = regData == null ? null : regData.trim();
+    }
+
+    public Date getRegValidDate() {
+        return regValidDate;
+    }
+
+    public void setRegValidDate(Date regValidDate) {
+        this.regValidDate = regValidDate;
     }
 
     public Date getCreationDate() {

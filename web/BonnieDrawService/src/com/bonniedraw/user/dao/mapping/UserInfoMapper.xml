@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bonniedraw.user.dao.UserInfoMapper">
-  <resultMap id="BaseResultMap" type="com.bonniedraw.user.model.UserInfo">
+<resultMap id="BaseResultMap" type="com.bonniedraw.user.model.UserInfo">
     <id column="USER_ID" jdbcType="INTEGER" property="userId" />
     <result column="USER_TYPE" jdbcType="INTEGER" property="userType" />
     <result column="USER_CODE" jdbcType="VARCHAR" property="userCode" />
@@ -20,6 +20,8 @@
     <result column="BIRTHDAY" jdbcType="TIMESTAMP" property="birthday" />
     <result column="STATUS" jdbcType="INTEGER" property="status" />
     <result column="LANGUAGE_ID" jdbcType="INTEGER" property="languageId" />
+    <result column="REG_DATA" jdbcType="VARCHAR" property="regData" />
+    <result column="REG_VALID_DATE" jdbcType="TIMESTAMP" property="regValidDate" />
     <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
     <result column="CREATED_BY" jdbcType="INTEGER" property="createdBy" />
     <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
@@ -28,7 +30,8 @@
   <sql id="Base_Column_List">
     USER_ID, USER_TYPE, USER_CODE, USER_PW, USER_NAME, NICK_NAME, EMAIL, SEC_EMAIL, DESCRIPTION, 
     WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, GENDER, REG_THIRD_ID, PROFILE_PICTURE, BIRTHDAY, 
-    STATUS, LANGUAGE_ID, CREATION_DATE, CREATED_BY, UPDATE_DATE, UPDATED_BY
+    STATUS, LANGUAGE_ID, REG_DATA, REG_VALID_DATE, CREATION_DATE, CREATED_BY, UPDATE_DATE, 
+    UPDATED_BY
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -47,16 +50,18 @@
       WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, 
       GENDER, REG_THIRD_ID, PROFILE_PICTURE, 
       BIRTHDAY, STATUS, LANGUAGE_ID, 
-      CREATION_DATE, CREATED_BY, UPDATE_DATE, 
-      UPDATED_BY)
+      REG_DATA, REG_VALID_DATE, CREATION_DATE, 
+      CREATED_BY, UPDATE_DATE, UPDATED_BY
+      )
     values (#{userId,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}, 
       #{userPw,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{secEmail,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{webLink,jdbcType=VARCHAR}, #{phoneCountryCode,jdbcType=VARCHAR}, #{phoneNo,jdbcType=VARCHAR}, 
       #{gender,jdbcType=INTEGER}, #{regThirdId,jdbcType=VARCHAR}, #{profilePicture,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{languageId,jdbcType=INTEGER}, 
-      #{creationDate,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{updatedBy,jdbcType=INTEGER})
+      #{regData,jdbcType=VARCHAR}, #{regValidDate,jdbcType=TIMESTAMP}, #{creationDate,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.bonniedraw.user.model.UserInfo">
     insert into user_info
@@ -114,6 +119,12 @@
       </if>
       <if test="languageId != null">
         LANGUAGE_ID,
+      </if>
+      <if test="regData != null">
+        REG_DATA,
+      </if>
+      <if test="regValidDate != null">
+        REG_VALID_DATE,
       </if>
       <if test="creationDate != null">
         CREATION_DATE,
@@ -183,6 +194,12 @@
       <if test="languageId != null">
         #{languageId,jdbcType=INTEGER},
       </if>
+      <if test="regData != null">
+        #{regData,jdbcType=VARCHAR},
+      </if>
+      <if test="regValidDate != null">
+        #{regValidDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="creationDate != null">
         #{creationDate,jdbcType=TIMESTAMP},
       </if>
@@ -251,6 +268,12 @@
       <if test="languageId != null">
         LANGUAGE_ID = #{languageId,jdbcType=INTEGER},
       </if>
+      <if test="regData != null">
+        REG_DATA = #{regData,jdbcType=VARCHAR},
+      </if>
+      <if test="regValidDate != null">
+        REG_VALID_DATE = #{regValidDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="creationDate != null">
         CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
       </if>
@@ -285,6 +308,8 @@
       BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=INTEGER},
       LANGUAGE_ID = #{languageId,jdbcType=INTEGER},
+      REG_DATA = #{regData,jdbcType=VARCHAR},
+      REG_VALID_DATE = #{regValidDate,jdbcType=TIMESTAMP},
       CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
       CREATED_BY = #{createdBy,jdbcType=INTEGER},
       UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
@@ -308,8 +333,9 @@
 		where USER_CODE = #{uc,jdbcType=VARCHAR}
 	</select>
 	
-	<select id="inspectRegisterByUserInfo" parameterType="com.bonniedraw.user.model.UserInfo" resultType="java.lang.Integer">
-		select ifnull(sum(USER_ID),0)
+	<select id="inspectRegisterByUserInfo" parameterType="com.bonniedraw.user.model.UserInfo" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
 		from user_info
 		where USER_CODE = #{userCode, jdbcType=VARCHAR}
 	</select>
@@ -326,6 +352,14 @@
     	select 
     	<include refid="Base_Column_List" />
     	from user_info
+  	</select>
+  	
+  	<select id="queryTokenUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from user_info
+    	where STATUS = 0
+    	and REG_DATA = #{token, jdbcType=VARCHAR}
   	</select>
   
 </mapper>

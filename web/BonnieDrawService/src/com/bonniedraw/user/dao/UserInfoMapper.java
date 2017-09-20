@@ -6,7 +6,7 @@ import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
 
 public interface UserInfoMapper {
-    int deleteByPrimaryKey(Integer userId);
+	int deleteByPrimaryKey(Integer userId);
 
     int insert(UserInfo record);
 
@@ -22,10 +22,12 @@ public interface UserInfoMapper {
     
     int inspectRegister(LoginRequestVO loginRequestVO);
     
-    int inspectRegisterByUserInfo(UserInfo userInfo);
+    UserInfo inspectRegisterByUserInfo(UserInfo userInfo);
     
     UserInfo inspectOldPwd(UserInfo record);
     
     List<UserInfo> queryUserList();
+    
+    UserInfo queryTokenUser(String token);
     
 }

@@ -22,4 +22,11 @@ public class TimerUtil {
 		return cSchedStartCal.getTime();
 	}
 	
+	public static final Date addMin(Date nowDate,int min){
+		Calendar cSchedStartCal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cSchedStartCal.setTime(nowDate);
+		cSchedStartCal.add(Calendar.MINUTE, min);
+		return cSchedStartCal.getTime();
+	}
+	
 }
