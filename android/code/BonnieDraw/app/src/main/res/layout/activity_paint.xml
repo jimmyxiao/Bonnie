@@ -1,117 +1,33 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_paint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPaintLayout"
+    android:background="@color/White"
     android:orientation="vertical"
     tools:context="com.sctw.bonniedraw.paint.PaintActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/paint_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPaintLayout"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:id="@+id/btn_paint_undo"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:text="Undo"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_paint_redo"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:text="Redo"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/id_btn_previous"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:text="上"
-                android:textAllCaps="false"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/id_btn_next"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:text="下"
-                android:textAllCaps="false"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/id_btn_play"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:text="S"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/id_btn_autoplay"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:text="A"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btnUpload"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:text="Up"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btnDownload"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:text="Do"
-                android:textAllCaps="false" />
-
-        </LinearLayout>
-
-    </android.support.constraint.ConstraintLayout>
-
     <FrameLayout
         android:id="@+id/view_freepain"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/paint_item"
-        android:layout_gravity="fill_vertical"
-        android:background="@android:color/white" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/paint_control_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paint_item" />
 
     <LinearLayout
         android:id="@+id/paint_control_layout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
         android:background="@color/colorPaintLayout"
         android:gravity="bottom"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <Button
             android:id="@+id/id_btn_size"
@@ -139,13 +55,6 @@
             app:srcCompat="@drawable/ic_insert_drive_file_black_24dp" />
 
         <ImageButton
-            android:id="@+id/id_btn_save"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_save_black_24dp" />
-
-        <ImageButton
             android:id="@+id/id_btn_erase"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -165,4 +74,103 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/paint_control_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <Button
+            android:id="@+id/id_btn_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="上"
+            android:textAllCaps="false"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:layout_editor_absoluteY="463dp" />
+
+        <Button
+            android:id="@+id/id_btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="下"
+            android:textAllCaps="false"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toRightOf="@+id/id_btn_previous"
+            tools:layout_editor_absoluteY="463dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/paint_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:background="@color/colorPaintLayout"
+        android:orientation="horizontal"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/id_btn_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="back"
+            android:text="Back" />
+
+        <Button
+            android:id="@+id/btn_paint_undo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Undo"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_paint_redo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Redo"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/id_btn_play"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="S"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/id_btn_autoplay"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="A"
+            android:textAllCaps="false" />
+
+        <ImageButton
+            android:id="@+id/id_btn_save"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_save_black_24dp" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
