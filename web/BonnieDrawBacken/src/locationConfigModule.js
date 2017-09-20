@@ -6,7 +6,7 @@
 		.value("backendName","BonnieDrawBacken");
 
 		// release
-		// .value("locationIP","http://www.bonniedraw.com/")
+		// .value("locationIP","https://www.bonniedraw.com/")
 		// .value("serviceName","bonniedraw_service")
 		// .value("backendName","BDBackend");
 })();

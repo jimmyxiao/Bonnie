@@ -5,7 +5,7 @@ var locationIP='http://localhost:8080/';
 var rootUrl = locationIP + 'BonnieDrawService/';
 
 // releas
-// var locationIP='http://www.bonniedraw.com/';
+// var locationIP='https://www.bonniedraw.com/';
 // var rootUrl = locationIP + 'bonniedraw_service/';
 
 angular.module('Authentication', []);
