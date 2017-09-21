@@ -17,6 +17,12 @@
 		163F65B51F61663900945E04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B31F61663900945E04 /* LaunchScreen.storyboard */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
 		165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165710FE1F6BAB63004A8DD8 /* Path.swift */; };
+		165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */; };
+		165ECC551F73A40700E32AA5 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */; };
+		165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC561F73A46200E32AA5 /* ColorExtension.swift */; };
+		165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC581F73A47C00E32AA5 /* StringExtension.swift */; };
+		165ECC5B1F73A72500E32AA5 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC5A1F73A72400E32AA5 /* RestClient.swift */; };
+		165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */; };
 		169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169C71CA1F66AFEF00B5D786 /* Constant.swift */; };
 		16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */; };
 		16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */; };
@@ -42,6 +48,12 @@
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		165710FE1F6BAB63004A8DD8 /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
+		165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordViewController.swift; sourceTree = "<group>"; };
+		165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		165ECC561F73A46200E32AA5 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		165ECC581F73A47C00E32AA5 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		165ECC5A1F73A72400E32AA5 /* RestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
+		165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		169C71CA1F66AFEF00B5D786 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = BonnieDraw/Constant.swift; sourceTree = "<group>"; };
 		16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButtonViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +125,7 @@
 		163F65BD1F616C0A00945E04 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */,
 				16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */,
 				163F65BE1F616C4F00945E04 /* CanvasViewController.swift */,
 				163906FD1F6C083300E5717A /* SignInViewController.swift */,
@@ -125,6 +138,10 @@
 		16D439611F66A97400FF5878 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				165ECC5A1F73A72400E32AA5 /* RestClient.swift */,
+				165ECC581F73A47C00E32AA5 /* StringExtension.swift */,
+				165ECC561F73A46200E32AA5 /* ColorExtension.swift */,
+				165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */,
 				163907021F6C0BE400E5717A /* ApplicationExtension.swift */,
 				163907031F6C0BE400E5717A /* BundleExtension.swift */,
 				16FC10231F6963B3008A6A92 /* ViewExtension.swift */,
@@ -145,6 +162,7 @@
 		16FC10221F695C62008A6A92 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */,
 				16FC10201F695C58008A6A92 /* CanvasView.swift */,
 			);
 			name = View;
@@ -268,7 +286,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E582CE5F134C9329393F8078 /* [CP] Embed Pods Frameworks */ = {
@@ -297,13 +315,19 @@
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
+				165ECC551F73A40700E32AA5 /* ViewControllerExtension.swift in Sources */,
+				165ECC5B1F73A72500E32AA5 /* RestClient.swift in Sources */,
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
+				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
 				16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */,
 				16CEB8A21F72B34F00ADBC1F /* CustomTitleNavigationViewController.swift in Sources */,
+				165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */,
+				165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */,
 				163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */,
 				169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */,
 				16D439651F66A9B300FF5878 /* Logger.swift in Sources */,
 				163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */,
+				165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */,
 				16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */,
 				163907051F6C0BE400E5717A /* BundleExtension.swift in Sources */,
 				16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */,
@@ -447,7 +471,7 @@
 				DEVELOPMENT_TEAM = 3MMZ7UBHWG;
 				INFOPLIST_FILE = BonnieDraw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = tw.sourcecode.BonnieDraw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sctw.bonniedraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
@@ -462,7 +486,7 @@
 				DEVELOPMENT_TEAM = 3MMZ7UBHWG;
 				INFOPLIST_FILE = BonnieDraw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = tw.sourcecode.BonnieDraw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sctw.bonniedraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;

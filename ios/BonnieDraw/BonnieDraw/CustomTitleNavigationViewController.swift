@@ -9,14 +9,14 @@
 import UIKit
 
 class CustomTitleNavigationViewController: UINavigationController, UINavigationControllerDelegate {
-    let titleView = Bundle.main.loadView(from: "TitleView")
-
     override func viewDidLoad() {
-        navigationBar.items?.first?.titleView = titleView
+        delegate = self
     }
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController.navigationItem.titleView == nil {
+            let titleView = Bundle.main.loadView(from: "TitleView")
+            titleView?.backgroundColor = .clear
             viewController.navigationItem.titleView = titleView
         }
     }

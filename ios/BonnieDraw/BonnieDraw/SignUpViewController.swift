@@ -9,7 +9,8 @@
 import UIKit
 
 class SignUpViewController: BackButtonViewController {
-    override func viewDidLoad() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "personal_ic_list"), style: .bordered, target: self, action: #selector(onBackPressed))
-    }
+    @IBOutlet weak var phone: UITextField!
+    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var password: UITextField!
 }
