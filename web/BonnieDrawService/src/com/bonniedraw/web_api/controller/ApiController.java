@@ -226,28 +226,37 @@ public class ApiController {
 		WorkListResponseVO respResult = new WorkListResponseVO();
 		String msg = "";
 		if(isLogin(workListRequestVO)){
-			Integer wid = workListRequestVO.getWid();
-			if(ValidateUtil.isNotNumNone(wid)){
-				WorksResponse worksResponse = mobileWorksService.queryWorks(wid);
-				if(worksResponse!=null){
-					List<WorksResponse> workList = respResult.getWorkList();
-					workList.add(worksResponse);
-					respResult.setRes(1);
-					msg = messageSource.getMessage("api_success",null,request.getLocale());
+			Integer wt = workListRequestVO.getWt();
+			if(ValidateUtil.isNotNumNone(wt) && wt > 0){
+				if(wt!=3 && !(wt >=20)){
+					Integer wid = workListRequestVO.getWid();
+					if(ValidateUtil.isNotNumNone(wid)){
+						WorksResponse worksResponse = mobileWorksService.queryWorks(wid);
+						if(worksResponse!=null){
+							List<WorksResponse> workList = respResult.getWorkList();
+							workList.add(worksResponse);
+							respResult.setRes(1);
+							msg = messageSource.getMessage("api_success",null,request.getLocale());
+						}else{
+							respResult.setRes(2);
+							msg = messageSource.getMessage("api_fail",null,request.getLocale());
+						}
+					}else{
+						List<WorksResponse> workList  = mobileWorksService.queryAllWorks(workListRequestVO);
+						if(ValidateUtil.isNotEmptyAndSize(workList)){
+							respResult.setRes(1);
+							respResult.setWorkList(workList);
+							msg = messageSource.getMessage("api_success",null,request.getLocale());
+						}else{
+							respResult.setRes(2);
+							msg = messageSource.getMessage("api_fail",null,request.getLocale());
+						}
+					}
 				}else{
-					respResult.setRes(2);
-					msg = messageSource.getMessage("api_fail",null,request.getLocale());
+					
 				}
 			}else{
-				List<WorksResponse> workList  = mobileWorksService.queryAllWorks();
-				if(ValidateUtil.isNotEmptyAndSize(workList)){
-					respResult.setRes(1);
-					respResult.setWorkList(workList);
-					msg = messageSource.getMessage("api_success",null,request.getLocale());
-				}else{
-					respResult.setRes(2);
-					msg = messageSource.getMessage("api_fail",null,request.getLocale());
-				}
+				msg="類別錯誤";
 			}
 		}else{
 			msg = "帳號未登入"; 

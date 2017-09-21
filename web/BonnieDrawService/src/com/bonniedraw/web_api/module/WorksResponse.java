@@ -8,11 +8,20 @@ import com.bonniedraw.works.model.WorksLike;
 import com.bonniedraw.works.model.WorksMsg;
 
 public class WorksResponse extends Works {
+	private String userName;
 	private Integer likeCount;
 	private Integer msgCount;
 	private List<WorksLike> likeList;
 	private List<WorksMsg> msgList;
 	private List<WorksCategory> categoryList;
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public Integer getLikeCount() {
 		return likeCount;

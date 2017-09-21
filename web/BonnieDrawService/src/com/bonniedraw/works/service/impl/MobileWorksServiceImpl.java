@@ -1,7 +1,10 @@
 package com.bonniedraw.works.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import com.bonniedraw.web_api.model.request.LeaveMsgRequestVO;
 import com.bonniedraw.web_api.model.request.SetFollowingRequestVO;
 import com.bonniedraw.web_api.model.request.SetLikeRequestVO;
 import com.bonniedraw.web_api.model.request.SetTurnInRequestVO;
+import com.bonniedraw.web_api.model.request.WorkListRequestVO;
 import com.bonniedraw.web_api.model.request.WorksSaveRequestVO;
 import com.bonniedraw.web_api.module.WorksResponse;
 import com.bonniedraw.works.dao.FollowingMapper;
@@ -97,14 +101,37 @@ public class MobileWorksServiceImpl extends BaseService implements MobileWorksSe
 	}
 
 	@Override
-	public List<WorksResponse> queryAllWorks() {
-		List<WorksResponse> worksResponseList = worksMapper.queryAllWorks();
-		if(ValidateUtil.isNotEmptyAndSize(worksResponseList)){
-			for(WorksResponse worksResponse:worksResponseList){
-				worksResponse.setLikeCount(worksResponse.getLikeList().size());
-				worksResponse.setMsgCount(worksResponse.getMsgList().size());
+	public List<WorksResponse> queryAllWorks(WorkListRequestVO workListRequestVO) {
+		int wt = workListRequestVO.getWt();
+		int rc = workListRequestVO.getRc();
+		Integer stn = workListRequestVO.getStn();
+		List<WorksResponse> worksResponseList = new ArrayList<WorksResponse>();
+		
+		switch (wt) {
+		case 1:
+			worksResponseList = worksMapper.queryAllWorks();
+			if(ValidateUtil.isNotEmptyAndSize(worksResponseList)){
+				for(WorksResponse worksResponse:worksResponseList){
+					worksResponse.setLikeCount(worksResponse.getLikeList().size());
+					worksResponse.setMsgCount(worksResponse.getMsgList().size());
+				}
 			}
+			break;
+		case 2:
+			if(ValidateUtil.isNotNumNone(stn)){
+				Map<String, Integer> pagerMap = new HashMap<String, Integer>();
+				pagerMap.put("offset", (rc*(stn-1)));
+				pagerMap.put("limit", rc);
+				worksResponseList = worksMapper.queryPopularWorksPager(pagerMap);
+			}else{
+				worksResponseList = worksMapper.queryPopularWorks(rc);
+			}
+			break;
+		case 4:
+			worksResponseList = worksMapper.queryNewUploadWorks(rc);
+			break;
 		}
+		
 		return worksResponseList;
 	}
 	

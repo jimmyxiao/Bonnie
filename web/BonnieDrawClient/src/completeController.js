@@ -1,6 +1,5 @@
 app.controller('completeController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, AuthenticationService) {
     	$rootScope.title = ' | BonnieDRAW';
-    	console.log('call completeController !!!');
     	var params = $state.params;
     	var url = rootUrl + 'ws/complete?token='+ params.token;
 

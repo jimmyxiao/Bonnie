@@ -6,24 +6,24 @@
 		<div id="main-section">
 			<div class="container">
 				<div class="row overflow-hidden">
-			    	<div class="col-md-6 col-sm-12 md-grid">
-			       		<div class="vid-img-holder wow pulse" data-wow-duration="1s">
+			    	<div class="col-md-6 col-sm-12 md-grid" ng-repeat="data in mainSectionArr_mdgrid track by $index">
+			       		<div class="vid-img-holder wow pulse" data-wow-duration="{{mainSectionArr_mdgrid.delay}}">
 			        		<div class="top-shadow">
-			              		<a class="_eszkz _l9yih " href="#" role="button" aria-disabled><i class="material-icons author-font-icon">favorite_border</i></a>
-								<span style="float:left;"><i class="fa fa-thumbs-o-up author-font-icon" aria-hidden="true"></i>57689</span>
+			              		<a class="_eszkz _l9yih " href="#" role="button" aria-disabled><i class="material-icons author-font-icon">{{data.title}}</i></a>
+								<span style="float:left;"><i class="fa fa-thumbs-o-up author-font-icon" aria-hidden="true"></i>{{data.like}}</span>
 			            	</div>
 			            	<a href="#/column-detail">
-			                	<img class="img-responsive hidden-sm hidden-xs" src="assets/images/main-vid-image-md-1.jpg" alt="video_thumb">
-			                	<img class="img-responsive hidden-md hidden-lg" src="assets/images/main-vid-image-smmd-1.jpg" alt="video_thumb">
+			                	<img class="img-responsive hidden-sm hidden-xs" ng-src="{{data.imgXs}}" alt="video_thumb">
+			                	<img class="img-responsive hidden-md hidden-lg" ng-src="{{data.imgLg}}" alt="video_thumb">
 			                	<span class="play-icon">
 			                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">		                	
 			                	</span>			                			                
 			            	</a> 
 			            	<h3 class="vid-author">
 				                <span>
-				                    By <a href="#" title="Posts by admin" rel="author">Admin</a>
+				                    By <a href="#" title="Posts by admin" rel="author">{{data.author}}</a>
 				                </span>
-				                <a href="#/column-detail">Gladiators Fighting</a>
+				                <a href="#/column-detail">{{data.description}}</a>
 			            	</h3> 
 			            	<div class="bottom-shadow"></div>
 			            	<div class="overlay-div"></div>		
@@ -73,7 +73,7 @@
 									<div class="col-md-4 col-sm-6" ng-repeat="newUpload in secondarySectionArr_new track by $index">
 										<div class="latest-vid-img-container">		
 											<div class="vid-img">
-												<img class="img-responsive" ng-src="{{newUpload.img}}" alt="video image">
+												<img class="img-responsive" ng-src="{{newUpload.imagePath}}" alt="video image">
 												<a href="#/column-detail" class="play-icon play-small-icon">
 							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">            	
 							                	</a>
@@ -81,11 +81,11 @@
 											</div>
 											<div class="vid-text">
 												<section class="_hmd6j _8oo9w">
-													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">{{newUpload.text.title}}</i></a>
-													<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{newUpload.text.like}}</span>
+													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">{{newUpload.title}}</i></a>
+													<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{newUpload.likeCount}}</span>
 												</section>
-												<p><span>By</span> <a href="#">{{newUpload.text.author}}</a></p>
-												<h1><a href="#/column-detail">{{newUpload.text.description}}</a></h1>
+												<p><span>By</span> <a href="#">{{newUpload.userName}}</a></p>
+												<h1><a href="#/column-detail">{{newUpload.description}}</a></h1>
 											</div>
 										</div>
 									</div>
@@ -103,7 +103,7 @@
 									<div class="col-md-4 col-sm-6" ng-repeat="popularCreation in secondarySectionArr_popular track by $index">
 										<div class="latest-vid-img-container">		
 											<div class="vid-img">
-												<img class="img-responsive" ng-src="{{popularCreation.img}}" alt="video image">
+												<img class="img-responsive" ng-src="{{popularCreation.imagePath}}" alt="video image">
 												<a href="#/column-detail" class="play-icon play-small-icon">
 							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">
 							                	</a>
@@ -111,11 +111,11 @@
 											</div>
 											<div class="vid-text">
 												<section class="_hmd6j _8oo9w">
-													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">{{popularCreation.text.title}}</i></a>
-													<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{popularCreation.text.like}}</span>
+													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">{{popularCreation.title}}</i></a>
+													<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{popularCreation.likeCount}}</span>
 												</section>
-												<p><span>By</span> <a href="#">{{popularCreation.text.author}}</a></p>
-												<h1><a href="#/column-detail">{{popularCreation.text.description}}</a></h1>
+												<p><span>By</span> <a href="#">{{popularCreation.userName}}</a></p>
+												<h1><a href="#/column-detail">{{popularCreation.description}}</a></h1>
 											</div>
 										</div>
 									</div>				

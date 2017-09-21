@@ -8,6 +8,8 @@ var rootUrl = locationIP + 'BonnieDrawService/';
 // var locationIP='https://www.bonniedraw.com/';
 // var rootUrl = locationIP + 'bonniedraw_service/';
 
+
+var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
 var app = angular.module('app',['ui.router', 'ngCookies', 'ui.bootstrap', 'ngRoute', 'ngSanitize','Authentication']);
 

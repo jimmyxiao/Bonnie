@@ -6,6 +6,7 @@ public class WorkListRequestVO extends ApiRequestVO {
 	private Integer wid;
 	private Integer wt;
 	private Integer stn;
+	private Integer rc;
 
 	public Integer getWid() {
 		return wid;
@@ -29,6 +30,14 @@ public class WorkListRequestVO extends ApiRequestVO {
 
 	public void setStn(Integer stn) {
 		this.stn = stn;
+	}
+
+	public Integer getRc() {
+		return rc;
+	}
+
+	public void setRc(Integer rc) {
+		this.rc = rc;
 	}
 
 }

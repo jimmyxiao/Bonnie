@@ -15,6 +15,11 @@ import com.bonniedraw.util.ValidateUtil;
 
 public class EmailProcess {
 	
+	public static boolean sendForgetMail(SystemSetupService systemSetupService , UserInfo userInfo) {
+		boolean success = false;
+		return success;
+	}
+	
 	public static boolean sendValideMail(SystemSetupService systemSetupService , UserInfo userInfo) {
 		boolean success = false;
 		try {
