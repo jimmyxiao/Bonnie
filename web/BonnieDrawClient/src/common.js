@@ -170,3 +170,41 @@ app.directive('convertToNumber', function() {
     }
   };
 });
+
+//自動補0
+app.filter('numberFixedLen', function () {
+  return function (n, len) {
+      	var num = parseInt(n, 10);
+      	len = parseInt(len, 10);
+      	if (isNaN(num) || isNaN(len)) {
+          	return n;
+      	}
+      	num = ''+num;
+      	while (num.length < len) {
+          	num = '0'+num;
+      	}
+      	return num;
+	}
+});
+
+app.filter('range', function() {
+	return function(input,start,total) {
+		total = parseInt(total);
+		for (var i=start; i<=total; i++) {
+		    input.push(i);
+		}
+		return input;
+	}
+});
+
+app.filter('numberFix', function ($filter) {
+	return function (n, len) {
+	    var num = $filter('number')(n, len);
+	    tmpNum = ''+num;
+	      
+	    if(tmpNum.substring(tmpNum.indexOf('.'))=='.00'){
+	    	num = $filter('number')(n, 0);
+	    }
+	    return num;
+	}
+});

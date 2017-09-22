@@ -291,6 +291,15 @@
     limit  #{rc, jdbcType=INTEGER}
   </select>
   
+  <select id="seletMaxPagination" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+	select CEILING(MAX(counted) / #{rc, jdbcType=INTEGER} ) as maxPagination 
+	from ( 
+		select count(*) as counted from works 
+		where PRIVACY_TYPE = 1
+    	and STATUS = 1
+	) as counts
+  </select>
+  
   <select id="queryPopularWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,

@@ -7,6 +7,7 @@ import com.bonniedraw.web_api.module.WorksResponse;
 
 public class WorkListResponseVO extends ApiResponseVO {
 	private List<WorksResponse> workList;
+	private int maxPagination;
 
 	public List<WorksResponse> getWorkList() {
 		return workList;
@@ -16,4 +17,12 @@ public class WorkListResponseVO extends ApiResponseVO {
 		this.workList = workList;
 	}
 
+	public int getMaxPagination() {
+		return maxPagination;
+	}
+
+	public void setMaxPagination(int maxPagination) {
+		this.maxPagination = maxPagination;
+	}
+	
 }

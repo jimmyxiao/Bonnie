@@ -3,6 +3,7 @@ package com.bonniedraw.web_api.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -242,7 +243,15 @@ public class ApiController {
 							msg = messageSource.getMessage("api_fail",null,request.getLocale());
 						}
 					}else{
-						List<WorksResponse> workList  = mobileWorksService.queryAllWorks(workListRequestVO);
+						List<WorksResponse> workList;
+						if(ValidateUtil.isNotNumNone(workListRequestVO.getStn())){
+							Map<String, Object> resultMap = mobileWorksService.queryAllWorksAndPagination(workListRequestVO);
+							workList = (List<WorksResponse>) resultMap.get("worksResponseList");
+							respResult.setMaxPagination((int) resultMap.get("maxPagination"));
+						}else{
+							workList  = mobileWorksService.queryAllWorks(workListRequestVO);
+						}
+						
 						if(ValidateUtil.isNotEmptyAndSize(workList)){
 							respResult.setRes(1);
 							respResult.setWorkList(workList);

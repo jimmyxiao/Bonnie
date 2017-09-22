@@ -3,6 +3,8 @@ app.controller('hotListingController', function ($rootScope, $scope, $window ,$l
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		$scope.offset = 1;
+		$scope.maxPagination = 1;
+		$scope.paginList =[];
 		$scope.clickPagin = function(pagin){
 			$scope.offset = pagin;
 			$scope.queryPopularWorks();
@@ -10,6 +12,22 @@ app.controller('hotListingController', function ($rootScope, $scope, $window ,$l
 		$scope.movePagin = function(offset){
 			$scope.offset = $scope.offset + offset;
 			$scope.queryPopularWorks();
+		}
+		$scope.initalPaginList = function(){
+			// show number of pages 
+			var paginNum = 5;
+			if(paginNum<=$scope.maxPagination){
+				if(($scope.maxPagination - ($scope.offset-1)) >= paginNum){
+					$scope.paginList =[];
+					$scope.paginList = $filter('range')($scope.paginList, $scope.offset, $scope.maxPagination);
+					if($scope.paginList.length > paginNum){
+						$scope.paginList = $filter('limitTo')($scope.paginList, paginNum);
+					}
+				}
+			}else{
+				$scope.paginList =[];
+				$scope.paginList = $filter('range')($scope.paginList, 1, $scope.maxPagination);
+			}
 		}
 
 		$scope.queryPopularWorks = function(){
@@ -21,6 +39,8 @@ app.controller('hotListingController', function ($rootScope, $scope, $window ,$l
 			params.rc = 4; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
+					$scope.maxPagination = data.maxPagination;
+					$scope.initalPaginList();
 					$scope.mainSectionArr = data.workList;
 				}
 			})

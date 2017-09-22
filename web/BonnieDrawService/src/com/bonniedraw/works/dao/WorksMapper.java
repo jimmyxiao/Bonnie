@@ -25,6 +25,8 @@ public interface WorksMapper {
     
     List<WorksResponse> queryPopularWorks(Integer rc);
     
+    int seletMaxPagination(Integer rc);
+    
     List<WorksResponse> queryPopularWorksPager(Map<String, Integer> pagerMap);
     
     List<WorksResponse> queryNewUploadWorks(Integer rc);

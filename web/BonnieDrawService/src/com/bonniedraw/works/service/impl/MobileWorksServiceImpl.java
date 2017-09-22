@@ -104,7 +104,6 @@ public class MobileWorksServiceImpl extends BaseService implements MobileWorksSe
 	public List<WorksResponse> queryAllWorks(WorkListRequestVO workListRequestVO) {
 		int wt = workListRequestVO.getWt();
 		int rc = workListRequestVO.getRc();
-		Integer stn = workListRequestVO.getStn();
 		List<WorksResponse> worksResponseList = new ArrayList<WorksResponse>();
 		
 		switch (wt) {
@@ -118,21 +117,41 @@ public class MobileWorksServiceImpl extends BaseService implements MobileWorksSe
 			}
 			break;
 		case 2:
-			if(ValidateUtil.isNotNumNone(stn)){
-				Map<String, Integer> pagerMap = new HashMap<String, Integer>();
-				pagerMap.put("offset", (rc*(stn-1)));
-				pagerMap.put("limit", rc);
-				worksResponseList = worksMapper.queryPopularWorksPager(pagerMap);
-			}else{
 				worksResponseList = worksMapper.queryPopularWorks(rc);
-			}
 			break;
 		case 4:
 			worksResponseList = worksMapper.queryNewUploadWorks(rc);
 			break;
 		}
-		
 		return worksResponseList;
+	}
+	
+	@Override
+	public Map<String, Object> queryAllWorksAndPagination(WorkListRequestVO workListRequestVO) {
+		int wt = workListRequestVO.getWt();
+		int rc = workListRequestVO.getRc();
+		Integer stn = workListRequestVO.getStn();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<WorksResponse> worksResponseList = new ArrayList<WorksResponse>();
+		int maxPagination = 0;
+		
+		switch (wt) {
+		case 1:
+			break;
+		case 2:
+			maxPagination = worksMapper.seletMaxPagination(rc);
+			Map<String, Integer> pagerMap = new HashMap<String, Integer>();
+			pagerMap.put("offset", (rc*(stn-1)));
+			pagerMap.put("limit", rc);
+			worksResponseList = worksMapper.queryPopularWorksPager(pagerMap);
+			break;
+		case 4:
+			break;
+		}
+		
+		resultMap.put("worksResponseList", worksResponseList);
+		resultMap.put("maxPagination", maxPagination);
+		return resultMap;
 	}
 	
 	@Override
