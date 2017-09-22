@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -82,8 +83,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private SizePicker sizePicker;
     BDWFileReader reader = new BDWFileReader();
     File file, filePath;
-    float startX,startY;
-    int offsetX,offsetY;
+    float startX, startY;
+    int offsetX, offsetY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,8 +249,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         private Path mPath;
         private boolean load = false;
         private Bitmap loadBitmap;
-        private ArrayList<Path> paths = new ArrayList<>();
-        private ArrayList<Path> undonePaths = new ArrayList<>();
+        private ArrayList<PathAndPaint> paths = new ArrayList<>();
+        private ArrayList<PathAndPaint> undonePaths = new ArrayList<>();
         private float mX, mY;
         private static final float TOUCH_TOLERANCE = 4;
         private Paint gridPaint;
@@ -305,8 +306,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
             }
 
-            for (Path p : paths) {
-                canvas.drawPath(p, mPaint);
+            for (PathAndPaint p : paths) {
+                canvas.drawPath(p.get_mPath(), p.get_mPaint());
             }
             canvas.drawPath(mPath, mPaint);
         }
@@ -338,7 +339,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             mPath.lineTo(mX, mY);
             // commit the path to our offscreen
             mCanvas.drawPath(mPath, mPaint);
-            paths.add(new Path(mPath));
+            paths.add(new PathAndPaint(mPath,mPaint));
             // kill this so we don't double draw (新路徑/畫筆)
             mPath = new Path();
             mPaint = new Paint(mPaint);
@@ -380,24 +381,49 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         }
 
+        public float distance(MotionEvent event) {
+            float dx = event.getX(1) - event.getX(0);
+            float dy = event.getY(1) - event.getY(0);
+
+            return (float) Math.sqrt(dx * dx + dy * dy);
+        }
+
+        public PointF mid(MotionEvent event) {
+            float x = (event.getX(1) - event.getX(0)) / 2;
+            float y = (event.getY(1) - event.getY(0)) / 2;
+            return new PointF(x, y);
+        }
+
         @Override
         public boolean onTouchEvent(MotionEvent event) {
             if (replayMode || mbAutoPlay || playState) return true;//重播功能時不准畫
 
             if (zoomMode) {
+                float startDistance;
+                PointF midPoint;
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        startX=event.getX();
-                        startY=event.getY();
+                        startX = event.getX();
+                        startY = event.getY();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        offsetX=(int) (event.getRawX()-startX);
-                        offsetY=(int) (event.getRawY()-startY);
+                        offsetX = (int) (event.getRawX() - startX);
+                        offsetY = (int) (event.getRawY() - startY);
                         myView.layout(offsetX, offsetY, offsetX + myView.getWidth(), offsetY + myView.getHeight());
                         break;
                     case MotionEvent.ACTION_UP:
                         break;
+                    case MotionEvent.ACTION_POINTER_DOWN:
+                        startDistance = distance(event);
+                        if (startDistance > 10) {
+                            //計算中間點
+                            midPoint = mid(event);
+                            //得到進行縮放操作之前，照片的綻放倍數
+                            Log.d("mid point",midPoint.toString());
+                        }
+                        break;
                 }
+
                 return true;
             }
 
@@ -472,16 +498,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
         AlertDialog alertdialog = builder.create();
         alertdialog.show();
-    }
-
-    public void zoomOnable(View view) {
-        if(!zoomMode){
-            zoomMode=true;
-            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.Red));
-        }else{
-            zoomMode=false;
-            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.Transparent));
-        }
     }
 
     public void back(View view) {
@@ -609,12 +625,33 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             recoveryPaint();
         }
     }
+
     //End
-
-
-
-
     public void setOnclick() {
+        ((Button) findViewById(R.id.id_paint_zoom)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!zoomMode) {
+                    zoomMode = true;
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
+                } else {
+                    zoomMode = false;
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
+                }
+            }
+        });
+
+        ((Button) findViewById(R.id.id_paint_zoom)).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                myView.layout(0, 0, myView.getWidth(), myView.getHeight());
+                myView.setScaleX(1);
+                myView.setScaleY(1);
+                return true;
+            }
+        });
+
+
         //撥放器
         btnAutoPlay.setOnClickListener(new Button.OnClickListener() {
             @Override
