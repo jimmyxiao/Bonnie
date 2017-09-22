@@ -9,7 +9,7 @@
     tools:context="com.sctw.bonniedraw.paint.PaintActivity">
 
     <FrameLayout
-        android:id="@+id/view_freepain"
+        android:id="@+id/view_freepaint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
@@ -77,9 +77,29 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paint_item">
+
+        <Button
+            android:id="@+id/id_paint_zoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="zoomOnable"
+            android:text="ZOOM MODE" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/paint_control_layout"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -95,8 +115,7 @@
             android:text="上"
             android:textAllCaps="false"
             android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:layout_editor_absoluteY="463dp" />
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <Button
             android:id="@+id/id_btn_next"
@@ -108,8 +127,7 @@
             android:text="下"
             android:textAllCaps="false"
             android:visibility="invisible"
-            app:layout_constraintLeft_toRightOf="@+id/id_btn_previous"
-            tools:layout_editor_absoluteY="463dp" />
+            app:layout_constraintLeft_toRightOf="@+id/id_btn_previous" />
     </LinearLayout>
 
     <LinearLayout
