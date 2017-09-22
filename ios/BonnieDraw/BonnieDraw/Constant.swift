@@ -25,3 +25,38 @@ enum Action: UInt8 {
 enum Type: UInt8 {
     case round
 }
+
+struct Cell {
+    static let BASIC = "basicCell"
+}
+
+struct Service {
+    private static let BASE = "/bonniedraw_service/BDService"
+    static let SCHEME = "http"
+    static let HOST = "www.bonniedraw.com"
+    static let LOGIN = "\(BASE)/login"
+    static let FORGET_PASSWORD = "\(BASE)/forgetpwd"
+    static let WORK_SAVE = "\(BASE)/worksSave"
+    static let WORK_LIST = "\(BASE)/worksList"
+    static let FILE_UPLOAD = "\(BASE)/fileUpload"
+    static let USER_INFO_QUERY = "\(BASE)/userInfoQuery"
+    static let USER_INFO_UPDATE = "\(BASE)/userInfoUpdate"
+    static let LEAVE_MESSAGE = "\(BASE)/leavemsg"
+    static let LIKE = "\(BASE)/setLike"
+    static let FOLLOW = "\(BASE)/setFollowing"
+    static let REPORT = "\(BASE)/setTurnin"
+    static let UPDATE_PASSWORD = "\(BASE)/updatePwd"
+}
+
+struct Identifier {
+}
+
+struct Segue {
+}
+
+struct Default {
+    static let TOKEN = "token"
+    static let USER_ID = "userId"
+    static let FACEBOOK_ID = "facebookId"
+    static let FACEBOOK_NAME = "facebookName"
+}

@@ -9,13 +9,24 @@
 import UIKit
 import SystemConfiguration
 import FacebookCore
+import ReachabilitySwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    static let reachability = Reachability()!
     var window: UIWindow?
 
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
+        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        return true
+    }
+
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
-        return SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        var didHandle = SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        if !didHandle {
+            didHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        }
+        return didHandle
     }
 
     static func hasNetworkConnection() -> Bool {

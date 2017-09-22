@@ -33,4 +33,18 @@ extension String {
     func toBase64() -> String {
         return Data(self.utf8).base64EncodedString()
     }
+
+    func MD5() -> String {
+        let length = Int(CC_MD5_DIGEST_LENGTH)
+        var digest = [UInt8](repeating: 0, count: length)
+        if let data = data(using: String.Encoding.utf8) {
+            data.withUnsafeBytes {
+                body in
+                CC_MD5(body, CC_LONG(data.count), &digest)
+            }
+        }
+        return (0..<length).reduce("") {
+            $0 + String(format: "%02x", digest[$1])
+        }
+    }
 }

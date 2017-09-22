@@ -14,6 +14,10 @@ class RestClient: NSObject, URLSessionTaskDelegate {
     private var task: URLSessionDataTask?
     private var completionHandler: ((_ success: Bool, _ data: [String: Any]?) -> Void)?
 
+    static func standard(withPath path: String) -> RestClient {
+        return RestClient(scheme: Service.SCHEME, host: Service.HOST, path: path)
+    }
+
     init(scheme: String, host: String, path: String? = nil) {
         components = URLComponents()
         components.scheme = scheme
