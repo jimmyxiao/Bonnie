@@ -30,28 +30,59 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="wJz-eU-OoF" kind="custom" identifier="drawerSegue" customClass="KYEmbedDrawerControllerSegue" customModule="KYDrawerController" id="RF9-yg-SDi"/>
-                        <segue destination="mAV-B7-XIv" kind="custom" identifier="mainSegue" customClass="KYEmbedMainControllerSegue" customModule="KYDrawerController" id="Uyg-Hb-Au1"/>
+                        <segue destination="gqZ-Hv-WuX" kind="custom" identifier="mainSegue" customClass="KYEmbedMainControllerSegue" customModule="KYDrawerController" id="O5z-gT-8Zc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="22" y="36"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="VaJ-Ar-rsM">
+            <objects>
+                <viewController id="gud-V7-B39" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9Nq-u6-C4d"/>
+                        <viewControllerLayoutGuide type="bottom" id="oDH-0q-yWc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WQO-Jk-haa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="435"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VNc-7M-hET">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="435"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="VNc-7M-hET" secondAttribute="trailing" id="SPO-is-z4I"/>
+                            <constraint firstItem="oDH-0q-yWc" firstAttribute="top" secondItem="VNc-7M-hET" secondAttribute="bottom" id="fEX-0y-Uuc"/>
+                            <constraint firstItem="VNc-7M-hET" firstAttribute="top" secondItem="9Nq-u6-C4d" secondAttribute="bottom" id="oIu-Wg-bk6"/>
+                            <constraint firstItem="VNc-7M-hET" firstAttribute="leading" secondItem="WQO-Jk-haa" secondAttribute="leading" id="pCU-Xw-x8q"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="p3R-ce-SHu"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gyz-PE-3Pi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="904" y="1489"/>
+        </scene>
         <!--Custom Title Navigation View Controller-->
         <scene sceneID="pfH-Fr-T2O">
             <objects>
                 <navigationController id="mAV-B7-XIv" customClass="CustomTitleNavigationViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bSB-IG-Qbt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="bSB-IG-Qbt">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="gqZ-Hv-WuX" kind="relationship" relationship="rootViewController" id="rQZ-wg-AtY"/>
+                        <segue destination="gud-V7-B39" kind="relationship" relationship="rootViewController" id="TRb-QT-oA0"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OQy-o9-POC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="904" y="36"/>
+            <point key="canvasLocation" x="904" y="774"/>
         </scene>
         <!--Drawer View Controller-->
         <scene sceneID="B1H-cj-1f1">
@@ -220,7 +251,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qhx-cz-5i5" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="21" y="874"/>
+            <point key="canvasLocation" x="1766" y="36"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="xVl-Yq-LD2">
@@ -235,7 +266,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6By-Rc-dRR">
-                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                                <connections>
+                                    <segue destination="mAV-B7-XIv" kind="embed" id="OMJ-l6-ocV"/>
+                                </connections>
                             </containerView>
                             <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Inp-WT-cz2">
                                 <rect key="frame" x="0.0" y="519" width="320" height="49"/>
@@ -289,7 +323,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yLZ-DS-YhD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1774" y="36"/>
+            <point key="canvasLocation" x="904" y="36"/>
         </scene>
     </scenes>
     <resources>

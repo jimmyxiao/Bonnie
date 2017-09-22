@@ -9,9 +9,11 @@
 import UIKit
 import KYDrawerController
 
-class ParentViewController: KYDrawerController, DrawerViewControllerDelegate {
+class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, TabBarViewControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? DrawerViewController {
+            controller.delegate = self
+        } else if let controller = segue.destination as? TabBarViewController {
             controller.delegate = self
         }
     }
@@ -52,5 +54,9 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate {
                 }
             }
         }
+    }
+
+    func tabBarOpenDrawer() {
+        setDrawerState(.opened, animated: true)
     }
 }
