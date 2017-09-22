@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -26,7 +25,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -64,7 +62,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private static final String SKETCH_FILE = "/backup.bdw";
     private static final String SKETCH_PATH_FILE = "/backupPatch.path";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
-    private Boolean mbAutoPlay = false, replayMode = false, playState = false, playing = false, earseMode = false;
+    private Boolean mbAutoPlay = false, replayMode = false, playState = false, playing = false, earseMode = false, zoomMode = false;
     private Boolean sketch = false;
     private MyView myView;
     private FrameLayout mViewFreePaint;
@@ -84,6 +82,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private SizePicker sizePicker;
     BDWFileReader reader = new BDWFileReader();
     File file, filePath;
+    float startX,startY;
+    int offsetX,offsetY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         String strprefs = prefs.getString(KEY_MY_PREFERENCE, "1");
         miAutoPlayIntervalTime = Integer.valueOf(strprefs) * 100;
         //view inti
-        mViewFreePaint = (FrameLayout) findViewById(R.id.view_freepain);
+        mViewFreePaint = (FrameLayout) findViewById(R.id.view_freepaint);
         mViewFreePaint.addView(myView);
         myView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
@@ -243,7 +243,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     };
 
     public class MyView extends View {
-
         private Bitmap mBitmap;
         private Canvas mCanvas;
         private Path mPath;
@@ -258,13 +257,16 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
         public MyView(Context c) {
             super(c);
+            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            mBitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
             mCanvas = new Canvas();
+            mCanvas.setBitmap(mBitmap);
             mPath = new Path();
             mPaint = new Paint(mPaint);
-            DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-            int screenWidth = metrics.widthPixels;
-            int screenHeight = (int) (metrics.heightPixels * 0.9);
-
             //  Set paint options
             gridPaint = new Paint();
             gridPaint.setAntiAlias(true);
@@ -278,7 +280,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             load = true;
         }
 
-        @Override
+        /*@Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
             if (!load) {
@@ -290,7 +292,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 mBitmap = loadBitmap;
                 mCanvas = new Canvas(mBitmap);
             }
-        }
+        }*/
 
         @Override
         protected void onDraw(Canvas canvas) {
@@ -382,6 +384,23 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         public boolean onTouchEvent(MotionEvent event) {
             if (replayMode || mbAutoPlay || playState) return true;//重播功能時不准畫
 
+            if (zoomMode) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startX=event.getX();
+                        startY=event.getY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        offsetX=(int) (event.getRawX()-startX);
+                        offsetY=(int) (event.getRawY()-startY);
+                        myView.layout(offsetX, offsetY, offsetX + myView.getWidth(), offsetY + myView.getHeight());
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                }
+                return true;
+            }
+
             float x = event.getX();
             float y = event.getY();
             TagPoint tagpoint;
@@ -453,6 +472,16 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
         AlertDialog alertdialog = builder.create();
         alertdialog.show();
+    }
+
+    public void zoomOnable(View view) {
+        if(!zoomMode){
+            zoomMode=true;
+            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.Red));
+        }else{
+            zoomMode=false;
+            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.Transparent));
+        }
     }
 
     public void back(View view) {
@@ -581,6 +610,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         }
     }
     //End
+
+
 
 
     public void setOnclick() {
