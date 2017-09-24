@@ -9,5 +9,6 @@ target 'BonnieDraw' do
   pod 'KYDrawerController'
   pod 'ReachabilitySwift'
   pod 'FacebookLogin'
+  pod 'TwitterKit'
   pod 'Google/SignIn'
 end

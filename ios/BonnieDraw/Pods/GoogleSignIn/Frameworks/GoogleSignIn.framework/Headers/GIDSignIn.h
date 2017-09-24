@@ -13,8 +13,10 @@
 
 @class GIDGoogleUser;
 @class GIDSignIn;
+
 // The error domain for NSErrors returned by the Google Identity SDK.
 extern NSString *const kGIDSignInErrorDomain;
+
 // A list of potential error codes returned from the Google Identity SDK.
 typedef NS_ENUM(NSInteger, GIDSignInErrorCode) {
     // Indicates an unknown error has occured.
@@ -35,12 +37,14 @@ typedef NS_ENUM(NSInteger, GIDSignInErrorCode) {
 
 // A protocol implemented by the delegate of |GIDSignIn| to receive a refresh token or an error.
 @protocol GIDSignInDelegate <NSObject>
+
 // The sign-in flow has finished and was successful if |error| is |nil|.
 - (void)  signIn:(GIDSignIn *)signIn
 didSignInForUser:(GIDGoogleUser *)user
        withError:(NSError *)error;
 
 @optional
+
 // Finished disconnecting |user| from the app successfully if |error| is |nil|.
 - (void)       signIn:(GIDSignIn *)signIn
 didDisconnectWithUser:(GIDGoogleUser *)user
@@ -93,8 +97,10 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 @property(nonatomic, readonly) GIDGoogleUser *currentUser;
 // The object to be notified when authentication is finished.
 @property(nonatomic, weak) id <GIDSignInDelegate> delegate;
+
 // The object to be notified when sign in dispatch selection is finished.
 @property(nonatomic, weak) id <GIDSignInUIDelegate> uiDelegate;
+
 // The client ID of the app from the Google APIs console.  Must set for sign-in to work.
 @property(nonatomic, copy) NSString *clientID;
 // The API scopes requested by the app in an array of |NSString|s.  The default value is |@[]|.

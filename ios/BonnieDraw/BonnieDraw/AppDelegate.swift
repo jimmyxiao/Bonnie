@@ -9,6 +9,7 @@
 import UIKit
 import SystemConfiguration
 import FacebookCore
+import TwitterKit
 import ReachabilitySwift
 
 @UIApplicationMain
@@ -18,11 +19,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
         SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        Twitter.sharedInstance().start(
+                withConsumerKey: Bundle.main.infoDictionary?["TwitterConsumerKey"] as! String,
+                consumerSecret: Bundle.main.infoDictionary?["TwitterConsumerSecret"] as! String)
         return true
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
         var didHandle = SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        if !didHandle {
+            didHandle = Twitter.sharedInstance().application(app, open: url, options: options)
+        }
         if !didHandle {
             didHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         }

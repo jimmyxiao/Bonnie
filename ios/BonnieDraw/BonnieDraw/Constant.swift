@@ -32,7 +32,7 @@ struct Cell {
 
 struct Service {
     private static let BASE = "/bonniedraw_service/BDService"
-    static let SCHEME = "http"
+    static let SCHEME = "https"
     static let HOST = "www.bonniedraw.com"
     static let LOGIN = "\(BASE)/login"
     static let FORGET_PASSWORD = "\(BASE)/forgetpwd"
@@ -57,6 +57,6 @@ struct Segue {
 struct Default {
     static let TOKEN = "token"
     static let USER_ID = "userId"
-    static let FACEBOOK_ID = "facebookId"
-    static let FACEBOOK_NAME = "facebookName"
+    static let THIRD_PARTY_ID = "thirdPartyId"
+    static let THIRD_PARTY_NAME = "thirdPartyName"
 }

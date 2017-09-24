@@ -13,6 +13,11 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
+    let client = RestClient.standard(withPath: Service.LOGIN)
+
+    override func viewWillDisappear(_ animated: Bool) {
+        client.cancel()
+    }
 
     @IBAction func signUp(_ sender: Any) {
         guard AppDelegate.reachability.isReachable else {
@@ -49,6 +54,10 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
             }
         } else {
         }
+    }
+
+    @IBAction func popToSignIn(_ sender: Any) {
+        navigationController?.popToRootViewController(animated: true)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

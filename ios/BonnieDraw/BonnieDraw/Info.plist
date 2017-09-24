@@ -29,6 +29,14 @@
                 <string>Editor</string>
                 <key>CFBundleURLSchemes</key>
                 <array>
+                    <string>twitterkit-HcXL8RV5wlnL1eM3OWSPcvN1N</string>
+                </array>
+            </dict>
+            <dict>
+                <key>CFBundleTypeRole</key>
+                <string>Editor</string>
+                <key>CFBundleURLSchemes</key>
+                <array>
                     <string>com.googleusercontent.apps.579888826124-j33ha9056gdu5i9v8n164r3k9rm63qtn</string>
                 </array>
             </dict>
@@ -50,6 +58,10 @@
         </array>
         <key>LSRequiresIPhoneOS</key>
         <true/>
+        <key>TwitterConsumerKey</key>
+        <string>HcXL8RV5wlnL1eM3OWSPcvN1N</string>
+        <key>TwitterConsumerSecret</key>
+        <string>1efRU1i8Bz1aPzpPvnfP6RrM1MviYNJAtGDawpHQnAFuKYdTmO</string>
         <key>UILaunchStoryboardName</key>
         <string>LaunchScreen</string>
         <key>UIMainStoryboardFile</key>

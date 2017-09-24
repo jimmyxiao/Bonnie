@@ -11,6 +11,11 @@ import UIKit
 class ForgetPasswordViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var email: UITextField!
+    let client = RestClient.standard(withPath: Service.FORGET_PASSWORD)
+
+    override func viewWillDisappear(_ animated: Bool) {
+        client.cancel()
+    }
 
     @IBAction func send(_ sender: Any) {
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""

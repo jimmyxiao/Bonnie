@@ -9,6 +9,7 @@
 import UIKit
 import FacebookCore
 import FacebookLogin
+import TwitterKit
 
 class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
@@ -18,6 +19,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     let client = RestClient.standard(withPath: Service.LOGIN)
 
     override func viewDidLoad() {
+        if DEBUG {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(launchMain))
+        }
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
         var configureError: NSError?
@@ -62,7 +66,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         } else {
             loading.hide(hide: false)
             client.components.path = Service.LOGIN
-            client.getResponse(queries: nil, data: ["uc": email, "up": password.MD5(), "ut": 1, "dt": 4, "fn": 1]) {
+            client.getResponse(queries: nil, data: ["uc": email, "up": password.MD5(), "ut": 1, "dt": 2, "fn": 1]) {
                 success, data in
                 guard success, let response = data?["res"] as? Int else {
                     self.presentDialog(title: "alert_sign_in_error_title".localized, message: "app_network_unreachable_content".localized)
@@ -98,60 +102,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             self.loading.hide(hide: true)
                             return
                         }
-                        var postData: [String: Any] = ["uc": facebookId, "ut": 2, "dt": 4, "fn": 3]
-                        if let email = response.dictionaryValue?["email"] as? String {
-                            postData["fbemail"] = email
-                        }
-                        let facebookSignInHandler: (Bool) -> Void = {
-                            downloadCollection in
-                            postData["fn"] = 1
-                            self.client.getResponse(queries: nil, data: postData) {
-                                success, data in
-                                guard success, let response = data?["res"] as? Int else {
-                                    self.presentDialog(title: "alert_sign_in_error_title".localized, message: "app_network_unreachable_content".localized)
-                                    self.loading.hide(hide: true)
-                                    return
-                                }
-                                if response == 1,
-                                   let token = data?["lk"] as? String, let userId = data?["ui"] as? Int {
-                                    UserDefaults.standard.set(token, forKey: Default.TOKEN)
-                                    UserDefaults.standard.set(userId, forKey: Default.USER_ID)
-                                    UserDefaults.standard.set(facebookId, forKey: Default.FACEBOOK_ID)
-                                    UserDefaults.standard.set(facebookName, forKey: Default.FACEBOOK_NAME)
-                                    self.launchMain()
-                                } else {
-                                    self.presentDialog(title: "alert_sign_in_error_title".localized, message: data?["msg"] as? String)
-                                    self.loading.hide(hide: true)
-                                }
-                            }
-                        }
-                        self.client.getResponse(queries: nil, data: postData) {
-                            success, data in
-                            guard success, let response = data?["res"] as? Int else {
-                                self.presentDialog(title: "alert_sign_in_error_title".localized, message: "app_network_unreachable_content".localized)
-                                self.loading.hide(hide: true)
-                                return
-                            }
-                            if response == 1 {
-                                postData["fn"] = 2
-                                self.client.getResponse(queries: nil, data: postData) {
-                                    success, data in
-                                    guard success, let response = data?["res"] as? Int else {
-                                        self.presentDialog(title: "alert_sign_in_error_title".localized, message: "app_network_unreachable_content".localized)
-                                        self.loading.hide(hide: true)
-                                        return
-                                    }
-                                    if response == 1 {
-                                        facebookSignInHandler(false)
-                                    } else {
-                                        self.presentDialog(title: "alert_sign_in_error_title".localized, message: "app_network_unreachable_content".localized)
-                                        self.loading.hide(hide: true)
-                                    }
-                                }
-                            } else {
-                                facebookSignInHandler(true)
-                            }
-                        }
+                        self.checkAndLogin(withUserType: 2, userId: facebookId, name: facebookName, email: response.dictionaryValue?["email"] as? String)
                     case .failed(let error):
                         self.presentDialog(title: "alert_sign_in_error_title".localized, message: error.localizedDescription)
                         fallthrough
@@ -169,6 +120,19 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     @IBAction func twitter(_ sender: Any) {
+        loading.hide(hide: false)
+        Twitter.sharedInstance().logIn() {
+            session, error in
+            if let error = error {
+                self.loading.hide(hide: true)
+                self.presentDialog(title: "alert_sign_in_error_title".localized, message: error.localizedDescription)
+            } else {
+                TWTRAPIClient.withCurrentUser().requestEmail() {
+                    email, error in
+                    self.checkAndLogin(withUserType: 4, userId: session!.userID, name: session!.userName, email: email)
+                }
+            }
+        }
     }
 
     @IBAction func google(_ sender: Any) {
@@ -176,21 +140,79 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         GIDSignIn.sharedInstance().signIn()
     }
 
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    internal func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
+            loading.hide(hide: true)
             presentDialog(title: "alert_sign_in_error_title".localized, message: error.localizedDescription)
         } else {
-            launchMain()
+            checkAndLogin(withUserType: 3, userId: user.userID, name: user.profile.name, email: user.profile.email)
         }
     }
 
-    func launchMain() {
+    @objc private func launchMain() {
         if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() {
             UIApplication.shared.replace(rootViewControllerWith: controller)
         }
     }
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    private func checkAndLogin(withUserType type: Int, userId id: String, name: String, email: String?) {
+        var postData: [String: Any] = ["uc": id, "ut": type, "dt": 2, "fn": 3]
+        if let email = email {
+            postData["fbemail"] = email
+        }
+        let signInHandler: (Bool) -> Void = {
+            downloadCollection in
+            postData["fn"] = 1
+            self.client.getResponse(queries: nil, data: postData) {
+                success, data in
+                guard success, let response = data?["res"] as? Int else {
+                    self.presentDialog(title: "alert_sign_in_error_title".localized, message: "app_network_unreachable_content".localized)
+                    self.loading.hide(hide: true)
+                    return
+                }
+                if response == 1,
+                   let token = data?["lk"] as? String, let userId = data?["ui"] as? Int {
+                    UserDefaults.standard.set(token, forKey: Default.TOKEN)
+                    UserDefaults.standard.set(userId, forKey: Default.USER_ID)
+                    UserDefaults.standard.set(id, forKey: Default.THIRD_PARTY_ID)
+                    UserDefaults.standard.set(name, forKey: Default.THIRD_PARTY_NAME)
+                    self.launchMain()
+                } else {
+                    self.presentDialog(title: "alert_sign_in_error_title".localized, message: data?["msg"] as? String)
+                    self.loading.hide(hide: true)
+                }
+            }
+        }
+        self.client.getResponse(queries: nil, data: postData) {
+            success, data in
+            guard success, let response = data?["res"] as? Int else {
+                self.presentDialog(title: "alert_sign_in_error_title".localized, message: "app_network_unreachable_content".localized)
+                self.loading.hide(hide: true)
+                return
+            }
+            if response == 1 {
+                postData["fn"] = 2
+                self.client.getResponse(queries: nil, data: postData) {
+                    success, data in
+                    guard success, let response = data?["res"] as? Int else {
+                        self.presentDialog(title: "alert_sign_in_error_title".localized, message: "app_network_unreachable_content".localized)
+                        self.loading.hide(hide: true)
+                        return
+                    }
+                    if response == 1 {
+                        signInHandler(false)
+                    } else {
+                        self.presentDialog(title: "alert_sign_in_error_title".localized, message: "app_network_unreachable_content".localized)
+                        self.loading.hide(hide: true)
+                    }
+                }
+            } else {
+                signInHandler(true)
+            }
+        }
+    }
+
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == email {
             password.becomeFirstResponder()
             return false

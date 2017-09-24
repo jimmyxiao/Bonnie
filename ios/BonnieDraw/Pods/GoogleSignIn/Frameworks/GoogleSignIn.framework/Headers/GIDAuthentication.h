@@ -27,10 +27,13 @@ typedef void (^GIDAccessTokenHandler)(NSString *accessToken, NSError *error);
 
 // This class represents the OAuth 2.0 entities needed for sign-in.
 @interface GIDAuthentication : NSObject <NSCoding>
+
 // The client ID associated with the authentication.
 @property(nonatomic, readonly) NSString *clientID;
+
 // The OAuth2 access token to access Google services.
 @property(nonatomic, readonly) NSString *accessToken;
+
 // The estimated expiration date of the access token.
 @property(nonatomic, readonly) NSDate *accessTokenExpirationDate;
 // The OAuth2 refresh token to exchange for new access tokens.

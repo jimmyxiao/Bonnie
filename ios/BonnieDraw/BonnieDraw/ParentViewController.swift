@@ -45,8 +45,8 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
                     if success {
                         UserDefaults.standard.removeObject(forKey: Default.TOKEN)
                         UserDefaults.standard.removeObject(forKey: Default.USER_ID)
-                        UserDefaults.standard.removeObject(forKey: Default.FACEBOOK_ID)
-                        UserDefaults.standard.removeObject(forKey: Default.FACEBOOK_NAME)
+                        UserDefaults.standard.removeObject(forKey: Default.THIRD_PARTY_ID)
+                        UserDefaults.standard.removeObject(forKey: Default.THIRD_PARTY_NAME)
                         if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
                             UIApplication.shared.replace(rootViewControllerWith: controller)
                         }

@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, GIDSignInButtonStyle) {
     kGIDSignInButtonStyleWide = 1,
     kGIDSignInButtonStyleIconOnly = 2
 };
+
 // The various color schemes supported by the GIDSignInButton.
 typedef NS_ENUM(NSInteger, GIDSignInButtonColorScheme) {
     kGIDSignInButtonColorSchemeDark = 0,
