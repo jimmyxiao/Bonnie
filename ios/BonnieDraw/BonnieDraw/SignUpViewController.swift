@@ -28,27 +28,27 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let password = self.password.text ?? ""
         if name.isEmpty {
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_name_empty".localized) {
+            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_name_empty".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if email.isEmpty {
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
+            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if !email.isValidEmail() {
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
+            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if password.isEmpty {
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_password_empty".localized) {
+            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_password_empty".localized) {
                 action in
                 self.password.becomeFirstResponder()
             }
         } else if password.characters.count < 4 {
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_password_invalid".localized) {
+            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.password.becomeFirstResponder()
             }
@@ -58,7 +58,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
             client.getResponse(queries: nil, data: postData) {
                 success, data in
                 guard success, let response = data?["res"] as? Int else {
-                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
+                    self.presentDialog(title: "alert_sign_up_fail_title".localized, message: "app_network_unreachable_content".localized)
                     self.loading.hide(hide: true)
                     return
                 }
