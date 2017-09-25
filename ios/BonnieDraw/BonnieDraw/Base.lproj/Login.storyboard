@@ -484,7 +484,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uSA-p3-jgv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1775" y="-729"/>
+            <point key="canvasLocation" x="1779" y="-730"/>
         </scene>
         <!--Forget Password View Controller-->
         <scene sceneID="a9M-xC-dYf">
@@ -587,9 +587,8 @@
                                     <constraint firstAttribute="bottom" secondItem="Jvy-Me-KMw" secondAttribute="bottom" id="q4c-yG-A2u"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JFN-Ob-rpd" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JFN-Ob-rpd" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -602,10 +601,14 @@
                             <constraint firstItem="mYR-PA-bgN" firstAttribute="leading" secondItem="Uul-s8-pSQ" secondAttribute="leading" id="TsB-Jb-Xb6"/>
                             <constraint firstItem="duy-Lq-8K3" firstAttribute="centerX" secondItem="Uul-s8-pSQ" secondAttribute="centerX" id="VaK-RR-q2S"/>
                             <constraint firstItem="2MR-f2-R1J" firstAttribute="width" secondItem="Uul-s8-pSQ" secondAttribute="width" multiplier="0.7" id="WLN-ZU-eMs"/>
+                            <constraint firstAttribute="trailing" secondItem="JFN-Ob-rpd" secondAttribute="trailing" id="XD6-Df-7I1"/>
+                            <constraint firstItem="JFN-Ob-rpd" firstAttribute="leading" secondItem="FRD-3r-EHr" secondAttribute="leading" id="Yx9-4k-VZ4"/>
                             <constraint firstAttribute="trailing" secondItem="mYR-PA-bgN" secondAttribute="trailing" id="cHR-zz-gtR"/>
                             <constraint firstItem="joo-Kq-wxw" firstAttribute="top" secondItem="mYR-PA-bgN" secondAttribute="bottom" id="iuW-bt-mob"/>
                             <constraint firstItem="duy-Lq-8K3" firstAttribute="centerY" secondItem="Uul-s8-pSQ" secondAttribute="centerY" id="kSH-Zl-2az"/>
+                            <constraint firstAttribute="bottom" secondItem="JFN-Ob-rpd" secondAttribute="bottom" id="oW0-4k-Juu"/>
                             <constraint firstItem="IPp-Yr-kef" firstAttribute="top" secondItem="2cp-2K-xLb" secondAttribute="bottom" constant="32" id="tIp-GS-Lf7"/>
+                            <constraint firstItem="JFN-Ob-rpd" firstAttribute="top" secondItem="2cp-2K-xLb" secondAttribute="bottom" id="w5c-hI-WWG"/>
                             <constraint firstItem="2MR-f2-R1J" firstAttribute="top" secondItem="IPp-Yr-kef" secondAttribute="bottom" constant="16" id="zgX-do-SUC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FRD-3r-EHr"/>
@@ -617,10 +620,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7nt-Z6-4Al" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="982" y="-729"/>
+            <point key="canvasLocation" x="981" y="-730"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="wd2-B0-7UG"/>
+        <segue reference="4WA-1n-7BP"/>
     </inferredMetricsTieBreakers>
 </document>

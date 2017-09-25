@@ -20,16 +20,33 @@ class ForgetPasswordViewController: UIViewController, UITextFieldDelegate {
     @IBAction func send(_ sender: Any) {
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if email.isEmpty {
-            presentDialog(title: "alert_sign_in_error_title".localized, message: "alert_sign_in_error_email_empty".localized) {
+            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if !email.isValidEmail() {
-            presentDialog(title: "alert_sign_in_error_title".localized, message: "alert_sign_in_error_email_invaid".localized) {
+            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else {
+            loading.hide(hide: false)
+            client.getResponse(queries: nil, data: ["email": email]) {
+                success, data in
+                self.loading.hide(hide: true)
+                guard success, let response = data?["res"] as? Int else {
+                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+                if response == 1 {
+                    self.presentDialog(title: "alert_forget_password_title".localized, message: "alert_forget_password_content".localized) {
+                        action in
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                } else {
+                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
+                }
+            }
         }
     }
 
