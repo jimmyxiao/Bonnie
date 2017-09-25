@@ -135,17 +135,24 @@ public class MobileWorksServiceImpl extends BaseService implements MobileWorksSe
 		List<WorksResponse> worksResponseList = new ArrayList<WorksResponse>();
 		int maxPagination = 0;
 		
+		Map<String, Integer> pagerMap = new HashMap<String, Integer>();
+		pagerMap.put("offset", (rc*(stn-1)));
+		pagerMap.put("limit", rc);
+		pagerMap.put("userId", workListRequestVO.getUi());
 		switch (wt) {
 		case 1:
+			maxPagination = worksMapper.seletMaxPaginationBindFollow(pagerMap);
+			worksResponseList = worksMapper.queryTrackWorksPager(pagerMap);
 			break;
 		case 2:
 			maxPagination = worksMapper.seletMaxPagination(rc);
-			Map<String, Integer> pagerMap = new HashMap<String, Integer>();
-			pagerMap.put("offset", (rc*(stn-1)));
-			pagerMap.put("limit", rc);
 			worksResponseList = worksMapper.queryPopularWorksPager(pagerMap);
 			break;
 		case 4:
+			break;
+		case 5:
+			maxPagination = worksMapper.seletMaxPaginationBindUser(pagerMap);
+			worksResponseList = worksMapper.queryUserWorksPager(pagerMap);
 			break;
 		}
 		

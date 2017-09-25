@@ -98,6 +98,11 @@ public class ApiController {
 				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 			}else{
 				String ip = ServletUtil.getRequestIp(request);
+				if(ip==null){
+					respResult.setMsg("ip address is null !");
+					return respResult;
+				}
+				
 				LoginResponseVO result = mobileUserService.login(loginRequestVO,ip);
 				if(result !=null){
 					respResult = result;
@@ -117,7 +122,11 @@ public class ApiController {
 					}else{
 						switch (fn) {
 						case 1:
-							msg = messageSource.getMessage("api_login_fail1",null,request.getLocale());
+							if(res==3){
+								msg=result.getMsg();
+							}else{
+								msg = messageSource.getMessage("api_login_fail1",null,request.getLocale());
+							}
 							break;
 						case 2:
 							msg = messageSource.getMessage("api_login_fail2",null,request.getLocale());
@@ -228,9 +237,9 @@ public class ApiController {
 		String msg = "";
 		if(isLogin(workListRequestVO)){
 			Integer wt = workListRequestVO.getWt();
+			Integer wid = workListRequestVO.getWid();
 			if(ValidateUtil.isNotNumNone(wt) && wt > 0){
 				if(wt!=3 && !(wt >=20)){
-					Integer wid = workListRequestVO.getWid();
 					if(ValidateUtil.isNotNumNone(wid)){
 						WorksResponse worksResponse = mobileWorksService.queryWorks(wid);
 						if(worksResponse!=null){
@@ -262,7 +271,21 @@ public class ApiController {
 						}
 					}
 				}else{
-					
+					if(ValidateUtil.isNotNumNone(wid)){
+						WorksResponse worksResponse = mobileWorksService.queryWorks(wid);
+						if(worksResponse!=null){
+							Integer resStatus = worksResponse.getStatus();
+							Integer resUserId = worksResponse.getUserId();
+							if(resStatus ==1 ||  (resStatus!=1 && resUserId == workListRequestVO.getUi())){
+								Integer privacyType = worksResponse.getPrivacyType();
+								if(privacyType == 1 || (privacyType!=1 && resUserId == workListRequestVO.getUi())){
+									respResult.setWork(worksResponse);
+									respResult.setRes(1);
+									msg = messageSource.getMessage("api_success",null,request.getLocale());
+								}
+							}
+						}
+					}
 				}
 			}else{
 				msg="類別錯誤";

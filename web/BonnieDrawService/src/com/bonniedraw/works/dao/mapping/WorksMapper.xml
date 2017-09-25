@@ -223,6 +223,7 @@
     <result column="LANGUAGE_ID" jdbcType="INTEGER" property="languageId" />
     <result column="COUNTRY_ID" jdbcType="INTEGER" property="countryId" />
     <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
     <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
     <collection property="likeList" ofType="com.bonniedraw.works.model.WorksLike" resultMap="LikeModuleMap"/>
@@ -235,13 +236,14 @@
     <result column="LIKE_USER_ID" jdbcType="INTEGER" property="userId" />
     <result column="LIKE_TYPE" jdbcType="INTEGER" property="likeType" />
   </resultMap>
-  <resultMap id="MsgModuleMap" type="com.bonniedraw.works.model.WorksMsg">
+  <resultMap id="MsgModuleMap" type="com.bonniedraw.works.module.WorksMsgModule">
     <id column="WORKS_MSG_ID" jdbcType="INTEGER" property="worksMsgId" />
     <result column="MSG_WORKS_ID" jdbcType="INTEGER" property="worksId" />
     <result column="MSG_USER_ID" jdbcType="INTEGER" property="userId" />
     <result column="MESSAGE" jdbcType="VARCHAR" property="message" />
     <result column="MSG_ORDER" jdbcType="INTEGER" property="msgOrder" />
-    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="MSG_CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+     <result column="MSG_USER_NAME" jdbcType="VARCHAR" property="userName" />
   </resultMap>
   <resultMap id="CategoryModuleMap" type="com.bonniedraw.works.model.WorksCategory">
     <id column="WORKS_CATEGORY_ID" jdbcType="INTEGER" property="worksCategoryId" />
@@ -254,11 +256,18 @@
  	wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_ID, wk.COUNTRY_ID, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE,
- 	wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER, wm.CREATION_DATE,
+ 	ur.USER_NAME, 
+ 	WORKS_MSG_ID, MSG_WORKS_ID, MSG_USER_ID, MESSAGE, MSG_ORDER, MSG_CREATION_DATE, MSG_USER_NAME,
  	wc.WORKS_CATEGORY_ID, wc.CATEGORY_ID, wc.WORKS_ID as CATEGORY_WORKS_ID
     from works wk 
+    left outer join user_info ur on ur.user_id = wk.user_id
     left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
-    left outer join works_msg as wm on wm.WORKS_ID = wk.WORKS_ID
+    left outer join 
+    (select 
+    wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER,
+    wm.CREATION_DATE as MSG_CREATION_DATE, user_info.USER_NAME as  MSG_USER_NAME
+    from works_msg wm left outer join user_info on wm.USER_ID = user_info.USER_ID ) t
+    on t.MSG_WORKS_ID = wk.WORKS_ID
     left outer join works_category as wc on wc.WORKS_ID = wk.WORKS_ID
     where wk.WORKS_ID =  #{wid,jdbcType=INTEGER}
   </select>
@@ -274,6 +283,21 @@
     left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
     left outer join works_msg as wm on wm.WORKS_ID = wk.WORKS_ID
     left outer join works_category as wc on wc.WORKS_ID = wk.WORKS_ID
+  </select>
+  
+  <select id="queryNewUploadWorks" parameterType="java.lang.Integer" resultMap="WorksResponseModule">
+    select 
+ 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_ID, wk.COUNTRY_ID, wk.STATUS, wk.UPDATE_DATE,
+ 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, wl.LIKE_COUNT
+    from works wk 
+    left outer join user_info ur on ur.user_id = wk.user_id
+    left outer join (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID) as wl on wl.WORKS_ID = wk.WORKS_ID
+	where 1=1 
+    and wk.PRIVACY_TYPE = 1
+    and wk.STATUS = 1
+    order by wk.CREATION_DATE desc
+    limit #{rc, jdbcType=INTEGER}
   </select>
   
   <select id="queryPopularWorks" parameterType="java.lang.Integer" resultMap="WorksResponseModule">
@@ -300,6 +324,25 @@
 	) as counts
   </select>
   
+  <select id="seletMaxPaginationBindUser" parameterType="java.util.Map" resultType="java.lang.Integer">
+	select CEILING(MAX(counted) / #{limit, jdbcType=INTEGER} ) as maxPagination 
+	from ( 
+		select count(*) as counted from works 
+		where USER_ID = #{userId, jdbcType=INTEGER}
+	) as counts
+  </select>
+  
+  <select id="seletMaxPaginationBindFollow" parameterType="java.util.Map" resultType="java.lang.Integer">
+	select CEILING(MAX(counted) / #{limit, jdbcType=INTEGER} ) as maxPagination 
+	from ( 
+		select count(*) as counted 
+       	from following fl left join works wk on fl.FOLLOWING_USER_ID = wk.USER_ID   
+		where fl.USER_ID = #{userId, jdbcType=INTEGER}
+        and wk.PRIVACY_TYPE = 1
+		and wk.STATUS = 1
+	) as counts
+  </select>
+  
   <select id="queryPopularWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
@@ -315,19 +358,35 @@
     order by wl.LIKE_COUNT desc, wk.WORKS_ID asc
   </select>
   
-  <select id="queryNewUploadWorks" parameterType="java.lang.Integer" resultMap="WorksResponseModule">
-    select 
+  <select id="queryUserWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
+	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_ID, wk.COUNTRY_ID, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, wl.LIKE_COUNT
     from works wk 
-    left outer join user_info ur on ur.user_id = wk.user_id
-    left outer join (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID) as wl on wl.WORKS_ID = wk.WORKS_ID
-	where 1=1 
-    and wk.PRIVACY_TYPE = 1
+    left join user_info ur on ur.USER_ID = wk.USER_ID
+    right join 
+    (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}) as wl on wl.WORKS_ID = wk.WORKS_ID
+    where 1=1
+    and wk.USER_ID = #{userId, jdbcType=INTEGER}
+    order by wl.LIKE_COUNT desc, wk.WORKS_ID asc
+  </select>
+  
+  <select id="queryTrackWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
+	select 
+ 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_ID, wk.COUNTRY_ID, wk.STATUS, wk.UPDATE_DATE,
+ 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, wl.LIKE_COUNT
+    from works wk 
+    left join user_info ur on ur.USER_ID = wk.USER_ID
+    right join following fl on wk.USER_ID = fl.FOLLOWING_USER_ID
+    right join 
+    (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}) as wl on wl.WORKS_ID = wk.WORKS_ID
+    where 1=1
+    and fl.USER_ID = #{userId, jdbcType=INTEGER}
+ 	and wk.PRIVACY_TYPE = 1
     and wk.STATUS = 1
-    order by wk.CREATION_DATE desc
-    limit #{rc, jdbcType=INTEGER}
+    order by wk.CREATION_DATE desc, wk.WORKS_ID asc
   </select>
   
 </mapper>

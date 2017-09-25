@@ -149,7 +149,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        }
       	}
   	}).state('columnDetail', {
-      	url: '/column-detail',
+      	url: '/column-detail?id',
       	views: {
       		"loader":{
       			templateUrl: 'modules/share/view/loader.html'
@@ -202,7 +202,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
   	})
 }])
 
-app.run(function($rootScope, $location, $cookieStore, $http, $window, $state){
+app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $filter){
 	$rootScope.title = '';
 	$rootScope.iTunesStoreUrl = 'https://www.apple.com/tw/itunes/charts/free-apps/';
 	$rootScope.googlePlayStoreUrl = 'https://play.google.com/store';
@@ -221,6 +221,18 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state){
 	    }
 	});
 	// =============================================
+	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+ 		//pagination offset record control
+ 		if(fromState.url!='^'){
+ 			$cookieStore.put('offset',0);
+ 		}
+ 		if($cookieStore.get('offset') > 1){
+			$rootScope.offset = $cookieStore.get('offset');
+		}else{
+			$rootScope.offset = 1;
+		}
+ 	});
+
 	$rootScope.$on('$stateChangeError', function(event) {
   		$state.go('404');
 	});
@@ -229,6 +241,28 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state){
 		$cookieStore.remove('rg_gl');
 		$state.go('login');
 	}
+
+	$rootScope.maxPagination = 0;
+	$rootScope.paginList =[];
+	$rootScope.initalPaginList = function(){
+		$cookieStore.put('offset', $rootScope.offset);
+		// show number of pages 
+		var paginNum = 5;
+		if(paginNum<=$rootScope.maxPagination){
+			if(($rootScope.maxPagination - ($rootScope.offset-1)) >= paginNum){
+				$rootScope.paginList =[];
+				$rootScope.paginList = $filter('range')($rootScope.paginList, $rootScope.offset, $rootScope.maxPagination);
+				if($rootScope.paginList.length > paginNum){
+					$rootScope.paginList = $filter('limitTo')($rootScope.paginList, paginNum);
+				}
+			}
+		}else{
+			$rootScope.paginList =[];
+			$rootScope.paginList = $filter('range')($rootScope.paginList, 1, $rootScope.maxPagination);
+		}
+	}
+
+
 })
 
 

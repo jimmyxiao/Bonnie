@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bonniedraw.base.service.BaseService;
+import com.bonniedraw.email.EmailProcess;
 import com.bonniedraw.login.dao.LoginMapper;
 import com.bonniedraw.login.model.Login;
+import com.bonniedraw.systemsetup.service.SystemSetupService;
 import com.bonniedraw.user.dao.UserInfoMapper;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.MobileUserService;
@@ -24,6 +26,9 @@ import com.bonniedraw.web_api.model.response.LoginResponseVO;
 @Service
 public class MobileUserServiceImpl extends BaseService implements MobileUserService {
 
+	@Autowired
+	SystemSetupService systemSetupService;
+	
 	@Autowired
 	UserInfoMapper userInfoMapper;
 	
@@ -42,6 +47,7 @@ public class MobileUserServiceImpl extends BaseService implements MobileUserServ
 			loginVO.setLoginResult(1);
 			loginVO.setSessionId(0);
 			loginVO.setDeviceIp(ipAddress);
+			
 			switch (loginRequestVO.getDt()) {
 			case 1:
 				loginVO.setDeviceInfo("Android");
@@ -63,6 +69,7 @@ public class MobileUserServiceImpl extends BaseService implements MobileUserServ
 				result.setUserInfo(userInfo);
 			} catch (Exception e) {
 				result.setRes(2);
+				LogUtils.error(getClass(), "callLogin has error : " + e);
 			}
 		}else{
 			result.setRes(2);
@@ -82,19 +89,27 @@ public class MobileUserServiceImpl extends BaseService implements MobileUserServ
 		userInfo.setUpdatedBy(0);
 		userInfo.setUpdateDate(nowDate);
 		userInfo.setStatus(0);
+		userInfo.setUserCode(userCode);
 		if(userType==1){
 			userInfo.setUserPw(loginRequestVO.getUp());
 			userInfo.setUserName(loginRequestVO.getUn());
 			userInfo.setEmail(userCode);
 		}else{
-			userInfo.setUserCode(userCode);
-			userInfo.setUserName("");
+			userInfo.setUserName(loginRequestVO.getUn());
 			userInfo.setUserPw("");
 			userInfo.setEmail(loginRequestVO.getFbemail());
 		}
 		try {
 			userInfoMapper.insert(userInfo);
-			result.setRes(1);
+			if(userType==1){
+				if(EmailProcess.sendValideMail(systemSetupService,userInfo)){
+					result.setRes(1);
+				}else{
+					result.setRes(2);
+				}
+			}else{
+				result.setRes(1);
+			}
 		} catch (Exception e) {
 			result.setRes(2);
 			LogUtils.error(getClass(), "callRegister has error : " + e);
@@ -107,11 +122,18 @@ public class MobileUserServiceImpl extends BaseService implements MobileUserServ
 		switch (loginRequestVO.getFn()) {
 		case 1:
 			try {
-				loginRequestVO.setUp(EncryptUtil.convertMD5(loginRequestVO.getUp()));
+				if(loginRequestVO.getUt()==1){
+					loginRequestVO.setUp(EncryptUtil.convertMD5(loginRequestVO.getUp()));
+				}
 				return callLogin(loginRequestVO, ipAddress);
 			} catch (Exception e1) {
+				LoginResponseVO result = new LoginResponseVO();
+				result.setRes(3);
+				result.setMsg("轉換失敗");
+				LogUtils.error(getClass(), "login encrypt MD5 has error : " + e1);
+				return result;
 			}
-			break;
+//			break;
 		case 2:
 			return callRegister(loginRequestVO);
 		case 3:

@@ -37,6 +37,8 @@ public class EmailProcess {
 				mailProperties.put("mail.smtp.debug", true);
 				mailProperties.put("mail.from.email", systemSetup.getMailUsername());
 				mailProperties.put("mail.smtp.ssl.trust", systemSetup.getMailHost());
+				mailProperties.put("mail.smtp.socketFactory.port", systemSetup.getMailHost());
+				mailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 				mailSender.setJavaMailProperties(mailProperties);
 				mailSender.setHost(systemSetup.getMailHost());
 				mailSender.setPort(systemSetup.getMailPort());
