@@ -18,8 +18,8 @@ import com.sctw.bonniedraw.fragment.LoginFragment;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 
 public class LoginActivity extends AppCompatActivity {
-
     SharedPreferences prefs;
+    Boolean result = false;
     FragmentManager fragmentManager;
     public static GoogleApiClient mGoogleApiClient;
 
@@ -29,9 +29,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
         checkLoginInfo(prefs);
-        fragmentManager=getSupportFragmentManager();
-        FragmentTransaction ft=fragmentManager.beginTransaction();
-        ft.replace(R.id.main_login_layout,new LoginFragment(),"LOGIN");
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.main_login_layout, new LoginFragment(), "LOGIN");
         ft.commit();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(it);
         finish();
     }
+
 
     @Override
     public void onBackPressed() {

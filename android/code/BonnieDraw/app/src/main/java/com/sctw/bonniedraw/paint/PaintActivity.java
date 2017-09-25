@@ -14,7 +14,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -64,15 +63,14 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private static final String SKETCH_PATH_FILE = "/backupPatch.path";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
     private Boolean mbAutoPlay = false, replayMode = false, playState = false, playing = false, earseMode = false, zoomMode = false;
-    private Boolean sketch = false;
+    private Boolean sketch = false, checkFinger = false;
     private MyView myView;
     private FrameLayout mViewFreePaint;
     private String fname; // file name
     private Paint mPaint;
     private int count = 0;
-    private Button btnAutoPlay, btnPlay, btnNext, btnPrevious, btnRedo, btnUndo;
-    private Button btnUpload;
-    private ImageButton btnColorpicker;
+    private ImageButton btnAutoPlay, btnPlay, btnRedo, btnUndo,btnColorpicker;
+    private Button btnUpload,btnNext, btnPrevious;
     private List<Integer> tempTagLength = new ArrayList<Integer>();
     private List<TagPoint> mTagPoint_a_record, undoTagPoint_a_record;
     private Handler handler_Timer_Play = new Handler();
@@ -83,7 +81,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private SizePicker sizePicker;
     BDWFileReader reader = new BDWFileReader();
     File file, filePath;
-    float startX, startY;
+    float startX, startSacle, startY, pointLength;
     int offsetX, offsetY;
 
     @Override
@@ -112,12 +110,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
 
         //tButton init
-        btnAutoPlay = (Button) findViewById(R.id.id_btn_autoplay);
-        btnPlay = (Button) findViewById(R.id.id_btn_play);
+        btnAutoPlay = (ImageButton) findViewById(R.id.id_btn_autoplay);
+        btnPlay = (ImageButton) findViewById(R.id.id_btn_play);
         btnNext = (Button) findViewById(R.id.id_btn_next);
         btnPrevious = (Button) findViewById(R.id.id_btn_previous);
-        btnRedo = (Button) findViewById(R.id.btn_paint_redo);
-        btnUndo = (Button) findViewById(R.id.btn_paint_undo);
+        btnRedo = (ImageButton) findViewById(R.id.btn_paint_redo);
+        btnUndo = (ImageButton) findViewById(R.id.btn_paint_undo);
         setOnclick();
 
         colorPicker = new ColorPicker(this, this, "", Color.WHITE);
@@ -339,7 +337,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             mPath.lineTo(mX, mY);
             // commit the path to our offscreen
             mCanvas.drawPath(mPath, mPaint);
-            paths.add(new PathAndPaint(mPath,mPaint));
+            paths.add(new PathAndPaint(mPath, mPaint));
             // kill this so we don't double draw (新路徑/畫筆)
             mPath = new Path();
             mPaint = new Paint(mPaint);
@@ -381,46 +379,55 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         }
 
-        public float distance(MotionEvent event) {
-            float dx = event.getX(1) - event.getX(0);
-            float dy = event.getY(1) - event.getY(0);
-
-            return (float) Math.sqrt(dx * dx + dy * dy);
-        }
-
-        public PointF mid(MotionEvent event) {
-            float x = (event.getX(1) - event.getX(0)) / 2;
-            float y = (event.getY(1) - event.getY(0)) / 2;
-            return new PointF(x, y);
-        }
-
         @Override
         public boolean onTouchEvent(MotionEvent event) {
             if (replayMode || mbAutoPlay || playState) return true;//重播功能時不准畫
 
             if (zoomMode) {
-                float startDistance;
-                PointF midPoint;
-                switch (event.getAction()) {
+                switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
                         startX = event.getX();
                         startY = event.getY();
+                        startSacle = myView.getScaleX();
+                        Log.d("GET POINT", String.valueOf(startSacle));
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        offsetX = (int) (event.getRawX() - startX);
-                        offsetY = (int) (event.getRawY() - startY);
-                        myView.layout(offsetX, offsetY, offsetX + myView.getWidth(), offsetY + myView.getHeight());
+                        if (!checkFinger) {
+                            offsetX = (int) (event.getX() - startX);
+                            offsetY = (int) (event.getY() - startY);
+                            myView.setTranslationX(myView.getTranslationX() + offsetX);
+                            myView.setTranslationY(myView.getTranslationY() + offsetY);
+
+                        } else {
+                            float length= pointLength - spacing(event);
+                            if (myView.getScaleX() >= 0.5) {
+                                if (length>0){
+                                    myView.setScaleX(myView.getScaleX()-0.1f);
+                                    myView.setScaleY(myView.getScaleY()-0.1f);
+                                }else if (length<0){
+                                    myView.setScaleX(myView.getScaleX()+0.1f);
+                                    myView.setScaleY(myView.getScaleY()+0.1f);
+                                }
+                            }else {
+                                if (length>0){
+                                    return true;
+                                }else if (length<0){
+                                    myView.setScaleX(myView.getScaleX()+0.1f);
+                                    myView.setScaleY(myView.getScaleY()+0.1f);
+                                }
+                            }
+                        }
                         break;
                     case MotionEvent.ACTION_UP:
                         break;
                     case MotionEvent.ACTION_POINTER_DOWN:
-                        startDistance = distance(event);
-                        if (startDistance > 10) {
-                            //計算中間點
-                            midPoint = mid(event);
-                            //得到進行縮放操作之前，照片的綻放倍數
-                            Log.d("mid point",midPoint.toString());
+                        pointLength = spacing(event);
+                        if (pointLength > 10) {
+                            checkFinger = true;
                         }
+                        break;
+                    case MotionEvent.ACTION_POINTER_UP:
+                        checkFinger = false;
                         break;
                 }
 
@@ -466,6 +473,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
             return true;
         }
+    }
+
+    private float spacing(MotionEvent event) {
+        float x = event.getX(0) - event.getX(1);
+        float y = event.getY(0) - event.getY(1);
+        return (float) Math.sqrt(x * x + y * y);
     }
 
     public void callSaveDialog(int num) {
@@ -644,7 +657,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         ((Button) findViewById(R.id.id_paint_zoom)).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                myView.layout(0, 0, myView.getWidth(), myView.getHeight());
+                //myView.layout(0, 0, myView.getWidth(), myView.getHeight());
+                myView.setTranslationX(0);
+                myView.setTranslationY(0);
                 myView.setScaleX(1);
                 myView.setScaleY(1);
                 return true;

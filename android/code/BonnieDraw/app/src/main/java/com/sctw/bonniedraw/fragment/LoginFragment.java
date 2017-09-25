@@ -43,6 +43,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import static android.content.Context.MODE_PRIVATE;
 import static com.sctw.bonniedraw.activity.LoginActivity.mGoogleApiClient;
 
@@ -67,6 +75,7 @@ public class LoginFragment extends Fragment {
     private TextInputLayout passwordLayout;
     private TextInputEditText userEmailText;
     private TextInputEditText userPasswordText;
+    boolean accountResult = false;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -112,7 +121,7 @@ public class LoginFragment extends Fragment {
 
     }
 
-    TextWatcher checkEmail=new TextWatcher() {
+    TextWatcher checkEmail = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -120,10 +129,9 @@ public class LoginFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if(userEmailText.getText().toString().isEmpty()){
+            if (userEmailText.getText().toString().isEmpty()) {
                 emailLayout.setError(null);
-            }
-            else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmailText.getText().toString()).matches()) {
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmailText.getText().toString()).matches()) {
                 emailLayout.setError("請輸入正確的信箱");
             } else {
                 emailLayout.setError(null);
@@ -205,17 +213,28 @@ public class LoginFragment extends Fragment {
                                             .putString(GlobalVariable.userNameStr, object.getString("name"))
                                             .putString(GlobalVariable.userEmailStr, object.getString("email"))
                                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
+                                            .putString(GlobalVariable.userFbIdStr, object.getString("id"))
                                             .apply();
-                                    Log.d("TEST", "LOGIN STATE");
-                                    transferMainPage();
+                                    if (RegisterOrLogin(3)) {
+                                        if (RegisterOrLogin(2)) RegisterOrLogin(1);
+                                    } else {
+                                        accountResult = RegisterOrLogin(1);
+                                    }
+                                    Log.d("Check FB", prefs.getString(GlobalVariable.userFbIdStr, "null"));
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
                                     Toast.makeText(getActivity(), "發生錯誤", Toast.LENGTH_SHORT).show();
+                                } finally {
+                                    if (accountResult) {
+                                        transferMainPage();
+                                    } else {
+                                        prefs.edit().clear().apply();
+                                    }
                                 }
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "name,email,picture");
+                parameters.putString("fields", "id,name,email,picture");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -251,15 +270,105 @@ public class LoginFragment extends Fragment {
                             .putString(GlobalVariable.userEmailStr, acct.getEmail())
                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
                             .apply();
-                    transferMainPage();
+                    if (RegisterOrLogin(3)) {
+                        if (RegisterOrLogin(2)) RegisterOrLogin(1);
+                    } else {
+                        RegisterOrLogin(1);
+                    }
                 } catch (IOException e) {
                     Toast.makeText(getActivity(), "發生錯誤", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                } finally {
+                    if (accountResult) {
+                        transferMainPage();
+                    } else {
+                        prefs.edit().clear().apply();
+                    }
                 }
             }
         }
     }
 
+    private boolean RegisterOrLogin(int select) {
+        accountResult=false;
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(mediaType, loginJSONFormat(select).toString());
+        Request request = new Request.Builder()
+                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/login/")
+                .post(body)
+                .build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                accountResult = false;
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseStr = response.body().string();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject responseJSON = new JSONObject(responseStr);
+                            if (responseJSON.getInt("res") == 1) {
+                                accountResult = true;
+                            }
+                            Log.d("RESTFUL API : ", responseJSON.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+        return accountResult;
+    }
+
+    private JSONObject loginJSONFormat(int style) {
+        JSONObject json = new JSONObject();
+        try {
+            // 1登入 2註冊 3檢查EMAIL
+            switch (style) {
+                case 1:
+                    json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
+                    json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
+                    json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                    json.put("fn", GlobalVariable.API_LOGIN);
+                    break;
+                case 2:
+                    if (prefs.getString(GlobalVariable.userPlatformStr, "").equals("2")) {
+                        json.put("uc", prefs.getString(GlobalVariable.userFbIdStr, ""));
+                        json.put("un", prefs.getString(GlobalVariable.userNameStr, ""));
+                        json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
+                        json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                        json.put("fn", GlobalVariable.API_REGISTER);
+                        json.put("fbemail", prefs.getString(GlobalVariable.userEmailStr, ""));
+                    } else {
+                        json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
+                        json.put("un", prefs.getString(GlobalVariable.userNameStr, ""));
+                        json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
+                        json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                        json.put("fn", GlobalVariable.API_REGISTER);
+                    }
+
+                    break;
+                case 3:
+                    json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
+                    json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
+                    json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                    json.put("fn", GlobalVariable.API_CHECK_EMAIL);
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("JSON DATA", json.toString());
+        return json;
+    }
 
     public void transferMainPage() {
         Intent it = new Intent();
