@@ -29,5 +29,5 @@
     <color name="Transparent">#00000000</color>
     <color name="White">#ffffff</color>
     <color name="LightGrey">#c7c7c7</color>
-    <color name="GridLineColor">#FFDDDDDD</color>
+    <color name="GridLineColor">#dddddd</color>
 </resources>

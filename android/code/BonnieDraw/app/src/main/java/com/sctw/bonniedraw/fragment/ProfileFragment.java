@@ -117,7 +117,6 @@ public class ProfileFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 profileUserName.setText("");
-                                profilePhoto.setImageResource(R.drawable.ic_person_black_24dp);
                                 logoutPlatform();
                             }
                         });

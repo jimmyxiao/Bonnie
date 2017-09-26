@@ -41,7 +41,7 @@ public class ForgetPasswordFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         fragmentManager = getActivity().getSupportFragmentManager();
         userEmail=(TextView) view.findViewById(R.id.inputUserEmail);
-        signinButton = (TextView) view.findViewById(R.id.signinButton);
+        signinButton = (TextView) view.findViewById(R.id.signupButton);
         signinButton.setOnClickListener(signIn);
     }
 
@@ -56,7 +56,7 @@ public class ForgetPasswordFragment extends Fragment {
         @Override
         public void onClick(View view) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.main_login_layout, new SignInFragment());
+            ft.replace(R.id.main_login_layout, new SignUpFragment());
             ft.addToBackStack(null);
             ft.commit();
         }

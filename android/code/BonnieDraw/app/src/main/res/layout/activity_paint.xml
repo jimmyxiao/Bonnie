@@ -4,7 +4,7 @@
     android:id="@+id/main_paint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/LightGrey"
+    android:background="@color/GridLineColor"
     android:orientation="vertical"
     tools:context="com.sctw.bonniedraw.paint.PaintActivity">
 
@@ -39,28 +39,28 @@
         android:gravity="bottom"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/id_btn_size"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:drawableStart="@drawable/shape_oval"
             android:onClick="sizesPicks"
-            android:paddingEnd="0dp"
-            android:paddingStart="16dp"
-            android:text="13px" />
+            android:padding="8dp"
+            app:srcCompat="@drawable/shape_oval" />
 
         <ImageButton
             android:id="@+id/id_btn_erase"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/Transparent"
             android:onClick="earse_mode"
+            android:padding="8dp"
             app:srcCompat="@drawable/draw_ic_erase" />
 
         <TextView
@@ -72,9 +72,10 @@
         <ImageButton
             android:id="@+id/id_btn_clear"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/Transparent"
+            android:padding="8dp"
             app:srcCompat="@drawable/draw_ic_new" />
 
 
@@ -82,11 +83,12 @@
             android:id="@+id/id_btn_colorpicker"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:background="@color/Black"
-            android:onClick="colorPicks" />
+            android:onClick="colorPicks"
+            android:padding="8dp"
+            android:scaleX="0.45"
+            android:scaleY="0.8" />
 
     </LinearLayout>
 
@@ -145,10 +147,8 @@
         android:id="@+id/paint_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
         android:background="@color/colorPaintLayout"
         android:orientation="horizontal"
-        android:padding="8dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -161,6 +161,7 @@
             android:layout_weight="1"
             android:background="@color/Transparent"
             android:onClick="back"
+            android:padding="8dp"
             app:srcCompat="@drawable/top_bar_ic_back" />
 
         <ImageButton
@@ -169,6 +170,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
+            android:padding="8dp"
             app:srcCompat="@drawable/top_bar_ic_forward" />
 
         <ImageButton
@@ -177,6 +179,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
+            android:padding="8dp"
             app:srcCompat="@drawable/top_bar_ic_backward" />
 
         <ImageButton
@@ -185,6 +188,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
+            android:padding="8dp"
             app:srcCompat="@drawable/top_bar_ic_play" />
 
         <ImageButton
@@ -193,6 +197,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
+            android:padding="8dp"
             app:srcCompat="@drawable/top_bar_ic_play" />
 
         <ImageButton
@@ -201,6 +206,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
+            android:padding="8dp"
             app:srcCompat="@drawable/top_bar_ic_share" />
 
     </LinearLayout>

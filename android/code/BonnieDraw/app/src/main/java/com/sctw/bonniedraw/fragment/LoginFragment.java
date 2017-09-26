@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.fragment;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -59,7 +61,9 @@ import static com.sctw.bonniedraw.activity.LoginActivity.mGoogleApiClient;
  */
 public class LoginFragment extends Fragment {
     private static final int RC_SIGN_IN = 9001;
-    private TextView signinButton;
+    private static final int THIRD_LOGIN = 1;
+    private static final int EMAIL_LOGIN = 4;
+    private TextView signupButton;
     private Button emailLoginBtn;
     private Button fbLoginBtn;
     private Button twitterLoginBtn;
@@ -71,11 +75,10 @@ public class LoginFragment extends Fragment {
     private URL profilePicUrl;
     private FragmentManager fragmentManager;
     private Button forgetPasswordBtn;
-    private TextInputLayout emailLayout;
-    private TextInputLayout passwordLayout;
+    private TextInputLayout emailLayout, passwordLayout;
     private TextInputEditText userEmailText;
     private TextInputEditText userPasswordText;
-    boolean accountResult = false;
+    boolean checkSystem = false, accountResult = false, emailCheck = false, pwdCheck = false;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -94,8 +97,8 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         emailLoginBtn = (Button) view.findViewById(R.id.emailLoginBtn);
         emailLoginBtn.setOnClickListener(emailLogin);
-        signinButton = (TextView) view.findViewById(R.id.signinButton);
-        signinButton.setOnClickListener(signIn);
+        signupButton = (TextView) view.findViewById(R.id.signupButton);
+        signupButton.setOnClickListener(signUp);
         fbLoginBtn = (Button) view.findViewById(R.id.fbLoginBtn);
         fbLoginBtnGone = (LoginButton) view.findViewById(R.id.fbLoginBtnGone);
         fbLoginBtnGone.setReadPermissions(Arrays.asList("public_profile", "email"));
@@ -110,16 +113,45 @@ public class LoginFragment extends Fragment {
         fragmentManager = getActivity().getSupportFragmentManager();
         forgetPasswordBtn = (Button) view.findViewById(R.id.forgetPasswordBtn);
         forgetPasswordBtn.setOnClickListener(forgetPwd);
+
         emailLayout = (TextInputLayout) view.findViewById(R.id.emailLayout);
         passwordLayout = (TextInputLayout) view.findViewById(R.id.passwordLayout);
         emailLayout.setErrorEnabled(true);
         userEmailText = (TextInputEditText) view.findViewById(R.id.inputUserEmail);
         userPasswordText = (TextInputEditText) view.findViewById(R.id.inputUserPassword);
-        facebookResult();
-
+        userPasswordText.addTextChangedListener(checkPassword);
         userEmailText.addTextChangedListener(checkEmail);
 
+        facebookResult();
+
+        view.findViewById(R.id.extraBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transferMainPage();
+            }
+        });
     }
+
+    TextWatcher checkPassword = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (userPasswordText.getText().toString().isEmpty()) {
+                passwordLayout.setError("請輸入密碼");
+            } else {
+                passwordLayout.setError(null);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     TextWatcher checkEmail = new TextWatcher() {
         @Override
@@ -131,10 +163,13 @@ public class LoginFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (userEmailText.getText().toString().isEmpty()) {
                 emailLayout.setError(null);
+                emailCheck = false;
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmailText.getText().toString()).matches()) {
                 emailLayout.setError("請輸入正確的信箱");
+                emailCheck = false;
             } else {
                 emailLayout.setError(null);
+                emailCheck = true;
             }
         }
 
@@ -147,7 +182,12 @@ public class LoginFragment extends Fragment {
     private View.OnClickListener emailLogin = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), "還不能用", Toast.LENGTH_SHORT).show();
+            if (emailCheck && !userPasswordText.getText().toString().isEmpty() && userPasswordText.getText().toString().length() >= 6) {
+                loginEamil();
+            } else {
+                emailLayout.setError("請輸入帳號");
+                passwordLayout.setError("請輸入密碼");
+            }
         }
     };
 
@@ -172,11 +212,11 @@ public class LoginFragment extends Fragment {
             startActivityForResult(signInIntent, RC_SIGN_IN);
         }
     };
-    private View.OnClickListener signIn = new View.OnClickListener() {
+    private View.OnClickListener signUp = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.main_login_layout, new SignInFragment());
+            ft.replace(R.id.main_login_layout, new SignUpFragment());
             ft.addToBackStack(null);
             ft.commit();
         }
@@ -215,21 +255,16 @@ public class LoginFragment extends Fragment {
                                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
                                             .putString(GlobalVariable.userFbIdStr, object.getString("id"))
                                             .apply();
-                                    if (RegisterOrLogin(3)) {
-                                        if (RegisterOrLogin(2)) RegisterOrLogin(1);
-                                    } else {
-                                        accountResult = RegisterOrLogin(1);
-                                    }
+                                    registerOrLoginThird(GlobalVariable.API_CHECK_EMAIL_CODE);
+//                                    if (registerOrLoginThird(3)) {
+//                                        if (registerOrLoginThird(2)) checkSystem = registerOrLoginThird(1);
+//                                    } else {
+//                                        checkSystem = registerOrLoginThird(1);
+//                                    }
                                     Log.d("Check FB", prefs.getString(GlobalVariable.userFbIdStr, "null"));
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
                                     Toast.makeText(getActivity(), "發生錯誤", Toast.LENGTH_SHORT).show();
-                                } finally {
-                                    if (accountResult) {
-                                        transferMainPage();
-                                    } else {
-                                        prefs.edit().clear().apply();
-                                    }
                                 }
                             }
                         });
@@ -270,30 +305,36 @@ public class LoginFragment extends Fragment {
                             .putString(GlobalVariable.userEmailStr, acct.getEmail())
                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
                             .apply();
-                    if (RegisterOrLogin(3)) {
-                        if (RegisterOrLogin(2)) RegisterOrLogin(1);
-                    } else {
-                        RegisterOrLogin(1);
-                    }
+                    registerOrLoginThird(GlobalVariable.API_CHECK_EMAIL_CODE);
+//                    if (registerOrLoginThird(3)) {
+//                        if (registerOrLoginThird(2)) checkSystem = registerOrLoginThird(1);
+//                    } else {
+//                        checkSystem = registerOrLoginThird(1);
+//                    }
                 } catch (IOException e) {
                     Toast.makeText(getActivity(), "發生錯誤", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
-                } finally {
-                    if (accountResult) {
-                        transferMainPage();
-                    } else {
-                        prefs.edit().clear().apply();
-                    }
                 }
             }
         }
     }
 
-    private boolean RegisterOrLogin(int select) {
-        accountResult=false;
+    private void loginEamil() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody body = RequestBody.create(mediaType, loginJSONFormat(select).toString());
+        JSONObject json = new JSONObject();
+        try {
+            json.put("uc", userEmailText.getText().toString());
+            json.put("up", userPasswordText.getText().toString());
+            json.put("ut", GlobalVariable.EMAIL_LOGIN);
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("fn", GlobalVariable.API_LOGIN);
+            Log.d("LOGIN JSON: ", json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
                 .url("https://www.bonniedraw.com/bonniedraw_service/BDService/login/")
                 .post(body)
@@ -302,6 +343,7 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Toast.makeText(getActivity(), "登入錯誤", Toast.LENGTH_SHORT).show();
                 accountResult = false;
             }
 
@@ -315,7 +357,9 @@ public class LoginFragment extends Fragment {
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                accountResult = true;
+                                //Successful
+                            } else {
+                                createLogSignin();
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -325,7 +369,92 @@ public class LoginFragment extends Fragment {
                 });
             }
         });
-        return accountResult;
+    }
+
+    //EMAIL登入失敗
+    public void createLogSignin() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle("登入失敗");
+        alertDialog.setMessage("帳號或密碼錯誤，請重新輸入或點選忘記密碼");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //失敗
+                    }
+                });
+        alertDialog.show();
+    }
+
+    //第三方平台登入
+    public void logThirdSigninError() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle("登入失敗");
+        alertDialog.setMessage("此平台所使用的電子信箱已註冊，請改用電子信箱或是別的帳戶來登入。");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //失敗
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void registerOrLoginThird(final int select) {
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        JSONObject json = loginJSONFormat(select);
+        RequestBody body = RequestBody.create(mediaType, json.toString());
+        Request request = new Request.Builder()
+                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/login/")
+                .post(body)
+                .build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseStr = response.body().string();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject responseJSON = new JSONObject(responseStr);
+                            if (responseJSON.getInt("res") == 1) {
+                                //檢測通過丟去註冊，失敗丟去登入
+                                if (select == 3) registerOrLoginThird(2);
+                                if (select == 2) registerOrLoginThird(1);
+                                if (select == 1) {
+                                    //要存TOKEN
+                                    prefs.edit()
+                                            .putString(GlobalVariable.API_TOKEN, "")
+                                            .apply();
+                                    transferMainPage();
+                                }
+
+                            } else {
+                                if (select == 3) {
+                                    registerOrLoginThird(1);
+                                } else if
+                                        (select == 2 || select == 1) {
+                                    logThirdSigninError();
+                                }
+                            }
+                            Log.d("RESTFUL API : ", responseJSON.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private JSONObject loginJSONFormat(int style) {
@@ -333,30 +462,39 @@ public class LoginFragment extends Fragment {
         try {
             // 1登入 2註冊 3檢查EMAIL
             switch (style) {
-                case 1:
-                    json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
-                    json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
-                    json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-                    json.put("fn", GlobalVariable.API_LOGIN);
+                case GlobalVariable.API_LOGIN_CODE:
+                    if (prefs.getString(GlobalVariable.userPlatformStr, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
+                        json.put("uc", prefs.getString(GlobalVariable.userFbIdStr, ""));
+                        json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
+                        json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                        json.put("fn", GlobalVariable.API_LOGIN);
+                    } else {
+                        json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
+                        json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
+                        json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                        json.put("fn", GlobalVariable.API_LOGIN);
+                    }
                     break;
-                case 2:
-                    if (prefs.getString(GlobalVariable.userPlatformStr, "").equals("2")) {
+                case GlobalVariable.API_REGISTER_CODE:
+                    if (prefs.getString(GlobalVariable.userPlatformStr, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
                         json.put("uc", prefs.getString(GlobalVariable.userFbIdStr, ""));
                         json.put("un", prefs.getString(GlobalVariable.userNameStr, ""));
                         json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                         json.put("fn", GlobalVariable.API_REGISTER);
-                        json.put("fbemail", prefs.getString(GlobalVariable.userEmailStr, ""));
+                        json.put("thirdEmail", prefs.getString(GlobalVariable.userEmailStr, ""));
+                        json.put("thirdPictureUrl", prefs.getString(GlobalVariable.userImgUrlStr, ""));
                     } else {
                         json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
                         json.put("un", prefs.getString(GlobalVariable.userNameStr, ""));
                         json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                         json.put("fn", GlobalVariable.API_REGISTER);
+                        json.put("thirdEmail", prefs.getString(GlobalVariable.userEmailStr, ""));
+                        json.put("thirdPictureUrl", prefs.getString(GlobalVariable.userImgUrlStr, ""));
                     }
-
                     break;
-                case 3:
+                case GlobalVariable.API_CHECK_EMAIL_CODE:
                     json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
                     json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);

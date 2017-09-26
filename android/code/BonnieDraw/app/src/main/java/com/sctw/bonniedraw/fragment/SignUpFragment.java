@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.fragment;
 
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -9,38 +8,52 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.utility.GlobalVariable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignInFragment extends Fragment {
+public class SignUpFragment extends Fragment {
     TextInputLayout phoneLayout, nameLayout, emailLayout, passwordLayout, repasswordLayout;
     TextInputEditText userPhone, userName, userEmail, userPassword, userRePassword;
     TextView signupButton;
-    Drawable doneIcon;
     boolean userPhoneVaild, userNameVaild, userEmailVaild, userPwdVaild, userRePwdVaild = false;
     Pattern pattern;
     Matcher matcher;
     final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$";
     Button signInBtn;
     FragmentManager fragmentManager;
+    boolean registerResult = false, emailCheck = false;
 
-    public SignInFragment() {
+    public SignUpFragment() {
         // Required empty public constructor
     }
 
@@ -79,11 +92,6 @@ public class SignInFragment extends Fragment {
         signupButton.setOnClickListener(signUp);
         fragmentManager = getFragmentManager();
 
-        doneIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_done_black_24dp, null);
-        if (doneIcon != null) {
-            doneIcon.setBounds(0, 0, doneIcon.getIntrinsicWidth(), doneIcon.getIntrinsicHeight());
-        }
-
         signInBtn = (Button) view.findViewById(R.id.signInBtn);
         signInBtn.setOnClickListener(signIn);
         super.onViewCreated(view, savedInstanceState);
@@ -103,41 +111,125 @@ public class SignInFragment extends Fragment {
     public View.OnClickListener signIn = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String title;
-            String message;
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-
             if (userPhoneVaild && userNameVaild && userEmailVaild && userPwdVaild && userRePwdVaild) {
-                title = "註冊成功";
-                message = "您的帳號已註冊成功，請在24小時內至信件夾收取認證信並認證，否則帳號會失效。";
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "確認",
+                    signupAPI(3);
+            } else {
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                infoCheck("phone");
+                infoCheck("name");
+                infoCheck("email");
+                infoCheck("pwd");
+                infoCheck("rePwd");
+
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 //寄送認證信，回到主畫面。
                             }
                         });
-            } else {
-                title = "請確認輸入資料";
-                message = "您的輸入資料有誤或未填寫。";
-                infoCheck("phone");
-                infoCheck("name");
-                infoCheck("email");
-                infoCheck("pwd");
-                infoCheck("rePwd");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "是",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+                alertDialog.setTitle("請確認輸入資料");
+                alertDialog.setMessage("您的輸入資料有誤或未填寫。");
+                alertDialog.show();
             }
-
-            alertDialog.setTitle(title);
-            alertDialog.setMessage(message);
-            alertDialog.show();
         }
     };
+
+    private JSONObject registerJSONFormat(int style) {
+        JSONObject json = new JSONObject();
+        try {
+            //  2註冊 3檢查EMAIL
+            switch (style) {
+                case 2:
+                    json.put("uc", userEmail.getText().toString());
+                    json.put("up", userPassword.getText().toString());
+                    json.put("un", userName.getText().toString());
+                    json.put("ut", GlobalVariable.EMAIL_LOGIN);
+                    json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                    json.put("fn", GlobalVariable.API_REGISTER);
+                    Log.d("JSON DATA", json.toString());
+                    break;
+                case 3:
+                    json.put("uc", userEmail.getText().toString());
+                    json.put("ut", GlobalVariable.EMAIL_LOGIN);
+                    json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                    json.put("fn", GlobalVariable.API_CHECK_EMAIL);
+                    Log.d("JSON DATA", json.toString());
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    private void signupAPI(final int style) {
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        JSONObject json = registerJSONFormat(style);
+        RequestBody body = RequestBody.create(mediaType, json.toString());
+        Request request = new Request.Builder()
+                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/login/")
+                .post(body)
+                .build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(getActivity(), "註冊失敗", Toast.LENGTH_SHORT).show();
+                registerResult = false;
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseStr = response.body().string();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject responseJSON = new JSONObject(responseStr);
+                            if (responseJSON.getInt("res") == 1) {
+                                Log.d("RESTFUL API : ", responseJSON.toString());
+                                if(style==3) signupAPI(2);
+                                if(style==2) createLogSignup(1);
+                            }else {
+                                if(style==3) createLogSignup(2);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    public void createLogSignup(int format){
+        String title="";
+        String message="";
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        switch (format){
+            case 1:
+                title="註冊成功";
+                message="請於30分鐘內至您的電子信箱啟用帳號，即可登入使用各項功能。";
+                break;
+            case 2:
+                title="註冊失敗";
+                message="您的EMAIL已使用過，請換另一個";
+                break;
+        }
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //寄送認證信，回到主畫面。
+                    }
+                });
+        alertDialog.show();
+    }
 
     //初始點選
     public View.OnFocusChangeListener userPhoneOnFocus = new View.OnFocusChangeListener() {
