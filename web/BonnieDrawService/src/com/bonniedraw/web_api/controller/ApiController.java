@@ -22,9 +22,10 @@ import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
 import com.bonniedraw.user.model.UserInfo;
-import com.bonniedraw.user.service.MobileUserService;
+import com.bonniedraw.user.service.UserServiceAPI;
 import com.bonniedraw.util.EmailUtil;
 import com.bonniedraw.util.LogUtils;
+import com.bonniedraw.util.MessageUtil;
 import com.bonniedraw.util.ServletUtil;
 import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.web_api.model.ApiRequestVO;
@@ -54,7 +55,7 @@ import com.bonniedraw.web_api.model.response.UserInfoUpdateResponseVO;
 import com.bonniedraw.web_api.model.response.WorkListResponseVO;
 import com.bonniedraw.web_api.model.response.WorksSaveResponseVO;
 import com.bonniedraw.web_api.module.WorksResponse;
-import com.bonniedraw.works.service.MobileWorksService;
+import com.bonniedraw.works.service.WorksServiceAPI;
 
 @Controller
 @RequestMapping(value="/BDService")
@@ -64,13 +65,13 @@ public class ApiController {
 	private ResourceBundleMessageSource messageSource;
 	
 	@Autowired
-	private MobileUserService mobileUserService;
+	private UserServiceAPI userServiceAPI;
 	
 	@Autowired
 	private SystemSetupService systemSetupService;
 	
 	@Autowired
-	private MobileWorksService mobileWorksService;
+	private WorksServiceAPI worksServiceAPI;
 	
  	private boolean isLogin(ApiRequestVO apiRequestVO){
 		if(ValidateUtil.isNotNumNone(apiRequestVO.getUi()) 
@@ -94,16 +95,11 @@ public class ApiController {
 				&& (fn>=1 && fn<=3)
 				&& (ut>=1 && ut<=4) 
 				&& (dt>=1 && dt<=3) ){
-			if(ut == 2 && ValidateUtil.isBlank(loginRequestVO.getFbemail())){
+			if(ut !=1 && ValidateUtil.isBlank(loginRequestVO.getThirdEmail())){
 				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 			}else{
-				String ip = ServletUtil.getRequestIp(request);
-				if(ip==null){
-					respResult.setMsg("ip address is null !");
-					return respResult;
-				}
-				
-				LoginResponseVO result = mobileUserService.login(loginRequestVO,ip);
+				String ip = ServletUtil.getRequestIp(request);			
+				LoginResponseVO result = userServiceAPI.login(loginRequestVO,ip);
 				if(result !=null){
 					respResult = result;
 					int res = result.getRes();
@@ -181,7 +177,7 @@ public class ApiController {
 		respResult.setRes(2);
 		String msg = "";
 		if(isLogin(updatePwdRequestVO)){
-			int res = mobileUserService.updatePwd(updatePwdRequestVO);
+			int res = userServiceAPI.updatePwd(updatePwdRequestVO);
 			respResult.setRes(res);
 			switch (res) {
 			case 1:
@@ -212,7 +208,7 @@ public class ApiController {
 			int ac = worksSaveRequestVO.getAc();
 			int privacyType = worksSaveRequestVO.getPrivacyType();
 			if( (ac>=1 && ac<=2) && (privacyType>=1 && privacyType<=3) ){
-				Integer wid = mobileWorksService.worksSave(worksSaveRequestVO);
+				Integer wid = worksServiceAPI.worksSave(worksSaveRequestVO);
 				if(ValidateUtil.isNotEmpty(wid)){
 					respResult.setRes(1);
 					respResult.setWid(wid);
@@ -241,7 +237,7 @@ public class ApiController {
 			if(ValidateUtil.isNotNumNone(wt) && wt > 0){
 				if(wt!=3 && !(wt >=20)){
 					if(ValidateUtil.isNotNumNone(wid)){
-						WorksResponse worksResponse = mobileWorksService.queryWorks(wid);
+						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid);
 						if(worksResponse!=null){
 							List<WorksResponse> workList = respResult.getWorkList();
 							workList.add(worksResponse);
@@ -254,11 +250,11 @@ public class ApiController {
 					}else{
 						List<WorksResponse> workList;
 						if(ValidateUtil.isNotNumNone(workListRequestVO.getStn())){
-							Map<String, Object> resultMap = mobileWorksService.queryAllWorksAndPagination(workListRequestVO);
+							Map<String, Object> resultMap = worksServiceAPI.queryAllWorksAndPagination(workListRequestVO);
 							workList = (List<WorksResponse>) resultMap.get("worksResponseList");
 							respResult.setMaxPagination((int) resultMap.get("maxPagination"));
 						}else{
-							workList  = mobileWorksService.queryAllWorks(workListRequestVO);
+							workList  = worksServiceAPI.queryAllWorks(workListRequestVO);
 						}
 						
 						if(ValidateUtil.isNotEmptyAndSize(workList)){
@@ -272,7 +268,7 @@ public class ApiController {
 					}
 				}else{
 					if(ValidateUtil.isNotNumNone(wid)){
-						WorksResponse worksResponse = mobileWorksService.queryWorks(wid);
+						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid);
 						if(worksResponse!=null){
 							Integer resStatus = worksResponse.getStatus();
 							Integer resUserId = worksResponse.getUserId();
@@ -302,7 +298,7 @@ public class ApiController {
 		UserInfoQueryResponseVO respResult = new UserInfoQueryResponseVO();
 		String msg = "";
 		if(isLogin(userInfoQueryRequestVO)){
-			UserInfo userInfo = mobileUserService.queryUserInfo(userInfoQueryRequestVO.getUi());
+			UserInfo userInfo = userServiceAPI.queryUserInfo(userInfoQueryRequestVO.getUi());
 			if(userInfo!=null){
 				respResult.setRes(1);
 				msg = messageSource.getMessage("api_success",null,request.getLocale());
@@ -354,7 +350,7 @@ public class ApiController {
 				userInfo.setBirthday(userInfoUpdateRequestVO.getBirthday());
 				userInfo.setStatus(userInfoUpdateRequestVO.getStatus());
 				userInfo.setLanguageId(userInfoUpdateRequestVO.getLanguageId());
-				int res = mobileUserService.updateUserInfo(userInfo);
+				int res = userServiceAPI.updateUserInfo(userInfo);
 				respResult.setRes(res);
 				if(res ==1){
 					msg = messageSource.getMessage("api_success",null,request.getLocale());
@@ -378,7 +374,7 @@ public class ApiController {
 		respResult.setRes(2);
 		String msg = "";
 		if(isLogin(leaveMsgRequestVO)){
-			int res = mobileWorksService.leavemsg(leaveMsgRequestVO);
+			int res = worksServiceAPI.leavemsg(leaveMsgRequestVO);
 			if(res ==1){
 				respResult.setRes(res);
 				msg = messageSource.getMessage("api_success",null,request.getLocale());
@@ -400,7 +396,7 @@ public class ApiController {
 		if(isLogin(setLikeRequestVO)){
 			int likeType = setLikeRequestVO.getLikeType();
 			if(likeType>=1 && likeType<=4){
-				int res = mobileWorksService.setLike(setLikeRequestVO);
+				int res = worksServiceAPI.setLike(setLikeRequestVO);
 				if(res==1){
 					respResult.setRes(1);
 					msg = messageSource.getMessage("api_success",null,request.getLocale());
@@ -425,7 +421,7 @@ public class ApiController {
 		if(isLogin(setFollowingRequestVO)){
 			int fn = setFollowingRequestVO.getFn();
 			if(fn>=0 && fn<=1){
-				int res = mobileWorksService.setFollowing(setFollowingRequestVO);
+				int res = worksServiceAPI.setFollowing(setFollowingRequestVO);
 				if(res==1){
 					respResult.setRes(res);
 					msg = messageSource.getMessage("api_success",null,request.getLocale());
@@ -450,7 +446,7 @@ public class ApiController {
 		if(ValidateUtil.isNotNumNone(setTurnInRequestVO.getUi()) 
 				&& ValidateUtil.isNotBlank(setTurnInRequestVO.getLk()) ){
 			if(ValidateUtil.isNotBlank(setTurnInRequestVO.getDescription())){
-				int res = mobileWorksService.setTurnin(setTurnInRequestVO);
+				int res = worksServiceAPI.setTurnin(setTurnInRequestVO);
 				if(res == 1){
 					respResult.setRes(1);
 					msg = messageSource.getMessage("api_success",null,request.getLocale());

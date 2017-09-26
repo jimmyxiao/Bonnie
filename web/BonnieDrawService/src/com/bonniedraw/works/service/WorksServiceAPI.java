@@ -11,7 +11,7 @@ import com.bonniedraw.web_api.model.request.WorkListRequestVO;
 import com.bonniedraw.web_api.model.request.WorksSaveRequestVO;
 import com.bonniedraw.web_api.module.WorksResponse;
 
-public interface MobileWorksService {
+public interface WorksServiceAPI {
 	public Integer worksSave(WorksSaveRequestVO worksSaveRequestVO);
 	public List<WorksResponse> queryAllWorks(WorkListRequestVO workListRequestVO);
 	public Map<String, Object> queryAllWorksAndPagination(WorkListRequestVO workListRequestVO);

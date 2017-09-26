@@ -1,7 +1,7 @@
 app.factory('registerService', function(baseHttp) {
     return {
         register : function(params, callback) {
-            return baseHttp.service('ws/register', params, callback);
+            return baseHttp.service('BDService/login', params, callback);
         }
     }
 })
@@ -12,10 +12,25 @@ app.factory('registerService', function(baseHttp) {
     	}
         $scope.callRegister = function (valid) {
         	if(valid){
-	            registerService.register($scope.register, function(data, status, headers, config) {
-	            	if(data.result){
-	            		alert(data.message);
-	            		$state.go('login');
+                var params = {
+                    uc:$scope.register.userCode,
+                    up:$scope.register.userPw,
+                    un:$scope.register.userName,
+                    ut:$scope.register.userType,
+                    dt:3
+                }
+                params.fn = 3;
+	            registerService.register(params, function(data, status, headers, config) {
+	            	if(data.res == 1){
+                        params.fn = 2;
+	            		registerService.register(params, function(data, status, headers, config) {
+                            if(data.res == 1){
+                                alert('註冊成功,信件已發送!');
+                                $state.go('login');
+                            }else{
+                                alert('註冊失敗');
+                            }
+                        })
 	            	}else{
 	            		alert('註冊失敗');
 	            	}

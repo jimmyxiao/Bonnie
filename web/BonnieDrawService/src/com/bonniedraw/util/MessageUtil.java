@@ -4,18 +4,28 @@ package com.bonniedraw.util;
 
 import java.util.Locale;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.stereotype.Component;
 
 /**
  * Not Uses
  */
+@Component
 public class MessageUtil {
-	
 	@Autowired
-	private ResourceBundleMessageSource messageSource;
+	private static ResourceBundleMessageSource messageSource;
 	
-	public String getMessage(String text,Locale locale){
+	@PostConstruct
+	public void init(){
+		messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("com/bonniedraw/messages/message");
+	}
+	
+	public static String getMessage(String text,Locale locale){
 		if(messageSource==null){
 			return text;
 		}

@@ -33,10 +33,10 @@ import com.bonniedraw.works.model.Works;
 import com.bonniedraw.works.model.WorksCategory;
 import com.bonniedraw.works.model.WorksLike;
 import com.bonniedraw.works.model.WorksMsg;
-import com.bonniedraw.works.service.MobileWorksService;
+import com.bonniedraw.works.service.WorksServiceAPI;
 
 @Service
-public class MobileWorksServiceImpl extends BaseService implements MobileWorksService {
+public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI {
 
 	@Autowired
 	WorksMapper worksMapper;
