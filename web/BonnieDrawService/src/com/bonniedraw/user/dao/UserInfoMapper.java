@@ -18,9 +18,11 @@ public interface UserInfoMapper {
 
     int updateByPrimaryKey(UserInfo record);
     
+    UserInfo selectByUserCode(String userCode);
+    
     UserInfo inspectAppPwd(LoginRequestVO loginRequestVO);
     
-    int inspectRegister(LoginRequestVO loginRequestVO);
+    UserInfo inspectRegister(LoginRequestVO loginRequestVO);
     
     UserInfo inspectRegisterByUserInfo(UserInfo userInfo);
     

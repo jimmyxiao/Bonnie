@@ -7,7 +7,8 @@ public class LoginRequestVO {
 	private int ut;
 	private int dt;
 	private int fn;
-	private String fbemail;
+	private String thirdEmail;
+	private String thirdPictureUrl;
 	private String captcha;
 	private String mask;
 	
@@ -58,13 +59,21 @@ public class LoginRequestVO {
 	public void setFn(int fn) {
 		this.fn = fn;
 	}
-
-	public String getFbemail() {
-		return fbemail;
+	
+	public String getThirdEmail() {
+		return thirdEmail;
 	}
 
-	public void setFbemail(String fbemail) {
-		this.fbemail = fbemail;
+	public void setThirdEmail(String thirdEmail) {
+		this.thirdEmail = thirdEmail;
+	}
+
+	public String getThirdPictureUrl() {
+		return thirdPictureUrl;
+	}
+
+	public void setThirdPictureUrl(String thirdPictureUrl) {
+		this.thirdPictureUrl = thirdPictureUrl;
 	}
 
 	public String getCaptcha() {

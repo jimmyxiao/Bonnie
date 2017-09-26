@@ -15,7 +15,13 @@
     <result column="PHONE_COUNTRY_CODE" jdbcType="VARCHAR" property="phoneCountryCode" />
     <result column="PHONE_NO" jdbcType="VARCHAR" property="phoneNo" />
     <result column="GENDER" jdbcType="INTEGER" property="gender" />
-    <result column="REG_THIRD_ID" jdbcType="VARCHAR" property="regThirdId" />
+   	<result column="REG_FACEBOOK_ID" jdbcType="VARCHAR" property="regFacebookId" />
+    <result column="REG_GOOGLE_ID" jdbcType="VARCHAR" property="regGoogleId" />
+    <result column="REG_TWITTER_ID" jdbcType="VARCHAR" property="regTwitterId" />
+    <result column="REG_WECHAT_ID" jdbcType="VARCHAR" property="regWechatId" />
+    <result column="REG_RES1_ID" jdbcType="VARCHAR" property="regRes1Id" />
+    <result column="REG_RES2_ID" jdbcType="VARCHAR" property="regRes2Id" />
+    <result column="REG_RES3_ID" jdbcType="VARCHAR" property="regRes3Id" />
     <result column="PROFILE_PICTURE" jdbcType="VARCHAR" property="profilePicture" />
     <result column="BIRTHDAY" jdbcType="TIMESTAMP" property="birthday" />
     <result column="STATUS" jdbcType="INTEGER" property="status" />
@@ -29,7 +35,8 @@
   </resultMap>
   <sql id="Base_Column_List">
     USER_ID, USER_TYPE, USER_CODE, USER_PW, USER_NAME, NICK_NAME, EMAIL, SEC_EMAIL, DESCRIPTION, 
-    WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, GENDER, REG_THIRD_ID, PROFILE_PICTURE, BIRTHDAY, 
+    WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, GENDER, REG_FACEBOOK_ID, REG_GOOGLE_ID, REG_TWITTER_ID, 
+    REG_WECHAT_ID, REG_RES1_ID, REG_RES2_ID, REG_RES3_ID, PROFILE_PICTURE, BIRTHDAY, 
     STATUS, LANGUAGE_ID, REG_DATA, REG_VALID_DATE, CREATION_DATE, CREATED_BY, UPDATE_DATE, 
     UPDATED_BY
   </sql>
@@ -48,7 +55,9 @@
       USER_PW, USER_NAME, NICK_NAME, 
       EMAIL, SEC_EMAIL, DESCRIPTION, 
       WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, 
-      GENDER, REG_THIRD_ID, PROFILE_PICTURE, 
+      GENDER, REG_FACEBOOK_ID, REG_GOOGLE_ID, 
+      REG_TWITTER_ID, REG_WECHAT_ID, REG_RES1_ID, 
+      REG_RES2_ID, REG_RES3_ID, PROFILE_PICTURE, 
       BIRTHDAY, STATUS, LANGUAGE_ID, 
       REG_DATA, REG_VALID_DATE, CREATION_DATE, 
       CREATED_BY, UPDATE_DATE, UPDATED_BY
@@ -57,7 +66,9 @@
       #{userPw,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{secEmail,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{webLink,jdbcType=VARCHAR}, #{phoneCountryCode,jdbcType=VARCHAR}, #{phoneNo,jdbcType=VARCHAR}, 
-      #{gender,jdbcType=INTEGER}, #{regThirdId,jdbcType=VARCHAR}, #{profilePicture,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=INTEGER}, #{regFacebookId,jdbcType=VARCHAR}, #{regGoogleId,jdbcType=VARCHAR}, 
+      #{regTwitterId,jdbcType=VARCHAR}, #{regWechatId,jdbcType=VARCHAR}, #{regRes1Id,jdbcType=VARCHAR}, 
+      #{regRes2Id,jdbcType=VARCHAR}, #{regRes3Id,jdbcType=VARCHAR}, #{profilePicture,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{languageId,jdbcType=INTEGER}, 
       #{regData,jdbcType=VARCHAR}, #{regValidDate,jdbcType=TIMESTAMP}, #{creationDate,jdbcType=TIMESTAMP}, 
       #{createdBy,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER}
@@ -105,8 +116,26 @@
       <if test="gender != null">
         GENDER,
       </if>
-      <if test="regThirdId != null">
-        REG_THIRD_ID,
+      <if test="regFacebookId != null">
+        REG_FACEBOOK_ID,
+      </if>
+      <if test="regGoogleId != null">
+        REG_GOOGLE_ID,
+      </if>
+      <if test="regTwitterId != null">
+        REG_TWITTER_ID,
+      </if>
+      <if test="regWechatId != null">
+        REG_WECHAT_ID,
+      </if>
+      <if test="regRes1Id != null">
+        REG_RES1_ID,
+      </if>
+      <if test="regRes2Id != null">
+        REG_RES2_ID,
+      </if>
+      <if test="regRes3Id != null">
+        REG_RES3_ID,
       </if>
       <if test="profilePicture != null">
         PROFILE_PICTURE,
@@ -179,8 +208,26 @@
       <if test="gender != null">
         #{gender,jdbcType=INTEGER},
       </if>
-      <if test="regThirdId != null">
-        #{regThirdId,jdbcType=VARCHAR},
+      <if test="regFacebookId != null">
+        #{regFacebookId,jdbcType=VARCHAR},
+      </if>
+      <if test="regGoogleId != null">
+        #{regGoogleId,jdbcType=VARCHAR},
+      </if>
+      <if test="regTwitterId != null">
+        #{regTwitterId,jdbcType=VARCHAR},
+      </if>
+      <if test="regWechatId != null">
+        #{regWechatId,jdbcType=VARCHAR},
+      </if>
+      <if test="regRes1Id != null">
+        #{regRes1Id,jdbcType=VARCHAR},
+      </if>
+      <if test="regRes2Id != null">
+        #{regRes2Id,jdbcType=VARCHAR},
+      </if>
+      <if test="regRes3Id != null">
+        #{regRes3Id,jdbcType=VARCHAR},
       </if>
       <if test="profilePicture != null">
         #{profilePicture,jdbcType=VARCHAR},
@@ -253,8 +300,26 @@
       <if test="gender != null">
         GENDER = #{gender,jdbcType=INTEGER},
       </if>
-      <if test="regThirdId != null">
-        REG_THIRD_ID = #{regThirdId,jdbcType=VARCHAR},
+      <if test="regFacebookId != null">
+        REG_FACEBOOK_ID = #{regFacebookId,jdbcType=VARCHAR},
+      </if>
+      <if test="regGoogleId != null">
+        REG_GOOGLE_ID = #{regGoogleId,jdbcType=VARCHAR},
+      </if>
+      <if test="regTwitterId != null">
+        REG_TWITTER_ID = #{regTwitterId,jdbcType=VARCHAR},
+      </if>
+      <if test="regWechatId != null">
+        REG_WECHAT_ID = #{regWechatId,jdbcType=VARCHAR},
+      </if>
+      <if test="regRes1Id != null">
+        REG_RES1_ID = #{regRes1Id,jdbcType=VARCHAR},
+      </if>
+      <if test="regRes2Id != null">
+        REG_RES2_ID = #{regRes2Id,jdbcType=VARCHAR},
+      </if>
+      <if test="regRes3Id != null">
+        REG_RES3_ID = #{regRes3Id,jdbcType=VARCHAR},
       </if>
       <if test="profilePicture != null">
         PROFILE_PICTURE = #{profilePicture,jdbcType=VARCHAR},
@@ -303,7 +368,13 @@
       PHONE_COUNTRY_CODE = #{phoneCountryCode,jdbcType=VARCHAR},
       PHONE_NO = #{phoneNo,jdbcType=VARCHAR},
       GENDER = #{gender,jdbcType=INTEGER},
-      REG_THIRD_ID = #{regThirdId,jdbcType=VARCHAR},
+      REG_FACEBOOK_ID = #{regFacebookId,jdbcType=VARCHAR},
+      REG_GOOGLE_ID = #{regGoogleId,jdbcType=VARCHAR},
+      REG_TWITTER_ID = #{regTwitterId,jdbcType=VARCHAR},
+      REG_WECHAT_ID = #{regWechatId,jdbcType=VARCHAR},
+      REG_RES1_ID = #{regRes1Id,jdbcType=VARCHAR},
+      REG_RES2_ID = #{regRes2Id,jdbcType=VARCHAR},
+      REG_RES3_ID = #{regRes3Id,jdbcType=VARCHAR},
       PROFILE_PICTURE = #{profilePicture,jdbcType=VARCHAR},
       BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=INTEGER},
@@ -321,18 +392,32 @@
 		select 
 		<include refid="Base_Column_List" />
 		from user_info
-		where USER_CODE= #{uc,jdbcType=VARCHAR}
-		and USER_TYPE = #{ut,jdbcType=INTEGER}  
-		<if test="ut == 1">
-			and USER_PW = #{up,jdbcType=VARCHAR}
-		</if>
+		where
+		<if test="ut == 1 "> USER_CODE = #{uc, jdbcType=VARCHAR} and USER_PW = #{up,jdbcType=VARCHAR}</if>
+		<if test="ut == 2 ">	 REG_FACEBOOK_ID = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 3 "> REG_GOOGLE_ID = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 4 "> REG_TWITTER_ID = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 2 or ut ==3 or ut ==4"> and USER_CODE =  #{thirdEmail, jdbcType=VARCHAR} </if>  
 	</select>
 	
-	<select id="inspectRegister" parameterType="com.bonniedraw.web_api.model.request.LoginRequestVO" resultType="java.lang.Integer">
-		select ifnull(sum(USER_ID),0)
+	<select id="selectByUserCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from user_info
+    	where USER_CODE= #{userCode, jdbcType=VARCHAR}
+    </select>
+	
+	<select id="inspectRegister" parameterType="com.bonniedraw.web_api.model.request.LoginRequestVO" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
 		from user_info
-		where USER_CODE = #{uc,jdbcType=VARCHAR}
-		and USER_TYPE = #{ut,jdbcType=INTEGER} 
+		where 1=1
+		and 
+		<if test="ut == 1 "> USER_CODE = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 2 ">	 REG_FACEBOOK_ID = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 3 "> REG_GOOGLE_ID = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 4 "> REG_TWITTER_ID = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 2 or ut ==3 or ut ==4"> and USER_CODE =  #{thirdEmail, jdbcType=VARCHAR} </if>
 	</select>
 	
 	<select id="inspectRegisterByUserInfo" parameterType="com.bonniedraw.user.model.UserInfo" resultMap="BaseResultMap">

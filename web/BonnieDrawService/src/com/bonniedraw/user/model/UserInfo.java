@@ -29,7 +29,19 @@ public class UserInfo {
 
     private Integer gender;
 
-    private String regThirdId;
+    private String regFacebookId;
+
+    private String regGoogleId;
+
+    private String regTwitterId;
+
+    private String regWechatId;
+
+    private String regRes1Id;
+
+    private String regRes2Id;
+
+    private String regRes3Id;
 
     private String profilePicture;
 
@@ -155,12 +167,60 @@ public class UserInfo {
         this.gender = gender;
     }
 
-    public String getRegThirdId() {
-        return regThirdId;
+    public String getRegFacebookId() {
+        return regFacebookId;
     }
 
-    public void setRegThirdId(String regThirdId) {
-        this.regThirdId = regThirdId == null ? null : regThirdId.trim();
+    public void setRegFacebookId(String regFacebookId) {
+        this.regFacebookId = regFacebookId == null ? null : regFacebookId.trim();
+    }
+
+    public String getRegGoogleId() {
+        return regGoogleId;
+    }
+
+    public void setRegGoogleId(String regGoogleId) {
+        this.regGoogleId = regGoogleId == null ? null : regGoogleId.trim();
+    }
+
+    public String getRegTwitterId() {
+        return regTwitterId;
+    }
+
+    public void setRegTwitterId(String regTwitterId) {
+        this.regTwitterId = regTwitterId == null ? null : regTwitterId.trim();
+    }
+
+    public String getRegWechatId() {
+        return regWechatId;
+    }
+
+    public void setRegWechatId(String regWechatId) {
+        this.regWechatId = regWechatId == null ? null : regWechatId.trim();
+    }
+
+    public String getRegRes1Id() {
+        return regRes1Id;
+    }
+
+    public void setRegRes1Id(String regRes1Id) {
+        this.regRes1Id = regRes1Id == null ? null : regRes1Id.trim();
+    }
+
+    public String getRegRes2Id() {
+        return regRes2Id;
+    }
+
+    public void setRegRes2Id(String regRes2Id) {
+        this.regRes2Id = regRes2Id == null ? null : regRes2Id.trim();
+    }
+
+    public String getRegRes3Id() {
+        return regRes3Id;
+    }
+
+    public void setRegRes3Id(String regRes3Id) {
+        this.regRes3Id = regRes3Id == null ? null : regRes3Id.trim();
     }
 
     public String getProfilePicture() {
