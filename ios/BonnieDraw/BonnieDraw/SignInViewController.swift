@@ -103,13 +103,13 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             self.loading.hide(hide: true)
                             return
                         }
-                        GraphRequest(graphPath: "/\(facebookId)/picture", parameters: ["redirect": false, "width": 200, "height": 200]).start() {
+                        GraphRequest(graphPath: "/\(facebookId)/picture", parameters: ["redirect": false, "width": 128, "height": 128]).start() {
                             response, result in
                             switch result {
                             case .success(let response):
                                 if let data = response.dictionaryValue?["data"] as? [String: Any],
-                                   let profileImageUrl = data["url"] as? String {
-                                    self.checkAndLogin(withUserType: 2, userId: facebookId, name: facebookName, email: response.dictionaryValue?["email"] as? String)
+                                   let imageUrl = data["url"] as? String {
+                                    self.checkAndLogin(withUserType: 2, userId: facebookId, name: facebookName, email: response.dictionaryValue?["email"] as? String, imageUrl: imageUrl)
                                 }
                             case .failed(let error):
                                 self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
@@ -142,9 +142,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                 self.loading.hide(hide: true)
                 self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
             } else {
-                TWTRAPIClient.withCurrentUser().requestEmail() {
-                    email, error in
-                    self.checkAndLogin(withUserType: 4, userId: session!.userID, name: session!.userName, email: email)
+                TWTRAPIClient.withCurrentUser().loadUser(withID: session!.userID) {
+                    user, error in
+                    TWTRAPIClient.withCurrentUser().requestEmail() {
+                        email, error in
+                        self.checkAndLogin(withUserType: 4, userId: session!.userID, name: session!.userName, email: email, imageUrl: user?.profileImageLargeURL)
+                    }
                 }
             }
         }
@@ -160,7 +163,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             loading.hide(hide: true)
             presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
         } else {
-            checkAndLogin(withUserType: 3, userId: user.userID, name: user.profile.name, email: user.profile.email)
+            checkAndLogin(withUserType: 3, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128).absoluteString)
         }
     }
 
@@ -170,10 +173,13 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         }
     }
 
-    private func checkAndLogin(withUserType type: Int, userId id: String, name: String, email: String?) {
+    private func checkAndLogin(withUserType type: Int, userId id: String, name: String, email: String?, imageUrl: String?) {
         var postData: [String: Any] = ["uc": id, "un": name, "ut": type, "dt": 2, "fn": 3]
         if let email = email {
-            postData["fbemail"] = email
+            postData["thirdEmail"] = email
+        }
+        if let imageUrl = imageUrl {
+            postData["thirdPictureUrl"] = imageUrl
         }
         let signInHandler: (Bool) -> Void = {
             downloadCollection in
