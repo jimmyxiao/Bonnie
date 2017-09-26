@@ -2,7 +2,7 @@
 	<div id="main-content">
 		<div ui-view="headerMenu"></div>
 		<!-- Secondary Section -->
-		<div id="video-detail">
+		<div id="video-detail" ng-if="isShow">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-9 col-sm-8">
@@ -15,14 +15,14 @@
 				                        </div>
 									</div>
 									<div class="vid-text">
-										<p><span>By</span> <a href="#">Admin</a></p>
-										<h1>How to Make a Mountain Bike Film</h1>
+										<p><span>By</span><a href="#">{{mainSection.userName}}</a></p>
+										<h1>{{mainSection.title}}</h1>
 									</div>
 									<div class="video-info-bar">
 										<ul class="list-inline list-unstyled info-ul">
-											<li><i class="fa fa-calendar"></i>May 08, 2016</li>
-											<li><i class="fa fa-eye"></i>457689</li>
-											<li><i class="fa fa-thumbs-up"></i>457689</li>
+											<li><i class="fa fa-calendar"></i>{{mainSection.updateDate | date:"MMM dd, y"}}</li>
+											<li><i class="fa fa-eye"></i>0</li>
+											<li><i class="fa fa-thumbs-up"></i>{{mainSection.likeCount}}</li>
 											<li class="pull-right sharing-drop"><button class="btn"></button></li>
 										</ul>
 										<ul class="list-unstyled list-inline pull-right text-right sharing-bar">
@@ -35,19 +35,14 @@
 									</div>
 									<div class="video-detail-text">
 										<p>
-											Donec rutrum varius quam non euismod. Nullam arcu urna, dignissim accumsan bibendum ut, fermentum a quam. Suspendisse fermentum augue vel nulla iaculis id tempus massa consequat. Donec venenatis leo eu felis condimentum in feugiat dui vulputate. Morbi vel quam lorem, sed tempor nibh. Sed elementum nunc tellus. Vivamus in orci vel risus dapibus imperdiet eu et nisl.
+											{{mainSection.description}}
 										</p>
 									</div>
 									<div class="_4a48i _277v9">
-										<ul class="_b0tqa">
+										<ul class="_b0tqa" ng-repeat="data in mainSection.msgList track by $index">
 											<li class="_ezgzd">
-												<a class="_2g7d5 notranslate _95hvo" title="gabriellelee0530" href="#">gabriellelee0530</a><span><span>留言1</span></span>
-											</li>
-											<li class="_ezgzd">
-												<a class="_2g7d5 notranslate _95hvo" title="hsiuli" href="#">hsiuli</a><span><span>留言2</span></span>
-											</li>
-											<li class="_ezgzd">
-												<a class="_2g7d5 notranslate _95hvo" title="yinnn21_" href="#">yinnn21_</a><span><span>留言3</span></span>
+												<a class="_2g7d5 notranslate _95hvo" href="">{{data.userName}}</a>
+												<span><span>{{data.message}}</span></span>
 											</li>
 										</ul>
 									</div>
@@ -64,6 +59,7 @@
 											</div>
 										</form>
 									</div>
+
 									<div class="related-item">
 										<div class="vid-heading overflow-hidden">
 											<span class="wow fadeInUp" data-wow-duration="0.8s">
@@ -74,7 +70,7 @@
 										</div>
 										<div class="row">
 											<div class="vid-container">
-												<div class="col-md-4 col-sm-6">
+												<!-- <div class="col-md-4 col-sm-6">
 													<div class="latest-vid-img-container">		
 														<div class="vid-img">
 															<img class="img-responsive" src="assets/images/2-column-vid-img_2.jpg" alt="video image">
@@ -130,7 +126,7 @@
 															<h1><a href="column-detail.html">Super Hero of Kids</a></h1>
 														</div>
 													</div>
-												</div>
+												</div> -->
 											</div>
 										</div>
 									</div>
@@ -143,7 +139,7 @@
 						<div class="sidebar">
 							<div class="sidebar-vid most-liked">
 								<h1 class="sidebar-heading">你喜歡的</h1>
-								<div class="media">
+								<!-- <div class="media">
 									<div class="media-left">
 										<img src="assets/images/most-liked-img-s1.jpg" alt="video">
 									</div>
@@ -190,11 +186,11 @@
 											<span><i class="fa fa-eye"></i> 534</span>
 										</p>
 									</div>
-								</div>
+								</div> -->
 							</div>
 							<div class="sidebar-vid most-viewd">
 								<h1 class="sidebar-heading">更多畫作</h1>
-								<div class="most-viewd-container">
+						<!-- 		<div class="most-viewd-container">
 									<div class="most-viewd-img">
 										<img class="img-responsive" src="assets/images/most-viewd-1.jpg" alt="video">
 									</div>
@@ -217,11 +213,11 @@
 											<span><i class="fa fa-eye"></i> 534</span>
 										</p>
 									</div>
-								</div>							
+								</div> -->							
 							</div>
 							<div class="tags">
 								<h1 class="sidebar-heading">關鍵字</h1>
-								<ul class="list-inline list-unstyled">
+<!-- 								<ul class="list-inline list-unstyled">
 									<li><a href="#">3D</a></li>
 									<li><a href="#">Animals &amp; Birds</a></li>
 									<li><a href="#">HD</a></li>
@@ -230,13 +226,13 @@
 									<li><a href="#">Self</a></li>
 									<li><a href="#">HD Songs</a></li>
 									<li><a href="#">Comedy</a></li>
-								</ul>
+								</ul> -->
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div ui-view="footer"></div>
+		<div ui-view="footer" ng-if="isShow"></div>
 	</div>
 </div>		

@@ -321,7 +321,8 @@
 		select 
 		<include refid="Base_Column_List" />
 		from user_info
-		where USER_CODE= #{uc,jdbcType=VARCHAR}  
+		where USER_CODE= #{uc,jdbcType=VARCHAR}
+		and USER_TYPE = #{ut,jdbcType=INTEGER}  
 		<if test="ut == 1">
 			and USER_PW = #{up,jdbcType=VARCHAR}
 		</if>
@@ -331,6 +332,7 @@
 		select ifnull(sum(USER_ID),0)
 		from user_info
 		where USER_CODE = #{uc,jdbcType=VARCHAR}
+		and USER_TYPE = #{ut,jdbcType=INTEGER} 
 	</select>
 	
 	<select id="inspectRegisterByUserInfo" parameterType="com.bonniedraw.user.model.UserInfo" resultMap="BaseResultMap">

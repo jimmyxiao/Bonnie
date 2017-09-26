@@ -23,11 +23,20 @@ public interface WorksMapper {
     
     List<WorksResponse> queryAllWorks();
     
+    List<WorksResponse> queryNewUploadWorks(Integer rc);
+    
     List<WorksResponse> queryPopularWorks(Integer rc);
     
     int seletMaxPagination(Integer rc);
     
+    int seletMaxPaginationBindUser(Map<String, Integer> pagerMap);
+    
+    int seletMaxPaginationBindFollow(Map<String, Integer> pagerMap);
+    
     List<WorksResponse> queryPopularWorksPager(Map<String, Integer> pagerMap);
     
-    List<WorksResponse> queryNewUploadWorks(Integer rc);
+    List<WorksResponse> queryUserWorksPager(Map<String, Integer> pagerMap);
+    
+    List<WorksResponse> queryTrackWorksPager(Map<String, Integer> pagerMap);
+    
 }

@@ -16,7 +16,7 @@
 									<div class="col-md-3 col-sm-6" ng-repeat="data in mainSectionArr track by $index">
 										<div class="latest-vid-img-container">		
 											<div class="vid-img">
-												<img class="img-responsive" ng-src="{{data.img}}" alt="video image">
+												<img class="img-responsive" ng-src="{{data.imagePath}}" alt="video image">
 												<a href="video-detail.html" class="play-icon play-small-icon">
 								                	<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
 								                </a>
@@ -25,14 +25,14 @@
 											<div class="vid-text">
 												<section class="_hmd6j _8oo9w">
 													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled>
-														<i class="material-icons font-icon">{{data.text.title}}</i>
+														<i class="material-icons font-icon">{{data.title}}</i>
 													</a>
 													<span>
-														<i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{data.text.like}}
+														<i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{data.likeCount}}
 													</span>
 												</section>
-												<p><span>By</span> <a href="#">{{data.text.author}}</a></p>
-												<h1><a href="#/column-detail">{{data.text.description}}</a></h1>
+												<p><span>By</span> <a href="#">{{data.userName}}</a></p>
+												<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.description}}</a></h1>
 											</div>
 										</div>
 									</div>
@@ -40,32 +40,16 @@
 
 								<!-- pagination top -->
 								<div class="pagination-container text-center">
-									<ul class ="pagination">
+									<ul class="pagination">
 									   	<li>
-									   		<a href = "#">&laquo;</a>
+									   		<a href="" ng-hide="offset==1 || maxPagination==0" ng-click="movePagin(-1)">&laquo;</a>
 									   	</li>
-									   	<li class="active">
-									   		<a href = "#">1</a>
+									   	<li ng-class="{true:'active',false:''}[offset==pagin]" ng-repeat="pagin in paginList">
+									   		<a href="" ng-click="clickPagin(pagin)">{{pagin}}</a>
 									   		<div class="pagination-hvr"></div>
 									   	</li>
 									   	<li>
-									   		<a href = "#">2</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">3</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">4</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">5</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">&raquo;</a>
+									   		<a href="" ng-hide="offset==maxPagination || maxPagination==0" ng-click="movePagin(1)">&raquo;</a>
 									   	</li>
 									</ul>
 								</div>
