@@ -9,6 +9,7 @@
 import UIKit
 
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var tableView: UITableView!
     private let commentTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray]
     private let items = [TableViewItem(
             id: Int(arc4random_uniform(100)),
@@ -70,6 +71,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 secondLastCommentProfileName: "阿狗",
                 secondLastComment: "汪汪汪汪！",
                 lastCommentDate: Int(Date().timeIntervalSince1970) + Int(arc4random_uniform(100000)))]
+
+    override func viewDidLoad() {
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+        tableView.rowHeight = UITableViewAutomaticDimension
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
