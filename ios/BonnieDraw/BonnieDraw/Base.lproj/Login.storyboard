@@ -50,7 +50,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="QNd-x1-3mN"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                                 <connections>
@@ -59,7 +59,7 @@
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9Y-Lw-gzb">
                                                 <rect key="frame" x="0.0" y="43" width="224" height="1"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="TKR-qQ-oe5"/>
                                                 </constraints>
@@ -85,7 +85,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="viw-rz-EkM"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
@@ -94,7 +94,7 @@
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vjc-ZS-kDH">
                                                 <rect key="frame" x="0.0" y="43" width="224" height="1"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="Z8t-aq-vcF"/>
                                                 </constraints>
@@ -116,7 +116,7 @@
                                         <rect key="frame" x="155" y="104" width="69" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="忘記密碼?">
-                                            <color key="titleColor" red="0.41960784309999999" green="0.1137254902" blue="0.1137254902" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.52156862745098043" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <segue destination="pOY-DV-MXh" kind="show" id="vFa-C6-rbc">
@@ -135,7 +135,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLu-WF-l3N">
                                         <rect key="frame" x="0.0" y="0.0" width="224" height="44"/>
-                                        <color key="backgroundColor" red="0.94117647059999998" green="0.3921568627" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="oUh-G6-V3a"/>
                                         </constraints>
@@ -154,7 +154,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="或" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVP-fc-tiv">
                                         <rect key="frame" x="0.0" y="60" width="224" height="16"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" red="0.41960784309999999" green="0.1137254902" blue="0.1137254902" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uCL-iL-uur">
@@ -219,7 +219,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您還沒有帳號？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSV-Z0-Fez">
                                         <rect key="frame" x="90.5" y="13.5" width="107.5" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NsT-Qg-B4m">
@@ -277,7 +277,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y9z-f0-hA6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="982" y="-1522"/>
+            <point key="canvasLocation" x="980.625" y="-1522.1830985915494"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="VN2-ot-78M">
@@ -302,7 +302,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="CNQ-JT-JvV"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                 <connections>
@@ -311,7 +311,7 @@
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mbY-zf-4SE">
                                                 <rect key="frame" x="0.0" y="43" width="224" height="1"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="151-4r-Vxu"/>
                                                 </constraints>
@@ -337,7 +337,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="Vkv-SD-sGz"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                                 <connections>
@@ -346,7 +346,7 @@
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohg-cX-Rlv">
                                                 <rect key="frame" x="0.0" y="43" width="224" height="1"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="aiA-T7-vHc"/>
                                                 </constraints>
@@ -372,7 +372,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="3Oo-Pj-oUw"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
@@ -381,7 +381,7 @@
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BHG-e9-Vbh">
                                                 <rect key="frame" x="0.0" y="43" width="224" height="1"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="64y-Ra-L1N"/>
                                                 </constraints>
@@ -408,7 +408,7 @@
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E4d-LC-JK2">
                                 <rect key="frame" x="48" y="276" width="224" height="44"/>
-                                <color key="backgroundColor" red="0.94117647059999998" green="0.3921568627" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ByJ-Fz-hpv"/>
                                 </constraints>
@@ -430,7 +430,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已經有帳號？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UeR-Ms-nZX">
                                         <rect key="frame" x="98.5" y="13.5" width="92" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m2S-vl-9lL">
@@ -498,45 +498,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYR-PA-bgN">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您還沒有帳號？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A16-PD-v9Y">
-                                        <rect key="frame" x="90.5" y="13.5" width="107.5" height="18"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ReV-i1-cOF">
-                                        <rect key="frame" x="198" y="7.5" width="106" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" title="註冊"/>
-                                        <connections>
-                                            <segue destination="0CD-P2-SAx" kind="show" id="4WA-1n-7BP">
-                                                <nil key="action"/>
-                                            </segue>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="0.25" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="A16-PD-v9Y" firstAttribute="centerX" secondItem="mYR-PA-bgN" secondAttribute="centerX" constant="-16" id="2Jm-Lm-Y7I"/>
-                                    <constraint firstItem="ReV-i1-cOF" firstAttribute="leading" secondItem="A16-PD-v9Y" secondAttribute="trailing" id="6Oc-vr-gRi"/>
-                                    <constraint firstItem="A16-PD-v9Y" firstAttribute="centerY" secondItem="mYR-PA-bgN" secondAttribute="centerY" id="MBN-Cn-Kk4"/>
-                                    <constraint firstAttribute="trailing" secondItem="ReV-i1-cOF" secondAttribute="trailing" constant="16" id="qdp-ML-GIW"/>
-                                    <constraint firstAttribute="height" constant="44" id="vS3-Os-KkY"/>
-                                    <constraint firstItem="ReV-i1-cOF" firstAttribute="centerY" secondItem="A16-PD-v9Y" secondAttribute="centerY" id="vnz-2n-MKa"/>
-                                </constraints>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="請輸入註冊的E-MAIL，系統將密碼至您的信箱。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2MR-f2-R1J">
                                 <rect key="frame" x="48" y="156" width="224" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.41960784309999999" green="0.1137254902" blue="0.1137254902" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="duy-Lq-8K3">
                                 <rect key="frame" x="48" y="262" width="224" height="44"/>
-                                <color key="backgroundColor" red="0.94117647059999998" green="0.3921568627" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="dIq-3a-88x"/>
                                 </constraints>
@@ -560,7 +530,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="fdc-zr-1aZ"/>
                                         </constraints>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                         <connections>
@@ -569,7 +539,7 @@
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jvy-Me-KMw">
                                         <rect key="frame" x="0.0" y="43" width="224" height="1"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="0.5" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="lxw-dJ-81Q"/>
                                         </constraints>
@@ -585,6 +555,36 @@
                                     <constraint firstAttribute="trailing" secondItem="eGj-dE-lgG" secondAttribute="trailing" id="WWR-7m-gTg"/>
                                     <constraint firstItem="eGj-dE-lgG" firstAttribute="top" secondItem="IPp-Yr-kef" secondAttribute="top" id="dYm-cS-7o9"/>
                                     <constraint firstAttribute="bottom" secondItem="Jvy-Me-KMw" secondAttribute="bottom" id="q4c-yG-A2u"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYR-PA-bgN">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您還沒有帳號？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A16-PD-v9Y">
+                                        <rect key="frame" x="90.5" y="13.5" width="107.5" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ReV-i1-cOF">
+                                        <rect key="frame" x="198" y="7.5" width="106" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="註冊"/>
+                                        <connections>
+                                            <segue destination="0CD-P2-SAx" kind="show" id="4WA-1n-7BP">
+                                                <nil key="action"/>
+                                            </segue>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="0.25" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="A16-PD-v9Y" firstAttribute="centerX" secondItem="mYR-PA-bgN" secondAttribute="centerX" constant="-16" id="2Jm-Lm-Y7I"/>
+                                    <constraint firstItem="ReV-i1-cOF" firstAttribute="leading" secondItem="A16-PD-v9Y" secondAttribute="trailing" id="6Oc-vr-gRi"/>
+                                    <constraint firstItem="A16-PD-v9Y" firstAttribute="centerY" secondItem="mYR-PA-bgN" secondAttribute="centerY" id="MBN-Cn-Kk4"/>
+                                    <constraint firstAttribute="trailing" secondItem="ReV-i1-cOF" secondAttribute="trailing" constant="16" id="qdp-ML-GIW"/>
+                                    <constraint firstAttribute="height" constant="44" id="vS3-Os-KkY"/>
+                                    <constraint firstItem="ReV-i1-cOF" firstAttribute="centerY" secondItem="A16-PD-v9Y" secondAttribute="centerY" id="vnz-2n-MKa"/>
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JFN-Ob-rpd" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
@@ -620,7 +620,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7nt-Z6-4Al" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="981" y="-730"/>
+            <point key="canvasLocation" x="980.625" y="-730.9859154929577"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

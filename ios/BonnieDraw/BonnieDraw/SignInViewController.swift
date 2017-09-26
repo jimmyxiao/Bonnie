@@ -103,7 +103,21 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             self.loading.hide(hide: true)
                             return
                         }
-                        self.checkAndLogin(withUserType: 2, userId: facebookId, name: facebookName, email: response.dictionaryValue?["email"] as? String)
+                        GraphRequest(graphPath: "/\(facebookId)/picture", parameters: ["redirect": false, "width": 200, "height": 200]).start() {
+                            response, result in
+                            switch result {
+                            case .success(let response):
+                                if let data = response.dictionaryValue?["data"] as? [String: Any],
+                                   let profileImageUrl = data["url"] as? String {
+                                    self.checkAndLogin(withUserType: 2, userId: facebookId, name: facebookName, email: response.dictionaryValue?["email"] as? String)
+                                }
+                            case .failed(let error):
+                                self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+                                fallthrough
+                            default:
+                                self.loading.hide(hide: true)
+                            }
+                        }
                     case .failed(let error):
                         self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                         fallthrough

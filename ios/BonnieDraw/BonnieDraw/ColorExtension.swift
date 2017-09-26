@@ -10,10 +10,10 @@ import UIKit
 
 extension UIColor {
     static func getTextColor() -> UIColor {
-        return UIColor(red: 0.36, green: 0.36, blue: 0.36, alpha: 1.0)
+        return UIColor(red: 0.27, green: 0.20, blue: 0.20, alpha: 1.0)
     }
 
     static func getAccentColor() -> UIColor {
-        return UIColor(red: 0.89, green: 0.33, blue: 0.37, alpha: 1.0)
+        return UIColor(red: 0.95, green: 0.44, blue: 0.27, alpha: 1.0)
     }
 }
