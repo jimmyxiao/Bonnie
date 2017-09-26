@@ -11,6 +11,7 @@
 "alert_sign_in_fail_title" = "登入失敗";
 "alert_sign_in_fail_name_empty" = "姓名不可留白";
 "alert_sign_in_fail_email_empty" = "電子郵件不可留白";
+"alert_sign_in_fail_email_permission" = "BonnieDraw 需要取得您的電子郵件來管理作品";
 "alert_sign_in_fail_email_invaid" = "電子郵件格式不正確";
 "alert_sign_in_fail_password_empty" = "密碼不可留白";
 "alert_sign_in_fail_password_invalid" = "密碼長度太短了";

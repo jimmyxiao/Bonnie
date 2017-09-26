@@ -34,6 +34,9 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         let item = items[indexPath.row]
         cell.textLabel?.text = item.title
         cell.imageView?.image = UIImage(named: item.image)
+        if (indexPath.row + 1) % 3 != 0 {
+            cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, tableView.bounds.width)
+        }
         return cell
     }
 
