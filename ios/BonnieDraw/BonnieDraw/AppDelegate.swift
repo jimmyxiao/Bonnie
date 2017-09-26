@@ -61,5 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIApplication.shared.open(url)
         }
     }
+
+    static func randomColor() -> String {
+        return String(format: "%02x%02x%02x", arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+    }
 }
 

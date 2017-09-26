@@ -9,6 +9,8 @@
 #endif
 #endif
 #endif
+
+
 FOUNDATION_EXPORT double Pods_BonnieDrawVersionNumber;
 FOUNDATION_EXPORT const unsigned char Pods_BonnieDrawVersionString[];
 

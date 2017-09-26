@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16366AE21F7A0AA300E5799B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE11F7A0AA300E5799B /* HomeViewController.swift */; };
+		16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE41F7A131200E5799B /* HomeTableViewCell.swift */; };
+		16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */; };
 		163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163906FD1F6C083300E5717A /* SignInViewController.swift */; };
 		163907001F6C0A4E00E5717A /* TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 163906FF1F6C0A4E00E5717A /* TitleView.xib */; };
 		163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163907021F6C0BE400E5717A /* ApplicationExtension.swift */; };
@@ -42,6 +45,9 @@
 
 /* Begin PBXFileReference section */
 		0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BonnieDraw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16366AE11F7A0AA300E5799B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		16366AE41F7A131200E5799B /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
 		163906FD1F6C083300E5717A /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		163906FF1F6C0A4E00E5717A /* TitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TitleView.xib; path = Base.lproj/TitleView.xib; sourceTree = "<group>"; };
 		163907021F6C0BE400E5717A /* ApplicationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationExtension.swift; sourceTree = "<group>"; };
@@ -91,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16366AE31F7A130400E5799B /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				16366AE41F7A131200E5799B /* HomeTableViewCell.swift */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
 		163F659E1F61663800945E04 = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +126,7 @@
 		163F65A91F61663800945E04 /* BonnieDraw */ = {
 			isa = PBXGroup;
 			children = (
+				16366AE31F7A130400E5799B /* Cell */,
 				16FC10221F695C62008A6A92 /* View */,
 				16D439661F66AC6800FF5878 /* Model */,
 				16D439611F66A97400FF5878 /* Utility */,
@@ -163,6 +178,7 @@
 		1664F4B91F74ED8C00809C32 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
 				1664F4B61F74E5BB00809C32 /* ParentViewController.swift */,
 				163F65BE1F616C4F00945E04 /* CanvasViewController.swift */,
 				1664F4A21F74AB3000809C32 /* DrawerViewController.swift */,
@@ -174,6 +190,7 @@
 		16D439611F66A97400FF5878 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */,
 				165ECC5A1F73A72400E32AA5 /* RestClient.swift */,
 				165ECC581F73A47C00E32AA5 /* StringExtension.swift */,
 				165ECC561F73A46200E32AA5 /* ColorExtension.swift */,
@@ -324,7 +341,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E582CE5F134C9329393F8078 /* [CP] Embed Pods Frameworks */ = {
@@ -355,11 +372,14 @@
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
 				1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */,
 				165ECC551F73A40700E32AA5 /* ViewControllerExtension.swift in Sources */,
+				16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */,
 				1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */,
 				165ECC5B1F73A72500E32AA5 /* RestClient.swift in Sources */,
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
 				16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */,
+				16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */,
+				16366AE21F7A0AA300E5799B /* HomeViewController.swift in Sources */,
 				16CEB8A21F72B34F00ADBC1F /* CustomTitleNavigationViewController.swift in Sources */,
 				165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */,
 				165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */,

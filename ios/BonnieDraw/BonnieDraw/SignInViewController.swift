@@ -155,7 +155,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     } else {
                         TWTRAPIClient.withCurrentUser().loadUser(withID: session!.userID) {
                             user, error in
-                            self.checkAndLogin(withUserType: 4, userId: session!.userID, name: session!.userName, email: email!, imageUrl: user?.profileImageLargeURL)
+                            self.checkAndLogin(withUserType: 4, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: user?.profileImageLargeURL)
                         }
                     }
                 }
@@ -200,10 +200,14 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                 }
                 if response == 1,
                    let token = data?["lk"] as? String, let userId = data?["ui"] as? Int {
-                    UserDefaults.standard.set(token, forKey: Default.TOKEN)
-                    UserDefaults.standard.set(userId, forKey: Default.USER_ID)
-                    UserDefaults.standard.set(id, forKey: Default.THIRD_PARTY_ID)
-                    UserDefaults.standard.set(name, forKey: Default.THIRD_PARTY_NAME)
+                    let defaults = UserDefaults.standard
+                    defaults.set(token, forKey: Default.TOKEN)
+                    defaults.set(userId, forKey: Default.USER_ID)
+                    defaults.set(id, forKey: Default.THIRD_PARTY_ID)
+                    defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
+                    if let imageUrl = imageUrl {
+                        defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                    }
                     self.launchMain()
                 } else {
                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)

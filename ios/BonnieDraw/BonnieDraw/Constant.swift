@@ -28,6 +28,7 @@ enum Type: UInt8 {
 
 struct Cell {
     static let BASIC = "basicCell"
+    static let HOME = "homeCell"
 }
 
 struct Service {
@@ -59,4 +60,5 @@ struct Default {
     static let USER_ID = "userId"
     static let THIRD_PARTY_ID = "thirdPartyId"
     static let THIRD_PARTY_NAME = "thirdPartyName"
+    static let THIRD_PARTY_IMAGE = "thirdPartyImage"
 }

@@ -43,10 +43,12 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
                 presentConfirmationDialog(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
                     success in
                     if success {
-                        UserDefaults.standard.removeObject(forKey: Default.TOKEN)
-                        UserDefaults.standard.removeObject(forKey: Default.USER_ID)
-                        UserDefaults.standard.removeObject(forKey: Default.THIRD_PARTY_ID)
-                        UserDefaults.standard.removeObject(forKey: Default.THIRD_PARTY_NAME)
+                        let defaults = UserDefaults.standard
+                        defaults.removeObject(forKey: Default.TOKEN)
+                        defaults.removeObject(forKey: Default.USER_ID)
+                        defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
+                        defaults.removeObject(forKey: Default.THIRD_PARTY_NAME)
+                        defaults.removeObject(forKey: Default.THIRD_PARTY_IMAGE)
                         if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
                             UIApplication.shared.replace(rootViewControllerWith: controller)
                         }

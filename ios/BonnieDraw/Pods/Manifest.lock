@@ -54,6 +54,9 @@ PODS:
     - GTMSessionFetcher/Core (= 1.1.11)
   - KYDrawerController (2.0.3)
   - ReachabilitySwift (3)
+  - SDWebImage (4.1.0):
+    - SDWebImage/Core (= 4.1.0)
+  - SDWebImage/Core (4.1.0)
   - TwitterCore (3.0.1)
   - TwitterKit (3.1.1):
     - TwitterCore (>= 3.0.1)
@@ -63,6 +66,7 @@ DEPENDENCIES:
   - Google/SignIn
   - KYDrawerController
   - ReachabilitySwift
+  - SDWebImage
   - TwitterKit
 
 SPEC CHECKSUMS:
@@ -81,9 +85,10 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
   KYDrawerController: 9a154a4bf23cda836f5ccd69a0586447fde87c10
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
+  SDWebImage: 0e435c14e402a6730315a0fb79f95e68654d55a4
   TwitterCore: 6856288a1c25e5281363250681f33b42fce1da42
   TwitterKit: 313bf02baee8427f7649b3640169178e5a8b5a99
 
-PODFILE CHECKSUM: ccdd0a40075c2e04747985ddc8576a5f555630ce
+PODFILE CHECKSUM: 99bd8cf00800d0d522088b76aef618ca006c8117
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1
