@@ -64,6 +64,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                 self.password.becomeFirstResponder()
             }
         } else {
+            view.endEditing(true)
             loading.hide(hide: false)
             client.components.path = Service.LOGIN
             client.getResponse(queries: nil, data: ["uc": email, "up": password.MD5(), "ut": 1, "dt": 2, "fn": 1]) {

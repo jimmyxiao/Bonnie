@@ -30,6 +30,7 @@ class ForgetPasswordViewController: UIViewController, UITextFieldDelegate {
                 self.email.becomeFirstResponder()
             }
         } else {
+            view.endEditing(true)
             loading.hide(hide: false)
             client.getResponse(queries: nil, data: ["email": email]) {
                 success, data in

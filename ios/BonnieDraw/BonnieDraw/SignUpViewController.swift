@@ -53,9 +53,9 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
                 self.password.becomeFirstResponder()
             }
         } else {
+            view.endEditing(true)
             loading.hide(hide: false)
-            var postData: [String: Any] = ["uc": email, "up": password.MD5(), "un": name, "ut": 1, "dt": 2, "fn": 2]
-            client.getResponse(queries: nil, data: postData) {
+            client.getResponse(queries: nil, data: ["uc": email, "up": password.MD5(), "un": name, "ut": 1, "dt": 2, "fn": 2]) {
                 success, data in
                 guard success, let response = data?["res"] as? Int else {
                     self.presentDialog(title: "alert_sign_up_fail_title".localized, message: "app_network_unreachable_content".localized)
@@ -63,25 +63,9 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
                     return
                 }
                 if response == 1 {
-                    postData["fn"] = 1
-                    self.client.getResponse(queries: nil, data: postData) {
-                        success, data in
-                        guard success, let response = data?["res"] as? Int else {
-                            self.presentDialog(title: "alert_sign_up_fail_title".localized, message: data?["app_network_unreachable_content"] as? String)
-                            self.loading.hide(hide: true)
-                            return
-                        }
-                        if response == 1,
-                           let token = data?["lk"] as? String, let userId = data?["ui"] as? Int {
-                            UserDefaults.standard.set(token, forKey: Default.TOKEN)
-                            UserDefaults.standard.set(userId, forKey: Default.USER_ID)
-                            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() {
-                                UIApplication.shared.replace(rootViewControllerWith: controller)
-                            }
-                        } else {
-                            self.presentDialog(title: "alert_sign_up_fail_title".localized, message: data?["msg"] as? String)
-                            self.loading.hide(hide: true)
-                        }
+                    self.presentDialog(title: "alert_sign_up_success_title".localized, message: "alert_sign_up_success_content".localized) {
+                        action in
+                        self.navigationController?.popToRootViewController(animated: true)
                     }
                 } else {
                     self.presentDialog(title: "alert_sign_up_fail_title".localized, message: data?["msg"] as? String)
