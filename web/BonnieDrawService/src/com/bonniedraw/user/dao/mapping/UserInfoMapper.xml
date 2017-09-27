@@ -449,5 +449,26 @@
     	where STATUS = 0
     	and REG_DATA = #{token, jdbcType=VARCHAR}
   	</select>
+  	
+  	<select id="getUserFriendsList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    	select user_id, user_name, profile_picture
+		from 
+		(select user_id, user_name, profile_picture, reg_facebook_id, reg_google_id, reg_twitter_id from user_info where user_id in 
+			<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		) t
+		where
+		t.user_id not in (
+			select following_user_id from following where user_id= #{userId, jdbcType=INTEGER} 
+			and following_user_id in 
+			<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		)
+		<if test="thirdPlatform == 2 ">and t.reg_facebook_id is not null</if>
+		<if test="thirdPlatform == 3 ">and t.reg_google_id is not null</if>
+		<if test="thirdPlatform == 4 ">and t.reg_twitter_id is not null</if>
+  	</select>
   
 </mapper>

@@ -9,6 +9,8 @@ public class LoginRequestVO {
 	private int fn;
 	private String thirdEmail;
 	private String thirdPictureUrl;
+	private Integer gender;
+	private String phoneNo;
 	private String captcha;
 	private String mask;
 	
@@ -74,6 +76,22 @@ public class LoginRequestVO {
 
 	public void setThirdPictureUrl(String thirdPictureUrl) {
 		this.thirdPictureUrl = thirdPictureUrl;
+	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
 	}
 
 	public String getCaptcha() {
