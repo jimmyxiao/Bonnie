@@ -5,6 +5,7 @@ package com.sctw.bonniedraw.utility;
  */
 
 public class GlobalVariable {
+
     public static final String userPlatformStr="userPlatform";
     public static final String userFbIdStr="userFbId";
     public static final String userTokenStr="userToken";
@@ -14,9 +15,10 @@ public class GlobalVariable {
 
     public static final String fileURIStr="fileURI";
 
-    public static final String EMAIL_LOGIN="1";
+
     public static final String LOGIN_PLATFORM="1";
 
+    public static final String EMAIL_LOGIN="1";
     public static final String THIRD_LOGIN_FACEBOOK="2";
 
     public static final String API_TOKEN="apiToken";

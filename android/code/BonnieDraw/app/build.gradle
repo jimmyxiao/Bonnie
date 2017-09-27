@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        jumboMode true
+    }
 }
 
 allprojects {
@@ -46,6 +49,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okio:okio:1.7.0'
+    compile 'com.twitter.sdk.android:twitter:3.1.1'
+    compile 'com.twitter.sdk.android:twitter-mopub:3.1.1'
     testCompile 'junit:junit:4.12'
 }
 

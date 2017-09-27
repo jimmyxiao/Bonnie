@@ -112,6 +112,12 @@
         android:textAllCaps="false"
         android:textColor="@color/White" />
 
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/twitterLoginBtnGone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
     <Button
         android:id="@+id/twitterLoginBtn"
         android:layout_width="match_parent"
@@ -162,13 +168,5 @@
             android:text="註冊"
             android:textColor="@color/Blue" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/extraBtn"
-        android:layout_width="35dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/logoImg"
-        android:text="L" />
 
 </RelativeLayout>

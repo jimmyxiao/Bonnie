@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
     <string name="app_name">BonnieDraw</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
@@ -12,7 +12,8 @@
     <string name="server_client_id">579888826124-32hn4mff2f1gmvo5kk6ep9u40hcoqv46.apps.googleusercontent.com</string>
 
     <string name="title_activity_paint">PaintActivity</string>
-
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">HcXL8RV5wlnL1eM3OWSPcvN1N</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">1efRU1i8Bz1aPzpPvnfP6RrM1MviYNJAtGDawpHQnAFuKYdTmO</string>
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
 </resources>
