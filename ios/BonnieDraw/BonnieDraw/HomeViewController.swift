@@ -99,15 +99,27 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     @IBAction func more(_ sender: UIButton) {
+        if let indexPath = tableView.indexPath(forView: sender) {
+            Logger.d("\(#function) \(indexPath.row)")
+        }
     }
 
     @IBAction func like(_ sender: UIButton) {
+        if let indexPath = tableView.indexPath(forView: sender) {
+            Logger.d("\(#function) \(indexPath.row)")
+        }
     }
 
     @IBAction func comment(_ sender: UIButton) {
+        if let indexPath = tableView.indexPath(forView: sender) {
+            Logger.d("\(#function) \(indexPath.row)")
+        }
     }
 
     @IBAction func share(_ sender: UIButton) {
+        if let indexPath = tableView.indexPath(forView: sender) {
+            Logger.d("\(#function) \(indexPath.row)")
+        }
     }
 
     private struct TableViewItem {

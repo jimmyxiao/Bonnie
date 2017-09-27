@@ -22,6 +22,7 @@
 		164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2471F7B376700E8B910 /* CollectionViewController.swift */; };
 		164ED24A1F7B377800E8B910 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2491F7B377800E8B910 /* NotificationViewController.swift */; };
 		164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED24C1F7B379200E8B910 /* AccountViewController.swift */; };
+		164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED24E1F7B414500E8B910 /* TableViewExtension.swift */; };
 		165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165710FE1F6BAB63004A8DD8 /* Path.swift */; };
 		165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */; };
 		165ECC551F73A40700E32AA5 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */; };
@@ -65,6 +66,7 @@
 		164ED2471F7B376700E8B910 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		164ED2491F7B377800E8B910 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = /Users/professor/Work/Bonnie/ios/BonnieDraw/BonnieDraw/NotificationViewController.swift; sourceTree = "<absolute>"; };
 		164ED24C1F7B379200E8B910 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		164ED24E1F7B414500E8B910 /* TableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewExtension.swift; sourceTree = "<group>"; };
 		165710FE1F6BAB63004A8DD8 /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordViewController.swift; sourceTree = "<group>"; };
 		165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		16D439611F66A97400FF5878 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				164ED24E1F7B414500E8B910 /* TableViewExtension.swift */,
 				16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */,
 				165ECC5A1F73A72400E32AA5 /* RestClient.swift */,
 				165ECC581F73A47C00E32AA5 /* StringExtension.swift */,
@@ -384,6 +387,7 @@
 				165ECC551F73A40700E32AA5 /* ViewControllerExtension.swift in Sources */,
 				16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */,
 				1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */,
+				164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */,
 				165ECC5B1F73A72500E32AA5 /* RestClient.swift in Sources */,
 				164ED24A1F7B377800E8B910 /* NotificationViewController.swift in Sources */,
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
