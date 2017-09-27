@@ -5,6 +5,7 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
+  - DeviceKit (1.4.0)
   - FacebookCore (0.2.0):
     - Bolts (~> 1.8)
     - FBSDKCoreKit (~> 4.15)
@@ -62,6 +63,7 @@ PODS:
     - TwitterCore (>= 3.0.1)
 
 DEPENDENCIES:
+  - DeviceKit
   - FacebookLogin
   - Google/SignIn
   - KYDrawerController
@@ -71,6 +73,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  DeviceKit: fa74d97499660e88081718b16688e19217595dba
   FacebookCore: 2cb3f0fbff218e9d3119cec84bae983b232412de
   FacebookLogin: c9d606504735780a9e3002465a615512e0a691a5
   FBSDKCoreKit: c8b8582311ec11b145451d8b9717dc6cc2ae5a76
@@ -89,6 +92,6 @@ SPEC CHECKSUMS:
   TwitterCore: 6856288a1c25e5281363250681f33b42fce1da42
   TwitterKit: 313bf02baee8427f7649b3640169178e5a8b5a99
 
-PODFILE CHECKSUM: 99bd8cf00800d0d522088b76aef618ca006c8117
+PODFILE CHECKSUM: 99e61bb2f40e8058c8eadcc4233b872b0754b1a5
 
 COCOAPODS: 1.2.1

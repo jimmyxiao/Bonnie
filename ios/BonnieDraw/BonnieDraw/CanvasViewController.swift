@@ -8,14 +8,27 @@
 
 import UIKit
 
-class CanvasViewController: UIViewController {
+class CanvasViewController: BackButtonViewController {
     @IBOutlet weak var canvas: CanvasView!
+    @IBOutlet weak var pen: UIButton!
+
+    override func viewDidLoad() {
+        pen.layer.cornerRadius = view.bounds.width / 10
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .default
+    }
 
     @IBAction func reset(_ sender: AnyObject) {
         canvas.reset()
     }
 
-    @IBAction func play(_ sender: UIButton) {
+    @IBAction func play(_ sender: AnyObject) {
         canvas.play()
     }
 }

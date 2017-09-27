@@ -47,6 +47,7 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="帳號(E-mail)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mHG-yE-dh1">
                                                 <rect key="frame" x="0.0" y="0.0" width="224" height="44"/>
+                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="QNd-x1-3mN"/>
                                                 </constraints>
@@ -82,6 +83,7 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="使用密碼" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E2r-aO-dH5">
                                                 <rect key="frame" x="0.0" y="-0.5" width="224" height="44"/>
+                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="viw-rz-EkM"/>
                                                 </constraints>
@@ -299,6 +301,7 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="全名" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cIy-7H-gDi">
                                                 <rect key="frame" x="0.0" y="-0.5" width="224" height="44"/>
+                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="CNQ-JT-JvV"/>
                                                 </constraints>
@@ -334,6 +337,7 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="帳號(E-mail)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gzE-Be-Usa">
                                                 <rect key="frame" x="0.0" y="0.0" width="224" height="44"/>
+                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="Vkv-SD-sGz"/>
                                                 </constraints>
@@ -369,6 +373,7 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="使用密碼" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4xS-mF-9sQ">
                                                 <rect key="frame" x="0.0" y="-0.5" width="224" height="44"/>
+                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="3Oo-Pj-oUw"/>
                                                 </constraints>
@@ -527,6 +532,7 @@
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="帳號(E-mail)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eGj-dE-lgG">
                                         <rect key="frame" x="0.0" y="0.0" width="224" height="44"/>
+                                        <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="fdc-zr-1aZ"/>
                                         </constraints>

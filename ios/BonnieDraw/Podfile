@@ -12,4 +12,5 @@ target 'BonnieDraw' do
   pod 'FacebookLogin'
   pod 'TwitterKit'
   pod 'Google/SignIn'
+  pod 'DeviceKit'
 end
