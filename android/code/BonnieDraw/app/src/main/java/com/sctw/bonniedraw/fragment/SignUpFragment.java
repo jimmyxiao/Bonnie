@@ -51,7 +51,6 @@ public class SignUpFragment extends Fragment {
     final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$";
     Button signInBtn;
     FragmentManager fragmentManager;
-    boolean registerResult = false, emailCheck = false;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -164,6 +163,7 @@ public class SignUpFragment extends Fragment {
     }
 
     private void signupAPI(final int style) {
+        signInBtn.setEnabled(false);
         OkHttpClient mOkHttpClient = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         JSONObject json = registerJSONFormat(style);
@@ -177,7 +177,6 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onFailure(Call call, IOException e) {
                 Toast.makeText(getActivity(), "註冊失敗", Toast.LENGTH_SHORT).show();
-                registerResult = false;
             }
 
             @Override
@@ -195,6 +194,7 @@ public class SignUpFragment extends Fragment {
                                 if(style==2) createLogSignup(1);
                             }else {
                                 if(style==3) createLogSignup(2);
+                                if(style==2) createLogSignup(3);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -213,21 +213,27 @@ public class SignUpFragment extends Fragment {
             case 1:
                 title="註冊成功";
                 message="請於30分鐘內至您的電子信箱啟用帳號，即可登入使用各項功能。";
+
                 break;
             case 2:
                 title="註冊失敗";
                 message="您的EMAIL已使用過，請換另一個";
                 break;
+            case 3:
+                title="註冊失敗";
+                message="資料異常，請稍後再試";
         }
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        signInBtn.setEnabled(true);
                         dialog.dismiss();
                         //寄送認證信，回到主畫面。
                     }
                 });
+        alertDialog.setCancelable(false);
         alertDialog.show();
     }
 

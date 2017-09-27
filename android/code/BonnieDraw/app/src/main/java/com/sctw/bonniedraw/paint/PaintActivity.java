@@ -120,7 +120,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         btnUndo = (ImageButton) findViewById(R.id.btn_paint_undo);
         setOnclick();
 
-        colorPicker = new ColorPicker(this, this, "", Color.WHITE);
+        colorPicker = new ColorPicker(myView.getContext(), this, "", Color.WHITE);
         colorPicker.getWindow().setGravity(Gravity.END);
         colorPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         colorPicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
