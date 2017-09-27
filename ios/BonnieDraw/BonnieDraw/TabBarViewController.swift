@@ -8,13 +8,71 @@
 
 import UIKit
 
-class TabBarViewController: UIViewController, CustomTitleNavigationViewControllerDelegate {
+class TabBarViewController: UIViewController, UITabBarDelegate, CustomTitleNavigationViewControllerDelegate {
+    @IBOutlet weak var tabBar: UITabBar!
     var delegate: TabBarViewControllerDelegate?
+    var itemHome: (item: UITabBarItem, viewController: UIViewController?)?
+    var itemCollection: (item: UITabBarItem, viewController: UIViewController?)?
+    var itemNotification: (item: UITabBarItem, viewController: UIViewController?)?
+    var itemAccount: (item: UITabBarItem, viewController: UIViewController?)?
+    var customNavigationController: CustomTitleNavigationViewController?
+
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        var controllers = [UIViewController]()
+        if item == itemHome?.item {
+            if let controller = itemHome?.viewController {
+                controllers.append(controller)
+            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.HOME) as? HomeViewController {
+                itemHome?.viewController = controller
+                controllers.append(controller)
+            }
+        } else if item == itemCollection?.item {
+            if let controller = itemCollection?.viewController {
+                controllers.append(controller)
+            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.COLLECTION) as? CollectionViewController {
+                itemCollection?.viewController = controller
+                controllers.append(controller)
+            }
+        } else if item == itemNotification?.item {
+            if let controller = itemNotification?.viewController {
+                controllers.append(controller)
+            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.NOTIFICATION) as? NotificationViewController {
+                itemNotification?.viewController = controller
+                controllers.append(controller)
+            }
+        } else if item == itemAccount?.item {
+            if let controller = itemAccount?.viewController {
+                controllers.append(controller)
+            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.ACCOUNT) as? AccountViewController {
+                itemAccount?.viewController = controller
+                controllers.append(controller)
+            }
+        }
+        customNavigationController?.setViewControllers(controllers, animated: true)
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? CustomTitleNavigationViewController {
+            customNavigationController = controller
             controller.customDelegate = self
             controller.showDrawerMenu = true
+            if let items = tabBar.items {
+                for i in 0..<items.count {
+                    switch i {
+                    case 0:
+                        tabBar.selectedItem = items[i]
+                        itemHome = (items[i], controller.viewControllers.first)
+                    case 1:
+                        itemCollection = (items[i], nil)
+                    case 3:
+                        itemNotification = (items[i], nil)
+                    case 4:
+                        itemAccount = (items[i], nil)
+                    default:
+                        break
+                    }
+                }
+            }
         }
     }
 

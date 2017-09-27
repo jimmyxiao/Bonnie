@@ -50,6 +50,10 @@ struct Service {
 }
 
 struct Identifier {
+    static let HOME = "homeViewController"
+    static let COLLECTION = "collectionViewController"
+    static let NOTIFICATION = "notificationViewController"
+    static let ACCOUNT = "accountViewController"
 }
 
 struct Segue {

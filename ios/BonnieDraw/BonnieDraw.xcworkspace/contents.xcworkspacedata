@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/professor/Work/Bonnie/ios/BonnieDraw/BonnieDraw/NotificationViewController.swift">
+   </FileRef>
+   <FileRef
       location = "group:BonnieDraw.xcodeproj">
    </FileRef>
    <FileRef

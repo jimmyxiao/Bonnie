@@ -19,6 +19,9 @@
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65B51F61663900945E04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B31F61663900945E04 /* LaunchScreen.storyboard */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
+		164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2471F7B376700E8B910 /* CollectionViewController.swift */; };
+		164ED24A1F7B377800E8B910 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2491F7B377800E8B910 /* NotificationViewController.swift */; };
+		164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED24C1F7B379200E8B910 /* AccountViewController.swift */; };
 		165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165710FE1F6BAB63004A8DD8 /* Path.swift */; };
 		165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */; };
 		165ECC551F73A40700E32AA5 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */; };
@@ -59,6 +62,9 @@
 		163F65B41F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
+		164ED2471F7B376700E8B910 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		164ED2491F7B377800E8B910 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = /Users/professor/Work/Bonnie/ios/BonnieDraw/BonnieDraw/NotificationViewController.swift; sourceTree = "<absolute>"; };
+		164ED24C1F7B379200E8B910 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		165710FE1F6BAB63004A8DD8 /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordViewController.swift; sourceTree = "<group>"; };
 		165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -183,6 +189,9 @@
 				163F65BE1F616C4F00945E04 /* CanvasViewController.swift */,
 				1664F4A21F74AB3000809C32 /* DrawerViewController.swift */,
 				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
+				164ED2471F7B376700E8B910 /* CollectionViewController.swift */,
+				164ED2491F7B377800E8B910 /* NotificationViewController.swift */,
+				164ED24C1F7B379200E8B910 /* AccountViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -366,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */,
 				163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */,
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
@@ -375,6 +385,7 @@
 				16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */,
 				1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */,
 				165ECC5B1F73A72500E32AA5 /* RestClient.swift in Sources */,
+				164ED24A1F7B377800E8B910 /* NotificationViewController.swift in Sources */,
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
 				16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */,
@@ -384,6 +395,7 @@
 				165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */,
 				165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */,
 				163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */,
+				164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */,
 				1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */,
 				169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */,
 				16D439651F66A9B300FF5878 /* Logger.swift in Sources */,
