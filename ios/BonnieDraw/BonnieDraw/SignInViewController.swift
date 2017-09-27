@@ -110,7 +110,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                 case .success(let response):
                                     if let data = response.dictionaryValue?["data"] as? [String: Any],
                                        let imageUrl = data["url"] as? String {
-                                        self.checkAndLogin(withUserType: 2, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
+                                        self.checkAndLogin(withUserType: .facebook, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
                                     }
                                 case .failed(let error):
                                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
@@ -155,7 +155,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     } else {
                         TWTRAPIClient.withCurrentUser().loadUser(withID: session!.userID) {
                             user, error in
-                            self.checkAndLogin(withUserType: 4, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: user?.profileImageLargeURL)
+                            self.checkAndLogin(withUserType: .twitter, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: user?.profileImageLargeURL)
                         }
                     }
                 }
@@ -173,7 +173,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             loading.hide(hide: true)
             presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
         } else {
-            checkAndLogin(withUserType: 3, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128).absoluteString)
+            checkAndLogin(withUserType: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128).absoluteString)
         }
     }
 
@@ -183,8 +183,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         }
     }
 
-    private func checkAndLogin(withUserType type: Int, userId id: String, name: String, email: String, imageUrl: String?) {
-        var postData: [String: Any] = ["uc": id, "un": name, "ut": type, "dt": 2, "fn": 3, "thirdEmail": email]
+    private func checkAndLogin(withUserType type: UserType, userId id: String, name: String, email: String, imageUrl: String?) {
+        var postData: [String: Any] = ["uc": id, "un": name, "ut": type.rawValue, "dt": 2, "fn": 3, "thirdEmail": email]
         if let imageUrl = imageUrl {
             postData["thirdPictureUrl"] = imageUrl
         }
@@ -203,6 +203,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     let defaults = UserDefaults.standard
                     defaults.set(token, forKey: Default.TOKEN)
                     defaults.set(userId, forKey: Default.USER_ID)
+                    defaults.set(type.rawValue, forKey: Default.USER_TYPE)
                     defaults.set(id, forKey: Default.THIRD_PARTY_ID)
                     defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
                     if let imageUrl = imageUrl {

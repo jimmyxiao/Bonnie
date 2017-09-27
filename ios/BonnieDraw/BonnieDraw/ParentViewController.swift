@@ -8,6 +8,8 @@
 
 import UIKit
 import KYDrawerController
+import FacebookLogin
+import TwitterKit
 
 class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, TabBarViewControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -44,8 +46,26 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
                     success in
                     if success {
                         let defaults = UserDefaults.standard
+                        if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)) {
+                            switch type {
+                            case .facebook:
+                                LoginManager().logOut()
+                                break
+                            case .google:
+                                GIDSignIn.sharedInstance().signOut()
+                                break
+                            case .twitter:
+                                if let userId = Twitter.sharedInstance().sessionStore.session()?.userID {
+                                    Twitter.sharedInstance().sessionStore.logOutUserID(userId)
+                                }
+                                break
+                            default:
+                                break
+                            }
+                        }
                         defaults.removeObject(forKey: Default.TOKEN)
                         defaults.removeObject(forKey: Default.USER_ID)
+                        defaults.removeObject(forKey: Default.USER_TYPE)
                         defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
                         defaults.removeObject(forKey: Default.THIRD_PARTY_NAME)
                         defaults.removeObject(forKey: Default.THIRD_PARTY_IMAGE)

@@ -32,7 +32,7 @@ class LoadingIndicatorView: UIView {
 
     func addIndicator() {
         indicator.activityIndicatorViewStyle = .whiteLarge
-        indicator.color = UIColor.getAccentColor()
+        indicator.color = UIColor.black.withAlphaComponent(0.5)
         addAndCenter(subView: indicator)
     }
 

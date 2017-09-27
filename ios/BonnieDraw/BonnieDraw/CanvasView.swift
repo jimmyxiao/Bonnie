@@ -11,7 +11,7 @@ import UIKit
 class CanvasView: UIView {
     var size: CGFloat = 8
     var color = UIColor.black
-    private var lastTime = Date().timeIntervalSince1970
+    private var lastTimestamp: TimeInterval = -1
     private var lastPoint = CGPoint.zero
     private var currentPoint = CGPoint.zero
     private var url: URL?
@@ -59,9 +59,12 @@ class CanvasView: UIView {
             Logger.d(error.localizedDescription)
         }
         setNeedsDisplay()
+        isUserInteractionEnabled = true
+        lastTimestamp = -1
     }
 
     func play() {
+        isUserInteractionEnabled = false
         savePointsToFile()
         animationTimer?.invalidate()
         paths.removeAll()
@@ -120,7 +123,6 @@ class CanvasView: UIView {
     private func animate() {
         var middle: CGPoint
         if bounds.contains(currentPoint) {
-            lastPoint = currentPoint
             if !animationPoints.isEmpty {
                 let point = animationPoints.removeFirst()
                 currentPoint = point.position
@@ -132,7 +134,9 @@ class CanvasView: UIView {
                         timer in
                         self.setNeedsDisplay()
                     }
+                    lastPoint = currentPoint
                 } else {
+                    currentPoint = point.position
                     lastPoint = currentPoint
                     if bounds.contains(currentPoint) {
                         let path = UIBezierPath()
@@ -146,6 +150,9 @@ class CanvasView: UIView {
                     }
                     animate()
                 }
+            } else {
+                isUserInteractionEnabled = true
+                lastTimestamp = -1
             }
         }
     }
@@ -191,7 +198,9 @@ class CanvasView: UIView {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            lastTime = Date().timeIntervalSince1970
+            if lastTimestamp < 0 {
+                lastTimestamp = touch.timestamp
+            }
             currentPoint = touch.location(in: self)
             lastPoint = currentPoint
             if bounds.contains(currentPoint) {
@@ -208,22 +217,20 @@ class CanvasView: UIView {
                                         action: .down,
                                         size: size,
                                         type: .round,
-                                        duration: 0)],
+                                        duration: touch.timestamp - lastTimestamp)],
                                 color: color))
             }
         }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first, let coalescedTouches = event?.coalescedTouches(for: touch) {
-            var currentTime = Date().timeIntervalSince1970
+        if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
             var middle: CGPoint
+            var lastPoint = self.lastPoint
             for touch in coalescedTouches {
-                lastPoint = currentPoint
                 currentPoint = touch.location(in: self)
                 if bounds.contains(currentPoint) {
                     middle = CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2)
-                    currentTime = Date().timeIntervalSince1970
                     paths.last?.bezierPath.addQuadCurve(to: middle, controlPoint: lastPoint)
                     paths.last?.points.append(
                             Point(length: LENGTH_SIZE,
@@ -233,24 +240,24 @@ class CanvasView: UIView {
                                     action: .move,
                                     size: size,
                                     type: .round,
-                                    duration: currentTime - lastTime))
-                    lastTime = currentTime
+                                    duration: touch.timestamp - lastTimestamp))
+                    lastTimestamp = touch.timestamp
                 }
+                lastPoint = currentPoint
             }
             setNeedsDisplay()
+            self.lastPoint = currentPoint
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first, let coalescedTouches = event?.coalescedTouches(for: touch) {
-            var currentTime = Date().timeIntervalSince1970
+        if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
             var middle: CGPoint
+            var lastPoint = self.lastPoint
             for touch in coalescedTouches {
-                lastPoint = currentPoint
                 currentPoint = touch.location(in: self)
                 if bounds.contains(currentPoint) {
                     middle = CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2)
-                    currentTime = Date().timeIntervalSince1970
                     paths.last?.bezierPath.addQuadCurve(to: middle, controlPoint: lastPoint)
                     paths.last?.points.append(
                             Point(length: LENGTH_SIZE,
@@ -260,11 +267,19 @@ class CanvasView: UIView {
                                     action: .move,
                                     size: size,
                                     type: .round,
-                                    duration: currentTime - lastTime))
-                    lastTime = currentTime
+                                    duration: touch.timestamp - lastTimestamp))
+                    lastTimestamp = touch.timestamp
                 }
+                lastPoint = currentPoint
             }
             setNeedsDisplay()
+            self.lastPoint = currentPoint
         }
+    }
+
+    private func calculateRectForRedraw() -> CGRect {
+        let p = CGPoint(x: min(currentPoint.x, lastPoint.x) - size, y: min(currentPoint.y, lastPoint.y - size))
+        let s = CGSize(width: max(currentPoint.x, lastPoint.x) - p.x + size, height: max(currentPoint.y, lastPoint.y) - p.y + size)
+        return CGRect(origin: p, size: s)
     }
 }
