@@ -14,4 +14,8 @@ public interface LoginMapper {
     int updateByPrimaryKeySelective(Login record);
 
     int updateByPrimaryKey(Login record);
+    
+    int updateCurrentIsFalse(Login record);
+    
+    Login inspectLogin(Login record);
 }

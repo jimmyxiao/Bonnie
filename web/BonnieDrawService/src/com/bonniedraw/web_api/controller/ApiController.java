@@ -77,7 +77,7 @@ public class ApiController {
 		if(ValidateUtil.isNotNumNone(apiRequestVO.getUi()) 
 				&& ValidateUtil.isNotBlank(apiRequestVO.getLk())
 				&& ValidateUtil.isNotEmpty(apiRequestVO.getDt()) ){
-			return true;
+			return userServiceAPI.isLogin(apiRequestVO);
 		}else{
 			return false;
 		}
@@ -150,7 +150,6 @@ public class ApiController {
 		ForgetPwdResponseVO respResult = new ForgetPwdResponseVO();
 		String msg = "";
 		String email = forgetPwdRequestVO.getEmail();
-//		String mask = forgetPwdRequestVO.getMask();
 		respResult.setRes(0);
 		try {
 			if(ValidateUtil.isBlank(email)){
@@ -236,7 +235,7 @@ public class ApiController {
 			Integer wid = workListRequestVO.getWid();
 			if(ValidateUtil.isNotNumNone(wt) && wt > 0){
 				if(wt!=3 && !(wt >=20)){
-					if(ValidateUtil.isNotNumNone(wid)){
+					if(ValidateUtil.isNotNumNone(wid)){		//取得系統預設類別的單一作品
 						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid);
 						if(worksResponse!=null){
 							List<WorksResponse> workList = respResult.getWorkList();
@@ -249,25 +248,19 @@ public class ApiController {
 						}
 					}else{
 						List<WorksResponse> workList;
-						if(ValidateUtil.isNotNumNone(workListRequestVO.getStn())){
+						if(ValidateUtil.isNotNumNone(workListRequestVO.getStn())){		//取得含有分頁控制的作品列表,反之只取得顯示部分作品列表
 							Map<String, Object> resultMap = worksServiceAPI.queryAllWorksAndPagination(workListRequestVO);
 							workList = (List<WorksResponse>) resultMap.get("worksResponseList");
 							respResult.setMaxPagination((int) resultMap.get("maxPagination"));
 						}else{
 							workList  = worksServiceAPI.queryAllWorks(workListRequestVO);
 						}
-						
-						if(ValidateUtil.isNotEmptyAndSize(workList)){
-							respResult.setRes(1);
-							respResult.setWorkList(workList);
-							msg = messageSource.getMessage("api_success",null,request.getLocale());
-						}else{
-							respResult.setRes(2);
-							msg = messageSource.getMessage("api_fail",null,request.getLocale());
-						}
+						respResult.setRes(1);
+						respResult.setWorkList(workList);
+						msg = messageSource.getMessage("api_success",null,request.getLocale());
 					}
 				}else{
-					if(ValidateUtil.isNotNumNone(wid)){
+					if(ValidateUtil.isNotNumNone(wid)){		//取得系統非預設類別的作品
 						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid);
 						if(worksResponse!=null){
 							Integer resStatus = worksResponse.getStatus();
@@ -337,7 +330,6 @@ public class ApiController {
 				UserInfo userInfo = new UserInfo();
 				userInfo.setUserId(userInfoUpdateRequestVO.getUi());
 				userInfo.setUserType(userInfoUpdateRequestVO.getUserType());
-				userInfo.setUserCode(userInfoUpdateRequestVO.getUserCode());
 				userInfo.setUserName(userInfoUpdateRequestVO.getUserName());
 				userInfo.setNickName(userInfoUpdateRequestVO.getNickName());
 				userInfo.setEmail(userInfoUpdateRequestVO.getEmail());

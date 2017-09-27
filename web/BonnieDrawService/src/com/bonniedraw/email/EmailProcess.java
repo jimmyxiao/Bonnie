@@ -49,7 +49,8 @@ public class EmailProcess {
 				MimeMessageHelper message = new MimeMessageHelper(mimeMessage,	false, "BIG5");
 				String to = email;
 				String subject = EmailContent.SUBJECT;
-				String body = EmailContent.BODY + userInfo.getRegData();
+				String link = EmailContent.LINK + userInfo.getRegData();
+				String body = new String(EmailContent.BODY).replace("link_complete", link);
 				message.setTo(to);
 				message.setSubject(subject);
 				message.setFrom(new InternetAddress(systemSetup.getMailUsername()));

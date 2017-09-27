@@ -139,4 +139,22 @@
       SESSION_ID = #{sessionId,jdbcType=INTEGER}
     where LOGIN_ID = #{loginId,jdbcType=INTEGER}
   </update>
+  
+	<update id="updateCurrentIsFalse" parameterType="com.bonniedraw.login.model.Login">
+	    update login
+	    set IS_CURRENT = 2
+	    where USER_ID = #{userId,jdbcType=INTEGER}
+	    and DEVICE_INFO = #{deviceInfo,jdbcType=VARCHAR}
+	    and IS_CURRENT = 1
+	</update>
+	
+	<select id="inspectLogin" parameterType="com.bonniedraw.login.model.Login" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from login
+	    where LOGIN_TOKEN = #{loginToken,jdbcType=VARCHAR}
+	    and DEVICE_INFO = #{deviceInfo,jdbcType=VARCHAR}
+	    and IS_CURRENT = 1
+	</select>
+  
 </mapper>

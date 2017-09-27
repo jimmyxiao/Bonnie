@@ -392,12 +392,13 @@
 		select 
 		<include refid="Base_Column_List" />
 		from user_info
-		where
-		<if test="ut == 1 "> USER_CODE = #{uc, jdbcType=VARCHAR} and USER_PW = #{up,jdbcType=VARCHAR}</if>
-		<if test="ut == 2 ">	 REG_FACEBOOK_ID = #{uc, jdbcType=VARCHAR} </if>
-		<if test="ut == 3 "> REG_GOOGLE_ID = #{uc, jdbcType=VARCHAR} </if>
-		<if test="ut == 4 "> REG_TWITTER_ID = #{uc, jdbcType=VARCHAR} </if>
-		<if test="ut == 2 or ut ==3 or ut ==4"> and USER_CODE =  #{thirdEmail, jdbcType=VARCHAR} </if>  
+		where 1 = 1
+		<if test="ut == 1 "> and USER_CODE = #{uc, jdbcType=VARCHAR} and USER_PW = #{up,jdbcType=VARCHAR}</if>
+		<if test="ut == 2 ">	 and REG_FACEBOOK_ID = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 3 "> and REG_GOOGLE_ID = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 4 "> and REG_TWITTER_ID = #{uc, jdbcType=VARCHAR} </if>
+		<if test="ut == 2 or ut ==3 or ut ==4"> and USER_CODE =  #{thirdEmail, jdbcType=VARCHAR} </if>
+		and STATUS = 1  
 	</select>
 	
 	<select id="selectByUserCode" parameterType="java.lang.String" resultMap="BaseResultMap">

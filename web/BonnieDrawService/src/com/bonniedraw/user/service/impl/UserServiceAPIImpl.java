@@ -19,6 +19,7 @@ import com.bonniedraw.util.EncryptUtil;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.SercurityUtil;
 import com.bonniedraw.util.TimerUtil;
+import com.bonniedraw.web_api.model.ApiRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
 import com.bonniedraw.web_api.model.request.UpdatePwdRequestVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
@@ -34,6 +35,29 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	
 	@Autowired
 	LoginMapper loginMapper;
+	
+	@Override
+	public boolean isLogin(ApiRequestVO apiRequestVO){
+		Login loginVO = new Login();
+		loginVO.setUserId(apiRequestVO.getUi());
+		loginVO.setLoginToken(apiRequestVO.getLk());
+		switch (apiRequestVO.getDt()) {
+		case 1:
+			loginVO.setDeviceInfo("Android");
+			break;
+		case 2:
+			loginVO.setDeviceInfo("iOS");
+			break;
+		case 3:
+			loginVO.setDeviceInfo("Web");
+			break;
+		}
+		Login result = loginMapper.inspectLogin(loginVO);
+		if(result!=null){
+			return true;
+		}
+		return false;
+	}
 	
 	private LoginResponseVO callLogin(LoginRequestVO loginRequestVO, String ipAddress) {
 		LoginResponseVO result = new LoginResponseVO();
@@ -70,6 +94,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 				break;
 			}
 			try {
+				loginMapper.updateCurrentIsFalse(loginVO);
 				loginMapper.insertSelective(loginVO);
 				result.setRes(1);
 				result.setUi(userInfo.getUserId());
@@ -210,20 +235,26 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		return result;
 	}
 	
-	
 	private LoginResponseVO callInspectRegister(LoginRequestVO loginRequestVO){
 		LoginResponseVO result = new LoginResponseVO();
 		try{
 //			UserInfo userInfo = userInfoMapper.inspectRegister(loginRequestVO);
+			int userType = loginRequestVO.getUt();
 			String userCode;
-			if(loginRequestVO.getUt()!=1){
+			if(userType != 1){
 				userCode = loginRequestVO.getThirdEmail();
 			}else{
 				userCode = loginRequestVO.getUc();
 			}
 			UserInfo userInfo = userInfoMapper.selectByUserCode(userCode);
 			if(userInfo!=null){
-				result.setRes(2);
+				if( (userType==2 && userInfo.getRegFacebookId()==null) || 
+						(userType==3 && userInfo.getRegGoogleId()==null) || 
+						(userType==4 && userInfo.getRegTwitterId()==null) ){
+					result.setRes(1);
+				}else{
+					result.setRes(2);
+				}
 			}else{
 				result.setRes(1);
 			}
@@ -259,6 +290,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		int success = 2;
 		Date nowDate = TimerUtil.getNowDate();
 		try {
+			userInfo.setUpdatedBy(userInfo.getUserId());
 			userInfo.setUpdateDate(nowDate);
 			userInfoMapper.updateByPrimaryKeySelective(userInfo);
 			success = 1;
