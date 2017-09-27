@@ -31,6 +31,7 @@ import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.web_api.model.ApiRequestVO;
 import com.bonniedraw.web_api.model.request.FileUploadRequestVO;
 import com.bonniedraw.web_api.model.request.ForgetPwdRequestVO;
+import com.bonniedraw.web_api.model.request.FriendRequestVO;
 import com.bonniedraw.web_api.model.request.LeaveMsgRequestVO;
 import com.bonniedraw.web_api.model.request.LoadFileRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
@@ -44,6 +45,7 @@ import com.bonniedraw.web_api.model.request.WorkListRequestVO;
 import com.bonniedraw.web_api.model.request.WorksSaveRequestVO;
 import com.bonniedraw.web_api.model.response.FileUploadResponseVO;
 import com.bonniedraw.web_api.model.response.ForgetPwdResponseVO;
+import com.bonniedraw.web_api.model.response.FriendResponseVO;
 import com.bonniedraw.web_api.model.response.LeaveMsgResponseVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
 import com.bonniedraw.web_api.model.response.SetFollowingResponseVO;
@@ -91,10 +93,12 @@ public class ApiController {
 		int fn = loginRequestVO.getFn();
 		int ut = loginRequestVO.getUt();
 		int dt = loginRequestVO.getDt();
+		Integer gender = loginRequestVO.getGender();
 		if(ValidateUtil.isNotBlank(loginRequestVO.getUc()) 
 				&& (fn>=1 && fn<=3)
 				&& (ut>=1 && ut<=4) 
-				&& (dt>=1 && dt<=3) ){
+				&& (dt>=1 && dt<=3)
+				&& (gender==null || (gender!=null && gender>=0 && gender<=2)) ){
 			if(ut !=1 && ValidateUtil.isBlank(loginRequestVO.getThirdEmail())){
 				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 			}else{
@@ -199,6 +203,105 @@ public class ApiController {
 		return respResult;
 	}
 	
+	@RequestMapping(value="/userInfoQuery" , produces="application/json")
+	public @ResponseBody UserInfoQueryResponseVO userInfoQuery(HttpServletRequest request,HttpServletResponse resp,@RequestBody UserInfoQueryRequestVO userInfoQueryRequestVO) {
+		UserInfoQueryResponseVO respResult = new UserInfoQueryResponseVO();
+		String msg = "";
+		if(isLogin(userInfoQueryRequestVO)){
+			UserInfo userInfo = userServiceAPI.queryUserInfo(userInfoQueryRequestVO.getUi());
+			if(userInfo!=null){
+				respResult.setRes(1);
+				msg = messageSource.getMessage("api_success",null,request.getLocale());
+				respResult.setUserType(userInfo.getUserType());
+				respResult.setUserCode(userInfo.getUserCode());
+				respResult.setUserName(userInfo.getUserName());
+				respResult.setNickName(userInfo.getNickName());
+				respResult.setEmail(userInfo.getEmail());
+				respResult.setDescription(userInfo.getDescription());
+				respResult.setWebLink(userInfo.getWebLink());
+				respResult.setPhoneCountryCode(userInfo.getPhoneCountryCode());
+				respResult.setPhoneNo(userInfo.getPhoneNo());
+				respResult.setGender(userInfo.getGender());
+				respResult.setProfilePicture(userInfo.getProfilePicture());
+				respResult.setBirthday(userInfo.getBirthday());
+				respResult.setStatus(userInfo.getStatus());
+				respResult.setLanguageId(userInfo.getLanguageId());
+			}else{
+				respResult.setRes(2);
+				msg = messageSource.getMessage("api_fail",null,request.getLocale());
+			}
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
+	@RequestMapping(value="/userInfoUpdate" , produces="application/json")
+	public @ResponseBody UserInfoUpdateResponseVO userInfoUpdate(HttpServletRequest request,HttpServletResponse resp,@RequestBody UserInfoUpdateRequestVO userInfoUpdateRequestVO) {
+		UserInfoUpdateResponseVO respResult = new UserInfoUpdateResponseVO();
+		String msg = "";
+		if(isLogin(userInfoUpdateRequestVO)){
+			if(ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getUserCode())
+					&& ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getUserName())){
+				UserInfo userInfo = new UserInfo();
+				userInfo.setUserId(userInfoUpdateRequestVO.getUi());
+				userInfo.setUserType(userInfoUpdateRequestVO.getUserType());
+				userInfo.setUserName(userInfoUpdateRequestVO.getUserName());
+				userInfo.setNickName(userInfoUpdateRequestVO.getNickName());
+				userInfo.setEmail(userInfoUpdateRequestVO.getEmail());
+				userInfo.setDescription(userInfoUpdateRequestVO.getDescription());
+				userInfo.setWebLink(userInfoUpdateRequestVO.getWebLink());
+				userInfo.setPhoneCountryCode(userInfoUpdateRequestVO.getPhoneCountryCode());
+				userInfo.setPhoneNo(userInfoUpdateRequestVO.getPhoneNo());
+				userInfo.setGender(userInfoUpdateRequestVO.getGender());
+				userInfo.setProfilePicture(userInfoUpdateRequestVO.getProfilePicture());
+				userInfo.setBirthday(userInfoUpdateRequestVO.getBirthday());
+				userInfo.setStatus(userInfoUpdateRequestVO.getStatus());
+				userInfo.setLanguageId(userInfoUpdateRequestVO.getLanguageId());
+				int res = userServiceAPI.updateUserInfo(userInfo);
+				respResult.setRes(res);
+				if(res ==1){
+					msg = messageSource.getMessage("api_success",null,request.getLocale());
+				}else{
+					msg = messageSource.getMessage("api_fail",null,request.getLocale());
+				}
+			}else{
+				respResult.setRes(2);
+				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
+			}
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
+	@RequestMapping(value="/friendsList" , produces="application/json")
+	public @ResponseBody FriendResponseVO getUserFriendsList(HttpServletRequest request,HttpServletResponse resp,@RequestBody FriendRequestVO friendRequestVO) {
+		FriendResponseVO respResult = new FriendResponseVO();
+		String msg = "";
+		respResult.setRes(2);
+		if(isLogin(friendRequestVO)){
+			int thirdPlatform = friendRequestVO.getThirdPlatform();
+			if(thirdPlatform>=2 && thirdPlatform<=4){
+				List<Integer> uidList = friendRequestVO.getUidList();
+				if(uidList !=null && !(uidList.contains(null) || uidList.contains("")) ){
+					respResult = userServiceAPI.getUserFriendsList(friendRequestVO.getUi(), thirdPlatform, uidList);
+					msg = "成功";
+				}else{
+					msg="接收朋友列表資料異常";
+				}
+			}else{
+				msg = "無第三方登入平台";
+			}		
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
 	@RequestMapping(value="/worksSave" , produces="application/json")
 	public @ResponseBody WorksSaveResponseVO worksSave(HttpServletRequest request,HttpServletResponse resp,@RequestBody WorksSaveRequestVO worksSaveRequestVO) {
 		WorksSaveResponseVO respResult = new WorksSaveResponseVO();
@@ -285,81 +388,7 @@ public class ApiController {
 		respResult.setMsg(msg);
 		return respResult;
 	}
-	
-	@RequestMapping(value="/userInfoQuery" , produces="application/json")
-	public @ResponseBody UserInfoQueryResponseVO userInfoQuery(HttpServletRequest request,HttpServletResponse resp,@RequestBody UserInfoQueryRequestVO userInfoQueryRequestVO) {
-		UserInfoQueryResponseVO respResult = new UserInfoQueryResponseVO();
-		String msg = "";
-		if(isLogin(userInfoQueryRequestVO)){
-			UserInfo userInfo = userServiceAPI.queryUserInfo(userInfoQueryRequestVO.getUi());
-			if(userInfo!=null){
-				respResult.setRes(1);
-				msg = messageSource.getMessage("api_success",null,request.getLocale());
-				respResult.setUserType(userInfo.getUserType());
-				respResult.setUserCode(userInfo.getUserCode());
-				respResult.setUserName(userInfo.getUserName());
-				respResult.setNickName(userInfo.getNickName());
-				respResult.setEmail(userInfo.getEmail());
-				respResult.setDescription(userInfo.getDescription());
-				respResult.setWebLink(userInfo.getWebLink());
-				respResult.setPhoneCountryCode(userInfo.getPhoneCountryCode());
-				respResult.setPhoneNo(userInfo.getPhoneNo());
-				respResult.setGender(userInfo.getGender());
-				respResult.setProfilePicture(userInfo.getProfilePicture());
-				respResult.setBirthday(userInfo.getBirthday());
-				respResult.setStatus(userInfo.getStatus());
-				respResult.setLanguageId(userInfo.getLanguageId());
-			}else{
-				respResult.setRes(2);
-				msg = messageSource.getMessage("api_fail",null,request.getLocale());
-			}
-		}else{
-			msg = "帳號未登入"; 
-		}
-		respResult.setMsg(msg);
-		return respResult;
-	}
-	
-	@RequestMapping(value="/userInfoUpdate" , produces="application/json")
-	public @ResponseBody UserInfoUpdateResponseVO userInfoUpdate(HttpServletRequest request,HttpServletResponse resp,@RequestBody UserInfoUpdateRequestVO userInfoUpdateRequestVO) {
-		UserInfoUpdateResponseVO respResult = new UserInfoUpdateResponseVO();
-		String msg = "";
-		if(isLogin(userInfoUpdateRequestVO)){
-			if(ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getUserCode())
-					&& ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getUserName())){
-				UserInfo userInfo = new UserInfo();
-				userInfo.setUserId(userInfoUpdateRequestVO.getUi());
-				userInfo.setUserType(userInfoUpdateRequestVO.getUserType());
-				userInfo.setUserName(userInfoUpdateRequestVO.getUserName());
-				userInfo.setNickName(userInfoUpdateRequestVO.getNickName());
-				userInfo.setEmail(userInfoUpdateRequestVO.getEmail());
-				userInfo.setDescription(userInfoUpdateRequestVO.getDescription());
-				userInfo.setWebLink(userInfoUpdateRequestVO.getWebLink());
-				userInfo.setPhoneCountryCode(userInfoUpdateRequestVO.getPhoneCountryCode());
-				userInfo.setPhoneNo(userInfoUpdateRequestVO.getPhoneNo());
-				userInfo.setGender(userInfoUpdateRequestVO.getGender());
-				userInfo.setProfilePicture(userInfoUpdateRequestVO.getProfilePicture());
-				userInfo.setBirthday(userInfoUpdateRequestVO.getBirthday());
-				userInfo.setStatus(userInfoUpdateRequestVO.getStatus());
-				userInfo.setLanguageId(userInfoUpdateRequestVO.getLanguageId());
-				int res = userServiceAPI.updateUserInfo(userInfo);
-				respResult.setRes(res);
-				if(res ==1){
-					msg = messageSource.getMessage("api_success",null,request.getLocale());
-				}else{
-					msg = messageSource.getMessage("api_fail",null,request.getLocale());
-				}
-			}else{
-				respResult.setRes(2);
-				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
-			}
-		}else{
-			msg = "帳號未登入"; 
-		}
-		respResult.setMsg(msg);
-		return respResult;
-	}
-	
+
 	@RequestMapping(value="/leavemsg" , produces="application/json")
 	public @ResponseBody LeaveMsgResponseVO leavemsg(HttpServletRequest request,HttpServletResponse resp,@RequestBody LeaveMsgRequestVO leaveMsgRequestVO) {
 		LeaveMsgResponseVO respResult = new LeaveMsgResponseVO();

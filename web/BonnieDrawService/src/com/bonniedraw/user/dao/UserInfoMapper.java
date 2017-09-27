@@ -1,6 +1,7 @@
 package com.bonniedraw.user.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
@@ -31,5 +32,7 @@ public interface UserInfoMapper {
     List<UserInfo> queryUserList();
     
     UserInfo queryTokenUser(String token);
+    
+    List<UserInfo> getUserFriendsList(Map<String, Object> paramMap);
     
 }

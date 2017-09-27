@@ -1,9 +1,0 @@
-angular.module('myApp.controllers').config(function ($translateProvider) {
- $translateProvider
- .useSanitizeValueStrategy('escaped')
- .translations('zh_TW', {
-  TRANSLATION_ID: 'Hello world !!',
-  TRANSLATION_ID_2: 'Hello world !! {{value}}',
-  TRANSLATION_ID_3: 'Hello world !! {{value1}},{{value2}}',
- });
-});

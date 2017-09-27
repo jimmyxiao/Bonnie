@@ -8,10 +8,9 @@ var rootUrl = locationIP + 'BonnieDrawService/';
 // var locationIP='https://www.bonniedraw.com/';
 // var rootUrl = locationIP + 'bonniedraw_service/';
 
-
 var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
-var app = angular.module('app',['ui.router', 'ngCookies', 'ui.bootstrap', 'ngRoute', 'ngSanitize','Authentication']);
+var app = angular.module('app',['ui.router', 'ngCookies', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'pascalprecht.translate', 'Authentication']);
 
 app.factory('baseHttp', function($rootScope, $http){
 	function doService(url, params, callback, error){
@@ -202,7 +201,16 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
   	})
 }])
 
-app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $filter){
+app.config(['$translateProvider', function($translateProvider){
+	$translateProvider.useStaticFilesLoader({
+		prefix: 'messages/',
+		suffix: '.json'
+	});
+
+	$translateProvider.preferredLanguage('zh-tw');
+}])
+
+app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $filter, $translate){
 	$rootScope.title = '';
 	$rootScope.iTunesStoreUrl = 'https://www.apple.com/tw/itunes/charts/free-apps/';
 	$rootScope.googlePlayStoreUrl = 'https://play.google.com/store';
@@ -241,6 +249,12 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 		$cookieStore.remove('rg_gl');
 		$state.go('login');
 	}
+
+	$rootScope.language = 'zh-tw';
+	$rootScope.switchLanguage = function(langKey) {
+		$translate.use(langKey);
+	}
+	$rootScope.switchLanguage($rootScope.language);
 
 	$rootScope.maxPagination = 0;
 	$rootScope.paginList =[];

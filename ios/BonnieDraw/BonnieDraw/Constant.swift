@@ -26,6 +26,13 @@ enum Type: UInt8 {
     case round
 }
 
+enum UserType: Int {
+    case email = 1
+    case facebook
+    case google
+    case twitter
+}
+
 struct Cell {
     static let BASIC = "basicCell"
     static let HOME = "homeCell"
@@ -62,6 +69,7 @@ struct Segue {
 struct Default {
     static let TOKEN = "token"
     static let USER_ID = "userId"
+    static let USER_TYPE = "userType"
     static let THIRD_PARTY_ID = "thirdPartyId"
     static let THIRD_PARTY_NAME = "thirdPartyName"
     static let THIRD_PARTY_IMAGE = "thirdPartyImage"

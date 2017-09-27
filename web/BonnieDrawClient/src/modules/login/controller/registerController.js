@@ -13,6 +13,7 @@ app.factory('registerService', function(baseHttp) {
         $scope.callRegister = function (valid) {
         	if(valid){
                 var params = {
+                    phoneNo:$scope.register.phoneNo,
                     uc:$scope.register.userCode,
                     up:$scope.register.userPw,
                     un:$scope.register.userName,

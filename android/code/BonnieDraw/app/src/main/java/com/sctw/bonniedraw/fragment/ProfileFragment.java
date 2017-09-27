@@ -32,6 +32,7 @@ import com.google.android.gms.common.api.Status;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.LoginActivity;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.twitter.sdk.android.core.TwitterCore;
 
 import java.io.IOException;
 import java.net.URL;
@@ -89,12 +90,15 @@ public class ProfileFragment extends Fragment {
         String userName = prefs.getString(GlobalVariable.userNameStr, "Null");
         String userEmail = prefs.getString(GlobalVariable.userEmailStr, "Null");
         URL profilePicUrl = null;
-        try {
-            profilePicUrl = new URL(prefs.getString("userImgUrl", "FailLoad"));
-            Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-            profilePhoto.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        if (!prefs.getString("userImgUrl", "").isEmpty()) {
+            try {
+                profilePicUrl = new URL(prefs.getString("userImgUrl", "FailLoad"));
+                Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
+                profilePhoto.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         int temp = userEmail.indexOf('@');
@@ -165,10 +169,11 @@ public class ProfileFragment extends Fragment {
     }
 
     public void logoutPlatform() {
-        switch (prefs.getString(GlobalVariable.userPlatformStr, "Null")) {
+        switch (prefs.getString(GlobalVariable.userPlatformStr, "null")) {
             case "0":
                 break;
             case "1":
+                cleanValue();
                 break;
             case "2":
                 LoginManager.getInstance().logOut();
@@ -183,8 +188,13 @@ public class ProfileFragment extends Fragment {
                     }
                 });
                 break;
-            case "Null":
+            case "4":
+                TwitterCore.getInstance().getSessionManager().clearActiveSession();
+                cleanValue();
+                break;
+            case "null":
                 Toast.makeText(getActivity(), "has error", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
