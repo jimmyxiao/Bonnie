@@ -92,16 +92,29 @@ class CanvasView: UIView {
         isUserInteractionEnabled = false
         savePointsToFile()
         animationTimer?.invalidate()
-        paths.removeAll()
         animationPoints.removeAll()
-        if let url = url {
-            do {
-                let handle = try FileHandle(forReadingFrom: url)
-                parse(data: handle.readDataToEndOfFile())
-            } catch let error {
-                Logger.d(error.localizedDescription)
+        for path in paths {
+            for point in path.points {
+                animationPoints.append(point)
             }
         }
+        paths.removeAll()
+        let point = animationPoints.removeFirst()
+        currentPoint = point.position
+        lastPoint = currentPoint
+        if bounds.contains(currentPoint) {
+            color = point.color
+            size = point.size
+            let path = UIBezierPath()
+            path.move(to: currentPoint)
+            path.lineCapStyle = .round
+            path.lineWidth = size
+            paths.append(
+                    Path(bezierPath: path,
+                            points: [point],
+                            color: color))
+        }
+        animate()
     }
 
     private func parse(data: Data) {
@@ -129,22 +142,6 @@ class CanvasView: UIView {
                 bytes.removeFirst()
                 bytes.removeFirst()
             }
-            let point = animationPoints.removeFirst()
-            currentPoint = point.position
-            lastPoint = currentPoint
-            if bounds.contains(currentPoint) {
-                color = point.color
-                size = point.size
-                let path = UIBezierPath()
-                path.move(to: currentPoint)
-                path.lineCapStyle = .round
-                path.lineWidth = size
-                paths.append(
-                        Path(bezierPath: path,
-                                points: [point],
-                                color: color))
-            }
-            animate()
         }
     }
 
