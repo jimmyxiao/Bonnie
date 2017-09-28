@@ -609,8 +609,8 @@
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="tYb-NY-iek"/>
-                                    <barButtonItem enabled="NO" image="draw_ic_size_no" id="70K-Gg-AcD">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <barButtonItem enabled="NO" image="works_ic_more" id="70K-Gg-AcD">
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="FTY-jS-9Q4"/>
                                     <barButtonItem image="draw_ic_new" id="R7G-Cb-HfF">
@@ -622,6 +622,11 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="4dV-Cz-1hv"/>
                                     <barButtonItem image="works_ic_more" id="da0-nx-vfp">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="IqP-P3-lOq" kind="popoverPresentation" popoverAnchorBarButtonItem="da0-nx-vfp" id="WGe-Vd-HIc">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
                                     </barButtonItem>
                                 </items>
                                 <color key="barTintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -657,12 +662,55 @@
                     </view>
                     <connections>
                         <outlet property="canvas" destination="ufQ-sW-bDW" id="WR5-4Z-b7J"/>
+                        <outlet property="colorButton" destination="da0-nx-vfp" id="lCF-DU-zhm"/>
                         <outlet property="pen" destination="xqN-j4-y2T" id="khP-Bu-WYc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qhx-cz-5i5" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1764.375" y="35.91549295774648"/>
+        </scene>
+        <!--Color Picker View Controller-->
+        <scene sceneID="KUn-Pb-PSu">
+            <objects>
+                <viewController id="IqP-P3-lOq" customClass="ColorPickerViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IAE-Vz-3Yt">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="u8T-ss-z9l">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="colorPickerCell" id="JN3-YO-pTC">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JN3-YO-pTC" id="NcH-5L-PRr">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="IqP-P3-lOq" id="tGx-ib-coc"/>
+                                    <outlet property="delegate" destination="IqP-P3-lOq" id="9Er-LG-vac"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="u8T-ss-z9l" firstAttribute="bottom" secondItem="Zns-CL-Zy5" secondAttribute="bottom" id="9qv-lv-4FH"/>
+                            <constraint firstItem="u8T-ss-z9l" firstAttribute="top" secondItem="IAE-Vz-3Yt" secondAttribute="top" id="Jje-y5-FCv"/>
+                            <constraint firstItem="u8T-ss-z9l" firstAttribute="leading" secondItem="Zns-CL-Zy5" secondAttribute="leading" id="fPG-Xn-gW9"/>
+                            <constraint firstItem="u8T-ss-z9l" firstAttribute="trailing" secondItem="Zns-CL-Zy5" secondAttribute="trailing" id="vz7-HW-aE7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Zns-CL-Zy5"/>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="0.0" height="0.0"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xym-M0-VU3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2587.5" y="35.91549295774648"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="xVl-Yq-LD2">
@@ -748,7 +796,6 @@
         <image name="bottom_bar_ic_user" width="22" height="25"/>
         <image name="draw_ic_erase" width="27" height="35"/>
         <image name="draw_ic_new" width="26" height="33"/>
-        <image name="draw_ic_size_no" width="12" height="12"/>
         <image name="draw_pen_ic_1" width="25" height="47"/>
         <image name="top_bar_ic_Backward" width="23" height="24"/>
         <image name="top_bar_ic_Description" width="26" height="26"/>

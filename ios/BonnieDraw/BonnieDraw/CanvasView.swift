@@ -107,6 +107,7 @@ class CanvasView: UIView {
             currentPoint = point.position
             lastPoint = currentPoint
             if bounds.contains(currentPoint) {
+                color = point.color
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
                 path.lineCapStyle = .round
@@ -121,13 +122,12 @@ class CanvasView: UIView {
     }
 
     private func animate() {
-        var middle: CGPoint
         if bounds.contains(currentPoint) {
             if !animationPoints.isEmpty {
                 let point = animationPoints.removeFirst()
                 currentPoint = point.position
                 if point.action != .down {
-                    middle = CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2)
+                    let middle = CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2)
                     paths.last?.bezierPath.addQuadCurve(to: middle, controlPoint: lastPoint)
                     paths.last?.points.append(point)
                     animationTimer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
@@ -139,6 +139,7 @@ class CanvasView: UIView {
                     currentPoint = point.position
                     lastPoint = currentPoint
                     if bounds.contains(currentPoint) {
+                        color = point.color
                         let path = UIBezierPath()
                         path.move(to: currentPoint)
                         path.lineCapStyle = .round
@@ -185,7 +186,7 @@ class CanvasView: UIView {
                     bytes.append(UInt8(scaledSize & 0x00ff))
                     bytes.append(UInt8(scaledSize >> 8))
                     bytes.append(point.type.rawValue)
-                    let durationMilliseconds = UInt16(Int(point.duration * 1000))
+                    let durationMilliseconds = point.duration * 1000 < Double(UInt16.max) ? UInt16(Int(point.duration * 1000)) : UInt16.max
                     bytes.append(UInt8(durationMilliseconds & 0x00ff))
                     bytes.append(UInt8(durationMilliseconds >> 8))
                     bytes.append(0)

@@ -36,6 +36,7 @@ enum UserType: Int {
 struct Cell {
     static let BASIC = "basicCell"
     static let HOME = "homeCell"
+    static let COLOR_PICKER = "colorPickerCell"
 }
 
 struct Service {
