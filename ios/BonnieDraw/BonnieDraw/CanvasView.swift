@@ -230,6 +230,7 @@ class CanvasView: UIView {
             currentPoint = touch.location(in: self)
             lastPoint = currentPoint
             if bounds.contains(currentPoint) {
+                Logger.d(currentPoint)
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
                 path.lineCapStyle = .round
@@ -251,13 +252,11 @@ class CanvasView: UIView {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
-            var middle: CGPoint
-            var lastPoint = self.lastPoint
             for touch in coalescedTouches {
                 currentPoint = touch.location(in: self)
-                if bounds.contains(currentPoint) {
-                    middle = CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2)
-                    paths.last?.bezierPath.addQuadCurve(to: middle, controlPoint: lastPoint)
+                if bounds.contains(currentPoint) && currentPoint != lastPoint {
+                    Logger.d(currentPoint)
+                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
                     paths.last?.points.append(
                             Point(length: LENGTH_SIZE,
                                     function: .draw,
@@ -268,23 +267,20 @@ class CanvasView: UIView {
                                     type: .round,
                                     duration: touch.timestamp - lastTimestamp))
                     lastTimestamp = touch.timestamp
+                    lastPoint = currentPoint
                 }
-                lastPoint = currentPoint
             }
             setNeedsDisplay()
-            self.lastPoint = currentPoint
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
-            var middle: CGPoint
-            var lastPoint = self.lastPoint
             for touch in coalescedTouches {
                 currentPoint = touch.location(in: self)
-                if bounds.contains(currentPoint) {
-                    middle = CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2)
-                    paths.last?.bezierPath.addQuadCurve(to: middle, controlPoint: lastPoint)
+                if bounds.contains(currentPoint) && currentPoint != lastPoint {
+                    Logger.d(currentPoint)
+                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
                     paths.last?.points.append(
                             Point(length: LENGTH_SIZE,
                                     function: .draw,
@@ -295,13 +291,24 @@ class CanvasView: UIView {
                                     type: .round,
                                     duration: touch.timestamp - lastTimestamp))
                     lastTimestamp = touch.timestamp
+                    lastPoint = currentPoint
+                } else {
+                    Logger.d(currentPoint)
+                    paths.last?.bezierPath.addLine(to: currentPoint)
+                    paths.last?.points.append(
+                            Point(length: LENGTH_SIZE,
+                                    function: .draw,
+                                    position: currentPoint,
+                                    color: color,
+                                    action: .move,
+                                    size: size,
+                                    type: .round,
+                                    duration: touch.timestamp - lastTimestamp))
                 }
-                lastPoint = currentPoint
             }
             setNeedsDisplay()
             redoPaths.removeAll()
             delegate?.canvasPathsDidChange()
-            self.lastPoint = currentPoint
         }
     }
 
