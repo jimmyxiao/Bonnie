@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.paint;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -284,7 +285,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             mCanvas.setBitmap(mBitmap);
             mPath = new Path();
             mPaint = new Paint(mPaint);
-            //  Set paint options
+            //  Set Grid
             gridPaint = new Paint();
             gridPaint.setAntiAlias(true);
             gridPaint.setStrokeWidth(3);
@@ -297,20 +298,22 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             load = true;
         }
 
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         protected void onDraw(Canvas canvas) {
             if (grid) {
                 //0到底部
+                canvas.drawColor(Color.WHITE);
                 int gridCol = 20;
                 for (int i = 0; i <= gridCol; i++) {
                     canvas.drawLine((displayWidth / gridCol) * i, 0, (displayWidth / gridCol) * i, displayWidth, gridPaint);
                     canvas.drawLine(0, (displayWidth / gridCol) * i, displayWidth, (displayWidth / gridCol) * i, gridPaint);
-
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     canvas.saveLayer(myView.getLeft(), myView.getTop(), displayWidth, displayWidth, gridPaint);
                 }
+            }else {
+                canvas.drawColor(Color.WHITE);
             }
+
 
             for (PathAndPaint p : paths) {
                 canvas.drawPath(p.get_mPath(), p.get_mPaint());
@@ -686,7 +689,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         btnOpenAutoPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnAutoPlay.setVisibility(View.VISIBLE);
+                if(mTagPoint_a_record.size()>0){
+                    btnAutoPlay.setVisibility(View.VISIBLE);
+                }else {
+                    Toast.makeText(PaintActivity.this, "請畫些東西吧！", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
