@@ -278,32 +278,33 @@ class CanvasView: UIView {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
             for touch in coalescedTouches {
                 currentPoint = touch.location(in: self)
-                if bounds.contains(currentPoint) && currentPoint != lastPoint {
+                if bounds.contains(currentPoint) {
                     Logger.d(currentPoint)
-                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
-                    paths.last?.points.append(
-                            Point(length: LENGTH_SIZE,
-                                    function: .draw,
-                                    position: currentPoint,
-                                    color: color,
-                                    action: .move,
-                                    size: size,
-                                    type: .round,
-                                    duration: touch.timestamp - lastTimestamp))
-                    lastTimestamp = touch.timestamp
-                    lastPoint = currentPoint
-                } else {
-                    Logger.d(currentPoint)
-                    paths.last?.bezierPath.addLine(to: currentPoint)
-                    paths.last?.points.append(
-                            Point(length: LENGTH_SIZE,
-                                    function: .draw,
-                                    position: currentPoint,
-                                    color: color,
-                                    action: .move,
-                                    size: size,
-                                    type: .round,
-                                    duration: touch.timestamp - lastTimestamp))
+                    if currentPoint != lastPoint {
+                        paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
+                        paths.last?.points.append(
+                                Point(length: LENGTH_SIZE,
+                                        function: .draw,
+                                        position: currentPoint,
+                                        color: color,
+                                        action: .move,
+                                        size: size,
+                                        type: .round,
+                                        duration: touch.timestamp - lastTimestamp))
+                        lastTimestamp = touch.timestamp
+                        lastPoint = currentPoint
+                    } else {
+                        paths.last?.bezierPath.addLine(to: currentPoint)
+                        paths.last?.points.append(
+                                Point(length: LENGTH_SIZE,
+                                        function: .draw,
+                                        position: currentPoint,
+                                        color: color,
+                                        action: .move,
+                                        size: size,
+                                        type: .round,
+                                        duration: touch.timestamp - lastTimestamp))
+                    }
                 }
             }
             setNeedsDisplay()
