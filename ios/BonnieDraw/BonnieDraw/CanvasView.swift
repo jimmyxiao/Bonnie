@@ -42,8 +42,13 @@ class CanvasView: UIView {
             path.color.setStroke()
             path.bezierPath.stroke()
         }
-        if !animationPoints.isEmpty {
-            animate()
+        if !isUserInteractionEnabled {
+            if !animationPoints.isEmpty {
+                animate()
+            } else {
+                isUserInteractionEnabled = true
+                lastTimestamp = -1
+            }
         }
     }
 
