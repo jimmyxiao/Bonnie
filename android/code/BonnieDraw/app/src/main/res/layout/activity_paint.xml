@@ -12,7 +12,7 @@
         android:id="@+id/view_freepaint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@drawable/shape_paint_border"
         app:layout_constraintBottom_toTopOf="@+id/paint_control_layout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -22,7 +22,7 @@
         android:id="@+id/imageButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="0dp"
         android:layout_weight="1"
         android:background="@color/Transparent"
         android:elevation="9dp"
@@ -30,67 +30,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/draw_pen_box" />
-
-    <LinearLayout
-        android:id="@+id/paint_control_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPaintLayout"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <ImageButton
-            android:id="@+id/id_btn_size"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            android:onClick="sizesPicks"
-            android:padding="8dp"
-            app:srcCompat="@drawable/shape_oval" />
-
-        <ImageButton
-            android:id="@+id/id_btn_erase"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            android:onClick="earse_mode"
-            android:padding="8dp"
-            app:srcCompat="@drawable/draw_ic_erase" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent" />
-
-        <ImageButton
-            android:id="@+id/id_btn_clear"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            android:padding="8dp"
-            app:srcCompat="@drawable/draw_ic_new" />
-
-
-        <ImageButton
-            android:id="@+id/id_btn_colorpicker"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Black"
-            android:onClick="colorPicks"
-            android:padding="8dp"
-            android:scaleX="0.45"
-            android:scaleY="0.8" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -114,33 +53,49 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/paint_control_layout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/id_btn_previous"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="20dp"
             android:layout_weight="1"
+            android:background="@color/Transparent"
             android:text="上"
             android:textAllCaps="false"
             android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:srcCompat="@drawable/drawplay_ic_backward" />
 
-        <Button
-            android:id="@+id/id_btn_next"
+        <ImageButton
+            android:id="@+id/id_btn_autoplay"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/Transparent"
             android:text="下"
             android:textAllCaps="false"
             android:visibility="invisible"
-            app:layout_constraintLeft_toRightOf="@+id/id_btn_previous" />
+            app:layout_constraintLeft_toRightOf="@+id/id_btn_previous"
+            app:srcCompat="@drawable/drawplay_ic_play" />
+
+        <ImageButton
+            android:id="@+id/id_btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            android:text="下"
+            android:textAllCaps="false"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toRightOf="@+id/id_btn_previous"
+            app:srcCompat="@drawable/drawplay_ic_forward" />
     </LinearLayout>
 
     <LinearLayout
@@ -161,7 +116,7 @@
             android:layout_weight="1"
             android:background="@color/Transparent"
             android:onClick="back"
-            android:padding="8dp"
+            android:padding="12dp"
             app:srcCompat="@drawable/top_bar_ic_back" />
 
         <ImageButton
@@ -170,7 +125,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:padding="8dp"
+            android:padding="12dp"
             app:srcCompat="@drawable/top_bar_ic_forward" />
 
         <ImageButton
@@ -179,8 +134,17 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:padding="8dp"
+            android:padding="12dp"
             app:srcCompat="@drawable/top_bar_ic_backward" />
+
+        <ImageButton
+            android:id="@+id/imageButton6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            android:padding="12dp"
+            app:srcCompat="@drawable/top_bar_ic_description" />
 
         <ImageButton
             android:id="@+id/id_btn_play"
@@ -189,15 +153,16 @@
             android:layout_weight="1"
             android:background="@color/Transparent"
             android:padding="8dp"
+            android:visibility="gone"
             app:srcCompat="@drawable/top_bar_ic_play" />
 
         <ImageButton
-            android:id="@+id/id_btn_autoplay"
+            android:id="@+id/id_btn_open_autoplay"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:padding="8dp"
+            android:padding="12dp"
             app:srcCompat="@drawable/top_bar_ic_play" />
 
         <ImageButton
@@ -206,8 +171,78 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:padding="8dp"
+            android:padding="12dp"
             app:srcCompat="@drawable/top_bar_ic_share" />
+
+        <ImageButton
+            android:id="@+id/id_btn_grid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            android:padding="12dp"
+            app:srcCompat="@drawable/top_bar_ic_grid" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/paint_control_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPaintLayout"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageButton
+            android:id="@+id/id_btn_size"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            android:onClick="sizesPicks"
+            android:padding="0dp"
+            app:srcCompat="@drawable/shape_oval" />
+
+        <ImageButton
+            android:id="@+id/id_btn_erase"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            android:onClick="earse_mode"
+            android:padding="8dp"
+            app:srcCompat="@drawable/draw_ic_erase" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Transparent" />
+
+        <ImageButton
+            android:id="@+id/id_btn_clear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/draw_ic_new" />
+
+
+        <ImageButton
+            android:id="@+id/id_btn_colorpicker"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Black"
+            android:onClick="colorPicks"
+            android:padding="8dp"
+            android:scaleX="0.45"
+            android:scaleY="0.65" />
 
     </LinearLayout>
 

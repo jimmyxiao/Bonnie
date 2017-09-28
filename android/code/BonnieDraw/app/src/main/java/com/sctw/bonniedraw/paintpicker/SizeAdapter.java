@@ -2,11 +2,10 @@ package com.sctw.bonniedraw.paintpicker;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
 
@@ -32,13 +31,15 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.imageView.setMaxHeight(sizes[position]);
-        holder.imageView.setMaxWidth(sizes[position]);
-        holder.mTextView.setText(sizes[position]+" 像素");
-        holder.ln.setOnClickListener(new View.OnClickListener() {
+        holder.imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                listener.onSizeSelected(sizes[holder.getAdapterPosition()]);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getActionMasked()){
+                    case MotionEvent.ACTION_DOWN:
+                        listener.onSizeSelected(sizes[holder.getAdapterPosition()]);
+                        break;
+                }
+                return false;
             }
         });
     }
@@ -49,15 +50,11 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout ln;
-        TextView mTextView;
         ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mTextView=itemView.findViewById(R.id.viewsize_text);
             imageView = itemView.findViewById(R.id.view_size_view);
-            ln=itemView.findViewById(R.id.size_pick_layout);
         }
     }
 }
