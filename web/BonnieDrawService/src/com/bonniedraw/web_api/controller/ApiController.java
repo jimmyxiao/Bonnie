@@ -25,10 +25,10 @@ import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.UserServiceAPI;
 import com.bonniedraw.util.EmailUtil;
 import com.bonniedraw.util.LogUtils;
-import com.bonniedraw.util.MessageUtil;
 import com.bonniedraw.util.ServletUtil;
 import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.web_api.model.ApiRequestVO;
+import com.bonniedraw.web_api.model.request.DrawingPlayRequestVO;
 import com.bonniedraw.web_api.model.request.FileUploadRequestVO;
 import com.bonniedraw.web_api.model.request.ForgetPwdRequestVO;
 import com.bonniedraw.web_api.model.request.FriendRequestVO;
@@ -43,6 +43,7 @@ import com.bonniedraw.web_api.model.request.UserInfoQueryRequestVO;
 import com.bonniedraw.web_api.model.request.UserInfoUpdateRequestVO;
 import com.bonniedraw.web_api.model.request.WorkListRequestVO;
 import com.bonniedraw.web_api.model.request.WorksSaveRequestVO;
+import com.bonniedraw.web_api.model.response.DrawingPlayResponseVO;
 import com.bonniedraw.web_api.model.response.FileUploadResponseVO;
 import com.bonniedraw.web_api.model.response.ForgetPwdResponseVO;
 import com.bonniedraw.web_api.model.response.FriendResponseVO;
@@ -492,7 +493,7 @@ public class ApiController {
 			int fType = fileUploadRequestVO.getFtype();
 			if(fType>=1 && fType<=2 ){
 				StringBuffer path = new StringBuffer();
-				path.append(fileUploadRequestVO.getWid()).append((fType==1 ? "png" : "bdw"));
+				path.append(fileUploadRequestVO.getWid()).append((fType==1 ? ".png" : ".bdw"));
 				if(FileUtil.uploadFile(fileUploadRequestVO.getFile(), path.toString())){
 					respResult.setRes(1);
 					msg = messageSource.getMessage("api_success",null,request.getLocale());
@@ -525,6 +526,20 @@ public class ApiController {
 			LogUtils.fileConteollerError(filePath + " loadFile has error : 輸出發生異常 =>" +e);
 		}
 		return new HttpEntity<byte[]>(image, headers);
+	}
+	
+	@RequestMapping(value="/drawingPlay" , produces="application/json")
+	public @ResponseBody DrawingPlayResponseVO getDrawingPlay(HttpServletRequest request,HttpServletResponse resp, @RequestBody DrawingPlayRequestVO drawingPlayRequestVO) {
+		DrawingPlayResponseVO respResult = new DrawingPlayResponseVO();
+		String msg = "";
+		if(isLogin(drawingPlayRequestVO)){
+			respResult.setPointList(worksServiceAPI.getDrawingPlay(drawingPlayRequestVO.getWid(), drawingPlayRequestVO.getUi()));
+			respResult.setRes(1);
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
 	}
 	
 }

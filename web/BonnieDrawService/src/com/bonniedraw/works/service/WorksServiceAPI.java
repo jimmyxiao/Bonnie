@@ -3,6 +3,7 @@ package com.bonniedraw.works.service;
 import java.util.List;
 import java.util.Map;
 
+import com.bonniedraw.file.Point;
 import com.bonniedraw.web_api.model.request.LeaveMsgRequestVO;
 import com.bonniedraw.web_api.model.request.SetFollowingRequestVO;
 import com.bonniedraw.web_api.model.request.SetLikeRequestVO;
@@ -20,4 +21,5 @@ public interface WorksServiceAPI {
 	public int setLike(SetLikeRequestVO setLikeRequestVO);
 	public int setFollowing(SetFollowingRequestVO setFollowingRequestVO);
 	public int setTurnin(SetTurnInRequestVO setTurnInRequestVO);
+	public List<Point> getDrawingPlay(int wid, int userId);
 }
