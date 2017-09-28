@@ -2,6 +2,9 @@ package com.bonniedraw.user.service.impl;
 
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ import com.bonniedraw.util.TimerUtil;
 import com.bonniedraw.web_api.model.ApiRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
 import com.bonniedraw.web_api.model.request.UpdatePwdRequestVO;
+import com.bonniedraw.web_api.model.response.FriendResponseVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
 
 @Service
@@ -129,6 +133,8 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		userInfo.setUpdateDate(nowDate);
 		userInfo.setStatus(0);
 		userInfo.setLanguageId(1);
+		userInfo.setGender(loginRequestVO.getGender());
+		userInfo.setPhoneNo(loginRequestVO.getPhoneNo());
 		if(userType==1){
 			userInfo.setUserCode(userCode);
 			if(dt==3){
@@ -328,6 +334,25 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 			callRollBack();
 		}
 		return success;
+	}
+	
+
+	@Override
+	public FriendResponseVO getUserFriendsList(int userId, int thirdPlatform, List<Integer> uidList) {
+		FriendResponseVO friendResponseVO = new FriendResponseVO();
+		friendResponseVO.setRes(2);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", userId);
+		paramMap.put("thirdPlatform", thirdPlatform);
+		paramMap.put("list", uidList);
+		try {
+			List<UserInfo> friendList = userInfoMapper.getUserFriendsList(paramMap);
+			friendResponseVO.setFriendList(friendList);
+			friendResponseVO.setRes(1);
+		} catch (Exception e) {
+			LogUtils.error(getClass(), "getUserFriendsList has error : " + e);
+		}
+		return friendResponseVO;
 	}
 	
 }
