@@ -46,9 +46,9 @@ class CanvasView: UIView {
             if !animationPoints.isEmpty {
                 animate()
             } else {
+                delegate?.canvasPathsDidFinishAnimation()
                 isUserInteractionEnabled = true
                 lastTimestamp = -1
-                delegate?.canvasPathsDidFinishAnimation()
             }
         }
     }
@@ -68,9 +68,9 @@ class CanvasView: UIView {
     }
 
     func reset() {
+        delegate?.canvasPathsDidChange()
         animationTimer?.invalidate()
         paths.removeAll()
-        delegate?.canvasPathsDidChange()
         animationPoints.removeAll()
         do {
             let manager = FileManager.default
@@ -89,6 +89,7 @@ class CanvasView: UIView {
     }
 
     func play() {
+        delegate?.canvasPathsWillBeginAnimation()
         isUserInteractionEnabled = false
         savePointsToFile()
         animationTimer?.invalidate()
@@ -119,7 +120,6 @@ class CanvasView: UIView {
 
     private func parse(data: Data) {
         if !data.isEmpty {
-            delegate?.canvasPathsWillBeginAnimation()
             let scale = (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)
             let byteMax = CGFloat(UInt8.max)
             var bytes = [UInt8](data)

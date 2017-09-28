@@ -62,13 +62,13 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
             controller.delegate = self
             controller.popoverPresentationController?.delegate = self
             let height = CGFloat(controller.sizes.count * 44)
-            let maxHeight = view.bounds.height - 110
+            let maxHeight = view.bounds.height - 111
             controller.preferredContentSize = CGSize(width: 44, height: height > maxHeight ? maxHeight : height)
         } else if let controller = segue.destination as? ColorPickerViewController {
             controller.delegate = self
             controller.popoverPresentationController?.delegate = self
             let height = CGFloat(controller.colors.count * 44)
-            let maxHeight = view.bounds.height - 110
+            let maxHeight = view.bounds.height - 111
             controller.preferredContentSize = CGSize(width: 44, height: height > maxHeight ? maxHeight : height)
         }
     }
