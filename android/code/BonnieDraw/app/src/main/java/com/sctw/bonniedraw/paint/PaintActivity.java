@@ -178,7 +178,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     public void customPaint(int paintNum) {
         switch (paintNum) {
             case 0:
-                realPaint=0;
+                realPaint = 0;
                 mPaint.setXfermode(null);
                 break;
             case 1:
@@ -269,7 +269,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         private float mX, mY;
         private static final float TOUCH_TOLERANCE = 4;
         private Paint gridPaint;
-        boolean grid =false;
+        boolean grid = false;
 
         public MyView(Context c) {
             super(c);
@@ -453,7 +453,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 paint_tagpoint.setiPosY(PxDpConvert.displayToFormat(y, displayWidth));
                 paint_tagpoint.setiSize(PxDpConvert.displayToFormat(mPaint.getStrokeWidth(), displayWidth));
                 paint_tagpoint.setiPaintType(realPaint);
-                Log.d("realPaint=",String.valueOf(realPaint));
+                Log.d("realPaint=", String.valueOf(realPaint));
                 paint_tagpoint.setiColor(mPaint.getColor());
                 paint_tagpoint.setiAction(MotionEvent.ACTION_DOWN + 1);
                 mTagPoint_a_record.add(paint_tagpoint);
@@ -639,7 +639,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     @Override
     public void sizeChanged(int size) {
         mPaint.setStrokeWidth(size);
-
+        Log.d("SIZES = ", String.valueOf(size));
+        float scale = size / 13.0F;
+        Log.d("scale = ", String.valueOf(scale));
+        btnSize.setScaleX(scale);
+        btnSize.setScaleY(scale);
     }
 
     @Override
@@ -815,7 +819,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         }
     }
 
-    public void recoveryPaint(){
+    public void recoveryPaint() {
         customPaint(0);
         ((ImageButton) findViewById(R.id.id_btn_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
         earseMode = false;

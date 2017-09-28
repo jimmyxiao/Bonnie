@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.sctw.bonniedraw.R;
 
@@ -31,10 +32,12 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.imageView.setOnTouchListener(new View.OnTouchListener() {
+        holder.imageView.setScaleX(sizes[position] / 13.0F);
+        holder.imageView.setScaleY(sizes[position] / 13.0F);
+        holder.lm.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getActionMasked()){
+                switch (motionEvent.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
                         listener.onSizeSelected(sizes[holder.getAdapterPosition()]);
                         break;
@@ -51,10 +54,12 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        LinearLayout lm;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.view_size_view);
+            lm = itemView.findViewById(R.id.size_pick_layout);
         }
     }
 }
