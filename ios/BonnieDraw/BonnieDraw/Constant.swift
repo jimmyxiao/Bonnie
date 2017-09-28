@@ -37,6 +37,7 @@ struct Cell {
     static let BASIC = "basicCell"
     static let HOME = "homeCell"
     static let COLOR_PICKER = "colorPickerCell"
+    static let SIZE_PICKER = "sizePickerCell"
 }
 
 struct Service {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */; };
+		16076EBC1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */; };
 		16366AE21F7A0AA300E5799B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE11F7A0AA300E5799B /* HomeViewController.swift */; };
 		16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE41F7A131200E5799B /* HomeTableViewCell.swift */; };
 		16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */; };
@@ -51,6 +53,8 @@
 
 /* Begin PBXFileReference section */
 		0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BonnieDraw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerViewController.swift; sourceTree = "<group>"; };
+		16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerTableViewCell.swift; sourceTree = "<group>"; };
 		16366AE11F7A0AA300E5799B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		16366AE41F7A131200E5799B /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
@@ -113,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				16366AE41F7A131200E5799B /* HomeTableViewCell.swift */,
+				16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -199,6 +204,7 @@
 				164ED2491F7B377800E8B910 /* NotificationViewController.swift */,
 				164ED24C1F7B379200E8B910 /* AccountViewController.swift */,
 				164ED2521F7BA45E00E8B910 /* ColorPickerViewController.swift */,
+				16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -388,6 +394,7 @@
 				163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */,
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
+				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
 				1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */,
 				165ECC551F73A40700E32AA5 /* ViewControllerExtension.swift in Sources */,
@@ -409,6 +416,7 @@
 				164ED2531F7BA45E00E8B910 /* ColorPickerViewController.swift in Sources */,
 				1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */,
 				169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */,
+				16076EBC1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift in Sources */,
 				16D439651F66A9B300FF5878 /* Logger.swift in Sources */,
 				163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */,
 				165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */,

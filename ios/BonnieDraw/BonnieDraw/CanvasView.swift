@@ -9,15 +9,33 @@
 import UIKit
 
 class CanvasView: UIView {
+    var delegate: CanvasViewDelegate?
     var size: CGFloat = 8
     var color = UIColor.black
+    var paths = [Path]()
+    var redoPaths = [Path]()
     private var lastTimestamp: TimeInterval = -1
     private var lastPoint = CGPoint.zero
     private var currentPoint = CGPoint.zero
     private var url: URL?
-    private var paths = [Path]()
     private var animationPoints = [Point]()
     private var animationTimer: Timer?
+
+    func undo() {
+        if !paths.isEmpty {
+            redoPaths.append(paths.removeLast())
+            delegate?.canvasPathsDidChange()
+            setNeedsDisplay()
+        }
+    }
+
+    func redo() {
+        if !redoPaths.isEmpty {
+            paths.append(redoPaths.removeLast())
+            delegate?.canvasPathsDidChange()
+            setNeedsDisplay()
+        }
+    }
 
     override func draw(_ rect: CGRect) {
         for path in paths {
@@ -46,6 +64,7 @@ class CanvasView: UIView {
     func reset() {
         animationTimer?.invalidate()
         paths.removeAll()
+        delegate?.canvasPathsDidChange()
         animationPoints.removeAll()
         do {
             let manager = FileManager.default
@@ -108,6 +127,7 @@ class CanvasView: UIView {
             lastPoint = currentPoint
             if bounds.contains(currentPoint) {
                 color = point.color
+                size = point.size
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
                 path.lineCapStyle = .round
@@ -140,6 +160,7 @@ class CanvasView: UIView {
                     lastPoint = currentPoint
                     if bounds.contains(currentPoint) {
                         color = point.color
+                        size = point.size
                         let path = UIBezierPath()
                         path.move(to: currentPoint)
                         path.lineCapStyle = .round
@@ -274,6 +295,8 @@ class CanvasView: UIView {
                 lastPoint = currentPoint
             }
             setNeedsDisplay()
+            redoPaths.removeAll()
+            delegate?.canvasPathsDidChange()
             self.lastPoint = currentPoint
         }
     }
@@ -283,4 +306,8 @@ class CanvasView: UIView {
         let s = CGSize(width: max(currentPoint.x, lastPoint.x) - p.x + size, height: max(currentPoint.y, lastPoint.y) - p.y + size)
         return CGRect(origin: p, size: s)
     }
+}
+
+protocol CanvasViewDelegate {
+    func canvasPathsDidChange()
 }

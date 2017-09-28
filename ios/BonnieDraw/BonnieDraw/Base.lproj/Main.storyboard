@@ -562,19 +562,25 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Zhi-zq-MIT"/>
-                                    <barButtonItem image="top_bar_ic_Forward" id="1pr-Ri-9zI">
+                                    <barButtonItem enabled="NO" image="top_bar_ic_Forward" id="1pr-Ri-9zI">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="undo:" destination="uhE-RV-zqK" id="rfV-vV-D19"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="z9Q-Ty-Dlb"/>
-                                    <barButtonItem image="top_bar_ic_Backward" id="KND-uk-CMk">
+                                    <barButtonItem enabled="NO" image="top_bar_ic_Backward" id="KND-uk-CMk">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="redo:" destination="uhE-RV-zqK" id="Lpd-dw-07E"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Mv1-or-IOP"/>
                                     <barButtonItem image="top_bar_ic_Description" id="jrL-nT-MNJ">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="I52-zK-FIJ"/>
-                                    <barButtonItem image="top_bar_ic_play" id="bhe-6b-YfL">
+                                    <barButtonItem enabled="NO" image="top_bar_ic_play" id="bhe-6b-YfL">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="play:" destination="uhE-RV-zqK" id="15A-IS-vB9"/>
@@ -603,6 +609,11 @@
                                 <items>
                                     <barButtonItem image="works_ic_more" id="XiT-fu-6ft">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="szF-cK-l8c" kind="popoverPresentation" popoverAnchorBarButtonItem="XiT-fu-6ft" id="JWw-aD-1cp">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="9Vv-Ml-ui1"/>
                                     <barButtonItem image="draw_ic_erase" id="mCl-AI-Uj6">
@@ -613,7 +624,7 @@
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="FTY-jS-9Q4"/>
-                                    <barButtonItem image="draw_ic_new" id="R7G-Cb-HfF">
+                                    <barButtonItem enabled="NO" image="draw_ic_new" id="R7G-Cb-HfF">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="reset:" destination="uhE-RV-zqK" id="itO-gA-aty"/>
@@ -664,29 +675,78 @@
                         <outlet property="canvas" destination="ufQ-sW-bDW" id="WR5-4Z-b7J"/>
                         <outlet property="colorButton" destination="da0-nx-vfp" id="lCF-DU-zhm"/>
                         <outlet property="pen" destination="xqN-j4-y2T" id="khP-Bu-WYc"/>
+                        <outlet property="play" destination="bhe-6b-YfL" id="vLZ-ql-PBH"/>
+                        <outlet property="redo" destination="KND-uk-CMk" id="Nly-fo-EiY"/>
+                        <outlet property="reset" destination="R7G-Cb-HfF" id="RbU-W1-9I8"/>
+                        <outlet property="sizeButton" destination="XiT-fu-6ft" id="ayC-JG-uUD"/>
+                        <outlet property="undo" destination="1pr-Ri-9zI" id="fbn-In-Jej"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qhx-cz-5i5" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1764.375" y="35.91549295774648"/>
         </scene>
+        <!--Size Picker View Controller-->
+        <scene sceneID="BYA-TX-6j2">
+            <objects>
+                <viewController id="szF-cK-l8c" customClass="SizePickerViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LNu-7z-sME">
+                        <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AP5-Me-4Mm">
+                                <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="sizePickerCell" id="6OC-ia-hs3" customClass="SizePickerTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="160" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6OC-ia-hs3" id="HQJ-44-NQR">
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="szF-cK-l8c" id="O3l-lV-R8X"/>
+                                    <outlet property="delegate" destination="szF-cK-l8c" id="tSh-c6-u7u"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="AP5-Me-4Mm" firstAttribute="trailing" secondItem="Ltb-H1-68k" secondAttribute="trailing" id="55l-WY-K7N"/>
+                            <constraint firstItem="AP5-Me-4Mm" firstAttribute="top" secondItem="LNu-7z-sME" secondAttribute="top" id="p9D-bL-oit"/>
+                            <constraint firstItem="AP5-Me-4Mm" firstAttribute="bottom" secondItem="Ltb-H1-68k" secondAttribute="bottom" id="tbE-20-5iA"/>
+                            <constraint firstItem="AP5-Me-4Mm" firstAttribute="leading" secondItem="Ltb-H1-68k" secondAttribute="leading" id="y0d-34-mg9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ltb-H1-68k"/>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="0.0" height="0.0"/>
+                    <size key="freeformSize" width="160" height="160"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PXb-EH-y8X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2421" y="-180"/>
+        </scene>
         <!--Color Picker View Controller-->
         <scene sceneID="KUn-Pb-PSu">
             <objects>
                 <viewController id="IqP-P3-lOq" customClass="ColorPickerViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IAE-Vz-3Yt">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="u8T-ss-z9l">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="colorPickerCell" id="JN3-YO-pTC">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="160" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JN3-YO-pTC" id="NcH-5L-PRr">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -707,10 +767,11 @@
                         <viewLayoutGuide key="safeArea" id="Zns-CL-Zy5"/>
                     </view>
                     <value key="contentSizeForViewInPopover" type="size" width="0.0" height="0.0"/>
+                    <size key="freeformSize" width="160" height="160"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xym-M0-VU3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2587.5" y="35.91549295774648"/>
+            <point key="canvasLocation" x="2421" y="251"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="xVl-Yq-LD2">
