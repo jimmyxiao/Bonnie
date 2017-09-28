@@ -10,17 +10,17 @@ import UIKit
 
 class CanvasViewController: BackButtonViewController, UIPopoverPresentationControllerDelegate, CanvasViewDelegate, SizePickerViewControllerDelegate, ColorPickerViewControllerDelegate {
     @IBOutlet weak var canvas: CanvasView!
-    @IBOutlet weak var undo: UIBarButtonItem!
-    @IBOutlet weak var redo: UIBarButtonItem!
-    @IBOutlet weak var play: UIBarButtonItem!
+    @IBOutlet weak var undoButton: UIBarButtonItem!
+    @IBOutlet weak var redoButton: UIBarButtonItem!
+    @IBOutlet weak var playButton: UIBarButtonItem!
     @IBOutlet weak var sizeButton: UIBarButtonItem!
-    @IBOutlet weak var pen: UIButton!
-    @IBOutlet weak var reset: UIBarButtonItem!
+    @IBOutlet weak var penButton: UIButton!
+    @IBOutlet weak var resetButton: UIBarButtonItem!
     @IBOutlet weak var colorButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         canvas.delegate = self
-        pen.layer.cornerRadius = view.bounds.width / 10
+        penButton.layer.cornerRadius = view.bounds.width / 10
         let rect = CGSize(width: 28, height: 28)
         UIGraphicsBeginImageContextWithOptions(rect, false, UIScreen.main.scale)
         UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true).fill()
@@ -78,10 +78,28 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
     }
 
     func canvasPathsDidChange() {
-        undo.isEnabled = !canvas.paths.isEmpty
-        redo.isEnabled = !canvas.redoPaths.isEmpty
-        play.isEnabled = !canvas.paths.isEmpty
-        reset.isEnabled = !canvas.paths.isEmpty
+        undoButton.isEnabled = !canvas.paths.isEmpty
+        redoButton.isEnabled = !canvas.redoPaths.isEmpty
+        playButton.isEnabled = !canvas.paths.isEmpty
+        resetButton.isEnabled = !canvas.paths.isEmpty
+    }
+
+    func canvasPathsWillBeginAnimation() {
+        undoButton.isEnabled = false
+        redoButton.isEnabled = false
+        playButton.isEnabled = false
+        sizeButton.isEnabled = false
+        resetButton.isEnabled = false
+        colorButton.isEnabled = false
+    }
+
+    func canvasPathsDidFinishAnimation() {
+        undoButton.isEnabled = true
+        redoButton.isEnabled = true
+        playButton.isEnabled = true
+        sizeButton.isEnabled = true
+        resetButton.isEnabled = true
+        colorButton.isEnabled = true
     }
 
     func sizePicker(didSelect size: CGFloat) {
