@@ -16,6 +16,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Xfermode;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,8 +71,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private String fname; // file name
     private Paint mPaint;
     private int count = 0;
-    private ImageButton btnAutoPlay, btnPlay, btnRedo, btnUndo,btnColorpicker;
-    private Button btnUpload,btnNext, btnPrevious;
+    private ImageButton btnAutoPlay, btnPlay, btnRedo, btnUndo, btnColorpicker, btnNext, btnPrevious, btnGrid, btnOpenAutoPlay, btnSize;
     private List<Integer> tempTagLength = new ArrayList<Integer>();
     private List<TagPoint> mTagPoint_a_record, undoTagPoint_a_record;
     private Handler handler_Timer_Play = new Handler();
@@ -83,7 +83,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     BDWFileReader reader = new BDWFileReader();
     File file, filePath;
     float startX, startSacle, startY, pointLength;
-    int offsetX, offsetY,realPaint;
+    int offsetX, offsetY, realPaint;
+    Xfermode earseEffect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +99,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(13);
-        realPaint=0;
+        earseEffect = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+        realPaint = 0;
 
         myView = new MyView(this);
         getDisplay();
@@ -108,16 +110,18 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         //view inti
         mViewFreePaint = (FrameLayout) findViewById(R.id.view_freepaint);
         mViewFreePaint.addView(myView);
-        myView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 
         //tButton init
         btnAutoPlay = (ImageButton) findViewById(R.id.id_btn_autoplay);
         btnPlay = (ImageButton) findViewById(R.id.id_btn_play);
-        btnNext = (Button) findViewById(R.id.id_btn_next);
-        btnPrevious = (Button) findViewById(R.id.id_btn_previous);
+        btnNext = (ImageButton) findViewById(R.id.id_btn_next);
+        btnPrevious = (ImageButton) findViewById(R.id.id_btn_previous);
         btnRedo = (ImageButton) findViewById(R.id.btn_paint_redo);
         btnUndo = (ImageButton) findViewById(R.id.btn_paint_undo);
+        btnGrid = (ImageButton) findViewById(R.id.id_btn_grid);
+        btnOpenAutoPlay = (ImageButton) findViewById(R.id.id_btn_open_autoplay);
+        btnSize = (ImageButton) findViewById(R.id.id_btn_size);
         setOnclick();
 
         colorPicker = new ColorPicker(myView.getContext(), this, "", Color.WHITE);
@@ -174,6 +178,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     public void customPaint(int paintNum) {
         switch (paintNum) {
             case 0:
+                realPaint = 0;
+                mPaint.setXfermode(null);
                 break;
             case 1:
                 break;
@@ -185,12 +191,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 break;
             case 5:
                 //橡皮擦
-                realPaint=5;
-                mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                break;
-            case 6:
-                realPaint=6;
-                mPaint.setXfermode(null);
+                realPaint = 5;
+                mPaint.setXfermode(earseEffect);
                 break;
         }
     }
@@ -210,7 +212,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             boolean brun = true;
             //提示關閉撥放
             if (miPointCount <= 1) {
-                btnNext.setText("OFF");
+                // Close
             }
 
             if (miPointCount > 0) {
@@ -224,7 +226,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         if (tagpoint.getiSize() != 0) {
                             mPaint.setStrokeWidth(PxDpConvert.formatToDisplay(tagpoint.getiSize(), displayWidth));
                         }
-                        if(tagpoint.getiPaintType()!=0){
+                        if (tagpoint.getiPaintType() != 0) {
                             customPaint(tagpoint.getiPaintType());
                         }
                         myView.touch_start(PxDpConvert.formatToDisplay(tagpoint.getiPosX(), displayWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), displayWidth));
@@ -262,15 +264,16 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         private Path mPath;
         private boolean load = false;
         private Bitmap loadBitmap;
-        private ArrayList<PathAndPaint> paths = new ArrayList<>();
-        private ArrayList<PathAndPaint> undonePaths = new ArrayList<>();
+        private ArrayList<PathAndPaint> paths = new ArrayList<>(20);
+        private ArrayList<PathAndPaint> undonePaths = new ArrayList<>(20);
         private float mX, mY;
         private static final float TOUCH_TOLERANCE = 4;
         private Paint gridPaint;
-        boolean grid = true;
+        boolean grid = false;
 
         public MyView(Context c) {
             super(c);
+            this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
             Display display = wm.getDefaultDisplay();
             Point size = new Point();
@@ -305,7 +308,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    canvas.saveLayer(myView.getLeft(),myView.getTop(),displayWidth,displayWidth,gridPaint);
+                    canvas.saveLayer(myView.getLeft(), myView.getTop(), displayWidth, displayWidth, gridPaint);
                 }
             }
 
@@ -349,17 +352,19 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         }
 
         public void onClickPrevious() {
-            paths.remove(paths.size() - 1);
-            count = paths.size() == 0 ? tempTagLength.get(0) : tempTagLength.get(paths.size()) - tempTagLength.get(paths.size() - 1);
-            for (int x = 0; x <= count - 1; x++) {
-                miPointCount++;
-                miPointCurrent--;
+            if (paths.size() > 0) {
+                paths.remove(paths.size() - 1);
+                count = paths.size() == 0 ? tempTagLength.get(0) : tempTagLength.get(paths.size()) - tempTagLength.get(paths.size() - 1);
+                for (int x = 0; x <= count - 1; x++) {
+                    miPointCount++;
+                    miPointCurrent--;
+                }
+                invalidate();
             }
-            invalidate();
         }
 
         public void onClickUndo() {
-            if (paths.size() > 0) {
+            if (paths.size() > 0 && undonePaths.size() <= 20) {
                 undonePaths.add(paths.remove(paths.size() - 1));
                 count = paths.size() == 0 ? tempTagLength.get(0) : tempTagLength.get(paths.size()) - tempTagLength.get(paths.size() - 1);
                 for (int x = 0; x <= count - 1; x++) {
@@ -404,21 +409,21 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                             myView.setTranslationY(myView.getTranslationY() + offsetY);
 
                         } else {
-                            float length= pointLength - spacing(event);
+                            float length = pointLength - spacing(event);
                             if (myView.getScaleX() >= 0.5) {
-                                if (length>0){
-                                    myView.setScaleX(myView.getScaleX()-0.1f);
-                                    myView.setScaleY(myView.getScaleY()-0.1f);
-                                }else if (length<0){
-                                    myView.setScaleX(myView.getScaleX()+0.1f);
-                                    myView.setScaleY(myView.getScaleY()+0.1f);
+                                if (length > 0) {
+                                    myView.setScaleX(myView.getScaleX() - 0.1f);
+                                    myView.setScaleY(myView.getScaleY() - 0.1f);
+                                } else if (length < 0) {
+                                    myView.setScaleX(myView.getScaleX() + 0.1f);
+                                    myView.setScaleY(myView.getScaleY() + 0.1f);
                                 }
-                            }else {
-                                if (length>0){
+                            } else {
+                                if (length > 0) {
                                     return true;
-                                }else if (length<0){
-                                    myView.setScaleX(myView.getScaleX()+0.1f);
-                                    myView.setScaleY(myView.getScaleY()+0.1f);
+                                } else if (length < 0) {
+                                    myView.setScaleX(myView.getScaleX() + 0.1f);
+                                    myView.setScaleY(myView.getScaleY() + 0.1f);
                                 }
                             }
                         }
@@ -446,10 +451,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 TagPoint paint_tagpoint = new TagPoint();
                 paint_tagpoint.setiPosX(PxDpConvert.displayToFormat(x, displayWidth));
                 paint_tagpoint.setiPosY(PxDpConvert.displayToFormat(y, displayWidth));
-                paint_tagpoint.setiAction(MotionEvent.ACTION_DOWN + 1);
                 paint_tagpoint.setiSize(PxDpConvert.displayToFormat(mPaint.getStrokeWidth(), displayWidth));
                 paint_tagpoint.setiPaintType(realPaint);
+                Log.d("realPaint=", String.valueOf(realPaint));
                 paint_tagpoint.setiColor(mPaint.getColor());
+                paint_tagpoint.setiAction(MotionEvent.ACTION_DOWN + 1);
                 mTagPoint_a_record.add(paint_tagpoint);
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 tagpoint = new TagPoint();
@@ -633,6 +639,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     @Override
     public void sizeChanged(int size) {
         mPaint.setStrokeWidth(size);
+        Log.d("SIZES = ", String.valueOf(size));
+        float scale = size / 13.0F;
+        Log.d("scale = ", String.valueOf(scale));
+        btnSize.setScaleX(scale);
+        btnSize.setScaleY(scale);
     }
 
     @Override
@@ -672,6 +683,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
 
 
+        btnOpenAutoPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnAutoPlay.setVisibility(View.VISIBLE);
+            }
+        });
+
         //撥放器
         btnAutoPlay.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -694,7 +712,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void onClick(View v) {
                 mViewFreePaint.removeAllViews();
                 myView = new MyView(PaintActivity.this);
-                recoveryPaint();
                 getDisplay();
                 mViewFreePaint.addView(myView);
                 miPointCount = mTagPoint_a_record.size();
@@ -714,7 +731,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     playStateBtn(1);
                     Toast.makeText(PaintActivity.this, "播放完畢", Toast.LENGTH_SHORT).show();
                 } else {
-                    customPaint(6);
                     Toast.makeText(PaintActivity.this, "播放完畢", Toast.LENGTH_SHORT).show();
                     PaintActivity.this.finish();
                 }
@@ -728,7 +744,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     Toast.makeText(PaintActivity.this, "請等畫完這一段再按", Toast.LENGTH_SHORT).show();
                 } else if (miPointCurrent > 0) {
                     playState = true;
-                    btnNext.setText("下");
                     myView.onClickPrevious();
                 } else if (miPointCurrent == 0) {
                     Toast.makeText(PaintActivity.this, "已經是最前步驟", Toast.LENGTH_SHORT).show();
@@ -751,6 +766,20 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         });
 
+        btnGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //開啟格線
+                if (!myView.grid) {
+                    myView.grid = true;
+                    myView.invalidate();
+                } else {
+                    myView.grid = false;
+                    myView.invalidate();
+                }
+            }
+        });
+
         //設定項
         findViewById(R.id.id_btn_clear).setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -758,7 +787,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 if (file.exists()) {
                     if (file.delete())
                         Toast.makeText(PaintActivity.this, "刪除草稿", Toast.LENGTH_SHORT).show();
-                    ;
                 }
                 mbAutoPlay = false;
                 playState = false;
@@ -773,6 +801,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 tempTagLength.clear();
                 myView.paths.clear();
                 myView.undonePaths.clear();
+                recoveryPaint();
                 playStateBtn(1);
             }
         });
@@ -791,8 +820,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public void recoveryPaint() {
-        ColorDrawable dw = (ColorDrawable) btnColorpicker.getBackground();
-        customPaint(6);
+        customPaint(0);
         ((ImageButton) findViewById(R.id.id_btn_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
         earseMode = false;
     }
@@ -802,32 +830,22 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         switch (option) {
             case 0:
                 playState = true;
+                btnAutoPlay.setVisibility(View.VISIBLE);
                 btnNext.setVisibility(View.VISIBLE);
                 btnPrevious.setVisibility(View.VISIBLE);
                 btnRedo.setVisibility(View.INVISIBLE);
                 btnUndo.setVisibility(View.INVISIBLE);
-                btnNext.setText("下");
                 break;
             case 1:
                 playState = false;
+                btnAutoPlay.setVisibility(View.INVISIBLE);
                 btnNext.setVisibility(View.INVISIBLE);
                 btnPrevious.setVisibility(View.INVISIBLE);
                 btnRedo.setVisibility(View.VISIBLE);
                 btnUndo.setVisibility(View.VISIBLE);
-                btnNext.setText("下");
                 break;
         }
 
-    }
-
-    public void updateUI(boolean mode) {
-        if (mode) {
-            btnRedo.setVisibility(View.INVISIBLE);
-            btnUndo.setVisibility(View.INVISIBLE);
-        } else {
-            btnRedo.setVisibility(View.VISIBLE);
-            btnUndo.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override

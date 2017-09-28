@@ -82,12 +82,4 @@ public class TagPoint {
         this.iOther = iOther;
     }
 
-    @Override
-    public String toString() {
-        return "TagPoint{" +
-                "iColor=" + iColor +
-                ", iAction=" + iAction +
-                ", iSize=" + iSize +
-                '}';
-    }
 }
