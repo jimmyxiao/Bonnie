@@ -101,36 +101,34 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
 
-            <CheckBox
-                android:id="@+id/paint_save_class"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="類別一"
-                app:layout_constraintLeft_toLeftOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            <RadioGroup
+                android:id="@+id/save_paint_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/paint_save_class2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="類別二"
-                app:layout_constraintLeft_toRightOf="@+id/checkBox"
-                app:layout_constraintRight_toLeftOf="@+id/checkBox3"
-                app:layout_constraintTop_toTopOf="@+id/checkBox" />
+                <RadioButton
+                    android:id="@+id/save_paint_public"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="公開" />
 
-            <CheckBox
-                android:id="@+id/paint_save_class3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="類別三"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/checkBox2" />
+                <RadioButton
+                    android:id="@+id/save_paint_private"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="私人" />
+
+                <RadioButton
+                    android:id="@+id/save_paint_close"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="不公開" />
+            </RadioGroup>
+
 
         </LinearLayout>
 

@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -40,6 +41,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
@@ -49,13 +51,28 @@ import com.sctw.bonniedraw.paintpicker.OnSizeChangedListener;
 import com.sctw.bonniedraw.paintpicker.SizePicker;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
+import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -82,10 +99,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private ColorPicker colorPicker;
     private SizePicker sizePicker;
     BDWFileReader reader = new BDWFileReader();
-    File file, filePath;
+    File file;
     float startX, startSacle, startY, pointLength;
     int offsetX, offsetY, realPaint;
+    SharedPreferences prefs;
     Xfermode earseEffect;
+    private int privacyType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +121,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mPaint.setStrokeWidth(13);
         earseEffect = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
         realPaint = 0;
-
+        prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
         myView = new MyView(this);
         getDisplay();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -310,7 +329,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     canvas.drawLine(0, (displayWidth / gridCol) * i, displayWidth, (displayWidth / gridCol) * i, gridPaint);
                     canvas.saveLayer(myView.getLeft(), myView.getTop(), displayWidth, displayWidth, gridPaint);
                 }
-            }else {
+            } else {
                 canvas.drawColor(Color.WHITE);
             }
 
@@ -402,7 +421,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         startX = event.getX();
                         startY = event.getY();
                         startSacle = myView.getScaleX();
-                        Log.d("GET POINT", String.valueOf(startSacle));
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if (!checkFinger) {
@@ -456,7 +474,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 paint_tagpoint.setiPosY(PxDpConvert.displayToFormat(y, displayWidth));
                 paint_tagpoint.setiSize(PxDpConvert.displayToFormat(mPaint.getStrokeWidth(), displayWidth));
                 paint_tagpoint.setiPaintType(realPaint);
-                Log.d("realPaint=", String.valueOf(realPaint));
                 paint_tagpoint.setiColor(mPaint.getColor());
                 paint_tagpoint.setiAction(MotionEvent.ACTION_DOWN + 1);
                 mTagPoint_a_record.add(paint_tagpoint);
@@ -559,6 +576,24 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         final EditText workDescription = (EditText) view.findViewById(R.id.paint_save_work_description);
         Button saveWork = (Button) view.findViewById(R.id.paint_save_done);
         Button saveCancel = (Button) view.findViewById(R.id.paint_save_cencel);
+        RadioGroup group = view.findViewById(R.id.save_paint_group);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                switch (i) {
+                    case R.id.save_paint_public:
+                        privacyType = 1;
+                        break;
+                    case R.id.save_paint_private:
+                        privacyType = 2;
+                        break;
+                    case R.id.save_paint_close:
+                        privacyType = 3;
+                        break;
+                }
+            }
+        });
+        group.check(R.id.save_paint_public);
 
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
@@ -569,8 +604,31 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             @Override
             public void onClick(View view) {
                 if (!workName.getText().toString().isEmpty() && !workDescription.getText().toString().isEmpty()) {
-                    boolean result = savePicture(workName.getText().toString());
-                    if (result) alertDialog.dismiss();
+                    JSONObject json = new JSONObject();
+                    JSONArray jsonList=new JSONArray();
+                    try {
+                        jsonList.put("中文");
+                        jsonList.put("國文");
+                        json.put("ui", prefs.getString(GlobalVariable.USER_UID, "null"));
+                        json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+                        json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                        json.put("ac", 1);
+                        json.put("userId", prefs.getString(GlobalVariable.USER_UID, "null"));
+                        json.put("privacyType", privacyType);
+                        json.put("title", workName.getText().toString());
+                        json.put("description", workDescription.getText().toString());
+                        json.put("languageId", 1);
+                        json.put("countryId", 886);
+                        json.putOpt("categoryList", jsonList);
+                        Log.d("LOGIN JSON: ", json.toString());
+                        fileInfo(json);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    //boolean result = savePicture(workName.getText().toString());
+                    //if (result) alertDialog.dismiss();
+                    alertDialog.dismiss();
                 } else {
                     Toast.makeText(PaintActivity.this, "請輸入檔名或按取消", Toast.LENGTH_SHORT).show();
                 }
@@ -601,15 +659,17 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public boolean savePicture(String fileName) {
+
+
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             try {
                 File vPath = new File(Environment.getExternalStorageDirectory() + "/bonniedraw");
                 if (!vPath.exists()) vPath.mkdirs();
-                File file = new File(Environment.getExternalStorageDirectory() + "/bonniedraw/" + fileName + ".png");
-                FileOutputStream fos = new FileOutputStream(file);
+                File pngfile = new File(Environment.getExternalStorageDirectory() + "/bonniedraw/" + fileName + ".png");
+                FileOutputStream fos = new FileOutputStream(pngfile);
                 myView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
-
+                //uploadFile(pngfile, 1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -618,6 +678,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             if (!logPath.exists()) logPath.mkdirs();
             BDWFileWriter mBDWFileWriter = new BDWFileWriter();
             boolean writeResult = mBDWFileWriter.WriteToFile(mTagPoint_a_record, Environment.getExternalStorageDirectory() + "/bonniedraw/" + "Record/" + fileName + ".bdw");
+            File bdwFile = new File(Environment.getExternalStorageDirectory() + "/bonniedraw/" + "Record/" + fileName + ".bdw");
+            //uploadFile(bdwFile, 1);
             if (!writeResult) {
                 Snackbar.make(mViewFreePaint, "儲存成功", Snackbar.LENGTH_LONG).show();
                 return true;
@@ -631,6 +693,82 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         return false;
     }
 
+    public void fileInfo(JSONObject json) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = FormBody.create(mediaType, json.toString());
+        Request request = new Request.Builder()
+                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/worksSave")
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Save Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        Log.d("Save Works File", "Successful");
+                    }
+                    Log.d("RESPONSE",response.body().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    public void uploadFile(File file, int type) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        Bitmap bm = BitmapFactory.decodeFile(file.getPath());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
+
+        JSONObject json = new JSONObject();
+        try {
+            json
+                    .put("ui", prefs.getString(GlobalVariable.USER_UID, "null"))
+                    .put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
+                    .put("dt", GlobalVariable.LOGIN_PLATFORM)
+                    .put("wid", "1")
+                    .put("ftype", String.valueOf(type))
+                    .put("file", new String(b));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = FormBody.create(mediaType, json.toString());
+        Request request = new Request.Builder()
+                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/fileUpload")
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Upload File", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        Log.d("Upload File", "Successful");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
     public void colorPicks(View view) {
         colorPicker.show();
     }
@@ -642,9 +780,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     @Override
     public void sizeChanged(int size) {
         mPaint.setStrokeWidth(size);
-        Log.d("SIZES = ", String.valueOf(size));
         float scale = size / 13.0F;
-        Log.d("scale = ", String.valueOf(scale));
         btnSize.setScaleX(scale);
         btnSize.setScaleY(scale);
     }
@@ -689,9 +825,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         btnOpenAutoPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mTagPoint_a_record.size()>0){
+                if (mTagPoint_a_record.size() > 0) {
                     btnAutoPlay.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     Toast.makeText(PaintActivity.this, "請畫些東西吧！", Toast.LENGTH_SHORT).show();
                 }
 

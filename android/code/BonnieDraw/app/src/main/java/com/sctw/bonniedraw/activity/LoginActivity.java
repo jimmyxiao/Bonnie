@@ -138,6 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .putString(GlobalVariable.userNameStr, responseJSON.getJSONObject("userInfo").getString("userName"))
                                         .putString(GlobalVariable.userEmailStr, responseJSON.getJSONObject("userInfo").getString("email"))
                                         .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
+                                        .putString(GlobalVariable.USER_UID,responseJSON.getJSONObject("userInfo").getString("userId"))
                                         .apply();
                                 transferMainPage();
                             } else {
@@ -181,7 +182,8 @@ public class LoginActivity extends AppCompatActivity {
                             if (responseJSON.getInt("res") == 1) {
                                     //要存TOKEN
                                     prefs.edit()
-                                            .putString(GlobalVariable.API_TOKEN, "lk")
+                                            .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
+                                            .putString(GlobalVariable.USER_UID,responseJSON.getJSONObject("userInfo").getString("userId"))
                                             .apply();
                                     transferMainPage();
                             } else {

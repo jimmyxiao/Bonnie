@@ -42,8 +42,8 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/Black"
-        android:layout_below="@+id/profile_toolbar" />
+        android:layout_below="@+id/profile_toolbar"
+        android:background="@color/Black" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/linearLayout2"
@@ -56,7 +56,9 @@
             android:id="@+id/button2"
             android:layout_width="0dp"
             android:layout_height="36dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/edit_profile_icon"
             android:text="編輯個人檔案"
             android:textSize="12sp"
@@ -88,85 +90,82 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/profile_photo"
             app:layout_constraintRight_toRightOf="@+id/profile_photo"
-            app:layout_constraintTop_toBottomOf="@+id/profile_photo"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_photo" />
 
 
         <TextView
             android:id="@+id/username_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="48dp"
-            android:layout_marginTop="24dp"
-            android:text="XX"
+            android:text="0"
             android:textAlignment="center"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintRight_toLeftOf="@+id/userworks_textview"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/profile_userWorks"
+            app:layout_constraintLeft_toLeftOf="@+id/profile_userWorks"
+            app:layout_constraintRight_toRightOf="@+id/profile_userWorks" />
 
         <TextView
             android:id="@+id/profile_userWorks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
             android:text="作品數"
             android:textAlignment="center"
             android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="@+id/username_textview"
-            app:layout_constraintRight_toRightOf="@+id/username_textview"
-            app:layout_constraintTop_toBottomOf="@+id/username_textview" />
+            app:layout_constraintBottom_toBottomOf="@+id/profile_userFans"
+            app:layout_constraintRight_toLeftOf="@+id/profile_userFans" />
 
         <TextView
             android:id="@+id/userworks_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="48dp"
             android:layout_marginTop="24dp"
-            android:text="XX"
+            android:text="0"
             android:textAlignment="center"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintRight_toLeftOf="@+id/userfollow_textview"
+            app:layout_constraintLeft_toLeftOf="@+id/profile_userFans"
+            app:layout_constraintRight_toRightOf="@+id/profile_userFans"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/profile_userFans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginStart="24dp"
             android:text="粉絲數"
             android:textAlignment="center"
             android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="@+id/userworks_textview"
-            app:layout_constraintRight_toRightOf="@+id/userworks_textview"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userworks_textview" />
 
 
         <TextView
             android:id="@+id/userfollow_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="48dp"
-            android:layout_marginTop="24dp"
-            android:text="XX"
+            android:text="0"
             android:textAlignment="center"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/profile_userFollow"
+            app:layout_constraintLeft_toLeftOf="@+id/profile_userFollow"
+            app:layout_constraintRight_toRightOf="@+id/profile_userFollow" />
 
         <TextView
             android:id="@+id/profile_userFollow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="16dp"
             android:text="追蹤中"
             android:textAlignment="center"
             android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="@+id/userfollow_textview"
-            app:layout_constraintRight_toRightOf="@+id/userfollow_textview"
-            app:layout_constraintTop_toBottomOf="@+id/userfollow_textview" />
+            app:layout_constraintBottom_toBottomOf="@+id/profile_userFans"
+            app:layout_constraintLeft_toRightOf="@+id/profile_userFans" />
 
         <ImageButton
             android:id="@+id/logoutBtn"
