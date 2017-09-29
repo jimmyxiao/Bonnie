@@ -21,13 +21,13 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
     override func viewDidLoad() {
         canvas.delegate = self
         penButton.layer.cornerRadius = view.bounds.width / 10
-        let rect = CGSize(width: 28, height: 28)
-        UIGraphicsBeginImageContextWithOptions(rect, false, UIScreen.main.scale)
-        UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true).fill()
+        let size = CGSize(width: 28, height: 28)
+        UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+        UIBezierPath(arcCenter: CGPoint(x: size.width / 2, y: size.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true).fill()
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
         sizeButton.tintColor = canvas.color
-        UIGraphicsGetCurrentContext()?.clear(CGRect(origin: .zero, size: rect))
-        UIBezierPath(roundedRect: CGRect(origin: .zero, size: rect), cornerRadius: 4).fill()
+        UIGraphicsGetCurrentContext()?.clear(CGRect(origin: .zero, size: size))
+        UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: 4).fill()
         colorButton.image = UIGraphicsGetImageFromCurrentImageContext()
         colorButton.tintColor = canvas.color
         UIGraphicsEndImageContext()
@@ -58,6 +58,7 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        canvas.lastTimestamp = -1
         if let controller = segue.destination as? SizePickerViewController {
             controller.delegate = self
             controller.popoverPresentationController?.delegate = self
@@ -81,7 +82,13 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         undoButton.isEnabled = !canvas.paths.isEmpty
         redoButton.isEnabled = !canvas.redoPaths.isEmpty
         playButton.isEnabled = !canvas.paths.isEmpty
+        if !playButton.isEnabled {
+            playButton.isEnabled = canvas.persistentImageView?.image != nil
+        }
         resetButton.isEnabled = !canvas.paths.isEmpty
+        if !resetButton.isEnabled {
+            resetButton.isEnabled = canvas.persistentImageView?.image != nil
+        }
     }
 
     func canvasPathsWillBeginAnimation() {
@@ -95,7 +102,7 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
 
     func canvasPathsDidFinishAnimation() {
         undoButton.isEnabled = true
-        redoButton.isEnabled = true
+        redoButton.isEnabled = !canvas.redoPaths.isEmpty
         playButton.isEnabled = true
         sizeButton.isEnabled = true
         resetButton.isEnabled = true
