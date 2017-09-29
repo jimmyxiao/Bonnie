@@ -11,6 +11,7 @@ import UIKit
 let DEBUG = Bundle.main.infoDictionary?["Configuration"] as? String == "Debug"
 let PATH_BUFFER_COUNT: UInt16 = 20
 let POINT_BUFFER_COUNT: UInt16 = 512
+let MAX_TIMESTAMP: TimeInterval = 3
 let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 

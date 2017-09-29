@@ -310,6 +310,7 @@ class CanvasView: UIView {
                 path.move(to: currentPoint)
                 path.lineCapStyle = .round
                 path.lineWidth = size
+                let timestamp = touch.timestamp - lastTimestamp
                 paths.append(
                         Path(bezierPath: path,
                                 points: [Point(length: LENGTH_SIZE,
@@ -319,7 +320,7 @@ class CanvasView: UIView {
                                         action: .down,
                                         size: size,
                                         type: .round,
-                                        duration: touch.timestamp - lastTimestamp)],
+                                        duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp)],
                                 color: color))
             }
         }
@@ -331,6 +332,7 @@ class CanvasView: UIView {
                 currentPoint = touch.location(in: self)
                 if bounds.contains(currentPoint) && currentPoint != lastPoint {
                     paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
+                    let timestamp = touch.timestamp - lastTimestamp
                     paths.last?.points.append(
                             Point(length: LENGTH_SIZE,
                                     function: .draw,
@@ -339,7 +341,7 @@ class CanvasView: UIView {
                                     action: .move,
                                     size: size,
                                     type: .round,
-                                    duration: touch.timestamp - lastTimestamp))
+                                    duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
                     lastTimestamp = touch.timestamp
                     lastPoint = currentPoint
                 }
@@ -352,6 +354,7 @@ class CanvasView: UIView {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
             for touch in coalescedTouches {
                 currentPoint = touch.location(in: self)
+                let timestamp = touch.timestamp - lastTimestamp
                 if bounds.contains(currentPoint) {
                     if currentPoint != lastPoint {
                         paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
@@ -363,7 +366,7 @@ class CanvasView: UIView {
                                         action: .up,
                                         size: size,
                                         type: .round,
-                                        duration: touch.timestamp - lastTimestamp))
+                                        duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
                         lastTimestamp = touch.timestamp
                         lastPoint = currentPoint
                     } else {
@@ -376,7 +379,7 @@ class CanvasView: UIView {
                                         action: .up,
                                         size: size,
                                         type: .round,
-                                        duration: touch.timestamp - lastTimestamp))
+                                        duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
                     }
                 }
             }
@@ -417,8 +420,6 @@ class CanvasView: UIView {
 
 protocol CanvasViewDelegate {
     func canvasPathsDidChange()
-
     func canvasPathsWillBeginAnimation()
-
     func canvasPathsDidFinishAnimation()
 }

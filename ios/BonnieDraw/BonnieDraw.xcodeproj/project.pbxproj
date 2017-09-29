@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */; };
 		16076EBC1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */; };
+		16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */; };
 		162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1664F4A81F74AD9200809C32 /* Localizable.strings */; };
 		162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65AE1F61663900945E04 /* Main.storyboard */; };
 		162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B31F61663900945E04 /* LaunchScreen.storyboard */; };
@@ -23,7 +24,6 @@
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
 		164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2471F7B376700E8B910 /* CollectionViewController.swift */; };
-		164ED24A1F7B377800E8B910 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2491F7B377800E8B910 /* NotificationViewController.swift */; };
 		164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED24C1F7B379200E8B910 /* AccountViewController.swift */; };
 		164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED24E1F7B414500E8B910 /* TableViewExtension.swift */; };
 		164ED2511F7B517200E8B910 /* StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2501F7B517200E8B910 /* StatusBarBackgroundView.swift */; };
@@ -55,6 +55,7 @@
 		0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BonnieDraw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerViewController.swift; sourceTree = "<group>"; };
 		16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerTableViewCell.swift; sourceTree = "<group>"; };
+		16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		16366AE11F7A0AA300E5799B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		16366AE41F7A131200E5799B /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
@@ -70,7 +71,6 @@
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		164ED2471F7B376700E8B910 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
-		164ED2491F7B377800E8B910 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = /Users/professor/Work/Bonnie/ios/BonnieDraw/BonnieDraw/NotificationViewController.swift; sourceTree = "<absolute>"; };
 		164ED24C1F7B379200E8B910 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		164ED24E1F7B414500E8B910 /* TableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewExtension.swift; sourceTree = "<group>"; };
 		164ED2501F7B517200E8B910 /* StatusBarBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarBackgroundView.swift; sourceTree = "<group>"; };
@@ -195,13 +195,13 @@
 		1664F4B91F74ED8C00809C32 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */,
 				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
 				1664F4B61F74E5BB00809C32 /* ParentViewController.swift */,
 				163F65BE1F616C4F00945E04 /* CanvasViewController.swift */,
 				1664F4A21F74AB3000809C32 /* DrawerViewController.swift */,
 				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
 				164ED2471F7B376700E8B910 /* CollectionViewController.swift */,
-				164ED2491F7B377800E8B910 /* NotificationViewController.swift */,
 				164ED24C1F7B379200E8B910 /* AccountViewController.swift */,
 				164ED2521F7BA45E00E8B910 /* ColorPickerViewController.swift */,
 				16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */,
@@ -402,7 +402,7 @@
 				1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */,
 				164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */,
 				165ECC5B1F73A72500E32AA5 /* RestClient.swift in Sources */,
-				164ED24A1F7B377800E8B910 /* NotificationViewController.swift in Sources */,
+				16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */,
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
 				16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */,
