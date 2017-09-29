@@ -13,10 +13,12 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var redoButton: UIBarButtonItem!
     @IBOutlet weak var playButton: UIBarButtonItem!
+    @IBOutlet weak var upload: UIBarButtonItem!
     @IBOutlet weak var sizeButton: UIBarButtonItem!
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var resetButton: UIBarButtonItem!
     @IBOutlet weak var colorButton: UIBarButtonItem!
+    let client = RestClient(scheme: Service.SCHEME, host: Service.HOST)
 
     override func viewDidLoad() {
         canvas.delegate = self
@@ -57,6 +59,15 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         canvas.play()
     }
 
+    @IBAction func upload(_ sender: Any) {
+        if let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+           let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+           let thumbnailData = canvas.thumbnailData(),
+           let fileData = canvas.fileData() {
+            client.components.path = Service.WORK_SAVE
+        }
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         canvas.lastTimestamp = -1
         if let controller = segue.destination as? SizePickerViewController {
@@ -85,6 +96,7 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         if !playButton.isEnabled {
             playButton.isEnabled = canvas.persistentImage != nil
         }
+        upload.isEnabled = playButton.isEnabled
         resetButton.isEnabled = !canvas.paths.isEmpty
         if !resetButton.isEnabled {
             resetButton.isEnabled = canvas.persistentImage != nil
@@ -95,6 +107,7 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         undoButton.isEnabled = false
         redoButton.isEnabled = false
         playButton.isEnabled = false
+        upload.isEnabled = false
         sizeButton.isEnabled = false
         resetButton.isEnabled = false
         colorButton.isEnabled = false

@@ -35,6 +35,11 @@ enum UserType: Int {
     case twitter
 }
 
+enum FileType: Int {
+    case png = 1
+    case bdw
+}
+
 struct Cell {
     static let BASIC = "basicCell"
     static let HOME = "homeCell"

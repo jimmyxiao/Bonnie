@@ -40,6 +40,40 @@ class CanvasView: UIView {
         }
     }
 
+    func thumbnailData() -> Data? {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+        persistentImage?.draw(in: bounds)
+        for path in paths {
+            path.color.setStroke()
+            path.bezierPath.stroke()
+        }
+        var data: Data? = nil
+        if let image = UIGraphicsGetImageFromCurrentImageContext() {
+            data = UIImagePNGRepresentation(image)
+        }
+        UIGraphicsEndImageContext()
+        return data
+    }
+
+    func fileData() -> Data? {
+        if let url = url {
+            do {
+                var data = try Data(contentsOf: url)
+                var points = [Point]()
+                for path in paths {
+                    for point in path.points {
+                        points.append(point)
+                    }
+                }
+                data.append(parse(pointsToData: points))
+                return data
+            } catch let error {
+                Logger.d(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+
     override func draw(_ rect: CGRect) {
         persistentImage?.draw(in: rect)
         for path in paths {
@@ -110,7 +144,7 @@ class CanvasView: UIView {
                 let readHandle = try FileHandle(forReadingFrom: url)
                 let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
                 let data = readHandle.readData(ofLength: maxByteCount)
-                parse(data: data)
+                animationPoints.append(contentsOf: parse(dataToPoints: data))
                 if data.count < maxByteCount {
                     readHandle.closeFile()
                     for path in animationPaths {
@@ -181,7 +215,7 @@ class CanvasView: UIView {
                 if animationPoints.count < POINT_BUFFER_COUNT / 2, let readHandle = readHandle {
                     let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
                     let data = readHandle.readData(ofLength: maxByteCount)
-                    parse(data: data)
+                    animationPoints.append(contentsOf: parse(dataToPoints: data))
                     if data.count < maxByteCount {
                         readHandle.closeFile()
                         self.readHandle = nil
@@ -199,11 +233,40 @@ class CanvasView: UIView {
         }
     }
 
-    private func save(pointsToFile points: [Point]) {
-        if !paths.isEmpty {
+    private func parse(dataToPoints data: Data) -> [Point] {
+        var points = [Point]()
+        if !data.isEmpty {
             let scale = (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)
             let byteMax = CGFloat(UInt8.max)
-            var bytes = [UInt8]()
+            var bytes = [UInt8](data)
+            while !bytes.isEmpty {
+                points.append(Point(
+                        length: UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8,
+                        function: Function(rawValue: UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) ?? .draw,
+                        position: CGPoint(
+                                x: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / scale,
+                                y: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / scale),
+                        color: UIColor(
+                                red: CGFloat(bytes.removeFirst()) / byteMax,
+                                green: CGFloat(bytes.removeFirst()) / byteMax,
+                                blue: CGFloat(bytes.removeFirst()) / byteMax,
+                                alpha: CGFloat(bytes.removeFirst()) / byteMax),
+                        action: Action(rawValue: bytes.removeFirst()) ?? .move,
+                        size: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) * 2 / scale,
+                        type: Type(rawValue: bytes.removeFirst()) ?? .round,
+                        duration: TimeInterval(Double(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / 1000)))
+                bytes.removeFirst()
+                bytes.removeFirst()
+            }
+        }
+        return points
+    }
+
+    private func parse(pointsToData points: [Point]) -> Data {
+        var bytes = [UInt8]()
+        if !points.isEmpty {
+            let scale = (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)
+            let byteMax = CGFloat(UInt8.max)
             for point in points {
                 bytes.append(UInt8(point.length & 0x00ff))
                 bytes.append(UInt8(point.length >> 8))
@@ -231,35 +294,8 @@ class CanvasView: UIView {
                 bytes.append(0)
                 bytes.append(0)
             }
-            writeHandle?.write(Data(bytes: bytes))
         }
-    }
-
-    private func parse(data: Data) {
-        if !data.isEmpty {
-            let scale = (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)
-            let byteMax = CGFloat(UInt8.max)
-            var bytes = [UInt8](data)
-            while !bytes.isEmpty {
-                animationPoints.append(Point(
-                        length: UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8,
-                        function: Function(rawValue: UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) ?? .draw,
-                        position: CGPoint(
-                                x: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / scale,
-                                y: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / scale),
-                        color: UIColor(
-                                red: CGFloat(bytes.removeFirst()) / byteMax,
-                                green: CGFloat(bytes.removeFirst()) / byteMax,
-                                blue: CGFloat(bytes.removeFirst()) / byteMax,
-                                alpha: CGFloat(bytes.removeFirst()) / byteMax),
-                        action: Action(rawValue: bytes.removeFirst()) ?? .move,
-                        size: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) * 2 / scale,
-                        type: Type(rawValue: bytes.removeFirst()) ?? .round,
-                        duration: TimeInterval(Double(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / 1000)))
-                bytes.removeFirst()
-                bytes.removeFirst()
-            }
-        }
+        return Data(bytes: bytes)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -357,28 +393,17 @@ class CanvasView: UIView {
             UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
             persistentImage?.draw(in: bounds)
             while paths.count > PATH_BUFFER_COUNT {
-                let pathToSave = paths.removeFirst()
-                let point = pathToSave.points.removeFirst()
-                pointsToSave.append(point)
-                var currentPoint = point.position
-                var lastPoint = currentPoint
-                let path = UIBezierPath()
-                point.color.setStroke()
-                path.move(to: point.position)
-                path.lineWidth = point.size
-                path.lineCapStyle = .round
-                for point in pathToSave.points {
+                let path = paths.removeFirst()
+                path.color.setStroke()
+                path.bezierPath.stroke()
+                for point in path.points {
                     pointsToSave.append(point)
-                    currentPoint = point.position
-                    path.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
-                    lastPoint = currentPoint
                 }
-                path.stroke()
             }
             persistentImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             if save {
-                self.save(pointsToFile: pointsToSave)
+                writeHandle?.write(self.parse(pointsToData: pointsToSave))
             }
         }
     }
