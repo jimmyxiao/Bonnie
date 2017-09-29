@@ -50,7 +50,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       	},
       	reload: true
   	}).state('directoryManager', {
-        url: '/directoryManager',
+        url: '/directoryManager?cp',
         views: {
           "content":{
             templateUrl:'modules/directory/view/directoryList.html',

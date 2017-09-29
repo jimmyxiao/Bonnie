@@ -1,5 +1,7 @@
 package com.bonniedraw.works.dao;
 
+import java.util.List;
+
 import com.bonniedraw.works.model.CategoryInfo;
 
 public interface CategoryInfoMapper {
@@ -14,4 +16,8 @@ public interface CategoryInfoMapper {
     int updateByPrimaryKeySelective(CategoryInfo record);
 
     int updateByPrimaryKey(CategoryInfo record);
+    
+    List<CategoryInfo> queryDirectoryList(Integer categoryParentId);
+    
+    
 }

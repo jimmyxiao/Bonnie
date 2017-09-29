@@ -1,0 +1,35 @@
+<div class="main-content-inner">
+	<div class="page-content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="x_content">
+					<div class="row">
+						<div class="col-xs-12">
+							<form class="form-horizontal" role="form" name="myForm">
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"> 目錄名稱 </label>
+									<div class="col-sm-9">
+										<input type="text" ng-model="editDir.data.categoryName" class="col-xs-10 col-sm-5" />
+									</div>
+								</div>
+								<div class="col-md-offset-3 col-md-9">
+									<button ng-disabled="loading" class="btn btn-info" type="button" ng-click="updateDir()">
+										更新
+									</button>
+<!-- 									<button ng-show="loading" class="btn btn-info">
+										<i class="fa fa-spinner fa-spin"></i>
+									</button> -->
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn" type="reset" ng-click="close()">
+										取消
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -90,4 +90,18 @@
       CATEGORY_PARENT_ID = #{categoryParentId,jdbcType=INTEGER}
     where CATEGORY_ID = #{categoryId,jdbcType=INTEGER}
   </update>
+  
+	<select id="queryDirectoryList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from category_info
+	    where 
+	     <if test="_parameter == null ">
+	     	CATEGORY_PARENT_ID is null and CATEGORY_LEVEL = 1
+	     </if>
+	    <if test="_parameter != null ">
+	    	CATEGORY_PARENT_ID = #{_parameter}
+	    </if>
+	</select>
+  
 </mapper>

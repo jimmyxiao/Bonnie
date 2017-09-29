@@ -18,7 +18,7 @@ app.factory('registerService', function(baseHttp) {
                     up:$scope.register.userPw,
                     un:$scope.register.userName,
                     ut:$scope.register.userType,
-                    dt:3
+                    dt:3    
                 }
                 params.fn = 3;
 	            registerService.register(params, function(data, status, headers, config) {
