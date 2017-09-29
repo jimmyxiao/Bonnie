@@ -83,11 +83,11 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         redoButton.isEnabled = !canvas.redoPaths.isEmpty
         playButton.isEnabled = !canvas.paths.isEmpty
         if !playButton.isEnabled {
-            playButton.isEnabled = canvas.persistentImageView?.image != nil
+            playButton.isEnabled = canvas.persistentImage != nil
         }
         resetButton.isEnabled = !canvas.paths.isEmpty
         if !resetButton.isEnabled {
-            resetButton.isEnabled = canvas.persistentImageView?.image != nil
+            resetButton.isEnabled = canvas.persistentImage != nil
         }
     }
 

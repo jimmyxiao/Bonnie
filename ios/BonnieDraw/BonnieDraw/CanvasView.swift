@@ -15,7 +15,7 @@ class CanvasView: UIView {
     var paths = [Path]()
     var redoPaths = [Path]()
     var lastTimestamp: TimeInterval = -1
-    var persistentImageView: UIImageView?
+    var persistentImage: UIImage?
     private var lastPoint = CGPoint.zero, currentPoint = CGPoint.zero
     private var url: URL?
     private var writeHandle: FileHandle?
@@ -41,6 +41,7 @@ class CanvasView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
+        persistentImage?.draw(in: rect)
         for path in paths {
             path.color.setStroke()
             path.bezierPath.stroke()
@@ -57,9 +58,6 @@ class CanvasView: UIView {
     }
 
     override func awakeFromNib() {
-        let imageView = UIImageView(frame: bounds)
-        addAndFill(subView: imageView)
-        persistentImageView = imageView
         do {
             let manager = FileManager.default
             let url = try FileManager.default.url(for: .documentationDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("temp.bdw")
@@ -80,7 +78,7 @@ class CanvasView: UIView {
         redoPaths.removeAll()
         animationPaths.removeAll()
         animationPoints.removeAll()
-        persistentImageView?.image = nil
+        persistentImage = nil
         delegate?.canvasPathsDidChange()
         do {
             let manager = FileManager.default
@@ -141,7 +139,7 @@ class CanvasView: UIView {
             }
             delegate?.canvasPathsWillBeginAnimation()
             animate()
-            persistentImageView?.image = nil
+            persistentImage = nil
         } catch let error {
             Logger.d(error.localizedDescription)
         }
@@ -155,14 +153,14 @@ class CanvasView: UIView {
                 if point.action != .down {
                     paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
                     paths.last?.points.append(point)
+                    if point.action == .up {
+                        drawToPersistentImage(saveToFile: false)
+                    }
                     animationTimer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
                         timer in
                         self.setNeedsDisplay()
                     }
                     lastPoint = currentPoint
-                    if point.action == .up {
-                        drawToPersistentImage(saveToFile: false)
-                    }
                 } else {
                     currentPoint = point.position
                     lastPoint = currentPoint
@@ -356,9 +354,8 @@ class CanvasView: UIView {
     private func drawToPersistentImage(saveToFile save: Bool) {
         if paths.count > PATH_BUFFER_COUNT {
             var pointsToSave = [Point]()
-            let rect = persistentImageView?.bounds ?? bounds
-            UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.main.scale)
-            persistentImageView?.image?.draw(in: rect)
+            UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+            persistentImage?.draw(in: bounds)
             while paths.count > PATH_BUFFER_COUNT {
                 let pathToSave = paths.removeFirst()
                 let point = pathToSave.points.removeFirst()
@@ -378,7 +375,7 @@ class CanvasView: UIView {
                 }
                 path.stroke()
             }
-            persistentImageView?.image = UIGraphicsGetImageFromCurrentImageContext()
+            persistentImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             if save {
                 self.save(pointsToFile: pointsToSave)
