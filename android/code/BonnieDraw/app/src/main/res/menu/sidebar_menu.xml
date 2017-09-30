@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single" android:id="@+id/group1">
+    <item
+        android:id="@+id/ic_btn_hotdraw"
+        android:icon="@drawable/menu_ic_hotdraw"
+        android:title="熱門畫作" />
+
+    <item
+        android:id="@+id/ic_btn_newdraw"
+        android:icon="@drawable/menu_ic_newdraw"
+        android:title="最新畫作" />
+
+    <item
+        android:id="@+id/ic_btn_mydraw"
+        android:icon="@drawable/menu_ic_mydraw"
+        android:title="我的畫作" />
+    </group>
+
+    <group android:checkableBehavior="single" android:id="@+id/group2">
+        <item
+            android:id="@+id/ic_btn_category1"
+            android:icon="@drawable/menu_ic_category_1"
+            android:title="類別一" />
+
+        <item
+            android:id="@+id/ic_btn_category2"
+            android:icon="@drawable/menu_ic_category_2"
+            android:title="類別二" />
+
+        <item
+            android:id="@+id/ic_btn_category3"
+            android:icon="@drawable/menu_ic_category_3"
+            android:title="類別三" />
+    </group>
+
+    <group android:checkableBehavior="single" android:id="@+id/group3">
+        <item
+            android:id="@+id/ic_btn_account_setting"
+            android:icon="@drawable/bottom_bar_ic_home"
+            android:title="帳號設定" />
+
+        <item
+            android:id="@+id/ic_btn_out"
+            android:icon="@drawable/menu_ic_out"
+            android:title="登出" />
+    </group>
+
+</menu>
