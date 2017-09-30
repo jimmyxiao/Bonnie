@@ -17,6 +17,9 @@
 "alert_sign_in_fail_password_invalid" = "密碼長度太短了";
 "alert_sign_up_fail_title" = "註冊失敗";
 "alert_sign_out_content" = "確定要登出？";
+"alert_save_fail_title" = "儲存失敗";
+"alert_save_fail_name_empty" = "名稱不可留白";
+"alert_save_fail_description_empty" = "說明不可留白";
 "app_network_unreachable_content" = "請檢查您的網路連線狀態後重試。";
 "app_network_unreachable_title" = "無網路連線";
 "alert_forget_password_title" = "忘記密碼";

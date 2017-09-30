@@ -8,12 +8,18 @@
 
 import UIKit
 
-class CanvasViewController: BackButtonViewController, UIPopoverPresentationControllerDelegate, CanvasViewDelegate, SizePickerViewControllerDelegate, ColorPickerViewControllerDelegate {
+class CanvasViewController:
+        BackButtonViewController,
+        UIPopoverPresentationControllerDelegate,
+        CanvasViewDelegate,
+        SizePickerViewControllerDelegate,
+        ColorPickerViewControllerDelegate,
+        SaveViewControllerDelegate {
     @IBOutlet weak var canvas: CanvasView!
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var redoButton: UIBarButtonItem!
     @IBOutlet weak var playButton: UIBarButtonItem!
-    @IBOutlet weak var upload: UIBarButtonItem!
+    @IBOutlet weak var save: UIBarButtonItem!
     @IBOutlet weak var sizeButton: UIBarButtonItem!
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var resetButton: UIBarButtonItem!
@@ -59,15 +65,6 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         canvas.play()
     }
 
-    @IBAction func upload(_ sender: Any) {
-        if let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-           let token = UserDefaults.standard.string(forKey: Default.TOKEN),
-           let thumbnailData = canvas.thumbnailData(),
-           let fileData = canvas.fileData() {
-            client.components.path = Service.WORK_SAVE
-        }
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         canvas.lastTimestamp = -1
         if let controller = segue.destination as? SizePickerViewController {
@@ -82,6 +79,8 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
             let height = CGFloat(controller.colors.count * 44)
             let maxHeight = view.bounds.height - 111
             controller.preferredContentSize = CGSize(width: 44, height: height > maxHeight ? maxHeight : height)
+        } else if let controller = segue.destination as? SaveViewController {
+            controller.delegate = self
         }
     }
 
@@ -96,7 +95,7 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         if !playButton.isEnabled {
             playButton.isEnabled = canvas.persistentImage != nil
         }
-        upload.isEnabled = playButton.isEnabled
+        save.isEnabled = playButton.isEnabled
         resetButton.isEnabled = !canvas.paths.isEmpty
         if !resetButton.isEnabled {
             resetButton.isEnabled = canvas.persistentImage != nil
@@ -107,7 +106,7 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         undoButton.isEnabled = false
         redoButton.isEnabled = false
         playButton.isEnabled = false
-        upload.isEnabled = false
+        save.isEnabled = false
         sizeButton.isEnabled = false
         resetButton.isEnabled = false
         colorButton.isEnabled = false
@@ -117,6 +116,7 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         undoButton.isEnabled = true
         redoButton.isEnabled = !canvas.redoPaths.isEmpty
         playButton.isEnabled = true
+        save.isEnabled = true
         sizeButton.isEnabled = true
         resetButton.isEnabled = true
         colorButton.isEnabled = true
@@ -136,5 +136,16 @@ class CanvasViewController: BackButtonViewController, UIPopoverPresentationContr
         canvas.color = color
         sizeButton.tintColor = color
         colorButton.tintColor = color
+    }
+
+    func save(with name: String, description: String, category: String) {
+        if let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+           let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
+            client.components.path = Service.WORK_SAVE
+            client.getResponse(data: ["ui": userId, "lk": token, "dt": 2, "ac": 1, "privacyType": 1, "title": name, "description": description]) {
+                success, data in
+                Logger.d("\(success) \(data)")
+            }
+        }
     }
 }
