@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/profile_container_layout"
     tools:context="com.sctw.bonniedraw.fragment.ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -53,12 +54,12 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_edit_profile"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/edit_profile_icon"
             android:text="編輯個人檔案"
             android:textSize="12sp"
@@ -166,17 +167,6 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/profile_userFans"
             app:layout_constraintLeft_toRightOf="@+id/profile_userFans" />
-
-        <ImageButton
-            android:id="@+id/logoutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:srcCompat="@drawable/menu_ic_out"
-            tools:layout_editor_absoluteY="8dp" />
 
     </android.support.constraint.ConstraintLayout>
 

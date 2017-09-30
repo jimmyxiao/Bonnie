@@ -22,7 +22,7 @@ public class GlobalVariable {
     public static final String THIRD_LOGIN_FACEBOOK="2";
 
     public static final String API_TOKEN="apiToken";
-    public static final String USER_UID="apiUid";
+    public static final String API_UID ="apiUid";
     public static final String API_LOGIN="1";
     public static final String API_REGISTER="2";
     public static final String API_CHECK_EMAIL="3";

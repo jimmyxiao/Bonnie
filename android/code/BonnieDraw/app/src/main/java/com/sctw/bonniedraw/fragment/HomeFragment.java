@@ -4,14 +4,11 @@ package com.sctw.bonniedraw.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +23,6 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     RecyclerView homeRecyclerView;
-    private Toolbar toolbar;
-    private ImageButton toolbarSearch;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -44,9 +39,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        toolbarSearch = (ImageButton) view.findViewById(R.id.toolbar_search);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         homeRecyclerView = (RecyclerView) view.findViewById(R.id.home_recyclerview);
         ArrayList<String> myDataset = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
@@ -57,13 +49,6 @@ public class HomeFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         homeRecyclerView.setLayoutManager(layoutManager);
         homeRecyclerView.setAdapter(mAdapter);
-
-        toolbarSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "搜尋", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
      public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {

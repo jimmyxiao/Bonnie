@@ -54,7 +54,6 @@ import com.sctw.bonniedraw.utility.BDWFileWriter;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -546,13 +545,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public void back(View view) {
-        if (mTagPoint_a_record.size() != 0 && !file.exists()) {
-            callSaveDialog(0);
-        } else if (file.exists() && mTagPoint_a_record.size() != reader.m_tagArray.size()) {
-            callSaveDialog(1);
-        } else {
-            PaintActivity.this.finish();
-        }
+        onBackMethod();
     }
 
     public Button.OnClickListener savePictureBtn = new Button.OnClickListener() {
@@ -605,21 +598,17 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void onClick(View view) {
                 if (!workName.getText().toString().isEmpty() && !workDescription.getText().toString().isEmpty()) {
                     JSONObject json = new JSONObject();
-                    JSONArray jsonList=new JSONArray();
                     try {
-                        jsonList.put("中文");
-                        jsonList.put("國文");
-                        json.put("ui", prefs.getString(GlobalVariable.USER_UID, "null"));
+                        json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
                         json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-                        json.put("ac", 1);
-                        json.put("userId", prefs.getString(GlobalVariable.USER_UID, "null"));
+                        json.put("ac", "1");
                         json.put("privacyType", privacyType);
                         json.put("title", workName.getText().toString());
                         json.put("description", workDescription.getText().toString());
-                        json.put("languageId", 1);
-                        json.put("countryId", 886);
-                        json.putOpt("categoryList", jsonList);
+                        //json.put("languageId", 1);
+                        //json.put("countryId", 886);
+                        //json.putOpt("categoryList", jsonList);
                         Log.d("LOGIN JSON: ", json.toString());
                         fileInfo(json);
                     } catch (JSONException e) {
@@ -659,8 +648,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public boolean savePicture(String fileName) {
-
-
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             try {
                 File vPath = new File(Environment.getExternalStorageDirectory() + "/bonniedraw");
@@ -714,7 +701,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     if (responseJSON.getInt("res") == 1) {
                         Log.d("Save Works File", "Successful");
                     }
-                    Log.d("RESPONSE",response.body().toString());
+                    Log.d("RESPONSE", response.body().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -734,7 +721,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         JSONObject json = new JSONObject();
         try {
             json
-                    .put("ui", prefs.getString(GlobalVariable.USER_UID, "null"))
+                    .put("ui", prefs.getString(GlobalVariable.API_UID, "null"))
                     .put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
                     .put("dt", GlobalVariable.LOGIN_PLATFORM)
                     .put("wid", "1")
@@ -1001,7 +988,17 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        this.finish();
+        onBackMethod();
+    }
+
+    public void onBackMethod() {
+        if (mTagPoint_a_record.size() != 0 && !file.exists()) {
+            callSaveDialog(0);
+        } else if (file.exists() && mTagPoint_a_record.size() != reader.m_tagArray.size()) {
+            callSaveDialog(1);
+        } else {
+            PaintActivity.this.finish();
+        }
     }
 
     @Override
