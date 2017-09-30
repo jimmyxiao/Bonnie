@@ -19,8 +19,9 @@ class CanvasViewController:
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var redoButton: UIBarButtonItem!
     @IBOutlet weak var playButton: UIBarButtonItem!
-    @IBOutlet weak var save: UIBarButtonItem!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var sizeButton: UIBarButtonItem!
+    @IBOutlet weak var eraserButton: UIBarButtonItem!
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var resetButton: UIBarButtonItem!
     @IBOutlet weak var colorButton: UIBarButtonItem!
@@ -95,7 +96,7 @@ class CanvasViewController:
         if !playButton.isEnabled {
             playButton.isEnabled = canvas.persistentImage != nil
         }
-        save.isEnabled = playButton.isEnabled
+        saveButton.isEnabled = playButton.isEnabled
         resetButton.isEnabled = !canvas.paths.isEmpty
         if !resetButton.isEnabled {
             resetButton.isEnabled = canvas.persistentImage != nil
@@ -106,8 +107,9 @@ class CanvasViewController:
         undoButton.isEnabled = false
         redoButton.isEnabled = false
         playButton.isEnabled = false
-        save.isEnabled = false
+        saveButton.isEnabled = false
         sizeButton.isEnabled = false
+        eraserButton.isEnabled = false
         resetButton.isEnabled = false
         colorButton.isEnabled = false
     }
@@ -116,8 +118,9 @@ class CanvasViewController:
         undoButton.isEnabled = true
         redoButton.isEnabled = !canvas.redoPaths.isEmpty
         playButton.isEnabled = true
-        save.isEnabled = true
+        saveButton.isEnabled = true
         sizeButton.isEnabled = true
+        eraserButton.isEnabled = true
         resetButton.isEnabled = true
         colorButton.isEnabled = true
     }
@@ -130,6 +133,12 @@ class CanvasViewController:
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
         sizeButton.tintColor = canvas.color
         UIGraphicsEndImageContext()
+    }
+
+    @IBAction func didSelectEraser(_ sender: Any) {
+        canvas.color = ERASER_COLOR
+        sizeButton.tintColor = ERASER_COLOR
+        colorButton.tintColor = ERASER_COLOR
     }
 
     func colorPicker(didSelect color: UIColor) {

@@ -621,6 +621,9 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="9Vv-Ml-ui1"/>
                                     <barButtonItem image="draw_ic_erase" id="mCl-AI-Uj6">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="didSelectEraser:" destination="uhE-RV-zqK" id="eIe-eZ-C9U"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="tYb-NY-iek"/>
                                     <barButtonItem enabled="NO" image="works_ic_more" id="70K-Gg-AcD">
@@ -677,11 +680,12 @@
                     <connections>
                         <outlet property="canvas" destination="ufQ-sW-bDW" id="WR5-4Z-b7J"/>
                         <outlet property="colorButton" destination="da0-nx-vfp" id="lCF-DU-zhm"/>
+                        <outlet property="eraserButton" destination="mCl-AI-Uj6" id="PGU-5q-eyL"/>
                         <outlet property="penButton" destination="xqN-j4-y2T" id="khP-Bu-WYc"/>
                         <outlet property="playButton" destination="bhe-6b-YfL" id="vLZ-ql-PBH"/>
                         <outlet property="redoButton" destination="KND-uk-CMk" id="Nly-fo-EiY"/>
                         <outlet property="resetButton" destination="R7G-Cb-HfF" id="RbU-W1-9I8"/>
-                        <outlet property="save" destination="xeb-Hz-fv0" id="bc6-sk-6Td"/>
+                        <outlet property="saveButton" destination="xeb-Hz-fv0" id="HrZ-dL-Emf"/>
                         <outlet property="sizeButton" destination="XiT-fu-6ft" id="ayC-JG-uUD"/>
                         <outlet property="undoButton" destination="1pr-Ri-9zI" id="fbn-In-Jej"/>
                     </connections>

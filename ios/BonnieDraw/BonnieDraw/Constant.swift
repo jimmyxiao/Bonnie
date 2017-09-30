@@ -9,11 +9,12 @@
 import UIKit
 
 let DEBUG = Bundle.main.infoDictionary?["Configuration"] as? String == "Debug"
-let PATH_BUFFER_COUNT: UInt16 = 20
+let PATH_BUFFER_COUNT: UInt16 = 2
 let POINT_BUFFER_COUNT: UInt16 = 512
 let MAX_TIMESTAMP: TimeInterval = 3
 let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
+let ERASER_COLOR = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
 
 enum Function: UInt16 {
     case draw = 0xa101

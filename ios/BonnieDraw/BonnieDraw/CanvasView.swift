@@ -80,6 +80,12 @@ class CanvasView: UIView {
             path.color.setStroke()
             path.bezierPath.stroke()
         }
+        if color == ERASER_COLOR,
+           let point = paths.last?.points.last,
+           point.action == .move {
+            UIColor.black.setStroke()
+            UIBezierPath(arcCenter: point.position, radius: point.size / 2, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true).stroke()
+        }
         if !isUserInteractionEnabled {
             if !animationPoints.isEmpty {
                 animate()
@@ -258,6 +264,9 @@ class CanvasView: UIView {
                 bytes.removeFirst()
                 bytes.removeFirst()
             }
+            for point in points {
+                Logger.d(point.action == .move)
+            }
         }
         return points
     }
@@ -420,6 +429,8 @@ class CanvasView: UIView {
 
 protocol CanvasViewDelegate {
     func canvasPathsDidChange()
+
     func canvasPathsWillBeginAnimation()
+
     func canvasPathsDidFinishAnimation()
 }
