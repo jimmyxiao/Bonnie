@@ -15,6 +15,17 @@
 					</button>
 				</h3>
 				<div class="hr hr-18 hr-double dotted"></div>
+				<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+					<ul class="breadcrumb">
+						<li ng-repeat="data in breadCrumbs track by $index">
+							<i ng-if="$index == 0" class="ace-icon fa fa-clone clone-icon"></i>
+							<a ng-if="$index != (breadCrumbs.length -1)" href="#/directoryManager?cp={{data.categoryId}}">
+								{{data.categoryName}}
+							</a>
+							<label ng-if="$index == (breadCrumbs.length -1)">{{data.categoryName}}</label>
+						</li>
+					</ul>
+				</div>
 				<div class="x_content">
 					<table id="dynamic-table" class="table table-striped table-bordered" width="100%"></table>
 					<!-- <tree nodes='basicTree' options="options"></tree> -->

@@ -25,6 +25,18 @@ public class DirectoryManagerController extends BaseController {
 	@Autowired
 	DirectoryManagerService directoryManagerService;
 	
+	@RequestMapping(value="/getBreadCrumbs")
+	public @ResponseBody BaseModel getBreadCrumbs(HttpServletRequest request, HttpServletResponse response, @RequestBody int categoryId ){
+		BaseModel baseModel = new BaseModel();
+		baseModel.setResult(false);
+		List<CategoryInfo> result= directoryManagerService.getBreadCrumbs(categoryId);
+		if(ValidateUtil.isNotEmptyAndSize(result)){
+			baseModel.setResult(true);
+			baseModel.setData(result);
+		}
+		return baseModel;
+	}
+	
 	@RequestMapping(value="/queryDirectoryList")
 	public @ResponseBody BaseModel queryDirectoryList(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryInfo categoryInfo){
 		BaseModel baseModel = new BaseModel();

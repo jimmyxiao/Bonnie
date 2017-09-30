@@ -1,5 +1,8 @@
 app.factory('directoryService', function(baseHttp) {
     return {
+        getBreadCrumbs: function(params,callback){
+            return baseHttp.service('directoryManager/getBreadCrumbs',params,callback);
+        },
     	queryDirectoryList: function(params,callback){
 			return baseHttp.service('directoryManager/queryDirectoryList',params,callback);
 		},
@@ -64,8 +67,18 @@ app.factory('directoryService', function(baseHttp) {
         $scope.showBack = true;
     }
 
+    $scope.getBreadCrumbs = function(){
+        if(categoryParentId != 0) {
+            directoryService.getBreadCrumbs(categoryParentId,function(data, status, headers, config){
+                if(data.result){
+                  $scope.breadCrumbs = data.data;
+                }
+            })
+        }
+    }
+    $scope.getBreadCrumbs();
+
     var columns = [
-        // { title: "ID", data: "categoryId", sWidth:"10%"},
         { title: "項次", sWidth:"10%", render: function(data, type, full, meta) {
                 return (meta.row + 1);
             }

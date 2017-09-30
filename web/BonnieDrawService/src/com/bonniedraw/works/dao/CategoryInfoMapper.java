@@ -17,7 +17,9 @@ public interface CategoryInfoMapper {
 
     int updateByPrimaryKey(CategoryInfo record);
     
+    String getBreadCrumbs(int categoryId);
+    
     List<CategoryInfo> queryDirectoryList(Integer categoryParentId);
     
-    
+    List<CategoryInfo> selectByPrimaryKeyList(List<Integer> categoryIds);
 }

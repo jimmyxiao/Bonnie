@@ -6,6 +6,7 @@ import com.bonniedraw.works.model.CategoryInfo;
 
 public interface DirectoryManagerService {
 //	List<NodeTreeModule> queryDirectoryList();	nodeTree uses
+	List<CategoryInfo> getBreadCrumbs(int categoryId);
 	List<CategoryInfo> queryDirectoryList(Integer categoryParentId);
 	int createDirectory(CategoryInfo categoryInfo, Integer passId);
 	CategoryInfo updateDirectory(CategoryInfo categoryInfo, Integer passId);

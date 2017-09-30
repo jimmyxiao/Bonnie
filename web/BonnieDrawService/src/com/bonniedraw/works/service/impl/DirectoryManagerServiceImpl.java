@@ -1,5 +1,6 @@
 package com.bonniedraw.works.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bonniedraw.base.service.BaseService;
 import com.bonniedraw.util.LogUtils;
+import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.works.dao.CategoryInfoMapper;
 import com.bonniedraw.works.dao.NodeTreeMapper;
 import com.bonniedraw.works.model.CategoryInfo;
@@ -28,6 +30,23 @@ public class DirectoryManagerServiceImpl extends BaseService implements
 //		List<NodeTreeModule> directoryList = nodeTreeMapper.queryDirectoryList();
 //		return directoryList;
 //	}
+	
+	@Override
+	public List<CategoryInfo> getBreadCrumbs(int categoryId) {
+		String parents = categoryInfoMapper.getBreadCrumbs(categoryId);
+		List<Integer> categoryIdList = new ArrayList<Integer>();
+		List<CategoryInfo> categoryInfoList = new ArrayList<CategoryInfo>();
+		if(ValidateUtil.isNotBlank(parents)){
+			String splitParents[] = parents.split(",");
+			if(splitParents.length>0){
+				for(String str : splitParents){
+					categoryIdList.add(Integer.valueOf(str));
+				}
+				categoryInfoList = categoryInfoMapper.selectByPrimaryKeyList(categoryIdList);
+			}
+		}
+		return categoryInfoList;
+	}
 	
 	@Override
 	public List<CategoryInfo> queryDirectoryList(Integer categoryParentId) {
