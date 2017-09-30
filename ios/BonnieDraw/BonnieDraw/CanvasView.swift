@@ -264,9 +264,6 @@ class CanvasView: UIView {
                 bytes.removeFirst()
                 bytes.removeFirst()
             }
-            for point in points {
-                Logger.d(point.action == .move)
-            }
         }
         return points
     }
