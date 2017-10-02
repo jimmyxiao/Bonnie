@@ -281,3 +281,41 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 
 
 
+//facebook login
+window.fbAsyncInit = function() {
+  FB.init({
+    cookie     : true,  // enable cookies to allow the server to access 
+    appId      : '1376883092359322',
+    xfbml      : true,
+    version    : 'v2.8'
+  });
+};
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/zh_TW/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+//google login
+var auth2;
+window.googleAsyncInit = function() {
+    gapi.load('auth2', function() {
+        // Retrieve the singleton for the GoogleAuth library and set up the client.
+        auth2 = gapi.auth2.init({
+            client_id: "579888826124-32hn4mff2f1gmvo5kk6ep9u40hcoqv46.apps.googleusercontent.com",
+            scope: "profile email"
+        });
+    });
+};
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+        return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//apis.google.com/js/api:client.js?onload=googleAsyncInit";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'google-jssdk'));
