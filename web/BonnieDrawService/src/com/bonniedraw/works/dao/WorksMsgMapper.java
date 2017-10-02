@@ -14,4 +14,7 @@ public interface WorksMsgMapper {
     int updateByPrimaryKeySelective(WorksMsg record);
 
     int updateByPrimaryKey(WorksMsg record);
+    
+    WorksMsg selectExistMsg(WorksMsg record);
+    
 }

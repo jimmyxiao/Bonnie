@@ -179,13 +179,25 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	@Transactional(rollbackFor = Exception.class)
 	public int leavemsg(LeaveMsgRequestVO leaveMsgRequestVO) {
 		int success= 2;
+		int fn = leaveMsgRequestVO.getFn();
 		WorksMsg worksMsg = new WorksMsg();
 		worksMsg.setWorksId(leaveMsgRequestVO.getWorksId());
+		worksMsg.setUserId(leaveMsgRequestVO.getUi());
+		worksMsg.setMessage(leaveMsgRequestVO.getMessage());
 		try {
-			worksMsgMapper.insert(worksMsg);
+			if(fn==1){
+				worksMsgMapper.insert(worksMsg);
+			}else{
+				int worksMsgId = leaveMsgRequestVO.getMsgId();
+				worksMsg.setWorksMsgId(worksMsgId);
+				WorksMsg existWorksMsg = worksMsgMapper.selectExistMsg(worksMsg);
+				if(existWorksMsg!=null){
+					worksMsgMapper.deleteByPrimaryKey(worksMsgId);
+				}
+			}
 			success = 1;
 		} catch (Exception e) {
-			LogUtils.error(getClass(), "setLike has error : " + e);
+			LogUtils.error(getClass(), "leavemsg has error : " + e);
 			callRollBack();
 		}
 		return success;
@@ -195,12 +207,17 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	@Transactional(rollbackFor = Exception.class)
 	public int setLike(SetLikeRequestVO setLikeRequestVO) {
 		int success= 2;
+		int fn = setLikeRequestVO.getFn();
 		WorksLike worksLike = new WorksLike();
 		worksLike.setUserId(setLikeRequestVO.getUi());
 		worksLike.setWorksId(setLikeRequestVO.getWorksId());
 		worksLike.setLikeType(setLikeRequestVO.getLikeType());
 		try {
-			worksLikeMapper.insert(worksLike);
+			if(fn==1){
+				worksLikeMapper.insert(worksLike);
+			}else{
+				worksLikeMapper.deleteByNotPrimaryKey(worksLike);
+			}
 			success = 1;
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "setLike has error : " + e);
@@ -246,7 +263,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			turnInMapper.insert(turnIn);
 			success = 1;
 		} catch (Exception e) {
-			LogUtils.error(getClass(), "leavemsg has error : " + e);
+			LogUtils.error(getClass(), "setTurnin has error : " + e);
 			callRollBack();
 		}
 		return success;

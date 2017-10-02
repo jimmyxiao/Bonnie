@@ -402,12 +402,17 @@ public class ApiController {
 		respResult.setRes(2);
 		String msg = "";
 		if(isLogin(leaveMsgRequestVO)){
-			int res = worksServiceAPI.leavemsg(leaveMsgRequestVO);
-			if(res ==1){
-				respResult.setRes(res);
-				msg = messageSource.getMessage("api_success",null,request.getLocale());
+			int fn = leaveMsgRequestVO.getFn();
+			if(fn==1 || (fn==0 && ValidateUtil.isNotNumNone(leaveMsgRequestVO.getMsgId()))){
+				int res = worksServiceAPI.leavemsg(leaveMsgRequestVO);
+				if(res ==1){
+					respResult.setRes(res);
+					msg = messageSource.getMessage("api_success",null,request.getLocale());
+				}else{
+					msg = messageSource.getMessage("api_fail",null,request.getLocale());
+				}
 			}else{
-				msg = messageSource.getMessage("api_fail",null,request.getLocale());
+				msg="資料異常";
 			}
 		}else{
 			msg = "帳號未登入"; 
@@ -422,8 +427,9 @@ public class ApiController {
 		respResult.setRes(2);
 		String msg = "";
 		if(isLogin(setLikeRequestVO)){
+			int fn = setLikeRequestVO.getFn();
 			int likeType = setLikeRequestVO.getLikeType();
-			if(likeType>=1 && likeType<=4){
+			if( (fn==1 || fn ==0) && (likeType>=1 && likeType<=4) ){
 				int res = worksServiceAPI.setLike(setLikeRequestVO);
 				if(res==1){
 					respResult.setRes(1);

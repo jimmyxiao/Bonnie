@@ -103,4 +103,14 @@
       CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP}
     where WORKS_MSG_ID = #{worksMsgId,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectExistMsg" parameterType="com.bonniedraw.works.model.WorksMsg" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from works_msg
+    where WORKS_MSG_ID = #{worksMsgId,jdbcType=INTEGER}
+    and USER_ID = #{userId,jdbcType=INTEGER}
+    and WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </select>
+  
 </mapper>

@@ -14,6 +14,8 @@ public class WorksResponse extends Works {
 	private List<WorksLike> likeList;
 	private List<WorksMsg> msgList;
 	private List<WorksCategory> categoryList;
+	private int isCollection;
+	private int isFollowing;
 
 	public String getUserName() {
 		return userName;
@@ -61,6 +63,22 @@ public class WorksResponse extends Works {
 
 	public void setCategoryList(List<WorksCategory> categoryList) {
 		this.categoryList = categoryList;
+	}
+
+	public int getIsCollection() {
+		return isCollection;
+	}
+
+	public void setIsCollection(int isCollection) {
+		this.isCollection = isCollection;
+	}
+
+	public int getIsFollowing() {
+		return isFollowing;
+	}
+
+	public void setIsFollowing(int isFollowing) {
+		this.isFollowing = isFollowing;
 	}
 
 }

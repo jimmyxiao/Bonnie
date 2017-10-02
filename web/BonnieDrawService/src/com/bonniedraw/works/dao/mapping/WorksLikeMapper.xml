@@ -79,4 +79,12 @@
       LIKE_TYPE = #{likeType,jdbcType=INTEGER}
     where WORKS_LIKE_ID = #{worksLikeId,jdbcType=INTEGER}
   </update>
+  
+  <delete id="deleteByNotPrimaryKey" parameterType="com.bonniedraw.works.model.WorksLike">
+    delete from works_like
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+    and USER_ID = #{userId,jdbcType=INTEGER}
+    and LIKE_TYPE = #{likeType,jdbcType=INTEGER}
+  </delete>
+  
 </mapper>
