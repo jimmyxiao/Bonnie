@@ -295,11 +295,24 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	public int updateUserInfo(UserInfo userInfo) {
 		int success = 2;
 		Date nowDate = TimerUtil.getNowDate();
+		
 		try {
+			String userCode = userInfo.getUserCode();
+			String userEmail = userInfo.getEmail();
 			userInfo.setUpdatedBy(userInfo.getUserId());
 			userInfo.setUpdateDate(nowDate);
-			userInfoMapper.updateByPrimaryKeySelective(userInfo);
-			success = 1;
+			if(userCode.compareTo(userEmail) !=0){
+				UserInfo existiUserInfo = userInfoMapper.selectByUserCode(userEmail);
+				if(existiUserInfo!=null){
+					return 4;
+				}
+				userInfo.setUserCode(userEmail);
+				userInfoMapper.updateByPrimaryKeySelective(userInfo);
+				success = 3;
+			}else{
+				userInfoMapper.updateByPrimaryKeySelective(userInfo);
+				success = 1;
+			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "updateUserInfo has error : " + e );
 			callRollBack();

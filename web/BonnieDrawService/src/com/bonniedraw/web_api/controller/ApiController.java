@@ -244,10 +244,12 @@ public class ApiController {
 		String msg = "";
 		if(isLogin(userInfoUpdateRequestVO)){
 			if(ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getUserCode())
-					&& ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getUserName())){
+					&& ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getUserName())
+					&& ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getEmail())){
 				UserInfo userInfo = new UserInfo();
 				userInfo.setUserId(userInfoUpdateRequestVO.getUi());
 				userInfo.setUserType(userInfoUpdateRequestVO.getUserType());
+				userInfo.setUserCode(userInfoUpdateRequestVO.getUserCode());
 				userInfo.setUserName(userInfoUpdateRequestVO.getUserName());
 				userInfo.setNickName(userInfoUpdateRequestVO.getNickName());
 				userInfo.setEmail(userInfoUpdateRequestVO.getEmail());
@@ -264,6 +266,10 @@ public class ApiController {
 				respResult.setRes(res);
 				if(res ==1){
 					msg = messageSource.getMessage("api_success",null,request.getLocale());
+				}else if(res == 3){
+					msg = "綁定Email已更改，請重新登入";
+				}else if(res == 4){
+					msg = "Email重複，不可更改";
 				}else{
 					msg = messageSource.getMessage("api_fail",null,request.getLocale());
 				}

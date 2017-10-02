@@ -61,6 +61,14 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
             	controller: 'registerController'
         	}
       	}
+  	}).state('forget', {
+      	url: '/forget',
+      	views: {
+        	"layout": {
+            	templateUrl: 'modules/login/view/forget.html',
+            	controller: 'forgetController'
+        	}
+      	}
   	}).state('index', {
       	url: '/',
       	views: {
@@ -97,7 +105,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        }
       	}
   	}).state('myfile', {
-      	url: '/myfile',
+      	url: '/myfile?v=',
       	views: {
       		"loader":{
       			templateUrl: 'modules/share/view/loader.html'
@@ -215,7 +223,7 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 	$rootScope.iTunesStoreUrl = 'https://www.apple.com/tw/itunes/charts/free-apps/';
 	$rootScope.googlePlayStoreUrl = 'https://play.google.com/store';
 	$rootScope.nowUrl = '';
-	// === develop when close , release when open ===
+
 	$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
     if ($rootScope.rg_gl.currentUser) {
         $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
@@ -224,11 +232,11 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
    	$rootScope.$on('$locationChangeStart', function (event, next, current){
    		var url = $location.path();
    		$rootScope.nowUrl = url;
-		if ((url !== '/login' && url !== '/singup' && url !== '/complete') && !$rootScope.rg_gl.currentUser) {
+		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete') && !$rootScope.rg_gl.currentUser) {
 	        $state.go('login');
 	    }
 	});
-	// =============================================
+
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
  		//pagination offset record control
  		if(fromState.url!='^'){
@@ -276,9 +284,7 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 		}
 	}
 
-
 })
-
 
 
 //facebook login
