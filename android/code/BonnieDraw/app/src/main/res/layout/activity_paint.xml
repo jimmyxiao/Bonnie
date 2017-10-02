@@ -202,7 +202,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:adjustViewBounds="false"
             android:background="@color/Transparent"
+            android:cropToPadding="false"
             android:onClick="sizesPicks"
             android:padding="0dp"
             app:srcCompat="@drawable/shape_oval" />

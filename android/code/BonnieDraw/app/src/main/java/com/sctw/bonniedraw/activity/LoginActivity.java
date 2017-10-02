@@ -118,7 +118,12 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getApplication(), "登入錯誤", Toast.LENGTH_SHORT).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, "連線失敗，請檢查網路狀態", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override

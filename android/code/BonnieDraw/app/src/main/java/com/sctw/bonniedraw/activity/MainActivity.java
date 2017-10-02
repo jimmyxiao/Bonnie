@@ -17,10 +17,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +49,6 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     private ImageButton icBtnBack, icBtnPaint, icBtnHome, icBtnLike, icBtnNotice, icBtnUser;
-    private ImageButton toolbarSearch;
     private BottomNavigationViewEx mBottomNavigationViewEx;
     NavigationView navigationView;
     View headerView;
@@ -59,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     TextView headerText;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    Toolbar toolbar;
     GoogleApiClient mGoogleApiClient;
     SharedPreferences prefs;
 
@@ -69,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         creatteProfileInfo();
-
     }
 
     public void changeFragment(Fragment fragment) {
@@ -83,25 +78,12 @@ public class MainActivity extends AppCompatActivity {
         // findview by id
         drawerLayout = (DrawerLayout) findViewById(R.id.main_actitivy_drawlayout);
         prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_include);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        toolbarSearch = (ImageButton) findViewById(R.id.toolbar_search);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         headerView = navigationView.getHeaderView(0);
         headerPhoto = (ImageView) headerView.findViewById(R.id.header_user_photo);
         headerText = (TextView) headerView.findViewById(R.id.header_user_name);
         icBtnBack = (ImageButton) headerView.findViewById(R.id.header_btn_back);
         icBtnPaint = (ImageButton) findViewById(R.id.ic_btn_paint);
-        //set OnClick
-        toolbarSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "搜尋", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -130,21 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(it);
             }
         });
-
-        ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-        };
-        mActionBarDrawerToggle.syncState();
-        drawerLayout.addDrawerListener(mActionBarDrawerToggle);
 
         mBottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.cotrol_panel_layout);
         mBottomNavigationViewEx.enableShiftingMode(false);
@@ -257,6 +224,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        for (Fragment frag : fragmentManager.getFragments()) {
+            if (frag.isVisible()) {
+                FragmentManager childFm = frag.getChildFragmentManager();
+                if (childFm.getBackStackEntryCount() > 0) {
+                    for (Fragment childfragnested: childFm.getFragments()) {
+                        FragmentManager childFmNestManager = childfragnested.getFragmentManager();
+                        if(childfragnested.isVisible()) {
+                            childFmNestManager.popBackStack();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
         if (drawerLayout.isDrawerOpen(Gravity.START)) {
             drawerLayout.closeDrawers();
         } else if (fragmentManager.getBackStackEntryCount() != 0) {

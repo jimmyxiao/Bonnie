@@ -25,6 +25,10 @@ import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.works.WorkAdapterList;
+import com.sctw.bonniedraw.works.WorkAdapterGrid;
+import com.sctw.bonniedraw.works.WorkGridOnClickListener;
+import com.sctw.bonniedraw.works.WorkListOnClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +36,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -55,8 +58,8 @@ public class ProfileFragment extends Fragment {
     Button profileEditBtn;
     RecyclerView profileRecyclerView;
     ArrayList<String> myDataset;
-    ListAdapter mAdapter;
-    HomeAdapter homeAdapter;
+    WorkAdapterGrid mAdapterGrid;
+    WorkAdapterList mAdapterList;
     GridLayoutManager gridLayoutManager;
     LinearLayoutManager layoutManager;
     SharedPreferences prefs;
@@ -87,9 +90,9 @@ public class ProfileFragment extends Fragment {
         profileSettingBtn = (ImageButton) view.findViewById(R.id.profile_setting_btn);
         profileGridBtn = (ImageButton) view.findViewById(R.id.profile_grid_btn);
         profileListBtn = (ImageButton) view.findViewById(R.id.profile_list_btn);
-        profileEditBtn=view.findViewById(R.id.btn_edit_profile);
+        profileEditBtn = view.findViewById(R.id.btn_edit_profile);
         updateProfileInfo();
-        fm=getFragmentManager();
+        fm = getFragmentManager();
 
 
         profileSettingBtn.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +105,8 @@ public class ProfileFragment extends Fragment {
         profileEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ft=fm.beginTransaction();
-                ft.replace(R.id.main_actitivy_layout,new EditProfileFragment());
+                ft = fm.beginTransaction();
+                ft.replace(R.id.main_actitivy_layout, new EditProfileFragment());
                 ft.addToBackStack(null);
                 ft.commit();
             }
@@ -118,24 +121,45 @@ public class ProfileFragment extends Fragment {
             myDataset.add(Integer.toString(i));
         }
         profileRecyclerView = (RecyclerView) view.findViewById(R.id.profile_recyclerview);
-        mAdapter = new ListAdapter(myDataset);
+        mAdapterGrid = new WorkAdapterGrid(myDataset, new WorkGridOnClickListener() {
+            @Override
+            public void onWorkClick(int postion) {
+                Log.d("POSTION CLICK", "No." + String.valueOf(postion));
+            }
+        });
         profileRecyclerView.setLayoutManager(gridLayoutManager);
-        profileRecyclerView.setAdapter(mAdapter);
+        profileRecyclerView.setAdapter(mAdapterGrid);
 
         profileGridBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mAdapterGrid = new WorkAdapterGrid(myDataset, new WorkGridOnClickListener() {
+                    @Override
+                    public void onWorkClick(int postion) {
+                        Log.d("POSTION CLICK", "No." + String.valueOf(postion));
+                    }
+                });
                 profileRecyclerView.setLayoutManager(gridLayoutManager);
-                profileRecyclerView.setAdapter(mAdapter);
+                profileRecyclerView.setAdapter(mAdapterGrid);
             }
         });
 
         profileListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                homeAdapter = new HomeAdapter(myDataset);
+                mAdapterList = new WorkAdapterList(myDataset, new WorkListOnClickListener() {
+                    @Override
+                    public void onWorkClick(int postion) {
+                        Log.d("POSTION CLICK","No."+String.valueOf(postion));
+                    }
+
+                    @Override
+                    public void onWorkExtraClick(int postion) {
+
+                    }
+                });
                 profileRecyclerView.setLayoutManager(layoutManager);
-                profileRecyclerView.setAdapter(homeAdapter);
+                profileRecyclerView.setAdapter(mAdapterList);
             }
         });
     }
@@ -187,7 +211,7 @@ public class ProfileFragment extends Fragment {
                                 if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                     try {
                                         //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr,"null"));
+                                        URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "null"));
                                         Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
                                         profilePhoto.setImageBitmap(bitmap);
                                     } catch (IOException e) {
@@ -209,103 +233,6 @@ public class ProfileFragment extends Fragment {
                 });
             }
         });
-    }
-
-    //Two Adapter
-    private class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
-        private List<String> mData;
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView mTextView;
-
-            ViewHolder(View v) {
-                super(v);
-                mTextView = (TextView) v.findViewById(R.id.card_textview);
-            }
-        }
-
-        public ListAdapter(List<String> data) {
-            mData = data;
-        }
-
-        @Override
-        public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.photocard_layout, parent, false);
-            ListAdapter.ViewHolder vh = new ListAdapter.ViewHolder(v);
-            return vh;
-        }
-
-        @Override
-        public void onBindViewHolder(ListAdapter.ViewHolder holder, final int position) {
-            holder.mTextView.setText(mData.get(position));
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(getActivity(), "Item " + position + " is long clicked.", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return mData.size();
-        }
-    }
-
-    public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
-        List<String> data;
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView mTextView;
-
-            ViewHolder(View v) {
-                super(v);
-                mTextView = (TextView) v.findViewById(R.id.home_number_text);
-            }
-        }
-
-        public HomeAdapter(List<String> data) {
-            this.data = data;
-        }
-
-        @Override
-        public HomeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_card, parent, false);
-            HomeAdapter.ViewHolder vh = new HomeAdapter.ViewHolder(v);
-            return vh;
-        }
-
-        @Override
-        public void onBindViewHolder(final HomeAdapter.ViewHolder holder, int position) {
-            holder.mTextView.setText(data.get(position));
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getActivity(), "Item " + holder.getAdapterPosition() + " is clicked.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(getActivity(), "Item " + holder.getAdapterPosition() + " is long clicked.", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
     }
 
 }

@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.sctw.bonniedraw.fragment.LikeSelectFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="96dp"
+        android:background="@color/Amber"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="儲存收藏分類"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="收藏分類可將你儲存的內容分門別類。按右上角的「+」即可開始建立第一個收藏分類"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/btn_like_add_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="建立收藏分類"
+        android:textColor="@color/Blue"
+        />
+</LinearLayout>

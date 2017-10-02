@@ -18,13 +18,12 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Xfermode;
-import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -40,8 +39,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
@@ -51,6 +50,7 @@ import com.sctw.bonniedraw.paintpicker.OnSizeChangedListener;
 import com.sctw.bonniedraw.paintpicker.SizePicker;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 
@@ -61,6 +61,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +98,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private int displayWidth;
     private ColorPicker colorPicker;
     private SizePicker sizePicker;
+    private FullScreenDialog saveDialog;
+    AlertDialog sketchDialog;
     BDWFileReader reader = new BDWFileReader();
     File file;
     float startX, startSacle, startY, pointLength;
@@ -512,42 +515,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         return (float) Math.sqrt(x * x + y * y);
     }
 
-    public void callSaveDialog(int num) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        switch (num) {
-            case 0:
-                builder.setMessage("是否要保留草稿");
-                break;
-            case 1:
-                builder.setMessage("是否要更新草稿");
-                break;
-        }
-
-        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                BDWFileWriter bdwFileWriter = new BDWFileWriter();
-                boolean result = bdwFileWriter.WriteToFile(mTagPoint_a_record, getFilesDir().getPath() + SKETCH_FILE);
-                Toast.makeText(PaintActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-                if (!result) PaintActivity.this.finish();
-            }
-        });
-
-        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                PaintActivity.this.finish();
-            }
-        });
-        AlertDialog alertdialog = builder.create();
-        alertdialog.show();
-    }
-
-    public void back(View view) {
-        onBackMethod();
-    }
-
     public Button.OnClickListener savePictureBtn = new Button.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -563,35 +530,28 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     };
 
     private void savePictureEdit() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.paint_save_dialog, null);
-        final EditText workName = (EditText) view.findViewById(R.id.paint_save_work_name);
-        final EditText workDescription = (EditText) view.findViewById(R.id.paint_save_work_description);
-        Button saveWork = (Button) view.findViewById(R.id.paint_save_done);
-        Button saveCancel = (Button) view.findViewById(R.id.paint_save_cencel);
-        RadioGroup group = view.findViewById(R.id.save_paint_group);
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i) {
-                    case R.id.save_paint_public:
-                        privacyType = 1;
-                        break;
-                    case R.id.save_paint_private:
-                        privacyType = 2;
-                        break;
-                    case R.id.save_paint_close:
-                        privacyType = 3;
-                        break;
-                }
-            }
-        });
-        group.check(R.id.save_paint_public);
+        saveDialog = new FullScreenDialog(this);
+        final EditText workName = (EditText) saveDialog.findViewById(R.id.paint_save_work_name);
+        final EditText workDescription = (EditText) saveDialog.findViewById(R.id.paint_save_work_description);
+        ImageView workPreview = saveDialog.findViewById(R.id.save_paint_preview);
+        Button saveWork = (Button) saveDialog.findViewById(R.id.btn_save_paint_save);
+        ImageButton saveCancel = (ImageButton) saveDialog.findViewById(R.id.btn_save_paint_back);
+        File pngfile = null;
 
-        builder.setView(view);
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
+        try {
+            File vPath = new File(getFilesDir() + "/bonniedraw");
+            if (!vPath.exists()) vPath.mkdirs();
+            pngfile = new File(vPath + "temp.png");
+            FileOutputStream fos = new FileOutputStream(pngfile);
+            myView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+            workPreview.setImageBitmap(getBitmap(Uri.fromFile(pngfile)));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (pngfile != null && pngfile.exists()) pngfile.delete();
+        }
 
         saveWork.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -603,7 +563,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                         json.put("ac", "1");
-                        json.put("privacyType", privacyType);
+                        json.put("userId", prefs.getString(GlobalVariable.API_UID, "null"));
+                        json.put("privacyType", String.valueOf(privacyType));
                         json.put("title", workName.getText().toString());
                         json.put("description", workDescription.getText().toString());
                         //json.put("languageId", 1);
@@ -611,13 +572,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         //json.putOpt("categoryList", jsonList);
                         Log.d("LOGIN JSON: ", json.toString());
                         fileInfo(json);
+                        saveDialog.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                     //boolean result = savePicture(workName.getText().toString());
                     //if (result) alertDialog.dismiss();
-                    alertDialog.dismiss();
                 } else {
                     Toast.makeText(PaintActivity.this, "請輸入檔名或按取消", Toast.LENGTH_SHORT).show();
                 }
@@ -627,9 +588,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         saveCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
+                saveDialog.dismiss();
             }
         });
+
+        saveDialog.show();
     }
 
     @Override
@@ -701,7 +664,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     if (responseJSON.getInt("res") == 1) {
                         Log.d("Save Works File", "Successful");
                     }
-                    Log.d("RESPONSE", response.body().toString());
+                    Log.d("RESPONSE", responseJSON.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -979,16 +942,112 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     }
 
+    public Bitmap getBitmap(Uri uri) {
+        try {
+            InputStream in = getContentResolver().openInputStream(uri);
+
+            // 第一次 decode,只取得圖片長寬,還未載入記憶體
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            opts.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(in, null, opts);
+            in.close();
+
+            // 取得動態計算縮圖長寬的 SampleSize (2的平方最佳)
+            int sampleSize = computeSampleSize(opts, -1, 512 * 512);
+
+            // 第二次 decode,指定取樣數後,產生縮圖
+            in = getContentResolver().openInputStream(uri);
+            opts = new BitmapFactory.Options();
+            opts.inSampleSize = sampleSize;
+
+            Bitmap bmp = BitmapFactory.decodeStream(in, null, opts);
+            in.close();
+
+            return bmp;
+        } catch (Exception err) {
+            return null;
+        }
+    }
+
+    public static int computeSampleSize(BitmapFactory.Options options,
+                                        int minSideLength, int maxNumOfPixels) {
+
+        int initialSize = computeInitialSampleSize(options, minSideLength,
+                maxNumOfPixels);
+        int roundedSize;
+
+        if (initialSize <= 8) {
+            roundedSize = 1;
+            while (roundedSize < initialSize) {
+                roundedSize <<= 1;
+            }
+        } else {
+            roundedSize = (initialSize + 7) / 8 * 8;
+        }
+
+        return roundedSize;
+    }
+
+    private static int computeInitialSampleSize(BitmapFactory.Options options,
+                                                int minSideLength, int maxNumOfPixels) {
+
+        double w = options.outWidth;
+        double h = options.outHeight;
+
+        int lowerBound = (maxNumOfPixels == -1) ? 1 : (int) Math.ceil(Math
+                .sqrt(w * h / maxNumOfPixels));
+        int upperBound = (minSideLength == -1) ? 128 : (int) Math.min(
+                Math.floor(w / minSideLength), Math.floor(h / minSideLength));
+
+        if (upperBound < lowerBound) {
+            // return the larger one when there is no overlapping zone.
+            return lowerBound;
+        }
+
+        if ((maxNumOfPixels == -1) && (minSideLength == -1)) {
+            return 1;
+        } else if (minSideLength == -1) {
+            return lowerBound;
+        } else {
+            return upperBound;
+        }
+    }
+
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        onBackMethod();
+    public void callSaveDialog(int num) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        switch (num) {
+            case 0:
+                builder.setMessage("是否要保留草稿");
+                break;
+            case 1:
+                builder.setMessage("是否要更新草稿");
+                break;
+        }
+        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                BDWFileWriter bdwFileWriter = new BDWFileWriter();
+                boolean result = bdwFileWriter.WriteToFile(mTagPoint_a_record, getFilesDir().getPath() + SKETCH_FILE);
+                Toast.makeText(PaintActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
+                if(result) PaintActivity.this.finish();
+            }
+        });
+        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                PaintActivity.this.finish();
+            }
+        });
+        builder.create().show();
     }
 
     public void onBackMethod() {
@@ -1000,6 +1059,16 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             PaintActivity.this.finish();
         }
     }
+
+    public void back(View view) {
+        onBackMethod();
+    }
+
+    @Override
+    public void onBackPressed() {
+        onBackMethod();
+    }
+
 
     @Override
     protected void onStart() {
