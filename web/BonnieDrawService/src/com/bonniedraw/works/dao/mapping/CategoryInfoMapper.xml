@@ -116,5 +116,32 @@
 			#{item}
 		</foreach>
   	</select>
+  	
+	<resultMap id="CategoryInfoResponseModule" type="com.bonniedraw.web_api.module.CategoryInfoResponse">
+    	<id column="CATEGORY_ID" jdbcType="INTEGER" property="categoryId" />
+    	<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+    	<result column="CATEGORY_LEVEL" jdbcType="INTEGER" property="categoryLevel" />
+	</resultMap>
+	<select id="getCategoryList" parameterType="java.lang.Integer" resultMap="CategoryInfoResponseModule">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from category_info
+    	where ENABLE = 1
+    	<if test="_parameter !=null and _parameter !=0">
+    		and CATEGORY_ID = #{_parameter, jdbcType=INTEGER}
+  		</if>
+  		<if test="_parameter ==null or _parameter ==0">
+  			and CATEGORY_LEVEL = 1
+  		</if>
+  		and CATEGORY_ID > 20
+  	</select>
+  	
+  	<select id="getChildernList" parameterType="java.lang.Integer" resultMap="CategoryInfoResponseModule">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from category_info
+    	where ENABLE = 1
+    	and CATEGORY_PARENT_ID = #{_parameter, jdbcType=INTEGER}
+  	</select>
   
 </mapper>

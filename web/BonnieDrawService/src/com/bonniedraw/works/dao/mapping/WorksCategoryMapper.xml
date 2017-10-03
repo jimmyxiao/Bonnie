@@ -84,8 +84,23 @@
 				CATEGORY_ID = #{element.categoryId,jdbcType=INTEGER},
 				WORKS_ID = #{element.worksId,jdbcType=INTEGER}
 			</set>
-			where WORKS_CATEGORY_ID = #{element..worksCategoryId,jdbcType=INTEGER}
+			where WORKS_CATEGORY_ID = #{element.worksCategoryId,jdbcType=INTEGER}
 		</foreach>
 	</update>
+	
+	<delete id="deleteWorksCategoryList" parameterType="java.util.List">
+   		delete from works_category
+    	where WORKS_CATEGORY_ID in 
+    	<foreach collection="list" item="element" index="index" open="" close="" separator=";">
+    		#{element.worksCategoryId, jdbcType=INTEGER}
+    	</foreach>
+  	</delete>
+	
+	<select id="selectByWorksId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from works_category
+    	where WORKS_ID = #{worksId, jdbcType=INTEGER}
+  	</select>
   
 </mapper>

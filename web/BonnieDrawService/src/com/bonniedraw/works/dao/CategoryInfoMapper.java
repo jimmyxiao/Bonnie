@@ -2,6 +2,7 @@ package com.bonniedraw.works.dao;
 
 import java.util.List;
 
+import com.bonniedraw.web_api.module.CategoryInfoResponse;
 import com.bonniedraw.works.model.CategoryInfo;
 
 public interface CategoryInfoMapper {
@@ -22,4 +23,8 @@ public interface CategoryInfoMapper {
     List<CategoryInfo> queryDirectoryList(Integer categoryParentId);
     
     List<CategoryInfo> selectByPrimaryKeyList(List<Integer> categoryIds);
+    
+    List<CategoryInfoResponse> getCategoryList(Integer categoryId);
+    
+    List<CategoryInfoResponse> getChildernList(Integer categoryId);
 }

@@ -79,4 +79,13 @@
       COLLECTION_TYPE = #{collectionType,jdbcType=INTEGER}
     where WORKS_COLLECTION_ID = #{worksCollectionId,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByWorksAndUser" parameterType="com.bonniedraw.works.model.WorksCollection" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from works_collection
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+    and USER_ID = #{userId,jdbcType=INTEGER}
+  </select>
+  
 </mapper>

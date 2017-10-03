@@ -1,6 +1,7 @@
 package com.bonniedraw.user.service.impl;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,11 +23,14 @@ import com.bonniedraw.util.EncryptUtil;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.SercurityUtil;
 import com.bonniedraw.util.TimerUtil;
+import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.web_api.model.ApiRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
 import com.bonniedraw.web_api.model.request.UpdatePwdRequestVO;
 import com.bonniedraw.web_api.model.response.FriendResponseVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
+import com.bonniedraw.web_api.module.UserInfoResponse;
+import com.bonniedraw.works.dao.FollowingMapper;
 
 @Service
 public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
@@ -39,6 +43,9 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	
 	@Autowired
 	LoginMapper loginMapper;
+	
+	@Autowired
+	FollowingMapper followingMapper;
 	
 	@Override
 	public boolean isLogin(ApiRequestVO apiRequestVO){
@@ -366,6 +373,19 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 			LogUtils.error(getClass(), "getUserFriendsList has error : " + e);
 		}
 		return friendResponseVO;
+	}
+	
+	@Override
+	public List<UserInfoResponse> getFollowingList(int fn, int userId) {
+		List<UserInfoResponse> result = new ArrayList<UserInfoResponse>();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", userId);
+		paramMap.put("fn", fn);
+		List<Integer> followList = followingMapper.selectTrackOrFans(paramMap);
+		if(ValidateUtil.isNotEmptyAndSize(followList)){
+			result =  userInfoMapper.queryUserByIds(followList);		
+		}
+		return result;
 	}
 	
 }

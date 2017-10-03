@@ -1,5 +1,8 @@
 package com.bonniedraw.works.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.bonniedraw.works.model.Following;
 
 public interface FollowingMapper {
@@ -16,4 +19,6 @@ public interface FollowingMapper {
     int updateByPrimaryKey(Following record);
     
     int deleteByNotPrimaryKey(Following record);
+    
+    List<Integer> selectTrackOrFans(Map<String, Object> paramMap);
 }

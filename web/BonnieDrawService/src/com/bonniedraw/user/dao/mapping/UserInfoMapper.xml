@@ -470,5 +470,20 @@
 		<if test="thirdPlatform == 3 ">and t.reg_google_id is not null</if>
 		<if test="thirdPlatform == 4 ">and t.reg_twitter_id is not null</if>
   	</select>
+  	
+  	<resultMap id="UserInfoResponseModule" type="com.bonniedraw.web_api.module.UserInfoResponse">
+    	<id column="USER_ID" jdbcType="INTEGER" property="userId" />
+    	<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    	<result column="PROFILE_PICTURE" jdbcType="VARCHAR" property="profilePicture" />
+  	</resultMap>
+  	<select id="queryUserByIds" parameterType="java.util.List" resultMap="UserInfoResponseModule">
+    	select user_id, user_name, profile_picture
+		from user_info
+		where user_id in 
+		<foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+  	</select>
+  
   
 </mapper>

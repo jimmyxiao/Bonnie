@@ -3,7 +3,7 @@ package com.bonniedraw.web_api.model.request;
 import java.util.List;
 
 import com.bonniedraw.web_api.model.ApiRequestVO;
-import com.bonniedraw.works.model.WorksCategory;
+import com.bonniedraw.works.model.CategoryInfo;
 
 public class WorksSaveRequestVO extends ApiRequestVO{
 	private int ac;
@@ -13,7 +13,7 @@ public class WorksSaveRequestVO extends ApiRequestVO{
 	private String description;
 	private Integer languageId;
 	private Integer countryId;
-	private List<WorksCategory> categoryList;
+	private List<CategoryInfo> categoryList;
 
 	public int getAc() {
 		return ac;
@@ -71,11 +71,11 @@ public class WorksSaveRequestVO extends ApiRequestVO{
 		this.countryId = countryId;
 	}
 
-	public List<WorksCategory> getCategoryList() {
+	public List<CategoryInfo> getCategoryList() {
 		return categoryList;
 	}
 
-	public void setCategoryList(List<WorksCategory> categoryList) {
+	public void setCategoryList(List<CategoryInfo> categoryList) {
 		this.categoryList = categoryList;
 	}
 

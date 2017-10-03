@@ -1,11 +1,4 @@
-app.factory('userService', function(baseHttp) {
-    return {
-        updateUser : function(params, callback) {
-            return baseHttp.service('/BDService/userInfoUpdate', params, callback);
-        }
-    }
-})
-.controller('myfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, userService) {
+app.controller('myfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, userService) {
 		$rootScope.title = '帳號設定 | BonnieDRAW';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();

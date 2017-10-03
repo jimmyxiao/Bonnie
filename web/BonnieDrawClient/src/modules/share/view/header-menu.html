@@ -1,3 +1,4 @@
+<div ng-controller="headerMenuController">
 <!-- Main Bar top -->
 <div id="main-bar">
 	<div class="container">
@@ -52,11 +53,13 @@
 						<li><a href="#/hot-listing"><i class="fi ion-compose"></i>熱門畫作</a></li>
 						<li><a href="#/track-list"><i class="fi ion-android-desktop"></i>追蹤清單</a></li>
 						<li><a href="#/column"><i class="fi ion-ios-film-outline"></i>我的畫作</a></li>
-						<li><a href="#"><i class="fi ion-android-apps"></i>畫作類別</a>
+						<li><a href=""><i class="fi ion-android-apps"></i>畫作類別</a>
 							<ul>
-							  	<li><a href="#/category-listing">類別一</a></li>
-							  	<li><a href="#/category-listing">類別二</a></li>
-							  	<li><a href="#/category-listing">類別三</a></li>
+							  	<li ng-repeat="data in categoryList track by $index">
+							  		<a href="">{{data.categoryName}}</a>
+							  	</li>
+<!-- 							  	<li><a href="">類別二</a></li>
+							  	<li><a href="">類別三</a></li> -->
 							</ul>		
 						</li>
 					</ul>
@@ -80,3 +83,4 @@
 	</div>
 </div>
 <!-- Main Navigation -->
+</div>

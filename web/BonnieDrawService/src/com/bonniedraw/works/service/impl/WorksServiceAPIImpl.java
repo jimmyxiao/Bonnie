@@ -19,22 +19,28 @@ import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.TimerUtil;
 import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.web_api.model.request.LeaveMsgRequestVO;
+import com.bonniedraw.web_api.model.request.SetCollectionRequestVO;
 import com.bonniedraw.web_api.model.request.SetFollowingRequestVO;
 import com.bonniedraw.web_api.model.request.SetLikeRequestVO;
 import com.bonniedraw.web_api.model.request.SetTurnInRequestVO;
 import com.bonniedraw.web_api.model.request.WorkListRequestVO;
 import com.bonniedraw.web_api.model.request.WorksSaveRequestVO;
+import com.bonniedraw.web_api.module.CategoryInfoResponse;
 import com.bonniedraw.web_api.module.WorksResponse;
+import com.bonniedraw.works.dao.CategoryInfoMapper;
 import com.bonniedraw.works.dao.FollowingMapper;
 import com.bonniedraw.works.dao.TurnInMapper;
 import com.bonniedraw.works.dao.WorksCategoryMapper;
+import com.bonniedraw.works.dao.WorksCollectionMapper;
 import com.bonniedraw.works.dao.WorksLikeMapper;
 import com.bonniedraw.works.dao.WorksMapper;
 import com.bonniedraw.works.dao.WorksMsgMapper;
+import com.bonniedraw.works.model.CategoryInfo;
 import com.bonniedraw.works.model.Following;
 import com.bonniedraw.works.model.TurnIn;
 import com.bonniedraw.works.model.Works;
 import com.bonniedraw.works.model.WorksCategory;
+import com.bonniedraw.works.model.WorksCollection;
 import com.bonniedraw.works.model.WorksLike;
 import com.bonniedraw.works.model.WorksMsg;
 import com.bonniedraw.works.service.WorksServiceAPI;
@@ -60,6 +66,23 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	@Autowired
 	TurnInMapper turnInMapper;
 	
+	@Autowired
+	CategoryInfoMapper categoryInfoMapper;
+	
+	@Autowired
+	WorksCollectionMapper worksCollectionMapper;
+	
+	private void insertWorksCatrgorList(List<CategoryInfo> categoryList, int wid) throws Exception {
+		List<WorksCategory> insertList = new ArrayList<WorksCategory>();
+		for(CategoryInfo categoryInfo : categoryList){
+			WorksCategory worksCategory = new WorksCategory();
+			worksCategory.setWorksCategoryId(categoryInfo.getCategoryId());
+			worksCategory.setWorksId(wid);
+			insertList.add(worksCategory);
+		}
+		worksCategoryMapper.insertWorksCategoryList(insertList);
+	}
+	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Integer worksSave(WorksSaveRequestVO worksSaveRequestVO) {
@@ -78,7 +101,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		works.setCountryId( (countryId ==null ? 1 : countryId) );
 		works.setUpdatedBy(userId);
 		works.setUpdateDate(nowDate);
-		List<WorksCategory> categoryList = worksSaveRequestVO.getCategoryList();
+		List<CategoryInfo> categoryList = worksSaveRequestVO.getCategoryList();
 		
 		try {
 			if(ac==1){
@@ -87,15 +110,32 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				worksMapper.insert(works);
 				if(ValidateUtil.isNotEmptyAndSize(categoryList)){
 					wid = works.getWorksId();
-					for(WorksCategory worksCategory : categoryList){
-						worksCategory.setWorksId(wid);
-					}
-					worksCategoryMapper.insertWorksCategoryList(categoryList);
+					insertWorksCatrgorList(categoryList, wid);
 				}
-			}else{
-				worksMapper.updateByPrimaryKeySelective(works);
-				worksCategoryMapper.updateWorksCategoryList(categoryList);
+			}else if(ac==2){
 				wid = works.getWorksId();
+				worksMapper.updateByPrimaryKeySelective(works);
+				List<WorksCategory> existWorksCategories = worksCategoryMapper.selectByWorksId(wid);
+				
+				//資料庫與參數皆有資料,進行比對並移除陣列內相同的unique id,最終剩下的資料庫資料進行刪除,反之參數資料進行新增
+				if(ValidateUtil.isNotEmptyAndSize(existWorksCategories) && ValidateUtil.isNotEmptyAndSize(categoryList)){
+					for(WorksCategory worksCategory : existWorksCategories){
+						int categoryId = worksCategory.getCategoryId();
+						for(CategoryInfo data : categoryList){
+							if(categoryId == data.getCategoryId()){
+								categoryList.remove(data);
+								existWorksCategories.remove(worksCategory);
+								break;
+							}
+						}
+					}
+					insertWorksCatrgorList(categoryList, wid);
+					worksCategoryMapper.deleteWorksCategoryList(existWorksCategories);
+				}else if(ValidateUtil.isNotEmptyAndSize(existWorksCategories) && !ValidateUtil.isNotEmptyAndSize(categoryList)){	//資料庫有資料而參數無資料,只執行刪除
+					worksCategoryMapper.deleteWorksCategoryList(existWorksCategories);
+				}else if(!ValidateUtil.isNotEmptyAndSize(existWorksCategories) && ValidateUtil.isNotEmptyAndSize(categoryList)){	//資料庫無資料而參數有資料,只執行新增
+					insertWorksCatrgorList(categoryList, wid);
+				}
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "worksSave has error : " + e);
@@ -311,6 +351,73 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			LogUtils.fileConteollerError(filePath + " loadFile has error : 輸出發生異常 =>" +e);
 		}
 		return pointList;
+	}
+
+	private void getAllChildern(List<CategoryInfoResponse> categoryList){
+		if(ValidateUtil.isNotEmptyAndSize(categoryList)){
+			for(CategoryInfoResponse categoryInfoResponse: categoryList){
+				Integer categoryId = categoryInfoResponse.getCategoryId();
+				categoryInfoResponse.setCategoryList(categoryInfoMapper.getChildernList(categoryId));
+				getAllChildern(categoryInfoResponse.getCategoryList());
+			}
+		}
+	}
+	
+	@Override
+	public List<CategoryInfoResponse> getCategoryList(Integer categoryId) {
+		List<CategoryInfoResponse> categoryList = categoryInfoMapper.getCategoryList(categoryId);
+		getAllChildern(categoryList);
+		return categoryList;
+	}
+
+	@Override
+	public int setCollection(SetCollectionRequestVO setCollectionRequestVO) {
+		int fn = setCollectionRequestVO.getFn();
+		int worksId = setCollectionRequestVO.getWorksId();
+		int userId = setCollectionRequestVO.getUi();
+		WorksCollection worksCollection = new WorksCollection();
+		worksCollection.setWorksId(worksId);
+		worksCollection.setUserId(userId);
+		try {
+			WorksCollection existWorksCollection = worksCollectionMapper.selectByWorksAndUser(worksCollection);
+			if(fn==1){
+				if(existWorksCollection!=null && existWorksCollection.getCollectionType()==0){
+					existWorksCollection.setCollectionType(1);
+					worksCollectionMapper.updateByPrimaryKey(existWorksCollection);
+				}else if(existWorksCollection ==null ){
+					worksCollection.setCollectionType(1);
+					worksCollectionMapper.insert(worksCollection);
+				}
+			}else{
+				if(existWorksCollection !=null && existWorksCollection.getCollectionType() == 1){
+					existWorksCollection.setCollectionType(0);
+					worksCollectionMapper.updateByPrimaryKey(existWorksCollection);
+				}
+			}
+		} catch (Exception e) {
+			LogUtils.error(getClass(), "setCollection has error : " + e);
+			callRollBack();
+			return 2;
+		}
+		return 1;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int deleteWork(int userId, int worksId) {
+		Works works = worksMapper.selectByPrimaryKey(worksId);
+		try {
+			if(works !=null && works.getUserId().equals(userId)){
+				worksMapper.deleteByPrimaryKey(worksId);
+			}else{
+				return 2;
+			}
+		} catch (Exception e) {
+			LogUtils.error(getClass(), "deleteWork has error : " + e);
+			callRollBack();
+			return 2;
+		}
+		return 1;
 	}
 
 }

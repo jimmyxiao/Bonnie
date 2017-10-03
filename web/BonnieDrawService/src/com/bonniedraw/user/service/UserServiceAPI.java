@@ -8,6 +8,7 @@ import com.bonniedraw.web_api.model.request.LoginRequestVO;
 import com.bonniedraw.web_api.model.request.UpdatePwdRequestVO;
 import com.bonniedraw.web_api.model.response.FriendResponseVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
+import com.bonniedraw.web_api.module.UserInfoResponse;
 
 public interface UserServiceAPI {
 	public boolean isLogin(ApiRequestVO apiRequestVO);
@@ -16,4 +17,5 @@ public interface UserServiceAPI {
 	public int updateUserInfo(UserInfo userInfo);
 	public int updatePwd(UpdatePwdRequestVO updatePwdRequestVO);
 	public FriendResponseVO getUserFriendsList(int userId, int thirdPlatform, List<Integer> uidList);
+	public List<UserInfoResponse> getFollowingList(int fn, int userId);
 }

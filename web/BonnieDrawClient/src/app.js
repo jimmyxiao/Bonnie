@@ -25,7 +25,7 @@ app.factory('baseHttp', function($rootScope, $http){
 	}
 	return {
 		service : function(url, params, callback, error){
-			url = rootUrl + url;
+			url = rootApi + url;
 			doService(url, params, callback, error);
 		}
 	}

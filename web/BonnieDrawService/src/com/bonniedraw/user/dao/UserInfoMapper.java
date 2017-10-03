@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
+import com.bonniedraw.web_api.module.UserInfoResponse;
 
 public interface UserInfoMapper {
 	int deleteByPrimaryKey(Integer userId);
@@ -34,5 +35,7 @@ public interface UserInfoMapper {
     UserInfo queryTokenUser(String token);
     
     List<UserInfo> getUserFriendsList(Map<String, Object> paramMap);
+    
+    List<UserInfoResponse> queryUserByIds(List<Integer> ids);
     
 }

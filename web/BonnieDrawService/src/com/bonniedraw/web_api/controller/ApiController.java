@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.systemsetup.model.SystemSetup;
+import com.bonniedraw.systemsetup.service.DictionaryService;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.UserServiceAPI;
@@ -28,13 +29,18 @@ import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.ServletUtil;
 import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.web_api.model.ApiRequestVO;
+import com.bonniedraw.web_api.model.request.CategoryListRequestVO;
+import com.bonniedraw.web_api.model.request.DeleteWorkRequestVO;
+import com.bonniedraw.web_api.model.request.DictionaryListRequestVO;
 import com.bonniedraw.web_api.model.request.DrawingPlayRequestVO;
 import com.bonniedraw.web_api.model.request.FileUploadRequestVO;
+import com.bonniedraw.web_api.model.request.FollowingListRequestVO;
 import com.bonniedraw.web_api.model.request.ForgetPwdRequestVO;
 import com.bonniedraw.web_api.model.request.FriendRequestVO;
 import com.bonniedraw.web_api.model.request.LeaveMsgRequestVO;
 import com.bonniedraw.web_api.model.request.LoadFileRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
+import com.bonniedraw.web_api.model.request.SetCollectionRequestVO;
 import com.bonniedraw.web_api.model.request.SetFollowingRequestVO;
 import com.bonniedraw.web_api.model.request.SetLikeRequestVO;
 import com.bonniedraw.web_api.model.request.SetTurnInRequestVO;
@@ -43,12 +49,17 @@ import com.bonniedraw.web_api.model.request.UserInfoQueryRequestVO;
 import com.bonniedraw.web_api.model.request.UserInfoUpdateRequestVO;
 import com.bonniedraw.web_api.model.request.WorkListRequestVO;
 import com.bonniedraw.web_api.model.request.WorksSaveRequestVO;
+import com.bonniedraw.web_api.model.response.CategoryListResponseVO;
+import com.bonniedraw.web_api.model.response.DeleteWorkResponseVO;
+import com.bonniedraw.web_api.model.response.DictionaryListResponseVO;
 import com.bonniedraw.web_api.model.response.DrawingPlayResponseVO;
 import com.bonniedraw.web_api.model.response.FileUploadResponseVO;
+import com.bonniedraw.web_api.model.response.FollowingListResponseVO;
 import com.bonniedraw.web_api.model.response.ForgetPwdResponseVO;
 import com.bonniedraw.web_api.model.response.FriendResponseVO;
 import com.bonniedraw.web_api.model.response.LeaveMsgResponseVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
+import com.bonniedraw.web_api.model.response.SetCollectionResponseVO;
 import com.bonniedraw.web_api.model.response.SetFollowingResponseVO;
 import com.bonniedraw.web_api.model.response.SetLikeResponseVO;
 import com.bonniedraw.web_api.model.response.SetTurnInResponseVO;
@@ -57,6 +68,8 @@ import com.bonniedraw.web_api.model.response.UserInfoQueryResponseVO;
 import com.bonniedraw.web_api.model.response.UserInfoUpdateResponseVO;
 import com.bonniedraw.web_api.model.response.WorkListResponseVO;
 import com.bonniedraw.web_api.model.response.WorksSaveResponseVO;
+import com.bonniedraw.web_api.module.CategoryInfoResponse;
+import com.bonniedraw.web_api.module.UserInfoResponse;
 import com.bonniedraw.web_api.module.WorksResponse;
 import com.bonniedraw.works.service.WorksServiceAPI;
 
@@ -75,6 +88,9 @@ public class ApiController {
 	
 	@Autowired
 	private WorksServiceAPI worksServiceAPI;
+	
+	@Autowired
+	private DictionaryService dictionaryService;
 	
  	private boolean isLogin(ApiRequestVO apiRequestVO){
 		if(ValidateUtil.isNotNumNone(apiRequestVO.getUi()) 
@@ -554,4 +570,94 @@ public class ApiController {
 		return respResult;
 	}
 	
+	@RequestMapping(value="/categoryList" , produces="application/json")
+	public @ResponseBody CategoryListResponseVO getCategoryList(HttpServletRequest request,HttpServletResponse resp, @RequestBody CategoryListRequestVO categoryListRequestVO) {
+		CategoryListResponseVO respResult = new CategoryListResponseVO();
+		respResult.setRes(2);
+		String msg = "";
+		if(isLogin(categoryListRequestVO)){
+			List<CategoryInfoResponse> categoryList =  worksServiceAPI.getCategoryList(categoryListRequestVO.getCategoryId());
+			respResult.setCategoryList(categoryList);
+			respResult.setRes(1);
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
+	@RequestMapping(value="/setCollection" , produces="application/json")
+	public @ResponseBody SetCollectionResponseVO setCollection(HttpServletRequest request,HttpServletResponse resp, @RequestBody SetCollectionRequestVO setCollectionRequestVO) {
+		SetCollectionResponseVO respResult = new SetCollectionResponseVO();
+		respResult.setRes(2);
+		String msg = "";
+		if(isLogin(setCollectionRequestVO)){
+			int fn = setCollectionRequestVO.getFn();
+			if(fn==1 || fn==0){
+				int res = worksServiceAPI.setCollection(setCollectionRequestVO);
+				respResult.setRes(res);
+			}else{
+				msg = "資料異常";
+			}
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
+	@RequestMapping(value="/followingList" , produces="application/json")
+	public @ResponseBody FollowingListResponseVO getFollowingList(HttpServletRequest request,HttpServletResponse resp, @RequestBody FollowingListRequestVO followingListRequestVO) {
+		FollowingListResponseVO respResult = new FollowingListResponseVO();
+		respResult.setRes(2);
+		String msg = "";
+		if(isLogin(followingListRequestVO)){
+			int fn = followingListRequestVO.getFn();
+			if(fn==1 || fn==2){
+				List<UserInfoResponse> userList = userServiceAPI.getFollowingList(fn, followingListRequestVO.getUi());
+				respResult.setUserList(userList);
+				respResult.setRes(1);
+			}else{
+				msg = "資料異常";
+			}
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
+	@RequestMapping(value="/deleteWork" , produces="application/json")
+	public @ResponseBody DeleteWorkResponseVO deleteWork(HttpServletRequest request,HttpServletResponse resp, @RequestBody DeleteWorkRequestVO deleteWorkRequestVO) {
+		DeleteWorkResponseVO respResult = new DeleteWorkResponseVO();
+		String msg = "";
+		if(isLogin(deleteWorkRequestVO)){
+			int res = worksServiceAPI.deleteWork(deleteWorkRequestVO.getUi(), deleteWorkRequestVO.getWorksId());
+			respResult.setRes(res);
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
+	@RequestMapping(value="/dictionaryList" , produces="application/json")
+	public @ResponseBody DictionaryListResponseVO getDictionaryList(HttpServletRequest request,HttpServletResponse resp, @RequestBody DictionaryListRequestVO dictionaryListRequestVO) {
+		DictionaryListResponseVO respResult = new DictionaryListResponseVO();
+		respResult.setRes(2);
+		String msg = "";
+		if(isLogin(dictionaryListRequestVO)){
+			int dictionaryType = dictionaryListRequestVO.getDictionaryType();
+			if(dictionaryType==1 || dictionaryType==2){
+				respResult.setDictionaryList(dictionaryService.getDictionaryList(dictionaryType, dictionaryListRequestVO.getDictionaryID()));
+				respResult.setRes(1);
+			}else{
+				msg = "資料異常";
+			}
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
 }

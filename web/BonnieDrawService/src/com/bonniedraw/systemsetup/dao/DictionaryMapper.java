@@ -1,5 +1,8 @@
 package com.bonniedraw.systemsetup.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.bonniedraw.systemsetup.model.Dictionary;
 
 public interface DictionaryMapper {
@@ -14,4 +17,6 @@ public interface DictionaryMapper {
     int updateByPrimaryKeySelective(Dictionary record);
 
     int updateByPrimaryKey(Dictionary record);
+    
+    List<Dictionary> queryDictionaryList(Map<String, Object> paramMap);
 }

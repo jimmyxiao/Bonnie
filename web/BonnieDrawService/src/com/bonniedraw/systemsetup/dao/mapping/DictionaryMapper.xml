@@ -90,4 +90,13 @@
       DICTIONARY_ORDER = #{dictionaryOrder,jdbcType=INTEGER}
     where DICTIONARY_ID = #{dictionaryId,jdbcType=INTEGER}
   </update>
+  
+  <select id="queryDictionaryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dictionary
+    where DICTIONARY_TYPE = #{dictionaryType,jdbcType=INTEGER}
+    <if test="dictionaryId !=null or dictionaryId !=0 ">and DICTIONARY_ID = #{dictionaryId, jdbcType=INTEGER}</if> 
+  </select>
+  
 </mapper>

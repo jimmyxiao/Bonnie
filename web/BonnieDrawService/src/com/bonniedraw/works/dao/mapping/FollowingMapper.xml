@@ -75,4 +75,14 @@
     and FOLLOWING_USER_ID = #{followingUserId,jdbcType=INTEGER}
   </delete>
   
+  <select id="selectTrackOrFans" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select 
+    <if test="fn == 1"> FOLLOWING_USER_ID </if>
+    <if test="fn == 2"> USER_ID </if>
+    from following
+    where 1=1
+    <if test="fn == 1">	and USER_ID = #{userId, jdbcType=INTEGER} </if>
+    <if test="fn == 2"> and FOLLOWING_USER_ID = #{userId, jdbcType=INTEGER} </if>
+  </select>
+  
 </mapper>

@@ -14,4 +14,6 @@ public interface WorksCollectionMapper {
     int updateByPrimaryKeySelective(WorksCollection record);
 
     int updateByPrimaryKey(WorksCollection record);
+    
+    WorksCollection selectByWorksAndUser(WorksCollection record);
 }

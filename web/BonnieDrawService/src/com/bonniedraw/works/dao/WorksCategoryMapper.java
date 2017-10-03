@@ -20,4 +20,8 @@ public interface WorksCategoryMapper {
     int insertWorksCategoryList(List<WorksCategory> categorieyList);
     
     int updateWorksCategoryList(List<WorksCategory> categorieyList);
+    
+    int deleteWorksCategoryList(List<WorksCategory> categorieyList);
+    
+    List<WorksCategory> selectByWorksId(Integer worksId);
 }
