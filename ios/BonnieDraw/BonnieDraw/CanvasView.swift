@@ -418,7 +418,7 @@ class CanvasView: UIView {
     }
 
     private func calculateRectForRedraw() -> CGRect {
-        let p = CGPoint(x: min(currentPoint.x, lastPoint.x) - size, y: min(currentPoint.y, lastPoint.y - size))
+        let p = CGPoint(x: min(currentPoint.x, lastPoint.x) - size, y: min(currentPoint.y, lastPoint.y) - size)
         let s = CGSize(width: max(currentPoint.x, lastPoint.x) - p.x + size, height: max(currentPoint.y, lastPoint.y) - p.y + size)
         return CGRect(origin: p, size: s)
     }

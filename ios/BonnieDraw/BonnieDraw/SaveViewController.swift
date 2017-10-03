@@ -8,30 +8,27 @@
 
 import UIKit
 
-class SaveViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
-    @IBOutlet weak var alertBox: UIVisualEffectView!
-    @IBOutlet weak var name: UITextField!
+class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate {
+    @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var workDescription: UITextView!
-    var delegate: SaveViewControllerDelegate?
+    @IBOutlet weak var workTitle: UITextField!
     var keyboardOnScreen = false
+    var workThumbnailData: Data?
+    var workFileData: Data?
+    let client = RestClient.standard(withPath: Service.WORK_SAVE)
 
     override func viewDidLoad() {
         workDescription.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+        if let workThumbnailData = workThumbnailData {
+            thumbnail.image = UIImage(data: workThumbnailData)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        alertBox.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        UIView.animate(withDuration: 0.3) {
-            self.alertBox.alpha = 1
-            self.alertBox.transform = CGAffineTransform(scaleX: 1, y: 1)
-        }
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -58,49 +55,40 @@ class SaveViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         keyboardOnScreen = false
     }
 
-    @IBAction func cancel(_ sender: Any) {
-        UIView.animate(withDuration: 0.3, animations: {
-            self.view.alpha = 0
-        }) {
-            finished in
-            self.dismiss(animated: false)
-        }
-    }
-
     @IBAction func save(_ sender: Any) {
-        let name = self.name.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        if name.isEmpty {
-            presentDialog(title: "alert_save_fail_title".localized, message: "alert_save_fail_name_empty".localized) {
-                action in
-                self.name.becomeFirstResponder()
-            }
-        } else if description.isEmpty {
+        let title = self.workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if description.isEmpty {
             presentDialog(title: "alert_save_fail_title".localized, message: "alert_save_fail_description_empty".localized) {
                 action in
                 self.workDescription.becomeFirstResponder()
             }
-        } else {
-            delegate?.save(with: name, description: description, category: "")
-            UIView.animate(withDuration: 0.3, animations: {
-                self.view.alpha = 0
-            }) {
-                finished in
-                self.dismiss(animated: false)
+        } else if title.isEmpty {
+            presentDialog(title: "alert_save_fail_title".localized, message: "alert_save_fail_name_empty".localized) {
+                action in
+                self.workTitle.becomeFirstResponder()
+            }
+        } else if let id = UserDefaults.standard.string(forKey: Default.USER_ID),
+                  let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
+            client.getResponse(data: ["ui": id, "lk": token, "dt": 2, "ac": 1, "privacyType": 1, "title": title, "description": description, "languageId": 1, "countryId": 1]) {
+                success, data in
+                if success {
+                } else {
+                }
             }
         }
     }
 
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == name {
-            workDescription.becomeFirstResponder()
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            workTitle.becomeFirstResponder()
             return false
         }
+        return true
+    }
+
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-}
-
-protocol SaveViewControllerDelegate {
-    func save(with name: String, description: String, category: String)
 }

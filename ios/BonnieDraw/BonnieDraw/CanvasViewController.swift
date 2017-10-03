@@ -13,8 +13,7 @@ class CanvasViewController:
         UIPopoverPresentationControllerDelegate,
         CanvasViewDelegate,
         SizePickerViewControllerDelegate,
-        ColorPickerViewControllerDelegate,
-        SaveViewControllerDelegate {
+        ColorPickerViewControllerDelegate {
     @IBOutlet weak var canvas: CanvasView!
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var redoButton: UIBarButtonItem!
@@ -81,7 +80,8 @@ class CanvasViewController:
             let maxHeight = view.bounds.height - 111
             controller.preferredContentSize = CGSize(width: 44, height: height > maxHeight ? maxHeight : height)
         } else if let controller = segue.destination as? SaveViewController {
-            controller.delegate = self
+            controller.workThumbnailData = canvas.thumbnailData()
+            controller.workFileData = canvas.fileData()
         }
     }
 
@@ -145,16 +145,5 @@ class CanvasViewController:
         canvas.color = color
         sizeButton.tintColor = color
         colorButton.tintColor = color
-    }
-
-    func save(with name: String, description: String, category: String) {
-        if let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-           let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
-            client.components.path = Service.WORK_SAVE
-            client.getResponse(data: ["ui": userId, "lk": token, "dt": 2, "ac": 1, "privacyType": 1, "title": name, "description": description]) {
-                success, data in
-                Logger.d("\(success) \(data)")
-            }
-        }
     }
 }
