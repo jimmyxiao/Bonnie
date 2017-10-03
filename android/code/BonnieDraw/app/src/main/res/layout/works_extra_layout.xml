@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#50505050">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
@@ -22,11 +23,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/shape_save_border"
+                android:background="@drawable/shape_save_border_text"
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/btn_extra_share"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
@@ -40,7 +41,7 @@
                     android:background="#aaa" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btn_extra_copylink"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
@@ -54,7 +55,7 @@
                     android:background="#aaa" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/btn_extra_report"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
@@ -68,14 +69,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/top_view"
                 android:layout_marginTop="4dp"
-                android:background="@color/White"
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/btn_extra_cancel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_save_border"
+                    android:background="@drawable/shape_save_border_text"
                     android:text="取消"
                     android:textColor="@color/Blue" />
 

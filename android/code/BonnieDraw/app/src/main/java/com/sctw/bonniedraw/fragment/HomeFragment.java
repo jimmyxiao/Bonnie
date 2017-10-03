@@ -1,8 +1,6 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,10 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.works.WorkAdapterList;
 import com.sctw.bonniedraw.works.WorkListOnClickListener;
 
@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
         myDataset.add("ALDSIJALI@ELQIELM");
         WorkAdapterList mAdapter = new WorkAdapterList(myDataset, new WorkListOnClickListener() {
             @Override
-            public void onWorkClick(int postion) {
+            public void onWorkImgClick(int postion) {
                 Log.d("POSTION CLICK", "POSTION=" + String.valueOf(postion));
                 fm = getChildFragmentManager();
                 fm.beginTransaction()
@@ -75,23 +75,59 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onWorkExtraClick(final int postion) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                View dialogView = getLayoutInflater().inflate(R.layout.works_extra_layout, null);
-                builder.setView(dialogView);
-                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.works_extra_layout);
+                Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
+                Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
+                Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
+                Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
+                extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogStyle;
+                extraShare.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.d("POSTION CLICK", "POSTION=" + String.valueOf(postion));
-                        dialogInterface.dismiss();
+                    public void onClick(View view) {
+                        Log.d("POSTION CLICK", "extraShare");
+                        extraDialog.dismiss();
                     }
                 });
-                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+                extraCopyLink.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    public void onClick(View view) {
+                        Log.d("POSTION CLICK", "extraCopyLink");
+                        extraDialog.dismiss();
                     }
                 });
-                builder.create().show();
+
+                extraReport.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("POSTION CLICK", "extraReport");
+                        extraDialog.dismiss();
+                    }
+                });
+
+                extraCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        extraDialog.dismiss();
+                    }
+                });
+
+                extraDialog.show();
+            }
+
+            @Override
+            public void onWorkGoodClick(int postion) {
+
+            }
+
+            @Override
+            public void onWorkMsgClick(int postion) {
+
+            }
+
+            @Override
+            public void onWorkShareClick(int postion) {
+
             }
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

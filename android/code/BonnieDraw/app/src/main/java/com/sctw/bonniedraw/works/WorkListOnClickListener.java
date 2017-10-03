@@ -5,6 +5,9 @@ package com.sctw.bonniedraw.works;
  */
 
 public interface WorkListOnClickListener {
-    void onWorkClick(int postion);
+    void onWorkImgClick(int postion);
     void onWorkExtraClick(int postion);
+    void onWorkGoodClick(int postion);
+    void onWorkMsgClick(int postion);
+    void onWorkShareClick(int postion);
 }

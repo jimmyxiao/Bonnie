@@ -149,13 +149,28 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 mAdapterList = new WorkAdapterList(myDataset, new WorkListOnClickListener() {
                     @Override
-                    public void onWorkClick(int postion) {
-                        Log.d("POSTION CLICK","No."+String.valueOf(postion));
+                    public void onWorkImgClick(int postion) {
+                        Log.d("onWorkImgClick","No."+String.valueOf(postion));
                     }
 
                     @Override
                     public void onWorkExtraClick(int postion) {
+                        Log.d("onWorkExtraClick","No."+String.valueOf(postion));
+                    }
 
+                    @Override
+                    public void onWorkGoodClick(int postion) {
+                        Log.d("onWorkGoodClick","No."+String.valueOf(postion));
+                    }
+
+                    @Override
+                    public void onWorkMsgClick(int postion) {
+                        Log.d("onWorkMsgClick","No."+String.valueOf(postion));
+                    }
+
+                    @Override
+                    public void onWorkShareClick(int postion) {
+                        Log.d("onWorkShareClick","No."+String.valueOf(postion));
                     }
                 });
                 profileRecyclerView.setLayoutManager(layoutManager);

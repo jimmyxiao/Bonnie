@@ -11,8 +11,8 @@ import com.sctw.bonniedraw.R;
  */
 
 public class FullScreenDialog extends Dialog {
-    public FullScreenDialog(@NonNull Context context) {
+    public FullScreenDialog(@NonNull Context context,int layout) {
         super(context, R.style.FullScreenDialog);
-        setContentView(R.layout.paint_save_dialog);
+        setContentView(layout);
     }
 }

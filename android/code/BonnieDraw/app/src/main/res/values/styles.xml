@@ -54,4 +54,9 @@
         <item name="@android:windowExitAnimation">@anim/slide_bottom</item>
     </style>
 
+    <style name="FullScreenDialogStyle" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/alpha</item>
+        <item name="@android:windowExitAnimation">@anim/alpha_end</item>
+    </style>
+
 </resources>

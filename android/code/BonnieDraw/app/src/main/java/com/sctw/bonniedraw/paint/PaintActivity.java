@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -41,6 +42,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
@@ -89,7 +91,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private String fname; // file name
     private Paint mPaint;
     private int count = 0;
-    private ImageButton btnAutoPlay, btnPlay, btnRedo, btnUndo, btnColorpicker, btnNext, btnPrevious, btnGrid, btnOpenAutoPlay, btnSize;
+    private ImageButton btnAutoPlay, btnPlay, btnRedo, btnUndo, btnNext, btnPrevious, btnGrid, btnOpenAutoPlay, btnSize;
     private List<Integer> tempTagLength = new ArrayList<Integer>();
     private List<TagPoint> mTagPoint_a_record, undoTagPoint_a_record;
     private Handler handler_Timer_Play = new Handler();
@@ -99,7 +101,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private ColorPicker colorPicker;
     private SizePicker sizePicker;
     private FullScreenDialog saveDialog;
-    AlertDialog sketchDialog;
     BDWFileReader reader = new BDWFileReader();
     File file;
     float startX, startSacle, startY, pointLength;
@@ -154,7 +155,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         sizePicker.getWindow().setGravity(Gravity.START);
         sizePicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         sizePicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
-        btnColorpicker = (ImageButton) findViewById(R.id.id_btn_colorpicker);
 
         mTagPoint_a_record = new ArrayList<TagPoint>();
         undoTagPoint_a_record = new ArrayList<TagPoint>();
@@ -530,14 +530,16 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     };
 
     private void savePictureEdit() {
-        saveDialog = new FullScreenDialog(this);
+        saveDialog = new FullScreenDialog(this,R.layout.paint_save_dialog);
         final EditText workName = (EditText) saveDialog.findViewById(R.id.paint_save_work_name);
         final EditText workDescription = (EditText) saveDialog.findViewById(R.id.paint_save_work_description);
         ImageView workPreview = saveDialog.findViewById(R.id.save_paint_preview);
         Button saveWork = (Button) saveDialog.findViewById(R.id.btn_save_paint_save);
         ImageButton saveCancel = (ImageButton) saveDialog.findViewById(R.id.btn_save_paint_back);
-        File pngfile = null;
+        RadioGroup privacyTypes=(RadioGroup) saveDialog.findViewById(R.id.paint_save_work_privacytype);
 
+
+        File pngfile = null;
         try {
             File vPath = new File(getFilesDir() + "/bonniedraw");
             if (!vPath.exists()) vPath.mkdirs();
@@ -553,6 +555,25 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             if (pngfile != null && pngfile.exists()) pngfile.delete();
         }
 
+        //設定公開權限與預設值
+        privacyTypes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                switch (i){
+                    case R.id.work_privacytype_public:
+                        privacyType=1;
+                        break;
+                    case R.id.work_privacytype_private:
+                        privacyType=2;
+                        break;
+                    case R.id.work_privacytype_close:
+                        privacyType=3;
+                        break;
+                }
+            }
+        });
+        privacyTypes.check(R.id.work_privacytype_public);
+
         saveWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -562,16 +583,16 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
                         json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-                        json.put("ac", "1");
+                        json.put("ac", 1); // 1 = add , 2 = update
                         json.put("userId", prefs.getString(GlobalVariable.API_UID, "null"));
-                        json.put("privacyType", String.valueOf(privacyType));
+                        json.put("privacyType", privacyType);
                         json.put("title", workName.getText().toString());
                         json.put("description", workDescription.getText().toString());
                         //json.put("languageId", 1);
                         //json.put("countryId", 886);
                         //json.putOpt("categoryList", jsonList);
                         Log.d("LOGIN JSON: ", json.toString());
-                        fileInfo(json);
+                        //fileInfo(json,GlobalVariable.WORK_SAVE_URL);
                         saveDialog.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -591,7 +612,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 saveDialog.dismiss();
             }
         });
-
+        saveDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogStyle;
         saveDialog.show();
     }
 
@@ -643,12 +664,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         return false;
     }
 
-    public void fileInfo(JSONObject json) {
+    public void fileInfo(JSONObject json,String url) {
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = FormBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/worksSave")
+                .url(url)
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {

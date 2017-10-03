@@ -14,7 +14,7 @@ public class GlobalVariable {
     public static final String userImgUrlStr="userImgUrl";
 
     public static final String fileURIStr="fileURI";
-
+    public static final String WORK_SAVE_URL="https://www.bonniedraw.com/bonniedraw_service/BDService/worksSave";
 
     public static final String LOGIN_PLATFORM="1";
 
@@ -29,4 +29,8 @@ public class GlobalVariable {
     public static final int API_LOGIN_CODE=1;
     public static final int API_REGISTER_CODE=2;
     public static final int API_CHECK_EMAIL_CODE=3;
+
+
+
+
 }
