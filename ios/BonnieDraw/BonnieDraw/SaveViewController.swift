@@ -70,7 +70,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
             }
         } else if let id = UserDefaults.standard.string(forKey: Default.USER_ID),
                   let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
-            client.getResponse(data: ["ui": id, "lk": token, "dt": 2, "ac": 1, "privacyType": 1, "title": title, "description": description, "languageId": 1, "countryId": 1]) {
+            client.getResponse(data: ["ui": id, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": 1, "title": title, "description": description, "languageId": 1, "countryId": 1]) {
                 success, data in
                 if success {
                 } else {

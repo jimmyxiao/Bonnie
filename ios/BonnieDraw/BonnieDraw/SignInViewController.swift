@@ -42,7 +42,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             return
         }
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let password = self.password.text ?? ""
+        var password = self.password.text?.MD5() ?? ""
         if email.isEmpty {
             presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
                 action in
@@ -67,7 +67,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             view.endEditing(true)
             loading.hide(hide: false)
             client.components.path = Service.LOGIN
-            client.getResponse(queries: nil, data: ["uc": email, "up": password.MD5(), "ut": 1, "dt": 2, "fn": 1]) {
+            client.getResponse(queries: nil, data: ["uc": email, "up": password, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 1]) {
                 success, data in
                 guard success, let response = data?["res"] as? Int else {
                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
@@ -75,9 +75,21 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     return
                 }
                 if response == 1, let token = data?["lk"] as? String, let userId = data?["ui"] as? Int {
-                    UserDefaults.standard.set(token, forKey: Default.TOKEN)
-                    UserDefaults.standard.set(userId, forKey: Default.USER_ID)
-                    self.launchMain()
+                    self.client.components.path = Service.CATEGORY_LIST
+                    self.client.getResponse(data: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE]) {
+                        success, data in
+                        if success {
+                            let defaults = UserDefaults.standard
+                            defaults.set(token, forKey: Default.TOKEN)
+                            defaults.set(userId, forKey: Default.USER_ID)
+                            defaults.set(email, forKey: Default.EMAIL)
+                            defaults.set(password, forKey: Default.PASSWORD)
+                            defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                            self.launchMain()
+                        } else {
+                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
+                        }
+                    }
                 } else {
                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
                     self.loading.hide(hide: true)
@@ -178,13 +190,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     @objc private func launchMain() {
-        if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() {
-            UIApplication.shared.replace(rootViewControllerWith: controller)
-        }
+        UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
     }
 
     private func checkAndLogin(withUserType type: UserType, userId id: String, name: String, email: String, imageUrl: String?) {
-        var postData: [String: Any] = ["uc": id, "un": name, "ut": type.rawValue, "dt": 2, "fn": 3, "thirdEmail": email]
+        var postData: [String: Any] = ["uc": id, "un": name, "ut": type.rawValue, "dt": SERVICE_DEVICE_TYPE, "fn": 3, "thirdEmail": email]
         if let imageUrl = imageUrl {
             postData["thirdPictureUrl"] = imageUrl
         }
@@ -200,16 +210,26 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                 }
                 if response == 1,
                    let token = data?["lk"] as? String, let userId = data?["ui"] as? Int {
-                    let defaults = UserDefaults.standard
-                    defaults.set(token, forKey: Default.TOKEN)
-                    defaults.set(userId, forKey: Default.USER_ID)
-                    defaults.set(type.rawValue, forKey: Default.USER_TYPE)
-                    defaults.set(id, forKey: Default.THIRD_PARTY_ID)
-                    defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
-                    if let imageUrl = imageUrl {
-                        defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                    self.client.components.path = Service.CATEGORY_LIST
+                    self.client.getResponse(data: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE]) {
+                        success, data in
+                        if success {
+                            let defaults = UserDefaults.standard
+                            defaults.set(token, forKey: Default.TOKEN)
+                            defaults.set(userId, forKey: Default.USER_ID)
+                            defaults.set(type.rawValue, forKey: Default.USER_TYPE)
+                            defaults.set(id, forKey: Default.THIRD_PARTY_ID)
+                            defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
+                            defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
+                            if let imageUrl = imageUrl {
+                                defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                            }
+                            defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                            self.launchMain()
+                        } else {
+                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
+                        }
                     }
-                    self.launchMain()
                 } else {
                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
                     self.loading.hide(hide: true)

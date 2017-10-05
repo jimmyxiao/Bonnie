@@ -22,13 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Twitter.sharedInstance().start(
                 withConsumerKey: Bundle.main.infoDictionary?["TwitterConsumerKey"] as! String,
                 consumerSecret: Bundle.main.infoDictionary?["TwitterConsumerSecret"] as! String)
-        window = UIWindow(frame: UIScreen.main.bounds)
-        if UserDefaults.standard.object(forKey: Default.TOKEN) == nil {
-            window?.rootViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
-        } else {
-            window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-        }
-        window?.makeKeyAndVisible()
         return true
     }
 

@@ -41,6 +41,8 @@
 		1664F4B51F74E3F100809C32 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1664F4B41F74E3F100809C32 /* Login.storyboard */; };
 		1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4B61F74E5BB00809C32 /* ParentViewController.swift */; };
 		1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4BC1F75123C00809C32 /* TabBarViewController.swift */; };
+		166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */; };
+		166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF411F860E7900274C6C /* SplashViewController.swift */; };
 		169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169C71CA1F66AFEF00B5D786 /* Constant.swift */; };
 		16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */; };
 		16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */; };
@@ -91,6 +93,8 @@
 		1664F4B41F74E3F100809C32 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Login.storyboard; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		1664F4B61F74E5BB00809C32 /* ParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentViewController.swift; sourceTree = "<group>"; };
 		1664F4BC1F75123C00809C32 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStatusBarViewController.swift; sourceTree = "<group>"; };
+		166BDF411F860E7900274C6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		169C71CA1F66AFEF00B5D786 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButtonViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +212,8 @@
 				164ED2521F7BA45E00E8B910 /* ColorPickerViewController.swift */,
 				16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */,
 				16332A221F7F3048007857E3 /* SaveViewController.swift */,
+				166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */,
+				166BDF411F860E7900274C6C /* SplashViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -397,7 +403,9 @@
 				163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */,
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
+				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,
+				166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
 				16332A231F7F3048007857E3 /* SaveViewController.swift in Sources */,
 				1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */,

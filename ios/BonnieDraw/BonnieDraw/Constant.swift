@@ -15,6 +15,7 @@ let MAX_TIMESTAMP: TimeInterval = 3
 let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 let ERASER_COLOR = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+let SERVICE_DEVICE_TYPE = 2
 
 enum Function: UInt16 {
     case draw = 0xa101
@@ -65,9 +66,11 @@ struct Service {
     static let FOLLOW = "\(BASE)/setFollowing"
     static let REPORT = "\(BASE)/setTurnin"
     static let UPDATE_PASSWORD = "\(BASE)/updatePwd"
+    static let CATEGORY_LIST = "\(BASE)/categoryList"
 }
 
 struct Identifier {
+    static let PARENT = "parentViewController"
     static let HOME = "homeViewController"
     static let COLLECTION = "collectionViewController"
     static let NOTIFICATION = "notificationViewController"
@@ -78,10 +81,14 @@ struct Segue {
 }
 
 struct Default {
+    static let TOKEN_TIMESTAMP = "tokenTimestamp"
     static let TOKEN = "token"
     static let USER_ID = "userId"
+    static let EMAIL = "email"
+    static let PASSWORD = "password"
     static let USER_TYPE = "userType"
     static let THIRD_PARTY_ID = "thirdPartyId"
     static let THIRD_PARTY_NAME = "thirdPartyName"
+    static let THIRD_PARTY_EMAIL = "thirdPartyEmail"
     static let THIRD_PARTY_IMAGE = "thirdPartyImage"
 }

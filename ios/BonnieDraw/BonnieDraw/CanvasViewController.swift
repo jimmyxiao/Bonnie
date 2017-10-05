@@ -41,14 +41,6 @@ class CanvasViewController:
         UIGraphicsEndImageContext()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.statusBarStyle = .lightContent
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        UIApplication.shared.statusBarStyle = .default
-    }
-
     @IBAction func undo(_ sender: Any) {
         canvas.undo()
     }

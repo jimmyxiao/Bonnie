@@ -55,7 +55,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
         } else {
             view.endEditing(true)
             loading.hide(hide: false)
-            client.getResponse(queries: nil, data: ["uc": email, "up": password.MD5(), "un": name, "ut": 1, "dt": 2, "fn": 2]) {
+            client.getResponse(queries: nil, data: ["uc": email, "up": password.MD5(), "un": name, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 2]) {
                 success, data in
                 guard success, let response = data?["res"] as? Int else {
                     self.presentDialog(title: "alert_sign_up_fail_title".localized, message: "app_network_unreachable_content".localized)

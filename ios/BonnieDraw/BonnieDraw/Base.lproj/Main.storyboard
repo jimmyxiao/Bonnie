@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yXb-xA-XFY">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -15,7 +15,7 @@
         <!--Parent View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="rootViewController" id="BYZ-38-t0r" customClass="ParentViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="parentViewController" id="BYZ-38-t0r" customClass="ParentViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -395,6 +395,32 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OQy-o9-POC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="904" y="774"/>
+        </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="fYN-7y-jDq">
+            <objects>
+                <viewController id="yXb-xA-XFY" customClass="SplashViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6IL-hZ-VAE">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KhR-Wm-bYG">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="KhR-Wm-bYG" firstAttribute="top" secondItem="6IL-hZ-VAE" secondAttribute="top" id="a0Z-wr-cV1"/>
+                            <constraint firstItem="KhR-Wm-bYG" firstAttribute="trailing" secondItem="zaF-nm-TG1" secondAttribute="trailing" id="e4I-nL-lUa"/>
+                            <constraint firstItem="KhR-Wm-bYG" firstAttribute="leading" secondItem="zaF-nm-TG1" secondAttribute="leading" id="sZP-6J-lde"/>
+                            <constraint firstItem="KhR-Wm-bYG" firstAttribute="bottom" secondItem="zaF-nm-TG1" secondAttribute="bottom" id="xKc-08-7dP"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="zaF-nm-TG1"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6wc-d3-3At" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="20.625" y="-673.94366197183103"/>
         </scene>
         <!--Drawer View Controller-->
         <scene sceneID="B1H-cj-1f1">
@@ -846,10 +872,10 @@
             </objects>
             <point key="canvasLocation" x="3420" y="35.91549295774648"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Light Status Bar View Controller-->
         <scene sceneID="zhx-dz-6o1">
             <objects>
-                <navigationController navigationBarHidden="YES" id="mnH-B6-a5k" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="mnH-B6-a5k" customClass="LightStatusBarViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5Xh-cb-IWW">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
