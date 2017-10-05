@@ -16,7 +16,7 @@ class CanvasView: UIView {
     var redoPaths = [Path]()
     var lastTimestamp: TimeInterval = -1
     var persistentImage: UIImage?
-    private var lastPoint = CGPoint.zero, currentPoint = CGPoint.zero
+    private var controlPoint = CGPoint.zero, currentPoint = CGPoint.zero
     private var url: URL?
     private var writeHandle: FileHandle?
     private var readHandle: FileHandle?
@@ -75,7 +75,7 @@ class CanvasView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        persistentImage?.draw(in: rect)
+        persistentImage?.draw(in: bounds)
         for path in paths {
             path.color.setStroke()
             path.bezierPath.stroke()
@@ -164,7 +164,7 @@ class CanvasView: UIView {
             }
             let point = animationPoints.removeFirst()
             currentPoint = point.position
-            lastPoint = currentPoint
+            controlPoint = currentPoint
             if bounds.contains(currentPoint) {
                 color = point.color
                 size = point.size
@@ -178,8 +178,8 @@ class CanvasView: UIView {
                                 color: color))
             }
             delegate?.canvasPathsWillBeginAnimation()
-            animate()
             persistentImage = nil
+            setNeedsDisplay()
         } catch let error {
             Logger.d(error.localizedDescription)
         }
@@ -191,19 +191,24 @@ class CanvasView: UIView {
                 let point = animationPoints.removeFirst()
                 currentPoint = point.position
                 if point.action != .down {
-                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
+                    var points = [CGPoint]()
+                    if let lastPoint = paths.last?.bezierPath.currentPoint {
+                        points.append(lastPoint)
+                    }
+                    points.append(point.position)
+                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
                     paths.last?.points.append(point)
                     if point.action == .up {
                         drawToPersistentImage(saveToFile: false)
                     }
                     animationTimer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
                         timer in
-                        self.setNeedsDisplay()
+                        self.setNeedsDisplay(self.calculateRedrawRect(forPoints: points))
                     }
-                    lastPoint = currentPoint
+                    controlPoint = currentPoint
                 } else {
                     currentPoint = point.position
-                    lastPoint = currentPoint
+                    controlPoint = currentPoint
                     if bounds.contains(currentPoint) {
                         color = point.color
                         size = point.size
@@ -310,7 +315,7 @@ class CanvasView: UIView {
                 lastTimestamp = touch.timestamp
             }
             currentPoint = touch.location(in: self)
-            lastPoint = currentPoint
+            controlPoint = currentPoint
             if bounds.contains(currentPoint) {
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
@@ -334,10 +339,15 @@ class CanvasView: UIView {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
+            var points = [CGPoint]()
+            if let lastPoint = paths.last?.bezierPath.currentPoint {
+                points.append(lastPoint)
+            }
             for touch in coalescedTouches {
                 currentPoint = touch.location(in: self)
-                if bounds.contains(currentPoint) && currentPoint != lastPoint {
-                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
+                points.append(currentPoint)
+                if bounds.contains(currentPoint) && currentPoint != controlPoint {
+                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
                     let timestamp = touch.timestamp - lastTimestamp
                     paths.last?.points.append(
                             Point(length: LENGTH_SIZE,
@@ -349,21 +359,26 @@ class CanvasView: UIView {
                                     type: .round,
                                     duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
                     lastTimestamp = touch.timestamp
-                    lastPoint = currentPoint
+                    controlPoint = currentPoint
                 }
             }
-            setNeedsDisplay()
+            setNeedsDisplay(calculateRedrawRect(forPoints: points))
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
+            var points = [CGPoint]()
+            if let lastPoint = paths.last?.bezierPath.currentPoint {
+                points.append(lastPoint)
+            }
             for touch in coalescedTouches {
                 currentPoint = touch.location(in: self)
+                points.append(currentPoint)
                 let timestamp = touch.timestamp - lastTimestamp
                 if bounds.contains(currentPoint) {
-                    if currentPoint != lastPoint {
-                        paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + lastPoint.x) / 2, y: (currentPoint.y + lastPoint.y) / 2), controlPoint: lastPoint)
+                    if currentPoint != controlPoint {
+                        paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
                         paths.last?.points.append(
                                 Point(length: LENGTH_SIZE,
                                         function: .draw,
@@ -374,7 +389,7 @@ class CanvasView: UIView {
                                         type: .round,
                                         duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
                         lastTimestamp = touch.timestamp
-                        lastPoint = currentPoint
+                        controlPoint = currentPoint
                     } else {
                         paths.last?.bezierPath.addLine(to: currentPoint)
                         paths.last?.points.append(
@@ -390,7 +405,7 @@ class CanvasView: UIView {
                 }
             }
             drawToPersistentImage(saveToFile: true)
-            setNeedsDisplay()
+            setNeedsDisplay(calculateRedrawRect(forPoints: points))
             redoPaths.removeAll()
             delegate?.canvasPathsDidChange()
         }
@@ -417,10 +432,21 @@ class CanvasView: UIView {
         }
     }
 
-    private func calculateRectForRedraw() -> CGRect {
-        let p = CGPoint(x: min(currentPoint.x, lastPoint.x) - size, y: min(currentPoint.y, lastPoint.y) - size)
-        let s = CGSize(width: max(currentPoint.x, lastPoint.x) - p.x + size, height: max(currentPoint.y, lastPoint.y) - p.y + size)
-        return CGRect(origin: p, size: s)
+    private func calculateRedrawRect(forPoints points: [CGPoint]) -> CGRect {
+        var minX: CGFloat = bounds.width
+        var minY: CGFloat = bounds.height
+        var maxX: CGFloat = 0
+        var maxY: CGFloat = 0
+        for point in points {
+            minX = min(minX, point.x)
+            minY = min(minY, point.y)
+            maxX = max(maxX, point.x)
+            maxY = max(maxY, point.y)
+        }
+        let origin = CGPoint(x: minX - size, y: minY - size)
+        return CGRect(
+                origin: CGPoint(x: minX - size, y: minY - size),
+                size: CGSize(width: maxX - origin.x + size, height: maxY - origin.y + size))
     }
 }
 
