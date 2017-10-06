@@ -271,7 +271,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
                 miPointCount--;
                 miPointCurrent++;
-                paintPlayProgress.setText(miPointCurrent*100/ mTagPoint_a_record.size() + " / " + "100%");
+                paintPlayProgress.setText(miPointCurrent * 100 / mTagPoint_a_record.size() + " / " + "100%");
 
                 if (brun) {
                     handler_Timer_Play.postDelayed(rb_play, 50);
@@ -1171,17 +1171,27 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 PaintActivity.this.finish();
             }
         });
+        builder.setNeutralButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
         builder.create().show();
     }
 
     public void onBackMethod() {
-        if (mTagPoint_a_record.size() != 0 && !file.exists()) {
-            callSaveDialog(0);
-        } else if (file.exists() && mTagPoint_a_record.size() != reader.m_tagArray.size()) {
-            callSaveDialog(1);
-        } else {
-            PaintActivity.this.finish();
+        if (!zoomMode&&!playState) {
+            if (mTagPoint_a_record.size() != 0 && !file.exists()) {
+                callSaveDialog(0);
+            } else if (file.exists() && mTagPoint_a_record.size() != reader.m_tagArray.size()) {
+                callSaveDialog(1);
+            } else {
+                PaintActivity.this.finish();
+            }
         }
+
     }
 
     public void back(View view) {

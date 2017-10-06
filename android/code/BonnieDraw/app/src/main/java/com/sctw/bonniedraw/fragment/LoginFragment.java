@@ -305,7 +305,7 @@ public class LoginFragment extends Fragment {
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,picture");
+                parameters.putString("fields", "id,name,email,picture.type(large)");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
