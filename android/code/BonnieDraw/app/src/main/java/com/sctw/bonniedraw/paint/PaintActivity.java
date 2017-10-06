@@ -36,6 +36,8 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -43,6 +45,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
@@ -56,6 +60,7 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -101,13 +106,15 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private ColorPicker colorPicker;
     private SizePicker sizePicker;
     private FullScreenDialog saveDialog;
+    private TextView paintPlayProgress;
     BDWFileReader reader = new BDWFileReader();
     File file;
     float startX, startSacle, startY, pointLength;
     int offsetX, offsetY, realPaint;
     SharedPreferences prefs;
     Xfermode earseEffect;
-    private int privacyType;
+    private int privacyType, listNumCheck;
+    ArrayList<String> listString, listNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +140,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         //view inti
         mViewFreePaint = (FrameLayout) findViewById(R.id.view_freepaint);
         mViewFreePaint.addView(myView);
-
+        paintPlayProgress = (TextView) findViewById(R.id.paint_play_progress);
 
         //tButton init
         btnAutoPlay = (ImageButton) findViewById(R.id.id_btn_autoplay);
@@ -146,7 +153,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         btnOpenAutoPlay = (ImageButton) findViewById(R.id.id_btn_open_autoplay);
         btnSize = (ImageButton) findViewById(R.id.id_btn_size);
         setOnclick();
-
+        getCategoryList();
         colorPicker = new ColorPicker(myView.getContext(), this, "", Color.WHITE);
         colorPicker.getWindow().setGravity(Gravity.END);
         colorPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -155,6 +162,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         sizePicker.getWindow().setGravity(Gravity.START);
         sizePicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         sizePicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
+
 
         mTagPoint_a_record = new ArrayList<TagPoint>();
         undoTagPoint_a_record = new ArrayList<TagPoint>();
@@ -232,10 +240,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private Runnable rb_play = new Runnable() {
         public void run() {
             boolean brun = true;
-            //提示關閉撥放
-            if (miPointCount <= 1) {
-                // Close
-            }
 
             if (miPointCount > 0) {
                 TagPoint tagpoint = mTagPoint_a_record.get(miPointCurrent);
@@ -267,6 +271,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
                 miPointCount--;
                 miPointCurrent++;
+                paintPlayProgress.setText(miPointCurrent*100/ mTagPoint_a_record.size() + " / " + "100%");
+
                 if (brun) {
                     handler_Timer_Play.postDelayed(rb_play, 50);
                 } else {
@@ -333,9 +339,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
             } else {
                 canvas.drawColor(Color.WHITE);
+                canvas.saveLayer(myView.getLeft(), myView.getTop(), displayWidth, displayWidth, gridPaint);
             }
-
-
             for (PathAndPaint p : paths) {
                 canvas.drawPath(p.get_mPath(), p.get_mPaint());
             }
@@ -433,7 +438,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
                         } else {
                             float length = pointLength - spacing(event);
-                            if (myView.getScaleX() >= 0.5) {
+                            if (myView.getScaleX() >= 1.1) {
                                 if (length > 0) {
                                     myView.setScaleX(myView.getScaleX() - 0.1f);
                                     myView.setScaleY(myView.getScaleY() - 0.1f);
@@ -530,14 +535,31 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     };
 
     private void savePictureEdit() {
-        saveDialog = new FullScreenDialog(this,R.layout.paint_save_dialog);
+        saveDialog = new FullScreenDialog(this, R.layout.paint_save_dialog);
         final EditText workName = (EditText) saveDialog.findViewById(R.id.paint_save_work_name);
         final EditText workDescription = (EditText) saveDialog.findViewById(R.id.paint_save_work_description);
         ImageView workPreview = saveDialog.findViewById(R.id.save_paint_preview);
         Button saveWork = (Button) saveDialog.findViewById(R.id.btn_save_paint_save);
         ImageButton saveCancel = (ImageButton) saveDialog.findViewById(R.id.btn_save_paint_back);
-        RadioGroup privacyTypes=(RadioGroup) saveDialog.findViewById(R.id.paint_save_work_privacytype);
+        RadioGroup privacyTypes = (RadioGroup) saveDialog.findViewById(R.id.paint_save_work_privacytype);
+        Spinner workSpinner = (Spinner) saveDialog.findViewById(R.id.paint_save_work_spinner);
 
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.categorylist_layout, listString);
+        workSpinner.setAdapter(mAdapter);
+
+        workSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("onItemClick== ", String.valueOf(i));
+                listNumCheck = Integer.parseInt(listNum.get(i));
+                Log.d("onItemClick== ", String.valueOf(listNumCheck));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         File pngfile = null;
         try {
@@ -559,15 +581,15 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         privacyTypes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i){
+                switch (i) {
                     case R.id.work_privacytype_public:
-                        privacyType=1;
+                        privacyType = 1;
                         break;
                     case R.id.work_privacytype_private:
-                        privacyType=2;
+                        privacyType = 2;
                         break;
                     case R.id.work_privacytype_close:
-                        privacyType=3;
+                        privacyType = 3;
                         break;
                 }
             }
@@ -578,8 +600,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             @Override
             public void onClick(View view) {
                 if (!workName.getText().toString().isEmpty() && !workDescription.getText().toString().isEmpty()) {
-                    JSONObject json = new JSONObject();
                     try {
+                        JSONObject json = new JSONObject();
+                        JSONArray jsonArray = new JSONArray();
+                        JSONObject addList = new JSONObject();
+                        addList.put("categoryId", listNumCheck);
+
                         json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
                         json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
@@ -590,9 +616,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         json.put("description", workDescription.getText().toString());
                         //json.put("languageId", 1);
                         //json.put("countryId", 886);
-                        //json.putOpt("categoryList", jsonList);
+                        jsonArray.put(addList);
+                        json.put("categoryList", jsonArray);
                         Log.d("LOGIN JSON: ", json.toString());
-                        //fileInfo(json,GlobalVariable.WORK_SAVE_URL);
+                        fileInfo(json, GlobalVariable.WORK_SAVE_URL);
                         saveDialog.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -664,7 +691,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         return false;
     }
 
-    public void fileInfo(JSONObject json,String url) {
+    public void fileInfo(JSONObject json, String url) {
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = FormBody.create(mediaType, json.toString());
@@ -690,6 +717,49 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     e.printStackTrace();
                 }
 
+            }
+        });
+    }
+
+    public void getCategoryList() {
+        listString = new ArrayList<>();
+        listNum = new ArrayList<>();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        JSONObject json = new JSONObject();
+        try {
+            json
+                    .put("ui", prefs.getString(GlobalVariable.API_UID, "null"))
+                    .put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
+                    .put("dt", GlobalVariable.LOGIN_PLATFORM);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = FormBody.create(mediaType, json.toString());
+        Request request = new Request.Builder()
+                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/categoryList")
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("getCategoryList", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        Log.d("getCategoryList", responseJSON.toString());
+                        for (int x = 0; x < responseJSON.getJSONArray("categoryList").length(); x++) {
+                            listNum.add(responseJSON.getJSONArray("categoryList").getJSONObject(x).getString("categoryId"));
+                            listString.add(responseJSON.getJSONArray("categoryList").getJSONObject(x).getString("categoryName"));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -773,9 +843,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 if (!zoomMode) {
                     zoomMode = true;
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
+                    playStateBtn(2);
+
                 } else {
                     zoomMode = false;
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
+                    playStateBtn(2);
+
                 }
             }
         });
@@ -845,6 +919,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 } else if (miPointCount == 0 && !replayMode) {
                     playStateBtn(1);
                     Toast.makeText(PaintActivity.this, "播放完畢", Toast.LENGTH_SHORT).show();
+                    customPaint(0);
                 } else {
                     Toast.makeText(PaintActivity.this, "播放完畢", Toast.LENGTH_SHORT).show();
                     PaintActivity.this.finish();
@@ -916,6 +991,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 tempTagLength.clear();
                 myView.paths.clear();
                 myView.undonePaths.clear();
+                paintPlayProgress.setText("0/0");
                 recoveryPaint();
                 playStateBtn(1);
             }
@@ -948,16 +1024,43 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 btnAutoPlay.setVisibility(View.VISIBLE);
                 btnNext.setVisibility(View.VISIBLE);
                 btnPrevious.setVisibility(View.VISIBLE);
-                btnRedo.setVisibility(View.INVISIBLE);
-                btnUndo.setVisibility(View.INVISIBLE);
+                btnRedo.setClickable(!playState);
+                btnUndo.setClickable(!playState);
+                btnSize.setClickable(!playState);
+                btnGrid.setClickable(!playState);
+                btnOpenAutoPlay.setClickable(!playState);
+                findViewById(R.id.id_btn_erase).setClickable(!playState);
+                findViewById(R.id.id_btn_clear).setClickable(!playState);
+                findViewById(R.id.id_btn_colorpicker).setClickable(!playState);
+                findViewById(R.id.id_btn_back).setClickable(!playState);
                 break;
             case 1:
                 playState = false;
                 btnAutoPlay.setVisibility(View.INVISIBLE);
                 btnNext.setVisibility(View.INVISIBLE);
                 btnPrevious.setVisibility(View.INVISIBLE);
-                btnRedo.setVisibility(View.VISIBLE);
-                btnUndo.setVisibility(View.VISIBLE);
+                btnRedo.setClickable(!playState);
+                btnUndo.setClickable(!playState);
+                btnSize.setClickable(!playState);
+                btnGrid.setClickable(!playState);
+                btnOpenAutoPlay.setClickable(!playState);
+                findViewById(R.id.id_btn_save).setClickable(!playState);
+                findViewById(R.id.id_btn_erase).setClickable(!playState);
+                findViewById(R.id.id_btn_clear).setClickable(!playState);
+                findViewById(R.id.id_btn_colorpicker).setClickable(!playState);
+                findViewById(R.id.id_btn_back).setClickable(!playState);
+                break;
+            case 2:
+                btnRedo.setClickable(!zoomMode);
+                btnUndo.setClickable(!zoomMode);
+                btnSize.setClickable(!zoomMode);
+                btnGrid.setClickable(!zoomMode);
+                btnOpenAutoPlay.setClickable(!zoomMode);
+                findViewById(R.id.id_btn_save).setClickable(!zoomMode);
+                findViewById(R.id.id_btn_erase).setClickable(!zoomMode);
+                findViewById(R.id.id_btn_clear).setClickable(!zoomMode);
+                findViewById(R.id.id_btn_colorpicker).setClickable(!zoomMode);
+                findViewById(R.id.id_btn_back).setClickable(!zoomMode);
                 break;
         }
 
@@ -1058,7 +1161,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 boolean result = bdwFileWriter.WriteToFile(mTagPoint_a_record, getFilesDir().getPath() + SKETCH_FILE);
                 Toast.makeText(PaintActivity.this, "Successful", Toast.LENGTH_SHORT).show();
                 dialogInterface.dismiss();
-                if(result) PaintActivity.this.finish();
+                if (!result) PaintActivity.this.finish();
             }
         });
         builder.setNegativeButton("否", new DialogInterface.OnClickListener() {

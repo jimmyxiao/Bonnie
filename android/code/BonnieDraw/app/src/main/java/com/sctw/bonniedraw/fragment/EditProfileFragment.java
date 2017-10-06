@@ -104,6 +104,13 @@ public class EditProfileFragment extends Fragment {
                 updateUserInfo();
             }
         });
+
+        editFormCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     void getUserInfo() {
@@ -195,8 +202,6 @@ public class EditProfileFragment extends Fragment {
                                 } else {
                                     editFormUserPhoto.setBackgroundColor(Color.BLACK);
                                 }
-
-                                Log.d("RESTFUL API : ", responseJSON.toString());
                             } else {
                                 Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
                             }
@@ -239,7 +244,7 @@ public class EditProfileFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), "連線錯誤", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "更新失敗", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -252,7 +257,6 @@ public class EditProfileFragment extends Fragment {
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                Log.d("RESTFUL API : ", responseJSON.toString());
                                 final AlertDialog alertDialog=new AlertDialog.Builder(getActivity()).create();
                                 alertDialog.setMessage("Update Successful");
                                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
@@ -266,7 +270,7 @@ public class EditProfileFragment extends Fragment {
                                 alertDialog.show();
 
                             } else {
-                                Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "更新失敗", Toast.LENGTH_SHORT).show();
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {

@@ -248,4 +248,14 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/paint_play_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="24dp"
+        android:text="0/100%"
+        app:layout_constraintBottom_toTopOf="@+id/paint_control_layout"
+        app:layout_constraintRight_toRightOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

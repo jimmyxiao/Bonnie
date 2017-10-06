@@ -177,6 +177,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="3"
             android:text="性別"
             android:textAlignment="center" />
@@ -207,7 +208,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="多元"/>
+                android:text="多元" />
         </RadioGroup>
     </LinearLayout>
 </LinearLayout>
