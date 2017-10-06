@@ -106,7 +106,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ft = fm.beginTransaction();
-                ft.replace(R.id.main_actitivy_layout, new EditProfileFragment());
+                EditProfileFragment fragment=new EditProfileFragment();
+                ft.replace(R.id.main_actitivy_layout, fragment);
                 ft.addToBackStack(null);
                 ft.commit();
             }
@@ -235,8 +236,6 @@ public class ProfileFragment extends Fragment {
                                 } else {
                                     profilePhoto.setBackgroundColor(Color.BLACK);
                                 }
-
-                                Log.d("RESTFUL API : ", responseJSON.toString());
                             } else {
                                 Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
                             }

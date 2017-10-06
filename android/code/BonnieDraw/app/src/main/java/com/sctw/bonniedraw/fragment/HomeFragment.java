@@ -112,6 +112,13 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+                extraDialog.findViewById(R.id.bg_layout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        extraDialog.dismiss();
+                    }
+                });
+
                 extraDialog.show();
             }
 

@@ -224,20 +224,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        for (Fragment frag : fragmentManager.getFragments()) {
-            if (frag.isVisible()) {
-                FragmentManager childFm = frag.getChildFragmentManager();
-                if (childFm.getBackStackEntryCount() > 0) {
-                    for (Fragment childfragnested: childFm.getFragments()) {
-                        FragmentManager childFmNestManager = childfragnested.getFragmentManager();
-                        if(childfragnested.isVisible()) {
-                            childFmNestManager.popBackStack();
-                            return;
-                        }
-                    }
-                }
-            }
-        }
         if (drawerLayout.isDrawerOpen(Gravity.START)) {
             drawerLayout.closeDrawers();
         } else if (fragmentManager.getBackStackEntryCount() != 0) {
