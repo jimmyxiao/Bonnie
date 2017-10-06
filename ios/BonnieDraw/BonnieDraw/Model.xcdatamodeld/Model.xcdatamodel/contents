@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240"
+       systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift"
+       userDefinedModelVersionIdentifier="">
+    <entity name="WorkCategory" representedClassName="WorkCategory" syncable="YES" codeGenerationType="class">
+        <attribute name="childIds" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="level" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="WorkCategory" positionX="-36" positionY="9" width="128" height="105"/>
+    </elements>
+</model>

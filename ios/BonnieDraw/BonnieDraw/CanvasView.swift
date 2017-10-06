@@ -61,13 +61,11 @@ class CanvasView: UIView {
                 var data = try Data(contentsOf: url)
                 var points = [Point]()
                 for path in paths {
-                    for point in path.points {
-                        points.append(point)
-                    }
+                    points.append(contentsOf: path.points)
                 }
                 data.append(parse(pointsToData: points))
                 return data
-            } catch let error {
+            } catch {
                 Logger.d(error.localizedDescription)
             }
         }
@@ -97,21 +95,6 @@ class CanvasView: UIView {
         }
     }
 
-    override func awakeFromNib() {
-        do {
-            let manager = FileManager.default
-            let url = try FileManager.default.url(for: .documentationDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("temp.bdw")
-            if manager.fileExists(atPath: url.path) {
-                try manager.removeItem(at: url)
-            }
-            manager.createFile(atPath: url.path, contents: nil, attributes: nil)
-            writeHandle = try FileHandle(forWritingTo: url)
-            self.url = url
-        } catch let error {
-            Logger.d(error.localizedDescription)
-        }
-    }
-
     func reset() {
         animationTimer?.invalidate()
         paths.removeAll()
@@ -121,8 +104,8 @@ class CanvasView: UIView {
         persistentImage = nil
         delegate?.canvasPathsDidChange()
         do {
-            let manager = FileManager.default
             if let url = url {
+                let manager = FileManager.default
                 if manager.fileExists(atPath: url.path) {
                     writeHandle?.closeFile()
                     try manager.removeItem(at: url)
@@ -130,7 +113,7 @@ class CanvasView: UIView {
                 manager.createFile(atPath: url.path, contents: nil, attributes: nil)
                 writeHandle = try FileHandle(forWritingTo: url)
             }
-        } catch let error {
+        } catch {
             Logger.d(error.localizedDescription)
         }
         setNeedsDisplay()
@@ -180,7 +163,69 @@ class CanvasView: UIView {
             delegate?.canvasPathsWillBeginAnimation()
             persistentImage = nil
             setNeedsDisplay()
-        } catch let error {
+        } catch {
+            Logger.d(error.localizedDescription)
+        }
+    }
+
+    func save() {
+        animationTimer?.invalidate()
+        var points = [Point]()
+        while !paths.isEmpty {
+            points.append(contentsOf: paths.removeFirst().points)
+        }
+        redoPaths.removeAll()
+        animationPaths.removeAll()
+        animationPoints.removeAll()
+        persistentImage = nil
+        delegate?.canvasPathsDidChange()
+        writeHandle?.write(self.parse(pointsToData: points))
+        writeHandle?.closeFile()
+    }
+
+    func load() {
+        do {
+            let manager = FileManager.default
+            let url = try manager.url(for: .documentationDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("temp.bdw")
+            if manager.fileExists(atPath: url.path) {
+                let data = try Data(contentsOf: url)
+                if !data.isEmpty {
+                    try manager.removeItem(at: url)
+                    manager.createFile(atPath: url.path, contents: nil, attributes: nil)
+                    writeHandle = try FileHandle(forWritingTo: url)
+                    for point in parse(dataToPoints: data) {
+                        if bounds.contains(currentPoint) {
+                            currentPoint = point.position
+                            if point.action != .down {
+                                paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
+                                paths.last?.points.append(point)
+                                if point.action == .up {
+                                    drawToPersistentImage(saveToFile: true)
+                                }
+                            } else {
+                                let path = UIBezierPath()
+                                path.move(to: currentPoint)
+                                path.lineCapStyle = .round
+                                path.lineWidth = point.size
+                                paths.append(
+                                        Path(bezierPath: path,
+                                                points: [point],
+                                                color: point.color))
+                            }
+                            controlPoint = currentPoint
+                        }
+                    }
+                    setNeedsDisplay()
+                    delegate?.canvasPathsDidChange()
+                } else {
+                    writeHandle = try FileHandle(forWritingTo: url)
+                }
+            } else {
+                manager.createFile(atPath: url.path, contents: nil, attributes: nil)
+                writeHandle = try FileHandle(forWritingTo: url)
+            }
+            self.url = url
+        } catch {
             Logger.d(error.localizedDescription)
         }
     }

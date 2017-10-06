@@ -24,6 +24,9 @@
 		163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AA1F61663800945E04 /* AppDelegate.swift */; };
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
+		164028E41F8719B20013AE6E /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 164028E21F8719B20013AE6E /* Model.xcdatamodeld */; };
+		164028EA1F871B8F0013AE6E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164028E91F871B8F0013AE6E /* CoreDataStack.swift */; };
+		164028EC1F8753A90013AE6E /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164028EB1F8753A80013AE6E /* CategoryViewController.swift */; };
 		164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2471F7B376700E8B910 /* CollectionViewController.swift */; };
 		164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED24C1F7B379200E8B910 /* AccountViewController.swift */; };
 		164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED24E1F7B414500E8B910 /* TableViewExtension.swift */; };
@@ -74,6 +77,9 @@
 		163F65B41F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
+		164028E31F8719B20013AE6E /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		164028E91F871B8F0013AE6E /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		164028EB1F8753A80013AE6E /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		164ED2471F7B376700E8B910 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		164ED24C1F7B379200E8B910 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		164ED24E1F7B414500E8B910 /* TableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewExtension.swift; sourceTree = "<group>"; };
@@ -168,6 +174,7 @@
 				1664F4A81F74AD9200809C32 /* Localizable.strings */,
 				165ECC5E1F73C10700E32AA5 /* GoogleService-Info.plist */,
 				163F65B61F61663900945E04 /* Info.plist */,
+				164028E21F8719B20013AE6E /* Model.xcdatamodeld */,
 				163906FF1F6C0A4E00E5717A /* TitleView.xib */,
 				1664F4B41F74E3F100809C32 /* Login.storyboard */,
 				163F65AE1F61663900945E04 /* Main.storyboard */,
@@ -214,6 +221,7 @@
 				16332A221F7F3048007857E3 /* SaveViewController.swift */,
 				166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */,
 				166BDF411F860E7900274C6C /* SplashViewController.swift */,
+				164028EB1F8753A80013AE6E /* CategoryViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -221,6 +229,7 @@
 		16D439611F66A97400FF5878 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				164028E91F871B8F0013AE6E /* CoreDataStack.swift */,
 				164ED24E1F7B414500E8B910 /* TableViewExtension.swift */,
 				16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */,
 				165ECC5A1F73A72400E32AA5 /* RestClient.swift */,
@@ -405,6 +414,7 @@
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,
+				164028EA1F871B8F0013AE6E /* CoreDataStack.swift in Sources */,
 				166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
 				16332A231F7F3048007857E3 /* SaveViewController.swift in Sources */,
@@ -416,7 +426,9 @@
 				165ECC5B1F73A72500E32AA5 /* RestClient.swift in Sources */,
 				16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */,
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
+				164028E41F8719B20013AE6E /* Model.xcdatamodeld in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
+				164028EC1F8753A90013AE6E /* CategoryViewController.swift in Sources */,
 				16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */,
 				16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */,
 				16366AE21F7A0AA300E5799B /* HomeViewController.swift in Sources */,
@@ -632,6 +644,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		164028E21F8719B20013AE6E /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				164028E31F8719B20013AE6E /* Model.xcdatamodel */,
+			);
+			currentVersion = 164028E31F8719B20013AE6E /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 163F659F1F61663800945E04 /* Project object */;
 }

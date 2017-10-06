@@ -41,6 +41,16 @@ class CanvasViewController:
         UIGraphicsEndImageContext()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        if canvas.isHidden {
+            canvas.load()
+            canvas.isHidden = false
+            UIView.animate(withDuration: 0.4) {
+                self.canvas.alpha = 1
+            }
+        }
+    }
+
     @IBAction func undo(_ sender: Any) {
         canvas.undo()
     }
@@ -75,6 +85,11 @@ class CanvasViewController:
             controller.workThumbnailData = canvas.thumbnailData()
             controller.workFileData = canvas.fileData()
         }
+    }
+
+    override func onBackPressed(_ sender: AnyObject) {
+        canvas.save()
+        super.onBackPressed(sender)
     }
 
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {

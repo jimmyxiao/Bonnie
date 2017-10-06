@@ -44,7 +44,7 @@ class RestClient: NSObject, URLSessionTaskDelegate {
                 request.httpBody = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
                 request.httpMethod = "POST"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            } catch let error {
+            } catch {
                 Logger.p("\(#function): \(error.localizedDescription)")
                 failResponse()
             }

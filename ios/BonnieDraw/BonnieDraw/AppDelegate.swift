@@ -14,6 +14,7 @@ import ReachabilitySwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    static let stack = CoreDataStack(modelName: "Model")
     static let reachability = Reachability()!
     var window: UIWindow?
 
@@ -34,6 +35,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             didHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         }
         return didHandle
+    }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        if let timestamp = UserDefaults.standard.object(forKey: Default.TOKEN_TIMESTAMP) as? Date,
+           Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 >= TOKEN_LIFETIME,
+           let controller = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() {
+            UIApplication.shared.replace(rootViewControllerWith: controller)
+        }
+    }
+
+    func applicationWillResignActive(_ application: UIApplication) {
+        do {
+            try AppDelegate.stack?.saveContext()
+        } catch {
+            Logger.d("\(#function): \(error.localizedDescription)")
+        }
     }
 
     static func hasNetworkConnection() -> Bool {

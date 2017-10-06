@@ -8,13 +8,14 @@
 
 import UIKit
 
-class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate {
+class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate, CategoryViewControllerDelegate {
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var workDescription: UITextView!
     @IBOutlet weak var workTitle: UITextField!
-    var keyboardOnScreen = false
+    @IBOutlet weak var category: UIButton!
     var workThumbnailData: Data?
     var workFileData: Data?
+    var workCategory: WorkCategory?
     let client = RestClient.standard(withPath: Service.WORK_SAVE)
 
     override func viewDidLoad() {
@@ -24,35 +25,10 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
         }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
-    }
-
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
-            view.frame.origin.y -= keyboardSize.height * 0.3
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? CategoryViewController {
+            controller.delegate = self
         }
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        if keyboardOnScreen {
-            view.frame.origin.y = 0
-        }
-    }
-
-    @objc func keyboardDidShow(_ notification: Notification) {
-        keyboardOnScreen = true
-    }
-
-    @objc func keyboardDidHide(_ notification: Notification) {
-        keyboardOnScreen = false
     }
 
     @IBAction func save(_ sender: Any) {
@@ -68,14 +44,20 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                 action in
                 self.workTitle.becomeFirstResponder()
             }
-        } else if let id = UserDefaults.standard.string(forKey: Default.USER_ID),
-                  let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
-            client.getResponse(data: ["ui": id, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": 1, "title": title, "description": description, "languageId": 1, "countryId": 1]) {
-                success, data in
-                if success {
-                } else {
+        } else if let category = workCategory {
+            if let id = UserDefaults.standard.string(forKey: Default.USER_ID),
+               let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
+                client.getResponse(data: ["ui": id, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": 1, "title": title, "description": description]) {
+                    success, data in
+                    guard success, data?["res"] as? Int == 1 else {
+                        self.presentDialog(title: "alert_save_fail_title".localized, message: "app_network_unreachable_content".localized)
+                        return
+                    }
+                    self.navigationController?.dismiss(animated: true)
                 }
             }
+        } else {
+            presentDialog(title: "alert_save_fail_title".localized, message: "alert_save_fail_category_empty".localized)
         }
     }
 
@@ -90,5 +72,10 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+
+    func category(didSelectCategory category: WorkCategory) {
+        workCategory = category
+        self.category.setTitle(category.name, for: .normal)
     }
 }

@@ -85,6 +85,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             defaults.set(email, forKey: Default.EMAIL)
                             defaults.set(password, forKey: Default.PASSWORD)
                             defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                            self.parseCategory(forData: data)
                             self.launchMain()
                         } else {
                             self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
@@ -225,6 +226,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                 defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
                             }
                             defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                            self.parseCategory(forData: data)
                             self.launchMain()
                         } else {
                             self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
@@ -272,5 +274,29 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         }
         textField.resignFirstResponder()
         return true
+    }
+
+    private func parseCategory(forData data: [String: Any]?) -> Void {
+        if let categories = data?["categoryList"] as? [[String: Any]] {
+            AppDelegate.stack?.insertData() {
+                context in
+                if let description = NSEntityDescription.entity(forEntityName: "WorkCategory", in: context) {
+                    for category in categories {
+                        self.parseCategory(forData: category)
+                        let workCategory = WorkCategory(entity: description, insertInto: context)
+                        workCategory.id = (category["categoryId"] as? Int16) ?? -1
+                        workCategory.name = category["categoryName"] as? String
+                        workCategory.level = (category["categoryLevel"] as? Int16) ?? -1
+                        var childIds = [Int16]()
+                        if let childCategories = category["categoryList"] as? [[String: Any]] {
+                            for childCategory in childCategories {
+                                childIds.append((childCategory["categoryId"] as? Int16) ?? -1)
+                            }
+                        }
+                        workCategory.childIds = childIds as NSObject
+                    }
+                }
+            }
+        }
     }
 }

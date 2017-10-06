@@ -20,7 +20,8 @@
 "alert_save_fail_title" = "儲存失敗";
 "alert_save_fail_name_empty" = "名稱不可留白";
 "alert_save_fail_description_empty" = "說明不可留白";
-"app_network_unreachable_content" = "請檢查您的網路連線狀態後重試。";
+"alert_save_fail_category_empty" = "請選擇作品類別";
+"app_network_unreachable_content" = "請檢查您的網路連線狀態後重試";
 "app_network_unreachable_title" = "無網路連線";
 "alert_forget_password_title" = "忘記密碼";
 "alert_forget_password_content" = "密碼已發送至您的信箱";

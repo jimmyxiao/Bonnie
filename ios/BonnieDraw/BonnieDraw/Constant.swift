@@ -16,6 +16,7 @@ let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 let ERASER_COLOR = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
 let SERVICE_DEVICE_TYPE = 2
+let TOKEN_LIFETIME: TimeInterval = 1
 
 enum Function: UInt16 {
     case draw = 0xa101
