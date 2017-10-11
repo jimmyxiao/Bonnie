@@ -16,7 +16,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.systemsetup.model.SystemSetup;
@@ -513,27 +517,32 @@ public class ApiController {
 		return respResult;
 	}
 	
-	@RequestMapping(value="/fileUpload" , produces="application/json")
-	public @ResponseBody FileUploadResponseVO fileUpload(HttpServletRequest request,HttpServletResponse resp, @RequestBody FileUploadRequestVO fileUploadRequestVO) {
+	@RequestMapping(value="/fileUpload", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+	public @ResponseBody FileUploadResponseVO fileUpload(HttpServletRequest request, HttpServletResponse resp,  
+			@RequestPart("file") CommonsMultipartFile file, @RequestPart("properties") FileUploadRequestVO fileUploadRequestVO) {
 		FileUploadResponseVO respResult = new FileUploadResponseVO();
 		String msg = "";
-		if(isLogin(fileUploadRequestVO)){
-			int fType = fileUploadRequestVO.getFtype();
-			if(fType>=1 && fType<=2 ){
-				StringBuffer path = new StringBuffer();
-				path.append(fileUploadRequestVO.getWid()).append((fType==1 ? ".png" : ".bdw"));
-				if(FileUtil.uploadFile(fileUploadRequestVO.getFile(), path.toString())){
-					respResult.setRes(1);
-					msg = messageSource.getMessage("api_success",null,request.getLocale());
+		if(file !=null && !file.isEmpty()){
+			if(isLogin(fileUploadRequestVO)){
+				int fType = fileUploadRequestVO.getFtype();
+				if(fType>=1 && fType<=2 ){
+					StringBuffer path = new StringBuffer();
+					path.append(fileUploadRequestVO.getWid()).append((fType==1 ? ".png" : ".bdw"));
+					if(FileUtil.uploadFile(file, path.toString())){
+						respResult.setRes(1);
+						msg = messageSource.getMessage("api_success",null,request.getLocale());
+					}else{
+						respResult.setRes(2);
+						msg = messageSource.getMessage("api_fail",null,request.getLocale());
+					}
 				}else{
-					respResult.setRes(2);
-					msg = messageSource.getMessage("api_fail",null,request.getLocale());
+					msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 				}
 			}else{
-				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
+				msg = "帳號未登入"; 
 			}
 		}else{
-			msg = "帳號未登入"; 
+			msg = "無檔案"; 
 		}
 		respResult.setMsg(msg);
 		return respResult;
