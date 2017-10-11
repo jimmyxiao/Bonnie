@@ -53,6 +53,8 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paintpicker.ColorPicker;
 import com.sctw.bonniedraw.paintpicker.OnColorChangedListener;
 import com.sctw.bonniedraw.paintpicker.OnSizeChangedListener;
+import com.sctw.bonniedraw.paintpicker.PaintPicker;
+import com.sctw.bonniedraw.paintpicker.PaintSelectedListener;
 import com.sctw.bonniedraw.paintpicker.SizePicker;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
@@ -85,7 +87,7 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener {
+public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener, PaintSelectedListener {
     public static final String KEY_MY_PREFERENCE = "autoplay_intervaltime";
     private static final String SKETCH_FILE = "/backup.bdw";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
@@ -105,6 +107,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private int displayWidth;
     private ColorPicker colorPicker;
     private SizePicker sizePicker;
+    private PaintPicker paintPicker;
     private FullScreenDialog saveDialog;
     private TextView paintPlayProgress;
     BDWFileReader reader = new BDWFileReader();
@@ -158,11 +161,14 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         colorPicker.getWindow().setGravity(Gravity.END);
         colorPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         colorPicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
-        sizePicker = new SizePicker(this, this, "", Color.WHITE);
+        sizePicker = new SizePicker(this, this, Color.WHITE);
         sizePicker.getWindow().setGravity(Gravity.START);
         sizePicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         sizePicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
-
+        paintPicker = new PaintPicker(myView.getContext(), this, Color.WHITE);
+        paintPicker.getWindow().setGravity(Gravity.BOTTOM);
+        paintPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        paintPicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
 
         mTagPoint_a_record = new ArrayList<TagPoint>();
         undoTagPoint_a_record = new ArrayList<TagPoint>();
@@ -194,6 +200,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         }
     }
 
+    public void changePaint(View view){
+        paintPicker.show();
+    }
 
     //強制正方形
     public void getDisplay() {
@@ -285,6 +294,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         }
     };
+
+    @Override
+    public void onPaintSelect(int num) {
+
+    }
 
     public class MyView extends View {
         private Bitmap mBitmap;
@@ -1182,7 +1196,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public void onBackMethod() {
-        if (!zoomMode&&!playState) {
+        if (!zoomMode && !playState) {
             if (mTagPoint_a_record.size() != 0 && !file.exists()) {
                 callSaveDialog(0);
             } else if (file.exists() && mTagPoint_a_record.size() != reader.m_tagArray.size()) {

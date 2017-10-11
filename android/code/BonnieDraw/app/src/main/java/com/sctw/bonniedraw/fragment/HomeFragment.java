@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,7 +33,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView homeRecyclerView;
     Toolbar toolbar;
-    private ImageButton toolbarSearch;
+    ImageButton toolbarSearch, icBtnDrawer;
     FragmentManager fm;
 
     @Override
@@ -41,11 +44,16 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        super.onOptionsMenuClosed(menu);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         toolbar = (Toolbar) view.findViewById(R.id.toolbar_include);
         toolbar.setTitle("");
+        icBtnDrawer = (ImageButton) view.findViewById(R.id.toolbar_switch);
         toolbarSearch = (ImageButton) view.findViewById(R.id.toolbar_search);
         toolbarSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +61,12 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "搜尋", Toast.LENGTH_SHORT).show();
             }
         });
-
+        icBtnDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((DrawerLayout) getActivity().findViewById(R.id.main_actitivy_drawlayout)).openDrawer(Gravity.LEFT);
+            }
+        });
 
         homeRecyclerView = (RecyclerView) view.findViewById(R.id.home_recyclerview);
         ArrayList<String> myDataset = new ArrayList<>();

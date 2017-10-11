@@ -48,8 +48,8 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
-    private ImageButton icBtnBack, icBtnPaint, icBtnHome, icBtnLike, icBtnNotice, icBtnUser;
-    private BottomNavigationViewEx mBottomNavigationViewEx;
+    ImageButton icBtnBack, icBtnPaint, icBtnHome, icBtnLike, icBtnNotice, icBtnUser;
+    BottomNavigationViewEx mBottomNavigationViewEx;
     NavigationView navigationView;
     View headerView;
     ImageView headerPhoto;
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         headerText = (TextView) headerView.findViewById(R.id.header_user_name);
         icBtnBack = (ImageButton) headerView.findViewById(R.id.header_btn_back);
         icBtnPaint = (ImageButton) findViewById(R.id.ic_btn_paint);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
