@@ -81,7 +81,10 @@
 											</div>
 											<div class="vid-text">
 												<section class="_hmd6j _8oo9w">
-													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">{{newUpload.title}}</i></a>
+													<a ng-click="clickWorksLike($index, 'n')" class="_eszkz _l9yih" href="" role="button" aria-disabled>
+														<i ng-if="!newUpload.like" class="material-icons font-icon">favorite_border</i>
+														<i ng-if="newUpload.like" class="material-icons font-icon">favorite</i>
+													</a>
 													<span>{{newUpload.likeCount}}</span>
 													<a href=""><i class="material-icons share-icon">share</i></a>
 												</section>
@@ -112,10 +115,14 @@
 											</div>
 											<div class="vid-text">
 												<section class="_hmd6j _8oo9w">
-													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">{{popularCreation.title}}</i></a>
-													<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{popularCreation.likeCount}}</span>
+													<a ng-click="clickWorksLike($index, 'p')" class="_eszkz _l9yih" href="" role="button" aria-disabled>
+														<i ng-if="!popularCreation.like" class="material-icons font-icon">favorite_border</i>
+														<i ng-if="popularCreation.like" class="material-icons font-icon">favorite</i>
+													</a>
+													<span>{{popularCreation.likeCount}}</span>
+													<a href=""><i class="material-icons share-icon">share</i></a>
 												</section>
-												<p><span>By</span> <a href="#">{{popularCreation.userName}}</a></p>
+												<p><a href="">{{popularCreation.userName}}</a></p>
 												<h1><a ng-href="#/column-detail?id={{popularCreation.worksId}}">{{popularCreation.description}}</a></h1>
 											</div>
 										</div>

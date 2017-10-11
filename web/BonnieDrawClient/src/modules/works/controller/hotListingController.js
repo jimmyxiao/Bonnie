@@ -30,117 +30,20 @@ app.controller('hotListingController', function ($rootScope, $scope, $window ,$l
 		}
 		$scope.queryPopularWorks();
 
-		// max size 12
-		// $scope.mainSectionArr = [
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_1.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_2.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_4.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_2.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_3.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_2.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_2.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_3.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_1.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/2-column-vid-img_2.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-9.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-12.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	}
-		// ]
-
+		$scope.clickWorksLike = function(data){
+			var params = util.getInitalScope();
+			if(data.like){
+				params.fn = 0;
+			}else{
+				params.fn = 1;
+			}
+			params.worksId = data.worksId;
+			params.likeType = 1; 
+			worksService.setLike(params,function(data, status, headers, config){
+				if(data.res == 1){
+					$scope.queryPopularWorks();
+				}
+			})
+		}
 	}
 )

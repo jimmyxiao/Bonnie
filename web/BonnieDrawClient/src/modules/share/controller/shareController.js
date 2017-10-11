@@ -5,7 +5,6 @@ app.controller('headerMenuController', function ($rootScope, $scope, $window, $l
 		$scope.getCategoryList = function(){
 			generalService.getCategoryList(param, function(data, status, headers, config) {
 	        	$scope.categoryList = data.categoryList;
-	        	console.log($scope.categoryList);
 			})
 		}
 		$scope.getCategoryList();

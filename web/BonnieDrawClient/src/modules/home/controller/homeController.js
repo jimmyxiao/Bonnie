@@ -33,6 +33,30 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 		}
 		$scope.queryPopularWorks();
 
+		$scope.clickWorksLike = function(index,tag){
+			if(tag == 'p'){
+				var data = $scope.secondarySectionArr_popular[index];
+			}else if(tag == 'n'){
+				var data = $scope.secondarySectionArr_new[index];
+			}else{
+				return;
+			}
+			var params = util.getInitalScope();
+			if(data.like){
+				params.fn = 0;
+			}else{
+				params.fn = 1;
+			}
+			params.worksId = data.worksId;
+			params.likeType = 1; 
+			worksService.setLike(params,function(data, status, headers, config){
+				if(data.res == 1){
+					$scope.queryNewUploadWorks();
+					$scope.queryPopularWorks();
+				}
+			})
+		}
+
 		// $scope.mainSectionArr_mdgrid=[{}];
 		// $scope.mainSectionArr_mdgrid ={
 		// 	delay:'1s',
@@ -76,149 +100,6 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 		// 		imgSm:'assets/images/main-vid-image-sm-4.jpg',
 		// 		author:'admin',
 		// 		description:'Awesome Film Performance'
-		// 	}
-		// ]
-
-		// max size 9 
-		// $scope.secondarySectionArr_new = [
-		// 	{
-		// 		img:'assets/images/latest-vid-img-1.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-2.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-3.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-4.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-5.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-6.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-7.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-8.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-9.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	}
-		// ]
-
-		// max size 6 
-		// $scope.secondarySectionArr_popular = [
-		// 	{
-		// 		img:'assets/images/latest-vid-img-10.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-11.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-12.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-9.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-4.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
-		// 	},
-		// 	{
-		// 		img:'assets/images/latest-vid-img-15.jpg',
-		// 		text:{
-		// 			title:'favorite_border',
-		// 			like:'57689',
-		// 			author:'Jhon Doe',
-		// 			description:'Super Hero of Kids'
-		// 		}	
 		// 	}
 		// ]
 
