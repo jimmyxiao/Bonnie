@@ -339,7 +339,7 @@ public class ApiController {
 			int ac = worksSaveRequestVO.getAc();
 			int privacyType = worksSaveRequestVO.getPrivacyType();
 			Integer worksId = worksSaveRequestVO.getWorksId();
-			if( (ac>=1 && ac<=2) && (privacyType>=1 && privacyType<=3) && (ac==2 && worksId !=null ) ){
+			if( (ac>=1 && ac<=2) && (privacyType>=1 && privacyType<=3) && (ac==1 || (ac==2 && worksId !=null)) ){
 				Integer wid = worksServiceAPI.worksSave(worksSaveRequestVO);
 				if(ValidateUtil.isNotEmpty(wid)){
 					respResult.setRes(1);

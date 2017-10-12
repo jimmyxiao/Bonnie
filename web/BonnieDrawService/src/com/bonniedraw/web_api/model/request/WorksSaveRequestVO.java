@@ -7,7 +7,6 @@ import com.bonniedraw.works.model.CategoryInfo;
 
 public class WorksSaveRequestVO extends ApiRequestVO{
 	private int ac;
-	private int userId;
 	private int privacyType;
 	private Integer worksId;
 	private String title;
@@ -22,14 +21,6 @@ public class WorksSaveRequestVO extends ApiRequestVO{
 
 	public void setAc(int ac) {
 		this.ac = ac;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
 	}
 
 	public int getPrivacyType() {

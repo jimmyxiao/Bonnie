@@ -89,9 +89,9 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		Integer wid = null;
 		Date nowDate = TimerUtil.getNowDate();
 		int ac = worksSaveRequestVO.getAc();
-		int userId = worksSaveRequestVO.getUserId();
+		int userId = worksSaveRequestVO.getUi();
 		Works works = new Works();
-		works.setUserId(worksSaveRequestVO.getUserId());
+		works.setUserId(userId);
 		works.setDeviceType(worksSaveRequestVO.getDt());
 		works.setPrivacyType(worksSaveRequestVO.getPrivacyType());
 		works.setTitle(worksSaveRequestVO.getTitle());
@@ -108,8 +108,8 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				works.setCreatedBy(userId);
 				works.setCreationDate(nowDate);
 				worksMapper.insert(works);
+				wid = works.getWorksId();
 				if(ValidateUtil.isNotEmptyAndSize(categoryList)){
-					wid = works.getWorksId();
 					insertWorksCatrgorList(categoryList, wid);
 				}
 			}else if(ac==2){
