@@ -19,4 +19,5 @@ public interface DictionaryMapper {
     int updateByPrimaryKey(Dictionary record);
     
     List<Dictionary> queryDictionaryList(Map<String, Object> paramMap);
+    
 }

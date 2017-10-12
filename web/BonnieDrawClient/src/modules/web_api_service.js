@@ -112,6 +112,9 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
     return {
         getCategoryList : function(params, callback) {
             return baseHttp.service('categoryList', params, callback);
+        },
+        getDictionaryList : function(params, callback) {
+            return baseHttp.service('dictionaryList', params, callback);
         }
     }
 }).factory('worksService', function(baseHttp) {

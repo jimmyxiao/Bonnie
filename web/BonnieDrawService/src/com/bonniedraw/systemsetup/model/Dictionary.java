@@ -5,7 +5,7 @@ public class Dictionary {
 
     private Integer dictionaryType;
 
-    private Integer dictionaryCode;
+    private String dictionaryCode;
 
     private String dictionaryName;
 
@@ -27,12 +27,12 @@ public class Dictionary {
         this.dictionaryType = dictionaryType;
     }
 
-    public Integer getDictionaryCode() {
+    public String getDictionaryCode() {
         return dictionaryCode;
     }
 
-    public void setDictionaryCode(Integer dictionaryCode) {
-        this.dictionaryCode = dictionaryCode;
+    public void setDictionaryCode(String dictionaryCode) {
+        this.dictionaryCode = dictionaryCode == null ? null : dictionaryCode.trim();
     }
 
     public String getDictionaryName() {

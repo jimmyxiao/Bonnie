@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.bonniedraw.systemsetup.model.Dictionary">
     <id column="DICTIONARY_ID" jdbcType="INTEGER" property="dictionaryId" />
     <result column="DICTIONARY_TYPE" jdbcType="INTEGER" property="dictionaryType" />
-    <result column="DICTIONARY_CODE" jdbcType="INTEGER" property="dictionaryCode" />
+    <result column="DICTIONARY_CODE" jdbcType="VARCHAR" property="dictionaryCode" />
     <result column="DICTIONARY_NAME" jdbcType="VARCHAR" property="dictionaryName" />
     <result column="DICTIONARY_ORDER" jdbcType="INTEGER" property="dictionaryOrder" />
   </resultMap>
@@ -24,7 +24,7 @@
   <insert id="insert" parameterType="com.bonniedraw.systemsetup.model.Dictionary">
     insert into dictionary (DICTIONARY_ID, DICTIONARY_TYPE, DICTIONARY_CODE, 
       DICTIONARY_NAME, DICTIONARY_ORDER)
-    values (#{dictionaryId,jdbcType=INTEGER}, #{dictionaryType,jdbcType=INTEGER}, #{dictionaryCode,jdbcType=INTEGER}, 
+    values (#{dictionaryId,jdbcType=INTEGER}, #{dictionaryType,jdbcType=INTEGER}, #{dictionaryCode,jdbcType=VARCHAR}, 
       #{dictionaryName,jdbcType=VARCHAR}, #{dictionaryOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.bonniedraw.systemsetup.model.Dictionary">
@@ -54,7 +54,7 @@
         #{dictionaryType,jdbcType=INTEGER},
       </if>
       <if test="dictionaryCode != null">
-        #{dictionaryCode,jdbcType=INTEGER},
+        #{dictionaryCode,jdbcType=VARCHAR},
       </if>
       <if test="dictionaryName != null">
         #{dictionaryName,jdbcType=VARCHAR},
@@ -71,7 +71,7 @@
         DICTIONARY_TYPE = #{dictionaryType,jdbcType=INTEGER},
       </if>
       <if test="dictionaryCode != null">
-        DICTIONARY_CODE = #{dictionaryCode,jdbcType=INTEGER},
+        DICTIONARY_CODE = #{dictionaryCode,jdbcType=VARCHAR},
       </if>
       <if test="dictionaryName != null">
         DICTIONARY_NAME = #{dictionaryName,jdbcType=VARCHAR},
@@ -85,7 +85,7 @@
   <update id="updateByPrimaryKey" parameterType="com.bonniedraw.systemsetup.model.Dictionary">
     update dictionary
     set DICTIONARY_TYPE = #{dictionaryType,jdbcType=INTEGER},
-      DICTIONARY_CODE = #{dictionaryCode,jdbcType=INTEGER},
+      DICTIONARY_CODE = #{dictionaryCode,jdbcType=VARCHAR},
       DICTIONARY_NAME = #{dictionaryName,jdbcType=VARCHAR},
       DICTIONARY_ORDER = #{dictionaryOrder,jdbcType=INTEGER}
     where DICTIONARY_ID = #{dictionaryId,jdbcType=INTEGER}
@@ -96,7 +96,8 @@
     <include refid="Base_Column_List" />
     from dictionary
     where DICTIONARY_TYPE = #{dictionaryType,jdbcType=INTEGER}
-    <if test="dictionaryId !=null or dictionaryId !=0 ">and DICTIONARY_ID = #{dictionaryId, jdbcType=INTEGER}</if> 
+    <if test="dictionaryId !=null and dictionaryId !=0 ">and DICTIONARY_ID = #{dictionaryId, jdbcType=INTEGER}</if> 
+    order by DICTIONARY_ORDER asc 
   </select>
   
 </mapper>

@@ -94,6 +94,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		Integer countryId = worksSaveRequestVO.getCountryId();
 		Works works = new Works();
 		works.setUserId(worksSaveRequestVO.getUserId());
+		works.setDeviceType(worksSaveRequestVO.getDt());
 		works.setPrivacyType(worksSaveRequestVO.getPrivacyType());
 		works.setTitle(worksSaveRequestVO.getTitle());
 		works.setDescription(worksSaveRequestVO.getDescription());

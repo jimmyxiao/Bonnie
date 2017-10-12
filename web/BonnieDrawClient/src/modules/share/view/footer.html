@@ -1,21 +1,21 @@
 	<div id="copyright">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-6 col-xs-12 text-center">
+				<div class="col-sm-6 col-xs-12 text-center" ng-controller="footerController">
 					<ul class="footer-menu">
 						<li ng-if="nowUrl !='/login' && nowUrl !='/singup'"><a href="#/about">關於BonnieDRAW</a></li>
 						<li><a href="#">隱私權</a></li>
 						<li><a href="#">使用條款</a></li>
 						<li>
-							<span class="pqycz">
-							語言</span>
-							<select class="fsoey" ng-model="language" ng-change="switchLanguage(language)">
+							<span class="pqycz">語言</span>
+							<select class="fsoey" ng-options="ln.dictionaryCode as ln.dictionaryName for ln in dictionaryList" ng-model="language" ng-change="switchLanguage(language)"></select>
+							<!-- <select class="fsoey" ng-model="language" ng-change="switchLanguage(language)"> -->
 <!-- 							<option value="af">Afrikaans</option>
 							<option value="cs">Čeština</option>
 							<option value="da">Dansk</option>
 							<option value="de">Deutsch</option>
 							<option value="el">Ελληνικά</option> -->
-							<option value="en" >English</option>
+							<!-- <option value="en" >English</option> -->
 <!-- 							<option value="es">Español</option>
 							<option value="fi">Suomi</option>
 							<option value="fr">Français</option>
@@ -35,7 +35,7 @@
 							<option value="tl">Filipino</option>
 							<option value="tr">Türkçe</option>
 							<option value="zh-cn">中文(简体)</option> -->
-							<option value="zh-tw">中文(台灣)</option>
+							<!-- <option value="zh-tw">中文(台灣)</option> -->
 <!-- 							<option value="bn">বাংলা</option>
 							<option value="gu">ગુજરાતી</option>
 							<option value="hi">हिन्दी</option>
@@ -57,7 +57,7 @@
 							<option value="fr-ca">Français (Canada)</option>
 							<option value="ro">Română</option>
 							<option value="sr">Српски</option> -->
-						</select>
+						<!-- </select> -->
 						</li>
 					</ul>
 				</div>
