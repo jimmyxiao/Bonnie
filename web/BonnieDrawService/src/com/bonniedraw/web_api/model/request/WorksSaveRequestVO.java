@@ -9,10 +9,11 @@ public class WorksSaveRequestVO extends ApiRequestVO{
 	private int ac;
 	private int userId;
 	private int privacyType;
+	private Integer worksId;
 	private String title;
 	private String description;
-	private Integer languageId;
-	private Integer countryId;
+	private String languageCode;
+	private String countryCode;
 	private List<CategoryInfo> categoryList;
 
 	public int getAc() {
@@ -39,6 +40,14 @@ public class WorksSaveRequestVO extends ApiRequestVO{
 		this.privacyType = privacyType;
 	}
 
+	public Integer getWorksId() {
+		return worksId;
+	}
+
+	public void setWorksId(Integer worksId) {
+		this.worksId = worksId;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -55,20 +64,20 @@ public class WorksSaveRequestVO extends ApiRequestVO{
 		this.description = description;
 	}
 
-	public Integer getLanguageId() {
-		return languageId;
+	public String getLanguageCode() {
+		return languageCode;
 	}
 
-	public void setLanguageId(Integer languageId) {
-		this.languageId = languageId;
+	public void setLanguageCode(String languageCode) {
+		this.languageCode = languageCode;
 	}
 
-	public Integer getCountryId() {
-		return countryId;
+	public String getCountryCode() {
+		return countryCode;
 	}
 
-	public void setCountryId(Integer countryId) {
-		this.countryId = countryId;
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 
 	public List<CategoryInfo> getCategoryList() {

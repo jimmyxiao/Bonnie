@@ -246,7 +246,8 @@ public class ApiController {
 				respResult.setProfilePicture(userInfo.getProfilePicture());
 				respResult.setBirthday(userInfo.getBirthday());
 				respResult.setStatus(userInfo.getStatus());
-				respResult.setLanguageId(userInfo.getLanguageId());
+				respResult.setLanguageCode(userInfo.getLanguageCode());
+				respResult.setCountryCode(userInfo.getCountryCode());
 			}else{
 				respResult.setRes(2);
 				msg = messageSource.getMessage("api_fail",null,request.getLocale());
@@ -281,7 +282,8 @@ public class ApiController {
 				userInfo.setProfilePicture(userInfoUpdateRequestVO.getProfilePicture());
 				userInfo.setBirthday(userInfoUpdateRequestVO.getBirthday());
 				userInfo.setStatus(userInfoUpdateRequestVO.getStatus());
-				userInfo.setLanguageId(userInfoUpdateRequestVO.getLanguageId());
+				userInfo.setLanguageCode(userInfoUpdateRequestVO.getLanguageCode());
+				userInfo.setCountryCode(userInfoUpdateRequestVO.getCountryCode());
 				int res = userServiceAPI.updateUserInfo(userInfo);
 				respResult.setRes(res);
 				if(res ==1){
@@ -336,7 +338,8 @@ public class ApiController {
 		if(isLogin(worksSaveRequestVO)){
 			int ac = worksSaveRequestVO.getAc();
 			int privacyType = worksSaveRequestVO.getPrivacyType();
-			if( (ac>=1 && ac<=2) && (privacyType>=1 && privacyType<=3) ){
+			Integer worksId = worksSaveRequestVO.getWorksId();
+			if( (ac>=1 && ac<=2) && (privacyType>=1 && privacyType<=3) && (ac==2 && worksId !=null ) ){
 				Integer wid = worksServiceAPI.worksSave(worksSaveRequestVO);
 				if(ValidateUtil.isNotEmpty(wid)){
 					respResult.setRes(1);

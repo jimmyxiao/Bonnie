@@ -139,7 +139,8 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		userInfo.setUpdatedBy(0);
 		userInfo.setUpdateDate(nowDate);
 		userInfo.setStatus(0);
-		userInfo.setLanguageId(1);
+		userInfo.setLanguageCode(loginRequestVO.getLanguageCode());
+		userInfo.setCountryCode(loginRequestVO.getCountryCode());
 		userInfo.setGender(loginRequestVO.getGender());
 		userInfo.setPhoneNo(loginRequestVO.getPhoneNo());
 		if(userType==1){

@@ -49,7 +49,9 @@ public class UserInfo {
 
     private Integer status;
 
-    private Integer languageId;
+    private String languageCode;
+
+    private String countryCode;
 
     private String regData;
 
@@ -247,15 +249,23 @@ public class UserInfo {
         this.status = status;
     }
 
-    public Integer getLanguageId() {
-        return languageId;
-    }
+    public String getLanguageCode() {
+		return languageCode;
+	}
 
-    public void setLanguageId(Integer languageId) {
-        this.languageId = languageId;
-    }
+	public void setLanguageCode(String languageCode) {
+		this.languageCode = languageCode;
+	}
 
-    public String getRegData() {
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public String getRegData() {
         return regData;
     }
 

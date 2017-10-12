@@ -19,9 +19,9 @@ public class Works {
 
     private String bdwPath;
 
-    private Integer languageId;
+    private String languageCode;
 
-    private Integer countryId;
+    private String countryCode;
 
     private Integer status;
 
@@ -96,24 +96,24 @@ public class Works {
     public void setBdwPath(String bdwPath) {
         this.bdwPath = bdwPath == null ? null : bdwPath.trim();
     }
+    
+    public String getLanguageCode() {
+		return languageCode;
+	}
 
-    public Integer getLanguageId() {
-        return languageId;
-    }
+	public void setLanguageCode(String languageCode) {
+		this.languageCode = languageCode;
+	}
 
-    public void setLanguageId(Integer languageId) {
-        this.languageId = languageId;
-    }
+	public String getCountryCode() {
+		return countryCode;
+	}
 
-    public Integer getCountryId() {
-        return countryId;
-    }
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
 
-    public void setCountryId(Integer countryId) {
-        this.countryId = countryId;
-    }
-
-    public Integer getStatus() {
+	public Integer getStatus() {
         return status;
     }
 

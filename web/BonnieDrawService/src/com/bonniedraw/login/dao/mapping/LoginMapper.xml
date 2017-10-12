@@ -11,10 +11,12 @@
     <result column="IS_CURRENT" jdbcType="INTEGER" property="isCurrent" />
     <result column="LOGIN_RESULT" jdbcType="INTEGER" property="loginResult" />
     <result column="SESSION_ID" jdbcType="INTEGER" property="sessionId" />
+    <result column="LANGUAGE_CODE" jdbcType="VARCHAR" property="languageCode" />
+    <result column="COUNTRY_CODE" jdbcType="VARCHAR" property="countryCode" />
   </resultMap>
   <sql id="Base_Column_List">
     LOGIN_ID, USER_ID, LOGIN_TOKEN, DEVICE_IP, DEVICE_INFO, SERVICE_KEY, IS_CURRENT, 
-    LOGIN_RESULT, SESSION_ID
+    LOGIN_RESULT, SESSION_ID, LANGUAGE_CODE, COUNTRY_CODE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -29,12 +31,12 @@
   <insert id="insert" parameterType="com.bonniedraw.login.model.Login">
     insert into login (LOGIN_ID, USER_ID, LOGIN_TOKEN, 
       DEVICE_IP, DEVICE_INFO, SERVICE_KEY, 
-      IS_CURRENT, LOGIN_RESULT, SESSION_ID
-      )
+      IS_CURRENT, LOGIN_RESULT, SESSION_ID, 
+      LANGUAGE_CODE, COUNTRY_CODE)
     values (#{loginId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{loginToken,jdbcType=VARCHAR}, 
       #{deviceIp,jdbcType=VARCHAR}, #{deviceInfo,jdbcType=VARCHAR}, #{serviceKey,jdbcType=VARCHAR}, 
-      #{isCurrent,jdbcType=INTEGER}, #{loginResult,jdbcType=INTEGER}, #{sessionId,jdbcType=INTEGER}
-      )
+      #{isCurrent,jdbcType=INTEGER}, #{loginResult,jdbcType=INTEGER}, #{sessionId,jdbcType=INTEGER}, 
+      #{languageCode,jdbcType=VARCHAR}, #{countryCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bonniedraw.login.model.Login">
     insert into login
@@ -66,6 +68,12 @@
       <if test="sessionId != null">
         SESSION_ID,
       </if>
+      <if test="languageCode != null">
+        LANGUAGE_CODE,
+      </if>
+      <if test="countryCode != null">
+        COUNTRY_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="loginId != null">
@@ -94,6 +102,12 @@
       </if>
       <if test="sessionId != null">
         #{sessionId,jdbcType=INTEGER},
+      </if>
+      <if test="languageCode != null">
+        #{languageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null">
+        #{countryCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -124,6 +138,12 @@
       <if test="sessionId != null">
         SESSION_ID = #{sessionId,jdbcType=INTEGER},
       </if>
+      <if test="languageCode != null">
+        LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null">
+        COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where LOGIN_ID = #{loginId,jdbcType=INTEGER}
   </update>
@@ -136,7 +156,9 @@
       SERVICE_KEY = #{serviceKey,jdbcType=VARCHAR},
       IS_CURRENT = #{isCurrent,jdbcType=INTEGER},
       LOGIN_RESULT = #{loginResult,jdbcType=INTEGER},
-      SESSION_ID = #{sessionId,jdbcType=INTEGER}
+      SESSION_ID = #{sessionId,jdbcType=INTEGER},
+      LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR},
+      COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR}
     where LOGIN_ID = #{loginId,jdbcType=INTEGER}
   </update>
   

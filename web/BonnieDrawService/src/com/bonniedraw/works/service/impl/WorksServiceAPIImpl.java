@@ -90,22 +90,21 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		Date nowDate = TimerUtil.getNowDate();
 		int ac = worksSaveRequestVO.getAc();
 		int userId = worksSaveRequestVO.getUserId();
-		Integer languageId = worksSaveRequestVO.getLanguageId();
-		Integer countryId = worksSaveRequestVO.getCountryId();
 		Works works = new Works();
 		works.setUserId(worksSaveRequestVO.getUserId());
 		works.setDeviceType(worksSaveRequestVO.getDt());
 		works.setPrivacyType(worksSaveRequestVO.getPrivacyType());
 		works.setTitle(worksSaveRequestVO.getTitle());
 		works.setDescription(worksSaveRequestVO.getDescription());
-		works.setLanguageId( (languageId ==null ? 1: languageId) );
-		works.setCountryId( (countryId ==null ? 1 : countryId) );
+		works.setLanguageCode(worksSaveRequestVO.getLanguageCode());
+		works.setCountryCode(worksSaveRequestVO.getCountryCode());
 		works.setUpdatedBy(userId);
 		works.setUpdateDate(nowDate);
 		List<CategoryInfo> categoryList = worksSaveRequestVO.getCategoryList();
 		
 		try {
 			if(ac==1){
+				works.setStatus(1);
 				works.setCreatedBy(userId);
 				works.setCreationDate(nowDate);
 				worksMapper.insert(works);
@@ -114,7 +113,8 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 					insertWorksCatrgorList(categoryList, wid);
 				}
 			}else if(ac==2){
-				wid = works.getWorksId();
+				wid = worksSaveRequestVO.getWorksId();
+				works.setWorksId(wid);
 				worksMapper.updateByPrimaryKeySelective(works);
 				List<WorksCategory> existWorksCategories = worksCategoryMapper.selectByWorksId(wid);
 				

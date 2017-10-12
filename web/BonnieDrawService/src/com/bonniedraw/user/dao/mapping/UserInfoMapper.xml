@@ -25,7 +25,8 @@
     <result column="PROFILE_PICTURE" jdbcType="VARCHAR" property="profilePicture" />
     <result column="BIRTHDAY" jdbcType="TIMESTAMP" property="birthday" />
     <result column="STATUS" jdbcType="INTEGER" property="status" />
-    <result column="LANGUAGE_ID" jdbcType="INTEGER" property="languageId" />
+    <result column="LANGUAGE_CODE" jdbcType="VARCHAR" property="languageCode" />
+    <result column="COUNTRY_CODE" jdbcType="VARCHAR" property="countryCode" />
     <result column="REG_DATA" jdbcType="VARCHAR" property="regData" />
     <result column="REG_VALID_DATE" jdbcType="TIMESTAMP" property="regValidDate" />
     <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
@@ -37,8 +38,8 @@
     USER_ID, USER_TYPE, USER_CODE, USER_PW, USER_NAME, NICK_NAME, EMAIL, SEC_EMAIL, DESCRIPTION, 
     WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, GENDER, REG_FACEBOOK_ID, REG_GOOGLE_ID, REG_TWITTER_ID, 
     REG_WECHAT_ID, REG_RES1_ID, REG_RES2_ID, REG_RES3_ID, PROFILE_PICTURE, BIRTHDAY, 
-    STATUS, LANGUAGE_ID, REG_DATA, REG_VALID_DATE, CREATION_DATE, CREATED_BY, UPDATE_DATE, 
-    UPDATED_BY
+    STATUS, LANGUAGE_CODE, COUNTRY_CODE, REG_DATA, REG_VALID_DATE, CREATION_DATE, CREATED_BY, 
+    UPDATE_DATE, UPDATED_BY
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -58,10 +59,10 @@
       GENDER, REG_FACEBOOK_ID, REG_GOOGLE_ID, 
       REG_TWITTER_ID, REG_WECHAT_ID, REG_RES1_ID, 
       REG_RES2_ID, REG_RES3_ID, PROFILE_PICTURE, 
-      BIRTHDAY, STATUS, LANGUAGE_ID, 
-      REG_DATA, REG_VALID_DATE, CREATION_DATE, 
-      CREATED_BY, UPDATE_DATE, UPDATED_BY
-      )
+      BIRTHDAY, STATUS, LANGUAGE_CODE, 
+      COUNTRY_CODE, REG_DATA, REG_VALID_DATE, 
+      CREATION_DATE, CREATED_BY, UPDATE_DATE, 
+      UPDATED_BY)
     values (#{userId,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}, 
       #{userPw,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{secEmail,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
@@ -69,10 +70,10 @@
       #{gender,jdbcType=INTEGER}, #{regFacebookId,jdbcType=VARCHAR}, #{regGoogleId,jdbcType=VARCHAR}, 
       #{regTwitterId,jdbcType=VARCHAR}, #{regWechatId,jdbcType=VARCHAR}, #{regRes1Id,jdbcType=VARCHAR}, 
       #{regRes2Id,jdbcType=VARCHAR}, #{regRes3Id,jdbcType=VARCHAR}, #{profilePicture,jdbcType=VARCHAR}, 
-      #{birthday,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{languageId,jdbcType=INTEGER}, 
-      #{regData,jdbcType=VARCHAR}, #{regValidDate,jdbcType=TIMESTAMP}, #{creationDate,jdbcType=TIMESTAMP}, 
-      #{createdBy,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER}
-      )
+      #{birthday,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{languageCode,jdbcType=VARCHAR}, 
+      #{countryCode,jdbcType=VARCHAR}, #{regData,jdbcType=VARCHAR}, #{regValidDate,jdbcType=TIMESTAMP}, 
+      #{creationDate,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.bonniedraw.user.model.UserInfo">
     insert into user_info
@@ -146,8 +147,11 @@
       <if test="status != null">
         STATUS,
       </if>
-      <if test="languageId != null">
-        LANGUAGE_ID,
+      <if test="languageCode != null">
+        LANGUAGE_CODE,
+      </if>
+      <if test="countryCode != null">
+        COUNTRY_CODE,
       </if>
       <if test="regData != null">
         REG_DATA,
@@ -238,8 +242,11 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="languageId != null">
-        #{languageId,jdbcType=INTEGER},
+      <if test="languageCode != null">
+        #{languageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null">
+        #{countryCode,jdbcType=VARCHAR},
       </if>
       <if test="regData != null">
         #{regData,jdbcType=VARCHAR},
@@ -330,8 +337,11 @@
       <if test="status != null">
         STATUS = #{status,jdbcType=INTEGER},
       </if>
-      <if test="languageId != null">
-        LANGUAGE_ID = #{languageId,jdbcType=INTEGER},
+      <if test="languageCode != null">
+        LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null">
+        COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR},
       </if>
       <if test="regData != null">
         REG_DATA = #{regData,jdbcType=VARCHAR},
@@ -378,7 +388,8 @@
       PROFILE_PICTURE = #{profilePicture,jdbcType=VARCHAR},
       BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=INTEGER},
-      LANGUAGE_ID = #{languageId,jdbcType=INTEGER},
+      LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR},
+      COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR},
       REG_DATA = #{regData,jdbcType=VARCHAR},
       REG_VALID_DATE = #{regValidDate,jdbcType=TIMESTAMP},
       CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},

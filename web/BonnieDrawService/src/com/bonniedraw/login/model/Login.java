@@ -18,6 +18,10 @@ public class Login {
     private Integer loginResult;
 
     private Integer sessionId;
+    
+    private String languageCode;
+
+    private String countryCode;
 
     public Integer getLoginId() {
         return loginId;
@@ -90,4 +94,21 @@ public class Login {
     public void setSessionId(Integer sessionId) {
         this.sessionId = sessionId;
     }
+
+	public String getLanguageCode() {
+		return languageCode;
+	}
+
+	public void setLanguageCode(String languageCode) {
+		this.languageCode = languageCode;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
 }

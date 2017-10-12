@@ -13,6 +13,8 @@ public class LoginRequestVO {
 	private String phoneNo;
 	private String captcha;
 	private String mask;
+	private String languageCode;
+	private String countryCode;
 	
 	public String getUc() {
 		return uc;
@@ -110,4 +112,20 @@ public class LoginRequestVO {
 		this.mask = mask;
 	}
 
+	public String getLanguageCode() {
+		return languageCode;
+	}
+
+	public void setLanguageCode(String languageCode) {
+		this.languageCode = languageCode;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+	
 }

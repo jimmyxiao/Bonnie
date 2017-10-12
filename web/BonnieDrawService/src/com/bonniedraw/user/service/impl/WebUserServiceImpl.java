@@ -39,7 +39,6 @@ public class WebUserServiceImpl extends BaseService implements WebUserService {
 		userInfo.setCreationDate(nowDate);
 		userInfo.setUpdatedBy(0);
 		userInfo.setUpdateDate(nowDate);
-		userInfo.setLanguageId(1);
 	}
 	
 	@Override

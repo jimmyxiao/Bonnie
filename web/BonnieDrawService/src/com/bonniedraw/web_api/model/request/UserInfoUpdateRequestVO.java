@@ -18,7 +18,8 @@ public class UserInfoUpdateRequestVO extends ApiRequestVO{
 	private String profilePicture;
 	private Date birthday;
 	private Integer status;
-	private Integer languageId;
+	private String languageCode;
+	private String countryCode;
 
 	public int getUserType() {
 		return userType;
@@ -124,12 +125,20 @@ public class UserInfoUpdateRequestVO extends ApiRequestVO{
 		this.status = status;
 	}
 
-	public Integer getLanguageId() {
-		return languageId;
+	public String getLanguageCode() {
+		return languageCode;
 	}
 
-	public void setLanguageId(Integer languageId) {
-		this.languageId = languageId;
+	public void setLanguageCode(String languageCode) {
+		this.languageCode = languageCode;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 
 }
