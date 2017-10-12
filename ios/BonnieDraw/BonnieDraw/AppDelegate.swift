@@ -38,7 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        if let timestamp = UserDefaults.standard.object(forKey: Default.TOKEN_TIMESTAMP) as? Date,
+        let timestamp = UserDefaults.standard.object(forKey: Default.TOKEN_TIMESTAMP)
+        if timestamp != nil, let timestamp = timestamp as? Date,
            Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 >= TOKEN_LIFETIME,
            let controller = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() {
             UIApplication.shared.replace(rootViewControllerWith: controller)
