@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.paint;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +16,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.net.Uri;
 import android.os.Build;
@@ -26,6 +26,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -161,11 +162,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         colorPicker.getWindow().setGravity(Gravity.END);
         colorPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         colorPicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
-        sizePicker = new SizePicker(this, this, Color.WHITE);
+        sizePicker = new SizePicker(this, this, Color.GRAY);
         sizePicker.getWindow().setGravity(Gravity.START);
         sizePicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         sizePicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
-        paintPicker = new PaintPicker(myView.getContext(), this, Color.WHITE);
+        paintPicker = new PaintPicker(myView.getContext(), this, Color.TRANSPARENT);
         paintPicker.getWindow().setGravity(Gravity.BOTTOM);
         paintPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         paintPicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
@@ -200,7 +201,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         }
     }
 
-    public void changePaint(View view){
+    public void changePaint(View view) {
         paintPicker.show();
     }
 
@@ -312,6 +313,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         private static final float TOUCH_TOLERANCE = 4;
         private Paint gridPaint;
         boolean grid = false;
+        RectF rectF;
 
         public MyView(Context c) {
             super(c);
@@ -332,6 +334,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             gridPaint.setStrokeWidth(3);
             gridPaint.setStyle(Paint.Style.STROKE);
             gridPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.GridLineColor));
+            rectF = new RectF(getLeft(), getTop(), getRight(), getBottom());
         }
 
         public void loadBitmap(Bitmap bitmap) {
@@ -339,22 +342,19 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             load = true;
         }
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         protected void onDraw(Canvas canvas) {
+            canvas.drawColor(Color.WHITE);
             if (grid) {
                 //0到底部
-                canvas.drawColor(Color.WHITE);
                 int gridCol = 20;
                 for (int i = 0; i <= gridCol; i++) {
                     canvas.drawLine((displayWidth / gridCol) * i, 0, (displayWidth / gridCol) * i, displayWidth, gridPaint);
                     canvas.drawLine(0, (displayWidth / gridCol) * i, displayWidth, (displayWidth / gridCol) * i, gridPaint);
-                    canvas.saveLayer(myView.getLeft(), myView.getTop(), displayWidth, displayWidth, gridPaint);
                 }
-            } else {
-                canvas.drawColor(Color.WHITE);
-                canvas.saveLayer(myView.getLeft(), myView.getTop(), displayWidth, displayWidth, gridPaint);
             }
+
             for (PathAndPaint p : paths) {
                 canvas.drawPath(p.get_mPath(), p.get_mPaint());
             }
@@ -617,9 +617,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     try {
                         JSONObject json = new JSONObject();
                         JSONArray jsonArray = new JSONArray();
-                        JSONObject addList = new JSONObject();
-                        addList.put("categoryId", listNumCheck);
-
                         json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
                         json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
@@ -630,7 +627,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         json.put("description", workDescription.getText().toString());
                         //json.put("languageId", 1);
                         //json.put("countryId", 886);
-                        jsonArray.put(addList);
                         json.put("categoryList", jsonArray);
                         Log.d("LOGIN JSON: ", json.toString());
                         fileInfo(json, GlobalVariable.WORK_SAVE_URL);
@@ -745,7 +741,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             json
                     .put("ui", prefs.getString(GlobalVariable.API_UID, "null"))
                     .put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
-                    .put("dt", GlobalVariable.LOGIN_PLATFORM);
+                    .put("dt", GlobalVariable.LOGIN_PLATFORM)
+                    .put("categoryId", "0");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -975,12 +972,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void onClick(View view) {
                 //開啟格線
                 if (!myView.grid) {
+                    //0到底部
                     myView.grid = true;
-                    myView.invalidate();
                 } else {
                     myView.grid = false;
-                    myView.invalidate();
                 }
+                myView.invalidate();
             }
         });
 

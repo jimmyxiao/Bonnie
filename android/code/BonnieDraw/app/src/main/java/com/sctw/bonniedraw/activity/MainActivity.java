@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        creatteProfileInfo();
+        createProfileInfo();
     }
 
     public void changeFragment(Fragment fragment) {
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
     }
 
-    void creatteProfileInfo() {
+    void createProfileInfo() {
         String userName = prefs.getString(GlobalVariable.userNameStr, "Null");
         headerText.setText(userName);
         if (!prefs.getString("userImgUrl", "").isEmpty()) {
@@ -225,6 +225,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        for (Fragment frag : fragmentManager.getFragments()) {
+            if (frag.isVisible()) {
+                FragmentManager childFm = frag.getChildFragmentManager();
+                if (childFm.getBackStackEntryCount() > 0) {
+                    childFm.popBackStack();
+                    return;
+                }
+            }
+        }
         if (drawerLayout.isDrawerOpen(Gravity.START)) {
             drawerLayout.closeDrawers();
         } else if (fragmentManager.getBackStackEntryCount() != 0) {
