@@ -16,6 +16,7 @@ public class WorksResponse extends Works {
 	private List<WorksCategory> categoryList;
 	private int isCollection;
 	private int isFollowing;
+	private boolean isLike;
 
 	public String getUserName() {
 		return userName;
@@ -81,4 +82,12 @@ public class WorksResponse extends Works {
 		this.isFollowing = isFollowing;
 	}
 
+	public boolean isLike() {
+		return isLike;
+	}
+
+	public void setLike(boolean isLike) {
+		this.isLike = isLike;
+	}
+	
 }

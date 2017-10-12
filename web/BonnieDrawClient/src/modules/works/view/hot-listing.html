@@ -18,20 +18,20 @@
 											<div class="vid-img">
 												<img class="img-responsive" ng-src="{{data.imagePath}}" alt="video image">
 												<a href="video-detail.html" class="play-icon play-small-icon">
-							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
+							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">
 							                	</a>
 												<div class="overlay-div"></div>
 											</div>
 											<div class="vid-text">
 												<section class="_hmd6j _8oo9w">
-													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled>
-														<i class="material-icons font-icon">{{data.title}}</i>
+													<a ng-click="clickWorksLike(data)" class="_eszkz _l9yih" href="" role="button" aria-disabled>
+														<i ng-if="!data.like" class="material-icons font-icon">favorite_border</i>
+														<i ng-if="data.like" class="material-icons font-icon">favorite</i>
 													</a>
-													<span>
-														<i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{data.likeCount}}
-													</span>
+													<span>{{data.likeCount}}</span>
+													<a href=""><i class="material-icons share-icon">share</i></a>
 												</section>
-												<p><span>By</span> <a href="#">{{data.userName}}</a></p>
+												<p><a href="">{{data.userName}}</a></p>
 												<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.description}}</a></h1>
 											</div>
 										</div>

@@ -14,7 +14,7 @@ public class SizePicker extends Dialog implements SizeSelectedListener {
     private OnSizeChangedListener mListener;
     private int mInitialSize;
 
-    public SizePicker(Context context, OnSizeChangedListener listener, String key, int initialSize) {
+    public SizePicker(Context context, OnSizeChangedListener listener, int initialSize) {
         super(context);
         mListener = listener;
         mInitialSize = initialSize;

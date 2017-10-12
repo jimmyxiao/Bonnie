@@ -6,8 +6,6 @@
     android:id="@+id/profile_container_layout"
     tools:context="com.sctw.bonniedraw.fragment.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <RelativeLayout
         android:id="@+id/profile_toolbar"
         android:layout_width="match_parent"
@@ -47,25 +45,12 @@
         android:background="#aaa" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/cons_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@+id/divider"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_edit_profile"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/edit_profile_icon"
-            android:text="編輯個人檔案"
-            android:textSize="12sp"
-            app:layout_constraintLeft_toLeftOf="@+id/profile_userWorks"
-            app:layout_constraintRight_toRightOf="@+id/profile_userFollow"
-            app:layout_constraintTop_toBottomOf="@+id/profile_userFans" />
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/profile_photo"
@@ -82,91 +67,124 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="24dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="姓名"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/profile_photo"
             app:layout_constraintRight_toRightOf="@+id/profile_photo"
-            app:layout_constraintTop_toBottomOf="@+id/profile_photo" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_photo"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
 
+        <Button
+            android:id="@+id/btn_edit_profile"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edit_profile_icon"
+            android:text="個人\n檔案"
+            app:layout_constraintLeft_toLeftOf="@+id/fans_layout"
+            app:layout_constraintRight_toRightOf="@+id/fans_layout"
+            app:layout_constraintTop_toBottomOf="@+id/fans_layout"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" />
 
-        <TextView
-            android:id="@+id/username_textview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/profile_userWorks"
-            app:layout_constraintLeft_toLeftOf="@+id/profile_userWorks"
-            app:layout_constraintRight_toRightOf="@+id/profile_userWorks" />
-
-        <TextView
-            android:id="@+id/profile_userWorks"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:text="作品數"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/profile_userFans"
-            app:layout_constraintRight_toLeftOf="@+id/profile_userFans" />
+            android:background="@drawable/shape_profile_border"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintRight_toLeftOf="@+id/fans_layout"
+            android:layout_marginRight="48dp"
+            android:id="@+id/wroks_layout">
 
-        <TextView
-            android:id="@+id/userworks_textview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="0"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@+id/profile_userFans"
-            app:layout_constraintRight_toRightOf="@+id/profile_userFans"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/userworks_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/profile_userFans"
+            <TextView
+                android:id="@+id/profile_userWorks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="作品數"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="108dp"
-            android:layout_marginStart="24dp"
-            android:text="粉絲數"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userworks_textview" />
+            android:background="@drawable/shape_profile_border"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:id="@+id/fans_layout"
+            android:layout_marginRight="48dp"
+            app:layout_constraintRight_toRightOf="parent">
 
+            <TextView
+                android:id="@+id/userfollow_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/userfollow_textview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/profile_userFollow"
-            app:layout_constraintLeft_toLeftOf="@+id/profile_userFollow"
-            app:layout_constraintRight_toRightOf="@+id/profile_userFollow" />
+            <TextView
+                android:id="@+id/profile_userFans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="粉絲數"
+                android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/profile_userFollow"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/follow_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="16dp"
-            android:text="追蹤中"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/profile_userFans"
-            app:layout_constraintLeft_toRightOf="@+id/profile_userFans" />
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_profile_border"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="@+id/wroks_layout"
+            app:layout_constraintRight_toRightOf="@+id/wroks_layout"
+            app:layout_constraintTop_toBottomOf="@+id/wroks_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/username_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/profile_userFollow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="追蹤中"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
 
     </android.support.constraint.ConstraintLayout>
 
@@ -174,7 +192,7 @@
         android:id="@+id/viewBtnLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout2"
+        android:layout_below="@+id/cons_layout"
         android:background="@drawable/shape_border"
         android:divider="@drawable/divider_layout"
         android:orientation="horizontal"
@@ -209,5 +227,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/viewBtnLayout"
         android:background="@color/Transparent" />
+
 
 </RelativeLayout>

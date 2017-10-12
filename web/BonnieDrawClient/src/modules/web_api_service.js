@@ -118,6 +118,9 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
     return {
         queryWorksList: function(params,callback){
             return baseHttp.service('worksList' ,params,callback);
+        },
+        setLike: function(params,callback){
+            return baseHttp.service('setLike' ,params,callback);
         }
     }
 }).factory('userService', function(baseHttp) {

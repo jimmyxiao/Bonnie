@@ -14,25 +14,32 @@
 				                            <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe>
 				                        </div>
 									</div>
+									<h3>How to Make a Mountain Bike Film</h3>
 									<div class="vid-text">
-										<p><span>By</span><a href="#">{{mainSection.userName}}</a></p>
-										<h1>{{mainSection.title}}</h1>
-									</div>
-									<div class="video-info-bar">
-										<ul class="list-inline list-unstyled info-ul">
-											<li><i class="fa fa-calendar"></i>{{mainSection.updateDate | date:"MMM dd, y"}}</li>
-											<li><i class="fa fa-eye"></i>0</li>
-											<li><i class="fa fa-thumbs-up"></i>{{mainSection.likeCount}}</li>
-											<li class="pull-right sharing-drop"><button class="btn"></button></li>
-										</ul>
+										<a class="_eszkz _l9yih" href="#" role="button" aria-disabled>
+										<i class="material-icons font-icon">bookmark_border</i></a>
+										<a class="_eszkz _l9yih" href="#" role="button" aria-disabled>
+										<i class="material-icons font-icon">favorite_border</i></a>
+										<span>{{mainSection.likeCount}}</span>
 										<ul class="list-unstyled list-inline pull-right text-right sharing-bar">
 											<li><a href="#"><i class="fa fa-facebook"></i></a></li>
 											<li><a href="#"><i class="fa fa-twitter"></i></a></li>
 											<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
 											<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-											<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
 										</ul>
+										<div class="_1eg8c">
+											<div class="_l8yre _5g4e2 col-md-4 col-sm-4 col-xs-4">
+												<button class="_1frkc" title="更換大頭貼照">
+													<img class="_fya1f" alt="更換大頭貼照" src="https://instagram.ftpe7-4.fna.fbcdn.net/t51.2885-19/s150x150/20987363_112853212749420_4017061943918460928_a.jpg">
+												</button>
+											</div>
+											<div class="col-md-8 col-sm-8 col-xs-4" >
+												<h1 class="_9dz61">ying6306</h1>
+												<p><i class="fa fa-calendar date-text"></i>2017-10-05</p>
+											</div>
+										</div>
 									</div>
+
 									<div class="video-detail-text">
 										<p>
 											{{mainSection.description}}
@@ -45,7 +52,15 @@
 												<span><span>{{data.message}}</span></span>
 											</li>
 										</ul>
+										<ul id="demo" class="collapse _b0tqa">
+											<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="gabriellelee0530" href="#">gabriellelee0530</a><span><span>留言1</span></span></li>
+											<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="hsiuli" href="#">hsiuli</a><span><span>留言2</span></span></li>
+											<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="yinnn21_" href="#">yinnn21_</a><span><span>留言3</span></span></li>
+										</ul>
 									</div>
+									<div class="container" style="margin-bottom:30px;padding-left:0">
+ 										<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">更多留言</button>
+ 									</div>
 									<div id="comment-frm-container">
 										<form class="comment-form">
 											<div class="row">
@@ -70,21 +85,22 @@
 										</div>
 										<div class="row">
 											<div class="vid-container">
-												<!-- <div class="col-md-4 col-sm-6">
+												<div class="col-md-4 col-sm-6">
 													<div class="latest-vid-img-container">		
 														<div class="vid-img">
-															<img class="img-responsive" src="assets/images/2-column-vid-img_2.jpg" alt="video image">
+															<img class="img-responsive" src="images/2-column-vid-img_2.jpg" alt="video image">
 															<a href="video-detail.html" class="play-icon play-small-icon">
-										                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">            	
+										                		<img class="img-responsive play-svg svg" src="images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
 										                	</a>
 															<div class="overlay-div"></div>
 														</div>
 														<div class="vid-text">
-															<section class="_hmd6j _8oo9w">
-																<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
-																<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>57689</span>
+															<section class="_8oo9w">
+																<a  href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
+																<span>57689</span>
+																<a href="#"><i class="material-icons share-icon">share</i></a>
 															</section>
-															<p><span>By</span> <a href="#">Jhon Doe</a></p>
+															<p><a href="#">Jhon Doe</a></p>
 															<h1><a href="column-detail.html">Super Hero of Kids</a></h1>
 														</div>
 													</div>
@@ -92,18 +108,19 @@
 												<div class="col-md-4 col-sm-6">
 													<div class="latest-vid-img-container">		
 														<div class="vid-img">
-															<img class="img-responsive" src="assets/images/2-column-vid-img_3.jpg" alt="video image">
+															<img class="img-responsive" src="images/2-column-vid-img_3.jpg" alt="video image">
 															<a href="video-detail.html" class="play-icon play-small-icon">
-										                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">              	
+										                		<img class="img-responsive play-svg svg" src="images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
 										                	</a>
 															<div class="overlay-div"></div>
 														</div>
 														<div class="vid-text">
-															<section class="_hmd6j _8oo9w">
-																<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
-																<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>57689</span>
+															<section class="_8oo9w">
+																<a  href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
+																<span>57689</span>
+																<a href="#"><i class="material-icons share-icon">share</i></a>
 															</section>
-															<p><span>By</span> <a href="#">Jhon Doe</a></p>
+															<p><a href="#">Jhon Doe</a></p>
 															<h1><a href="column-detail.html">Super Hero of Kids</a></h1>
 														</div>
 													</div>
@@ -111,22 +128,23 @@
 												<div class="col-md-4 col-sm-6">
 													<div class="latest-vid-img-container">		
 														<div class="vid-img">
-															<img class="img-responsive" src="assets/images/2-column-vid-img_4.jpg" alt="video image">
+															<img class="img-responsive" src="images/2-column-vid-img_4.jpg" alt="video image">
 															<a href="video-detail.html" class="play-icon play-small-icon">
-											                	<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
-											                </a>
+										                		<img class="img-responsive play-svg svg" src="images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
+										                	</a>
 															<div class="overlay-div"></div>
 														</div>
 														<div class="vid-text">
-															<section class="_hmd6j _8oo9w">
-															<a class="_eszkz _l9yih" href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
-															<span><i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>57689</span>
+															<section class="_8oo9w">
+																<a  href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
+																<span>57689</span>
+																<a href="#"><i class="material-icons share-icon">share</i></a>
 															</section>
-															<p><span>By</span> <a href="#">Jhon Doe</a></p>
+															<p><a href="#">Jhon Doe</a></p>
 															<h1><a href="column-detail.html">Super Hero of Kids</a></h1>
 														</div>
 													</div>
-												</div> -->
+												</div>
 											</div>
 										</div>
 									</div>

@@ -23,9 +23,9 @@ public interface WorksMapper {
     
     List<WorksResponse> queryAllWorks();
     
-    List<WorksResponse> queryNewUploadWorks(Integer rc);
+    List<WorksResponse> queryNewUploadWorks(Map<String, Object> pagerMap);
     
-    List<WorksResponse> queryPopularWorks(Integer rc);
+    List<WorksResponse> queryPopularWorks(Map<String, Object> pagerMap);
     
     int seletMaxPagination(Integer rc);
     

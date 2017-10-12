@@ -146,9 +146,13 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 
 	@Override
 	public List<WorksResponse> queryAllWorks(WorkListRequestVO workListRequestVO) {
+		int userId = workListRequestVO.getUi();
 		int wt = workListRequestVO.getWt();
 		int rc = workListRequestVO.getRc();
 		List<WorksResponse> worksResponseList = new ArrayList<WorksResponse>();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", userId);
+		paramMap.put("rc", rc);
 		
 		switch (wt) {
 		case 1:
@@ -161,10 +165,10 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			}
 			break;
 		case 2:
-				worksResponseList = worksMapper.queryPopularWorks(rc);
+				worksResponseList = worksMapper.queryPopularWorks(paramMap);
 			break;
 		case 4:
-			worksResponseList = worksMapper.queryNewUploadWorks(rc);
+			worksResponseList = worksMapper.queryNewUploadWorks(paramMap);
 			break;
 		}
 		return worksResponseList;
