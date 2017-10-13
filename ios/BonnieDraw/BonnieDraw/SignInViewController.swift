@@ -65,13 +65,13 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             }
         } else {
             view.endEditing(true)
-            loading.hide(hide: false)
+            loading.hide(false)
             client.components.path = Service.LOGIN
             client.getResponse(queries: nil, data: ["uc": email, "up": password, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 1]) {
                 success, data in
                 guard success, let response = data?["res"] as? Int else {
                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                    self.loading.hide(hide: true)
+                    self.loading.hide(true)
                     return
                 }
                 if response == 1, let token = data?["lk"] as? String, let userId = data?["ui"] as? Int {
@@ -93,7 +93,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     }
                 } else {
                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
-                    self.loading.hide(hide: true)
+                    self.loading.hide(true)
                     self.password.text = nil
                 }
             }
@@ -101,7 +101,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     @IBAction func facebook(_ sender: Any) {
-        loading.hide(hide: false)
+        loading.hide(false)
         LoginManager().logIn([.publicProfile, .email]) {
             result in
             switch result {
@@ -113,7 +113,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                         guard let facebookId = response.dictionaryValue?["id"] as? String,
                               let facebookName = response.dictionaryValue?["name"] as? String else {
                             self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                            self.loading.hide(hide: true)
+                            self.loading.hide(true)
                             return
                         }
                         if let facebookEmail = response.dictionaryValue?["email"] as? String {
@@ -129,42 +129,42 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                                     fallthrough
                                 default:
-                                    self.loading.hide(hide: true)
+                                    self.loading.hide(true)
                                 }
                             }
                         } else {
                             self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_permission".localized)
-                            self.loading.hide(hide: true)
+                            self.loading.hide(true)
                         }
                     case .failed(let error):
                         self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                         fallthrough
                     default:
-                        self.loading.hide(hide: true)
+                        self.loading.hide(true)
                     }
                 }
             case .failed(let error):
                 self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                 fallthrough
             default:
-                self.loading.hide(hide: true)
+                self.loading.hide(true)
             }
         }
     }
 
     @IBAction func twitter(_ sender: Any) {
-        loading.hide(hide: false)
+        loading.hide(false)
         Twitter.sharedInstance().logIn() {
             session, error in
             if let error = error {
                 self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
-                self.loading.hide(hide: true)
+                self.loading.hide(true)
             } else {
                 TWTRAPIClient.withCurrentUser().requestEmail() {
                     email, error in
                     if let error = error {
                         self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
-                        self.loading.hide(hide: true)
+                        self.loading.hide(true)
                     } else {
                         TWTRAPIClient.withCurrentUser().loadUser(withID: session!.userID) {
                             user, error in
@@ -177,13 +177,13 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     @IBAction func google(_ sender: Any) {
-        loading.hide(hide: false)
+        loading.hide(false)
         GIDSignIn.sharedInstance().signIn()
     }
 
     internal func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
-            loading.hide(hide: true)
+            loading.hide(true)
             presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
         } else {
             checkAndLogin(withUserType: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128).absoluteString)
@@ -206,7 +206,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                 success, data in
                 guard success, let response = data?["res"] as? Int else {
                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                    self.loading.hide(hide: true)
+                    self.loading.hide(true)
                     return
                 }
                 if response == 1,
@@ -234,7 +234,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     }
                 } else {
                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
-                    self.loading.hide(hide: true)
+                    self.loading.hide(true)
                 }
             }
         }
@@ -242,7 +242,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             success, data in
             guard success, let response = data?["res"] as? Int else {
                 self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                self.loading.hide(hide: true)
+                self.loading.hide(true)
                 return
             }
             if response == 1 {
@@ -251,14 +251,14 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     success, data in
                     guard success, let response = data?["res"] as? Int else {
                         self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                        self.loading.hide(hide: true)
+                        self.loading.hide(true)
                         return
                     }
                     if response == 1 {
                         signInHandler(false)
                     } else {
                         self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                        self.loading.hide(hide: true)
+                        self.loading.hide(true)
                     }
                 }
             } else {

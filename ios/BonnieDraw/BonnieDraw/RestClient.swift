@@ -29,6 +29,39 @@ class RestClient: NSObject, URLSessionTaskDelegate {
         session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
     }
 
+    func uploadFile(queries: [URLQueryItem]? = nil, fileData: Data, completionHandler: @escaping (_ success: Bool, _ data: [String: Any]?) -> Void) {
+        self.completionHandler = completionHandler
+        guard let url = components.url else {
+            Logger.p("\(#function) Error unwrapping url")
+            failResponse()
+            return
+        }
+        components.queryItems = queries
+        let boundary = "\(UUID().uuidString)"
+        let boundaryPrefix = "--\(boundary)\r\n"
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        var body = Data()
+//        body.append(string: boundaryPrefix)
+//        body.append(string: "Content-Disposition: form-data; name=\"properties\"\r\n")
+//        body.append(string: "Content-Type: \"application/json\"\r\n")
+//        body.append(string: "\r\n")
+//        do {
+//            body.append(try JSONSerialization.data(withJSONObject: properties, options: []))
+//        } catch  {
+//            Logger.p("\(#function): \(error.localizedDescription)")
+//        }
+//        body.append(string: boundaryPrefix)
+//        body.append(string: "Content-Disposition: form-data; name=\"file\"; filename=\"\("fileName.png")\"\r\n")
+//                body.append(string: "Content-Type: \"image/png\"\r\n")
+//        body.append(string: "\r\n")
+//        body.append(fileData)
+//        body.append(string: "--\(boundary)--")
+        request.httpBody = body
+        getResponse(request: request)
+    }
+
     func getResponse(queries: [URLQueryItem]? = nil, data: [String: Any]? = nil, completionHandler: @escaping (_ success: Bool, _ data: [String: Any]?) -> Void) {
         self.completionHandler = completionHandler
         components.queryItems = queries
@@ -41,7 +74,7 @@ class RestClient: NSObject, URLSessionTaskDelegate {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         if let data = data {
             do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+                request.httpBody = try JSONSerialization.data(withJSONObject: data, options: [])
                 request.httpMethod = "POST"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             } catch {

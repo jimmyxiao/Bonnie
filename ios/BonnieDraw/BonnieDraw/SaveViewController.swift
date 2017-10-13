@@ -16,7 +16,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
     var workThumbnailData: Data?
     var workFileData: Data?
     var workCategory: WorkCategory?
-    let client = RestClient.standard(withPath: Service.WORK_SAVE)
+    let client = RestClient(scheme: Service.SCHEME, host: Service.HOST)
 
     override func viewDidLoad() {
         workDescription.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
@@ -32,6 +32,9 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
     }
 
     @IBAction func save(_ sender: Any) {
+        guard let workThumbnailData = workThumbnailData else {
+            return
+        }
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let title = self.workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if description.isEmpty {
@@ -45,15 +48,25 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                 self.workTitle.becomeFirstResponder()
             }
         } else if let category = workCategory {
-            if let id = UserDefaults.standard.string(forKey: Default.USER_ID),
+            if let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
                let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
-                client.getResponse(data: ["ui": id, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": 1, "title": title, "description": description]) {
+                client.components.path = Service.WORK_SAVE
+                client.getResponse(data: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": 1, "title": title, "description": description]) {
                     success, data in
-                    guard success, data?["res"] as? Int == 1 else {
+                    guard success, data?["res"] as? Int == 1, let workId = data?["wid"] as? Int else {
                         self.presentDialog(title: "alert_save_fail_title".localized, message: "app_network_unreachable_content".localized)
                         return
                     }
-                    self.navigationController?.dismiss(animated: true)
+                    self.client.components.path = Service.FILE_UPLOAD
+                    let queries = [URLQueryItem(name: "ui", value: userId),
+                                   URLQueryItem(name: "lk", value: token),
+                                   URLQueryItem(name: "dt", value: "\(SERVICE_DEVICE_TYPE)"),
+                                   URLQueryItem(name: "wid", value: "\(workId)"),
+                                   URLQueryItem(name: "ftype", value: "\(FileType.png.rawValue)")]
+                    self.client.uploadFile(queries: queries, fileData: workThumbnailData) {
+                        success, data in
+                        Logger.d(data)
+                    }
                 }
             }
         } else {

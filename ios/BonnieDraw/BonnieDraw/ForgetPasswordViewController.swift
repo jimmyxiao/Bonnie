@@ -31,10 +31,10 @@ class ForgetPasswordViewController: UIViewController, UITextFieldDelegate {
             }
         } else {
             view.endEditing(true)
-            loading.hide(hide: false)
+            loading.hide(false)
             client.getResponse(queries: nil, data: ["email": email]) {
                 success, data in
-                self.loading.hide(hide: true)
+                self.loading.hide(true)
                 guard success, let response = data?["res"] as? Int else {
                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
                     return

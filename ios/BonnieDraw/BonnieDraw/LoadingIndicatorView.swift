@@ -36,7 +36,7 @@ class LoadingIndicatorView: UIView {
         addAndCenter(subView: indicator)
     }
 
-    func hide(hide: Bool) {
+    func hide(_ hide: Bool) {
         if hide {
             UIView.animate(withDuration: 0.4, animations: {
                 self.alpha = 0
