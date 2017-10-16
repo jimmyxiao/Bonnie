@@ -103,7 +103,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
             app:layout_constraintRight_toLeftOf="@+id/fans_layout"
-            android:layout_marginRight="48dp"
+            android:layout_marginRight="32dp"
             android:id="@+id/wroks_layout">
 
             <TextView

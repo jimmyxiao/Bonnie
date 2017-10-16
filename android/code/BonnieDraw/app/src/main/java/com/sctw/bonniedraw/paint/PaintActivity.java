@@ -57,6 +57,7 @@ import com.sctw.bonniedraw.paintpicker.OnSizeChangedListener;
 import com.sctw.bonniedraw.paintpicker.SizePicker;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
+import com.sctw.bonniedraw.utility.CircleMenuLayout;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.PxDpConvert;
@@ -97,7 +98,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private String fname; // file name
     private Paint mPaint;
     private int count = 0;
-    private ImageButton btnAutoPlay, btnPlay, btnRedo, btnUndo, btnNext, btnPrevious, btnGrid, btnOpenAutoPlay, btnSize;
+    private ImageButton btnAutoPlay, btnPlay, btnRedo, btnUndo, btnNext, btnPrevious, btnGrid, btnOpenAutoPlay, btnSize, btnChangePaint;
     private List<Integer> tempTagLength = new ArrayList<Integer>();
     private List<TagPoint> mTagPoint_a_record, undoTagPoint_a_record;
     private Handler handler_Timer_Play = new Handler();
@@ -108,7 +109,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private SizePicker sizePicker;
     private FullScreenDialog saveDialog;
     private TextView paintPlayProgress;
-    private static final int[] ITEM_PAINT={R.drawable.draw_pen_on_1,R.drawable.draw_pen_on_2,R.drawable.draw_pen_on_3,R.drawable.draw_pen_on_4,R.drawable.draw_pen_on_5};
+    private static final int[] mItemImgs = {R.drawable.draw_pen_on_1, R.drawable.draw_pen_on_2, R.drawable.draw_pen_on_3, R.drawable.draw_pen_on_4, R.drawable.draw_pen_on_5};
+    private String[] mItemTexts = new String[]{"1", "2", "3", "4", "5"};
     BDWFileReader reader = new BDWFileReader();
     File file;
     float startX, startSacle, startY, pointLength;
@@ -117,6 +119,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     Xfermode earseEffect;
     private int privacyType, listNumCheck;
     ArrayList<String> listString, listNum;
+    private CircleMenuLayout mCircleMenuLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +147,34 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mViewFreePaint = (FrameLayout) findViewById(R.id.view_freepaint);
         mViewFreePaint.addView(myView);
         paintPlayProgress = (TextView) findViewById(R.id.paint_play_progress);
+
+        //CIRCLE MENU
+        btnChangePaint = (ImageButton) findViewById(R.id.paint_change_btn);
+        mCircleMenuLayout = (CircleMenuLayout) findViewById(R.id.id_menulayout);
+        mCircleMenuLayout.setMenuItemIconsAndTexts(mItemImgs, mItemTexts);
+
+        mCircleMenuLayout.setOnMenuItemClickListener(new CircleMenuLayout.OnMenuItemClickListener() {
+
+            @Override
+            public void itemClick(View view, int pos) {
+                Toast.makeText(PaintActivity.this, mItemTexts[pos], Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void itemCenterClick(View view) {
+                Toast.makeText(PaintActivity.this, "you can do something just like ccb  ", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnChangePaint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mCircleMenuLayout.getVisibility() == View.VISIBLE) {
+                    mCircleMenuLayout.setVisibility(View.INVISIBLE);
+                } else {
+                    mCircleMenuLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         //tButton init
         btnAutoPlay = (ImageButton) findViewById(R.id.id_btn_autoplay);
@@ -226,7 +257,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 break;
         }
     }
-
 
 
     @Override
