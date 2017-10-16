@@ -73,7 +73,7 @@
 									<div class="col-md-4 col-sm-6" ng-repeat="newUpload in secondarySectionArr_new track by $index">
 										<div class="latest-vid-img-container">		
 											<div class="vid-img">
-												<img class="img-responsive" ng-src="{{newUpload.imagePath}}" alt="video image">
+												<img ng-if="newUpload.imagePath!=null && newUpload.imagePath!=''" class="img-responsive" ng-src="{{newUpload.imagePath}}" alt="video image">
 												<a ng-href="#/column-detail?id={{newUpload.worksId}}" class="play-icon play-small-icon">
 							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">            	
 							                	</a>

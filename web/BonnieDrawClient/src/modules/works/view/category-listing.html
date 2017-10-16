@@ -16,23 +16,23 @@
 									<div class="col-md-4 col-sm-6" ng-repeat="data in mainSectionArr track by $index">
 										<div class="latest-vid-img-container">
 											<div class="vid-img">
-												<img class="img-responsive" ng-src="{{data.img}}" alt="video image">
+												<img class="img-responsive" ng-src="{{data.imagePath}}" alt="video image">
 												<a href="video-detail.html" class="play-icon play-small-icon">
-							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
+							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">
 							                	</a>
 												<div class="overlay-div"></div>
 											</div>
 											<div class="vid-text">
 												<section class="_hmd6j _8oo9w">
-													<a class="_eszkz _l9yih" href="#" role="button" aria-disabled>
-														<i class="material-icons font-icon">{{data.text.title}}</i>
+													<a ng-click="clickWorksLike(data)" class="_eszkz _l9yih" href="" role="button" aria-disabled>
+														<i ng-if="!data.like" class="material-icons font-icon">favorite_border</i>
+														<i ng-if="data.like" class="material-icons font-icon">favorite</i>
 													</a>
-													<span>
-														<i class="fa fa-thumbs-o-up thumbs-font-icon" aria-hidden="true"></i>{{data.text.like}}
-													</span>
+													<span>{{data.likeCount}}</span>
+													<a href=""><i class="material-icons share-icon">share</i></a>
 												</section>
-												<p><span>By</span><a href="#">{{data.text.author}}</a></p>
-												<h1><a href="column-detail.html">{{data.text.description}}</a></h1>
+												<p><a href="">{{data.text.author}}</a></p>
+												<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.description}}</a></h1>
 											</div>
 										</div>
 									</div>
@@ -40,132 +40,20 @@
 
 								<!--  pagination top -->	
 								<div class="pagination-container text-center">
-									<ul class ="pagination">
+									<ul class="pagination">
 									   	<li>
-									   		<a href = "#">&laquo;</a>
+									   		<a href="" ng-hide="offset==1 || maxPagination==0" ng-click="movePagin(-1)">&laquo;</a>
 									   	</li>
-									   	<li class="active">
-									   		<a href = "#">1</a>
+									   	<li ng-class="{true:'active',false:''}[offset==pagin]" ng-repeat="pagin in paginList">
+									   		<a href="" ng-click="clickPagin(pagin)">{{pagin}}</a>
 									   		<div class="pagination-hvr"></div>
 									   	</li>
 									   	<li>
-									   		<a href = "#">2</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">3</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">4</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">5</a>
-									   		<div class="pagination-hvr"></div>
-									   	</li>
-									   	<li>
-									   		<a href = "#">&raquo;</a>
+									   		<a href="" ng-hide="offset==maxPagination || maxPagination==0" ng-click="movePagin(1)">&raquo;</a>
 									   	</li>
 									</ul>
 								</div>
 								<!-- pagination end -->
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-3 col-sm-4">
-						<div class="sidebar">
-							<div class="sidebar-vid most-liked">
-								<h1 class="sidebar-heading">你喜歡的</h1>
-								<div class="media">
-									<div class="media-left">
-										<img src="assets/images/most-liked-img-s1.jpg" alt="video">
-									</div>
-									<div class="media-body">
-										<h1><a href="video-detail.html">Journey</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>
-								<div class="media">
-									<div class="media-left">
-										<img src="assets/images/most-liked-img-s2.jpg" alt="video">
-									</div>
-									<div class="media-body">
-										<h1><a href="video-detail.html">Magic</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>
-								<div class="media">
-									<div class="media-left">
-										<img src="assets/images/most-liked-img-s3.jpg" alt="video">
-									</div>
-									<div class="media-body">
-										<h1><a href="video-detail.html">Runner</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>
-								<div class="media">
-									<div class="media-left">
-										<img src="assets/images/most-liked-img-s4.jpg" alt="video">
-									</div>
-									<div class="media-body">
-										<h1><a href="video-detail.html">Fantasy</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="sidebar-vid most-viewd">
-								<h1 class="sidebar-heading">更多畫作</h1>
-								<div class="most-viewd-container">
-									<div class="most-viewd-img">
-										<img class="img-responsive" src="assets/images/most-viewd-1.jpg" alt="video">
-									</div>
-									<div class="most-viewd-text">
-										<h1><a href="video-detail.html">Human Rights Violation</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>
-								<div class="most-viewd-container">
-									<div class="most-viewd-img">
-										<img class="img-responsive" src="assets/images/most-viewd-2.jpg" alt="video">
-									</div>
-									<div class="most-viewd-text">
-										<h1><a href="video-detail.html">War Video Compilation</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>							
-							</div>
-							<div class="tags">
-								<h1 class="sidebar-heading">關鍵字</h1>
-								<ul class="list-inline list-unstyled">
-									<li><a href="#">3D</a></li>
-									<li><a href="#">Animals &amp; Birds</a></li>
-									<li><a href="#">HD</a></li>
-									<li><a href="#">Horror</a></li>
-									<li><a href="#">Art</a></li>
-									<li><a href="#">Self</a></li>
-									<li><a href="#">HD Songs</a></li>
-									<li><a href="#">Comedy</a></li>
-								</ul>
 							</div>
 						</div>
 					</div>

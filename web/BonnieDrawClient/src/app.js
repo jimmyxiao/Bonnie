@@ -139,7 +139,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        }
       	}
   	}).state('categoryListing', {
-      	url: '/category-listing',
+      	url: '/category-listing?type=',
       	views: {
       		"loader":{
       			templateUrl: 'modules/share/view/loader.html'
@@ -223,6 +223,7 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 	$rootScope.iTunesStoreUrl = 'https://www.apple.com/tw/itunes/charts/free-apps/';
 	$rootScope.googlePlayStoreUrl = 'https://play.google.com/store';
 	$rootScope.nowUrl = '';
+	$rootScope.imageLoadUrl = rootApi + 'loadFile';
 
 	$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
     if ($rootScope.rg_gl.currentUser) {

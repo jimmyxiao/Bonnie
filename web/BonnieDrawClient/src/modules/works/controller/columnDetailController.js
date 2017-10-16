@@ -19,5 +19,21 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		}
 		$scope.queryWorks();
 
+		$scope.clickWorksLike = function(data){
+			var params = util.getInitalScope();
+			if(data.like){
+				params.fn = 0;
+			}else{
+				params.fn = 1;
+			}
+			params.worksId = data.worksId;
+			params.likeType = 1; 
+			worksService.setLike(params,function(data, status, headers, config){
+				if(data.res == 1){
+					$scope.queryWorks();
+				}
+			})
+		}
+
 	}
 )

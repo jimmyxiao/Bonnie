@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bonniedraw.base.service.BaseService;
 import com.bonniedraw.file.Point;
 import com.bonniedraw.util.BinaryUtil;
+import com.bonniedraw.util.HashTagUtil;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.TimerUtil;
 import com.bonniedraw.util.ValidateUtil;
@@ -35,6 +36,7 @@ import com.bonniedraw.works.dao.WorksCollectionMapper;
 import com.bonniedraw.works.dao.WorksLikeMapper;
 import com.bonniedraw.works.dao.WorksMapper;
 import com.bonniedraw.works.dao.WorksMsgMapper;
+import com.bonniedraw.works.dao.WorksTagMapper;
 import com.bonniedraw.works.model.CategoryInfo;
 import com.bonniedraw.works.model.Following;
 import com.bonniedraw.works.model.TurnIn;
@@ -43,6 +45,7 @@ import com.bonniedraw.works.model.WorksCategory;
 import com.bonniedraw.works.model.WorksCollection;
 import com.bonniedraw.works.model.WorksLike;
 import com.bonniedraw.works.model.WorksMsg;
+import com.bonniedraw.works.model.WorksTag;
 import com.bonniedraw.works.service.WorksServiceAPI;
 
 @Service
@@ -72,6 +75,9 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	@Autowired
 	WorksCollectionMapper worksCollectionMapper;
 	
+	@Autowired
+	WorksTagMapper worksTagMapper;
+	
 	private void insertWorksCatrgorList(List<CategoryInfo> categoryList, int wid) throws Exception {
 		List<WorksCategory> insertList = new ArrayList<WorksCategory>();
 		for(CategoryInfo categoryInfo : categoryList){
@@ -81,6 +87,22 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			insertList.add(worksCategory);
 		}
 		worksCategoryMapper.insertWorksCategoryList(insertList);
+	}
+	
+	private void insertWorksTagList(List<String> list, int wid) throws Exception {
+		List<WorksTag> insertList = new ArrayList<WorksTag>();
+		int order = worksTagMapper.selectNextOrderNum(wid);
+		for(String tag : list){
+			if(ValidateUtil.isNotBlank(tag)){
+				WorksTag worksTag = new WorksTag();
+				worksTag.setWorksId(wid);
+				worksTag.setTagName(tag);
+				worksTag.setTagOrder(order);
+				insertList.add(worksTag);
+				order++;
+			}
+		}
+		worksTagMapper.insertWorksTagList(insertList);
 	}
 	
 	@Override
@@ -101,6 +123,8 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		works.setUpdatedBy(userId);
 		works.setUpdateDate(nowDate);
 		List<CategoryInfo> categoryList = worksSaveRequestVO.getCategoryList();
+		List<String> sharpTagList = new ArrayList<String>();
+		sharpTagList = HashTagUtil.extractSharpTag(works.getDescription());
 		
 		try {
 			if(ac==1){
@@ -112,12 +136,14 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				if(ValidateUtil.isNotEmptyAndSize(categoryList)){
 					insertWorksCatrgorList(categoryList, wid);
 				}
+				if(ValidateUtil.isNotEmptyAndSize(sharpTagList)){
+					insertWorksTagList(sharpTagList, wid);
+				}
 			}else if(ac==2){
 				wid = worksSaveRequestVO.getWorksId();
 				works.setWorksId(wid);
 				worksMapper.updateByPrimaryKeySelective(works);
 				List<WorksCategory> existWorksCategories = worksCategoryMapper.selectByWorksId(wid);
-				
 				//資料庫與參數皆有資料,進行比對並移除陣列內相同的unique id,最終剩下的資料庫資料進行刪除,反之參數資料進行新增
 				if(ValidateUtil.isNotEmptyAndSize(existWorksCategories) && ValidateUtil.isNotEmptyAndSize(categoryList)){
 					for(WorksCategory worksCategory : existWorksCategories){
@@ -137,6 +163,29 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				}else if(!ValidateUtil.isNotEmptyAndSize(existWorksCategories) && ValidateUtil.isNotEmptyAndSize(categoryList)){	//資料庫無資料而參數有資料,只執行新增
 					insertWorksCatrgorList(categoryList, wid);
 				}
+				
+				List<WorksTag> existWorksTags = worksTagMapper.selectByWorksId(wid);
+				if(ValidateUtil.isNotEmptyAndSize(existWorksTags) && ValidateUtil.isNotEmptyAndSize(sharpTagList)){
+					for(int i=0;i<existWorksTags.size();i++){
+						WorksTag worksTag = existWorksTags.get(i);
+						String worksTagName = worksTag.getTagName();
+						for(String data : sharpTagList){
+							if(worksTagName.equals(data)){
+								sharpTagList.remove(data);
+								existWorksTags.remove(worksTag);
+								i--;
+								break;
+							}
+						}
+					}
+					if(ValidateUtil.isNotEmptyAndSize(sharpTagList)){ insertWorksTagList(sharpTagList, wid); }
+					if(ValidateUtil.isNotEmptyAndSize(existWorksTags)){ worksTagMapper.deleteWorksTagList(existWorksTags); }
+				}else if(ValidateUtil.isNotEmptyAndSize(existWorksTags) && !ValidateUtil.isNotEmptyAndSize(sharpTagList)){	
+					worksTagMapper.deleteWorksTagList(existWorksTags);
+				}else if(!ValidateUtil.isNotEmptyAndSize(existWorksTags) && ValidateUtil.isNotEmptyAndSize(sharpTagList)){	
+					insertWorksTagList(sharpTagList, wid);
+				}
+				
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "worksSave has error : " + e);
@@ -145,6 +194,28 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		return wid;
 	}
 
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean updateWorksFilePath(int wid, int fType, String path) {
+		Works updateWork = new Works();
+		updateWork.setWorksId(wid);
+		if(fType == 1){
+			updateWork.setImagePath(path);
+		}else if(fType == 2){
+			updateWork.setBdwPath(path);
+		}else{
+			return false;
+		}
+		
+		try {
+			worksMapper.updateByPrimaryKeySelective(updateWork);
+			return true;
+		} catch (Exception e) {
+			LogUtils.error(getClass(), "updateWorksFilePath has error : " + e);
+		}
+		return false;
+	}
+	
 	@Override
 	public List<WorksResponse> queryAllWorks(WorkListRequestVO workListRequestVO) {
 		int userId = workListRequestVO.getUi();
@@ -157,7 +228,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		
 		switch (wt) {
 		case 1:
-			worksResponseList = worksMapper.queryAllWorks();
+			worksResponseList = worksMapper.queryAllWorks(paramMap);
 			if(ValidateUtil.isNotEmptyAndSize(worksResponseList)){
 				for(WorksResponse worksResponse:worksResponseList){
 					worksResponse.setLikeCount(worksResponse.getLikeList().size());
@@ -211,8 +282,11 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	}
 	
 	@Override
-	public WorksResponse queryWorks(Integer wid) {
-		WorksResponse worksResponse = worksMapper.queryWorks(wid);
+	public WorksResponse queryWorks(Integer wid, int userId) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("wid", wid);
+		paramMap.put("userId", userId);
+		WorksResponse worksResponse = worksMapper.queryWorks(paramMap);
 		if(worksResponse!=null){
 			worksResponse.setLikeCount(worksResponse.getLikeList().size());
 			worksResponse.setMsgCount(worksResponse.getMsgList().size());
@@ -424,5 +498,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		}
 		return 1;
 	}
+
+
 
 }

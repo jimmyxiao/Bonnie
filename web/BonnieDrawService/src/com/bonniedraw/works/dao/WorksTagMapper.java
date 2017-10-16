@@ -1,5 +1,7 @@
 package com.bonniedraw.works.dao;
 
+import java.util.List;
+
 import com.bonniedraw.works.model.WorksTag;
 
 public interface WorksTagMapper {
@@ -14,4 +16,15 @@ public interface WorksTagMapper {
     int updateByPrimaryKeySelective(WorksTag record);
 
     int updateByPrimaryKey(WorksTag record);
+    
+    int insertWorksTagList(List<WorksTag> tagList);
+    
+    int updateWorksTagList(List<WorksTag> tagList);
+    
+    int deleteWorksTagList(List<WorksTag> tagList);
+    
+    List<WorksTag> selectByWorksId(Integer worksId);
+    
+    int selectNextOrderNum(Integer worksId);
+    
 }

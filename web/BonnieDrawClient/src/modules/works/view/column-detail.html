@@ -14,12 +14,14 @@
 				                            <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe>
 				                        </div>
 									</div>
-									<h3>How to Make a Mountain Bike Film</h3>
+									<h3>{{mainSection.title}}</h3>
 									<div class="vid-text">
 										<a class="_eszkz _l9yih" href="" role="button" aria-disabled>
 										<i class="material-icons font-icon">bookmark_border</i></a>
 										<a class="_eszkz _l9yih" href="" role="button" aria-disabled>
-										<i class="material-icons font-icon">favorite_border</i></a>
+											<i ng-click="clickWorksLike(mainSection)" ng-if="!mainSection.like" class="material-icons font-icon">favorite_border</i>
+											<i ng-click="clickWorksLike(mainSection)" ng-if="mainSection.like" class="material-icons font-icon">favorite</i>
+										</a>
 										<span>{{mainSection.likeCount}}</span>
 										<ul class="list-unstyled list-inline pull-right text-right sharing-bar">
 											<li><a href=""><i class="fa fa-facebook"></i></a></li>
@@ -45,6 +47,9 @@
 											{{mainSection.description}}
 										</p>
 									</div>
+									<div class="_4a48i _277v9" ng-if="mainSection.msgList.length==0">
+										<label>目前沒有新的留言</label>
+									</div>
 									<div class="_4a48i _277v9">
 										<ul class="_b0tqa" ng-repeat="data in mainSection.msgList track by $index">
 											<li class="_ezgzd">
@@ -58,7 +63,7 @@
 											<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="yinnn21_" href="#">yinnn21_</a><span><span>留言3</span></span></li>
 										</ul>
 									</div>
-									<div class="container" style="margin-bottom:30px;padding-left:0">
+									<div ng-if="mainSection.msgList.length>0" class="container" style="margin-bottom:30px;padding-left:0">
  										<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">更多留言</button>
  									</div>
 									<div id="comment-frm-container">
@@ -66,7 +71,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="form-group">
-														<textarea name="comment-user-message" id="cmnt-user-msg" rows="4" class="form-control" placeholder="留言" required></textarea>
+														<textarea name="comment-user-message" id="cmnt-user-msg" rows="4" class="form-control" placeholder="留言" style="resize: none;" required ></textarea>
 														<div class="input-top-line"></div>
 														<div class="input-bottom-line"></div>
 													</div>
@@ -83,7 +88,7 @@
 											<div class="hding-bottm-line wow zoomIn" data-wow-duration="0.8s">
 											</div>
 										</div>
-										<div class="row">
+<!-- 										<div class="row">
 											<div class="vid-container">
 												<div class="col-md-4 col-sm-6">
 													<div class="latest-vid-img-container">		
@@ -146,7 +151,7 @@
 													</div>
 												</div>
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>							
 							</div>

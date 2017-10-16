@@ -19,13 +19,13 @@ public interface WorksMapper {
 
     int updateByPrimaryKey(Works record);
     
-    WorksResponse queryWorks(Integer wid);
+    WorksResponse queryWorks(Map<String, Object> paramMap);
     
-    List<WorksResponse> queryAllWorks();
+    List<WorksResponse> queryAllWorks(Map<String, Object> paramMap);
     
-    List<WorksResponse> queryNewUploadWorks(Map<String, Object> pagerMap);
+    List<WorksResponse> queryNewUploadWorks(Map<String, Object> paramMap);
     
-    List<WorksResponse> queryPopularWorks(Map<String, Object> pagerMap);
+    List<WorksResponse> queryPopularWorks(Map<String, Object> paramMap);
     
     int seletMaxPagination(Integer rc);
     

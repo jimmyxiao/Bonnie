@@ -91,7 +91,7 @@
 	<delete id="deleteWorksCategoryList" parameterType="java.util.List">
    		delete from works_category
     	where WORKS_CATEGORY_ID in 
-    	<foreach collection="list" item="element" index="index" open="" close="" separator=";">
+    	<foreach collection="list" item="element" index="index" open="(" close=")" separator="," >
     		#{element.worksCategoryId, jdbcType=INTEGER}
     	</foreach>
   	</delete>

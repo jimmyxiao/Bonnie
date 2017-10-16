@@ -79,4 +79,46 @@
       TAG_ORDER = #{tagOrder,jdbcType=INTEGER}
     where WORKS_TAG_ID = #{worksTagId,jdbcType=INTEGER}
   </update>
+  
+  <insert id="insertWorksTagList" parameterType="java.util.List">
+    insert into works_tag (WORKS_ID, TAG_NAME, TAG_ORDER)
+    values
+	<foreach collection="list" item="element" index="index" open="(" separator="),("  close=")">
+	   	#{element.worksId,jdbcType=INTEGER}, #{element.tagName,jdbcType=VARCHAR}, #{element.tagOrder,jdbcType=INTEGER}
+	</foreach>
+  </insert>
+  
+  <update id="updateWorksTagList" parameterType="java.util.List">
+		<foreach collection="list" item="element" index="index" open="" close="" separator=";">
+			update works_tag
+			<set>
+				 WORKS_ID = #{element.worksId,jdbcType=INTEGER},
+      			TAG_NAME = #{element.tagName,jdbcType=VARCHAR},
+      			TAG_ORDER = #{element.tagOrder,jdbcType=INTEGER}
+			</set>
+			where WORKS_TAG_ID = #{element.worksTagId,jdbcType=INTEGER}
+		</foreach>
+	</update>
+	
+	<delete id="deleteWorksTagList" parameterType="java.util.List">
+   		delete from works_tag
+    	where WORKS_TAG_ID in 
+    	<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+    		#{item.worksTagId,jdbcType=INTEGER}
+    	</foreach>
+  	</delete>
+	
+	<select id="selectByWorksId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from works_tag
+    	where WORKS_ID = #{worksId, jdbcType=INTEGER}
+  	</select>
+  	
+  	<select id="selectNextOrderNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    	select (ifnull(max(TAG_ORDER),0) + 1) as num 
+    	from works_tag 
+    	where WORKS_ID = #{worksId, jdbcType=INTEGER}
+  	</select>
+  
 </mapper>

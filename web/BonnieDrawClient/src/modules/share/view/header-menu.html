@@ -26,7 +26,7 @@
 				<div class="login">
 					<div class="media">
 						<div class="media-mark">
-							<a href="#">
+							<a href="">
 								<i class="material-icons top-icon">bookmark_border</i>
 							</a>
 						</div>
@@ -37,7 +37,7 @@
 						</div>
 						<div class="media-body">
 							<p>
-								<a class="login-toggle" href="#" ng-click="logout()">登出</a>
+								<a class="login-toggle" href="" ng-click="logout()">登出</a>
 							</p>
 						</div>
 					</div>									
@@ -61,7 +61,7 @@
 						<li><a href=""><i class="fi ion-android-apps"></i>畫作類別</a>
 							<ul>
 							  	<li ng-repeat="data in categoryList track by $index">
-							  		<a href="">{{data.categoryName}}</a>
+							  		<a href="#/category-listing?type={{data.categoryId}}" ng-click="clickCategory(data)">{{data.categoryName}}</a>
 							  	</li>
 <!-- 							  	<li><a href="">類別二</a></li>
 							  	<li><a href="">類別三</a></li> -->

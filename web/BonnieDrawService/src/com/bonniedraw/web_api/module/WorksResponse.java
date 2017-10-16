@@ -9,6 +9,7 @@ import com.bonniedraw.works.model.WorksMsg;
 
 public class WorksResponse extends Works {
 	private String userName;
+	private String profilePicture;
 	private Integer likeCount;
 	private Integer msgCount;
 	private List<WorksLike> likeList;
@@ -24,6 +25,14 @@ public class WorksResponse extends Works {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 
 	public Integer getLikeCount() {

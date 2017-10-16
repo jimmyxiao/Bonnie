@@ -130,6 +130,9 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
     return {
         updateUser : function(params, callback) {
             return baseHttp.service('userInfoUpdate', params, callback);
+        },
+        updatePwd : function(params, callback) {
+            return baseHttp.service('updatePwd', params, callback);
         }
     }
 })

@@ -9,18 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.HandlerMapping;
 
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.systemsetup.model.SystemSetup;
@@ -369,7 +372,7 @@ public class ApiController {
 			if(ValidateUtil.isNotNumNone(wt) && wt > 0){
 				if(wt!=3 && !(wt >=20)){
 					if(ValidateUtil.isNotNumNone(wid)){		//取得系統預設類別的單一作品
-						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid);
+						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
 						if(worksResponse!=null){
 							List<WorksResponse> workList = respResult.getWorkList();
 							workList.add(worksResponse);
@@ -394,7 +397,7 @@ public class ApiController {
 					}
 				}else{
 					if(ValidateUtil.isNotNumNone(wid)){		//取得系統非預設類別的作品
-						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid);
+						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
 						if(worksResponse!=null){
 							Integer resStatus = worksResponse.getStatus();
 							Integer resUserId = worksResponse.getUserId();
@@ -520,52 +523,84 @@ public class ApiController {
 		return respResult;
 	}
 	
-	@RequestMapping(value="/fileUpload", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+	@RequestMapping(value="/fileUpload", method = RequestMethod.POST)
 	public @ResponseBody FileUploadResponseVO fileUpload(HttpServletRequest request, HttpServletResponse resp,  
-			@RequestPart("file") CommonsMultipartFile file, @RequestPart("properties") FileUploadRequestVO fileUploadRequestVO) {
+			@RequestParam("file") CommonsMultipartFile file) {
 		FileUploadResponseVO respResult = new FileUploadResponseVO();
 		String msg = "";
-		if(file !=null && !file.isEmpty()){
-			if(isLogin(fileUploadRequestVO)){
-				int fType = fileUploadRequestVO.getFtype();
-				if(fType>=1 && fType<=2 ){
-					StringBuffer path = new StringBuffer();
-					path.append(fileUploadRequestVO.getWid()).append((fType==1 ? ".png" : ".bdw"));
-					if(FileUtil.uploadFile(file, path.toString())){
-						respResult.setRes(1);
-						msg = messageSource.getMessage("api_success",null,request.getLocale());
+		try {
+			FileUploadRequestVO fileUploadRequestVO = new FileUploadRequestVO();
+			fileUploadRequestVO.setUi(Integer.valueOf(request.getParameter("ui")));
+			fileUploadRequestVO.setLk(request.getParameter("lk"));
+			fileUploadRequestVO.setDt(Integer.valueOf(request.getParameter("dt")));
+			fileUploadRequestVO.setWid(Integer.valueOf(request.getParameter("wid")));
+			fileUploadRequestVO.setFtype(Integer.valueOf(request.getParameter("ftype")));
+			if(file !=null && !file.isEmpty()){
+				if(isLogin(fileUploadRequestVO)){
+					int fType = fileUploadRequestVO.getFtype();
+					if(fType>=1 && fType<=2 ){
+						StringBuffer path = new StringBuffer();
+						path.append(fileUploadRequestVO.getWid()).append((fType==1 ? "/png" : "/bdw"));
+						Map<String, Object> result = FileUtil.uploadMultipartFile(file, path.toString());
+						boolean status = (boolean)result.get("status");
+						String filePath = result.get("path").toString();
+						if( status && ValidateUtil.isNotBlank(filePath)){
+							if(worksServiceAPI.updateWorksFilePath(fileUploadRequestVO.getWid(), fType, filePath)){
+								respResult.setRes(1);
+								msg = messageSource.getMessage("api_success",null,request.getLocale());
+							}else{
+								respResult.setRes(2);
+								msg = messageSource.getMessage("api_fail",null,request.getLocale());
+							}
+						}else{
+							respResult.setRes(2);
+							msg = messageSource.getMessage("api_fail",null,request.getLocale());
+						}
 					}else{
-						respResult.setRes(2);
-						msg = messageSource.getMessage("api_fail",null,request.getLocale());
+						msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 					}
 				}else{
-					msg = messageSource.getMessage("api_data_error",null,request.getLocale());
+					msg = "帳號未登入"; 
 				}
 			}else{
-				msg = "帳號未登入"; 
+				msg = "無檔案"; 
 			}
-		}else{
-			msg = "無檔案"; 
+		} catch (NoSuchMessageException e) {
+			LogUtils.fileConteollerError(e.toString());
+			msg = "file service has error , check log file.";
 		}
 		respResult.setMsg(msg);
 		return respResult;
 	}
 	
-	@RequestMapping(value="/loadFile")
-	public @ResponseBody HttpEntity<byte[]> loadFile(HttpServletRequest request,HttpServletResponse resp,@RequestBody LoadFileRequestVO loadFileRequestVO) {
+	@RequestMapping(value="/loadFile/**", method = RequestMethod.GET)
+	public @ResponseBody HttpEntity<byte[]> loadFile(HttpServletRequest request,HttpServletResponse resp) {
 		byte[] image = null;
 		HttpHeaders headers = new HttpHeaders();
+		String fullPath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		if(ValidateUtil.isBlank(fullPath)) return null;
+		String path = fullPath.replace("/BDService/loadFile", "");
+		if(ValidateUtil.isBlank(path)) return null;
+		
+		String extension = (path.substring(path.lastIndexOf(".")+1)).replace("/", "");
+		if("png".equals(extension)){
+			headers.setContentType(MediaType.IMAGE_PNG);
+		}else if("bdw".equals(extension)){
+			headers.setContentType(new MediaType("application", "octet-stream"));
+		}else{
+			return null;
+		}
 		String rootPath = System.getProperty("catalina.home");
-		String filePath = rootPath + "" ;
+		String filePath = rootPath + path;
 		File dir = new File(filePath);
 		try{
 			image = org.apache.commons.io.FileUtils.readFileToByteArray(dir);
-			headers.setContentType(MediaType.IMAGE_PNG); 
 			headers.setContentLength(image.length);
+			return new HttpEntity<byte[]>(image, headers);
 		}catch(IOException e){
 			LogUtils.fileConteollerError(filePath + " loadFile has error : 輸出發生異常 =>" +e);
 		}
-		return new HttpEntity<byte[]>(image, headers);
+		return null;
 	}
 	
 	@RequestMapping(value="/drawingPlay" , produces="application/json")

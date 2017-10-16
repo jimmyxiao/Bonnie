@@ -214,6 +214,7 @@
     <id column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
     <result column="USER_ID" jdbcType="INTEGER" property="userId" />
     <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="PROFILE_PICTURE" jdbcType="VARCHAR" property="profilePicture" />
     <result column="PRIVACY_TYPE" jdbcType="INTEGER" property="privacyType" />
     <result column="DEVICE_TYPE" jdbcType="INTEGER" property="deviceType" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
@@ -252,14 +253,17 @@
     <result column="CATEGORY_WORKS_ID" jdbcType="INTEGER" property="worksId" />
   </resultMap>
   
-  <select id="queryWorks" parameterType="java.lang.Integer" resultMap="WorksResponseModule">
+  <select id="queryWorks" parameterType="java.util.Map" resultMap="WorksResponseModule">
     select 
  	wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE,
- 	ur.USER_NAME, 
+ 	ur.USER_NAME, ur.PROFILE_PICTURE,  
  	WORKS_MSG_ID, MSG_WORKS_ID, MSG_USER_ID, MESSAGE, MSG_ORDER, MSG_CREATION_DATE, MSG_USER_NAME,
- 	wc.WORKS_CATEGORY_ID, wc.CATEGORY_ID, wc.WORKS_ID as CATEGORY_WORKS_ID
+ 	wc.WORKS_CATEGORY_ID, wc.CATEGORY_ID, wc.WORKS_ID as CATEGORY_WORKS_ID,
+ 	case when exists 
+ 	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
+ 	then true else false end as isLike
     from works wk 
     left outer join user_info ur on ur.user_id = wk.user_id
     left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
@@ -270,25 +274,39 @@
     from works_msg wm left outer join user_info on wm.USER_ID = user_info.USER_ID ) t
     on t.MSG_WORKS_ID = wk.WORKS_ID
     left outer join works_category as wc on wc.WORKS_ID = wk.WORKS_ID
-    where wk.WORKS_ID =  #{wid,jdbcType=INTEGER}
+    where wk.WORKS_ID =  #{wid, jdbcType=INTEGER}
   </select>
   
-  <select id="queryAllWorks" resultMap="WorksResponseModule">
+  <select id="queryAllWorks" parameterType="java.util.Map" resultMap="WorksResponseModule">
     select 
  	wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE,
- 	wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER, wm.CREATION_DATE,
- 	wc.WORKS_CATEGORY_ID, wc.CATEGORY_ID, wc.WORKS_ID as CATEGORY_WORKS_ID
+ 	ur.USER_NAME, ur.PROFILE_PICTURE,  
+ 	WORKS_MSG_ID, MSG_WORKS_ID, MSG_USER_ID, MESSAGE, MSG_ORDER, MSG_CREATION_DATE, MSG_USER_NAME,
+ 	wc.WORKS_CATEGORY_ID, wc.CATEGORY_ID, wc.WORKS_ID as CATEGORY_WORKS_ID,
+ 	case when exists 
+ 	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
+ 	then true else false end as isLike
     from works wk 
+    left outer join user_info ur on ur.user_id = wk.user_id
     left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
-    left outer join works_msg as wm on wm.WORKS_ID = wk.WORKS_ID
+    left outer join 
+    (select 
+    wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER,
+    wm.CREATION_DATE as MSG_CREATION_DATE, user_info.USER_NAME as  MSG_USER_NAME
+    from works_msg wm left outer join user_info on wm.USER_ID = user_info.USER_ID ) t
+    on t.MSG_WORKS_ID = wk.WORKS_ID
     left outer join works_category as wc on wc.WORKS_ID = wk.WORKS_ID
+    where 1=1
+    and wk.PRIVACY_TYPE = 1
+    and wk.STATUS = 1
+    order by wk.CREATION_DATE desc
   </select>
   
   <select id="queryNewUploadWorks" parameterType="java.util.Map" resultMap="WorksResponseModule">
     select 
- 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, wl.LIKE_COUNT, 
  	case when exists 
@@ -306,7 +324,7 @@
   
   <select id="queryPopularWorks" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
- 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, wl.LIKE_COUNT, 
  	case when exists 
@@ -352,15 +370,15 @@
   
   <select id="queryPopularWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
- 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
- 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, wl.LIKE_COUNT, 
+ 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike
     from works wk 
     left outer join user_info ur on ur.USER_ID = wk.USER_ID
-    right join 
+    left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}) as wl on wl.WORKS_ID = wk.WORKS_ID
 	where 1=1 
     and wk.PRIVACY_TYPE = 1
@@ -370,15 +388,15 @@
   
   <select id="queryUserWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
- 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
- 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, wl.LIKE_COUNT, 
+ 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
-    right join 
+    left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}) as wl on wl.WORKS_ID = wk.WORKS_ID
     where 1=1
     and wk.USER_ID = #{userId, jdbcType=INTEGER}
@@ -387,16 +405,16 @@
   
   <select id="queryTrackWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
- 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
- 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, wl.LIKE_COUNT, 
+ 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
     right join following fl on wk.USER_ID = fl.FOLLOWING_USER_ID
-    right join 
+    left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}) as wl on wl.WORKS_ID = wk.WORKS_ID
     where 1=1
     and fl.USER_ID = #{userId, jdbcType=INTEGER}
