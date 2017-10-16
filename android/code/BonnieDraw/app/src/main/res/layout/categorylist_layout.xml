@@ -6,4 +6,5 @@
     android:ellipsize="marquee"
     android:gravity="start"
     android:padding="5dip"
-    android:textSize="20sp"></TextView>
+    android:textSize="20sp">
+</TextView>

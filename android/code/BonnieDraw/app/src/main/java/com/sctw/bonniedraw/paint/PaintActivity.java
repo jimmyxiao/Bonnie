@@ -54,8 +54,6 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paintpicker.ColorPicker;
 import com.sctw.bonniedraw.paintpicker.OnColorChangedListener;
 import com.sctw.bonniedraw.paintpicker.OnSizeChangedListener;
-import com.sctw.bonniedraw.paintpicker.PaintPicker;
-import com.sctw.bonniedraw.paintpicker.PaintSelectedListener;
 import com.sctw.bonniedraw.paintpicker.SizePicker;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
@@ -88,7 +86,7 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener, PaintSelectedListener {
+public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener {
     public static final String KEY_MY_PREFERENCE = "autoplay_intervaltime";
     private static final String SKETCH_FILE = "/backup.bdw";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
@@ -108,9 +106,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private int displayWidth;
     private ColorPicker colorPicker;
     private SizePicker sizePicker;
-    private PaintPicker paintPicker;
     private FullScreenDialog saveDialog;
     private TextView paintPlayProgress;
+    private static final int[] ITEM_PAINT={R.drawable.draw_pen_on_1,R.drawable.draw_pen_on_2,R.drawable.draw_pen_on_3,R.drawable.draw_pen_on_4,R.drawable.draw_pen_on_5};
     BDWFileReader reader = new BDWFileReader();
     File file;
     float startX, startSacle, startY, pointLength;
@@ -137,6 +135,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         realPaint = 0;
         prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
         myView = new MyView(this);
+
         getDisplay();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String strprefs = prefs.getString(KEY_MY_PREFERENCE, "1");
@@ -166,11 +165,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         sizePicker.getWindow().setGravity(Gravity.START);
         sizePicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         sizePicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
-        paintPicker = new PaintPicker(myView.getContext(), this, Color.TRANSPARENT);
-        paintPicker.getWindow().setGravity(Gravity.BOTTOM);
-        paintPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        paintPicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
-
         mTagPoint_a_record = new ArrayList<TagPoint>();
         undoTagPoint_a_record = new ArrayList<TagPoint>();
         // Load file to bitmap
@@ -199,10 +193,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             playStateBtn(0);
             if (miPointCount > 0) handler_Timer_Play.postDelayed(rb_play, 1);
         }
-    }
-
-    public void changePaint(View view) {
-        paintPicker.show();
     }
 
     //強制正方形
@@ -236,6 +226,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 break;
         }
     }
+
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -295,11 +287,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         }
     };
-
-    @Override
-    public void onPaintSelect(int num) {
-
-    }
 
     public class MyView extends View {
         private Bitmap mBitmap;
@@ -564,9 +551,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         workSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("onItemClick== ", String.valueOf(i));
                 listNumCheck = Integer.parseInt(listNum.get(i));
-                Log.d("onItemClick== ", String.valueOf(listNumCheck));
             }
 
             @Override
@@ -617,17 +602,19 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     try {
                         JSONObject json = new JSONObject();
                         JSONArray jsonArray = new JSONArray();
+                        JSONObject jsonList = new JSONObject();
                         json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
                         json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                         json.put("ac", 1); // 1 = add , 2 = update
-                        json.put("userId", prefs.getString(GlobalVariable.API_UID, "null"));
                         json.put("privacyType", privacyType);
                         json.put("title", workName.getText().toString());
                         json.put("description", workDescription.getText().toString());
                         //json.put("languageId", 1);
                         //json.put("countryId", 886);
-                        json.put("categoryList", jsonArray);
+                        jsonList.put("categoryId", listNumCheck);
+                        jsonArray.put(jsonList);
+                        json.put("categoryList", jsonList);
                         Log.d("LOGIN JSON: ", json.toString());
                         fileInfo(json, GlobalVariable.WORK_SAVE_URL);
                         saveDialog.dismiss();

@@ -58,5 +58,4 @@
         <item name="@android:windowEnterAnimation">@anim/alpha</item>
         <item name="@android:windowExitAnimation">@anim/alpha_end</item>
     </style>
-
 </resources>

@@ -1,5 +1,6 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:arc="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_paint_layout"
     android:layout_width="match_parent"
@@ -18,24 +19,10 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paint_item" />
 
-    <ImageButton
-        android:id="@+id/btn_change_paint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/draw_pen_box"
-        android:elevation="9dp"
-        android:onClick="changePaint"
-        app:layout_constraintBottom_toBottomOf="@+id/paint_control_layout"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/draw_pen_ic_1" />
-
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="0dp"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -118,6 +105,10 @@
             android:background="@color/Transparent"
             android:onClick="back"
             android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/paint_control_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout"
             app:srcCompat="@drawable/top_bar_ic_back" />
 
         <ImageButton
@@ -141,7 +132,7 @@
         <ImageButton
             android:id="@+id/imageButton6"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
             android:padding="12dp"
@@ -194,7 +185,6 @@
         android:gravity="bottom"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
@@ -254,6 +244,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:text="0/100%"
         app:layout_constraintBottom_toTopOf="@+id/paint_control_layout"
