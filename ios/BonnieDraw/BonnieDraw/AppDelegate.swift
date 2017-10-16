@@ -46,14 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
-        do {
-            try AppDelegate.stack?.saveContext()
-        } catch {
-            Logger.d("\(#function): \(error.localizedDescription)")
-        }
-    }
-
     static func hasNetworkConnection() -> Bool {
         var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)

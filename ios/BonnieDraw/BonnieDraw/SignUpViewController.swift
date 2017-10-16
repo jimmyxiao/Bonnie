@@ -7,16 +7,23 @@
 //
 
 import UIKit
+import Alamofire
 
 class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
-    let client = RestClient.standard(withPath: Service.LOGIN)
+    var dataRequest: DataRequest?
 
     override func viewWillDisappear(_ animated: Bool) {
-        client.cancel()
+        dataRequest?.cancel()
+    }
+
+    func showErrorMessage(message: String?) {
+        presentDialog(title: "alert_sign_up_fail_title".localized, message: message)
+        loading.hide(true)
+        password.text = nil
     }
 
     @IBAction func signUp(_ sender: Any) {
@@ -55,21 +62,28 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
         } else {
             view.endEditing(true)
             loading.hide(false)
-            client.getResponse(queries: nil, data: ["uc": email, "up": password.MD5(), "un": name, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 2]) {
-                success, data in
-                guard success, let response = data?["res"] as? Int else {
-                    self.presentDialog(title: "alert_sign_up_fail_title".localized, message: "app_network_unreachable_content".localized)
-                    self.loading.hide(true)
-                    return
-                }
-                if response == 1 {
-                    self.presentDialog(title: "alert_sign_up_success_title".localized, message: "alert_sign_up_success_content".localized) {
-                        action in
-                        self.navigationController?.popToRootViewController(animated: true)
+            dataRequest = Alamofire.request(
+                    Service.standard(withPath: Service.LOGIN),
+                    method: .post,
+                    parameters: ["uc": email, "up": password.MD5(), "un": name, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 2],
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                        return
                     }
-                } else {
-                    self.presentDialog(title: "alert_sign_up_fail_title".localized, message: data?["msg"] as? String)
-                    self.loading.hide(true)
+                    if response == 1 {
+                        self.presentDialog(title: "alert_sign_up_success_title".localized, message: "alert_sign_up_success_content".localized) {
+                            action in
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                    } else {
+                        self.showErrorMessage(message: data["msg"] as? String)
+                    }
+                case .failure(let error):
+                    self.showErrorMessage(message: error.localizedDescription)
                 }
             }
         }

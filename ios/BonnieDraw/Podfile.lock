@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.5.1)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -63,6 +64,7 @@ PODS:
     - TwitterCore (>= 3.0.1)
 
 DEPENDENCIES:
+  - Alamofire
   - DeviceKit
   - FacebookLogin
   - Google/SignIn
@@ -72,6 +74,7 @@ DEPENDENCIES:
   - TwitterKit
 
 SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   DeviceKit: fa74d97499660e88081718b16688e19217595dba
   FacebookCore: 2cb3f0fbff218e9d3119cec84bae983b232412de
@@ -92,6 +95,6 @@ SPEC CHECKSUMS:
   TwitterCore: 6856288a1c25e5281363250681f33b42fce1da42
   TwitterKit: 313bf02baee8427f7649b3640169178e5a8b5a99
 
-PODFILE CHECKSUM: b68d644a19d6c8010d4485e4cd65f3eb95ec5a89
+PODFILE CHECKSUM: b4df3e8ea4958da2d739791ab57aaa85e66e63f2
 
 COCOAPODS: 1.2.1

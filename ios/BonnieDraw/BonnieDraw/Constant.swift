@@ -16,7 +16,7 @@ let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 let ERASER_COLOR = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
 let SERVICE_DEVICE_TYPE = 2
-let TOKEN_LIFETIME: TimeInterval = 1
+let TOKEN_LIFETIME: TimeInterval = Double.greatestFiniteMagnitude
 
 enum Function: UInt16 {
     case draw = 0xa101
@@ -55,19 +55,28 @@ struct Service {
     private static let BASE = "/bonniedraw_service/BDService"
     static let SCHEME = "https"
     static let HOST = "www.bonniedraw.com"
-    static let LOGIN = "\(BASE)/login"
-    static let FORGET_PASSWORD = "\(BASE)/forgetpwd"
-    static let WORK_SAVE = "\(BASE)/worksSave"
-    static let WORK_LIST = "\(BASE)/worksList"
-    static let FILE_UPLOAD = "\(BASE)/fileUpload"
-    static let USER_INFO_QUERY = "\(BASE)/userInfoQuery"
-    static let USER_INFO_UPDATE = "\(BASE)/userInfoUpdate"
-    static let LEAVE_MESSAGE = "\(BASE)/leavemsg"
-    static let LIKE = "\(BASE)/setLike"
-    static let FOLLOW = "\(BASE)/setFollowing"
-    static let REPORT = "\(BASE)/setTurnin"
-    static let UPDATE_PASSWORD = "\(BASE)/updatePwd"
-    static let CATEGORY_LIST = "\(BASE)/categoryList"
+    static let LOGIN = "/login"
+    static let FORGET_PASSWORD = "/forgetpwd"
+    static let WORK_SAVE = "/worksSave"
+    static let WORK_LIST = "/worksList"
+    static let FILE_UPLOAD = "/fileUpload"
+    static let USER_INFO_QUERY = "/userInfoQuery"
+    static let USER_INFO_UPDATE = "/userInfoUpdate"
+    static let LEAVE_MESSAGE = "/leavemsg"
+    static let LIKE = "/setLike"
+    static let FOLLOW = "/setFollowing"
+    static let REPORT = "/setTurnin"
+    static let UPDATE_PASSWORD = "/updatePwd"
+    static let CATEGORY_LIST = "/categoryList"
+    static let LOAD_FILE = "/loadFile"
+
+    static func standard(withPath path: String) -> String {
+        return "\(SCHEME)://\(HOST)\(BASE)\(path)"
+    }
+
+    static func filePath(withSubPath path: String) -> String {
+        return "\(SCHEME)://\(HOST)\(BASE)\(LOAD_FILE)\(path)"
+    }
 }
 
 struct Identifier {

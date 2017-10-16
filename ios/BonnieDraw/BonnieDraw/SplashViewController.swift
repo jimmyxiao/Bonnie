@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Alamofire
 
 class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
@@ -24,34 +25,63 @@ class SplashViewController: UIViewController {
                     postData["un"] = defaults.string(forKey: Default.THIRD_PARTY_NAME)
                     postData["thirdEmail"] = defaults.string(forKey: Default.THIRD_PARTY_EMAIL)
                 }
-                let client = RestClient.standard(withPath: Service.LOGIN)
-                client.getResponse(data: postData) {
-                    success, data in
-                    guard success, let response = data?["res"] as? Int else {
-                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized) {
-                            action in
-                            self.launchLogin()
+                Alamofire.request(
+                        Service.standard(withPath: Service.LOGIN),
+                        method: .post,
+                        parameters: postData,
+                        encoding: JSONEncoding.default).validate().responseJSON {
+                    response in
+                    switch response.result {
+                    case .success:
+                        guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized) {
+                                action in
+                                self.launchLogin()
+                            }
+                            return
                         }
-                        return
-                    }
-                    if response == 1, let token = data?["lk"] as? String {
-                        client.components.path = Service.CATEGORY_LIST
-                        client.getResponse(data: ["ui": defaults.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE]) {
-                            success, data in
-                            if success {
-                                defaults.set(token, forKey: Default.TOKEN)
-                                AppDelegate.stack?.dropAllData()
-                                self.parseCategory(forData: data)
-                                self.launchMain()
-                            } else {
-                                self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String) {
-                                    action in
-                                    self.launchLogin()
+                        if response == 1, let token = data["lk"] as? String {
+                            Alamofire.request(
+                                    Service.standard(withPath: Service.CATEGORY_LIST),
+                                    method: .post,
+                                    parameters: ["ui": defaults.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                                    encoding: JSONEncoding.default).validate().responseJSON {
+                                response in
+                                switch response.result {
+                                case .success:
+                                    guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized) {
+                                            action in
+                                            self.launchLogin()
+                                        }
+                                        return
+                                    }
+                                    if response == 1 {
+                                        defaults.set(token, forKey: Default.TOKEN)
+                                        AppDelegate.stack?.dropAllData()
+                                        self.parseCategory(forData: data)
+                                        self.launchMain()
+                                    } else {
+                                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data["msg"] as? String) {
+                                            action in
+                                            self.launchLogin()
+                                        }
+                                    }
+                                case .failure(let error):
+                                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
+                                        action in
+                                        self.launchLogin()
+                                    }
                                 }
                             }
+                        } else {
+                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data["msg"] as? String) {
+                                action in
+                                self.launchLogin()
+                            }
                         }
-                    } else {
-                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String) {
+                    case .failure(let error):
+                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
                             action in
                             self.launchLogin()
                         }

@@ -37,7 +37,6 @@
 		165ECC551F73A40700E32AA5 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */; };
 		165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC561F73A46200E32AA5 /* ColorExtension.swift */; };
 		165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC581F73A47C00E32AA5 /* StringExtension.swift */; };
-		165ECC5B1F73A72500E32AA5 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC5A1F73A72400E32AA5 /* RestClient.swift */; };
 		165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */; };
 		165ECC5F1F73C10700E32AA5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 165ECC5E1F73C10700E32AA5 /* GoogleService-Info.plist */; };
 		1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4A21F74AB3000809C32 /* DrawerViewController.swift */; };
@@ -91,7 +90,6 @@
 		165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		165ECC561F73A46200E32AA5 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		165ECC581F73A47C00E32AA5 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		165ECC5A1F73A72400E32AA5 /* RestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		165ECC5E1F73C10700E32AA5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1664F4A21F74AB3000809C32 /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
@@ -235,7 +233,6 @@
 				164028E91F871B8F0013AE6E /* CoreDataStack.swift */,
 				164ED24E1F7B414500E8B910 /* TableViewExtension.swift */,
 				16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */,
-				165ECC5A1F73A72400E32AA5 /* RestClient.swift */,
 				165ECC581F73A47C00E32AA5 /* StringExtension.swift */,
 				165ECC561F73A46200E32AA5 /* ColorExtension.swift */,
 				165ECC541F73A40600E32AA5 /* ViewControllerExtension.swift */,
@@ -426,7 +423,6 @@
 				16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */,
 				1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */,
 				164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */,
-				165ECC5B1F73A72500E32AA5 /* RestClient.swift in Sources */,
 				16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */,
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
 				164028E41F8719B20013AE6E /* Model.xcdatamodeld in Sources */,

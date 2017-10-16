@@ -51,10 +51,11 @@ struct CoreDataStack {
             } catch {
                 Logger.d("\(#function): \(error.localizedDescription)")
             }
+            self.saveContext()
         }
     }
 
-    func saveContext() {
+    private func saveContext() {
         context.performAndWait() {
             if self.context.hasChanges {
                 do {

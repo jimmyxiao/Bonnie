@@ -10,13 +10,14 @@ import UIKit
 import FacebookCore
 import FacebookLogin
 import TwitterKit
+import Alamofire
 
 class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var google: UIButton!
-    let client = RestClient.standard(withPath: Service.LOGIN)
+    var dataRequest: DataRequest?
 
     override func viewDidLoad() {
         if DEBUG {
@@ -33,7 +34,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        client.cancel()
+        dataRequest?.cancel()
     }
 
     @IBAction func signIn(_ sender: Any) {
@@ -66,35 +67,52 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         } else {
             view.endEditing(true)
             loading.hide(false)
-            client.components.path = Service.LOGIN
-            client.getResponse(queries: nil, data: ["uc": email, "up": password, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 1]) {
-                success, data in
-                guard success, let response = data?["res"] as? Int else {
-                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                    self.loading.hide(true)
-                    return
-                }
-                if response == 1, let token = data?["lk"] as? String, let userId = data?["ui"] as? Int {
-                    self.client.components.path = Service.CATEGORY_LIST
-                    self.client.getResponse(data: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE]) {
-                        success, data in
-                        if success {
-                            let defaults = UserDefaults.standard
-                            defaults.set(token, forKey: Default.TOKEN)
-                            defaults.set(userId, forKey: Default.USER_ID)
-                            defaults.set(email, forKey: Default.EMAIL)
-                            defaults.set(password, forKey: Default.PASSWORD)
-                            defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
-                            self.parseCategory(forData: data)
-                            self.launchMain()
-                        } else {
-                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
-                        }
+            dataRequest = Alamofire.request(
+                    Service.standard(withPath: Service.LOGIN),
+                    method: .post,
+                    parameters: ["uc": email, "up": password, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 1],
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                        return
                     }
-                } else {
-                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
-                    self.loading.hide(true)
-                    self.password.text = nil
+                    if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
+                        self.dataRequest = Alamofire.request(
+                                Service.standard(withPath: Service.CATEGORY_LIST),
+                                method: .post,
+                                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                                encoding: JSONEncoding.default).validate().responseJSON {
+                            response in
+                            switch response.result {
+                            case .success:
+                                guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                                    self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                    return
+                                }
+                                if response == 1 {
+                                    let defaults = UserDefaults.standard
+                                    defaults.set(token, forKey: Default.TOKEN)
+                                    defaults.set(userId, forKey: Default.USER_ID)
+                                    defaults.set(email, forKey: Default.EMAIL)
+                                    defaults.set(password, forKey: Default.PASSWORD)
+                                    defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                                    self.parseCategory(forData: data)
+                                    self.launchMain()
+                                } else {
+                                    self.showErrorMessage(message: data["msg"] as? String)
+                                }
+                            case .failure(let error):
+                                self.showErrorMessage(message: error.localizedDescription)
+                            }
+                        }
+                    } else {
+                        self.showErrorMessage(message: data["msg"] as? String)
+                    }
+                case .failure(let error):
+                    self.showErrorMessage(message: error.localizedDescription)
                 }
             }
         }
@@ -190,6 +208,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         }
     }
 
+    func showErrorMessage(message: String?) {
+        presentDialog(title: "alert_sign_in_fail_title".localized, message: message)
+        loading.hide(true)
+        password.text = nil
+    }
+
     @objc private func launchMain() {
         UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
     }
@@ -202,67 +226,97 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         let signInHandler: (Bool) -> Void = {
             downloadCollection in
             postData["fn"] = 1
-            self.client.getResponse(queries: nil, data: postData) {
-                success, data in
-                guard success, let response = data?["res"] as? Int else {
-                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                    self.loading.hide(true)
-                    return
-                }
-                if response == 1,
-                   let token = data?["lk"] as? String, let userId = data?["ui"] as? Int {
-                    self.client.components.path = Service.CATEGORY_LIST
-                    self.client.getResponse(data: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE]) {
-                        success, data in
-                        if success {
-                            let defaults = UserDefaults.standard
-                            defaults.set(token, forKey: Default.TOKEN)
-                            defaults.set(userId, forKey: Default.USER_ID)
-                            defaults.set(type.rawValue, forKey: Default.USER_TYPE)
-                            defaults.set(id, forKey: Default.THIRD_PARTY_ID)
-                            defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
-                            defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
-                            if let imageUrl = imageUrl {
-                                defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
-                            }
-                            defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
-                            self.parseCategory(forData: data)
-                            self.launchMain()
-                        } else {
-                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
-                        }
+            self.dataRequest = Alamofire.request(
+                    Service.standard(withPath: Service.LOGIN),
+                    method: .post,
+                    parameters: postData,
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                        return
                     }
-                } else {
-                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data?["msg"] as? String)
-                    self.loading.hide(true)
+                    if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
+                        self.dataRequest = Alamofire.request(
+                                Service.standard(withPath: Service.CATEGORY_LIST),
+                                method: .post,
+                                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                                encoding: JSONEncoding.default).validate().responseJSON {
+                            response in
+                            switch response.result {
+                            case .success:
+                                guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                                    self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                    return
+                                }
+                                if response == 1 {
+                                    Logger.d(token)
+                                    let defaults = UserDefaults.standard
+                                    defaults.set(token, forKey: Default.TOKEN)
+                                    defaults.set(userId, forKey: Default.USER_ID)
+                                    defaults.set(type.rawValue, forKey: Default.USER_TYPE)
+                                    defaults.set(id, forKey: Default.THIRD_PARTY_ID)
+                                    defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
+                                    defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
+                                    if let imageUrl = imageUrl {
+                                        defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                                    }
+                                    defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                                    self.parseCategory(forData: data)
+                                    self.launchMain()
+                                } else {
+                                    self.showErrorMessage(message: data["msg"] as? String)
+                                }
+                            case .failure(let error):
+                                self.showErrorMessage(message: error.localizedDescription)
+                            }
+                        }
+                    } else {
+                        self.showErrorMessage(message: data["msg"] as? String)
+                    }
+                case .failure(let error):
+                    self.showErrorMessage(message: error.localizedDescription)
                 }
             }
         }
-        self.client.getResponse(queries: nil, data: postData) {
-            success, data in
-            guard success, let response = data?["res"] as? Int else {
-                self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                self.loading.hide(true)
-                return
-            }
-            if response == 1 {
-                postData["fn"] = 2
-                self.client.getResponse(queries: nil, data: postData) {
-                    success, data in
-                    guard success, let response = data?["res"] as? Int else {
-                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                        self.loading.hide(true)
-                        return
-                    }
-                    if response == 1 {
-                        signInHandler(false)
-                    } else {
-                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
-                        self.loading.hide(true)
-                    }
+        dataRequest = Alamofire.request(
+                Service.standard(withPath: Service.LOGIN),
+                method: .post,
+                parameters: postData,
+                encoding: JSONEncoding.default).validate().responseJSON {
+            response in
+            switch response.result {
+            case .success:
+                guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                    self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                    return
                 }
-            } else {
-                signInHandler(true)
+                if response == 1 {
+                    postData["fn"] = 2
+                    self.dataRequest = Alamofire.request(
+                            Service.standard(withPath: Service.LOGIN),
+                            method: .post,
+                            parameters: postData,
+                            encoding: JSONEncoding.default).validate().responseJSON {
+                        response in
+                        switch response.result {
+                        case .success:
+                            guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
+                                self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                return
+                            }
+                            signInHandler(false)
+                        case .failure(let error):
+                            self.showErrorMessage(message: error.localizedDescription)
+                        }
+                    }
+                } else {
+                    signInHandler(true)
+                }
+            case .failure(let error):
+                self.showErrorMessage(message: error.localizedDescription)
             }
         }
     }

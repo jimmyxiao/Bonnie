@@ -836,14 +836,20 @@
                                     <segue destination="NPk-t0-fPq" kind="show" id="p2b-jq-Ab4"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lWa-aL-roa" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="oaD-XS-HiD" firstAttribute="centerY" secondItem="YxV-0c-OfA" secondAttribute="centerY" id="0lT-jp-z37"/>
+                            <constraint firstItem="lWa-aL-roa" firstAttribute="leading" secondItem="9Wt-6P-7Gt" secondAttribute="leading" id="5AH-8W-VA2"/>
                             <constraint firstItem="1rr-02-2XY" firstAttribute="leading" secondItem="ZEs-cA-Q7X" secondAttribute="leading" constant="8" id="8nd-tG-Q4G"/>
                             <constraint firstItem="9Wt-6P-7Gt" firstAttribute="trailing" secondItem="oaD-XS-HiD" secondAttribute="trailing" constant="16" id="9op-q0-6Rg"/>
                             <constraint firstItem="pdv-de-jz6" firstAttribute="leading" secondItem="9Wt-6P-7Gt" secondAttribute="leading" constant="16" id="Abj-p3-pan"/>
                             <constraint firstAttribute="trailing" secondItem="AFx-vL-8Qe" secondAttribute="trailing" constant="8" id="C7Y-3t-r3H"/>
+                            <constraint firstItem="lWa-aL-roa" firstAttribute="trailing" secondItem="9Wt-6P-7Gt" secondAttribute="trailing" id="DSN-Jj-FdX"/>
                             <constraint firstItem="Obh-4a-EgN" firstAttribute="leading" secondItem="lOr-lE-AZD" secondAttribute="trailing" constant="8" id="F4c-9r-vhV"/>
                             <constraint firstItem="Ezy-ok-L3r" firstAttribute="height" secondItem="pdv-de-jz6" secondAttribute="height" id="Fyp-3i-mY1"/>
                             <constraint firstItem="Obh-4a-EgN" firstAttribute="centerY" secondItem="lOr-lE-AZD" secondAttribute="centerY" id="HNI-yC-6QA"/>
@@ -857,12 +863,14 @@
                             <constraint firstItem="1rr-02-2XY" firstAttribute="top" secondItem="lOr-lE-AZD" secondAttribute="bottom" constant="16" id="SjF-u7-ste"/>
                             <constraint firstItem="Ezy-ok-L3r" firstAttribute="top" secondItem="eit-de-Ltc" secondAttribute="bottom" constant="16" id="T1k-8E-nhC"/>
                             <constraint firstItem="9Wt-6P-7Gt" firstAttribute="trailing" secondItem="Obh-4a-EgN" secondAttribute="trailing" constant="16" id="UbV-21-Ehj"/>
+                            <constraint firstItem="lWa-aL-roa" firstAttribute="bottom" secondItem="9Wt-6P-7Gt" secondAttribute="bottom" id="Uha-r3-JoB"/>
                             <constraint firstItem="FV2-9Z-ffk" firstAttribute="top" secondItem="ZEs-cA-Q7X" secondAttribute="top" id="VER-e9-tca"/>
                             <constraint firstItem="iQh-JW-hRV" firstAttribute="leading" secondItem="9Wt-6P-7Gt" secondAttribute="leading" constant="8" id="YYP-Dv-RWt"/>
                             <constraint firstItem="iQh-JW-hRV" firstAttribute="top" secondItem="pdv-de-jz6" secondAttribute="bottom" constant="8" id="cs2-4T-7Rf"/>
                             <constraint firstAttribute="trailing" secondItem="FV2-9Z-ffk" secondAttribute="trailing" id="eoS-9G-noQ"/>
                             <constraint firstItem="YxV-0c-OfA" firstAttribute="top" secondItem="iQh-JW-hRV" secondAttribute="bottom" constant="16" id="f8f-L6-hRN"/>
                             <constraint firstItem="lOr-lE-AZD" firstAttribute="top" secondItem="AFx-vL-8Qe" secondAttribute="bottom" constant="16" id="flE-gc-dUf"/>
+                            <constraint firstItem="lWa-aL-roa" firstAttribute="top" secondItem="eit-de-Ltc" secondAttribute="bottom" id="g7X-I2-C4M"/>
                             <constraint firstItem="AFx-vL-8Qe" firstAttribute="leading" secondItem="ZEs-cA-Q7X" secondAttribute="leading" constant="8" id="hku-lT-dQ2"/>
                             <constraint firstAttribute="trailing" secondItem="1rr-02-2XY" secondAttribute="trailing" constant="8" id="hvo-Kl-a36"/>
                             <constraint firstItem="pdv-de-jz6" firstAttribute="top" secondItem="eit-de-Ltc" secondAttribute="bottom" constant="16" id="o7U-5N-VcO"/>
@@ -876,6 +884,7 @@
                     <navigationItem key="navigationItem" id="NbW-JQ-Vdw"/>
                     <connections>
                         <outlet property="category" destination="Obh-4a-EgN" id="gYT-kB-H8e"/>
+                        <outlet property="loading" destination="lWa-aL-roa" id="eMs-kl-P8i"/>
                         <outlet property="thumbnail" destination="pdv-de-jz6" id="9lA-5Z-0v7"/>
                         <outlet property="workDescription" destination="Ezy-ok-L3r" id="YQO-1L-Zgk"/>
                         <outlet property="workTitle" destination="oaD-XS-HiD" id="LU1-0l-VV8"/>
