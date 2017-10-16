@@ -18,7 +18,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
     var workThumbnailData: Data?
     var workFileData: Data?
     var workCategory: WorkCategory?
-    var dataRequest: DataRequest?
+    private var dataRequest: DataRequest?
 
     override func viewDidLoad() {
         workDescription.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
@@ -31,7 +31,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
         dataRequest?.cancel()
     }
 
-    func showErrorMessage(message: String?) {
+    private func showErrorMessage(message: String?) {
         presentDialog(title: "alert_save_fail_title".localized, message: message)
         loading.hide(true)
     }
@@ -43,7 +43,11 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
     }
 
     @IBAction func save(_ sender: UIBarButtonItem) {
-        guard let workThumbnailData = workThumbnailData else {
+        guard AppDelegate.reachability.isReachable else {
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            return
+        }
+        guard let workThumbnailData = workThumbnailData, let workFileData = workFileData else {
             return
         }
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -101,7 +105,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                                                 Alamofire.upload(
                                                         multipartFormData: {
                                                             multipartFormData in
-                                                            multipartFormData.append(workThumbnailData, withName: "file", fileName: "\(workId).bdw", mimeType: "")
+                                                            multipartFormData.append(workFileData, withName: "file", fileName: "\(workId).bdw", mimeType: "")
                                                         },
                                                         to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&wid=\(workId)&ftype=\(FileType.bdw.rawValue)",
                                                         encodingCompletion: {

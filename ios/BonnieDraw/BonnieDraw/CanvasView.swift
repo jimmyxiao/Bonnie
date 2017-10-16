@@ -16,18 +16,28 @@ class CanvasView: UIView {
     var redoPaths = [Path]()
     var lastTimestamp: TimeInterval = -1
     var persistentImage: UIImage?
+    var url: URL?
     private var controlPoint = CGPoint.zero, currentPoint = CGPoint.zero
-    private var url: URL?
     private var writeHandle: FileHandle?
     private var readHandle: FileHandle?
     private var animationPaths = [Path]()
     private var animationPoints = [Point]()
     private var animationTimer: Timer?
+    private var isUserInteractionEnabledOverride = true
+
+    override func awakeFromNib() {
+        do {
+            isUserInteractionEnabledOverride = isUserInteractionEnabled
+            url = try FileManager.default.url(for: .documentationDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("temp.bdw")
+        } catch {
+            Logger.d(error.localizedDescription)
+        }
+    }
 
     func undo() {
         if !paths.isEmpty {
             redoPaths.append(paths.removeLast())
-            delegate?.canvasPathsDidChange()
+            delegate?.canvasPathsDidChange?()
             setNeedsDisplay()
         }
     }
@@ -35,7 +45,7 @@ class CanvasView: UIView {
     func redo() {
         if !redoPaths.isEmpty {
             paths.append(redoPaths.removeLast())
-            delegate?.canvasPathsDidChange()
+            delegate?.canvasPathsDidChange?()
             setNeedsDisplay()
         }
     }
@@ -88,8 +98,8 @@ class CanvasView: UIView {
             if !animationPoints.isEmpty {
                 animate()
             } else {
-                delegate?.canvasPathsDidFinishAnimation()
-                isUserInteractionEnabled = true
+                delegate?.canvasPathsDidFinishAnimation?()
+                isUserInteractionEnabled = isUserInteractionEnabledOverride
                 lastTimestamp = -1
             }
         }
@@ -102,7 +112,7 @@ class CanvasView: UIView {
         animationPaths.removeAll()
         animationPoints.removeAll()
         persistentImage = nil
-        delegate?.canvasPathsDidChange()
+        delegate?.canvasPathsDidChange?()
         do {
             if let url = url {
                 let manager = FileManager.default
@@ -117,7 +127,7 @@ class CanvasView: UIView {
             Logger.d(error.localizedDescription)
         }
         setNeedsDisplay()
-        isUserInteractionEnabled = true
+        isUserInteractionEnabled = isUserInteractionEnabledOverride
         lastTimestamp = -1
     }
 
@@ -160,7 +170,7 @@ class CanvasView: UIView {
                                 points: [point],
                                 color: color))
             }
-            delegate?.canvasPathsWillBeginAnimation()
+            delegate?.canvasPathsWillBeginAnimation?()
             persistentImage = nil
             setNeedsDisplay()
         } catch {
@@ -168,25 +178,30 @@ class CanvasView: UIView {
         }
     }
 
-    func save() {
+    func stop() {
         animationTimer?.invalidate()
+        animationPaths.removeAll()
+        animationPoints.removeAll()
+    }
+
+    func save() {
         var points = [Point]()
         while !paths.isEmpty {
             points.append(contentsOf: paths.removeFirst().points)
         }
         redoPaths.removeAll()
-        animationPaths.removeAll()
-        animationPoints.removeAll()
         persistentImage = nil
-        delegate?.canvasPathsDidChange()
+        delegate?.canvasPathsDidChange?()
         writeHandle?.write(self.parse(pointsToData: points))
         writeHandle?.closeFile()
     }
 
     func load() {
         do {
+            guard let url = url else {
+                return
+            }
             let manager = FileManager.default
-            let url = try manager.url(for: .documentationDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("temp.bdw")
             if manager.fileExists(atPath: url.path) {
                 let data = try Data(contentsOf: url)
                 if !data.isEmpty {
@@ -216,7 +231,7 @@ class CanvasView: UIView {
                         }
                     }
                     setNeedsDisplay()
-                    delegate?.canvasPathsDidChange()
+                    delegate?.canvasPathsDidChange?()
                 } else {
                     writeHandle = try FileHandle(forWritingTo: url)
                 }
@@ -224,7 +239,6 @@ class CanvasView: UIView {
                 manager.createFile(atPath: url.path, contents: nil, attributes: nil)
                 writeHandle = try FileHandle(forWritingTo: url)
             }
-            self.url = url
         } catch {
             Logger.d(error.localizedDescription)
         }
@@ -283,7 +297,7 @@ class CanvasView: UIView {
                     }
                 }
             } else {
-                isUserInteractionEnabled = true
+                isUserInteractionEnabled = isUserInteractionEnabledOverride
                 lastTimestamp = -1
             }
         }
@@ -291,6 +305,10 @@ class CanvasView: UIView {
 
     private func parse(dataToPoints data: Data) -> [Point] {
         var points = [Point]()
+        guard data.count % Int(LENGTH_SIZE) == 0 else {
+            delegate?.canvasFileParseError?()
+            return points
+        }
         if !data.isEmpty {
             let scale = (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)
             let byteMax = CGFloat(UInt8.max)
@@ -452,7 +470,7 @@ class CanvasView: UIView {
             drawToPersistentImage(saveToFile: true)
             setNeedsDisplay(calculateRedrawRect(forPoints: points))
             redoPaths.removeAll()
-            delegate?.canvasPathsDidChange()
+            delegate?.canvasPathsDidChange?()
         }
     }
 
@@ -495,10 +513,12 @@ class CanvasView: UIView {
     }
 }
 
-protocol CanvasViewDelegate {
-    func canvasPathsDidChange()
+@objc protocol CanvasViewDelegate {
+    @objc optional func canvasPathsDidChange()
 
-    func canvasPathsWillBeginAnimation()
+    @objc optional func canvasPathsWillBeginAnimation()
 
-    func canvasPathsDidFinishAnimation()
+    @objc optional func canvasPathsDidFinishAnimation()
+
+    @objc optional func canvasFileParseError()
 }

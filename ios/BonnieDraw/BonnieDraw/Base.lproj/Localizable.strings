@@ -27,3 +27,7 @@
 "alert_forget_password_content" = "密碼已發送至您的信箱";
 "alert_sign_up_success_title" = "註冊成功";
 "alert_sign_up_success_content" = "已發送認證信至您的信箱";
+"service_download_fail_title" = "下載失敗";
+"likes" = "個讚";
+"canvas_data_parse_error_title" = "讀檔錯誤";
+"canvas_data_parse_error_content" = "檔案已損毀無法讀取";

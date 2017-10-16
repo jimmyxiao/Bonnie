@@ -10,6 +10,8 @@
 		16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */; };
 		16076EBC1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */; };
 		16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */; };
+		16185C7D1F94A13F008F0840 /* WorkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16185C7C1F94A13F008F0840 /* WorkViewController.swift */; };
+		16185C7F1F94A264008F0840 /* Work.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16185C7E1F94A264008F0840 /* Work.swift */; };
 		162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1664F4A81F74AD9200809C32 /* Localizable.strings */; };
 		162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65AE1F61663900945E04 /* Main.storyboard */; };
 		162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B31F61663900945E04 /* LaunchScreen.storyboard */; };
@@ -62,6 +64,8 @@
 		16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerViewController.swift; sourceTree = "<group>"; };
 		16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerTableViewCell.swift; sourceTree = "<group>"; };
 		16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		16185C7C1F94A13F008F0840 /* WorkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkViewController.swift; sourceTree = "<group>"; };
+		16185C7E1F94A264008F0840 /* Work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Work.swift; sourceTree = "<group>"; };
 		16332A221F7F3048007857E3 /* SaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveViewController.swift; sourceTree = "<group>"; };
 		16366AE11F7A0AA300E5799B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		16366AE41F7A131200E5799B /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
@@ -222,6 +226,7 @@
 				166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */,
 				166BDF411F860E7900274C6C /* SplashViewController.swift */,
 				164028EB1F8753A80013AE6E /* CategoryViewController.swift */,
+				16185C7C1F94A13F008F0840 /* WorkViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 			children = (
 				16D439671F66AC8200FF5878 /* Point.swift */,
 				165710FE1F6BAB63004A8DD8 /* Path.swift */,
+				16185C7E1F94A264008F0840 /* Work.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -416,6 +422,7 @@
 				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,
 				164028EA1F871B8F0013AE6E /* CoreDataStack.swift in Sources */,
 				166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */,
+				16185C7F1F94A264008F0840 /* Work.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
 				16332A231F7F3048007857E3 /* SaveViewController.swift in Sources */,
 				1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */,
@@ -432,6 +439,7 @@
 				16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */,
 				16366AE21F7A0AA300E5799B /* HomeViewController.swift in Sources */,
 				16CEB8A21F72B34F00ADBC1F /* CustomTitleNavigationViewController.swift in Sources */,
+				16185C7D1F94A13F008F0840 /* WorkViewController.swift in Sources */,
 				165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */,
 				165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */,
 				163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */,

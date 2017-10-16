@@ -12,18 +12,22 @@ import Alamofire
 class ForgetPasswordViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var email: UITextField!
-    var dataRequest: DataRequest?
+    private var dataRequest: DataRequest?
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
     }
 
-    func showErrorMessage(message: String?) {
+    private func showErrorMessage(message: String?) {
         presentDialog(title: "alert_sign_up_fail_title".localized, message: message)
         loading.hide(true)
     }
 
     @IBAction func send(_ sender: Any) {
+        guard AppDelegate.reachability.isReachable else {
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            return
+        }
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if email.isEmpty {
             presentDialog(title: "alert_forget_password_title".localized, message: "alert_sign_in_fail_email_empty".localized) {

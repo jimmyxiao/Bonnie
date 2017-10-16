@@ -17,7 +17,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var google: UIButton!
-    var dataRequest: DataRequest?
+    private var dataRequest: DataRequest?
 
     override func viewDidLoad() {
         if DEBUG {
@@ -208,7 +208,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         }
     }
 
-    func showErrorMessage(message: String?) {
+    private func showErrorMessage(message: String?) {
         presentDialog(title: "alert_sign_in_fail_title".localized, message: message)
         loading.hide(true)
         password.text = nil

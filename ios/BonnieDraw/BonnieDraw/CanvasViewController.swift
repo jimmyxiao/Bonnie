@@ -24,7 +24,6 @@ class CanvasViewController:
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var resetButton: UIBarButtonItem!
     @IBOutlet weak var colorButton: UIBarButtonItem!
-    let client = RestClient(scheme: Service.SCHEME, host: Service.HOST)
 
     override func viewDidLoad() {
         canvas.delegate = self
@@ -88,6 +87,7 @@ class CanvasViewController:
     }
 
     override func onBackPressed(_ sender: AnyObject) {
+        canvas.stop()
         canvas.save()
         super.onBackPressed(sender)
     }

@@ -14,13 +14,13 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
-    var dataRequest: DataRequest?
+    private var dataRequest: DataRequest?
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
     }
 
-    func showErrorMessage(message: String?) {
+    private func showErrorMessage(message: String?) {
         presentDialog(title: "alert_sign_up_fail_title".localized, message: message)
         loading.hide(true)
         password.text = nil

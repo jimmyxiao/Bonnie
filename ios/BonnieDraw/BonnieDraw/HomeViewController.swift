@@ -7,94 +7,122 @@
 //
 
 import UIKit
+import Alamofire
 
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     private let commentTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray]
-    private let items = [TableViewItem(
-            id: Int(arc4random_uniform(100)),
-            profileImage: "https://via.placeholder.com/128/\(AppDelegate.randomColor())",
-            profileName: "Foo Bar",
-            thumbnail: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())",
-            title: "標題",
-            likes: Int(arc4random_uniform(100)),
-            lastCommentProfileName: "阿貓",
-            lastComment: "喵喵喵～",
-            secondLastCommentProfileName: "阿狗",
-            secondLastComment: "汪汪汪汪！",
-            lastCommentDate: Int(Date().timeIntervalSince1970) + Int(arc4random_uniform(100000))),
-        TableViewItem(
-                id: Int(arc4random_uniform(100)),
-                profileImage: "https://via.placeholder.com/128/\(AppDelegate.randomColor())",
-                profileName: "Foo Bar",
-                thumbnail: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())",
-                title: "標題",
-                likes: Int(arc4random_uniform(100)),
-                lastCommentProfileName: "阿貓",
-                lastComment: "喵喵喵～",
-                secondLastCommentProfileName: "阿狗",
-                secondLastComment: "汪汪汪汪！",
-                lastCommentDate: Int(Date().timeIntervalSince1970) + Int(arc4random_uniform(100000))),
-        TableViewItem(
-                id: Int(arc4random_uniform(100)),
-                profileImage: "https://via.placeholder.com/128/\(AppDelegate.randomColor())",
-                profileName: "Foo Bar",
-                thumbnail: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())",
-                title: "標題",
-                likes: Int(arc4random_uniform(100)),
-                lastCommentProfileName: "阿貓",
-                lastComment: "喵喵喵～",
-                secondLastCommentProfileName: "阿狗",
-                secondLastComment: "汪汪汪汪！",
-                lastCommentDate: Int(Date().timeIntervalSince1970) + Int(arc4random_uniform(100000))),
-        TableViewItem(
-                id: Int(arc4random_uniform(100)),
-                profileImage: "https://via.placeholder.com/128/\(AppDelegate.randomColor())",
-                profileName: "Foo Bar",
-                thumbnail: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())",
-                title: "標題",
-                likes: Int(arc4random_uniform(100)),
-                lastCommentProfileName: "阿貓",
-                lastComment: "喵喵喵～",
-                secondLastCommentProfileName: "阿狗",
-                secondLastComment: "汪汪汪汪！",
-                lastCommentDate: Int(Date().timeIntervalSince1970) + Int(arc4random_uniform(100000))),
-        TableViewItem(
-                id: Int(arc4random_uniform(100)),
-                profileImage: "https://via.placeholder.com/128/\(AppDelegate.randomColor())",
-                profileName: "Foo Bar",
-                thumbnail: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())",
-                title: "標題",
-                likes: Int(arc4random_uniform(100)),
-                lastCommentProfileName: "阿貓",
-                lastComment: "喵喵喵～",
-                secondLastCommentProfileName: "阿狗",
-                secondLastComment: "汪汪汪汪！",
-                lastCommentDate: Int(Date().timeIntervalSince1970) + Int(arc4random_uniform(100000)))]
+    private var works = [Work]()
+    private var dataRequest: DataRequest?
+    private var timestamp: Date?
 
     override func viewDidLoad() {
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        if let timestamp = timestamp {
+            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+                downloadData()
+            }
+        } else {
+            downloadData()
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        dataRequest?.cancel()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? WorkViewController,
+           let indexPath = tableView.indexPathForSelectedRow {
+            controller.work = works[indexPath.row]
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+
+    private func downloadData() {
+        guard AppDelegate.reachability.isReachable else {
+            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+                success in
+                if success {
+                    self.downloadData()
+                }
+            }
+            return
+        }
+        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            return
+        }
+        loading.hide(false)
+        works.removeAll()
+        dataRequest = Alamofire.request(
+                Service.standard(withPath: Service.WORK_LIST),
+                method: .post,
+                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128],
+                encoding: JSONEncoding.default).validate().responseJSON {
+            response in
+            switch response.result {
+            case .success:
+                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workList = data["workList"] as? [[String: Any]] else {
+                    self.presentConfirmationDialog(
+                            title: "service_download_fail_title".localized,
+                            message: "app_network_unreachable_content".localized) {
+                        success in
+                        if success {
+                            self.downloadData()
+                        }
+                    }
+                    return
+                }
+                for work in workList {
+                    self.works.append(Work(
+                            id: work["worksId"] as? Int,
+                            profileImage: nil,
+                            profileName: work["userName"] as? String,
+                            thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
+                            file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
+                            title: work["title"] as? String,
+                            likes: work["likeCount"] as? Int))
+                }
+                self.tableView.reloadSections([0], with: .automatic)
+                self.loading.hide(true)
+                self.timestamp = Date()
+            case .failure(let error):
+                self.presentConfirmationDialog(
+                        title: "service_download_fail_title".localized,
+                        message: error.localizedDescription) {
+                    success in
+                    if success {
+                        self.downloadData()
+                    }
+                }
+            }
+        }
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return works.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = items[indexPath.row]
+        let work = works[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.HOME, for: indexPath) as! HomeTableViewCell
-        cell.profileImage.setImage(with: URL(string: item.profileImage))
-        cell.profileName.text = item.profileName
-        cell.thumbnail?.setImage(with: URL(string: item.thumbnail))
-        cell.likes.text = "\(item.likes)個讚"
-        let lastComment = NSMutableAttributedString(string: item.lastCommentProfileName + "\t")
-        lastComment.append(NSAttributedString(string: item.lastComment, attributes: commentTextAttributes))
-        cell.lastComment.attributedText = lastComment
-        let secondLastComment = NSMutableAttributedString(string: item.secondLastCommentProfileName + "\t")
-        secondLastComment.append(NSAttributedString(string: item.secondLastComment, attributes: commentTextAttributes))
-        cell.secondLastComment.attributedText = secondLastComment
-        cell.lastCommentDate.text = "\(item.lastCommentDate)"
+        cell.profileImage.setImage(with: work.profileImage)
+        cell.profileName.text = work.profileName
+        cell.thumbnail?.setImage(with: work.thumbnail)
+        cell.likes.text = "\(work.likes ?? 0)" + "likes".localized
+//        let lastComment = NSMutableAttributedString(string: item.lastCommentProfileName + "\t")
+//        lastComment.append(NSAttributedString(string: item.lastComment, attributes: commentTextAttributes))
+//        cell.lastComment.attributedText = lastComment
+//        let secondLastComment = NSMutableAttributedString(string: item.secondLastCommentProfileName + "\t")
+//        secondLastComment.append(NSAttributedString(string: item.secondLastComment, attributes: commentTextAttributes))
+//        cell.secondLastComment.attributedText = secondLastComment
+//        cell.lastCommentDate.text = "\(item.lastCommentDate)"
         return cell
     }
 
@@ -120,19 +148,5 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if let indexPath = tableView.indexPath(forView: sender) {
             Logger.d("\(#function) \(indexPath.row)")
         }
-    }
-
-    private struct TableViewItem {
-        let id: Int
-        let profileImage: String
-        let profileName: String
-        let thumbnail: String
-        let title: String
-        let likes: Int
-        let lastCommentProfileName: String
-        let lastComment: String
-        let secondLastCommentProfileName: String
-        let secondLastComment: String
-        let lastCommentDate: Int
     }
 }
