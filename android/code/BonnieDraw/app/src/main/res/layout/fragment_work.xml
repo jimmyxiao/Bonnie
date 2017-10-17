@@ -26,10 +26,18 @@
             android:id="@+id/works_user_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="6"
+            android:layout_weight="3"
             android:gravity="center_vertical"
             android:text="用戶名稱"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/works_work_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:gravity="center_vertical"
+            android:text="作品名稱" />
 
         <ImageButton
             android:id="@+id/works_user_extra"

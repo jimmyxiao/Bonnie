@@ -37,7 +37,7 @@
 
     </LinearLayout>
 
-    <ImageView
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#aaa" />
@@ -58,8 +58,7 @@
         android:text="更換大頭貼照"
         android:textColor="@color/Blue" />
 
-    <ImageView
-        android:id="@+id/view"
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#aaa" />
@@ -67,14 +66,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="姓名"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/Black" />
 
         <EditText
             android:id="@+id/edit_form_name"
@@ -88,14 +89,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="用戶暱稱"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/Black" />
 
         <EditText
             android:id="@+id/edit_form_user_nickname"
@@ -109,14 +112,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="個人簡介"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/Black" />
 
         <EditText
             android:id="@+id/edit_form_profile"
@@ -130,14 +135,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="電子郵件"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/Black" />
 
         <EditText
             android:id="@+id/edit_form_email"
@@ -151,14 +158,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="電話"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/Black" />
 
         <EditText
             android:id="@+id/edit_form_phone"
@@ -172,7 +181,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="0dp"
@@ -180,7 +190,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="3"
             android:text="性別"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/Black" />
 
         <RadioGroup
             android:id="@+id/edit_form_gender_group"
@@ -194,14 +205,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="男性"/>
+                android:text="男性" />
 
             <RadioButton
                 android:id="@+id/edit_form_gender_f"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="女性"/>
+                android:text="女性" />
 
             <RadioButton
                 android:id="@+id/edit_form_gender_o"

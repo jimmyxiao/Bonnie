@@ -3,9 +3,9 @@
     <!-- 按壓時 -->
     <item android:state_pressed="true">
         <!--rectangle 長方形 可以畫出直角形，圓角形，弧形等-->
-        <shape android:shape="oval">
+        <shape android:shape="rectangle">
             <!--設定圓角，當設置的圓角半徑很大，就可變成弧形邊了-->
-            <corners android:radius="5dp" />
+            <corners android:radius="10dp" />
             <!--邊框-->
             <stroke android:width="3dp" android:color="#aaa" />
             <!--漸層顏色-->
@@ -15,10 +15,10 @@
 
     <!-- 預設時 -->
     <item android:color="@android:color/black">
-        <shape android:shape="oval"  >
-            <corners android:radius="5dp" />
-            <stroke android:width="3dp" android:color="#eee" />
-            <gradient android:angle="-90" android:startColor="@color/Transparent" android:endColor="@color/Transparent"  />
+        <shape android:shape="rectangle"  >
+            <corners android:radius="10dp" />
+            <stroke android:width="3dp" android:color="#000" />
+            <gradient android:angle="-90" android:startColor="#000" android:endColor="#000"  />
         </shape>
     </item>
 </selector>

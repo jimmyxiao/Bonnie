@@ -22,13 +22,13 @@
         android:background="#F26F45"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/header_user_photo"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:layout_gravity="center_vertical"
             android:layout_marginLeft="50dp"
-            android:background="@color/White" />
+            android:layout_gravity="center_vertical"
+            app:civ_border_color="#FF000000"/>
 
         <TextView
             android:id="@+id/header_user_name"
@@ -38,7 +38,8 @@
             android:layout_marginLeft="35dp"
             android:layout_weight="1"
             android:text="User"
-            android:textSize="30sp" />
+            android:textColor="@color/White"
+            android:textSize="18sp" />
 
 
     </LinearLayout>

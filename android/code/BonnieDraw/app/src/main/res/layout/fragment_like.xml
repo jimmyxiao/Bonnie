@@ -27,15 +27,15 @@
             android:layout_weight="6"
             android:gravity="center"
             android:text="我的收藏"
+            android:textColor="#000"
             android:textSize="18sp" />
 
         <ImageButton
-            android:id="@+id/btn_like_add"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/ic_add_black_24dp" />
+            android:src="@drawable/ic_add_black_24dp" />
 
     </LinearLayout>
 

@@ -4,7 +4,6 @@ package com.sctw.bonniedraw.fragment;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,8 +24,8 @@ import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.works.WorkAdapterList;
 import com.sctw.bonniedraw.works.WorkAdapterGrid;
+import com.sctw.bonniedraw.works.WorkAdapterList;
 import com.sctw.bonniedraw.works.WorkGridOnClickListener;
 import com.sctw.bonniedraw.works.WorkListOnClickListener;
 
@@ -66,10 +65,6 @@ public class ProfileFragment extends Fragment {
     FragmentManager fm;
     FragmentTransaction ft;
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,7 +93,11 @@ public class ProfileFragment extends Fragment {
         profileSettingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Click", Toast.LENGTH_SHORT).show();
+                ft = fm.beginTransaction();
+                ProfileSettingFragment fragment = new ProfileSettingFragment();
+                ft.replace(R.id.main_actitivy_layout, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
             }
         });
 
@@ -106,7 +105,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ft = fm.beginTransaction();
-                EditProfileFragment fragment=new EditProfileFragment();
+                EditProfileFragment fragment = new EditProfileFragment();
                 ft.replace(R.id.main_actitivy_layout, fragment);
                 ft.addToBackStack(null);
                 ft.commit();
@@ -151,27 +150,27 @@ public class ProfileFragment extends Fragment {
                 mAdapterList = new WorkAdapterList(myDataset, new WorkListOnClickListener() {
                     @Override
                     public void onWorkImgClick(int postion) {
-                        Log.d("onWorkImgClick","No."+String.valueOf(postion));
+                        Log.d("onWorkImgClick", "No." + String.valueOf(postion));
                     }
 
                     @Override
                     public void onWorkExtraClick(int postion) {
-                        Log.d("onWorkExtraClick","No."+String.valueOf(postion));
+                        Log.d("onWorkExtraClick", "No." + String.valueOf(postion));
                     }
 
                     @Override
                     public void onWorkGoodClick(int postion) {
-                        Log.d("onWorkGoodClick","No."+String.valueOf(postion));
+                        Log.d("onWorkGoodClick", "No." + String.valueOf(postion));
                     }
 
                     @Override
                     public void onWorkMsgClick(int postion) {
-                        Log.d("onWorkMsgClick","No."+String.valueOf(postion));
+                        Log.d("onWorkMsgClick", "No." + String.valueOf(postion));
                     }
 
                     @Override
                     public void onWorkShareClick(int postion) {
-                        Log.d("onWorkShareClick","No."+String.valueOf(postion));
+                        Log.d("onWorkShareClick", "No." + String.valueOf(postion));
                     }
                 });
                 profileRecyclerView.setLayoutManager(layoutManager);
@@ -208,45 +207,48 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                JSONObject responseJSON = new JSONObject(responseStr);
+                                if (responseJSON.getInt("res") == 1) {
+                                    //Successful
+                                    profileUserName.setText(responseJSON.getString("userName"));
 
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject responseJSON = new JSONObject(responseStr);
-                            if (responseJSON.getInt("res") == 1) {
-                                //Successful
-                                profileUserName.setText(responseJSON.getString("userName"));
+                                    if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
+                                        profileUserId.setText(responseJSON.getString("nickName"));
+                                    } else {
+                                        profileUserId.setText("");
+                                    }
 
-                                if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
-                                    profileUserId.setText(responseJSON.getString("nickName"));
-                                } else {
-                                    profileUserId.setText("");
-                                }
-
-                                if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                    try {
-                                        //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "null"));
-                                        Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-                                        profilePhoto.setImageBitmap(bitmap);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                    if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
+                                        try {
+                                            //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
+                                            URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "null"));
+                                            Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
+                                            profilePhoto.setImageBitmap(bitmap);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 } else {
-                                    profilePhoto.setBackgroundColor(Color.BLACK);
+                                    Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
+                                Log.d("RESTFUL API : ", responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            Log.d("RESTFUL API : ", responseJSON.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

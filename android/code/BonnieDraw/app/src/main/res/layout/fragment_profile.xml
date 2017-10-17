@@ -1,41 +1,61 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_container_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/profile_container_layout"
     tools:context="com.sctw.bonniedraw.fragment.ProfileFragment">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/profile_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:fitsSystemWindows="true">
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/profile_userId"
-            android:layout_width="72dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="8dp"
+            android:layout_weight="6"
+            android:paddingLeft="16dp"
             android:text="ID"
-            android:textAlignment="center" />
+            android:textColor="#000" />
+
+        <ImageButton
+            android:id="@+id/profile_grid_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/personal_ic_rectangle" />
+
+        <ImageButton
+            android:id="@+id/profile_list_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/personal_ic_list" />
+
+        <ImageButton
+            android:id="@+id/profile_list_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/personal_ic_list" />
 
         <ImageButton
             android:id="@+id/profile_setting_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_weight="1"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/menu_ic_account" />
-    </RelativeLayout>
+            app:srcCompat="@drawable/personal_ic_shape" />
+    </LinearLayout>
 
     <View
         android:id="@+id/divider"
@@ -44,67 +64,59 @@
         android:layout_below="@+id/profile_toolbar"
         android:background="#aaa" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cons_layout"
+    <LinearLayout
+        android:id="@+id/porfile_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/divider"
-        android:layout_alignParentStart="true">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_photo"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp" />
 
         <TextView
             android:id="@+id/profile_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="姓名"
-            android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="@+id/profile_photo"
-            app:layout_constraintRight_toRightOf="@+id/profile_photo"
-            app:layout_constraintTop_toBottomOf="@+id/profile_photo"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/btn_edit_profile"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/edit_profile_icon"
-            android:text="個人\n檔案"
-            app:layout_constraintLeft_toLeftOf="@+id/fans_layout"
-            app:layout_constraintRight_toRightOf="@+id/fans_layout"
-            app:layout_constraintTop_toBottomOf="@+id/fans_layout"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp" />
+            android:text="編輯個人檔案"
+            android:textColor="@color/White"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/viewInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/porfile_layout"
+        android:background="@drawable/shape_border"
+        android:divider="@drawable/divider_layout"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:showDividers="middle|">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_profile_border"
+            android:id="@+id/wroks_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintRight_toLeftOf="@+id/fans_layout"
-            android:layout_marginRight="32dp"
-            android:id="@+id/wroks_layout">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/userworks_textview"
@@ -112,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textAlignment="center"
+                android:textColor="#000"
                 android:textStyle="bold" />
 
             <TextView
@@ -119,21 +132,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="作品數"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_profile_border"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
             android:id="@+id/fans_layout"
-            android:layout_marginRight="48dp"
-            app:layout_constraintRight_toRightOf="parent">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/userfollow_textview"
@@ -141,6 +150,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textAlignment="center"
+                android:textColor="#000"
                 android:textStyle="bold" />
 
             <TextView
@@ -154,19 +164,10 @@
 
         <LinearLayout
             android:id="@+id/follow_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/shape_profile_border"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toLeftOf="@+id/wroks_layout"
-            app:layout_constraintRight_toRightOf="@+id/wroks_layout"
-            app:layout_constraintTop_toBottomOf="@+id/wroks_layout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/username_textview"
@@ -174,6 +175,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textAlignment="center"
+                android:textColor="#000"
                 android:textStyle="bold" />
 
             <TextView
@@ -184,39 +186,6 @@
                 android:textAlignment="center" />
 
         </LinearLayout>
-
-
-    </android.support.constraint.ConstraintLayout>
-
-    <LinearLayout
-        android:id="@+id/viewBtnLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cons_layout"
-        android:background="@drawable/shape_border"
-        android:divider="@drawable/divider_layout"
-        android:orientation="horizontal"
-        android:showDividers="middle|">
-
-        <ImageButton
-            android:id="@+id/profile_grid_btn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            app:srcCompat="@drawable/personal_ic_rectangle" />
-
-        <ImageButton
-            android:id="@+id/profile_list_btn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            app:srcCompat="@drawable/personal_ic_list" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -225,7 +194,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/viewBtnLayout"
+        android:layout_below="@+id/viewInfoLayout"
         android:background="@color/Transparent" />
 
 
