@@ -28,7 +28,11 @@ class CanvasView: UIView {
     override func awakeFromNib() {
         do {
             isUserInteractionEnabledOverride = isUserInteractionEnabled
-            url = try FileManager.default.url(for: .documentationDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("temp.bdw")
+            url = try FileManager.default.url(
+                    for: .documentationDirectory,
+                    in: .userDomainMask,
+                    appropriateFor: nil,
+                    create: true).appendingPathComponent(isUserInteractionEnabledOverride ? "cache.bdw" : "download.bdw")
         } catch {
             Logger.d(error.localizedDescription)
         }

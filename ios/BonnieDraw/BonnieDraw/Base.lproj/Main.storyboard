@@ -698,11 +698,11 @@
                                         <rect key="frame" x="0.0" y="160" width="414" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bvI-B5-A6w" id="2Dd-sP-9Ix">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="65.666666666666671"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="045-JS-EyD">
-                                                    <rect key="frame" x="15" y="0.0" width="384" height="65.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="384" height="65.666666666666671"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -965,7 +965,7 @@
                                 </connections>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iQh-JW-hRV">
-                                <rect key="frame" x="8" y="176" width="414" height="1"/>
+                                <rect key="frame" x="8" y="176" width="398" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="M6K-e5-KAB"/>
@@ -1037,7 +1037,7 @@
                             <constraint firstItem="9Wt-6P-7Gt" firstAttribute="trailing" secondItem="Ezy-ok-L3r" secondAttribute="trailing" constant="16" id="Jpl-g1-w1N"/>
                             <constraint firstItem="lOr-lE-AZD" firstAttribute="leading" secondItem="9Wt-6P-7Gt" secondAttribute="leading" constant="16" id="JqK-8A-psw"/>
                             <constraint firstItem="FV2-9Z-ffk" firstAttribute="leading" secondItem="ZEs-cA-Q7X" secondAttribute="leading" id="LVs-6u-7ax"/>
-                            <constraint firstItem="iQh-JW-hRV" firstAttribute="trailing" secondItem="9Wt-6P-7Gt" secondAttribute="trailing" constant="8" id="NCL-M6-z5E"/>
+                            <constraint firstItem="iQh-JW-hRV" firstAttribute="leading" secondItem="ZEs-cA-Q7X" secondAttribute="leading" constant="8" id="Ml3-uL-Pzp"/>
                             <constraint firstItem="eit-de-Ltc" firstAttribute="leading" secondItem="9Wt-6P-7Gt" secondAttribute="leading" id="POE-3s-cOs"/>
                             <constraint firstItem="oaD-XS-HiD" firstAttribute="leading" secondItem="YxV-0c-OfA" secondAttribute="trailing" constant="8" id="REG-oq-9Wi"/>
                             <constraint firstItem="1rr-02-2XY" firstAttribute="top" secondItem="lOr-lE-AZD" secondAttribute="bottom" constant="16" id="SjF-u7-ste"/>
@@ -1045,7 +1045,6 @@
                             <constraint firstItem="9Wt-6P-7Gt" firstAttribute="trailing" secondItem="Obh-4a-EgN" secondAttribute="trailing" constant="16" id="UbV-21-Ehj"/>
                             <constraint firstItem="lWa-aL-roa" firstAttribute="bottom" secondItem="9Wt-6P-7Gt" secondAttribute="bottom" id="Uha-r3-JoB"/>
                             <constraint firstItem="FV2-9Z-ffk" firstAttribute="top" secondItem="ZEs-cA-Q7X" secondAttribute="top" id="VER-e9-tca"/>
-                            <constraint firstItem="iQh-JW-hRV" firstAttribute="leading" secondItem="9Wt-6P-7Gt" secondAttribute="leading" constant="8" id="YYP-Dv-RWt"/>
                             <constraint firstItem="iQh-JW-hRV" firstAttribute="top" secondItem="pdv-de-jz6" secondAttribute="bottom" constant="8" id="cs2-4T-7Rf"/>
                             <constraint firstAttribute="trailing" secondItem="FV2-9Z-ffk" secondAttribute="trailing" id="eoS-9G-noQ"/>
                             <constraint firstItem="YxV-0c-OfA" firstAttribute="top" secondItem="iQh-JW-hRV" secondAttribute="bottom" constant="16" id="f8f-L6-hRN"/>
@@ -1055,6 +1054,7 @@
                             <constraint firstAttribute="trailing" secondItem="1rr-02-2XY" secondAttribute="trailing" constant="8" id="hvo-Kl-a36"/>
                             <constraint firstItem="pdv-de-jz6" firstAttribute="top" secondItem="eit-de-Ltc" secondAttribute="bottom" constant="16" id="o7U-5N-VcO"/>
                             <constraint firstItem="eit-de-Ltc" firstAttribute="trailing" secondItem="9Wt-6P-7Gt" secondAttribute="trailing" id="ow4-SX-CWj"/>
+                            <constraint firstAttribute="trailing" secondItem="iQh-JW-hRV" secondAttribute="trailing" constant="8" id="pnf-TM-zjA"/>
                             <constraint firstItem="Ezy-ok-L3r" firstAttribute="leading" secondItem="pdv-de-jz6" secondAttribute="trailing" constant="8" id="qDw-9f-KDo"/>
                             <constraint firstItem="YxV-0c-OfA" firstAttribute="leading" secondItem="9Wt-6P-7Gt" secondAttribute="leading" constant="16" id="tbR-Fd-EcD"/>
                             <constraint firstItem="eit-de-Ltc" firstAttribute="top" secondItem="FV2-9Z-ffk" secondAttribute="bottom" id="yfc-1L-yFq"/>
@@ -1072,7 +1072,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mRl-K9-yqq" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3420" y="35.91549295774648"/>
+            <point key="canvasLocation" x="3418.840579710145" y="35.869565217391305"/>
         </scene>
         <!--Category View Controller-->
         <scene sceneID="XSX-OA-MJ2">
@@ -1119,11 +1119,11 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EqW-Ue-DsF" id="xIj-je-ivr">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="inb-aO-n5i">
-                                                    <rect key="frame" x="15" y="0.0" width="384" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="384" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
