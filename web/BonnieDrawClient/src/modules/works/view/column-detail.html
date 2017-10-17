@@ -17,7 +17,9 @@
 									<h3>{{mainSection.title}}</h3>
 									<div class="vid-text">
 										<a class="_eszkz _l9yih" href="" role="button" aria-disabled>
-										<i class="material-icons font-icon">bookmark_border</i></a>
+											<i class="material-icons font-icon" ng-if="!mainSection.collection" ng-click="clickWorksMark(mainSection)">bookmark_border</i>
+											<i class="material-icons font-icon" ng-if="mainSection.collection" ng-click="clickWorksMark(mainSection)" >bookmark</i>
+										</a>
 										<a class="_eszkz _l9yih" href="" role="button" aria-disabled>
 											<i ng-click="clickWorksLike(mainSection)" ng-if="!mainSection.like" class="material-icons font-icon">favorite_border</i>
 											<i ng-click="clickWorksLike(mainSection)" ng-if="mainSection.like" class="material-icons font-icon">favorite</i>
@@ -31,9 +33,10 @@
 										</ul>
 										<div class="_1eg8c">
 											<div class="_l8yre _5g4e2 col-md-4 col-sm-4 col-xs-4">
-												<button class="_1frkc" title="更換大頭貼照">
-													<img class="_fya1f" alt="更換大頭貼照" src="assets/images/avatar2.png">
-												</button>
+												<!-- <button class="_1frkc" title="更換大頭貼照"> -->
+												<img class="_fya1f" ng-if="mainSection.profilePicture!=null && mainSection.profilePicture!=''" ng-src="{{imageLoadUrl}}{{mainSection.profilePicture}}">	
+												<img class="_fya1f" ng-if="mainSection.profilePicture==null || mainSection.profilePicture==''" src="assets/images/avatar2.png">
+												<!-- </button> -->
 											</div>
 											<div class="col-md-8 col-sm-8 col-xs-4" >
 												<h1 class="_9dz61">{{mainSection.userName}}</h1>
@@ -51,19 +54,26 @@
 										<label>目前沒有新的留言</label>
 									</div>
 									<div class="_4a48i _277v9">
-										<ul class="_b0tqa" ng-repeat="data in mainSection.msgList track by $index">
-											<li class="_ezgzd">
+										<ul class="_b0tqa">
+											<li class="_ezgzd" ng-repeat="data in mainSection.msgList | limitTo:1:0 track by $index">
+												<a href="" ng-click="removeMsg(data)">
+													<i ng-if="data.userId == rg_gl.currentUser.ui" class="material-icons font-icon">clear</i>
+												</a>
 												<a class="_2g7d5 notranslate _95hvo" href="">{{data.userName}}</a>
 												<span><span>{{data.message}}</span></span>
 											</li>
 										</ul>
 										<ul id="demo" class="collapse _b0tqa">
-											<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="gabriellelee0530" href="#">gabriellelee0530</a><span><span>留言1</span></span></li>
-											<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="hsiuli" href="#">hsiuli</a><span><span>留言2</span></span></li>
-											<li class="_ezgzd"><a class="_2g7d5 notranslate _95hvo" title="yinnn21_" href="#">yinnn21_</a><span><span>留言3</span></span></li>
+											<li class="_ezgzd" ng-repeat="data in mainSection.msgList | limitTo:(1 - mainSection.msgList.length) track by $index">
+												<a href="" ng-click="removeMsg(data)">
+													<i ng-if="data.userId == rg_gl.currentUser.ui" class="material-icons font-icon">clear</i>
+												</a>
+												<a class="_2g7d5 notranslate _95hvo" href="">{{data.userName}}</a>
+												<span><span>{{data.message}}</span></span>
+											</li>
 										</ul>
 									</div>
-									<div ng-if="mainSection.msgList.length>0" class="container" style="margin-bottom:30px;padding-left:0">
+									<div ng-if="mainSection.msgList.length>1" class="container" style="margin-bottom:30px;padding-left:0">
  										<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">更多留言</button>
  									</div>
 									<div id="comment-frm-container">
@@ -71,7 +81,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="form-group">
-														<textarea name="comment-user-message" id="cmnt-user-msg" rows="4" class="form-control" placeholder="留言" style="resize: none;" required ></textarea>
+														<textarea ng-model="textareaModel.text" ng-textarea-enter="textareaAction()" name="comment-user-message" id="cmnt-user-msg" maxlength="200" rows="4" class="form-control" placeholder="留言" style="resize: none;"></textarea>
 														<div class="input-top-line"></div>
 														<div class="input-bottom-line"></div>
 													</div>

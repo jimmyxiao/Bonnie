@@ -45,7 +45,6 @@ import com.bonniedraw.web_api.model.request.FollowingListRequestVO;
 import com.bonniedraw.web_api.model.request.ForgetPwdRequestVO;
 import com.bonniedraw.web_api.model.request.FriendRequestVO;
 import com.bonniedraw.web_api.model.request.LeaveMsgRequestVO;
-import com.bonniedraw.web_api.model.request.LoadFileRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
 import com.bonniedraw.web_api.model.request.SetCollectionRequestVO;
 import com.bonniedraw.web_api.model.request.SetFollowingRequestVO;
@@ -366,59 +365,63 @@ public class ApiController {
 	public @ResponseBody WorkListResponseVO worksList(HttpServletRequest request,HttpServletResponse resp,@RequestBody WorkListRequestVO workListRequestVO) {
 		WorkListResponseVO respResult = new WorkListResponseVO();
 		String msg = "";
-		if(isLogin(workListRequestVO)){
-			Integer wt = workListRequestVO.getWt();
-			Integer wid = workListRequestVO.getWid();
-			if(ValidateUtil.isNotNumNone(wt) && wt > 0){
-				if(wt!=3 && !(wt >=20)){
-					if(ValidateUtil.isNotNumNone(wid)){		//取得系統預設類別的單一作品
-						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
-						if(worksResponse!=null){
-							List<WorksResponse> workList = respResult.getWorkList();
-							workList.add(worksResponse);
-							respResult.setRes(1);
-							msg = messageSource.getMessage("api_success",null,request.getLocale());
+		try {
+			if(isLogin(workListRequestVO)){
+				Integer wt = workListRequestVO.getWt();
+				Integer wid = workListRequestVO.getWid();
+				if(ValidateUtil.isNotNumNone(wt) && wt > 0){
+					if(wt!=3 && !(wt >=20)){
+						if(ValidateUtil.isNotNumNone(wid)){		//取得系統預設類別的單一作品
+							WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
+							if(worksResponse!=null){
+								List<WorksResponse> workList = respResult.getWorkList();
+								workList.add(worksResponse);
+								respResult.setRes(1);
+								msg = messageSource.getMessage("api_success",null,request.getLocale());
+							}else{
+								respResult.setRes(2);
+								msg = messageSource.getMessage("api_fail",null,request.getLocale());
+							}
 						}else{
-							respResult.setRes(2);
-							msg = messageSource.getMessage("api_fail",null,request.getLocale());
+							List<WorksResponse> workList;
+							if(ValidateUtil.isNotNumNone(workListRequestVO.getStn())){		//取得含有分頁控制的作品列表,反之只取得顯示部分作品列表
+								Map<String, Object> resultMap = worksServiceAPI.queryAllWorksAndPagination(workListRequestVO);
+								workList = (List<WorksResponse>) resultMap.get("worksResponseList");
+								respResult.setMaxPagination((int) resultMap.get("maxPagination"));
+							}else{
+								workList  = worksServiceAPI.queryAllWorks(workListRequestVO);
+							}
+							respResult.setRes(1);
+							respResult.setWorkList(workList);
+							msg = messageSource.getMessage("api_success",null,request.getLocale());
 						}
 					}else{
-						List<WorksResponse> workList;
-						if(ValidateUtil.isNotNumNone(workListRequestVO.getStn())){		//取得含有分頁控制的作品列表,反之只取得顯示部分作品列表
-							Map<String, Object> resultMap = worksServiceAPI.queryAllWorksAndPagination(workListRequestVO);
-							workList = (List<WorksResponse>) resultMap.get("worksResponseList");
-							respResult.setMaxPagination((int) resultMap.get("maxPagination"));
-						}else{
-							workList  = worksServiceAPI.queryAllWorks(workListRequestVO);
-						}
-						respResult.setRes(1);
-						respResult.setWorkList(workList);
-						msg = messageSource.getMessage("api_success",null,request.getLocale());
-					}
-				}else{
-					if(ValidateUtil.isNotNumNone(wid)){		//取得系統非預設類別的作品
-						WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
-						if(worksResponse!=null){
-							Integer resStatus = worksResponse.getStatus();
-							Integer resUserId = worksResponse.getUserId();
-							if(resStatus ==1 ||  (resStatus!=1 && resUserId == workListRequestVO.getUi())){
-								Integer privacyType = worksResponse.getPrivacyType();
-								if(privacyType == 1 || (privacyType!=1 && resUserId == workListRequestVO.getUi())){
-									respResult.setWork(worksResponse);
-									respResult.setRes(1);
-									msg = messageSource.getMessage("api_success",null,request.getLocale());
+						if(ValidateUtil.isNotNumNone(wid)){		//取得系統非預設類別的作品
+							WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
+							if(worksResponse!=null){
+								Integer resStatus = worksResponse.getStatus();
+								Integer resUserId = worksResponse.getUserId();
+								if(resStatus ==1 ||  (resStatus!=1 && resUserId == workListRequestVO.getUi())){
+									Integer privacyType = worksResponse.getPrivacyType();
+									if(privacyType == 1 || (privacyType!=1 && resUserId == workListRequestVO.getUi())){
+										respResult.setWork(worksResponse);
+										respResult.setRes(1);
+										msg = messageSource.getMessage("api_success",null,request.getLocale());
+									}
 								}
 							}
 						}
 					}
+				}else{
+					msg="類別錯誤";
 				}
 			}else{
-				msg="類別錯誤";
+				msg = "帳號未登入"; 
 			}
-		}else{
-			msg = "帳號未登入"; 
+			respResult.setMsg(msg);
+		} catch (NoSuchMessageException e) {
+			LogUtils.error(getClass(), "workslist has error : " + e);
 		}
-		respResult.setMsg(msg);
 		return respResult;
 	}
 
@@ -677,10 +680,18 @@ public class ApiController {
 	@RequestMapping(value="/deleteWork" , produces="application/json")
 	public @ResponseBody DeleteWorkResponseVO deleteWork(HttpServletRequest request,HttpServletResponse resp, @RequestBody DeleteWorkRequestVO deleteWorkRequestVO) {
 		DeleteWorkResponseVO respResult = new DeleteWorkResponseVO();
+		respResult.setRes(2);
 		String msg = "";
 		if(isLogin(deleteWorkRequestVO)){
 			int res = worksServiceAPI.deleteWork(deleteWorkRequestVO.getUi(), deleteWorkRequestVO.getWorksId());
-			respResult.setRes(res);
+			if(res == 1){
+				respResult.setRes(res);
+				msg = "成功";
+			}else if(res ==3){
+				msg = "拒絕刪除";
+			}else{
+				msg = "異常";
+			}
 		}else{
 			msg = "帳號未登入"; 
 		}

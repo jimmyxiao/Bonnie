@@ -25,7 +25,6 @@ app.controller('columnController', function ($rootScope, $scope, $window , $loca
 					$rootScope.maxPagination = data.maxPagination;
 					$rootScope.initalPaginList();
 					$scope.mainSectionArr = data.workList;
-					console.log($rootScope.maxPagination);
 				}
 			})
 		}

@@ -333,8 +333,9 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	public int updatePwd(UpdatePwdRequestVO updatePwdRequestVO) {
 		int success = 2;
 		UserInfo userInfo = new UserInfo();
-		userInfo.setUserPw(String.valueOf(updatePwdRequestVO.getOldPwd()));
 		try {
+			userInfo.setUserId(updatePwdRequestVO.getUi());
+			userInfo.setUserPw(EncryptUtil.convertMD5(updatePwdRequestVO.getOldPwd()));
 			UserInfo resultUserInfo = userInfoMapper.inspectOldPwd(userInfo);
 			if(resultUserInfo == null ){
 				success = 4;
@@ -343,7 +344,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 					success = 3;
 				}else{
 					Date nowDate = TimerUtil.getNowDate();
-					userInfo.setUserPw(String.valueOf(updatePwdRequestVO.getNewPwd()));
+					userInfo.setUserPw(EncryptUtil.convertMD5(updatePwdRequestVO.getNewPwd()));
 					userInfo.setUpdateDate(nowDate);
 					userInfo.setUpdatedBy(updatePwdRequestVO.getUi());
 					userInfoMapper.updateByPrimaryKeySelective(userInfo);

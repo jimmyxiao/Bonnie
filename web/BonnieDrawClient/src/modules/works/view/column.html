@@ -16,9 +16,9 @@
 									<div class="col-md-3 col-sm-6" ng-repeat="data in mainSectionArr track by $index">
 										<div class="latest-vid-img-container">		
 											<div class="vid-img" ng-if="data.imagePath!=null && data.imagePath!=''">
-												<img class="img-responsive" ng-src="{{data.imagePath}}" alt="video image">
-												<a href="video-detail.html" class="play-icon play-small-icon">
-								                	<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
+												<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" alt="image">
+												<a ng-href="#/column-detail?id={{data.worksId}}" class="play-icon play-small-icon">
+								                	<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">
 								                </a>
 												<div class="overlay-div"></div>
 											</div>
@@ -32,7 +32,7 @@
 													<a href=""><i class="material-icons share-icon">share</i></a>
 												</section>
 												<p><a href="">{{data.userName}}</a></p>
-												<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.description}}</a></h1>
+												<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a></h1>
 											</div>
 										</div>
 									</div>

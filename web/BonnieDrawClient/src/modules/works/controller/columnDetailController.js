@@ -5,6 +5,43 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var wid = $state.params.id;
 		$scope.isShow = false;
 
+		$scope.textareaModel ={
+			text:'',
+			send:false
+		}
+		$scope.textareaAction = function(){
+			if(!$scope.textareaModel.send){
+				$scope.textareaModel.send = true;
+				var param = util.getInitalScope();
+				param.fn = 1;
+				param.worksId = $scope.mainSection.worksId;
+				param.message = $scope.textareaModel.text;
+				worksService.leavemsg(param,function(data, status, headers, config){
+					if(data.res != 1){
+						alert('發送失敗');
+					}else{
+						$scope.queryWorks();
+						$scope.textareaModel.text = '';
+					}
+					$scope.textareaModel.send = false;
+				})
+			}
+		}
+
+		$scope.removeMsg = function(data){
+			var param = util.getInitalScope();
+			param.fn = 0;
+			param.worksId = $scope.mainSection.worksId;
+			param.msgId = data.worksMsgId;
+			worksService.leavemsg(param,function(data, status, headers, config){
+				if(data.res != 1){
+					alert('刪除失敗');
+				}else{
+					$scope.queryWorks();
+				}
+			})
+		}
+
 		$scope.queryWorks = function(){
 			$scope.mainSection = {};
 			var params = util.getInitalScope();
@@ -29,6 +66,21 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			params.worksId = data.worksId;
 			params.likeType = 1; 
 			worksService.setLike(params,function(data, status, headers, config){
+				if(data.res == 1){
+					$scope.queryWorks();
+				}
+			})
+		}
+
+		$scope.clickWorksMark = function(data){
+			var params = util.getInitalScope();
+			if(data.collection){
+				params.fn = 0;
+			}else{
+				params.fn = 1;
+			}
+			params.worksId = data.worksId;
+			worksService.setCollection(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$scope.queryWorks();
 				}

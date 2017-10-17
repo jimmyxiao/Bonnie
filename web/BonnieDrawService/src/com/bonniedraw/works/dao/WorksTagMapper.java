@@ -23,6 +23,8 @@ public interface WorksTagMapper {
     
     int deleteWorksTagList(List<WorksTag> tagList);
     
+    int deleteByWorksId(Integer worksId);
+    
     List<WorksTag> selectByWorksId(Integer worksId);
     
     int selectNextOrderNum(Integer worksId);
