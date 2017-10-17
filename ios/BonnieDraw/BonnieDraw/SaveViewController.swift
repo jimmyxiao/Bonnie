@@ -9,37 +9,63 @@
 import UIKit
 import Alamofire
 
-class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate, CategoryViewControllerDelegate {
+class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var thumbnail: UIImageView!
-    @IBOutlet weak var workDescription: UITextView!
     @IBOutlet weak var workTitle: UITextField!
-    @IBOutlet weak var category: UIButton!
+    @IBOutlet weak var workDescription: UITextView!
     var workThumbnailData: Data?
     var workFileData: Data?
     var workCategory: WorkCategory?
+    private var viewOriginY: CGFloat = 0
+    private var keyboardOnScreen = false
     private var dataRequest: DataRequest?
 
     override func viewDidLoad() {
-        workDescription.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         if let workThumbnailData = workThumbnailData {
             thumbnail.image = UIImage(data: workThumbnailData)
         }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
+            viewOriginY = view.frame.origin.y
+            view.frame.origin.y -= keyboardSize.height / 3
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if keyboardOnScreen {
+            view.frame.origin.y = viewOriginY
+        }
+    }
+
+    @objc func keyboardDidShow(_ notification: Notification) {
+        keyboardOnScreen = true
+    }
+
+    @objc func keyboardDidHide(_ notification: Notification) {
+        keyboardOnScreen = false
+    }
+
     private func showErrorMessage(message: String?) {
         presentDialog(title: "alert_save_fail_title".localized, message: message)
         loading.hide(true)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? CategoryViewController {
-            controller.delegate = self
-        }
     }
 
     @IBAction func save(_ sender: UIBarButtonItem) {
@@ -62,103 +88,99 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                 action in
                 self.workTitle.becomeFirstResponder()
             }
-        } else if let category = workCategory {
-            if let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-               let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
-                sender.isEnabled = false
-                loading.hide(false)
-                dataRequest = Alamofire.request(
-                        Service.standard(withPath: Service.WORK_SAVE),
-                        method: .post,
-                        parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": 1, "title": title, "description": description],
-                        encoding: JSONEncoding.default).validate().responseJSON {
-                    response in
-                    switch response.result {
-                    case .success:
-                        guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workId = data["wid"] as? Int else {
-                            self.showErrorMessage(message: "app_network_unreachable_content".localized)
-                            sender.isEnabled = true
-                            return
-                        }
-                        Alamofire.upload(
-                                multipartFormData: {
-                                    multipartFormData in
-                                    multipartFormData.append(workThumbnailData, withName: "file", fileName: "\(workId).png", mimeType: "image/png")
-                                },
-                                to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&wid=\(workId)&ftype=\(FileType.png.rawValue)",
-                                encodingCompletion: {
-                                    encodingResult in
-                                    switch encodingResult {
-                                    case .success(let upload, _, _):
-                                        self.dataRequest = upload.uploadProgress(closure: {
-                                            progress in
-                                            Logger.d(progress.fractionCompleted)
-                                        }).responseJSON(completionHandler: {
-                                            response in
-                                            switch response.result {
-                                            case .success:
-                                                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                                    self.showErrorMessage(message: "app_network_unreachable_content".localized)
-                                                    sender.isEnabled = true
-                                                    return
-                                                }
-                                                Alamofire.upload(
-                                                        multipartFormData: {
-                                                            multipartFormData in
-                                                            multipartFormData.append(workFileData, withName: "file", fileName: "\(workId).bdw", mimeType: "")
-                                                        },
-                                                        to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&wid=\(workId)&ftype=\(FileType.bdw.rawValue)",
-                                                        encodingCompletion: {
-                                                            encodingResult in
-                                                            switch encodingResult {
-                                                            case .success(let upload, _, _):
-                                                                self.dataRequest = upload.uploadProgress(closure: {
-                                                                    progress in
-                                                                    Logger.d(progress.fractionCompleted)
-                                                                }).responseJSON(completionHandler: {
-                                                                    response in
-                                                                    switch response.result {
-                                                                    case .success:
-                                                                        guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                                                            self.showErrorMessage(message: "app_network_unreachable_content".localized)
-                                                                            sender.isEnabled = true
-                                                                            return
-                                                                        }
-                                                                        self.navigationController?.popViewController(animated: true)
-                                                                    case .failure(let error):
-                                                                        self.showErrorMessage(message: error.localizedDescription)
-                                                                        sender.isEnabled = true
-                                                                    }
-                                                                })
-                                                            case .failure(let error):
-                                                                self.showErrorMessage(message: error.localizedDescription)
-                                                                sender.isEnabled = true
-                                                            }
-                                                        })
-                                            case .failure(let error):
-                                                self.showErrorMessage(message: error.localizedDescription)
-                                                sender.isEnabled = true
-                                            }
-                                        })
-                                    case .failure(let error):
-                                        self.showErrorMessage(message: error.localizedDescription)
-                                        sender.isEnabled = true
-                                    }
-                                })
-                    case .failure(let error):
-                        self.showErrorMessage(message: error.localizedDescription)
+        } else if let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+                  let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
+            sender.isEnabled = false
+            loading.hide(false)
+            dataRequest = Alamofire.request(
+                    Service.standard(withPath: Service.WORK_SAVE),
+                    method: .post,
+                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": 1, "title": title, "description": description],
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workId = data["wid"] as? Int else {
+                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
                         sender.isEnabled = true
+                        return
                     }
+                    Alamofire.upload(
+                            multipartFormData: {
+                                multipartFormData in
+                                multipartFormData.append(workThumbnailData, withName: "file", fileName: "\(workId).png", mimeType: "image/png")
+                            },
+                            to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&wid=\(workId)&ftype=\(FileType.png.rawValue)",
+                            encodingCompletion: {
+                                encodingResult in
+                                switch encodingResult {
+                                case .success(let upload, _, _):
+                                    self.dataRequest = upload.uploadProgress(closure: {
+                                        progress in
+                                        Logger.d(progress.fractionCompleted)
+                                    }).responseJSON(completionHandler: {
+                                        response in
+                                        switch response.result {
+                                        case .success:
+                                            guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
+                                                self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                                sender.isEnabled = true
+                                                return
+                                            }
+                                            Alamofire.upload(
+                                                    multipartFormData: {
+                                                        multipartFormData in
+                                                        multipartFormData.append(workFileData, withName: "file", fileName: "\(workId).bdw", mimeType: "")
+                                                    },
+                                                    to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&wid=\(workId)&ftype=\(FileType.bdw.rawValue)",
+                                                    encodingCompletion: {
+                                                        encodingResult in
+                                                        switch encodingResult {
+                                                        case .success(let upload, _, _):
+                                                            self.dataRequest = upload.uploadProgress(closure: {
+                                                                progress in
+                                                                Logger.d(progress.fractionCompleted)
+                                                            }).responseJSON(completionHandler: {
+                                                                response in
+                                                                switch response.result {
+                                                                case .success:
+                                                                    guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
+                                                                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                                                        sender.isEnabled = true
+                                                                        return
+                                                                    }
+                                                                    self.navigationController?.popViewController(animated: true)
+                                                                case .failure(let error):
+                                                                    self.showErrorMessage(message: error.localizedDescription)
+                                                                    sender.isEnabled = true
+                                                                }
+                                                            })
+                                                        case .failure(let error):
+                                                            self.showErrorMessage(message: error.localizedDescription)
+                                                            sender.isEnabled = true
+                                                        }
+                                                    })
+                                        case .failure(let error):
+                                            self.showErrorMessage(message: error.localizedDescription)
+                                            sender.isEnabled = true
+                                        }
+                                    })
+                                case .failure(let error):
+                                    self.showErrorMessage(message: error.localizedDescription)
+                                    sender.isEnabled = true
+                                }
+                            })
+                case .failure(let error):
+                    self.showErrorMessage(message: error.localizedDescription)
+                    sender.isEnabled = true
                 }
             }
-        } else {
-            presentDialog(title: "alert_save_fail_title".localized, message: "alert_save_fail_category_empty".localized)
         }
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-            workTitle.becomeFirstResponder()
+            textView.resignFirstResponder()
             return false
         }
         return true
@@ -167,10 +189,5 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
-
-    func category(didSelectCategory category: WorkCategory) {
-        workCategory = category
-        self.category.setTitle(category.name, for: .normal)
     }
 }
