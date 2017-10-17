@@ -8,21 +8,41 @@
 
 import UIKit
 
-class AccountViewController: UIViewController {
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var profileName: UILabel!
-    @IBOutlet weak var worksCount: UILabel!
-    @IBOutlet weak var fansCount: UILabel!
-    @IBOutlet weak var followsCount: UILabel!
-    @IBOutlet weak var editButton: UIButton!
+class AccountViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    let items = [URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())"),
+                 URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())"),
+                 URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())"),
+                 URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())"),
+                 URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())"),
+                 URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())"),
+                 URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())"),
+                 URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())"),
+                 URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())"),
+                 URL(string: "https://via.placeholder.com/128/\(AppDelegate.randomColor())")]
 
-    override func viewDidLoad() {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return items.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
         if let profileImageUrl = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_IMAGE) {
-            profileImage.setImage(with: URL(string: profileImageUrl))
+            headerView.profileImage.setImage(with: URL(string: profileImageUrl))
         } else {
             //            TODO: Set default profile image
         }
-        profileName.text = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_NAME)
-        editButton.layer.borderColor = UIColor.darkGray.cgColor
+        headerView.profileName.text = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_NAME)
+        return headerView
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.ACCOUNT, for: indexPath) as! AccountCollectionViewCell
+        cell.thumbnail.setImage(with: items[indexPath.row])
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width / CGFloat(3)
+        return CGSize(width: width, height: width)
     }
 }
