@@ -11,6 +11,7 @@ import Alamofire
 
 class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
+    @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var workTitle: UITextField!
     @IBOutlet weak var workDescription: UITextView!
@@ -91,6 +92,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
         } else if let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
                   let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
             sender.isEnabled = false
+            progressBar.progress = 0
             loading.hide(false)
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.WORK_SAVE),
@@ -117,7 +119,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                                 case .success(let upload, _, _):
                                     self.dataRequest = upload.uploadProgress(closure: {
                                         progress in
-                                        Logger.d(progress.fractionCompleted)
+                                        self.progressBar.setProgress(self.progressBar.progress + Float(progress.fractionCompleted / 2), animated: true)
                                     }).responseJSON(completionHandler: {
                                         response in
                                         switch response.result {
@@ -139,7 +141,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                                                         case .success(let upload, _, _):
                                                             self.dataRequest = upload.uploadProgress(closure: {
                                                                 progress in
-                                                                Logger.d(progress.fractionCompleted)
+                                                                self.progressBar.setProgress(self.progressBar.progress + Float(progress.fractionCompleted / 2), animated: true)
                                                             }).responseJSON(completionHandler: {
                                                                 response in
                                                                 switch response.result {

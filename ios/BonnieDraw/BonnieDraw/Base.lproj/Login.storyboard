@@ -47,11 +47,11 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="帳號(E-mail)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mHG-yE-dh1">
                                                 <rect key="frame" x="0.0" y="0.0" width="224" height="44"/>
-                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="QNd-x1-3mN"/>
                                                 </constraints>
-                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                                 <connections>
@@ -83,11 +83,11 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="使用密碼" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E2r-aO-dH5">
                                                 <rect key="frame" x="0.0" y="-0.5" width="224" height="44"/>
-                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="viw-rz-EkM"/>
                                                 </constraints>
-                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
@@ -256,16 +256,16 @@
                             <constraint firstItem="BCZ-Xg-5D0" firstAttribute="top" secondItem="ukw-4k-H4j" secondAttribute="bottom" id="AZG-fq-o6G"/>
                             <constraint firstAttribute="trailing" secondItem="ukw-4k-H4j" secondAttribute="trailing" id="SvK-NZ-IKx"/>
                             <constraint firstItem="ukw-4k-H4j" firstAttribute="top" relation="greaterThanOrEqual" secondItem="B12-yN-Xu2" secondAttribute="bottom" id="UdS-14-BF4"/>
-                            <constraint firstAttribute="trailing" secondItem="1Vz-cy-5cb" secondAttribute="trailing" id="X6q-r4-rQq"/>
                             <constraint firstItem="B12-yN-Xu2" firstAttribute="top" secondItem="Xij-Rh-Ohw" secondAttribute="bottom" constant="32" id="X98-1o-rCL"/>
                             <constraint firstItem="B12-yN-Xu2" firstAttribute="centerX" secondItem="Jea-du-fub" secondAttribute="centerX" id="ZlZ-Ct-OCi"/>
-                            <constraint firstItem="BCZ-Xg-5D0" firstAttribute="top" secondItem="1Vz-cy-5cb" secondAttribute="bottom" id="aO9-24-XpA"/>
+                            <constraint firstItem="1Vz-cy-5cb" firstAttribute="trailing" secondItem="1FW-C5-xpg" secondAttribute="trailing" id="cU7-8a-WWW"/>
                             <constraint firstItem="Xij-Rh-Ohw" firstAttribute="width" secondItem="Jea-du-fub" secondAttribute="width" multiplier="0.7" id="dkI-ZX-iQf"/>
-                            <constraint firstItem="1Vz-cy-5cb" firstAttribute="leading" secondItem="Jea-du-fub" secondAttribute="leading" id="eQL-CS-N9r"/>
-                            <constraint firstItem="1Vz-cy-5cb" firstAttribute="top" secondItem="mdw-Tm-UjU" secondAttribute="bottom" id="f0p-S9-Gzq"/>
                             <constraint firstItem="Xij-Rh-Ohw" firstAttribute="centerX" secondItem="Jea-du-fub" secondAttribute="centerX" id="fO6-AE-gnW"/>
                             <constraint firstItem="Xij-Rh-Ohw" firstAttribute="top" secondItem="mdw-Tm-UjU" secondAttribute="bottom" constant="32" id="i13-pq-54r"/>
+                            <constraint firstItem="1Vz-cy-5cb" firstAttribute="top" secondItem="mdw-Tm-UjU" secondAttribute="bottom" id="ptv-Af-Fme"/>
                             <constraint firstItem="B12-yN-Xu2" firstAttribute="width" secondItem="Jea-du-fub" secondAttribute="width" multiplier="0.7" id="sC5-vt-aN0"/>
+                            <constraint firstItem="BCZ-Xg-5D0" firstAttribute="top" secondItem="1Vz-cy-5cb" secondAttribute="bottom" id="tU7-Lq-NdF"/>
+                            <constraint firstItem="1Vz-cy-5cb" firstAttribute="leading" secondItem="1FW-C5-xpg" secondAttribute="leading" id="uwv-A1-c9h"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1FW-C5-xpg"/>
                     </view>
@@ -301,11 +301,11 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="全名" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cIy-7H-gDi">
                                                 <rect key="frame" x="0.0" y="-0.5" width="224" height="44"/>
-                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="CNQ-JT-JvV"/>
                                                 </constraints>
-                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                 <connections>
@@ -337,11 +337,11 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="帳號(E-mail)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gzE-Be-Usa">
                                                 <rect key="frame" x="0.0" y="0.0" width="224" height="44"/>
-                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="Vkv-SD-sGz"/>
                                                 </constraints>
-                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                                 <connections>
@@ -373,11 +373,11 @@
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="使用密碼" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4xS-mF-9sQ">
                                                 <rect key="frame" x="0.0" y="-0.5" width="224" height="44"/>
-                                                <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="3Oo-Pj-oUw"/>
                                                 </constraints>
-                                                <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
@@ -503,40 +503,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="請輸入註冊的E-MAIL，系統將密碼至您的信箱。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2MR-f2-R1J">
-                                <rect key="frame" x="48" y="156" width="224" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="duy-Lq-8K3">
-                                <rect key="frame" x="48" y="262" width="224" height="44"/>
-                                <color key="backgroundColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="dIq-3a-88x"/>
-                                </constraints>
-                                <state key="normal" title="發送">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="22"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="send:" destination="pOY-DV-MXh" eventType="touchUpInside" id="s2j-n8-ThF"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IPp-Yr-kef">
                                 <rect key="frame" x="48" y="96" width="224" height="44"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="帳號(E-mail)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eGj-dE-lgG">
                                         <rect key="frame" x="0.0" y="0.0" width="224" height="44"/>
-                                        <color key="tintColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="fdc-zr-1aZ"/>
                                         </constraints>
-                                        <color key="textColor" red="0.27058823529411763" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                         <connections>
@@ -563,6 +539,30 @@
                                     <constraint firstAttribute="bottom" secondItem="Jvy-Me-KMw" secondAttribute="bottom" id="q4c-yG-A2u"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="請輸入註冊的E-MAIL，系統將密碼至您的信箱。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2MR-f2-R1J">
+                                <rect key="frame" x="48" y="156" width="224" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.52156862749999999" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="duy-Lq-8K3">
+                                <rect key="frame" x="48" y="262" width="224" height="44"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="dIq-3a-88x"/>
+                                </constraints>
+                                <state key="normal" title="發送">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="22"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="send:" destination="pOY-DV-MXh" eventType="touchUpInside" id="s2j-n8-ThF"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYR-PA-bgN">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <subviews>

@@ -33,9 +33,17 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasVi
             return
         }
         do {
-            try Data(contentsOf: fileUrl).write(to: url)
-            self.canvas.load()
-            self.loading.hide(true)
+            let data = try Data(contentsOf: fileUrl)
+            if data.isEmpty {
+                presentDialog(title: "canvas_data_parse_error_title".localized, message: "canvas_data_parse_error_content".localized) {
+                    action in
+                    self.dismiss(animated: true)
+                }
+            } else {
+                try data.write(to: url)
+                self.canvas.load()
+                self.loading.hide(true)
+            }
         } catch {
             Logger.d(error.localizedDescription)
         }
