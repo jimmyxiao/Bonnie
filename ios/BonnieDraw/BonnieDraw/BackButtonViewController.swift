@@ -9,7 +9,7 @@
 import UIKit
 
 class BackButtonViewController: UIViewController {
-    @IBAction func onBackPressed(_ sender: AnyObject) {
+    @IBAction func onBackPressed(_ sender: Any) {
         if let navigationController = navigationController {
             if navigationController.popViewController(animated: true) == nil {
                 navigationController.dismiss(animated: true)

@@ -61,7 +61,9 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 // a spinner or other UI element. The |signInWillDispatch| method should be used to
 // stop or hide the spinner.
 @protocol GIDSignInUIDelegate <NSObject>
+
 @optional
+
 // The sign-in flow has finished selecting how to proceed, and the UI should no longer display
 // a spinner or other "please wait" element.
 - (void)signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error;
@@ -93,6 +95,7 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 // 5. Call |handleURL| on the shared instance from |application:openUrl:...| in your app delegate.
 // 6. Call |signIn| on the shared instance;
 @interface GIDSignIn : NSObject
+
 // The authentication object for the current user, or |nil| if there is currently no logged in user.
 @property(nonatomic, readonly) GIDGoogleUser *currentUser;
 // The object to be notified when authentication is finished.

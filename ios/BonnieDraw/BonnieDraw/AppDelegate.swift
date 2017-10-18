@@ -10,7 +10,7 @@ import UIKit
 import SystemConfiguration
 import FacebookCore
 import TwitterKit
-import ReachabilitySwift
+import Reachability
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

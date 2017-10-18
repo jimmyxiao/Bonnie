@@ -26,10 +26,8 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
                          TableViewItem(image: "menu_ic_out", title: "menu_sign_out".localized)]
 
     override func viewDidLoad() {
-        if let profileImageUrl = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_IMAGE) {
-            profileImage.setImage(with: URL(string: profileImageUrl))
-        } else {
-//            TODO: Set default profile image
+        if let url = UserDefaults.standard.url(forKey: Default.THIRD_PARTY_IMAGE) {
+            profileImage.setImage(with: url)
         }
         profileName.text = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_NAME)
     }

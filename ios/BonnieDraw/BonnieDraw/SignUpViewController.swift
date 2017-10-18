@@ -27,7 +27,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
     }
 
     @IBAction func signUp(_ sender: Any) {
-        guard AppDelegate.reachability.isReachable else {
+        guard AppDelegate.reachability.connection != .none else {
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }

@@ -31,6 +31,7 @@
 		164028E41F8719B20013AE6E /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 164028E21F8719B20013AE6E /* Model.xcdatamodeld */; };
 		164028EA1F871B8F0013AE6E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164028E91F871B8F0013AE6E /* CoreDataStack.swift */; };
 		164028EC1F8753A90013AE6E /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164028EB1F8753A80013AE6E /* CategoryViewController.swift */; };
+		16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */; };
 		164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2471F7B376700E8B910 /* CollectionViewController.swift */; };
 		164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED24C1F7B379200E8B910 /* AccountViewController.swift */; };
 		164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED24E1F7B414500E8B910 /* TableViewExtension.swift */; };
@@ -47,6 +48,7 @@
 		1664F4B51F74E3F100809C32 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1664F4B41F74E3F100809C32 /* Login.storyboard */; };
 		1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4B61F74E5BB00809C32 /* ParentViewController.swift */; };
 		1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4BC1F75123C00809C32 /* TabBarViewController.swift */; };
+		16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */; };
 		166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */; };
 		166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF411F860E7900274C6C /* SplashViewController.swift */; };
 		166C41241F90964F00A98385 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C41231F90964F00A98385 /* DataExtension.swift */; };
@@ -89,6 +91,7 @@
 		164028E31F8719B20013AE6E /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		164028E91F871B8F0013AE6E /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		164028EB1F8753A80013AE6E /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		164ED2471F7B376700E8B910 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		164ED24C1F7B379200E8B910 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		164ED24E1F7B414500E8B910 /* TableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewExtension.swift; sourceTree = "<group>"; };
@@ -107,6 +110,7 @@
 		1664F4B41F74E3F100809C32 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Login.storyboard; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		1664F4B61F74E5BB00809C32 /* ParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentViewController.swift; sourceTree = "<group>"; };
 		1664F4BC1F75123C00809C32 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEditViewController.swift; sourceTree = "<group>"; };
 		166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStatusBarViewController.swift; sourceTree = "<group>"; };
 		166BDF411F860E7900274C6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		166C41231F90964F00A98385 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
 				164ED2471F7B376700E8B910 /* CollectionViewController.swift */,
 				164ED24C1F7B379200E8B910 /* AccountViewController.swift */,
+				16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */,
 				164ED2521F7BA45E00E8B910 /* ColorPickerViewController.swift */,
 				16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */,
 				16332A221F7F3048007857E3 /* SaveViewController.swift */,
@@ -252,6 +257,7 @@
 				163907031F6C0BE400E5717A /* BundleExtension.swift */,
 				16FC10231F6963B3008A6A92 /* ViewExtension.swift */,
 				16D439641F66A9B300FF5878 /* Logger.swift */,
+				16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -441,9 +447,11 @@
 				164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */,
 				16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */,
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
+				16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */,
 				164028E41F8719B20013AE6E /* Model.xcdatamodeld in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
 				164028EC1F8753A90013AE6E /* CategoryViewController.swift in Sources */,
+				16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */,
 				16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */,
 				16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */,
 				16366AE21F7A0AA300E5799B /* HomeViewController.swift in Sources */,

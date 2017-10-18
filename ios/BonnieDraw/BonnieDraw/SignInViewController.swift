@@ -38,7 +38,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     @IBAction func signIn(_ sender: Any) {
-        guard AppDelegate.reachability.isReachable else {
+        guard AppDelegate.reachability.connection != .none else {
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
@@ -120,7 +120,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 
     @IBAction func facebook(_ sender: Any) {
         loading.hide(false)
-        LoginManager().logIn([.publicProfile, .email]) {
+        LoginManager().logIn(readPermissions: [.publicProfile, .email], viewController: self) {
             result in
             switch result {
             case .success(_, _, _):
@@ -139,10 +139,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                 response, result in
                                 switch result {
                                 case .success(let response):
+                                    var imageUrl: URL? = nil
                                     if let data = response.dictionaryValue?["data"] as? [String: Any],
-                                       let imageUrl = data["url"] as? String {
-                                        self.checkAndLogin(withUserType: .facebook, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
+                                       let imageUrlString = data["url"] as? String {
+                                        imageUrl = URL(string: imageUrlString)
                                     }
+                                    self.checkAndLogin(withUserType: .facebook, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
                                 case .failed(let error):
                                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                                     fallthrough
@@ -186,7 +188,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     } else {
                         TWTRAPIClient.withCurrentUser().loadUser(withID: session!.userID) {
                             user, error in
-                            self.checkAndLogin(withUserType: .twitter, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: user?.profileImageLargeURL)
+                            self.checkAndLogin(withUserType: .twitter, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: URL(string: user?.profileImageLargeURL ?? ""))
                         }
                     }
                 }
@@ -204,7 +206,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             loading.hide(true)
             presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
         } else {
-            checkAndLogin(withUserType: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128).absoluteString)
+            checkAndLogin(withUserType: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128))
         }
     }
 
@@ -218,10 +220,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
     }
 
-    private func checkAndLogin(withUserType type: UserType, userId id: String, name: String, email: String, imageUrl: String?) {
+    private func checkAndLogin(withUserType type: UserType, userId id: String, name: String, email: String, imageUrl: URL?) {
         var postData: [String: Any] = ["uc": id, "un": name, "ut": type.rawValue, "dt": SERVICE_DEVICE_TYPE, "fn": 3, "thirdEmail": email]
         if let imageUrl = imageUrl {
-            postData["thirdPictureUrl"] = imageUrl
+            postData["thirdPictureUrl"] = imageUrl.absoluteString
         }
         let signInHandler: (Bool) -> Void = {
             downloadCollection in
@@ -260,9 +262,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                     defaults.set(id, forKey: Default.THIRD_PARTY_ID)
                                     defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
                                     defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
-                                    if let imageUrl = imageUrl {
-                                        defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
-                                    }
+                                    defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
                                     defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                                     self.parseCategory(forData: data)
                                     self.launchMain()

@@ -36,12 +36,15 @@ typedef void (^GIDAccessTokenHandler)(NSString *accessToken, NSError *error);
 
 // The estimated expiration date of the access token.
 @property(nonatomic, readonly) NSDate *accessTokenExpirationDate;
+
 // The OAuth2 refresh token to exchange for new access tokens.
 @property(nonatomic, readonly) NSString *refreshToken;
+
 // An OpenID Connect ID token that identifies the user. Send this token to your server to
 // authenticate the user there. For more information on this topic, see
 // https://developers.google.com/identity/sign-in/ios/backend-auth
 @property(nonatomic, readonly) NSString *idToken;
+
 // The estimated expiration date of the ID token.
 @property(nonatomic, readonly) NSDate *idTokenExpirationDate;
 

@@ -45,7 +45,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     private func downloadData() {
-        guard AppDelegate.reachability.isReachable else {
+        guard AppDelegate.reachability.connection != .none else {
             presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
                 success in
                 if success {

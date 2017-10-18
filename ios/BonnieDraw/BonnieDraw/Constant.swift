@@ -79,7 +79,10 @@ struct Service {
     }
 
     static func filePath(withSubPath path: String?) -> String {
-        return "\(SCHEME)://\(HOST)\(BASE)\(LOAD_FILE)\(path ?? "")"
+        guard let path = path else {
+            return ""
+        }
+        return "\(SCHEME)://\(HOST)\(BASE)\(LOAD_FILE)\(path)"
     }
 }
 

@@ -86,7 +86,7 @@ class CanvasViewController:
         }
     }
 
-    override func onBackPressed(_ sender: AnyObject) {
+    override func onBackPressed(_ sender: Any) {
         canvas.stop()
         canvas.save()
         super.onBackPressed(sender)

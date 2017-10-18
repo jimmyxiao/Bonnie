@@ -9,8 +9,6 @@
 #endif
 #endif
 #endif
-
-
-FOUNDATION_EXPORT double ReachabilitySwiftVersionNumber;
-FOUNDATION_EXPORT const unsigned char ReachabilitySwiftVersionString[];
+FOUNDATION_EXPORT double ReachabilityVersionNumber;
+FOUNDATION_EXPORT const unsigned char ReachabilityVersionString[];
 

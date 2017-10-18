@@ -40,7 +40,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     }
 
     private func downloadData() {
-        guard AppDelegate.reachability.isReachable else {
+        guard AppDelegate.reachability.connection != .none else {
             presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
                 success in
                 if success {
@@ -109,10 +109,8 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
-            if let profileImageUrl = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_IMAGE) {
-                headerView.profileImage.setImage(with: URL(string: profileImageUrl))
-            } else {
-                //            TODO: Set default profile image
+            if let url = UserDefaults.standard.url(forKey: Default.THIRD_PARTY_IMAGE) {
+                headerView.profileImage.setImage(with: url)
             }
             headerView.profileName.text = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_NAME)
             return headerView
