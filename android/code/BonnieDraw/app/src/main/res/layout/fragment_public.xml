@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sctw.bonniedraw.fragment.PublicFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_public_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/ic_chevron_left_black_24dp" />
+
+        <TextView
+            android:id="@+id/public_fragment_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:gravity="center_vertical"
+            android:text="PUBLIC_TITLE"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@color/Transparent" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/linearLayout2"
+        android:background="@drawable/divider_layout"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/public_textarea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_profile_border_text"
+                android:lineSpacingExtra="4sp"
+                android:padding="8dp"
+                android:text="2012 年 9 月，我們宣佈了 Instagram 被 Facebook 收購的消息。我們深知，透過與 Facebook 合作，可以為您打造更好的 Instagram。自此之後，我們一直和 Facebook 的團隊合作，朝這個目標努力。在這個新的合作關係中我們學到，若是雙方能分享彼此的見解和資訊，就能為用戶提供更美好的使用體驗。
+我們更新了隱私政策條款以突顯這個新的合作關係，但我們也希望您確實瞭解，您仍然可以控制讓什麼人看見您的相片。您還是可以選擇要讓誰看見您的 Instagram 相片，也可以選擇是否將相片張貼在 Facebook 上。儘管我們期待與 Facebook 密切合作，為您打造更好的使用體驗，但您一向熟悉且喜愛的應用程式核心功能並不會有所改變。
+我們的新隱私政策從 2013 年 1 月 19 日起生效。若要瞭解我們如何處理 2013 年 1 月 19 日前所收集到的資料，請點擊這裡。" />
+
+            <TextView
+                android:id="@+id/public_textarea2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                android:text="生效日期： 2013 年 1 月 19 日
+
+歡迎使用 Instagram（以下稱為「Instagram」或「我們」或「我們的」）。Instagram 提供快速、美觀又有趣的方式，讓您透過我們的內容分享平台一起共享媒體。只要拍攝相片、選擇濾鏡改變相片的外觀和感覺，並依個人喜好決定是否加上註解，然後就可以輕鬆分享！
+
+本隱私政策說明我們與一些合作公司如何蒐集、使用、分享和保護 Instagram 服務（以下統稱「本服務」）所提供或相關的行動服務、網站及相關軟體的資料，以及您對於我們收集和使用您資料上的選擇權利。
+使用本服務，表示您瞭解並同意我們提供平台，供您發表內容，包括相片、留言和其他資料（以下統稱「用戶內容」）到本服務，將用戶內容公開分享。這表示其他用戶可以搜尋、查看、使用或分享您依據本隱私政策及我們的使用條款（請見http://instagram.com/legal/terms）、透過本服務公開的任何用戶內容。
+本政策適用於所有訪客、用戶和其他存取本服務的人（下稱「用戶」）。" />
+
+            <TextView
+                android:id="@+id/public_textarea2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                android:text="我們收集的資訊種類如下。
+
+您直接提供給我們的資訊：
+您註冊 Instagram 帳號時的用戶名稱、密碼和電子郵件地址。
+您提供的個人檔案資料（例如姓名、大頭貼、電話號碼）。這些資料讓我們能幫助您或其他用戶在 Instagram 被找到。
+您張貼在本服務的用戶內容（例如相片、留言和其他資訊）。
+您和 Instagram 之間的通訊。舉例來說，我們可能發送和本服務相關的電子郵件給您（例如：帳號驗證、本服務的功能變更／更新、技術或安全相關通知）。請注意，您不得選擇拒絕收到和本服務相關的電子郵件。" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

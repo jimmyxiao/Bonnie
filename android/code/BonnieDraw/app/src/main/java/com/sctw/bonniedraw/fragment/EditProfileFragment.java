@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -83,15 +82,15 @@ public class EditProfileFragment extends Fragment {
         editFormGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i){
+                switch (i) {
                     case R.id.edit_form_gender_m:
-                        edit_gender=1;
+                        edit_gender = 1;
                         break;
                     case R.id.edit_form_gender_f:
-                        edit_gender=2;
+                        edit_gender = 2;
                         break;
                     case R.id.edit_form_gender_o:
-                        edit_gender=0;
+                        edit_gender = 0;
                         break;
                 }
             }
@@ -127,7 +126,7 @@ public class EditProfileFragment extends Fragment {
         }
 
         RequestBody body = RequestBody.create(mediaType, json.toString());
-        final Request request = new Request.Builder()
+        Request request = new Request.Builder()
                 .url("https://www.bonniedraw.com/bonniedraw_service/BDService/userInfoQuery")
                 .post(body)
                 .build();
@@ -172,19 +171,19 @@ public class EditProfileFragment extends Fragment {
                                 }
 
                                 if (responseJSON.has("gender") && !responseJSON.isNull("gender")) {
-                                    int x=responseJSON.getInt("gender");
-                                    switch (x){
+                                    int x = responseJSON.getInt("gender");
+                                    switch (x) {
                                         case 0:
                                             editFormGender.check(R.id.edit_form_gender_o);
-                                            edit_gender=0;
+                                            edit_gender = 0;
                                             break;
                                         case 1:
                                             editFormGender.check(R.id.edit_form_gender_m);
-                                            edit_gender=1;
+                                            edit_gender = 1;
                                             break;
                                         case 2:
                                             editFormGender.check(R.id.edit_form_gender_f);
-                                            edit_gender=2;
+                                            edit_gender = 2;
                                             break;
                                     }
 
@@ -193,14 +192,12 @@ public class EditProfileFragment extends Fragment {
                                 if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                     try {
                                         //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr,"null"));
+                                        URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "null"));
                                         Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
                                         editFormUserPhoto.setImageBitmap(bitmap);
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                } else {
-                                    editFormUserPhoto.setBackgroundColor(Color.BLACK);
                                 }
                             } else {
                                 Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
@@ -223,13 +220,13 @@ public class EditProfileFragment extends Fragment {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("userType",prefs.getString(GlobalVariable.userPlatformStr,"null"));
-            json.put("userCode",prefs.getString(GlobalVariable.userEmailStr,"null"));
-            json.put("userName",editFormName.getText().toString());
-            json.put("nickName",editFormUserNickName.getText().toString());
-            json.put("description",editFormProfile.getText().toString());
-            json.put("phoneNo",editFormPhone.getText().toString());
-            if(edit_gender!=null) json.put("gender",String.valueOf(edit_gender));
+            json.put("userType", prefs.getString(GlobalVariable.userPlatformStr, "null"));
+            json.put("userCode", prefs.getString(GlobalVariable.userEmailStr, "null"));
+            json.put("userName", editFormName.getText().toString());
+            json.put("nickName", editFormUserNickName.getText().toString());
+            json.put("description", editFormProfile.getText().toString());
+            json.put("phoneNo", editFormPhone.getText().toString());
+            if (edit_gender != null) json.put("gender", String.valueOf(edit_gender));
             Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -257,7 +254,7 @@ public class EditProfileFragment extends Fragment {
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                final AlertDialog alertDialog=new AlertDialog.Builder(getActivity()).create();
+                                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                                 alertDialog.setMessage("Update Successful");
                                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                                     @Override

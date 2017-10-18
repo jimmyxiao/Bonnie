@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeFragment(Fragment fragment) {
+        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_actitivy_layout, fragment);
         fragmentTransaction.commit();

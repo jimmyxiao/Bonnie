@@ -15,7 +15,7 @@ public class WorksResponse extends Works {
 	private List<WorksLike> likeList;
 	private List<WorksMsg> msgList;
 	private List<WorksCategory> categoryList;
-	private int isCollection;
+	private boolean isCollection;
 	private int isFollowing;
 	private boolean isLike;
 
@@ -75,11 +75,11 @@ public class WorksResponse extends Works {
 		this.categoryList = categoryList;
 	}
 
-	public int getIsCollection() {
+	public boolean isCollection() {
 		return isCollection;
 	}
 
-	public void setIsCollection(int isCollection) {
+	public void setCollection(boolean isCollection) {
 		this.isCollection = isCollection;
 	}
 

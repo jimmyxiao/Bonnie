@@ -107,6 +107,11 @@
     		#{item.worksTagId,jdbcType=INTEGER}
     	</foreach>
   	</delete>
+  	
+  	<delete id="deleteByWorksId" parameterType="java.lang.Integer">
+    	delete from works_tag
+   		where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  	</delete>
 	
 	<select id="selectByWorksId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     	select 

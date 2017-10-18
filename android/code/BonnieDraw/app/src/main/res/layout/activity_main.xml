@@ -59,5 +59,15 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/sidebar_header_layout"
-        app:menu="@menu/sidebar_menu" />
+        app:menu="@menu/sidebar_menu">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:lineSpacingExtra="8sp"
+            android:padding="16dp"
+            android:text="© 2017 SourceCode \n原碼數位科技版權所有" />
+
+    </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

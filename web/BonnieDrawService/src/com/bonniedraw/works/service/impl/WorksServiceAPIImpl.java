@@ -78,33 +78,6 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	@Autowired
 	WorksTagMapper worksTagMapper;
 	
-	private void insertWorksCatrgorList(List<CategoryInfo> categoryList, int wid) throws Exception {
-		List<WorksCategory> insertList = new ArrayList<WorksCategory>();
-		for(CategoryInfo categoryInfo : categoryList){
-			WorksCategory worksCategory = new WorksCategory();
-			worksCategory.setWorksCategoryId(categoryInfo.getCategoryId());
-			worksCategory.setWorksId(wid);
-			insertList.add(worksCategory);
-		}
-		worksCategoryMapper.insertWorksCategoryList(insertList);
-	}
-	
-	private void insertWorksTagList(List<String> list, int wid) throws Exception {
-		List<WorksTag> insertList = new ArrayList<WorksTag>();
-		int order = worksTagMapper.selectNextOrderNum(wid);
-		for(String tag : list){
-			if(ValidateUtil.isNotBlank(tag)){
-				WorksTag worksTag = new WorksTag();
-				worksTag.setWorksId(wid);
-				worksTag.setTagName(tag);
-				worksTag.setTagOrder(order);
-				insertList.add(worksTag);
-				order++;
-			}
-		}
-		worksTagMapper.insertWorksTagList(insertList);
-	}
-	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Integer worksSave(WorksSaveRequestVO worksSaveRequestVO) {
@@ -123,7 +96,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		works.setUpdatedBy(userId);
 		works.setUpdateDate(nowDate);
 		List<CategoryInfo> categoryList = worksSaveRequestVO.getCategoryList();
-		List<String> sharpTagList = new ArrayList<String>();
+		ArrayList<String> sharpTagList = new ArrayList<String>();
 		sharpTagList = HashTagUtil.extractSharpTag(works.getDescription());
 		
 		try {
@@ -143,49 +116,8 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				wid = worksSaveRequestVO.getWorksId();
 				works.setWorksId(wid);
 				worksMapper.updateByPrimaryKeySelective(works);
-				List<WorksCategory> existWorksCategories = worksCategoryMapper.selectByWorksId(wid);
-				//資料庫與參數皆有資料,進行比對並移除陣列內相同的unique id,最終剩下的資料庫資料進行刪除,反之參數資料進行新增
-				if(ValidateUtil.isNotEmptyAndSize(existWorksCategories) && ValidateUtil.isNotEmptyAndSize(categoryList)){
-					for(WorksCategory worksCategory : existWorksCategories){
-						int categoryId = worksCategory.getCategoryId();
-						for(CategoryInfo data : categoryList){
-							if(categoryId == data.getCategoryId()){
-								categoryList.remove(data);
-								existWorksCategories.remove(worksCategory);
-								break;
-							}
-						}
-					}
-					insertWorksCatrgorList(categoryList, wid);
-					worksCategoryMapper.deleteWorksCategoryList(existWorksCategories);
-				}else if(ValidateUtil.isNotEmptyAndSize(existWorksCategories) && !ValidateUtil.isNotEmptyAndSize(categoryList)){	//資料庫有資料而參數無資料,只執行刪除
-					worksCategoryMapper.deleteWorksCategoryList(existWorksCategories);
-				}else if(!ValidateUtil.isNotEmptyAndSize(existWorksCategories) && ValidateUtil.isNotEmptyAndSize(categoryList)){	//資料庫無資料而參數有資料,只執行新增
-					insertWorksCatrgorList(categoryList, wid);
-				}
-				
-				List<WorksTag> existWorksTags = worksTagMapper.selectByWorksId(wid);
-				if(ValidateUtil.isNotEmptyAndSize(existWorksTags) && ValidateUtil.isNotEmptyAndSize(sharpTagList)){
-					for(int i=0;i<existWorksTags.size();i++){
-						WorksTag worksTag = existWorksTags.get(i);
-						String worksTagName = worksTag.getTagName();
-						for(String data : sharpTagList){
-							if(worksTagName.equals(data)){
-								sharpTagList.remove(data);
-								existWorksTags.remove(worksTag);
-								i--;
-								break;
-							}
-						}
-					}
-					if(ValidateUtil.isNotEmptyAndSize(sharpTagList)){ insertWorksTagList(sharpTagList, wid); }
-					if(ValidateUtil.isNotEmptyAndSize(existWorksTags)){ worksTagMapper.deleteWorksTagList(existWorksTags); }
-				}else if(ValidateUtil.isNotEmptyAndSize(existWorksTags) && !ValidateUtil.isNotEmptyAndSize(sharpTagList)){	
-					worksTagMapper.deleteWorksTagList(existWorksTags);
-				}else if(!ValidateUtil.isNotEmptyAndSize(existWorksTags) && ValidateUtil.isNotEmptyAndSize(sharpTagList)){	
-					insertWorksTagList(sharpTagList, wid);
-				}
-				
+				compareCategory(categoryList, wid);
+				compareWorksTag(sharpTagList, wid);
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "worksSave has error : " + e);
@@ -193,6 +125,84 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		}
 		return wid;
 	}
+	
+	private void insertWorksCatrgorList(List<CategoryInfo> categoryList, int wid) throws Exception {
+		List<WorksCategory> insertList = new ArrayList<WorksCategory>();
+		for(CategoryInfo categoryInfo : categoryList){
+			WorksCategory worksCategory = new WorksCategory();
+			worksCategory.setWorksCategoryId(categoryInfo.getCategoryId());
+			worksCategory.setWorksId(wid);
+			insertList.add(worksCategory);
+		}
+		worksCategoryMapper.insertWorksCategoryList(insertList);
+	}
+	
+	private void compareCategory(List<CategoryInfo> categoryList, int wid) throws Exception {
+		List<WorksCategory> existWorksCategories = worksCategoryMapper.selectByWorksId(wid);
+		//資料庫與參數皆有資料,進行比對並移除陣列內相同的unique id,最終剩下的資料庫資料進行刪除,反之參數資料進行新增
+		if(ValidateUtil.isNotEmptyAndSize(existWorksCategories) && ValidateUtil.isNotEmptyAndSize(categoryList)){
+			for(WorksCategory worksCategory : existWorksCategories){
+				int categoryId = worksCategory.getCategoryId();
+				for(CategoryInfo data : categoryList){
+					if(categoryId == data.getCategoryId()){
+						categoryList.remove(data);
+						existWorksCategories.remove(worksCategory);
+						break;
+					}
+				}
+			}
+			insertWorksCatrgorList(categoryList, wid);
+			worksCategoryMapper.deleteWorksCategoryList(existWorksCategories);
+		}else if(ValidateUtil.isNotEmptyAndSize(existWorksCategories) && !ValidateUtil.isNotEmptyAndSize(categoryList)){	//資料庫有資料而參數無資料,只執行刪除
+			worksCategoryMapper.deleteWorksCategoryList(existWorksCategories);
+		}else if(!ValidateUtil.isNotEmptyAndSize(existWorksCategories) && ValidateUtil.isNotEmptyAndSize(categoryList)){	//資料庫無資料而參數有資料,只執行新增
+			insertWorksCatrgorList(categoryList, wid);
+		}
+	}
+	
+	private void insertWorksTagList(List<String> list, int wid) throws Exception {
+		List<WorksTag> insertList = new ArrayList<WorksTag>();
+		int order = worksTagMapper.selectNextOrderNum(wid);
+		for(String tag : list){
+			if(ValidateUtil.isNotBlank(tag)){
+				WorksTag worksTag = new WorksTag();
+				worksTag.setWorksId(wid);
+				worksTag.setTagName(tag);
+				worksTag.setTagOrder(order);
+				insertList.add(worksTag);
+				order++;
+			}
+		}
+		worksTagMapper.insertWorksTagList(insertList);
+	}
+	
+	private void compareWorksTag(ArrayList<String> sharpTagList, int wid) throws Exception {
+		List<WorksTag> existWorksTags = worksTagMapper.selectByWorksId(wid);
+		if(ValidateUtil.isNotEmptyAndSize(existWorksTags) && ValidateUtil.isNotEmptyAndSize(sharpTagList)){	//比對是否有不同的Tag
+			ArrayList<String> insertSharpTagList = (ArrayList<String>) sharpTagList.clone();
+			for(int i=0;i<existWorksTags.size();i++){
+				WorksTag worksTag = existWorksTags.get(i);
+				String worksTagName = worksTag.getTagName();
+				for(String data : sharpTagList){
+					if(worksTagName.equals(data)){
+						sharpTagList.remove(data);
+						existWorksTags.remove(worksTag);
+						i--;
+						break;
+					}
+				}
+			}
+			if(ValidateUtil.isNotEmptyAndSize(existWorksTags) || ValidateUtil.isNotEmptyAndSize(sharpTagList)){ 	//當資料庫與敘述其一有資料存在, 進行刪除再新增
+				worksTagMapper.deleteByWorksId(wid);
+				insertWorksTagList(insertSharpTagList, wid); 
+			}
+		}else if(ValidateUtil.isNotEmptyAndSize(existWorksTags) && !ValidateUtil.isNotEmptyAndSize(sharpTagList)){	
+			worksTagMapper.deleteByWorksId(wid);
+		}else if(!ValidateUtil.isNotEmptyAndSize(existWorksTags) && ValidateUtil.isNotEmptyAndSize(sharpTagList)){	
+			insertWorksTagList(sharpTagList, wid);
+		}
+	}
+	
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -302,9 +312,11 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		WorksMsg worksMsg = new WorksMsg();
 		worksMsg.setWorksId(leaveMsgRequestVO.getWorksId());
 		worksMsg.setUserId(leaveMsgRequestVO.getUi());
-		worksMsg.setMessage(leaveMsgRequestVO.getMessage());
 		try {
 			if(fn==1){
+				worksMsg.setMessage(leaveMsgRequestVO.getMessage());
+				Date nowDate = TimerUtil.getNowDate();
+				worksMsg.setCreationDate(nowDate);
 				worksMsgMapper.insert(worksMsg);
 			}else{
 				int worksMsgId = leaveMsgRequestVO.getMsgId();
@@ -330,7 +342,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		WorksLike worksLike = new WorksLike();
 		worksLike.setUserId(setLikeRequestVO.getUi());
 		worksLike.setWorksId(setLikeRequestVO.getWorksId());
-		worksLike.setLikeType(setLikeRequestVO.getLikeType());
+		worksLike.setLikeType(setLikeRequestVO.getLikeType());	
 		try {
 			if(fn==1){
 				worksLikeMapper.insert(worksLike);
@@ -489,7 +501,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			if(works !=null && works.getUserId().equals(userId)){
 				worksMapper.deleteByPrimaryKey(worksId);
 			}else{
-				return 2;
+				return 3;
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "deleteWork has error : " + e);
@@ -498,7 +510,5 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		}
 		return 1;
 	}
-
-
 
 }

@@ -228,6 +228,7 @@
     <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
     <result column="isLike" jdbcType="BOOLEAN" property="isLike" />
+    <result column="isCollection" jdbcType="BOOLEAN" property="isCollection" />
     <collection property="likeList" ofType="com.bonniedraw.works.model.WorksLike" resultMap="LikeModuleMap"/>
     <collection property="msgList" ofType="com.bonniedraw.works.model.WorksMsg" resultMap="MsgModuleMap"/>
     <collection property="categoryList" ofType="com.bonniedraw.works.model.WorksCategory" resultMap="CategoryModuleMap"/>
@@ -263,7 +264,10 @@
  	wc.WORKS_CATEGORY_ID, wc.CATEGORY_ID, wc.WORKS_ID as CATEGORY_WORKS_ID,
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
- 	then true else false end as isLike
+ 	then true else false end as isLike,
+    case when exists 
+ 	(select works_collection_id from works_collection where collection_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
+ 	then true else false end as isCollection
     from works wk 
     left outer join user_info ur on ur.user_id = wk.user_id
     left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
@@ -275,6 +279,7 @@
     on t.MSG_WORKS_ID = wk.WORKS_ID
     left outer join works_category as wc on wc.WORKS_ID = wk.WORKS_ID
     where wk.WORKS_ID =  #{wid, jdbcType=INTEGER}
+    order by MSG_CREATION_DATE desc
   </select>
   
   <select id="queryAllWorks" parameterType="java.util.Map" resultMap="WorksResponseModule">
@@ -379,11 +384,12 @@
     from works wk 
     left outer join user_info ur on ur.USER_ID = wk.USER_ID
     left join 
-    (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}) as wl on wl.WORKS_ID = wk.WORKS_ID
+    (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
 	where 1=1 
     and wk.PRIVACY_TYPE = 1
     and wk.STATUS = 1
     order by wl.LIKE_COUNT desc, wk.WORKS_ID asc
+    LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
   </select>
   
   <select id="queryUserWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
@@ -397,10 +403,11 @@
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
     left join 
-    (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}) as wl on wl.WORKS_ID = wk.WORKS_ID
+    (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
     where 1=1
     and wk.USER_ID = #{userId, jdbcType=INTEGER}
     order by wl.LIKE_COUNT desc, wk.WORKS_ID asc
+    LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
   </select>
   
   <select id="queryTrackWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
@@ -415,12 +422,13 @@
     left join user_info ur on ur.USER_ID = wk.USER_ID
     right join following fl on wk.USER_ID = fl.FOLLOWING_USER_ID
     left join 
-    (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}) as wl on wl.WORKS_ID = wk.WORKS_ID
+    (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
     where 1=1
     and fl.USER_ID = #{userId, jdbcType=INTEGER}
  	and wk.PRIVACY_TYPE = 1
     and wk.STATUS = 1
     order by wk.CREATION_DATE desc, wk.WORKS_ID asc
+    LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
   </select>
   
 </mapper>

@@ -48,6 +48,8 @@ app.controller('myfileController', function ($cookieStore, $rootScope, $scope, $
 	        				alert(data.msg);
 	        			}
 	        		})
+				}else{
+					alert('密碼不符');
 				}
 			}
 		}

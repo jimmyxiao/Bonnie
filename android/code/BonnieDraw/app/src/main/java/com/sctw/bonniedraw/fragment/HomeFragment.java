@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onWorkExtraClick(final int postion) {
+            public void onWorkExtraClick(int postion) {
                 final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.works_extra_layout);
                 Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
                 Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);

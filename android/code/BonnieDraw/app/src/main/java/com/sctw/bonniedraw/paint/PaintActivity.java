@@ -37,8 +37,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -46,7 +44,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +59,6 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,7 +73,9 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -90,6 +88,7 @@ import okhttp3.Response;
 public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener {
     public static final String KEY_MY_PREFERENCE = "autoplay_intervaltime";
     private static final String SKETCH_FILE = "/backup.bdw";
+    private static final String TEMP_FILE = "/temp.bdw";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
     private Boolean mbAutoPlay = false, replayMode = false, playState = false, playing = false, earseMode = false, zoomMode = false;
     private Boolean sketch = false, checkFinger = false;
@@ -117,9 +116,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     int offsetX, offsetY, realPaint;
     SharedPreferences prefs;
     Xfermode earseEffect;
-    private int privacyType, listNumCheck;
-    ArrayList<String> listString, listNum;
+    private int privacyType;
     private CircleMenuLayout mCircleMenuLayout;
+    int gridCol = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +161,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
             @Override
             public void itemCenterClick(View view) {
-                Toast.makeText(PaintActivity.this, "you can do something just like ccb  ", Toast.LENGTH_SHORT).show();
             }
         });
         btnChangePaint.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +185,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         btnOpenAutoPlay = (ImageButton) findViewById(R.id.id_btn_open_autoplay);
         btnSize = (ImageButton) findViewById(R.id.id_btn_size);
         setOnclick();
-        getCategoryList();
         colorPicker = new ColorPicker(myView.getContext(), this, "", Color.WHITE);
         colorPicker.getWindow().setGravity(Gravity.END);
         colorPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -365,7 +362,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             canvas.drawColor(Color.WHITE);
             if (grid) {
                 //0到底部
-                int gridCol = 20;
                 for (int i = 0; i <= gridCol; i++) {
                     canvas.drawLine((displayWidth / gridCol) * i, 0, (displayWidth / gridCol) * i, displayWidth, gridPaint);
                     canvas.drawLine(0, (displayWidth / gridCol) * i, displayWidth, (displayWidth / gridCol) * i, gridPaint);
@@ -573,22 +569,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         Button saveWork = (Button) saveDialog.findViewById(R.id.btn_save_paint_save);
         ImageButton saveCancel = (ImageButton) saveDialog.findViewById(R.id.btn_save_paint_back);
         RadioGroup privacyTypes = (RadioGroup) saveDialog.findViewById(R.id.paint_save_work_privacytype);
-        Spinner workSpinner = (Spinner) saveDialog.findViewById(R.id.paint_save_work_spinner);
-
-        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.categorylist_layout, listString);
-        workSpinner.setAdapter(mAdapter);
-
-        workSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                listNumCheck = Integer.parseInt(listNum.get(i));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         File pngfile = null;
         try {
@@ -631,8 +611,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 if (!workName.getText().toString().isEmpty() && !workDescription.getText().toString().isEmpty()) {
                     try {
                         JSONObject json = new JSONObject();
-                        JSONArray jsonArray = new JSONArray();
-                        JSONObject jsonList = new JSONObject();
                         json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
                         json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
@@ -640,11 +618,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         json.put("privacyType", privacyType);
                         json.put("title", workName.getText().toString());
                         json.put("description", workDescription.getText().toString());
-                        //json.put("languageId", 1);
+                        json.put("languageId", 2);
                         //json.put("countryId", 886);
-                        jsonList.put("categoryId", listNumCheck);
-                        jsonArray.put(jsonList);
-                        json.put("categoryList", jsonList);
                         Log.d("LOGIN JSON: ", json.toString());
                         fileInfo(json, GlobalVariable.WORK_SAVE_URL);
                         saveDialog.dismiss();
@@ -736,8 +711,15 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     JSONObject responseJSON = new JSONObject(response.body().string());
-                    if (responseJSON.getInt("res") == 1) {
-                        Log.d("Save Works File", "Successful");
+                    if (responseJSON.getInt("res") == 1 && responseJSON.get("wid") != null) {
+                        final int uploadWid=Integer.parseInt(responseJSON.get("wid").toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                uploadFile(1, uploadWid);
+                                uploadFile(2, uploadWid);
+                            }
+                        });
                     }
                     Log.d("RESPONSE", responseJSON.toString());
                 } catch (JSONException e) {
@@ -748,94 +730,90 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
     }
 
-    public void getCategoryList() {
-        listString = new ArrayList<>();
-        listNum = new ArrayList<>();
+    public void uploadFile(int type, int wid) {
         OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        JSONObject json = new JSONObject();
-        try {
-            json
-                    .put("ui", prefs.getString(GlobalVariable.API_UID, "null"))
-                    .put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
-                    .put("dt", GlobalVariable.LOGIN_PLATFORM)
-                    .put("categoryId", "0");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = FormBody.create(mediaType, json.toString());
-        Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/categoryList")
-                .post(body)
-                .build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("getCategoryList", "Fail");
-            }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    JSONObject responseJSON = new JSONObject(response.body().string());
-                    if (responseJSON.getInt("res") == 1) {
-                        Log.d("getCategoryList", responseJSON.toString());
-                        for (int x = 0; x < responseJSON.getJSONArray("categoryList").length(); x++) {
-                            listNum.add(responseJSON.getJSONArray("categoryList").getJSONObject(x).getString("categoryId"));
-                            listString.add(responseJSON.getJSONArray("categoryList").getJSONObject(x).getString("categoryName"));
+        if (type == 1) {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            myView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+            MultipartBody body = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("ui", prefs.getString(GlobalVariable.API_UID, "null"))
+                    .addFormDataPart("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
+                    .addFormDataPart("dt", GlobalVariable.LOGIN_PLATFORM)
+                    .addFormDataPart("wid", String.valueOf(wid))
+                    .addFormDataPart("ftype", String.valueOf(type))
+                    .addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()))
+                    .build();
+
+            final Request request = new Request.Builder()
+                    .url("https://www.bonniedraw.com/bonniedraw_service/BDService/fileUpload")
+                    .post(body)
+                    .build();
+
+            okHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.d("Upload File", "Fail");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    try {
+                        JSONObject responseJSON = new JSONObject(response.body().string());
+                        if (responseJSON.getInt("res") == 1) {
+
+                            Log.d("Upload File", "上傳圖片成功");
+                            Log.d("Upload File", responseJSON.toString());
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
-        });
-    }
-
-    public void uploadFile(File file, int type) {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        Bitmap bm = BitmapFactory.decodeFile(file.getPath());
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
-        byte[] b = baos.toByteArray();
-
-        JSONObject json = new JSONObject();
-        try {
-            json
-                    .put("ui", prefs.getString(GlobalVariable.API_UID, "null"))
-                    .put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
-                    .put("dt", GlobalVariable.LOGIN_PLATFORM)
-                    .put("wid", "1")
-                    .put("ftype", String.valueOf(type))
-                    .put("file", new String(b));
-        } catch (JSONException e) {
-            e.printStackTrace();
+            });
         }
-        RequestBody body = FormBody.create(mediaType, json.toString());
-        Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/fileUpload")
-                .post(body)
-                .build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("Upload File", "Fail");
-            }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    JSONObject responseJSON = new JSONObject(response.body().string());
-                    if (responseJSON.getInt("res") == 1) {
-                        Log.d("Upload File", "Successful");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (type == 2) {
+            BDWFileWriter writer = new BDWFileWriter();
+            String filePath = getFilesDir().getPath() + TEMP_FILE;
+            writer.WriteToFile(mTagPoint_a_record, filePath);
+
+            MultipartBody body = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("ui", prefs.getString(GlobalVariable.API_UID, "null"))
+                    .addFormDataPart("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
+                    .addFormDataPart("dt", GlobalVariable.LOGIN_PLATFORM)
+                    .addFormDataPart("wid", String.valueOf(wid))
+                    .addFormDataPart("ftype", String.valueOf(type))
+                    .addPart( Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("application/octet-stream"),new File(filePath)))
+                    .build();
+
+            final Request request = new Request.Builder()
+                    .url("https://www.bonniedraw.com/bonniedraw_service/BDService/fileUpload")
+                    .post(body)
+                    .build();
+
+            okHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.d("Upload File", "Fail");
                 }
 
-            }
-        });
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    try {
+                        JSONObject responseJSON = new JSONObject(response.body().string());
+                        if (responseJSON.getInt("res") == 1) {
+
+                            Log.d("Upload File", "上傳路徑檔成功");
+                            Log.d("Upload File", responseJSON.toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
     }
 
     public void colorPicks(View view) {
@@ -988,13 +966,78 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             @Override
             public void onClick(View view) {
                 //開啟格線
-                if (!myView.grid) {
-                    //0到底部
-                    myView.grid = true;
-                } else {
-                    myView.grid = false;
-                }
-                myView.invalidate();
+                final FullScreenDialog gridDialog = new FullScreenDialog(PaintActivity.this, R.layout.paint_grid_dialog);
+                Button gridNone = gridDialog.findViewById(R.id.paint_grid_none);
+                Button grid3 = gridDialog.findViewById(R.id.paint_grid_3);
+                Button grid6 = gridDialog.findViewById(R.id.paint_grid_6);
+                Button grid10 = gridDialog.findViewById(R.id.paint_grid_10);
+                Button grid20 = gridDialog.findViewById(R.id.paint_grid_20);
+                Button gridCacel = gridDialog.findViewById(R.id.paint_grid_cancel);
+                gridDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogStyle;
+                gridNone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        myView.grid = false;
+                        myView.invalidate();
+                        gridDialog.dismiss();
+                    }
+                });
+
+                grid3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        myView.grid = true;
+                        gridCol = 3;
+                        myView.invalidate();
+                        gridDialog.dismiss();
+                    }
+                });
+
+                grid6.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        myView.grid = true;
+                        gridCol = 6;
+                        myView.invalidate();
+                        gridDialog.dismiss();
+                    }
+                });
+
+                grid10.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        myView.grid = true;
+                        gridCol = 10;
+                        myView.invalidate();
+                        gridDialog.dismiss();
+                    }
+                });
+
+                grid20.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        myView.grid = true;
+                        gridCol = 20;
+                        myView.invalidate();
+                        gridDialog.dismiss();
+                    }
+                });
+
+                gridCacel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        gridDialog.dismiss();
+                    }
+                });
+
+                gridDialog.findViewById(R.id.bg_layout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        gridDialog.dismiss();
+                    }
+                });
+
+                gridDialog.show();
             }
         });
 

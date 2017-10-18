@@ -124,6 +124,12 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
         },
         setLike: function(params,callback){
             return baseHttp.service('setLike' ,params,callback);
+        },
+        leavemsg: function(params,callback){
+            return baseHttp.service('leavemsg' ,params,callback);
+        },
+        setCollection: function(params,callback){
+            return baseHttp.service('setCollection' ,params,callback);
         }
     }
 }).factory('userService', function(baseHttp) {
