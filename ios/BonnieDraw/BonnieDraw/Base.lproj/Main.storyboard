@@ -365,13 +365,18 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <subviews>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-Ni-VLM">
-                                        <rect key="frame" x="80" y="315" width="160" height="2"/>
+                                        <rect key="frame" x="80" y="283" width="160" height="2"/>
                                         <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </progressView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="yxQ-Ni-VLM" firstAttribute="centerY" secondItem="yDy-IQ-Hwa" secondAttribute="centerY" constant="64" id="0zT-xw-7nn"/>
+                                    <constraint firstItem="yxQ-Ni-VLM" firstAttribute="centerY" secondItem="yDy-IQ-Hwa" secondAttribute="centerY" constant="32" id="0zT-xw-7nn"/>
                                     <constraint firstItem="yxQ-Ni-VLM" firstAttribute="centerX" secondItem="yDy-IQ-Hwa" secondAttribute="centerX" id="Rrr-OE-VwG"/>
                                     <constraint firstItem="yxQ-Ni-VLM" firstAttribute="width" secondItem="yDy-IQ-Hwa" secondAttribute="width" multiplier="0.5" id="vfT-Dm-cNp"/>
                                 </constraints>
@@ -1434,6 +1439,11 @@
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CVF-IR-b7g">
                                         <rect key="frame" x="80.5" y="283" width="160" height="2"/>
                                         <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </progressView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
