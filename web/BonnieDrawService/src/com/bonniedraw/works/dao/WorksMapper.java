@@ -33,10 +33,14 @@ public interface WorksMapper {
     
     int seletMaxPaginationBindFollow(Map<String, Integer> pagerMap);
     
+    int seletMaxPaginationBindCollection(Map<String, Integer> pagerMap);
+    
     List<WorksResponse> queryPopularWorksPager(Map<String, Integer> pagerMap);
     
     List<WorksResponse> queryUserWorksPager(Map<String, Integer> pagerMap);
     
     List<WorksResponse> queryTrackWorksPager(Map<String, Integer> pagerMap);
+    
+    List<WorksResponse> queryCollectionWorksPager(Map<String, Integer> pagerMap);
     
 }

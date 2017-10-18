@@ -208,6 +208,23 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        	templateUrl: 'modules/share/view/footer.html'
 	        }
       	}
+  	}).state('collectionListing', {
+      	url: '/collection-listing',
+      	views: {
+      		"loader":{
+      			templateUrl: 'modules/share/view/loader.html'
+      		},
+        	"layout": {
+	            templateUrl: 'modules/works/view/collection-listing.html',
+	            controller:'collectionListingController'
+	        },
+	        "headerMenu@collectionListing":{
+	        	templateUrl: 'modules/share/view/header-menu.html'
+	        },
+	        "footer@collectionListing":{
+	        	templateUrl: 'modules/share/view/footer.html'
+	        }
+      	}
   	})
 }])
 

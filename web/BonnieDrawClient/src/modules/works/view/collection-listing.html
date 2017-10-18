@@ -1,0 +1,64 @@
+<div id="wrapper">
+	<div id="main-content">
+		<div ui-view="headerMenu"></div>
+		<div id="secondary-section" class="vids-2-column">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-12">
+						<div class="st-4-column secondary-vid">
+							<div class="vid-heading overflow-hidden">
+								<span class="wow fadeInUp" data-wow-duration="0.8s">收藏畫作</span>
+								<div class="hding-bottm-line wow zoomIn" data-wow-duration="0.8s"></div>
+							</div>
+							<div class="row">
+								<div class="vid-container">
+									<div class="col-md-3 col-sm-6" ng-repeat="data in mainSectionArr track by $index">
+										<div class="latest-vid-img-container">		
+											<div class="vid-img" ng-if="data.imagePath!=null && data.imagePath!=''">
+												<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" alt="image" width="600" height="400">
+												<a ng-href="#/column-detail?id={{data.worksId}}" class="play-icon play-small-icon">
+							                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">
+							                	</a>
+												<div class="overlay-div"></div>
+											</div>
+											<div class="vid-text">
+												<section class="_hmd6j _8oo9w">
+													<a ng-click="clickWorksLike(data)" class="_eszkz _l9yih" href="" role="button" aria-disabled>
+														<i ng-if="!data.like" class="material-icons font-icon">favorite_border</i>
+														<i ng-if="data.like" class="material-icons font-icon">favorite</i>
+													</a>
+													<span>{{data.likeCount}}</span>
+													<a href=""><i class="material-icons share-icon">share</i></a>
+												</section>
+												<p><a href="">{{data.userName}}</a></p>
+												<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a></h1>
+											</div>
+										</div>
+									</div>											
+								</div>
+
+								<!-- pagination top -->	
+								<div class="pagination-container text-center">
+									<ul class="pagination">
+									   	<li>
+									   		<a href="" ng-hide="offset==1 || maxPagination==0" ng-click="movePagin(-1)">&laquo;</a>
+									   	</li>
+									   	<li ng-class="{true:'active',false:''}[offset==pagin]" ng-repeat="pagin in paginList">
+									   		<a href="" ng-click="clickPagin(pagin)">{{pagin}}</a>
+									   		<div class="pagination-hvr"></div>
+									   	</li>
+									   	<li>
+									   		<a href="" ng-hide="offset==maxPagination || maxPagination==0" ng-click="movePagin(1)">&raquo;</a>
+									   	</li>
+									</ul>
+								</div>
+								<!-- pagination end -->
+							</div>
+						</div>					
+					</div>				
+				</div>
+			</div>
+		</div>
+		<div ui-view="footer"></div>
+	</div>
+</div>
