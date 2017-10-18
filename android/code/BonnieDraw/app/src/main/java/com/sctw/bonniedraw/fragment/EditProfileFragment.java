@@ -153,13 +153,13 @@ public class EditProfileFragment extends Fragment {
                                 if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
                                     editFormUserNickName.setText(responseJSON.getString("nickName"));
                                 } else {
-                                    editFormUserNickName.setHint("尚未設置");
+                                    editFormUserNickName.setHint("");
                                 }
 
                                 if (responseJSON.has("description") && !responseJSON.isNull("description")) {
                                     editFormProfile.setText(responseJSON.getString("description"));
                                 } else {
-                                    editFormProfile.setHint("尚未設置");
+                                    editFormProfile.setHint("");
                                 }
 
                                 editFormEmail.setText(responseJSON.getString("email"));
@@ -167,7 +167,7 @@ public class EditProfileFragment extends Fragment {
                                 if (responseJSON.has("phoneNo") && !responseJSON.isNull("phoneNo")) {
                                     editFormPhone.setText(responseJSON.getString("phoneNo"));
                                 } else {
-                                    editFormPhone.setHint("尚未設置");
+                                    editFormPhone.setHint("");
                                 }
 
                                 if (responseJSON.has("gender") && !responseJSON.isNull("gender")) {
@@ -227,7 +227,7 @@ public class EditProfileFragment extends Fragment {
             json.put("description", editFormProfile.getText().toString());
             json.put("phoneNo", editFormPhone.getText().toString());
             if (edit_gender != null) json.put("gender", String.valueOf(edit_gender));
-            Log.d("LOGIN JSON: ", json.toString());
+            Log.d("JSON",json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

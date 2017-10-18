@@ -36,8 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="35dp"
-            android:layout_weight="1"
-            android:text="User"
             android:textColor="@color/White"
             android:textSize="18sp" />
 

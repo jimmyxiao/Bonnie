@@ -120,15 +120,15 @@ public class SignUpFragment extends Fragment {
                 infoCheck("pwd");
                 infoCheck("rePwd");
 
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.public_commit),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 //寄送認證信，回到主畫面。
                             }
                         });
-                alertDialog.setTitle("請確認輸入資料");
-                alertDialog.setMessage("您的輸入資料有誤或未填寫。");
+                alertDialog.setTitle(getString(R.string.signin_check_info));
+                alertDialog.setMessage(getString(R.string.signin_check_msg));
                 alertDialog.show();
             }
         }
@@ -211,17 +211,17 @@ public class SignUpFragment extends Fragment {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         switch (format){
             case 1:
-                title="註冊成功";
-                message="請於30分鐘內至您的電子信箱啟用帳號，即可登入使用各項功能。";
+                title=getString(R.string.signin_successful_title);
+                message=getString(R.string.sigin_successful_msg);
 
                 break;
             case 2:
-                title="註冊失敗";
-                message="您的EMAIL已使用過，請換另一個";
+                title=getString(R.string.signin_fail_title);
+                message=getString(R.string.signin_fail_email_used);
                 break;
             case 3:
-                title="註冊失敗";
-                message="資料異常，請稍後再試";
+                title=getString(R.string.signin_fail_title);
+                message=getString(R.string.signin_fail_date_error);
         }
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -242,7 +242,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userPhone.getText().toString().trim().isEmpty()) {
-                phoneLayout.setError("請輸入手機號碼");
+                phoneLayout.setError(getString(R.string.signin_check_phone));
             }
         }
     };
@@ -251,7 +251,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userName.getText().toString().trim().isEmpty()) {
-                nameLayout.setError("請輸入名字");
+                nameLayout.setError(getString(R.string.signin_check_name));
             }
         }
     };
@@ -260,7 +260,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userEmail.getText().toString().equals("")) {
-                emailLayout.setError("請輸入信箱");
+                emailLayout.setError(getString(R.string.signin_check_email));
             }
         }
     };
@@ -269,7 +269,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userPassword.getText().toString().equals("")) {
-                passwordLayout.setError("請輸入密碼");
+                passwordLayout.setError(getString(R.string.login_need_password));
             }
         }
     };
@@ -278,7 +278,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userRePassword.getText().toString().equals("")) {
-                repasswordLayout.setError("請再次輸入密碼");
+                repasswordLayout.setError(getString(R.string.signin_recheck_password));
             }
         }
     };

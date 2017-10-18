@@ -1,15 +1,10 @@
 <resources xmlns:android="http://schemas.android.com/tools">
     <string name="app_name">BonnieDraw</string>
-    <string name="drawer_open">Drawer Open</string>
-    <string name="drawer_close">Drawer Close</string>
     <string name="facebook_app_id">1376883092359322</string>
     <string name="fb_login_protocol_scheme">fb1376883092359322</string>
 
     <string name="open">open</string>
     <string name="close">close</string>
-
-    <string name="not_login">您尚未登入</string>
-    <string name="please_click_icon_login">點擊圖像登入後可使用各項功能</string>
 
     <string name="server_client_id">579888826124-32hn4mff2f1gmvo5kk6ep9u40hcoqv46.apps.googleusercontent.com</string>
 
@@ -19,6 +14,108 @@
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="update_password_need_length">新密碼需大於6位數</string>
+    <string name="update_password_not_equal">密碼不相符</string>
+    <string name="update_password_old_need">請輸入舊密碼</string>
+    <string name="update_password_new_need">請輸入新密碼</string>
+    <string name="update_password_check_need">請確認新密碼</string>
+    <string name="update_password_successful">密碼已更新完成，確認後回到登入畫面。</string>
+    <string name="update_password_old_error">你輸入的舊密碼是錯誤的，請重新確認。</string>
+    <string name="update_password_other_error">發生錯誤，檢查你的連線是否正常</string>
+    <string name="update_password_now">目前密碼</string>
+    <string name="update_password_new">新密碼</string>
+    <string name="update_password_valid">驗證</string>
+    <string name="update_password_check">再次輸入新密碼</string>
+    <string name="update_password_title">更改密碼</string>
+
+    <string name="login_forget_password">忘記密碼?</string>
+    <string name="login_not_account">您還沒有帳號?</string>
+
+    <string name="public_email">帳號(E-mail)</string>
+    <string name="public_username">姓名</string>
+    <string name="public_password">使用者密碼</string>
+    <string name="public_check_password">確認密碼</string>
+    <string name="public_phone">手機號碼</string>
+    <string name="public_register">註冊</string>
+    <string name="public_or">或</string>
+    <string name="public_login">登入</string>
+    <string name="public_cancel">取消</string>
+    <string name="public_finish">完成</string>
+    <string name="public_commit">確認</string>
+    <string name="public_gender">性別</string>
+    <string name="public_male">男性</string>
+    <string name="public_female">女性</string>
+    <string name="public_public">公開</string>
+    <string name="public_private">私人</string>
+    <string name="public_close">不公開</string>
+    <string name="public_save">儲存</string>
+    <string name="public_report">檢舉</string>
+    <string name="public_copylink">複製連結</string>
+    <string name="public_share">分享</string>
+    <string name="public_yes">是</string>
+    <string name="public_no">否</string>
+
+    <string name="profile_edit_profile">編輯個人檔案</string>
+    <string name="profile_works_count">作品數</string>
+    <string name="profile_fans_count">粉絲數</string>
+    <string name="profile_follow_count">追蹤中</string>
+
+    <string name="signin_have_account">已經有帳號?</string>
+
+    <string name="edit_profile_change_photo">更換大頭貼照</string>
+    <string name="edit_profile_nickname">用戶暱稱</string>
+    <string name="edit_profile_description">個人簡介</string>
+    <string name="edit_profile_email">電子郵件</string>
+    <string name="edit_profile_thid_gender">多元</string>
+
+    <string name="forget_password_hint">請輸入註冊的E-mail，系統會發送新密碼至您的信箱</string>
+
+    <string name="like_title">我的收藏</string>
+    <string name="like_all">全部</string>
+    <string name="like_class">收藏分類</string>
+    <string name="like_select_title">儲存收藏分類</string>
+    <string name="like_select_empty_class">收藏分類可將你儲存的內容分門別類。按右上角的「+」即可開始建立第一個收藏分類</string>
+    <string name="like_select_add_class">建立收藏分類</string>
+
+    <string name="grid_none">無格線</string>
+    <string name="grid_3x3">3x3格線</string>
+    <string name="grid_6x6">6x6格線</string>
+    <string name="grid_10x10">10x10格線</string>
+    <string name="grid_20x20">20x20格線</string>
+
+    <string name="paint_save_name">作品名稱：</string>
+    <string name="paint_save_description">作品說明：</string>
+    <string name="paint_save_description_hint">新增作品說明 請輸入作品簡短說明，並再說明後加上「#」，例:#BonnieDraw</string>
+    <string name="paint_save_privacytype">觀看權限：</string>
+    <string name="paint_save_title">新增作品</string>
+
+    <string name="login_need_password">請輸入密碼</string>
+    <string name="login_need_correct_email">請輸入正確的信箱</string>
+    <string name="login_need_email">請輸入帳號</string>
+    <string name="login_fail_tittle">登入失敗</string>
+    <string name="login_fail_msg">帳號或密碼錯誤，請重新輸入或點選忘記密碼</string>
+    <string name="public_title_privacy_policy">隱私政策</string>
+    <string name="public_title_terms_of_use">使用條款</string>
+    <string name="signin_fail_title">註冊失敗</string>
+    <string name="signin_fail_date_error">資料異常，請稍後再試</string>
+    <string name="signin_fail_email_used">您的EMAIL已使用過，請換另一個</string>
+    <string name="signin_successful_title">註冊成功</string>
+    <string name="sigin_successful_msg">請於30分鐘內至您的電子信箱啟用帳號，即可登入使用各項功能。</string>
+    <string name="signin_recheck_password">請再次輸入密碼</string>
+    <string name="signin_check_email">請輸入信箱</string>
+    <string name="signin_check_name">請輸入名字</string>
+    <string name="signin_check_phone">請輸入手機號碼</string>
+    <string name="signin_check_info">請確認輸入資料</string>
+    <string name="signin_check_msg">您的輸入資料有誤或未填寫。</string>
+    <string name="paint_save_need_name">請輸入檔名或按取消</string>
+    <string name="public_user_permission">使用者拒絕權限 無法存取</string>
+    <string name="paint_need_draw">請畫些東西吧！</string>
+    <string name="play_end">播放完畢</string>
+    <string name="play_wait">請等畫完這一段再按</string>
+    <string name="play_frist">已經是最前步驟</string>
+    <string name="paint_delete_sketch">刪除草稿</string>
+    <string name="paint_sketch_save_title">是否要保留草稿</string>
+    <string name="logout_title">登出？</string>
+    <string name="logout_msg">您是否要登出呢</string>
 </resources>

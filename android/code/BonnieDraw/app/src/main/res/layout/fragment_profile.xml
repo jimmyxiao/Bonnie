@@ -21,13 +21,12 @@
             android:layout_gravity="start"
             android:layout_weight="6"
             android:paddingLeft="16dp"
-            android:text="ID"
             android:textColor="#000" />
 
         <ImageButton
             android:id="@+id/profile_grid_btn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
             app:srcCompat="@drawable/personal_ic_rectangle" />
@@ -35,15 +34,14 @@
         <ImageButton
             android:id="@+id/profile_list_btn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
             app:srcCompat="@drawable/personal_ic_list" />
 
         <ImageButton
-            android:id="@+id/profile_list_btn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
             app:srcCompat="@drawable/personal_ic_list" />
@@ -51,7 +49,7 @@
         <ImageButton
             android:id="@+id/profile_setting_btn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
             app:srcCompat="@drawable/personal_ic_shape" />
@@ -84,7 +82,6 @@
             android:id="@+id/profile_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="姓名"
             android:textAlignment="center" />
 
         <Button
@@ -94,7 +91,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/edit_profile_icon"
-            android:text="編輯個人檔案"
+            android:text="@string/profile_edit_profile"
             android:textColor="@color/White"
             app:layout_constraintBottom_toBottomOf="parent" />
     </LinearLayout>
@@ -131,7 +128,7 @@
                 android:id="@+id/profile_userWorks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="作品數"
+                android:text="@string/profile_works_count"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -157,7 +154,7 @@
                 android:id="@+id/profile_userFans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="粉絲數"
+                android:text="@string/profile_fans_count"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -182,7 +179,7 @@
                 android:id="@+id/profile_userFollow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="追蹤中"
+                android:text="@string/profile_follow_count"
                 android:textAlignment="center" />
 
         </LinearLayout>

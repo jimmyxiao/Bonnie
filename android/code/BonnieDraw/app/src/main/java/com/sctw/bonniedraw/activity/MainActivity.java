@@ -164,21 +164,21 @@ public class MainActivity extends AppCompatActivity {
 
     void logout() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.public_commit),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         logoutPlatform();
                         headerPhoto.setBackgroundColor(Color.BLACK);
                     }
                 });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "取消",
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.public_cancel),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
-        alertDialog.setTitle("登出？");
-        alertDialog.setMessage("您是否要登出呢");
+        alertDialog.setTitle(getString(R.string.logout_title));
+        alertDialog.setMessage(getString(R.string.logout_msg));
         alertDialog.show();
     }
 

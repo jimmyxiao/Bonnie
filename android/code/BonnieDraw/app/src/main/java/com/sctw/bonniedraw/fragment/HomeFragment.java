@@ -6,18 +6,21 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
@@ -35,11 +38,13 @@ public class HomeFragment extends Fragment {
     Toolbar toolbar;
     ImageButton toolbarSearch, icBtnDrawer;
     FragmentManager fm;
+    SearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment\
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -53,14 +58,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar_include);
         toolbar.setTitle("");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         icBtnDrawer = (ImageButton) view.findViewById(R.id.toolbar_switch);
-        toolbarSearch = (ImageButton) view.findViewById(R.id.toolbar_search);
-        toolbarSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "搜尋", Toast.LENGTH_SHORT).show();
-            }
-        });
         icBtnDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,5 +153,27 @@ public class HomeFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         homeRecyclerView.setLayoutManager(layoutManager);
         homeRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate( R.menu.dashborad, menu);
+        MenuItem item = menu.findItem( R.id.action_search);
+        searchView = (SearchView) item.getActionView();
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                return false;
+            }
+        });
     }
 }

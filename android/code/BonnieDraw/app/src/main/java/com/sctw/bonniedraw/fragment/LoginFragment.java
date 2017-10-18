@@ -34,6 +34,8 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.MainActivity;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -140,7 +142,7 @@ public class LoginFragment extends Fragment {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (userPasswordText.getText().toString().isEmpty()) {
-                passwordLayout.setError("請輸入密碼");
+                passwordLayout.setError(getString(R.string.login_need_password));
             } else {
                 passwordLayout.setError(null);
             }
@@ -164,7 +166,7 @@ public class LoginFragment extends Fragment {
                 emailLayout.setError(null);
                 emailCheck = false;
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmailText.getText().toString()).matches()) {
-                emailLayout.setError("請輸入正確的信箱");
+                emailLayout.setError(getString(R.string.login_need_correct_email));
                 emailCheck = false;
             } else {
                 emailLayout.setError(null);
@@ -184,8 +186,8 @@ public class LoginFragment extends Fragment {
             if (emailCheck && !userPasswordText.getText().toString().isEmpty() && userPasswordText.getText().toString().length() >= 6) {
                 loginEamil();
             } else {
-                emailLayout.setError("請輸入帳號");
-                passwordLayout.setError("請輸入密碼");
+                emailLayout.setError(getString(R.string.login_need_email));
+                passwordLayout.setError(getString(R.string.login_need_password));
             }
         }
     };
@@ -419,9 +421,9 @@ public class LoginFragment extends Fragment {
     //EMAIL登入失敗
     public void createLogSignin() {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("登入失敗");
-        alertDialog.setMessage("帳號或密碼錯誤，請重新輸入或點選忘記密碼");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+        alertDialog.setTitle(getString(R.string.login_fail_tittle));
+        alertDialog.setMessage(getString(R.string.login_fail_msg));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, (getString(R.string.public_commit)),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (!prefs.getString(GlobalVariable.userFbIdStr, "null").isEmpty()) {
@@ -437,6 +439,37 @@ public class LoginFragment extends Fragment {
         alertDialog.show();
     }
 
+    //登入失敗自己登出第三方平台
+    public void logoutPlatform() {
+        switch (prefs.getString(GlobalVariable.userPlatformStr, "null")) {
+            case "0":
+                break;
+            case "1":
+                prefs.edit().clear().apply();
+                break;
+            case "2":
+                LoginManager.getInstance().logOut();
+                prefs.edit().clear().apply();
+                break;
+            case "3":
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        Toast.makeText(getActivity(), "Logged Out", Toast.LENGTH_SHORT).show();
+                        prefs.edit().clear().apply();
+                    }
+                });
+                break;
+            case "4":
+                TwitterCore.getInstance().getSessionManager().clearActiveSession();
+                prefs.edit().clear().apply();
+                break;
+            case "null":
+                Toast.makeText(getActivity(), "has error", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
     //第三方平台登入
     public void logThirdSigninError() {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
@@ -445,6 +478,7 @@ public class LoginFragment extends Fragment {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        logoutPlatform();
                         dialog.dismiss();
                         //失敗
                     }

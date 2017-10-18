@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="無格線" />
+                    android:text="@string/grid_none" />
 
                 <View
                     android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="3x3格線" />
+                    android:text="@string/grid_3x3" />
 
                 <View
                     android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="6x6格線" />
+                    android:text="@string/grid_6x6" />
 
                 <View
                     android:layout_width="match_parent"
@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="10x10格線" />
+                    android:text="@string/grid_10x10" />
 
                 <View
                     android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="20x20格線" />
+                    android:text="@string/grid_20x20" />
             </LinearLayout>
 
 
@@ -105,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_save_border_text"
-                    android:text="取消"
+                    android:text="@string/public_cancel"
                     android:textColor="@color/Blue" />
 
             </LinearLayout>

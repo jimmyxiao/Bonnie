@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:gravity="center_vertical"
-            android:text="用戶名稱"
+            android:text="用戶名稱(TEMP)"
             android:textSize="14sp" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:gravity="center_vertical"
-            android:text="作品名稱" />
+            android:text="作品名稱(TEMP)" />
 
         <ImageButton
             android:id="@+id/works_user_extra"
@@ -108,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="87人按讚" />
+            android:text="87人按讚(TEMP)" />
 
         <TextView
             android:id="@+id/works_create_time"
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="發布日期: 2017/10/2   22:00" />
+            android:text="發布日期: 2017/10/2   22:00(TEMP)" />
 
         <TextView
             android:id="@+id/works_user_class"
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="類別: 插畫" />
+            android:text="類別: 插畫(TEMP)" />
 
     </LinearLayout>
 

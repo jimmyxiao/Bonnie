@@ -34,7 +34,7 @@
             android:id="@+id/inputUserEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="帳號(E-mail)"
+            android:hint="@string/public_email"
             android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
@@ -53,7 +53,7 @@
             android:id="@+id/inputUserPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="使用者密碼"
+            android:hint="@string/public_password"
             android:inputType="textPassword"
             android:maxLength="15"
             app:passwordToggleTint="@color/colorPrimaryDark"
@@ -67,7 +67,7 @@
         android:layout_alignEnd="@+id/passwordLayout"
         android:layout_below="@+id/passwordLayout"
         android:background="@color/Transparent"
-        android:text="忘記密碼?"
+        android:text="@string/login_forget_password"
         android:textColor="@color/Brown"
         android:textColorLink="@color/Brown" />
 
@@ -80,7 +80,7 @@
         android:layout_below="@+id/forgetPasswordBtn"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_icon_email"
-        android:text="登入"
+        android:text="@string/public_login"
         android:textColor="@color/White" />
 
     <TextView
@@ -91,7 +91,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
-        android:text="或" />
+        android:text="@string/public_or" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/fbLoginBtnGone"
@@ -158,14 +158,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="您還沒有帳號? " />
+            android:text="@string/login_not_account" />
 
         <TextView
             android:id="@+id/signupButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="註冊"
+            android:text="@string/public_register"
             android:textColor="@color/Blue" />
     </LinearLayout>
 

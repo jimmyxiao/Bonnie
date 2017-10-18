@@ -630,7 +630,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     //boolean result = savePicture(workName.getText().toString());
                     //if (result) alertDialog.dismiss();
                 } else {
-                    Toast.makeText(PaintActivity.this, "請輸入檔名或按取消", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaintActivity.this, R.string.paint_save_need_name, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -654,7 +654,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     savePictureEdit();
                 } else {
                     //使用者拒絕權限，停用檔案存取功能
-                    Snackbar.make(mViewFreePaint, "使用者拒絕權限 無法存取", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mViewFreePaint, R.string.public_user_permission, Snackbar.LENGTH_LONG).show();
                 }
                 break;
         }
@@ -684,7 +684,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 Snackbar.make(mViewFreePaint, "儲存成功", Snackbar.LENGTH_LONG).show();
                 return true;
             } else {
-                Snackbar.make(mViewFreePaint, "Save Fail", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mViewFreePaint, "儲存成功", Snackbar.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(this, "No SD Card detected", Toast.LENGTH_SHORT).show();
@@ -879,7 +879,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 if (mTagPoint_a_record.size() > 0) {
                     btnAutoPlay.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(PaintActivity.this, "請畫些東西吧！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaintActivity.this, R.string.paint_need_draw, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -924,10 +924,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     handler_Timer_Play.postDelayed(rb_play, 100);
                 } else if (miPointCount == 0 && !replayMode) {
                     playStateBtn(1);
-                    Toast.makeText(PaintActivity.this, "播放完畢", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaintActivity.this, R.string.play_end, Toast.LENGTH_SHORT).show();
                     customPaint(0);
                 } else {
-                    Toast.makeText(PaintActivity.this, "播放完畢", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaintActivity.this, R.string.play_end, Toast.LENGTH_SHORT).show();
                     PaintActivity.this.finish();
                 }
             }
@@ -937,12 +937,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             @Override
             public void onClick(View v) {
                 if (playing) {
-                    Toast.makeText(PaintActivity.this, "請等畫完這一段再按", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaintActivity.this, R.string.play_wait, Toast.LENGTH_SHORT).show();
                 } else if (miPointCurrent > 0) {
                     playState = true;
                     myView.onClickPrevious();
                 } else if (miPointCurrent == 0) {
-                    Toast.makeText(PaintActivity.this, "已經是最前步驟", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaintActivity.this, R.string.play_frist, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -1047,7 +1047,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void onClick(View v) {
                 if (file.exists()) {
                     if (file.delete())
-                        Toast.makeText(PaintActivity.this, "刪除草稿", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PaintActivity.this, R.string.paint_delete_sketch, Toast.LENGTH_SHORT).show();
                 }
                 mbAutoPlay = false;
                 playState = false;
@@ -1219,13 +1219,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         switch (num) {
             case 0:
-                builder.setMessage("是否要保留草稿");
+                builder.setMessage(R.string.paint_sketch_save_title);
                 break;
             case 1:
-                builder.setMessage("是否要更新草稿");
+                builder.setMessage(R.string.paint_sketch_save_title);
                 break;
         }
-        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 BDWFileWriter bdwFileWriter = new BDWFileWriter();
@@ -1235,14 +1235,14 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 if (!result) PaintActivity.this.finish();
             }
         });
-        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.public_no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
                 PaintActivity.this.finish();
             }
         });
-        builder.setNeutralButton("取消", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(R.string.public_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

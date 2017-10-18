@@ -16,15 +16,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:background="@color/Transparent"
-            android:text="取消" />
+            android:text="@string/public_cancel" />
 
         <TextView
             android:id="@+id/edit_form_change_photo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:text="編輯個人檔案"
+            android:text="@string/profile_edit_profile"
             android:textAlignment="center"
+            android:textColor="#000"
             android:textSize="14sp" />
 
         <Button
@@ -33,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:background="@color/Transparent"
-            android:text="完成" />
+            android:text="@string/public_finish" />
 
     </LinearLayout>
 
@@ -55,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:text="更換大頭貼照"
+        android:text="@string/edit_profile_change_photo"
         android:textColor="@color/Blue" />
 
     <View
@@ -73,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="姓名"
+            android:text="@string/public_username"
             android:textAlignment="center"
             android:textColor="@color/Black" />
 
@@ -96,7 +97,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="用戶暱稱"
+            android:text="@string/edit_profile_nickname"
             android:textAlignment="center"
             android:textColor="@color/Black" />
 
@@ -119,7 +120,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="個人簡介"
+            android:text="@string/edit_profile_description"
             android:textAlignment="center"
             android:textColor="@color/Black" />
 
@@ -142,7 +143,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="電子郵件"
+            android:text="@string/edit_profile_email"
             android:textAlignment="center"
             android:textColor="@color/Black" />
 
@@ -165,7 +166,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="電話"
+            android:text="@string/public_phone"
             android:textAlignment="center"
             android:textColor="@color/Black" />
 
@@ -189,7 +190,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="3"
-            android:text="性別"
+            android:text="@string/public_gender"
             android:textAlignment="center"
             android:textColor="@color/Black" />
 
@@ -205,21 +206,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="男性" />
+                android:text="@string/public_male" />
 
             <RadioButton
                 android:id="@+id/edit_form_gender_f"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="女性" />
+                android:text="@string/public_female" />
 
             <RadioButton
                 android:id="@+id/edit_form_gender_o"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="多元" />
+                android:text="@string/edit_profile_thid_gender" />
         </RadioGroup>
     </LinearLayout>
 </LinearLayout>

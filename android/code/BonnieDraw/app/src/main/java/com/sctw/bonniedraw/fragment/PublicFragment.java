@@ -38,10 +38,10 @@ public class PublicFragment extends Fragment {
             String title="";
             switch (item){
                 case 1:
-                    title="隱私政策";
+                    title=getString(R.string.public_title_privacy_policy);
                     break;
                 case 2:
-                    title="使用條款";
+                    title=getString(R.string.public_title_terms_of_use);
                     break;
             }
             PublicTitle.setText(title);

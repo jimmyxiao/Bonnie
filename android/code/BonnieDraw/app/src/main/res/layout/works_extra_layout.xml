@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="分享" />
+                    android:text="@string/public_share" />
 
                 <View
                     android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="複製連結" />
+                    android:text="@string/public_copylink" />
 
                 <View
                     android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="檢舉"
+                    android:text="@string/public_report"
                     android:textColor="@color/Red" />
             </LinearLayout>
 
@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_save_border_text"
-                    android:text="取消"
+                    android:text="@string/public_cancel"
                     android:textColor="@color/Blue" />
 
             </LinearLayout>

@@ -37,7 +37,7 @@
             android:id="@+id/inputUserPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="手機號碼"
+            android:hint="@string/public_phone"
             android:inputType="phone"
             android:maxLength="10" />
     </android.support.design.widget.TextInputLayout>
@@ -55,7 +55,7 @@
             android:id="@+id/inputUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="全名"
+            android:hint="@string/public_username"
             android:inputType="textPersonName"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -72,7 +72,7 @@
             android:id="@+id/inputUserEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="帳號(E-mail)"
+            android:hint="@string/public_email"
             android:inputType="textEmailAddress"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -91,7 +91,7 @@
             android:id="@+id/inputUserPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="使用者密碼"
+            android:hint="@string/public_password"
             android:maxLength="15"
             android:inputType="textPassword"
             app:passwordToggleTint="@color/colorPrimaryDark"
@@ -112,7 +112,7 @@
             android:id="@+id/inputUserRePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="確認密碼"
+            android:hint="@string/public_check_password"
             android:maxLength="15"
             android:inputType="textPassword"
             app:passwordToggleTint="@color/colorPrimaryDark"
@@ -124,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:background="@drawable/login_icon_email"
-        android:text="註冊"
+        android:text="@string/public_register"
         android:textColor="@color/White"
         android:layout_below="@+id/repasswordLayout"
         android:layout_alignStart="@+id/repasswordLayout"
@@ -143,14 +143,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="已經有帳號? " />
+            android:text="@string/signin_have_account" />
 
         <TextView
             android:id="@+id/signupButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="登入"
+            android:text="@string/public_login"
             android:textColor="@color/Blue" />
     </LinearLayout>
 
