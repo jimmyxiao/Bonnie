@@ -52,6 +52,7 @@ struct Cell {
     static let SIZE_PICKER = "sizePickerCell"
     static let ACCOUNT_HEADER = "accountHeaderCell"
     static let ACCOUNT = "accountCell"
+    static let ACCOUNT_FOOTER = "accountFooterCell"
 }
 
 struct Service {

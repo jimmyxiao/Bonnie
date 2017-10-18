@@ -30,3 +30,5 @@
 "likes" = "個讚";
 "canvas_data_parse_error_title" = "讀檔錯誤";
 "canvas_data_parse_error_content" = "檔案已損毀無法讀取";
+"loading" = "讀取中...";
+"empty_data" = "尚無資料";
