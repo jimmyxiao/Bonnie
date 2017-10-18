@@ -1560,6 +1560,7 @@ h1.sidebar-heading {
 	color: #fff;
 }
 
+
 .related-item .vid-container {
 	margin-top: 0px;
 }
@@ -2370,6 +2371,7 @@ p.blog-vid-info-text {
     margin:0 25px;
 }
 
+
 ._l8yre {
     background-color: #fafafa;
     border-radius: 50%;
@@ -2383,8 +2385,9 @@ p.blog-vid-info-text {
     font-size: 24px;
     font-weight: 400;
     line-height: 20px;
-    margin-top:0;
+    margin-top:10px;
 }
+
 
 ._1eg8c {
     -webkit-box-orient: horizontal;
@@ -2435,4 +2438,88 @@ p.blog-vid-info-text {
 	padding:0;
 	margin:0;
 	color: #f26f45;
+}
+
+.btn-snd-black {
+	background: #000;
+	color: #fff;
+	text-transform: uppercase;
+	padding: 10px 25px;
+	transition:all 0.3s ease 0s;
+	outline: none;
+	margin: 10px 0 0 0;
+	border-radius: 4px;
+	border:none;
+}
+.btn-snd-black:hover,
+.btn-snd-black:active,
+.btn-snd-black:focus {
+	background: #232323;
+	outline: none;
+	color: #fff;
+}
+.btn-snd-orange {
+	background: #f26f45;
+	color: #fff;
+	text-transform: uppercase;
+	padding: 10px 25px;
+	transition:all 0.3s ease 0s;
+	outline: none;
+	margin: 10px 0 0 0;
+	border-radius: 4px;
+	border:1px #cac8c8 solid;
+	display: none;
+}
+.btn-snd-black:hover,
+.btn-snd-black:active,
+.btn-snd-black:focus {
+	background: #e14b1a;
+	outline: none;
+	color: #fff;
+}
+
+.btn-snd-white {
+	background: #fff;
+	color: #0d0d0d;
+	text-transform: uppercase;
+	padding: 10px 25px;
+	transition:all 0.3s ease 0s;
+	outline: none;
+	margin: 10px 0 0 0;
+	border-radius: 4px;
+	border:1px #cac8c8 solid;
+}
+._9dzh2 {
+    font-size: 16px;
+    font-weight:bold;
+    line-height: 20px;
+    margin-top:15px;
+    text-align: left;
+}
+
+._5g4e2x {
+    height: 120px;
+    width: 120px;
+    margin:0 0 0 30px;
+}
+
+.file-text{
+	padding:0 10px;
+	font-size:16px;
+	text-align: center;
+	font-weight: bold;
+}
+.file-num{
+	font-size: 16px;
+	line-height: 25px;
+	text-align: center;
+}
+.file-text-line{
+	border-right: 1px #dadcdd solid; 
+}
+
+.file-box {
+	padding:15px;
+	border-top: 1px #dadcdd solid; 
+	border-bottom: 1px #dadcdd solid; 
 }
