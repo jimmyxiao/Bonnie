@@ -70,9 +70,47 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		return false;
 	}
 	
+	private void putLogin(LoginResponseVO result, LoginRequestVO loginRequestVO, UserInfo userInfo, String ipAddress) throws Exception{
+		Login loginVO = new Login();
+		loginVO.setUserId(userInfo.getUserId());
+		loginVO.setLoginToken(SercurityUtil.getUUID());
+		loginVO.setServiceKey(SercurityUtil.getUUID());
+		loginVO.setIsCurrent(1);
+		loginVO.setLoginResult(1);
+		loginVO.setSessionId(0);
+		loginVO.setDeviceIp(ipAddress);
+		switch (loginRequestVO.getDt()) {
+		case 1:
+			loginVO.setDeviceInfo("Android");
+			break;
+		case 2:
+			loginVO.setDeviceInfo("iOS");
+			break;
+		case 3:
+			loginVO.setDeviceInfo("Web");
+			break;
+		}
+		loginMapper.updateCurrentIsFalse(loginVO);
+		loginMapper.insertSelective(loginVO);
+		result.setRes(1);
+		result.setUi(userInfo.getUserId());
+		result.setUt(loginRequestVO.getUt());
+		result.setLk(loginVO.getLoginToken());
+		result.setSk(loginVO.getServiceKey());
+		result.setUserInfo(userInfo);
+	}
+	
+	private void insertUserInfo(LoginResponseVO result, LoginRequestVO loginRequestVO, String ipAddress) throws Exception{
+		Date nowDate = TimerUtil.getNowDate();
+		UserInfo userInfo = getInitalUserInfo(loginRequestVO, nowDate);
+		userInfoMapper.insert(userInfo);
+		putLogin(result, loginRequestVO, userInfo, ipAddress);
+	}
+	
 	private LoginResponseVO callLogin(LoginRequestVO loginRequestVO, String ipAddress) {
 		LoginResponseVO result = new LoginResponseVO();
 		int dt = loginRequestVO.getDt();
+		int ut = loginRequestVO.getUt();
 		if(dt==3){
 			try {
 				loginRequestVO.setUp((EncryptUtil.convertMD5(loginRequestVO.getUp())));
@@ -83,42 +121,46 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 				return result;
 			}
 		}
-		UserInfo userInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
-		if(userInfo != null){
-			Login loginVO = new Login();
-			loginVO.setUserId(userInfo.getUserId());
-			loginVO.setLoginToken(SercurityUtil.getUUID());
-			loginVO.setServiceKey(SercurityUtil.getUUID());
-			loginVO.setIsCurrent(1);
-			loginVO.setLoginResult(1);
-			loginVO.setSessionId(0);
-			loginVO.setDeviceIp(ipAddress);
-			switch (dt) {
-			case 1:
-				loginVO.setDeviceInfo("Android");
-				break;
-			case 2:
-				loginVO.setDeviceInfo("iOS");
-				break;
-			case 3:
-				loginVO.setDeviceInfo("Web");
-				break;
+		try {
+			UserInfo existUserInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
+			if(existUserInfo != null){
+				putLogin(result, loginRequestVO, existUserInfo, ipAddress);
+			}else{
+				if(ut != 1){
+					String thirdEmail = loginRequestVO.getThirdEmail();
+					if(ValidateUtil.isNotBlank(thirdEmail)){
+						UserInfo emailUserInfo = userInfoMapper.selectByUserCode(thirdEmail);
+						if(emailUserInfo!=null){		// 第三方平台註冊,且已有email帳號,直接更新;反之做第三方平台新註冊
+							Date nowDate = TimerUtil.getNowDate();
+							String id = loginRequestVO.getUc();
+							switch (ut) {
+							case 2:
+								emailUserInfo.setRegFacebookId(id);
+								break;
+							case 3:
+								emailUserInfo.setRegGoogleId(id);
+								break;
+							case 4:
+								emailUserInfo.setRegTwitterId(id);
+								break;
+							}
+							emailUserInfo.setUpdatedBy(0);
+							emailUserInfo.setUpdateDate(nowDate);
+							userInfoMapper.updateByPrimaryKey(emailUserInfo);
+							putLogin(result, loginRequestVO, existUserInfo, ipAddress);
+						}else{
+							insertUserInfo(result, loginRequestVO, ipAddress);
+						}
+					}else{
+						insertUserInfo(result, loginRequestVO, ipAddress);
+					}
+				}else{
+					result.setRes(2);
+				}
 			}
-			try {
-				loginMapper.updateCurrentIsFalse(loginVO);
-				loginMapper.insertSelective(loginVO);
-				result.setRes(1);
-				result.setUi(userInfo.getUserId());
-				result.setUt(loginRequestVO.getUt());
-				result.setLk(loginVO.getLoginToken());
-				result.setSk(loginVO.getServiceKey());
-				result.setUserInfo(userInfo);
-			} catch (Exception e) {
-				result.setRes(2);
-				LogUtils.error(getClass(), "callLogin has error : " + e);
-			}
-		}else{
+		} catch (Exception e) {
 			result.setRes(2);
+			LogUtils.error(getClass(), "callLogin has error : " + e);
 		}
 		return result;
 	}
@@ -180,7 +222,9 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		int userType = loginRequestVO.getUt();
 		String userCode;
 		if(userType!=1){	
-			userCode = loginRequestVO.getThirdEmail();
+//			userCode = loginRequestVO.getThirdEmail();
+			result.setRes(2);
+			return result;
 		}else{
 			userCode = loginRequestVO.getUc();
 		}
@@ -256,7 +300,9 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 			int userType = loginRequestVO.getUt();
 			String userCode;
 			if(userType != 1){
-				userCode = loginRequestVO.getThirdEmail();
+//				userCode = loginRequestVO.getThirdEmail();
+				result.setRes(2);
+				return result;
 			}else{
 				userCode = loginRequestVO.getUc();
 			}

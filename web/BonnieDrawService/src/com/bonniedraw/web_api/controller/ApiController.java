@@ -120,9 +120,6 @@ public class ApiController {
 				&& (ut>=1 && ut<=4) 
 				&& (dt>=1 && dt<=3)
 				&& (gender==null || (gender!=null && gender>=0 && gender<=2)) ){
-			if(ut !=1 && ValidateUtil.isBlank(loginRequestVO.getThirdEmail())){
-				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
-			}else{
 				String ip = ServletUtil.getRequestIp(request);			
 				LoginResponseVO result = userServiceAPI.login(loginRequestVO,ip);
 				if(result !=null){
@@ -162,7 +159,6 @@ public class ApiController {
 						}
 					}
 				}
-			}
 		}else{
 			msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 		}
