@@ -144,6 +144,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 								emailUserInfo.setRegTwitterId(id);
 								break;
 							}
+							emailUserInfo.setStatus(1);
 							emailUserInfo.setUpdatedBy(0);
 							emailUserInfo.setUpdateDate(nowDate);
 							userInfoMapper.updateByPrimaryKey(emailUserInfo);
@@ -169,24 +170,32 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		int userType = loginRequestVO.getUt();
 		int dt = loginRequestVO.getDt();
 		String userCode;
-		if(userType!=1){	
-			userCode = loginRequestVO.getThirdEmail();
+		if(userType!=1){
+			String startStr = "";
+			if(userType==2){
+				startStr = "f";
+			}else if(userType==3){
+				startStr = "g";
+			}else if(userType==4){
+				startStr = "t";
+			}
+			userCode = startStr + loginRequestVO.getUc();
 		}else{
 			userCode = loginRequestVO.getUc();
 		}
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUserType(userType);
+		userInfo.setStatus(0);
 		userInfo.setCreatedBy(0);
 		userInfo.setCreationDate(nowDate);
 		userInfo.setUpdatedBy(0);
 		userInfo.setUpdateDate(nowDate);
-		userInfo.setStatus(0);
 		userInfo.setLanguageCode(loginRequestVO.getLanguageCode());
 		userInfo.setCountryCode(loginRequestVO.getCountryCode());
 		userInfo.setGender(loginRequestVO.getGender());
 		userInfo.setPhoneNo(loginRequestVO.getPhoneNo());
+		userInfo.setUserCode(userCode);
 		if(userType==1){
-			userInfo.setUserCode(userCode);
 			if(dt==3){
 				userInfo.setUserPw(EncryptUtil.convertMD5(loginRequestVO.getUp()));
 			}else{
@@ -207,7 +216,6 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 				userInfo.setRegTwitterId(id);
 				break;
 			}
-			userInfo.setUserCode(loginRequestVO.getThirdEmail());
 			userInfo.setUserName(loginRequestVO.getUn());
 			userInfo.setUserPw("");
 			userInfo.setEmail(loginRequestVO.getThirdEmail());
