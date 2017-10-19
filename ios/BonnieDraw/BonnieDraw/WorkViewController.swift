@@ -51,9 +51,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasVi
             return (destinationUrl, [.removePreviousFile, .createIntermediateDirectories])
         }.downloadProgress() {
             progress in
-            Logger.d(progress.fractionCompleted)
             self.progressBar.setProgress(Float(progress.fractionCompleted), animated: true)
-        }.response() {
+        }.response(queue: DispatchQueue.global()) {
             response in
             guard response.error == nil else {
                 self.presentConfirmationDialog(
@@ -68,8 +67,10 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasVi
                 }
                 return
             }
-            self.canvas.load()
-            self.loading.hide(true)
+            DispatchQueue.main.async {
+                self.canvas.load()
+                self.loading.hide(true)
+            }
         }
     }
 

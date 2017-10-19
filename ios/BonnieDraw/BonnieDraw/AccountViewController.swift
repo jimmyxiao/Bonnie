@@ -90,6 +90,9 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                 self.indicator?.stopAnimating()
                 self.timestamp = Date()
             case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
                 self.presentConfirmationDialog(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription) {

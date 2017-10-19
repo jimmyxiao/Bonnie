@@ -105,6 +105,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                     self.showErrorMessage(message: data["msg"] as? String)
                                 }
                             case .failure(let error):
+                                if let error = error as? URLError, error.code == .cancelled {
+                                    return
+                                }
                                 self.showErrorMessage(message: error.localizedDescription)
                             }
                         }
@@ -112,6 +115,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                         self.showErrorMessage(message: data["msg"] as? String)
                     }
                 case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
                     self.showErrorMessage(message: error.localizedDescription)
                 }
             }
@@ -270,6 +276,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                     self.showErrorMessage(message: data["msg"] as? String)
                                 }
                             case .failure(let error):
+                                if let error = error as? URLError, error.code == .cancelled {
+                                    return
+                                }
                                 self.showErrorMessage(message: error.localizedDescription)
                             }
                         }
@@ -277,6 +286,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                         self.showErrorMessage(message: data["msg"] as? String)
                     }
                 case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
                     self.showErrorMessage(message: error.localizedDescription)
                 }
             }
@@ -309,6 +321,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             }
                             signInHandler(false)
                         case .failure(let error):
+                            if let error = error as? URLError, error.code == .cancelled {
+                                return
+                            }
                             self.showErrorMessage(message: error.localizedDescription)
                         }
                     }
@@ -316,6 +331,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     signInHandler(true)
                 }
             case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
                 self.showErrorMessage(message: error.localizedDescription)
             }
         }

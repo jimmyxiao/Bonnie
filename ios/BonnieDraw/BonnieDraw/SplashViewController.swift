@@ -68,6 +68,9 @@ class SplashViewController: UIViewController {
                                         }
                                     }
                                 case .failure(let error):
+                                    if let error = error as? URLError, error.code == .cancelled {
+                                        return
+                                    }
                                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
                                         action in
                                         self.launchLogin()
@@ -81,6 +84,9 @@ class SplashViewController: UIViewController {
                             }
                         }
                     case .failure(let error):
+                        if let error = error as? URLError, error.code == .cancelled {
+                            return
+                        }
                         self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
                             action in
                             self.launchLogin()

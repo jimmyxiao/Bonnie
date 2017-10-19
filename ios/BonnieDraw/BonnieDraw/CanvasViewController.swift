@@ -82,7 +82,8 @@ class CanvasViewController:
             controller.preferredContentSize = CGSize(width: 44, height: height > maxHeight ? maxHeight : height)
         } else if let controller = segue.destination as? SaveViewController {
             controller.workThumbnailData = canvas.thumbnailData()
-            controller.workFileData = canvas.fileData()
+            canvas.save()
+            controller.workFileUrl = canvas.url
         }
     }
 

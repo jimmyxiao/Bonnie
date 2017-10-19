@@ -87,6 +87,9 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
                         self.showErrorMessage(message: data["msg"] as? String)
                     }
                 case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
                     self.showErrorMessage(message: error.localizedDescription)
                 }
             }

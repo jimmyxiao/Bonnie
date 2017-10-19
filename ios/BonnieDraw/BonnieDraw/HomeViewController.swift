@@ -93,6 +93,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.loading.hide(true)
                 self.timestamp = Date()
             case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
                 self.presentConfirmationDialog(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription) {

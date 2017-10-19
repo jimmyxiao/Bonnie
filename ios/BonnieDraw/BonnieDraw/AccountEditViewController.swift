@@ -125,6 +125,9 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate {
                 self.timestamp = Date()
                 self.done.isEnabled = true
             case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
                 self.presentConfirmationDialog(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription) {
@@ -196,6 +199,9 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate {
                     }
                     self.onBackPressed(sender)
                 case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
                     self.presentConfirmationDialog(
                             title: "alert_account_update_fail_title".localized,
                             message: error.localizedDescription) {

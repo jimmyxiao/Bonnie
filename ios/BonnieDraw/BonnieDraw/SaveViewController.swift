@@ -16,7 +16,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
     @IBOutlet weak var workTitle: UITextField!
     @IBOutlet weak var workDescription: UITextView!
     var workThumbnailData: Data?
-    var workFileData: Data?
+    var workFileUrl: URL?
     var workCategory: WorkCategory?
     private var viewOriginY: CGFloat = 0
     private var keyboardOnScreen = false
@@ -74,7 +74,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
-        guard let workThumbnailData = workThumbnailData, let workFileData = workFileData else {
+        guard let workThumbnailData = workThumbnailData, let workFileUrl = workFileUrl else {
             return
         }
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -132,7 +132,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                                             Alamofire.upload(
                                                     multipartFormData: {
                                                         multipartFormData in
-                                                        multipartFormData.append(workFileData, withName: "file", fileName: "\(workId).bdw", mimeType: "")
+                                                        multipartFormData.append(workFileUrl, withName: "file", fileName: "\(workId).bdw", mimeType: "")
                                                     },
                                                     to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&wid=\(workId)&ftype=\(FileType.bdw.rawValue)",
                                                     encodingCompletion: {
@@ -153,26 +153,41 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                                                                     }
                                                                     self.navigationController?.popViewController(animated: true)
                                                                 case .failure(let error):
+                                                                    if let error = error as? URLError, error.code == .cancelled {
+                                                                        return
+                                                                    }
                                                                     self.showErrorMessage(message: error.localizedDescription)
                                                                     sender.isEnabled = true
                                                                 }
                                                             })
                                                         case .failure(let error):
+                                                            if let error = error as? URLError, error.code == .cancelled {
+                                                                return
+                                                            }
                                                             self.showErrorMessage(message: error.localizedDescription)
                                                             sender.isEnabled = true
                                                         }
                                                     })
                                         case .failure(let error):
+                                            if let error = error as? URLError, error.code == .cancelled {
+                                                return
+                                            }
                                             self.showErrorMessage(message: error.localizedDescription)
                                             sender.isEnabled = true
                                         }
                                     })
                                 case .failure(let error):
+                                    if let error = error as? URLError, error.code == .cancelled {
+                                        return
+                                    }
                                     self.showErrorMessage(message: error.localizedDescription)
                                     sender.isEnabled = true
                                 }
                             })
                 case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
                     self.showErrorMessage(message: error.localizedDescription)
                     sender.isEnabled = true
                 }

@@ -69,23 +69,6 @@ class CanvasView: UIView {
         return data
     }
 
-    func fileData() -> Data? {
-        if let url = url {
-            do {
-                var data = try Data(contentsOf: url)
-                var points = [Point]()
-                for path in paths {
-                    points.append(contentsOf: path.points)
-                }
-                data.append(parse(pointsToData: points))
-                return data
-            } catch {
-                Logger.d(error.localizedDescription)
-            }
-        }
-        return nil
-    }
-
     override func draw(_ rect: CGRect) {
         persistentImage?.draw(in: bounds)
         for path in paths {
