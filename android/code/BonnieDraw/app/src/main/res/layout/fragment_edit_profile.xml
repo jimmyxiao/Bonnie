@@ -42,185 +42,197 @@
         android:layout_height="1dp"
         android:background="#aaa" />
 
-    <ImageView
-        android:id="@+id/imgView_edit_user_photo"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:id="@+id/textView_edit_user_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:text="@string/edit_profile_change_photo"
-        android:textColor="@color/Blue" />
-
-    <View
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout_snackbar_content"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaa" />
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="@string/public_username"
-            android:textAlignment="center"
-            android:textColor="@color/Black" />
+            <ImageView
+                android:id="@+id/imgView_edit_user_photo"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="20dp" />
 
-        <EditText
-            android:id="@+id/editText_edit_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:inputType="textPersonName"
-            android:text="" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="@string/edit_profile_nickname"
-            android:textAlignment="center"
-            android:textColor="@color/Black" />
-
-        <EditText
-            android:id="@+id/editText_edit_user_nickname"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:inputType="textPersonName"
-            android:text="" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="@string/edit_profile_description"
-            android:textAlignment="center"
-            android:textColor="@color/Black" />
-
-        <EditText
-            android:id="@+id/editText_edit_profile"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:inputType="textPersonName"
-            android:text="" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="@string/edit_profile_email"
-            android:textAlignment="center"
-            android:textColor="@color/Black" />
-
-        <EditText
-            android:id="@+id/editText_edit_email"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:inputType="textEmailAddress"
-            android:text="" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="@string/public_phone"
-            android:textAlignment="center"
-            android:textColor="@color/Black" />
-
-        <EditText
-            android:id="@+id/editText_edit_phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:inputType="phone"
-            android:text="" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="3"
-            android:text="@string/public_gender"
-            android:textAlignment="center"
-            android:textColor="@color/Black" />
-
-        <RadioGroup
-            android:id="@+id/radioGroup_edit_gender"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radioBtn_edit_gender_m"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/textView_edit_user_photo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/public_male" />
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:text="@string/edit_profile_change_photo"
+                android:textColor="@color/Blue" />
 
-            <RadioButton
-                android:id="@+id/radioBtn_edit_gender_f"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/public_female" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#aaa" />
 
-            <RadioButton
-                android:id="@+id/radioBtn_edit_gender_o"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/edit_profile_thid_gender" />
-        </RadioGroup>
-    </LinearLayout>
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/public_username"
+                    android:textAlignment="center"
+                    android:textColor="@color/Black" />
+
+                <EditText
+                    android:id="@+id/editText_edit_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:inputType="textPersonName"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/edit_profile_nickname"
+                    android:textAlignment="center"
+                    android:textColor="@color/Black" />
+
+                <EditText
+                    android:id="@+id/editText_edit_user_nickname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:inputType="textPersonName"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/edit_profile_description"
+                    android:textAlignment="center"
+                    android:textColor="@color/Black" />
+
+                <EditText
+                    android:id="@+id/editText_edit_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:inputType="textPersonName"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/edit_profile_email"
+                    android:textAlignment="center"
+                    android:textColor="@color/Black" />
+
+                <EditText
+                    android:id="@+id/editText_edit_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:inputType="textEmailAddress"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/public_phone"
+                    android:textAlignment="center"
+                    android:textColor="@color/Black" />
+
+                <EditText
+                    android:id="@+id/editText_edit_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:inputType="phone"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3"
+                    android:text="@string/public_gender"
+                    android:textAlignment="center"
+                    android:textColor="@color/Black" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup_edit_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioBtn_edit_gender_m"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/public_male" />
+
+                    <RadioButton
+                        android:id="@+id/radioBtn_edit_gender_f"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/public_female" />
+
+                    <RadioButton
+                        android:id="@+id/radioBtn_edit_gender_o"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/edit_profile_thid_gender" />
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

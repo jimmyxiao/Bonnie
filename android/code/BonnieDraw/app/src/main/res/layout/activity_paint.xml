@@ -148,7 +148,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:onClick="earse_mode"
+            android:onClick="erase_mode"
             android:padding="8dp"
             app:srcCompat="@drawable/draw_ic_erase" />
 

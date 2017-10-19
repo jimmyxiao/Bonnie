@@ -200,14 +200,18 @@ public class HomeFragment extends Fragment {
             public void onWorkImgClick(int wid) {
                 Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
                 fragmentManager = getChildFragmentManager();
+                WorkFragment workFragment=new WorkFragment();
+                Bundle bundle=new Bundle();
+                bundle.putInt("wid",wid);
+                workFragment.setArguments(bundle);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout_home, new WorkFragment())
+                        .replace(R.id.frameLayout_home, workFragment)
                         .addToBackStack(null)
                         .commit();
             }
 
             @Override
-            public void onWorkExtraClick(int wid) {
+            public void onWorkExtraClick(final int wid) {
                 final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.item_work_extra_dialog);
                 Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
                 Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
@@ -217,7 +221,7 @@ public class HomeFragment extends Fragment {
                 extraShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("POSTION CLICK", "extraShare");
+                        Log.d("POSTION CLICK", "extraShare="+wid);
                         extraDialog.dismiss();
                     }
                 });
@@ -225,7 +229,7 @@ public class HomeFragment extends Fragment {
                 extraCopyLink.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("POSTION CLICK", "extraCopyLink");
+                        Log.d("POSTION CLICK", "extraCopyLink="+wid);
                         extraDialog.dismiss();
                     }
                 });
@@ -233,7 +237,7 @@ public class HomeFragment extends Fragment {
                 extraReport.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("POSTION CLICK", "extraReport");
+                        Log.d("POSTION CLICK", "extraReport"+wid);
                         extraDialog.dismiss();
                     }
                 });

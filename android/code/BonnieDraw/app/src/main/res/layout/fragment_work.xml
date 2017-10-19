@@ -51,10 +51,11 @@
     <ImageView
         android:id="@+id/imgView_works_work_img"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout_paint_item"
-        card_view:srcCompat="@color/Teal" />
+        android:scaleType="center"
+        card_view:srcCompat="@drawable/ic_mood_bad_black_24dp" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"

@@ -88,7 +88,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private static final String TEMP_FILE = "/temp.bdw";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
     private static int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 50;
-    private Boolean mbAutoPlay = false, mbReplayMode = false, mbPlayState = false, mbPlaying = false, mbEarseMode = false, mbZoomMode = false, mbCheckFinger = false;
+    private Boolean mbAutoPlay = false, mbReplayMode = false, mbPlayState = false, mbPlaying = false, mbEraseMode = false, mbZoomMode = false, mbCheckFinger = false;
     private MyView myView;
     private FrameLayout mFrameLayoutFreePaint;
     private Paint mPaint;
@@ -109,7 +109,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     int displayWidth, offsetX, offsetY, realPaint;
     float startX, startSacle, startY, pointLength;
     SharedPreferences prefs;
-    Xfermode earseEffect;
+    Xfermode eraseEffect;
 
     BDWFileReader reader = new BDWFileReader();
 
@@ -126,7 +126,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(13);
-        earseEffect = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+        eraseEffect = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
         realPaint = 0;
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         myView = new MyView(this);
@@ -239,7 +239,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             case 5:
                 //橡皮擦
                 realPaint = 5;
-                mPaint.setXfermode(earseEffect);
+                mPaint.setXfermode(eraseEffect);
                 break;
         }
     }
@@ -743,7 +743,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     public void colorChanged(int color) {
         mPaint.setColor(color);
         findViewById(R.id.imgBtn_paint_colorpicker).setBackgroundColor(color);
-        if (mbEarseMode) {
+        if (mbEraseMode) {
             recoveryPaint();
         }
     }
@@ -993,11 +993,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
     }
 
-    public void earse_mode(View view) {
-        if (!mbEarseMode) {
+    public void erase_mode(View view) {
+        if (!mbEraseMode) {
             customPaint(5);
             ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
-            mbEarseMode = true;
+            mbEraseMode = true;
         } else {
             recoveryPaint();
         }
@@ -1006,7 +1006,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     public void recoveryPaint() {
         customPaint(0);
         ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
-        mbEarseMode = false;
+        mbEraseMode = false;
     }
 
 

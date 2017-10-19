@@ -8,6 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -39,25 +43,21 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences prefs;
     Boolean result = false;
     FragmentManager fragmentManager;
+    LinearLayout mLinearLayout;
     public static GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(new TwitterAuthConfig(getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
                 .debug(true)
                 .build();
         Twitter.initialize(config);
-        setContentView(R.layout.activity_login);
-        prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        checkLoginInfo(prefs);
-        fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.frameLayout_login, new LoginFragment(), "LoginFragment");
-        ft.commit();
-
+        ;
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
@@ -72,25 +72,51 @@ public class LoginActivity extends AppCompatActivity {
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
+        AlphaAnimation mAlphaAnimation = new AlphaAnimation(0, 1);
+        mAlphaAnimation.setDuration(2000);
+        mLinearLayout = findViewById(R.id.frameLayout_login_frist);
+        mLinearLayout.setAnimation(mAlphaAnimation);
+        mAlphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (prefs != null && !prefs.getString(GlobalVariable.userTokenStr, "").isEmpty()) {
+                    checkLoginInfo(prefs);
+                } else {
+                    fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    LoginFragment loginFragment = new LoginFragment();
+                    ft.add(R.id.frameLayout_login, loginFragment, "LoginFragment");
+                    ft.commit();
+                    mLinearLayout.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     private void checkLoginInfo(SharedPreferences prefs) {
-        if (prefs != null && !prefs.getString(GlobalVariable.userTokenStr, "").isEmpty()) {
-            switch (prefs.getString(GlobalVariable.userPlatformStr, "null")) {
-                case GlobalVariable.EMAIL_LOGIN:
-                    loginEamil();
-                    break;
-                case "null":
-                    Toast.makeText(this, "登入資料異常", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    loginThird();
-                    break;
+        switch (prefs.getString(GlobalVariable.userPlatformStr, "null")) {
+            case GlobalVariable.EMAIL_LOGIN:
+                loginEamil();
+                break;
+            case "null":
+                Toast.makeText(this, "登入資料異常", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                loginThird();
+                break;
 
-            }
-            //登入成功
-        } else {
-            Log.e("Not Found", "No LoginInfo");
         }
     }
 
@@ -133,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .putString(GlobalVariable.userNameStr, responseJSON.getJSONObject("userInfo").getString("userName"))
                                         .putString(GlobalVariable.userEmailStr, responseJSON.getJSONObject("userInfo").getString("email"))
                                         .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
-                                        .putString(GlobalVariable.API_UID,responseJSON.getString("ui"))
+                                        .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
                                         .apply();
                                 transferMainPage();
                             } else {
@@ -175,14 +201,14 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                    //要存TOKEN
-                                    prefs.edit()
-                                            .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
-                                            .putString(GlobalVariable.API_UID,responseJSON.getString("ui"))
-                                            .apply();
-                                    transferMainPage();
+                                //要存TOKEN
+                                prefs.edit()
+                                        .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
+                                        .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
+                                        .apply();
+                                transferMainPage();
                             } else {
-                                    Toast.makeText(getApplication(), "登入失敗", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "登入失敗", Toast.LENGTH_SHORT).show();
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -198,7 +224,7 @@ public class LoginActivity extends AppCompatActivity {
     private JSONObject loginJSONFormat(int type) {
         JSONObject json = new JSONObject();
         try {
-            switch (type){
+            switch (type) {
                 case 3:
                     if (prefs.getString(GlobalVariable.userPlatformStr, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
                         json.put("uc", prefs.getString(GlobalVariable.userFbIdStr, ""));
@@ -250,8 +276,7 @@ public class LoginActivity extends AppCompatActivity {
         FragmentManager fragment = getSupportFragmentManager();
         if (fragment != null) {
             fragment.findFragmentByTag("LoginFragment").onActivityResult(requestCode, resultCode, data);
-        }
-        else Log.d("Twitter", "fragment is null");
+        } else Log.d("Twitter", "fragment is null");
     }
 
     @Override

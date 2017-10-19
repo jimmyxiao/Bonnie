@@ -88,7 +88,7 @@ public class ProfileFragment extends Fragment {
         mImgBtnSetting = (ImageButton) view.findViewById(R.id.imgBtn_profile_setting);
         mImgBtnGrid = (ImageButton) view.findViewById(R.id.imgBtn_profile_grid);
         mImgBtnList = (ImageButton) view.findViewById(R.id.imgBtn_profile_list);
-        mBtnEdit = view.findViewById(R.id.btn_edit_profile);
+        mBtnEdit = view.findViewById(R.id.btn_profile_edit);
         updateProfileInfo();
         fragmentManager = getFragmentManager();
 
@@ -97,8 +97,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 fragmentTransaction = fragmentManager.beginTransaction();
-                ProfileSettingFragment fragment = new ProfileSettingFragment();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, new ProfileSettingFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -108,8 +107,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 fragmentTransaction = fragmentManager.beginTransaction();
-                EditProfileFragment fragment = new EditProfileFragment();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, new EditProfileFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.sctw.bonniedraw.R;
@@ -21,7 +22,8 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileSettingFragment extends Fragment {
-    ImageButton mImgBtnBack, mImgBtnEdit, mImgBtnUpdatePwd, mImgBtnLinkAccount, mImgDescription, mImgBtnPrivacyPolicy, mImgBtnTermsOfUse;
+    ImageButton mImgBtnBack;
+    Button mImgBtnEdit, mImgBtnUpdatePwd, mImgBtnLinkAccount, mImgDescription, mImgBtnPrivacyPolicy, mImgBtnTermsOfUse;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     SharedPreferences prefs;
@@ -38,13 +40,13 @@ public class ProfileSettingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
 
-        mImgBtnBack =view.findViewById(R.id.imgBtn_profile_back);
-        mImgBtnEdit =view.findViewById(R.id.btn_profile_edit);
-        mImgBtnUpdatePwd =view.findViewById(R.id.btn_profile_update_pwd);
-        mImgBtnLinkAccount =view.findViewById(R.id.btn_profile_link_account);
-        mImgDescription =view.findViewById(R.id.btn_profile_description);
-        mImgBtnPrivacyPolicy =view.findViewById(R.id.btn_profile_privacy_policy);
-        mImgBtnTermsOfUse =view.findViewById(R.id.btn_profile_terms_of_use);
+        mImgBtnBack = view.findViewById(R.id.imgBtn_profile_back);
+        mImgBtnEdit = view.findViewById(R.id.btn_profile_edit);
+        mImgBtnUpdatePwd = view.findViewById(R.id.btn_profile_update_pwd);
+        mImgBtnLinkAccount = view.findViewById(R.id.btn_profile_link_account);
+        mImgDescription = view.findViewById(R.id.btn_profile_description);
+        mImgBtnPrivacyPolicy = view.findViewById(R.id.btn_profile_privacy_policy);
+        mImgBtnTermsOfUse = view.findViewById(R.id.btn_profile_terms_of_use);
 
         fragmentManager = getFragmentManager();
 
@@ -59,7 +61,7 @@ public class ProfileSettingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 fragmentTransaction = fragmentManager.beginTransaction();
-                EditProfileFragment fragment=new EditProfileFragment();
+                EditProfileFragment fragment = new EditProfileFragment();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
@@ -70,9 +72,9 @@ public class ProfileSettingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 fragmentTransaction = fragmentManager.beginTransaction();
-                PublicFragment fragment=new PublicFragment();
-                Bundle bundle=new Bundle();
-                bundle.putInt("type",1);
+                PublicFragment fragment = new PublicFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("type", 1);
                 fragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
                 fragmentTransaction.addToBackStack(null);
@@ -84,9 +86,9 @@ public class ProfileSettingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 fragmentTransaction = fragmentManager.beginTransaction();
-                PublicFragment fragment=new PublicFragment();
-                Bundle bundle=new Bundle();
-                bundle.putInt("type",2);
+                PublicFragment fragment = new PublicFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("type", 2);
                 fragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
                 fragmentTransaction.addToBackStack(null);
@@ -94,14 +96,14 @@ public class ProfileSettingFragment extends Fragment {
             }
         });
 
-        if(!prefs.getString(GlobalVariable.userPlatformStr,"null").equals("1")){
+        if (!prefs.getString(GlobalVariable.userPlatformStr, "null").equals("1")) {
             mImgBtnUpdatePwd.setVisibility(View.GONE);
-        }else {
+        } else {
             mImgBtnUpdatePwd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    UpdatePasswordFragment fragment=new UpdatePasswordFragment();
+                    UpdatePasswordFragment fragment = new UpdatePasswordFragment();
                     fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();

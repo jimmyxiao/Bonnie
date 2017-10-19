@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -19,8 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 
@@ -73,6 +74,7 @@ public class EditProfileFragment extends Fragment {
         mEditTextEmail = view.findViewById(R.id.editText_edit_email);
         mEditPhone = view.findViewById(R.id.editText_edit_phone);
         mRadioGroupGender = view.findViewById(R.id.radioGroup_edit_gender);
+
         //連線抓資料 取代資料完成後覆蓋資料
         mRadioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -129,7 +131,7 @@ public class EditProfileFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), "連線錯誤", Toast.LENGTH_SHORT).show();
+                showTSnackbar("連線失敗");
             }
 
             @Override
@@ -195,7 +197,7 @@ public class EditProfileFragment extends Fragment {
                                     }
                                 }
                             } else {
-                                Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
+                                showTSnackbar("連線失敗");
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -236,7 +238,7 @@ public class EditProfileFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), "更新失敗", Toast.LENGTH_SHORT).show();
+                showTSnackbar("更新失敗");
             }
 
             @Override
@@ -262,7 +264,7 @@ public class EditProfileFragment extends Fragment {
                                 alertDialog.show();
 
                             } else {
-                                Toast.makeText(getActivity(), "更新失敗", Toast.LENGTH_SHORT).show();
+                                showTSnackbar("更新失敗");
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -272,5 +274,16 @@ public class EditProfileFragment extends Fragment {
                 });
             }
         });
+    }
+
+    void showTSnackbar(String string){
+        TSnackbar snackbar = TSnackbar.make(getView().findViewById(R.id.coordinatorLayout_snackbar_content), "", TSnackbar.LENGTH_SHORT);
+        snackbar.setActionTextColor(Color.WHITE);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(Color.parseColor("#ff5722"));
+        TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        textView.setText(string);
+        snackbar.show();
     }
 }
