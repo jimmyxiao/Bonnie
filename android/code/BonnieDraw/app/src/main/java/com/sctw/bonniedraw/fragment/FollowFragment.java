@@ -19,10 +19,10 @@ import com.sctw.bonniedraw.R;
  */
 public class FollowFragment extends Fragment {
 
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-    private FollowOwnFragment followOwnFragment = new FollowOwnFragment();
-    private FollowOtherFragment followOtherFragment = new FollowOtherFragment();
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
+    private FollowOwnFragment mFollowOwnFragment = new FollowOwnFragment();
+    private FollowOtherFragment mFollowOtherFragment = new FollowOtherFragment();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,17 +34,17 @@ public class FollowFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewPager = (ViewPager) view.findViewById(R.id.follow_pager);
-        tabLayout = (TabLayout) view.findViewById(R.id.follow_tabs);
+        mViewPager = (ViewPager) view.findViewById(R.id.viewPager_follow);
+        mTabLayout = (TabLayout) view.findViewById(R.id.tabLayout_follow_tabs);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
             public void onPageSelected(int position) {
-                tabLayout.getTabAt(position).select();
+                mTabLayout.getTabAt(position).select();
             }
 
             @Override
@@ -52,10 +52,10 @@ public class FollowFragment extends Fragment {
 
             }
         });
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                mViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -69,14 +69,14 @@ public class FollowFragment extends Fragment {
             }
         });
 
-        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return followOtherFragment;
+                        return mFollowOtherFragment;
                     case 1:
-                        return followOwnFragment;
+                        return mFollowOwnFragment;
                 }
                 return null;
             }

@@ -19,9 +19,8 @@ import com.sctw.bonniedraw.R;
  * A simple {@link Fragment} subclass.
  */
 public class ForgetPasswordFragment extends Fragment {
-    private TextView userEmail;
-    private Button getPassword;
-    private TextView signinButton;
+    private TextView mTextViewEmail,mTextViewSignup;
+    private Button mBtnGetPassword;
     private FragmentManager fragmentManager;
 
     public ForgetPasswordFragment() {
@@ -40,15 +39,15 @@ public class ForgetPasswordFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentManager = getActivity().getSupportFragmentManager();
-        userEmail=(TextView) view.findViewById(R.id.inputUserEmail);
-        signinButton = (TextView) view.findViewById(R.id.signupButton);
-        signinButton.setOnClickListener(signIn);
+        mTextViewEmail =(TextView) view.findViewById(R.id.editText_signup_email);
+        mTextViewSignup = (TextView) view.findViewById(R.id.textView_singup_login);
+        mTextViewSignup.setOnClickListener(signIn);
     }
 
     private View.OnClickListener getPwd=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d("GET PASSWORD EMAL",userEmail.getText().toString());
+            Log.d("GET PASSWORD EMAL", mTextViewEmail.getText().toString());
         }
     };
 
@@ -56,7 +55,7 @@ public class ForgetPasswordFragment extends Fragment {
         @Override
         public void onClick(View view) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.main_login_layout, new SignUpFragment());
+            ft.replace(R.id.frameLayout_login, new SignUpFragment());
             ft.addToBackStack(null);
             ft.commit();
         }

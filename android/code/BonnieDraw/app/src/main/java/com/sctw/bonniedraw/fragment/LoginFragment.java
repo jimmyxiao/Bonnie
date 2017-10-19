@@ -70,22 +70,17 @@ import static com.sctw.bonniedraw.activity.LoginActivity.mGoogleApiClient;
  */
 public class LoginFragment extends Fragment {
     private static final int RC_SIGN_IN = 9001;
-    private TextView signupButton;
-    private Button emailLoginBtn;
-    private Button fbLoginBtn;
-    private Button twitterLoginBtn;
-    private Button googlePlusLoginBtn;
-    private TwitterLoginButton twitterLoginButtonGone;
-    private LoginButton fbLoginBtnGone;
+    private TextView mTextViewSignup;
+    private Button mBtnEmailLogin, mBtnFacebookLogin, mBtnTwitterLogin, mBtnGooglePlusLogin, mBtnForgetPassword;
+    private TwitterLoginButton twitterLoginButton;
+    private LoginButton facebookLoginButton;
     private CallbackManager callbackManager;
     private SharedPreferences prefs;
     private AccessToken accessToken;
-    private URL profilePicUrl;
     private FragmentManager fragmentManager;
-    private Button forgetPasswordBtn;
-    private TextInputLayout emailLayout, passwordLayout;
-    private TextInputEditText userEmailText;
-    private TextInputEditText userPasswordText;
+    private URL profilePicUrl;
+    private TextInputLayout mInputLayoutEmail, mInputLayoutPassword;
+    private TextInputEditText mInputEditTextEmail, mInputEditTextPassword;
     boolean emailCheck = false;
 
     @Override
@@ -98,38 +93,38 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         fragmentManager = getActivity().getSupportFragmentManager();
 
-        emailLoginBtn = (Button) view.findViewById(R.id.emailLoginBtn);
-        emailLoginBtn.setOnClickListener(emailLogin);
-        signupButton = (TextView) view.findViewById(R.id.signupButton);
-        signupButton.setOnClickListener(signUp);
+        mBtnEmailLogin = (Button) view.findViewById(R.id.btn_email_login);
+        mBtnEmailLogin.setOnClickListener(clickListenerEmail);
+        mTextViewSignup = (TextView) view.findViewById(R.id.textView_singup_login);
+        mTextViewSignup.setOnClickListener(clickListenerSignup);
         //FB init
-        fbLoginBtn = (Button) view.findViewById(R.id.fbLoginBtn);
-        fbLoginBtnGone = (LoginButton) view.findViewById(R.id.fbLoginBtnGone);
-        fbLoginBtnGone.setReadPermissions(Arrays.asList("public_profile", "email"));
-        fbLoginBtnGone.setFragment(this);
+        mBtnFacebookLogin = (Button) view.findViewById(R.id.btn_fb_login);
+        facebookLoginButton = (LoginButton) view.findViewById(R.id.btn_fb_login_hide);
+        facebookLoginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+        facebookLoginButton.setFragment(this);
         callbackManager = CallbackManager.Factory.create();
-        fbLoginBtn.setOnClickListener(facebookLogin);
+        mBtnFacebookLogin.setOnClickListener(clickListenerFcaebookLogin);
         //Twitter init
-        twitterLoginBtn = (Button) view.findViewById(R.id.twitterLoginBtn);
-        twitterLoginBtn.setOnClickListener(twitterLogin);
-        twitterLoginButtonGone = (TwitterLoginButton) view.findViewById(R.id.twitterLoginBtnGone);
+        mBtnTwitterLogin = (Button) view.findViewById(R.id.btn_twitter_login);
+        mBtnTwitterLogin.setOnClickListener(clickListenerTwitterLogin);
+        twitterLoginButton = (TwitterLoginButton) view.findViewById(R.id.btn_twitter_login_hide);
         //Google init
-        googlePlusLoginBtn = (Button) view.findViewById(R.id.googlePlusLoginBtn);
-        googlePlusLoginBtn.setOnClickListener(googlePlusLogin);
+        mBtnGooglePlusLogin = (Button) view.findViewById(R.id.btn_google_plus_login);
+        mBtnGooglePlusLogin.setOnClickListener(clickListenerGooglePlusLogin);
 
-        forgetPasswordBtn = (Button) view.findViewById(R.id.forgetPasswordBtn);
-        forgetPasswordBtn.setOnClickListener(forgetPwd);
-        emailLayout = (TextInputLayout) view.findViewById(R.id.emailLayout);
-        passwordLayout = (TextInputLayout) view.findViewById(R.id.passwordLayout);
-        emailLayout.setErrorEnabled(true);
-        userEmailText = (TextInputEditText) view.findViewById(R.id.inputUserEmail);
-        userPasswordText = (TextInputEditText) view.findViewById(R.id.inputUserPassword);
-        userPasswordText.addTextChangedListener(checkPassword);
-        userEmailText.addTextChangedListener(checkEmail);
-        facebookResult();
+        mBtnForgetPassword = (Button) view.findViewById(R.id.btn_forget_password);
+        mBtnForgetPassword.setOnClickListener(clickListenerForgetPwd);
+        mInputLayoutEmail = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_email);
+        mInputLayoutPassword = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_password);
+        mInputLayoutEmail.setErrorEnabled(true);
+        mInputEditTextEmail = (TextInputEditText) view.findViewById(R.id.editText_signup_email);
+        mInputEditTextPassword = (TextInputEditText) view.findViewById(R.id.editText_signup_password);
+        mInputEditTextPassword.addTextChangedListener(checkPassword);
+        mInputEditTextEmail.addTextChangedListener(checkEmail);
+        facebookLinkAPI();
         twitterResult();
     }
 
@@ -141,10 +136,10 @@ public class LoginFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (userPasswordText.getText().toString().isEmpty()) {
-                passwordLayout.setError(getString(R.string.login_need_password));
+            if (mInputEditTextPassword.getText().toString().isEmpty()) {
+                mInputLayoutPassword.setError(getString(R.string.login_need_password));
             } else {
-                passwordLayout.setError(null);
+                mInputLayoutPassword.setError(null);
             }
         }
 
@@ -162,14 +157,14 @@ public class LoginFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (userEmailText.getText().toString().isEmpty()) {
-                emailLayout.setError(null);
+            if (mInputEditTextEmail.getText().toString().isEmpty()) {
+                mInputLayoutEmail.setError(null);
                 emailCheck = false;
-            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmailText.getText().toString()).matches()) {
-                emailLayout.setError(getString(R.string.login_need_correct_email));
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mInputEditTextEmail.getText().toString()).matches()) {
+                mInputLayoutEmail.setError(getString(R.string.login_need_correct_email));
                 emailCheck = false;
             } else {
-                emailLayout.setError(null);
+                mInputLayoutEmail.setError(null);
                 emailCheck = true;
             }
         }
@@ -180,34 +175,34 @@ public class LoginFragment extends Fragment {
         }
     };
 
-    private View.OnClickListener emailLogin = new View.OnClickListener() {
+    private View.OnClickListener clickListenerEmail = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (emailCheck && !userPasswordText.getText().toString().isEmpty() && userPasswordText.getText().toString().length() >= 6) {
+            if (emailCheck && !mInputEditTextPassword.getText().toString().isEmpty() && mInputEditTextPassword.getText().toString().length() >= 6) {
                 loginEamil();
             } else {
-                emailLayout.setError(getString(R.string.login_need_email));
-                passwordLayout.setError(getString(R.string.login_need_password));
+                mInputLayoutEmail.setError(getString(R.string.login_need_email));
+                mInputLayoutPassword.setError(getString(R.string.login_need_password));
             }
         }
     };
 
-    private View.OnClickListener facebookLogin = new View.OnClickListener() {
+    private View.OnClickListener clickListenerFcaebookLogin = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            fbLoginBtnGone.performClick();
+            facebookLoginButton.performClick();
         }
     };
 
-    private View.OnClickListener twitterLogin = new View.OnClickListener() {
+    private View.OnClickListener clickListenerTwitterLogin = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            twitterLoginButtonGone.performClick();
+            twitterLoginButton.performClick();
         }
     };
 
     private void twitterResult() {
-        twitterLoginButtonGone.setCallback(new com.twitter.sdk.android.core.Callback<TwitterSession>() {
+        twitterLoginButton.setCallback(new com.twitter.sdk.android.core.Callback<TwitterSession>() {
             @Override
             //登入成功
             public void success(Result<TwitterSession> result) {
@@ -247,34 +242,34 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private View.OnClickListener googlePlusLogin = new View.OnClickListener() {
+    private View.OnClickListener clickListenerGooglePlusLogin = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, RC_SIGN_IN);
         }
     };
-    private View.OnClickListener signUp = new View.OnClickListener() {
+    private View.OnClickListener clickListenerSignup = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.main_login_layout, new SignUpFragment());
+            ft.replace(R.id.frameLayout_login, new SignUpFragment());
             ft.addToBackStack(null);
             ft.commit();
         }
     };
 
-    private View.OnClickListener forgetPwd = new View.OnClickListener() {
+    private View.OnClickListener clickListenerForgetPwd = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.main_login_layout, new ForgetPasswordFragment());
+            ft.replace(R.id.frameLayout_login, new ForgetPasswordFragment());
             ft.addToBackStack(null);
             ft.commit();
         }
     };
 
-    public void facebookResult() {
+    public void facebookLinkAPI() {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -352,17 +347,17 @@ public class LoginFragment extends Fragment {
             }
         }
         //TWITTER
-        twitterLoginButtonGone.onActivityResult(requestCode, resultCode, data);
+        twitterLoginButton.onActivityResult(requestCode, resultCode, data);
     }
 
     private void loginEamil() {
-        emailLoginBtn.setEnabled(false);
+        mBtnEmailLogin.setEnabled(false);
         OkHttpClient mOkHttpClient = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         JSONObject json = new JSONObject();
         try {
-            json.put("uc", userEmailText.getText().toString());
-            json.put("up", userPasswordText.getText().toString());
+            json.put("uc", mInputEditTextEmail.getText().toString());
+            json.put("up", mInputEditTextPassword.getText().toString());
             json.put("ut", GlobalVariable.EMAIL_LOGIN);
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("fn", GlobalVariable.API_LOGIN);
@@ -373,7 +368,7 @@ public class LoginFragment extends Fragment {
 
         RequestBody body = RequestBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/login/")
+                .url(GlobalVariable.API_LINK_LOGIN)
                 .post(body)
                 .build();
         Call call = mOkHttpClient.newCall(request);
@@ -397,12 +392,12 @@ public class LoginFragment extends Fragment {
                                 Log.d("RESTFUL API : ", responseJSON.toString());
                                 prefs.edit()
                                         .putString(GlobalVariable.userPlatformStr, "1")
-                                        .putString("emailLoginPwd", userPasswordText.getText().toString())
+                                        .putString("emailLoginPwd", mInputEditTextPassword.getText().toString())
                                         .putString(GlobalVariable.userTokenStr, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.userNameStr, responseJSON.getJSONObject("userInfo").getString("userName"))
                                         .putString(GlobalVariable.userEmailStr, responseJSON.getJSONObject("userInfo").getString("email"))
                                         .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
-                                        .putString(GlobalVariable.API_UID,responseJSON.getString("ui"))
+                                        .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
                                         .apply();
                                 transferMainPage();
                             } else {
@@ -430,7 +425,7 @@ public class LoginFragment extends Fragment {
                             LoginManager.getInstance().logOut();
                         }
                         prefs.edit().clear().apply();
-                        emailLoginBtn.setEnabled(true);
+                        mBtnEmailLogin.setEnabled(true);
                         dialog.dismiss();
                         //失敗
                     }
@@ -492,7 +487,7 @@ public class LoginFragment extends Fragment {
         JSONObject json = loginJSONFormat(select);
         RequestBody body = RequestBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/login/")
+                .url(GlobalVariable.API_LINK_LOGIN)
                 .post(body)
                 .build();
         Call call = mOkHttpClient.newCall(request);
@@ -519,7 +514,7 @@ public class LoginFragment extends Fragment {
                                     //要存TOKEN
                                     prefs.edit()
                                             .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
-                                            .putString(GlobalVariable.API_UID,responseJSON.getString("ui"))
+                                            .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
                                             .apply();
                                     transferMainPage();
                                 }

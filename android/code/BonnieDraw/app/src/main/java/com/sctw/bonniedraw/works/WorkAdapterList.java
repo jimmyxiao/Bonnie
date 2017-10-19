@@ -1,5 +1,7 @@
 package com.sctw.bonniedraw.works;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.WorkInfo;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -17,10 +23,10 @@ import java.util.List;
  */
 
 public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHolder> {
-    List<String> data;
+    List<WorkInfo> data;
     WorkListOnClickListener listener;
 
-    public WorkAdapterList(List<String> data, WorkListOnClickListener listener) {
+    public WorkAdapterList(List<WorkInfo> data, WorkListOnClickListener listener) {
         this.data = data;
         this.listener = listener;
     }
@@ -28,39 +34,51 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     @Override
     public WorkAdapterList.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.work_card, parent, false);
+                .inflate(R.layout.item_work, parent, false);
         WorkAdapterList.ViewHolder vh = new WorkAdapterList.ViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(final WorkAdapterList.ViewHolder holder, int position) {
-        holder.mTextView.setText(data.get(position));
-        holder.wroksImgView.setOnClickListener(new View.OnClickListener() {
+        holder.mTvUserName.setText(data.get(position).getUserName());
+        holder.mTvWorkName.setText(data.get(position).getTitle());
+        holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getIsFollowing()));
+        if (!data.get(position).getImagePath().isEmpty()) {
+            try {
+                URL url = new URL(GlobalVariable.API_LINK_GET_PHOTO + data.get(position).getImagePath());
+                Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                holder.mImgViewWrok.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        holder.mImgViewWrok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onWorkImgClick(holder.getAdapterPosition());
             }
         });
-        holder.worksUserExtra.setOnClickListener(new View.OnClickListener() {
+        holder.imgBtnWorksUserExtra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onWorkExtraClick(holder.getAdapterPosition());
             }
         });
-        holder.worksUserGood.setOnClickListener(new View.OnClickListener() {
+        holder.imgBtnWorksUserGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onWorkGoodClick(holder.getAdapterPosition());
             }
         });
-        holder.worksUserMsg.setOnClickListener(new View.OnClickListener() {
+        holder.imgBtnWorksUserMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onWorkMsgClick(holder.getAdapterPosition());
             }
         });
-        holder.worksUserShare.setOnClickListener(new View.OnClickListener() {
+        holder.imgBtnWorksUserShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onWorkShareClick(holder.getAdapterPosition());
@@ -68,19 +86,21 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         });
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTextView;
-        ImageView wroksImgView;
-        ImageButton worksUserExtra, worksUserGood, worksUserMsg, worksUserShare;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView mTvUserName, mTvWorkName, mTvWorkGoodTotal;
+        ImageView mImgViewWrok;
+        ImageButton imgBtnWorksUserExtra, imgBtnWorksUserGood, imgBtnWorksUserMsg, imgBtnWorksUserShare;
 
         ViewHolder(View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.works_user_name);
-            wroksImgView = (ImageView) v.findViewById(R.id.works_user_image);
-            worksUserExtra = (ImageButton) v.findViewById(R.id.works_user_extra);
-            worksUserGood = (ImageButton) v.findViewById(R.id.works_user_good);
-            worksUserMsg = (ImageButton) v.findViewById(R.id.works_user_msg);
-            worksUserShare = (ImageButton) v.findViewById(R.id.works_user_share);
+            mTvUserName = (TextView) v.findViewById(R.id.textView_works_user_name);
+            mTvWorkName = (TextView) v.findViewById(R.id.textView_works_work_name);
+            mTvWorkGoodTotal = (TextView) v.findViewById(R.id.textView_works_good_total);
+            mImgViewWrok = (ImageView) v.findViewById(R.id.imgView_works_work_img);
+            imgBtnWorksUserExtra = (ImageButton) v.findViewById(R.id.imgBtn_works_extra);
+            imgBtnWorksUserGood = (ImageButton) v.findViewById(R.id.imgBtn_works_good);
+            imgBtnWorksUserMsg = (ImageButton) v.findViewById(R.id.imgBtn_works_msg);
+            imgBtnWorksUserShare = (ImageButton) v.findViewById(R.id.imgBtn_works_share);
         }
     }
 

@@ -17,7 +17,7 @@ import com.sctw.bonniedraw.R;
  * A simple {@link Fragment} subclass.
  */
 public class WorkFragment extends Fragment {
-    TextView worksUserName,worksUserGoodTotal,worksCreateTime,worksUserClass;
+    TextView mTextViewName,worksUserGoodTotal,worksCreateTime,worksUserClass;
     ImageView worksUserPhoto,worksUserImage;
     ImageButton worksUserExtra,worksUserGood,worksUserMsg,worksUserShare,worksUserFollow;
 
@@ -31,16 +31,16 @@ public class WorkFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        worksUserName=view.findViewById(R.id.works_user_name);
-        worksUserGoodTotal=view.findViewById(R.id.works_user_good_total);
-        worksCreateTime=view.findViewById(R.id.works_create_time);
-        worksUserClass=view.findViewById(R.id.works_user_class);
-        worksUserPhoto=view.findViewById(R.id.works_user_photo);
-        worksUserImage=view.findViewById(R.id.works_user_image);
-        worksUserExtra=view.findViewById(R.id.works_user_extra);
-        worksUserGood=view.findViewById(R.id.works_user_good);
-        worksUserMsg=view.findViewById(R.id.works_user_msg);
-        worksUserShare=view.findViewById(R.id.works_user_share);
-        worksUserFollow=view.findViewById(R.id.works_user_follow);
+        mTextViewName =view.findViewById(R.id.textView_works_user_name);
+        worksUserGoodTotal=view.findViewById(R.id.textView_works_good_total);
+        worksCreateTime=view.findViewById(R.id.textView_works_create_time);
+        worksUserClass=view.findViewById(R.id.textView_works_user_class);
+        worksUserPhoto=view.findViewById(R.id.imgView_works_user_photo);
+        worksUserImage=view.findViewById(R.id.imgView_works_work_img);
+        worksUserExtra=view.findViewById(R.id.imgBtn_works_extra);
+        worksUserGood=view.findViewById(R.id.imgBtn_works_good);
+        worksUserMsg=view.findViewById(R.id.imgBtn_works_msg);
+        worksUserShare=view.findViewById(R.id.imgBtn_works_share);
+        worksUserFollow=view.findViewById(R.id.imgBtn_works_follow);
     }
 }

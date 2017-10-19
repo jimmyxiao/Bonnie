@@ -32,7 +32,7 @@
         android:textAlignment="center" />
 
     <TextView
-        android:id="@+id/btn_like_add_text"
+        android:id="@+id/textView_like_add_class"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/like_select_add_class"

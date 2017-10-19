@@ -44,18 +44,13 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class EditProfileFragment extends Fragment {
-    Button editFormDone, editFormCancel;
-    TextView editFormChangePhoto;
-    ImageView editFormUserPhoto;
-    EditText editFormName, editFormUserNickName, editFormProfile, editFormEmail, editFormPhone;
-    RadioGroup editFormGender;
+    Button mBtnDone, mBtnCancel;
+    TextView mTextViewChangePhoto;
+    ImageView mImgViewPhoto;
+    EditText mEditTextName, mEditTextNickName, mEditTextProfile, mEditTextEmail, mEditPhone;
+    RadioGroup mRadioGroupGender;
     SharedPreferences prefs;
-    Integer edit_gender;
-
-    public EditProfileFragment() {
-        // Required empty public constructor
-    }
-
+    Integer mIntGender;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,44 +62,44 @@ public class EditProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
-        editFormCancel = view.findViewById(R.id.edit_form_cancel);
-        editFormDone = view.findViewById(R.id.edit_form_done);
-        editFormChangePhoto = view.findViewById(R.id.edit_form_change_photo);
-        editFormUserPhoto = view.findViewById(R.id.edit_form_user_photo);
-        editFormName = view.findViewById(R.id.edit_form_name);
-        editFormUserNickName = view.findViewById(R.id.edit_form_user_nickname);
-        editFormProfile = view.findViewById(R.id.edit_form_profile);
-        editFormEmail = view.findViewById(R.id.edit_form_email);
-        editFormPhone = view.findViewById(R.id.edit_form_phone);
-        editFormGender = view.findViewById(R.id.edit_form_gender_group);
+        prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+        mBtnCancel = view.findViewById(R.id.btn_edit_form_cancel);
+        mBtnDone = view.findViewById(R.id.btn_edit_form_done);
+        mTextViewChangePhoto = view.findViewById(R.id.textView_edit_user_photo);
+        mImgViewPhoto = view.findViewById(R.id.imgView_edit_user_photo);
+        mEditTextName = view.findViewById(R.id.editText_edit_name);
+        mEditTextNickName = view.findViewById(R.id.editText_edit_user_nickname);
+        mEditTextProfile = view.findViewById(R.id.editText_edit_profile);
+        mEditTextEmail = view.findViewById(R.id.editText_edit_email);
+        mEditPhone = view.findViewById(R.id.editText_edit_phone);
+        mRadioGroupGender = view.findViewById(R.id.radioGroup_edit_gender);
         //連線抓資料 取代資料完成後覆蓋資料
-        editFormGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mRadioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 switch (i) {
-                    case R.id.edit_form_gender_m:
-                        edit_gender = 1;
+                    case R.id.radioBtn_edit_gender_m:
+                        mIntGender = 1;
                         break;
-                    case R.id.edit_form_gender_f:
-                        edit_gender = 2;
+                    case R.id.radioBtn_edit_gender_f:
+                        mIntGender = 2;
                         break;
-                    case R.id.edit_form_gender_o:
-                        edit_gender = 0;
+                    case R.id.radioBtn_edit_gender_o:
+                        mIntGender = 0;
                         break;
                 }
             }
         });
 
         getUserInfo();
-        editFormDone.setOnClickListener(new View.OnClickListener() {
+        mBtnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateUserInfo();
             }
         });
 
-        editFormCancel.setOnClickListener(new View.OnClickListener() {
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
@@ -127,7 +122,7 @@ public class EditProfileFragment extends Fragment {
 
         RequestBody body = RequestBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/userInfoQuery")
+                .url(GlobalVariable.API_LINK_USER_INFO_QUERY)
                 .post(body)
                 .build();
         Call call = mOkHttpClient.newCall(request);
@@ -148,42 +143,42 @@ public class EditProfileFragment extends Fragment {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
                                 //Successful
-                                editFormName.setText(responseJSON.getString("userName"));
+                                mEditTextName.setText(responseJSON.getString("userName"));
 
                                 if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
-                                    editFormUserNickName.setText(responseJSON.getString("nickName"));
+                                    mEditTextNickName.setText(responseJSON.getString("nickName"));
                                 } else {
-                                    editFormUserNickName.setHint("");
+                                    mEditTextNickName.setHint("");
                                 }
 
                                 if (responseJSON.has("description") && !responseJSON.isNull("description")) {
-                                    editFormProfile.setText(responseJSON.getString("description"));
+                                    mEditTextProfile.setText(responseJSON.getString("description"));
                                 } else {
-                                    editFormProfile.setHint("");
+                                    mEditTextProfile.setHint("");
                                 }
 
-                                editFormEmail.setText(responseJSON.getString("email"));
+                                mEditTextEmail.setText(responseJSON.getString("email"));
 
                                 if (responseJSON.has("phoneNo") && !responseJSON.isNull("phoneNo")) {
-                                    editFormPhone.setText(responseJSON.getString("phoneNo"));
+                                    mEditPhone.setText(responseJSON.getString("phoneNo"));
                                 } else {
-                                    editFormPhone.setHint("");
+                                    mEditPhone.setHint("");
                                 }
 
                                 if (responseJSON.has("gender") && !responseJSON.isNull("gender")) {
                                     int x = responseJSON.getInt("gender");
                                     switch (x) {
                                         case 0:
-                                            editFormGender.check(R.id.edit_form_gender_o);
-                                            edit_gender = 0;
+                                            mRadioGroupGender.check(R.id.radioBtn_edit_gender_o);
+                                            mIntGender = 0;
                                             break;
                                         case 1:
-                                            editFormGender.check(R.id.edit_form_gender_m);
-                                            edit_gender = 1;
+                                            mRadioGroupGender.check(R.id.radioBtn_edit_gender_m);
+                                            mIntGender = 1;
                                             break;
                                         case 2:
-                                            editFormGender.check(R.id.edit_form_gender_f);
-                                            edit_gender = 2;
+                                            mRadioGroupGender.check(R.id.radioBtn_edit_gender_f);
+                                            mIntGender = 2;
                                             break;
                                     }
 
@@ -194,7 +189,7 @@ public class EditProfileFragment extends Fragment {
                                         //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
                                         URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "null"));
                                         Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-                                        editFormUserPhoto.setImageBitmap(bitmap);
+                                        mImgViewPhoto.setImageBitmap(bitmap);
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -222,11 +217,11 @@ public class EditProfileFragment extends Fragment {
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("userType", prefs.getString(GlobalVariable.userPlatformStr, "null"));
             json.put("userCode", prefs.getString(GlobalVariable.userEmailStr, "null"));
-            json.put("userName", editFormName.getText().toString());
-            json.put("nickName", editFormUserNickName.getText().toString());
-            json.put("description", editFormProfile.getText().toString());
-            json.put("phoneNo", editFormPhone.getText().toString());
-            if (edit_gender != null) json.put("gender", String.valueOf(edit_gender));
+            json.put("userName", mEditTextName.getText().toString());
+            json.put("nickName", mEditTextNickName.getText().toString());
+            json.put("description", mEditTextProfile.getText().toString());
+            json.put("phoneNo", mEditPhone.getText().toString());
+            if (mIntGender != null) json.put("gender", String.valueOf(mIntGender));
             Log.d("JSON",json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -234,7 +229,7 @@ public class EditProfileFragment extends Fragment {
 
         RequestBody body = RequestBody.create(mediaType, json.toString());
         final Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/userInfoUpdate")
+                .url(GlobalVariable.API_LINK_USER_INFO_UPDATE)
                 .post(body)
                 .build();
         Call call = mOkHttpClient.newCall(request);
@@ -255,7 +250,7 @@ public class EditProfileFragment extends Fragment {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
                                 final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                                alertDialog.setMessage("Update Successful");
+                                alertDialog.setMessage(getString(R.string.public_update_successful));
                                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {

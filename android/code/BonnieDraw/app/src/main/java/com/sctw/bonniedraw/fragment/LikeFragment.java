@@ -19,8 +19,8 @@ import com.sctw.bonniedraw.R;
  */
 public class LikeFragment extends Fragment {
 
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
     private LikeAllFragment likeAllFragment = new LikeAllFragment();
     private LikeSelectFragment likeSelectFragment = new LikeSelectFragment();
 
@@ -35,17 +35,17 @@ public class LikeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewPager = (ViewPager) view.findViewById(R.id.like_pager);
-        tabLayout = (TabLayout) view.findViewById(R.id.like_tabs);
+        mViewPager = (ViewPager) view.findViewById(R.id.viewPager_like);
+        mTabLayout = (TabLayout) view.findViewById(R.id.tabLayout_like);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
             public void onPageSelected(int position) {
-                tabLayout.getTabAt(position).select();
+                mTabLayout.getTabAt(position).select();
             }
 
             @Override
@@ -53,10 +53,10 @@ public class LikeFragment extends Fragment {
 
             }
         });
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                mViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -70,7 +70,7 @@ public class LikeFragment extends Fragment {
             }
         });
 
-        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 switch (position) {

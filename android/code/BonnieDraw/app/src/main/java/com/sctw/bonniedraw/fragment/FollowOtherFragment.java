@@ -21,8 +21,8 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FollowOtherFragment extends Fragment {
-    ArrayList<String> myDataset;
-    RecyclerView followOtherRecyclerView;
+    ArrayList<String> mListDataset;
+    RecyclerView mRecyclerViewFollowOther;
     FollowOwnAdapterList mAdapter;
     LinearLayoutManager linearLayoutManager;
 
@@ -36,20 +36,20 @@ public class FollowOtherFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        myDataset = new ArrayList<>();
+        mListDataset = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            myDataset.add(Integer.toString(i));
+            mListDataset.add(Integer.toString(i));
         }
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        followOtherRecyclerView = (RecyclerView) view.findViewById(R.id.follow_other_recycler);
-        mAdapter = new FollowOwnAdapterList(myDataset, new FollowOwnListOnClickListener() {
+        mRecyclerViewFollowOther = (RecyclerView) view.findViewById(R.id.recyclerView_follow_other);
+        mAdapter = new FollowOwnAdapterList(mListDataset, new FollowOwnListOnClickListener() {
             @Override
             public void onFollowClick(int postion) {
                 Log.d("POSTION CLICK", "No." + String.valueOf(postion));
             }
         });
-        followOtherRecyclerView.setLayoutManager(linearLayoutManager);
-        followOtherRecyclerView.setAdapter(mAdapter);
+        mRecyclerViewFollowOther.setLayoutManager(linearLayoutManager);
+        mRecyclerViewFollowOther.setAdapter(mAdapter);
     }
 }

@@ -21,9 +21,7 @@ import android.graphics.Xfermode;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -86,39 +84,34 @@ import okhttp3.Response;
  * status bar and navigation/system bar) with user interaction.
  */
 public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener {
-    public static final String KEY_MY_PREFERENCE = "autoplay_intervaltime";
     private static final String SKETCH_FILE = "/backup.bdw";
     private static final String TEMP_FILE = "/temp.bdw";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
-    private Boolean mbAutoPlay = false, replayMode = false, playState = false, playing = false, earseMode = false, zoomMode = false;
-    private Boolean sketch = false, checkFinger = false;
+    private static int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 50;
+    private Boolean mbAutoPlay = false, mbReplayMode = false, mbPlayState = false, mbPlaying = false, mbEarseMode = false, mbZoomMode = false, mbCheckFinger = false;
     private MyView myView;
-    private FrameLayout mViewFreePaint;
-    private String fname; // file name
+    private FrameLayout mFrameLayoutFreePaint;
     private Paint mPaint;
     private int count = 0;
-    private ImageButton btnAutoPlay, btnPlay, btnRedo, btnUndo, btnNext, btnPrevious, btnGrid, btnOpenAutoPlay, btnSize, btnChangePaint;
-    private List<Integer> tempTagLength = new ArrayList<Integer>();
-    private List<TagPoint> mTagPoint_a_record, undoTagPoint_a_record;
-    private Handler handler_Timer_Play = new Handler();
-    private static int miPointCount = 0, miPointCurrent = 0;
-    private static int miAutoPlayIntervalTime = 10;
-    private int displayWidth;
+    private ImageButton mBtnAutoPlay, mBtnPlay, mBtnRedo, mBtnUndo, mBtnNext, mBtnPrevious, mBtnGrid, mBtnOpenAutoPlay, mBtnSize, mBtnChangePaint;
+    private List<Integer> mListTempTagLength = new ArrayList<Integer>();
+    private List<TagPoint> mListTagPoint, mListUndoTagPoint;
+    private Handler mHandlerTimerPlay = new Handler();
     private ColorPicker colorPicker;
     private SizePicker sizePicker;
-    private FullScreenDialog saveDialog;
-    private TextView paintPlayProgress;
+    private FullScreenDialog fullScreenDialog;
+    private TextView mTextViewPlayProgress;
+    private CircleMenuLayout mCircleMenuLayout;
     private static final int[] mItemImgs = {R.drawable.draw_pen_on_1, R.drawable.draw_pen_on_2, R.drawable.draw_pen_on_3, R.drawable.draw_pen_on_4, R.drawable.draw_pen_on_5};
     private String[] mItemTexts = new String[]{"1", "2", "3", "4", "5"};
-    BDWFileReader reader = new BDWFileReader();
-    File file;
+    private int miPrivacyType, miGridCol;
+    File fileLoad;
+    int displayWidth, offsetX, offsetY, realPaint;
     float startX, startSacle, startY, pointLength;
-    int offsetX, offsetY, realPaint;
     SharedPreferences prefs;
     Xfermode earseEffect;
-    private int privacyType;
-    private CircleMenuLayout mCircleMenuLayout;
-    int gridCol = 0;
+
+    BDWFileReader reader = new BDWFileReader();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,21 +128,18 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mPaint.setStrokeWidth(13);
         earseEffect = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
         realPaint = 0;
-        prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
+        prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         myView = new MyView(this);
 
         getDisplay();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String strprefs = prefs.getString(KEY_MY_PREFERENCE, "1");
-        miAutoPlayIntervalTime = Integer.valueOf(strprefs) * 100;
         //view inti
-        mViewFreePaint = (FrameLayout) findViewById(R.id.view_freepaint);
-        mViewFreePaint.addView(myView);
-        paintPlayProgress = (TextView) findViewById(R.id.paint_play_progress);
+        mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
+        mFrameLayoutFreePaint.addView(myView);
+        mTextViewPlayProgress = (TextView) findViewById(R.id.paint_play_progress);
 
         //CIRCLE MENU
-        btnChangePaint = (ImageButton) findViewById(R.id.paint_change_btn);
-        mCircleMenuLayout = (CircleMenuLayout) findViewById(R.id.id_menulayout);
+        mBtnChangePaint = (ImageButton) findViewById(R.id.imgBtn_paint_change);
+        mCircleMenuLayout = (CircleMenuLayout) findViewById(R.id.circlemenu_layout);
         mCircleMenuLayout.setMenuItemIconsAndTexts(mItemImgs, mItemTexts);
 
         mCircleMenuLayout.setOnMenuItemClickListener(new CircleMenuLayout.OnMenuItemClickListener() {
@@ -163,7 +153,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void itemCenterClick(View view) {
             }
         });
-        btnChangePaint.setOnClickListener(new View.OnClickListener() {
+        mBtnChangePaint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mCircleMenuLayout.getVisibility() == View.VISIBLE) {
@@ -175,15 +165,15 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
 
         //tButton init
-        btnAutoPlay = (ImageButton) findViewById(R.id.id_btn_autoplay);
-        btnPlay = (ImageButton) findViewById(R.id.id_btn_play);
-        btnNext = (ImageButton) findViewById(R.id.id_btn_next);
-        btnPrevious = (ImageButton) findViewById(R.id.id_btn_previous);
-        btnRedo = (ImageButton) findViewById(R.id.btn_paint_redo);
-        btnUndo = (ImageButton) findViewById(R.id.btn_paint_undo);
-        btnGrid = (ImageButton) findViewById(R.id.id_btn_grid);
-        btnOpenAutoPlay = (ImageButton) findViewById(R.id.id_btn_open_autoplay);
-        btnSize = (ImageButton) findViewById(R.id.id_btn_size);
+        mBtnAutoPlay = (ImageButton) findViewById(R.id.imgBtn_autoplay);
+        mBtnPlay = (ImageButton) findViewById(R.id.imgBtn_paint_play);
+        mBtnNext = (ImageButton) findViewById(R.id.imgBtn_next);
+        mBtnPrevious = (ImageButton) findViewById(R.id.imgBtn_previous);
+        mBtnRedo = (ImageButton) findViewById(R.id.imgBtn_paint_redo);
+        mBtnUndo = (ImageButton) findViewById(R.id.imgBtn_paint_undo);
+        mBtnGrid = (ImageButton) findViewById(R.id.imgBtn_paint_grid);
+        mBtnOpenAutoPlay = (ImageButton) findViewById(R.id.imgBtn_paint_open_autoplay);
+        mBtnSize = (ImageButton) findViewById(R.id.imgBtn_paint_size);
         setOnclick();
         colorPicker = new ColorPicker(myView.getContext(), this, "", Color.WHITE);
         colorPicker.getWindow().setGravity(Gravity.END);
@@ -193,33 +183,32 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         sizePicker.getWindow().setGravity(Gravity.START);
         sizePicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         sizePicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
-        mTagPoint_a_record = new ArrayList<TagPoint>();
-        undoTagPoint_a_record = new ArrayList<TagPoint>();
-        // Load file to bitmap
+        mListTagPoint = new ArrayList<TagPoint>();
+        mListUndoTagPoint = new ArrayList<TagPoint>();
+        // Load fileLoad to bitmap
         if (getIntent().getExtras() != null) {
             if (getIntent().getExtras().getBoolean("load")) {
-                Bitmap bMap = BitmapFactory.decodeFile(getIntent().getExtras().getString("file")).copy(
+                Bitmap bMap = BitmapFactory.decodeFile(getIntent().getExtras().getString("fileLoad")).copy(
                         Bitmap.Config.ARGB_8888, true);
-                System.out.println(getIntent().getExtras().getString("file"));
+                System.out.println(getIntent().getExtras().getString("fileLoad"));
                 myView.loadBitmap(bMap); // load bitmap
-                fname = getIntent().getExtras().getString("name");
-                replayMode = true;
+                mbReplayMode = true;
             }
         }
 
-        file = new File(getFilesDir().getPath() + SKETCH_FILE);
         checkSketch();
     }
 
     public void checkSketch() {
-        if (file.exists()) {
-            reader.readFromFile(file);
-            mTagPoint_a_record = new ArrayList<>(reader.m_tagArray);
-            miPointCount = mTagPoint_a_record.size();
+        fileLoad = new File(getFilesDir().getPath() + SKETCH_FILE);
+        if (fileLoad.exists()) {
+            reader.readFromFile(fileLoad);
+            mListTagPoint = new ArrayList<>(reader.m_tagArray);
+            miPointCount = mListTagPoint.size();
             miPointCurrent = 0;
             mbAutoPlay = true;
             playStateBtn(0);
-            if (miPointCount > 0) handler_Timer_Play.postDelayed(rb_play, 1);
+            if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, 1);
         }
     }
 
@@ -232,7 +221,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         myView.setLayoutParams(new LinearLayout.LayoutParams(displayWidth, displayWidth));
     }
 
-    //
+    //換筆
     public void customPaint(int paintNum) {
         switch (paintNum) {
             case 0:
@@ -266,15 +255,16 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         }
     }
 
+    //重播
     private Runnable rb_play = new Runnable() {
         public void run() {
             boolean brun = true;
 
             if (miPointCount > 0) {
-                TagPoint tagpoint = mTagPoint_a_record.get(miPointCurrent);
+                TagPoint tagpoint = mListTagPoint.get(miPointCurrent);
                 switch (tagpoint.getiAction() - 1) {
                     case MotionEvent.ACTION_DOWN:
-                        playing = true;
+                        mbPlaying = true;
                         if (tagpoint.getiColor() != 0) {
                             mPaint.setColor(tagpoint.getiColor());
                         }
@@ -292,7 +282,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         myView.invalidate();
                         break;
                     case MotionEvent.ACTION_UP:
-                        playing = false;
+                        mbPlaying = false;
                         brun = false;
                         myView.touch_up();
                         myView.invalidate();
@@ -300,13 +290,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
                 miPointCount--;
                 miPointCurrent++;
-                paintPlayProgress.setText(miPointCurrent * 100 / mTagPoint_a_record.size() + " / " + "100%");
+                mTextViewPlayProgress.setText(miPointCurrent * 100 / mListTagPoint.size() + " / " + "100%");
 
                 if (brun) {
-                    handler_Timer_Play.postDelayed(rb_play, 50);
+                    mHandlerTimerPlay.postDelayed(rb_play, 50);
                 } else {
                     if (mbAutoPlay) {
-                        handler_Timer_Play.postDelayed(rb_play, miAutoPlayIntervalTime);
+                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                     }
                 }
             } else {
@@ -351,6 +341,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             rectF = new RectF(getLeft(), getTop(), getRight(), getBottom());
         }
 
+        public Bitmap getBitmap() {
+            return mBitmap;
+        }
+
         public void loadBitmap(Bitmap bitmap) {
             loadBitmap = bitmap;
             load = true;
@@ -362,9 +356,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             canvas.drawColor(Color.WHITE);
             if (grid) {
                 //0到底部
-                for (int i = 0; i <= gridCol; i++) {
-                    canvas.drawLine((displayWidth / gridCol) * i, 0, (displayWidth / gridCol) * i, displayWidth, gridPaint);
-                    canvas.drawLine(0, (displayWidth / gridCol) * i, displayWidth, (displayWidth / gridCol) * i, gridPaint);
+                for (int i = 0; i <= miGridCol; i++) {
+                    canvas.drawLine((displayWidth / miGridCol) * i, 0, (displayWidth / miGridCol) * i, displayWidth, gridPaint);
+                    canvas.drawLine(0, (displayWidth / miGridCol) * i, displayWidth, (displayWidth / miGridCol) * i, gridPaint);
                 }
             }
 
@@ -372,10 +366,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 canvas.drawPath(p.get_mPath(), p.get_mPaint());
             }
             canvas.drawPath(mPath, mPaint);
-        }
-
-        public Bitmap getBitmap() {
-            return mBitmap;
         }
 
         private void touch_start(float x, float y) {
@@ -397,7 +387,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         }
 
         private void touch_up() {
-            tempTagLength.add(mTagPoint_a_record.size());
+            mListTempTagLength.add(mListTagPoint.size());
             mPath.lineTo(mX, mY);
             // commit the path to our offscreen
             mCanvas.drawPath(mPath, mPaint);
@@ -407,49 +397,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             mPaint = new Paint(mPaint);
         }
 
-        public void onClickPrevious() {
-            if (paths.size() > 0) {
-                paths.remove(paths.size() - 1);
-                count = paths.size() == 0 ? tempTagLength.get(0) : tempTagLength.get(paths.size()) - tempTagLength.get(paths.size() - 1);
-                for (int x = 0; x <= count - 1; x++) {
-                    miPointCount++;
-                    miPointCurrent--;
-                }
-                invalidate();
-            }
-        }
-
-        public void onClickUndo() {
-            if (paths.size() > 0 && undonePaths.size() <= 20) {
-                undonePaths.add(paths.remove(paths.size() - 1));
-                count = paths.size() == 0 ? tempTagLength.get(0) : tempTagLength.get(paths.size()) - tempTagLength.get(paths.size() - 1);
-                for (int x = 0; x <= count - 1; x++) {
-                    undoTagPoint_a_record.add(mTagPoint_a_record.remove(mTagPoint_a_record.size() - 1));
-                }
-                invalidate();
-            } else {
-                Toast.makeText(PaintActivity.this, "復原次數到達上限", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        public void onClickRedo() {
-            if (undonePaths.size() > 0) {
-                count = paths.size() == 0 ? tempTagLength.get(0) : tempTagLength.get(paths.size()) - tempTagLength.get(paths.size() - 1);
-                paths.add(undonePaths.remove(undonePaths.size() - 1));
-                for (int x = 0; x <= count - 1; x++) {
-                    mTagPoint_a_record.add(undoTagPoint_a_record.remove(undoTagPoint_a_record.size() - 1));
-                }
-                invalidate();
-            } else {
-                Toast.makeText(PaintActivity.this, "重作次數到達上限", Toast.LENGTH_SHORT).show();
-            }
-        }
-
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            if (replayMode || mbAutoPlay || playState) return true;//重播功能時不准畫
+            if (mbReplayMode || mbAutoPlay || mbPlayState) return true;//重播功能時不准畫
 
-            if (zoomMode) {
+            if (mbZoomMode) {
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
                         startX = event.getX();
@@ -457,7 +409,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         startSacle = myView.getScaleX();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (!checkFinger) {
+                        if (!mbCheckFinger) {
                             offsetX = (int) (event.getX() - startX);
                             offsetY = (int) (event.getY() - startY);
                             myView.setTranslationX(myView.getTranslationX() + offsetX);
@@ -488,11 +440,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     case MotionEvent.ACTION_POINTER_DOWN:
                         pointLength = spacing(event);
                         if (pointLength > 10) {
-                            checkFinger = true;
+                            mbCheckFinger = true;
                         }
                         break;
                     case MotionEvent.ACTION_POINTER_UP:
-                        checkFinger = false;
+                        mbCheckFinger = false;
                         break;
                 }
 
@@ -510,17 +462,17 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 paint_tagpoint.setiPaintType(realPaint);
                 paint_tagpoint.setiColor(mPaint.getColor());
                 paint_tagpoint.setiAction(MotionEvent.ACTION_DOWN + 1);
-                mTagPoint_a_record.add(paint_tagpoint);
+                mListTagPoint.add(paint_tagpoint);
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 tagpoint = new TagPoint();
                 tagpoint.setiPosX(PxDpConvert.displayToFormat(x, displayWidth));
                 tagpoint.setiPosY(PxDpConvert.displayToFormat(y, displayWidth));
                 tagpoint.setiAction(event.getAction() + 1);
-                mTagPoint_a_record.add(tagpoint);
+                mListTagPoint.add(tagpoint);
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 tagpoint = new TagPoint();
                 tagpoint.setiAction(event.getAction() + 1);
-                mTagPoint_a_record.add(tagpoint);
+                mListTagPoint.add(tagpoint);
             }
 
             switch (event.getAction()) {
@@ -539,36 +491,62 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
             return true;
         }
-    }
 
-    private float spacing(MotionEvent event) {
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return (float) Math.sqrt(x * x + y * y);
-    }
-
-    public Button.OnClickListener savePictureBtn = new Button.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (ActivityCompat.checkSelfPermission(PaintActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                            REQUEST_EXTERNAL_STORAGE);
+        //復原、重作、上一步、下一步
+        public void onClickPrevious() {
+            if (paths.size() > 0) {
+                paths.remove(paths.size() - 1);
+                count = paths.size() == 0 ? mListTempTagLength.get(0) : mListTempTagLength.get(paths.size()) - mListTempTagLength.get(paths.size() - 1);
+                for (int x = 0; x <= count - 1; x++) {
+                    miPointCount++;
+                    miPointCurrent--;
                 }
-            } else {
-                savePictureEdit();
+                invalidate();
             }
         }
-    };
+
+        public void onClickUndo() {
+            if (paths.size() > 0 && undonePaths.size() <= 20) {
+                undonePaths.add(paths.remove(paths.size() - 1));
+                count = paths.size() == 0 ? mListTempTagLength.get(0) : mListTempTagLength.get(paths.size()) - mListTempTagLength.get(paths.size() - 1);
+                for (int x = 0; x <= count - 1; x++) {
+                    mListUndoTagPoint.add(mListTagPoint.remove(mListTagPoint.size() - 1));
+                }
+                invalidate();
+            } else {
+                Toast.makeText(PaintActivity.this, "復原次數到達上限", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        public void onClickRedo() {
+            if (undonePaths.size() > 0) {
+                count = paths.size() == 0 ? mListTempTagLength.get(0) : mListTempTagLength.get(paths.size()) - mListTempTagLength.get(paths.size() - 1);
+                paths.add(undonePaths.remove(undonePaths.size() - 1));
+                for (int x = 0; x <= count - 1; x++) {
+                    mListTagPoint.add(mListUndoTagPoint.remove(mListUndoTagPoint.size() - 1));
+                }
+                invalidate();
+            } else {
+                Toast.makeText(PaintActivity.this, "重作次數到達上限", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        //計算中間距離
+        private float spacing(MotionEvent event) {
+            float x = event.getX(0) - event.getX(1);
+            float y = event.getY(0) - event.getY(1);
+            return (float) Math.sqrt(x * x + y * y);
+        }
+    }
 
     private void savePictureEdit() {
-        saveDialog = new FullScreenDialog(this, R.layout.paint_save_dialog);
-        final EditText workName = (EditText) saveDialog.findViewById(R.id.paint_save_work_name);
-        final EditText workDescription = (EditText) saveDialog.findViewById(R.id.paint_save_work_description);
-        ImageView workPreview = saveDialog.findViewById(R.id.save_paint_preview);
-        Button saveWork = (Button) saveDialog.findViewById(R.id.btn_save_paint_save);
-        ImageButton saveCancel = (ImageButton) saveDialog.findViewById(R.id.btn_save_paint_back);
-        RadioGroup privacyTypes = (RadioGroup) saveDialog.findViewById(R.id.paint_save_work_privacytype);
+        fullScreenDialog = new FullScreenDialog(this, R.layout.paint_save_dialog);
+        final EditText workName = (EditText) fullScreenDialog.findViewById(R.id.paint_save_work_name);
+        final EditText workDescription = (EditText) fullScreenDialog.findViewById(R.id.paint_save_work_description);
+        ImageView workPreview = fullScreenDialog.findViewById(R.id.save_paint_preview);
+        Button saveWork = (Button) fullScreenDialog.findViewById(R.id.btn_save_paint_save);
+        ImageButton saveCancel = (ImageButton) fullScreenDialog.findViewById(R.id.btn_save_paint_back);
+        RadioGroup privacyTypes = (RadioGroup) fullScreenDialog.findViewById(R.id.paint_save_work_privacytype);
 
         File pngfile = null;
         try {
@@ -592,13 +570,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 switch (i) {
                     case R.id.work_privacytype_public:
-                        privacyType = 1;
+                        miPrivacyType = 1;
                         break;
                     case R.id.work_privacytype_private:
-                        privacyType = 2;
+                        miPrivacyType = 2;
                         break;
                     case R.id.work_privacytype_close:
-                        privacyType = 3;
+                        miPrivacyType = 3;
                         break;
                 }
             }
@@ -615,14 +593,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
                         json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                         json.put("ac", 1); // 1 = add , 2 = update
-                        json.put("privacyType", privacyType);
+                        json.put("privacyType", miPrivacyType);
                         json.put("title", workName.getText().toString());
                         json.put("description", workDescription.getText().toString());
                         json.put("languageId", 2);
-                        //json.put("countryId", 886);
                         Log.d("LOGIN JSON: ", json.toString());
-                        fileInfo(json, GlobalVariable.WORK_SAVE_URL);
-                        saveDialog.dismiss();
+                        fileInfo(json, GlobalVariable.API_LINK_WORK_SAVE);
+                        fullScreenDialog.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -638,11 +615,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         saveCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveDialog.dismiss();
+                fullScreenDialog.dismiss();
             }
         });
-        saveDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogStyle;
-        saveDialog.show();
+        fullScreenDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogStyle;
+        fullScreenDialog.show();
     }
 
     @Override
@@ -654,43 +631,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     savePictureEdit();
                 } else {
                     //使用者拒絕權限，停用檔案存取功能
-                    Snackbar.make(mViewFreePaint, R.string.public_user_permission, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mFrameLayoutFreePaint, R.string.public_user_permission, Snackbar.LENGTH_LONG).show();
                 }
                 break;
         }
-    }
-
-    public boolean savePicture(String fileName) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            try {
-                File vPath = new File(Environment.getExternalStorageDirectory() + "/bonniedraw");
-                if (!vPath.exists()) vPath.mkdirs();
-                File pngfile = new File(Environment.getExternalStorageDirectory() + "/bonniedraw/" + fileName + ".png");
-                FileOutputStream fos = new FileOutputStream(pngfile);
-                myView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.close();
-                //uploadFile(pngfile, 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            File logPath = new File(Environment.getExternalStorageDirectory() + "/bonniedraw/" + "Record/");
-            if (!logPath.exists()) logPath.mkdirs();
-            BDWFileWriter mBDWFileWriter = new BDWFileWriter();
-            boolean writeResult = mBDWFileWriter.WriteToFile(mTagPoint_a_record, Environment.getExternalStorageDirectory() + "/bonniedraw/" + "Record/" + fileName + ".bdw");
-            File bdwFile = new File(Environment.getExternalStorageDirectory() + "/bonniedraw/" + "Record/" + fileName + ".bdw");
-            //uploadFile(bdwFile, 1);
-            if (!writeResult) {
-                Snackbar.make(mViewFreePaint, "儲存成功", Snackbar.LENGTH_LONG).show();
-                return true;
-            } else {
-                Snackbar.make(mViewFreePaint, "儲存成功", Snackbar.LENGTH_LONG).show();
-            }
-        } else {
-            Toast.makeText(this, "No SD Card detected", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return false;
     }
 
     public void fileInfo(JSONObject json, String url) {
@@ -712,7 +656,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 try {
                     JSONObject responseJSON = new JSONObject(response.body().string());
                     if (responseJSON.getInt("res") == 1 && responseJSON.get("wid") != null) {
-                        final int uploadWid=Integer.parseInt(responseJSON.get("wid").toString());
+                        final int uploadWid = Integer.parseInt(responseJSON.get("wid").toString());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -733,92 +677,55 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     public void uploadFile(int type, int wid) {
         OkHttpClient okHttpClient = new OkHttpClient();
 
-        if (type == 1) {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            myView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
-            MultipartBody body = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("ui", prefs.getString(GlobalVariable.API_UID, "null"))
-                    .addFormDataPart("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
-                    .addFormDataPart("dt", GlobalVariable.LOGIN_PLATFORM)
-                    .addFormDataPart("wid", String.valueOf(wid))
-                    .addFormDataPart("ftype", String.valueOf(type))
-                    .addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()))
-                    .build();
-
-            final Request request = new Request.Builder()
-                    .url("https://www.bonniedraw.com/bonniedraw_service/BDService/fileUpload")
-                    .post(body)
-                    .build();
-
-            okHttpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.d("Upload File", "Fail");
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    try {
-                        JSONObject responseJSON = new JSONObject(response.body().string());
-                        if (responseJSON.getInt("res") == 1) {
-
-                            Log.d("Upload File", "上傳圖片成功");
-                            Log.d("Upload File", responseJSON.toString());
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+        MultipartBody.Builder bodyBuilder = new MultipartBody.Builder();
+        bodyBuilder.setType(MultipartBody.FORM)
+                .addFormDataPart("ui", prefs.getString(GlobalVariable.API_UID, "null"))
+                .addFormDataPart("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
+                .addFormDataPart("dt", GlobalVariable.LOGIN_PLATFORM)
+                .addFormDataPart("wid", String.valueOf(wid))
+                .addFormDataPart("ftype", String.valueOf(type));
+        switch (type) {
+            //上傳圖片
+            case 1:
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                myView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+                bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"fileLoad\";filename=\"fileLoad.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()));
+                break;
+            //上傳BDW檔案
+            case 2:
+                BDWFileWriter writer = new BDWFileWriter();
+                String filePath = getFilesDir().getPath() + TEMP_FILE;
+                writer.WriteToFile(mListTagPoint, filePath);
+                bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"fileLoad\";filename=\"fileLoad.bdw\""), RequestBody.create(MediaType.parse("application/octet-stream"), new File(filePath)));
+                break;
         }
 
-        if (type == 2) {
-            BDWFileWriter writer = new BDWFileWriter();
-            String filePath = getFilesDir().getPath() + TEMP_FILE;
-            writer.WriteToFile(mTagPoint_a_record, filePath);
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_WORK_UPLOAD)
+                .post(bodyBuilder.build())
+                .build();
 
-            MultipartBody body = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("ui", prefs.getString(GlobalVariable.API_UID, "null"))
-                    .addFormDataPart("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
-                    .addFormDataPart("dt", GlobalVariable.LOGIN_PLATFORM)
-                    .addFormDataPart("wid", String.valueOf(wid))
-                    .addFormDataPart("ftype", String.valueOf(type))
-                    .addPart( Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("application/octet-stream"),new File(filePath)))
-                    .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Upload File", "Fail");
+            }
 
-            final Request request = new Request.Builder()
-                    .url("https://www.bonniedraw.com/bonniedraw_service/BDService/fileUpload")
-                    .post(body)
-                    .build();
-
-            okHttpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.d("Upload File", "Fail");
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    try {
-                        JSONObject responseJSON = new JSONObject(response.body().string());
-                        if (responseJSON.getInt("res") == 1) {
-
-                            Log.d("Upload File", "上傳路徑檔成功");
-                            Log.d("Upload File", responseJSON.toString());
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        Log.d("Upload File", "上傳成功");
+                        Log.d("Upload File", responseJSON.toString());
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            });
-        }
+            }
+        });
     }
 
-    public void colorPicks(View view) {
-        colorPicker.show();
-    }
 
     public void sizesPicks(View view) {
         sizePicker.show();
@@ -828,31 +735,36 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     public void sizeChanged(int size) {
         mPaint.setStrokeWidth(size);
         float scale = size / 13.0F;
-        btnSize.setScaleX(scale);
-        btnSize.setScaleY(scale);
+        mBtnSize.setScaleX(scale);
+        mBtnSize.setScaleY(scale);
     }
 
     @Override
     public void colorChanged(int color) {
         mPaint.setColor(color);
-        findViewById(R.id.id_btn_colorpicker).setBackgroundColor(color);
-        if (earseMode) {
+        findViewById(R.id.imgBtn_paint_colorpicker).setBackgroundColor(color);
+        if (mbEarseMode) {
             recoveryPaint();
         }
     }
 
-    //End
+    public void colorPicks(View view) {
+        colorPicker.show();
+    }
+
+
+    //設定各個按鍵
     public void setOnclick() {
-        ((Button) findViewById(R.id.id_paint_zoom)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.btn_paint_zoom)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!zoomMode) {
-                    zoomMode = true;
+                if (!mbZoomMode) {
+                    mbZoomMode = true;
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
                     playStateBtn(2);
 
                 } else {
-                    zoomMode = false;
+                    mbZoomMode = false;
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
                     playStateBtn(2);
 
@@ -860,7 +772,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         });
 
-        ((Button) findViewById(R.id.id_paint_zoom)).setOnLongClickListener(new View.OnLongClickListener() {
+        ((Button) findViewById(R.id.btn_paint_zoom)).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 //myView.layout(0, 0, myView.getWidth(), myView.getHeight());
@@ -873,11 +785,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
 
 
-        btnOpenAutoPlay.setOnClickListener(new View.OnClickListener() {
+        mBtnOpenAutoPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mTagPoint_a_record.size() > 0) {
-                    btnAutoPlay.setVisibility(View.VISIBLE);
+                if (mListTagPoint.size() > 0) {
+                    mBtnAutoPlay.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(PaintActivity.this, R.string.paint_need_draw, Toast.LENGTH_SHORT).show();
                 }
@@ -886,43 +798,43 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
 
         //撥放器
-        btnAutoPlay.setOnClickListener(new Button.OnClickListener() {
+        mBtnAutoPlay.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewFreePaint.removeAllViews();
+                mFrameLayoutFreePaint.removeAllViews();
                 myView = new MyView(PaintActivity.this);
                 recoveryPaint();
                 getDisplay();
-                mViewFreePaint.addView(myView);
-                miPointCount = mTagPoint_a_record.size();
+                mFrameLayoutFreePaint.addView(myView);
+                miPointCount = mListTagPoint.size();
                 miPointCurrent = 0;
                 mbAutoPlay = true;
                 playStateBtn(0);
-                if (miPointCount > 0) handler_Timer_Play.postDelayed(rb_play, 100);
+                if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, 100);
             }
         });
 
-        btnPlay.setOnClickListener(new Button.OnClickListener() {
+        mBtnPlay.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewFreePaint.removeAllViews();
+                mFrameLayoutFreePaint.removeAllViews();
                 myView = new MyView(PaintActivity.this);
                 getDisplay();
-                mViewFreePaint.addView(myView);
-                miPointCount = mTagPoint_a_record.size();
+                mFrameLayoutFreePaint.addView(myView);
+                miPointCount = mListTagPoint.size();
                 miPointCurrent = 0;
                 playStateBtn(0);
                 if (miPointCount > 0)
-                    handler_Timer_Play.postDelayed(rb_play, 100);
+                    mHandlerTimerPlay.postDelayed(rb_play, 100);
             }
         });
 
-        btnNext.setOnClickListener(new Button.OnClickListener() {
+        mBtnNext.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (miPointCount > 0) {
-                    handler_Timer_Play.postDelayed(rb_play, 100);
-                } else if (miPointCount == 0 && !replayMode) {
+                    mHandlerTimerPlay.postDelayed(rb_play, 100);
+                } else if (miPointCount == 0 && !mbReplayMode) {
                     playStateBtn(1);
                     Toast.makeText(PaintActivity.this, R.string.play_end, Toast.LENGTH_SHORT).show();
                     customPaint(0);
@@ -933,13 +845,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         });
 
-        btnPrevious.setOnClickListener(new Button.OnClickListener() {
+        mBtnPrevious.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (playing) {
+                if (mbPlaying) {
                     Toast.makeText(PaintActivity.this, R.string.play_wait, Toast.LENGTH_SHORT).show();
                 } else if (miPointCurrent > 0) {
-                    playState = true;
+                    mbPlayState = true;
                     myView.onClickPrevious();
                 } else if (miPointCurrent == 0) {
                     Toast.makeText(PaintActivity.this, R.string.play_frist, Toast.LENGTH_SHORT).show();
@@ -948,24 +860,23 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
 
 
-        btnRedo.setOnClickListener(new View.OnClickListener() {
+        mBtnRedo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myView.onClickRedo();
             }
         });
 
-        btnUndo.setOnClickListener(new View.OnClickListener() {
+        mBtnUndo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myView.onClickUndo();
             }
         });
 
-        btnGrid.setOnClickListener(new View.OnClickListener() {
+        mBtnGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //開啟格線
                 final FullScreenDialog gridDialog = new FullScreenDialog(PaintActivity.this, R.layout.paint_grid_dialog);
                 Button gridNone = gridDialog.findViewById(R.id.paint_grid_none);
                 Button grid3 = gridDialog.findViewById(R.id.paint_grid_3);
@@ -987,7 +898,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     @Override
                     public void onClick(View view) {
                         myView.grid = true;
-                        gridCol = 3;
+                        miGridCol = 3;
                         myView.invalidate();
                         gridDialog.dismiss();
                     }
@@ -997,7 +908,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     @Override
                     public void onClick(View view) {
                         myView.grid = true;
-                        gridCol = 6;
+                        miGridCol = 6;
                         myView.invalidate();
                         gridDialog.dismiss();
                     }
@@ -1007,7 +918,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     @Override
                     public void onClick(View view) {
                         myView.grid = true;
-                        gridCol = 10;
+                        miGridCol = 10;
                         myView.invalidate();
                         gridDialog.dismiss();
                     }
@@ -1017,7 +928,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     @Override
                     public void onClick(View view) {
                         myView.grid = true;
-                        gridCol = 20;
+                        miGridCol = 20;
                         myView.invalidate();
                         gridDialog.dismiss();
                     }
@@ -1030,7 +941,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     }
                 });
 
-                gridDialog.findViewById(R.id.bg_layout).setOnClickListener(new View.OnClickListener() {
+                gridDialog.findViewById(R.id.relativeLayout_works_extra).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         gridDialog.dismiss();
@@ -1041,41 +952,52 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         });
 
-        //設定項
-        findViewById(R.id.id_btn_clear).setOnClickListener(new Button.OnClickListener() {
+        findViewById(R.id.imgBtn_paint_clear).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (file.exists()) {
-                    if (file.delete())
+                if (fileLoad.exists()) {
+                    if (fileLoad.delete())
                         Toast.makeText(PaintActivity.this, R.string.paint_delete_sketch, Toast.LENGTH_SHORT).show();
                 }
                 mbAutoPlay = false;
-                playState = false;
+                mbPlayState = false;
                 miPointCount = 0;
                 miPointCurrent = 0;
-                mViewFreePaint.removeAllViews();
+                mFrameLayoutFreePaint.removeAllViews();
                 myView = new MyView(PaintActivity.this);
                 getDisplay();
-                mViewFreePaint.addView(myView);
-                mTagPoint_a_record = new ArrayList<>();
-                undoTagPoint_a_record.clear();
-                tempTagLength.clear();
+                mFrameLayoutFreePaint.addView(myView);
+                mListTagPoint = new ArrayList<>();
+                mListUndoTagPoint.clear();
+                mListTempTagLength.clear();
                 myView.paths.clear();
                 myView.undonePaths.clear();
-                paintPlayProgress.setText("0/0");
+                mTextViewPlayProgress.setText("0/0");
                 recoveryPaint();
                 playStateBtn(1);
             }
         });
 
-        findViewById(R.id.id_btn_save).setOnClickListener(savePictureBtn);
+        findViewById(R.id.imgBtn_paint_save).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(PaintActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                REQUEST_EXTERNAL_STORAGE);
+                    }
+                } else {
+                    savePictureEdit();
+                }
+            }
+        });
     }
 
     public void earse_mode(View view) {
-        if (!earseMode) {
+        if (!mbEarseMode) {
             customPaint(5);
-            ((ImageButton) findViewById(R.id.id_btn_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
-            earseMode = true;
+            ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
+            mbEarseMode = true;
         } else {
             recoveryPaint();
         }
@@ -1083,55 +1005,55 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     public void recoveryPaint() {
         customPaint(0);
-        ((ImageButton) findViewById(R.id.id_btn_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
-        earseMode = false;
+        ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
+        mbEarseMode = false;
     }
 
 
     public void playStateBtn(int option) {
         switch (option) {
             case 0:
-                playState = true;
-                btnAutoPlay.setVisibility(View.VISIBLE);
-                btnNext.setVisibility(View.VISIBLE);
-                btnPrevious.setVisibility(View.VISIBLE);
-                btnRedo.setClickable(!playState);
-                btnUndo.setClickable(!playState);
-                btnSize.setClickable(!playState);
-                btnGrid.setClickable(!playState);
-                btnOpenAutoPlay.setClickable(!playState);
-                findViewById(R.id.id_btn_erase).setClickable(!playState);
-                findViewById(R.id.id_btn_clear).setClickable(!playState);
-                findViewById(R.id.id_btn_colorpicker).setClickable(!playState);
-                findViewById(R.id.id_btn_back).setClickable(!playState);
+                mbPlayState = true;
+                mBtnAutoPlay.setVisibility(View.VISIBLE);
+                mBtnNext.setVisibility(View.VISIBLE);
+                mBtnPrevious.setVisibility(View.VISIBLE);
+                mBtnRedo.setClickable(!mbPlayState);
+                mBtnUndo.setClickable(!mbPlayState);
+                mBtnSize.setClickable(!mbPlayState);
+                mBtnGrid.setClickable(!mbPlayState);
+                mBtnOpenAutoPlay.setClickable(!mbPlayState);
+                findViewById(R.id.imgBtn_paint_erase).setClickable(!mbPlayState);
+                findViewById(R.id.imgBtn_paint_clear).setClickable(!mbPlayState);
+                findViewById(R.id.imgBtn_paint_colorpicker).setClickable(!mbPlayState);
+                findViewById(R.id.imgBtn_paint_back).setClickable(!mbPlayState);
                 break;
             case 1:
-                playState = false;
-                btnAutoPlay.setVisibility(View.INVISIBLE);
-                btnNext.setVisibility(View.INVISIBLE);
-                btnPrevious.setVisibility(View.INVISIBLE);
-                btnRedo.setClickable(!playState);
-                btnUndo.setClickable(!playState);
-                btnSize.setClickable(!playState);
-                btnGrid.setClickable(!playState);
-                btnOpenAutoPlay.setClickable(!playState);
-                findViewById(R.id.id_btn_save).setClickable(!playState);
-                findViewById(R.id.id_btn_erase).setClickable(!playState);
-                findViewById(R.id.id_btn_clear).setClickable(!playState);
-                findViewById(R.id.id_btn_colorpicker).setClickable(!playState);
-                findViewById(R.id.id_btn_back).setClickable(!playState);
+                mbPlayState = false;
+                mBtnAutoPlay.setVisibility(View.INVISIBLE);
+                mBtnNext.setVisibility(View.INVISIBLE);
+                mBtnPrevious.setVisibility(View.INVISIBLE);
+                mBtnRedo.setClickable(!mbPlayState);
+                mBtnUndo.setClickable(!mbPlayState);
+                mBtnSize.setClickable(!mbPlayState);
+                mBtnGrid.setClickable(!mbPlayState);
+                mBtnOpenAutoPlay.setClickable(!mbPlayState);
+                findViewById(R.id.imgBtn_paint_save).setClickable(!mbPlayState);
+                findViewById(R.id.imgBtn_paint_erase).setClickable(!mbPlayState);
+                findViewById(R.id.imgBtn_paint_clear).setClickable(!mbPlayState);
+                findViewById(R.id.imgBtn_paint_colorpicker).setClickable(!mbPlayState);
+                findViewById(R.id.imgBtn_paint_back).setClickable(!mbPlayState);
                 break;
             case 2:
-                btnRedo.setClickable(!zoomMode);
-                btnUndo.setClickable(!zoomMode);
-                btnSize.setClickable(!zoomMode);
-                btnGrid.setClickable(!zoomMode);
-                btnOpenAutoPlay.setClickable(!zoomMode);
-                findViewById(R.id.id_btn_save).setClickable(!zoomMode);
-                findViewById(R.id.id_btn_erase).setClickable(!zoomMode);
-                findViewById(R.id.id_btn_clear).setClickable(!zoomMode);
-                findViewById(R.id.id_btn_colorpicker).setClickable(!zoomMode);
-                findViewById(R.id.id_btn_back).setClickable(!zoomMode);
+                mBtnRedo.setClickable(!mbZoomMode);
+                mBtnUndo.setClickable(!mbZoomMode);
+                mBtnSize.setClickable(!mbZoomMode);
+                mBtnGrid.setClickable(!mbZoomMode);
+                mBtnOpenAutoPlay.setClickable(!mbZoomMode);
+                findViewById(R.id.imgBtn_paint_save).setClickable(!mbZoomMode);
+                findViewById(R.id.imgBtn_paint_erase).setClickable(!mbZoomMode);
+                findViewById(R.id.imgBtn_paint_clear).setClickable(!mbZoomMode);
+                findViewById(R.id.imgBtn_paint_colorpicker).setClickable(!mbZoomMode);
+                findViewById(R.id.imgBtn_paint_back).setClickable(!mbZoomMode);
                 break;
         }
 
@@ -1229,7 +1151,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 BDWFileWriter bdwFileWriter = new BDWFileWriter();
-                boolean result = bdwFileWriter.WriteToFile(mTagPoint_a_record, getFilesDir().getPath() + SKETCH_FILE);
+                boolean result = bdwFileWriter.WriteToFile(mListTagPoint, getFilesDir().getPath() + SKETCH_FILE);
                 Toast.makeText(PaintActivity.this, "Successful", Toast.LENGTH_SHORT).show();
                 dialogInterface.dismiss();
                 if (!result) PaintActivity.this.finish();
@@ -1253,10 +1175,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public void onBackMethod() {
-        if (!zoomMode && !playState) {
-            if (mTagPoint_a_record.size() != 0 && !file.exists()) {
+        if (!mbZoomMode && !mbPlayState) {
+            if (mListTagPoint.size() != 0 && !fileLoad.exists()) {
                 callSaveDialog(0);
-            } else if (file.exists() && mTagPoint_a_record.size() != reader.m_tagArray.size()) {
+            } else if (fileLoad.exists() && mListTagPoint.size() != reader.m_tagArray.size()) {
                 callSaveDialog(1);
             } else {
                 PaintActivity.this.finish();

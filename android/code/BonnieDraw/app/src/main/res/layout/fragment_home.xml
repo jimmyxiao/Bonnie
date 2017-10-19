@@ -7,7 +7,7 @@
     tools:context=".fragment.HomeFragment">
 
     <include
-        android:id="@+id/toolbar_include"
+        android:id="@+id/toolbar_home"
         layout="@layout/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,13 +16,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-        android:id="@+id/home_framelayout"
+        android:id="@+id/frameLayout_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_include">
+        android:layout_below="@id/toolbar_home">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/home_recyclerview"
+            android:id="@+id/recyclerView_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>

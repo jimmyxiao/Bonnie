@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.works.WorkAdapterGrid;
 import com.sctw.bonniedraw.works.WorkAdapterList;
 import com.sctw.bonniedraw.works.WorkGridOnClickListener;
@@ -35,6 +36,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -51,19 +53,20 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
-    private ImageView profilePhoto;
-    private TextView profileUserName, profileUserId, profileWorks, profileUserFans, profileUserFollow;
-    private ImageButton profileSettingBtn, profileGridBtn, profileListBtn;
-    Button profileEditBtn;
-    RecyclerView profileRecyclerView;
-    ArrayList<String> myDataset;
+    private ImageView imgPhoto;
+    private TextView mTextViewUserName, mTextViewUserId, mTextViewWorks, mTextViewFans, mTextViewFollows;
+    private ImageButton mImgBtnSetting, mImgBtnGrid, mImgBtnList;
+    Button mBtnEdit;
+    RecyclerView mRecyclerViewProfile;
+    ArrayList<WorkInfo> myDataset;
+    List<String> myDatasetStr;
     WorkAdapterGrid mAdapterGrid;
     WorkAdapterList mAdapterList;
     GridLayoutManager gridLayoutManager;
     LinearLayoutManager layoutManager;
     SharedPreferences prefs;
-    FragmentManager fm;
-    FragmentTransaction ft;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,40 +78,40 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
-        profilePhoto = (ImageView) view.findViewById(R.id.profile_photo);
-        profileUserName = (TextView) view.findViewById(R.id.profile_userName);
-        profileUserId = (TextView) view.findViewById(R.id.profile_userId);
-        profileWorks = (TextView) view.findViewById(R.id.profile_userWorks);
-        profileUserFollow = (TextView) view.findViewById(R.id.profile_userFans);
-        profileUserFans = (TextView) view.findViewById(R.id.profile_userFollow);
-        profileSettingBtn = (ImageButton) view.findViewById(R.id.profile_setting_btn);
-        profileGridBtn = (ImageButton) view.findViewById(R.id.profile_grid_btn);
-        profileListBtn = (ImageButton) view.findViewById(R.id.profile_list_btn);
-        profileEditBtn = view.findViewById(R.id.btn_edit_profile);
+        prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+        imgPhoto = (ImageView) view.findViewById(R.id.circleImg_profile_photo);
+        mTextViewUserName = (TextView) view.findViewById(R.id.textView_profile_userName);
+        mTextViewUserId = (TextView) view.findViewById(R.id.textView_profile_user_id);
+        mTextViewWorks = (TextView) view.findViewById(R.id.textView_profile_userworks);
+        mTextViewFollows = (TextView) view.findViewById(R.id.textView_profile_follows);
+        mTextViewFans = (TextView) view.findViewById(R.id.textView_profile_fans);
+        mImgBtnSetting = (ImageButton) view.findViewById(R.id.imgBtn_profile_setting);
+        mImgBtnGrid = (ImageButton) view.findViewById(R.id.imgBtn_profile_grid);
+        mImgBtnList = (ImageButton) view.findViewById(R.id.imgBtn_profile_list);
+        mBtnEdit = view.findViewById(R.id.btn_edit_profile);
         updateProfileInfo();
-        fm = getFragmentManager();
+        fragmentManager = getFragmentManager();
 
 
-        profileSettingBtn.setOnClickListener(new View.OnClickListener() {
+        mImgBtnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ft = fm.beginTransaction();
+                fragmentTransaction = fragmentManager.beginTransaction();
                 ProfileSettingFragment fragment = new ProfileSettingFragment();
-                ft.replace(R.id.main_actitivy_layout, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
-        profileEditBtn.setOnClickListener(new View.OnClickListener() {
+        mBtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ft = fm.beginTransaction();
+                fragmentTransaction = fragmentManager.beginTransaction();
                 EditProfileFragment fragment = new EditProfileFragment();
-                ft.replace(R.id.main_actitivy_layout, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -116,65 +119,63 @@ public class ProfileFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        myDataset = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            myDataset.add(Integer.toString(i));
-        }
-        profileRecyclerView = (RecyclerView) view.findViewById(R.id.profile_recyclerview);
-        mAdapterGrid = new WorkAdapterGrid(myDataset, new WorkGridOnClickListener() {
+        myDataset = new ArrayList<WorkInfo>();
+        myDatasetStr = new ArrayList<>();
+        mRecyclerViewProfile = (RecyclerView) view.findViewById(R.id.recyclerview_profile);
+        mAdapterGrid = new WorkAdapterGrid(myDatasetStr, new WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int postion) {
                 Log.d("POSTION CLICK", "No." + String.valueOf(postion));
             }
         });
-        profileRecyclerView.setLayoutManager(gridLayoutManager);
-        profileRecyclerView.setAdapter(mAdapterGrid);
+        mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
+        mRecyclerViewProfile.setAdapter(mAdapterGrid);
 
-        profileGridBtn.setOnClickListener(new View.OnClickListener() {
+        mImgBtnGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAdapterGrid = new WorkAdapterGrid(myDataset, new WorkGridOnClickListener() {
+                mAdapterGrid = new WorkAdapterGrid(myDatasetStr, new WorkGridOnClickListener() {
                     @Override
                     public void onWorkClick(int postion) {
                         Log.d("POSTION CLICK", "No." + String.valueOf(postion));
                     }
                 });
-                profileRecyclerView.setLayoutManager(gridLayoutManager);
-                profileRecyclerView.setAdapter(mAdapterGrid);
+                mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
+                mRecyclerViewProfile.setAdapter(mAdapterGrid);
             }
         });
 
-        profileListBtn.setOnClickListener(new View.OnClickListener() {
+        mImgBtnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAdapterList = new WorkAdapterList(myDataset, new WorkListOnClickListener() {
                     @Override
-                    public void onWorkImgClick(int postion) {
-                        Log.d("onWorkImgClick", "No." + String.valueOf(postion));
+                    public void onWorkImgClick(int wid) {
+                        Log.d("onWorkImgClick", "No." + String.valueOf(wid));
                     }
 
                     @Override
-                    public void onWorkExtraClick(int postion) {
-                        Log.d("onWorkExtraClick", "No." + String.valueOf(postion));
+                    public void onWorkExtraClick(int wid) {
+                        Log.d("onWorkExtraClick", "No." + String.valueOf(wid));
                     }
 
                     @Override
-                    public void onWorkGoodClick(int postion) {
-                        Log.d("onWorkGoodClick", "No." + String.valueOf(postion));
+                    public void onWorkGoodClick(int wid) {
+                        Log.d("onWorkGoodClick", "No." + String.valueOf(wid));
                     }
 
                     @Override
-                    public void onWorkMsgClick(int postion) {
-                        Log.d("onWorkMsgClick", "No." + String.valueOf(postion));
+                    public void onWorkMsgClick(int wid) {
+                        Log.d("onWorkMsgClick", "No." + String.valueOf(wid));
                     }
 
                     @Override
-                    public void onWorkShareClick(int postion) {
-                        Log.d("onWorkShareClick", "No." + String.valueOf(postion));
+                    public void onWorkShareClick(int wid) {
+                        Log.d("onWorkShareClick", "No." + String.valueOf(wid));
                     }
                 });
-                profileRecyclerView.setLayoutManager(layoutManager);
-                profileRecyclerView.setAdapter(mAdapterList);
+                mRecyclerViewProfile.setLayoutManager(layoutManager);
+                mRecyclerViewProfile.setAdapter(mAdapterList);
             }
         });
     }
@@ -194,7 +195,7 @@ public class ProfileFragment extends Fragment {
 
         RequestBody body = RequestBody.create(mediaType, json.toString());
         final Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/userInfoQuery")
+                .url(GlobalVariable.API_LINK_USER_INFO_QUERY)
                 .post(body)
                 .build();
         Call call = mOkHttpClient.newCall(request);
@@ -215,12 +216,12 @@ public class ProfileFragment extends Fragment {
                                 JSONObject responseJSON = new JSONObject(responseStr);
                                 if (responseJSON.getInt("res") == 1) {
                                     //Successful
-                                    profileUserName.setText(responseJSON.getString("userName"));
+                                    mTextViewUserName.setText(responseJSON.getString("userName"));
 
                                     if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
-                                        profileUserId.setText(responseJSON.getString("nickName"));
+                                        mTextViewUserId.setText(responseJSON.getString("nickName"));
                                     } else {
-                                        profileUserId.setText("");
+                                        mTextViewUserId.setText("");
                                     }
 
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
@@ -228,7 +229,7 @@ public class ProfileFragment extends Fragment {
                                             //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
                                             URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "null"));
                                             Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-                                            profilePhoto.setImageBitmap(bitmap);
+                                            imgPhoto.setImageBitmap(bitmap);
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }

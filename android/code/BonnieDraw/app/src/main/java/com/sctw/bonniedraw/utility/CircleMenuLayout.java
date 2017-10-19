@@ -31,7 +31,7 @@ public class CircleMenuLayout extends ViewGroup
 	private float mTmpAngle;
 	private long mDownTime;
 	private boolean isFling;
-	private int mMenuItemLayoutId = R.layout.circle_menu_item;
+	private int mMenuItemLayoutId = R.layout.item_circle_menu;
 	public CircleMenuLayout(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
@@ -75,7 +75,7 @@ public class CircleMenuLayout extends ViewGroup
 			}
 			int makeMeasureSpec = -1;
 
-			if (child.getId() == R.id.id_circle_menu_item_center)
+			if (child.getId() == R.id.circle_menu_item_center)
 			{
 				makeMeasureSpec = MeasureSpec.makeMeasureSpec((int) (mRadius * RADIO_DEFAULT_CENTERITEM_DIMENSION),childMode);
 			} else
@@ -113,7 +113,7 @@ public class CircleMenuLayout extends ViewGroup
 		{
 			final View child = getChildAt(i);
 
-			if (child.getId() == R.id.id_circle_menu_item_center)
+			if (child.getId() == R.id.circle_menu_item_center)
 				continue;
 
 			if (child.getVisibility() == GONE)
@@ -130,7 +130,7 @@ public class CircleMenuLayout extends ViewGroup
 			mStartAngle += angleDelay;
 		}
 
-		View cView = findViewById(R.id.id_circle_menu_item_center);
+		View cView = findViewById(R.id.circle_menu_item_center);
 		if (cView != null)
 		{
 			cView.setOnClickListener(new OnClickListener()
@@ -277,9 +277,9 @@ public class CircleMenuLayout extends ViewGroup
 			final int j = i;
 			View view = mInflater.inflate(mMenuItemLayoutId, this, false);
 			ImageView iv = (ImageView) view
-					.findViewById(R.id.id_circle_menu_item_image);
+					.findViewById(R.id.imgView_circle_menu_item);
 			TextView tv = (TextView) view
-					.findViewById(R.id.id_circle_menu_item_text);
+					.findViewById(R.id.textView_circle_menu_item);
 
 			if (iv != null)
 			{

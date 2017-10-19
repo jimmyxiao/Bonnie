@@ -28,7 +28,7 @@ public class FollowOwnAdapterList extends RecyclerView.Adapter<FollowOwnAdapterL
     @Override
     public FollowOwnAdapterList.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.follow_item, parent, false);
+                .inflate(R.layout.item_follow, parent, false);
         FollowOwnAdapterList.ViewHolder vh = new FollowOwnAdapterList.ViewHolder(v);
         return vh;
     }
@@ -50,9 +50,9 @@ public class FollowOwnAdapterList extends RecyclerView.Adapter<FollowOwnAdapterL
 
         ViewHolder(View v) {
             super(v);
-            followBtn = (Button) v.findViewById(R.id.follow_own_btn);
-            followText = (TextView) v.findViewById(R.id.follow_own_text);
-            followImg = (ImageView) v.findViewById(R.id.follow_own_image);
+            followBtn = (Button) v.findViewById(R.id.btn_follow_own);
+            followText = (TextView) v.findViewById(R.id.textView_follow_own);
+            followImg = (ImageView) v.findViewById(R.id.imgView_follow_own);
         }
     }
 

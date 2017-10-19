@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class LikeAllFragment extends Fragment {
     ArrayList<String> myDataset;
-    RecyclerView likeAllRecyclerView;
+    RecyclerView mRecyclerViewLikeAll;
     WorkAdapterGrid mAdapterGrid;
     GridLayoutManager gridLayoutManager;
     @Override
@@ -41,14 +41,14 @@ public class LikeAllFragment extends Fragment {
         }
 
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        likeAllRecyclerView = (RecyclerView) view.findViewById(R.id.like_all_recyclerview);
+        mRecyclerViewLikeAll = (RecyclerView) view.findViewById(R.id.recyclerView_like_all);
         mAdapterGrid = new WorkAdapterGrid(myDataset, new WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int postion) {
                 Log.d("POSTION CLICK","No."+String.valueOf(postion));
             }
         });
-        likeAllRecyclerView.setLayoutManager(gridLayoutManager);
-        likeAllRecyclerView.setAdapter(mAdapterGrid);
+        mRecyclerViewLikeAll.setLayoutManager(gridLayoutManager);
+        mRecyclerViewLikeAll.setAdapter(mAdapterGrid);
     }
 }

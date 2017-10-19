@@ -16,8 +16,8 @@ import com.sctw.bonniedraw.R;
  * A simple {@link Fragment} subclass.
  */
 public class PublicFragment extends Fragment {
-    TextView PublicTitle;
-    ImageButton btnPublicBack;
+    TextView mTextViewTitle;
+    ImageButton mImgBtnBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,8 +29,8 @@ public class PublicFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        PublicTitle=view.findViewById(R.id.public_fragment_title);
-        btnPublicBack=view.findViewById(R.id.btn_public_back);
+        mTextViewTitle =view.findViewById(R.id.textView_public_fragment_title);
+        mImgBtnBack =view.findViewById(R.id.imgBtn_public_back);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -44,10 +44,10 @@ public class PublicFragment extends Fragment {
                     title=getString(R.string.public_title_terms_of_use);
                     break;
             }
-            PublicTitle.setText(title);
+            mTextViewTitle.setText(title);
         }
 
-        btnPublicBack.setOnClickListener(new View.OnClickListener() {
+        mImgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();

@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -22,10 +21,9 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileSettingFragment extends Fragment {
-    ImageButton btnProfileBack;
-    LinearLayout btnProfileEdit,btnProfileUpdatePwd,btnProfileLinkAccount,btnProfileDescription,btnProfilePrivacyPolicy,btnProfileTermsOfUse;
-    FragmentManager fm;
-    FragmentTransaction ft;
+    ImageButton mImgBtnBack, mImgBtnEdit, mImgBtnUpdatePwd, mImgBtnLinkAccount, mImgDescription, mImgBtnPrivacyPolicy, mImgBtnTermsOfUse;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
     SharedPreferences prefs;
 
     @Override
@@ -38,75 +36,75 @@ public class ProfileSettingFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
 
-        btnProfileBack=view.findViewById(R.id.btn_profile_back);
-        btnProfileEdit=view.findViewById(R.id.btn_profile_edit);
-        btnProfileUpdatePwd=view.findViewById(R.id.btn_profile_update_pwd);
-        btnProfileLinkAccount=view.findViewById(R.id.btn_profile_link_account);
-        btnProfileDescription=view.findViewById(R.id.btn_profile_description);
-        btnProfilePrivacyPolicy=view.findViewById(R.id.btn_profile_privacy_policy);
-        btnProfileTermsOfUse=view.findViewById(R.id.btn_profile_terms_of_use);
+        mImgBtnBack =view.findViewById(R.id.imgBtn_profile_back);
+        mImgBtnEdit =view.findViewById(R.id.btn_profile_edit);
+        mImgBtnUpdatePwd =view.findViewById(R.id.btn_profile_update_pwd);
+        mImgBtnLinkAccount =view.findViewById(R.id.btn_profile_link_account);
+        mImgDescription =view.findViewById(R.id.btn_profile_description);
+        mImgBtnPrivacyPolicy =view.findViewById(R.id.btn_profile_privacy_policy);
+        mImgBtnTermsOfUse =view.findViewById(R.id.btn_profile_terms_of_use);
 
-        fm = getFragmentManager();
+        fragmentManager = getFragmentManager();
 
-        btnProfileBack.setOnClickListener(new View.OnClickListener() {
+        mImgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
             }
         });
 
-        btnProfileEdit.setOnClickListener(new View.OnClickListener() {
+        mImgBtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ft = fm.beginTransaction();
+                fragmentTransaction = fragmentManager.beginTransaction();
                 EditProfileFragment fragment=new EditProfileFragment();
-                ft.replace(R.id.main_actitivy_layout, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
-        btnProfilePrivacyPolicy.setOnClickListener(new View.OnClickListener() {
+        mImgBtnPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ft = fm.beginTransaction();
+                fragmentTransaction = fragmentManager.beginTransaction();
                 PublicFragment fragment=new PublicFragment();
                 Bundle bundle=new Bundle();
                 bundle.putInt("type",1);
                 fragment.setArguments(bundle);
-                ft.replace(R.id.main_actitivy_layout, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
-        btnProfileTermsOfUse.setOnClickListener(new View.OnClickListener() {
+        mImgBtnTermsOfUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ft = fm.beginTransaction();
+                fragmentTransaction = fragmentManager.beginTransaction();
                 PublicFragment fragment=new PublicFragment();
                 Bundle bundle=new Bundle();
                 bundle.putInt("type",2);
                 fragment.setArguments(bundle);
-                ft.replace(R.id.main_actitivy_layout, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         if(!prefs.getString(GlobalVariable.userPlatformStr,"null").equals("1")){
-            btnProfileUpdatePwd.setVisibility(View.GONE);
+            mImgBtnUpdatePwd.setVisibility(View.GONE);
         }else {
-            btnProfileUpdatePwd.setOnClickListener(new View.OnClickListener() {
+            mImgBtnUpdatePwd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ft = fm.beginTransaction();
+                    fragmentTransaction = fragmentManager.beginTransaction();
                     UpdatePasswordFragment fragment=new UpdatePasswordFragment();
-                    ft.replace(R.id.main_actitivy_layout, fragment);
-                    ft.addToBackStack(null);
-                    ft.commit();
+                    fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                 }
             });
         }

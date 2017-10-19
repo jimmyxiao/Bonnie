@@ -51,11 +51,11 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         Twitter.initialize(config);
         setContentView(R.layout.activity_login);
-        prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
+        prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         checkLoginInfo(prefs);
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.main_login_layout, new LoginFragment(), "LoginFragment");
+        ft.replace(R.id.frameLayout_login, new LoginFragment(), "LoginFragment");
         ft.commit();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -97,21 +97,11 @@ public class LoginActivity extends AppCompatActivity {
     private void loginEamil() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        JSONObject json = new JSONObject();
-        try {
-            json.put("uc", prefs.getString(GlobalVariable.userEmailStr, "null"));
-            json.put("up", prefs.getString("emailLoginPwd", "null"));
-            json.put("ut", GlobalVariable.EMAIL_LOGIN);
-            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("fn", GlobalVariable.API_LOGIN);
-            Log.d("LOGIN JSON: ", json.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JSONObject json = loginJSONFormat(1);
 
         RequestBody body = RequestBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/login/")
+                .url(GlobalVariable.API_LINK_LOGIN)
                 .post(body)
                 .build();
         Call call = mOkHttpClient.newCall(request);
@@ -162,10 +152,10 @@ public class LoginActivity extends AppCompatActivity {
     private void loginThird() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        JSONObject json = loginJSONFormat();
+        JSONObject json = loginJSONFormat(3);
         RequestBody body = RequestBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/login/")
+                .url(GlobalVariable.API_LINK_LOGIN)
                 .post(body)
                 .build();
         Call call = mOkHttpClient.newCall(request);
@@ -205,23 +195,34 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private JSONObject loginJSONFormat() {
+    private JSONObject loginJSONFormat(int type) {
         JSONObject json = new JSONObject();
         try {
-            if (prefs.getString(GlobalVariable.userPlatformStr, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
-                json.put("uc", prefs.getString(GlobalVariable.userFbIdStr, ""));
-            } else {
-                json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
+            switch (type){
+                case 3:
+                    if (prefs.getString(GlobalVariable.userPlatformStr, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
+                        json.put("uc", prefs.getString(GlobalVariable.userFbIdStr, ""));
+                    } else {
+                        json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
+                    }
+                    json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
+                    json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                    json.put("fn", GlobalVariable.API_LOGIN);
+                    json.put("thirdEmail", prefs.getString(GlobalVariable.userEmailStr, ""));
+                    json.put("thirdPictureUrl", prefs.getString(GlobalVariable.userImgUrlStr, ""));
+                    break;
+                case 1:
+                    json.put("uc", prefs.getString(GlobalVariable.userEmailStr, "null"));
+                    json.put("up", prefs.getString("emailLoginPwd", "null"));
+                    json.put("ut", GlobalVariable.EMAIL_LOGIN);
+                    json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+                    json.put("fn", GlobalVariable.API_LOGIN);
+                    break;
             }
-            json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
-            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("fn", GlobalVariable.API_LOGIN);
-            json.put("thirdEmail", prefs.getString(GlobalVariable.userEmailStr, ""));
-            json.put("thirdPictureUrl", prefs.getString(GlobalVariable.userImgUrlStr, ""));
+            Log.d("JSON DATA", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("JSON DATA", json.toString());
         return json;
     }
 

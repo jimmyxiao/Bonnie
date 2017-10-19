@@ -47,13 +47,13 @@ import java.io.IOException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    DrawerLayout drawerLayout;
-    ImageButton icBtnBack, icBtnPaint, icBtnHome, icBtnLike, icBtnNotice, icBtnUser;
+    DrawerLayout mDrawerLayout;
+    ImageButton mImgBtnBack, mImgBtnPaint;
     BottomNavigationViewEx mBottomNavigationViewEx;
-    NavigationView navigationView;
-    View headerView;
-    ImageView headerPhoto;
-    TextView headerText;
+    NavigationView mNavigationView;
+    View mHeaderView;
+    ImageView mImgHeaderPhoto;
+    TextView mTextViewHeaderText;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     GoogleApiClient mGoogleApiClient;
@@ -70,24 +70,24 @@ public class MainActivity extends AppCompatActivity {
     public void changeFragment(Fragment fragment) {
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_actitivy_layout, fragment);
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
         fragmentTransaction.commit();
     }
 
     //init Btn,Toolbar,BottomNav
     void init() {
         // findview by id
-        drawerLayout = (DrawerLayout) findViewById(R.id.main_actitivy_drawlayout);
-        prefs = getSharedPreferences("userInfo", MODE_PRIVATE);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        headerView = navigationView.getHeaderView(0);
-        headerPhoto = (ImageView) headerView.findViewById(R.id.header_user_photo);
-        headerText = (TextView) headerView.findViewById(R.id.header_user_name);
-        icBtnBack = (ImageButton) headerView.findViewById(R.id.header_btn_back);
-        icBtnPaint = (ImageButton) findViewById(R.id.ic_btn_paint);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_actitivy_drawlayout);
+        prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+        mNavigationView = (NavigationView) findViewById(R.id.sidebarView);
+        mHeaderView = mNavigationView.getHeaderView(0);
+        mImgHeaderPhoto = (ImageView) mHeaderView.findViewById(R.id.header_user_photo);
+        mTextViewHeaderText = (TextView) mHeaderView.findViewById(R.id.header_user_name);
+        mImgBtnBack = (ImageButton) mHeaderView.findViewById(R.id.header_btn_back);
+        mImgBtnPaint = (ImageButton) findViewById(R.id.imgBtn_paint_start);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -99,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        icBtnBack.setOnClickListener(new View.OnClickListener() {
+        mImgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.closeDrawers();
+                mDrawerLayout.closeDrawers();
             }
         });
 
-        icBtnPaint.setOnClickListener(new View.OnClickListener() {
+        mImgBtnPaint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent();
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mBottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.cotrol_panel_layout);
+        mBottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomView_layout);
         mBottomNavigationViewEx.enableShiftingMode(false);
         mBottomNavigationViewEx.enableItemShiftingMode(false);
         mBottomNavigationViewEx.setTextVisibility(false);
@@ -150,12 +150,12 @@ public class MainActivity extends AppCompatActivity {
 
     void createProfileInfo() {
         String userName = prefs.getString(GlobalVariable.userNameStr, "Null");
-        headerText.setText(userName);
+        mTextViewHeaderText.setText(userName);
         if (!prefs.getString("userImgUrl", "").isEmpty()) {
             try {
                 URL profilePicUrl = new URL(prefs.getString("userImgUrl", "FailLoad"));
                 Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-                headerPhoto.setImageBitmap(bitmap);
+                mImgHeaderPhoto.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         logoutPlatform();
-                        headerPhoto.setBackgroundColor(Color.BLACK);
+                        mImgHeaderPhoto.setBackgroundColor(Color.BLACK);
                     }
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.public_cancel),
@@ -235,8 +235,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        if (drawerLayout.isDrawerOpen(Gravity.START)) {
-            drawerLayout.closeDrawers();
+        if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+            mDrawerLayout.closeDrawers();
         } else if (fragmentManager.getBackStackEntryCount() != 0) {
             fragmentManager.popBackStack();
         } else if (mBottomNavigationViewEx.getCurrentItem() != 0) {

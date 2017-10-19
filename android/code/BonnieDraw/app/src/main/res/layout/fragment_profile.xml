@@ -7,7 +7,7 @@
     tools:context="com.sctw.bonniedraw.fragment.ProfileFragment">
 
     <LinearLayout
-        android:id="@+id/profile_toolbar"
+        android:id="@+id/linearLayout_profile_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -15,7 +15,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/profile_userId"
+            android:id="@+id/textView_profile_user_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -24,7 +24,7 @@
             android:textColor="#000" />
 
         <ImageButton
-            android:id="@+id/profile_grid_btn"
+            android:id="@+id/imgBtn_profile_grid"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -32,7 +32,7 @@
             app:srcCompat="@drawable/personal_ic_rectangle" />
 
         <ImageButton
-            android:id="@+id/profile_list_btn"
+            android:id="@+id/imgBtn_profile_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -47,7 +47,7 @@
             app:srcCompat="@drawable/personal_ic_list" />
 
         <ImageButton
-            android:id="@+id/profile_setting_btn"
+            android:id="@+id/imgBtn_profile_setting"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -59,11 +59,11 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/profile_toolbar"
+        android:layout_below="@+id/linearLayout_profile_bar"
         android:background="#aaa" />
 
     <LinearLayout
-        android:id="@+id/porfile_layout"
+        android:id="@+id/linearLayout_porfile_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -72,14 +72,14 @@
         android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_photo"
+            android:id="@+id/circleImg_profile_photo"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp" />
 
         <TextView
-            android:id="@+id/profile_userName"
+            android:id="@+id/textView_profile_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center" />
@@ -90,17 +90,17 @@
             android:layout_height="30dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/edit_profile_icon"
+            android:background="@drawable/icon_edit_profile"
             android:text="@string/profile_edit_profile"
             android:textColor="@color/White"
             app:layout_constraintBottom_toBottomOf="parent" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/viewInfoLayout"
+        android:id="@+id/linearLayout_user_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/porfile_layout"
+        android:layout_below="@+id/linearLayout_porfile_info"
         android:background="@drawable/shape_border"
         android:divider="@drawable/divider_layout"
         android:orientation="horizontal"
@@ -108,7 +108,7 @@
         android:showDividers="middle|">
 
         <LinearLayout
-            android:id="@+id/wroks_layout"
+            android:id="@+id/linearLayout_profile_wroks"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -116,7 +116,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/userworks_textview"
+                android:id="@+id/textView_profile_userworks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -125,7 +125,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/profile_userWorks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_works_count"
@@ -134,7 +133,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/fans_layout"
+            android:id="@+id/linearLayout_profile_fans"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -142,7 +141,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/userfollow_textview"
+                android:id="@+id/textView_profile_fans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -151,7 +150,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/profile_userFans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_fans_count"
@@ -160,14 +158,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/follow_layout"
+            android:id="@+id/linearLayout_profile_follow"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/username_textview"
+                android:id="@+id/textView_profile_follows"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -176,7 +174,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/profile_userFollow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_follow_count"
@@ -186,12 +183,12 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/profile_recyclerview"
+        android:id="@+id/recyclerview_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/viewInfoLayout"
+        android:layout_below="@+id/linearLayout_user_status"
         android:background="@color/Transparent" />
 
 

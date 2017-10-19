@@ -43,7 +43,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class UpdatePasswordFragment extends Fragment {
     Button updatePasswordCancel, updatePasswordDone;
     SharedPreferences prefs;
-    EditText updatePasswordOld, updatePasswordNew, updatePasswordCheck;
+    EditText mEditTextOldPwd, mEditTextNewPwd, mTextViewCheckPwd;
     final static int SUCCESSFUL_UPDATE_PASSWORD =1;
     final static int ERROR_OLD_PASSWORD =4;
     final static int ERROR_CONNECT =0;
@@ -57,12 +57,12 @@ public class UpdatePasswordFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prefs = getActivity().getSharedPreferences("userInfo", MODE_PRIVATE);
-        updatePasswordCancel = view.findViewById(R.id.update_password_cancel);
-        updatePasswordDone = view.findViewById(R.id.update_password_done);
-        updatePasswordOld = view.findViewById(R.id.update_password_old);
-        updatePasswordNew = view.findViewById(R.id.update_password_new);
-        updatePasswordCheck = view.findViewById(R.id.update_password_check);
+        prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+        updatePasswordCancel = view.findViewById(R.id.btn_update_pwd_cancel);
+        updatePasswordDone = view.findViewById(R.id.btn_update_pwd_done);
+        mEditTextOldPwd = view.findViewById(R.id.editText_old_pwd);
+        mEditTextNewPwd = view.findViewById(R.id.editText_new_password);
+        mTextViewCheckPwd = view.findViewById(R.id.editText_check_pwd);
         updatePasswordCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,9 +73,9 @@ public class UpdatePasswordFragment extends Fragment {
         updatePasswordDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String oldPwd = updatePasswordOld.getText().toString();
-                String newPwd = updatePasswordNew.getText().toString();
-                String checkPwd = updatePasswordCheck.getText().toString();
+                String oldPwd = mEditTextOldPwd.getText().toString();
+                String newPwd = mEditTextNewPwd.getText().toString();
+                String checkPwd = mTextViewCheckPwd.getText().toString();
                 if (newPwd.equals(checkPwd)&&oldPwd.trim().length()!=0) {
                     updatePassword();
                 } else {
@@ -84,7 +84,7 @@ public class UpdatePasswordFragment extends Fragment {
             }
         });
 
-        updatePasswordNew.addTextChangedListener(new TextWatcher() {
+        mEditTextNewPwd.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -92,10 +92,10 @@ public class UpdatePasswordFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (updatePasswordNew.getText().toString().length() < 6) {
-                    updatePasswordNew.setError(getString(R.string.update_password_need_length));
+                if (mEditTextNewPwd.getText().toString().length() < 6) {
+                    mEditTextNewPwd.setError(getString(R.string.update_password_need_length));
                 } else {
-                    updatePasswordNew.setError(null);
+                    mEditTextNewPwd.setError(null);
                 }
                 checkPwd();
             }
@@ -106,7 +106,7 @@ public class UpdatePasswordFragment extends Fragment {
             }
         });
 
-        updatePasswordCheck.addTextChangedListener(new TextWatcher() {
+        mTextViewCheckPwd.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -124,22 +124,22 @@ public class UpdatePasswordFragment extends Fragment {
     }
 
     void checkPwd(){
-        if (updatePasswordNew.getText().toString().equals(updatePasswordCheck.getText().toString())) {
-            updatePasswordCheck.setError(null);
+        if (mEditTextNewPwd.getText().toString().equals(mTextViewCheckPwd.getText().toString())) {
+            mTextViewCheckPwd.setError(null);
         } else {
-            updatePasswordCheck.setError(getString(R.string.update_password_not_equal));
+            mTextViewCheckPwd.setError(getString(R.string.update_password_not_equal));
         }
     }
 
     void checkPwdEmpty(){
-        if (updatePasswordOld.getText().toString().isEmpty()) {
-            updatePasswordOld.setError(getString(R.string.update_password_old_need));
+        if (mEditTextOldPwd.getText().toString().isEmpty()) {
+            mEditTextOldPwd.setError(getString(R.string.update_password_old_need));
         }
-        if (updatePasswordNew.getText().toString().isEmpty()) {
-            updatePasswordNew.setError(getString(R.string.update_password_new_need));
+        if (mEditTextNewPwd.getText().toString().isEmpty()) {
+            mEditTextNewPwd.setError(getString(R.string.update_password_new_need));
         }
-        if (updatePasswordCheck.getText().toString().isEmpty()) {
-            updatePasswordCheck.setError(getString(R.string.update_password_check_need));
+        if (mTextViewCheckPwd.getText().toString().isEmpty()) {
+            mTextViewCheckPwd.setError(getString(R.string.update_password_check_need));
         }
     }
 
@@ -149,8 +149,8 @@ public class UpdatePasswordFragment extends Fragment {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("oldPwd", updatePasswordOld.getText().toString());
-            json.put("newPwd", updatePasswordNew.getText().toString());
+            json.put("oldPwd", mEditTextOldPwd.getText().toString());
+            json.put("newPwd", mEditTextNewPwd.getText().toString());
             Log.d("JSON DATA", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -160,7 +160,7 @@ public class UpdatePasswordFragment extends Fragment {
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
-                .url("https://www.bonniedraw.com/bonniedraw_service/BDService/updatePwd/")
+                .url(GlobalVariable.API_LINK_UPDATE_PWD)
                 .post(body)
                 .build();
         Call call = mOkHttpClient.newCall(request);
@@ -214,7 +214,7 @@ public class UpdatePasswordFragment extends Fragment {
                 break;
             case ERROR_OLD_PASSWORD:
                 builder.setMessage(R.string.update_password_old_error);
-                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -223,7 +223,7 @@ public class UpdatePasswordFragment extends Fragment {
                 break;
             case ERROR_CONNECT:
                 builder.setMessage(R.string.update_password_other_error);
-                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();

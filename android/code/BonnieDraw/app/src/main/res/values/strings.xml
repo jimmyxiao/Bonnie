@@ -55,6 +55,8 @@
     <string name="public_share">分享</string>
     <string name="public_yes">是</string>
     <string name="public_no">否</string>
+    <string name="public_user_permission">使用者拒絕權限 無法存取</string>
+    <string name="public_update_successful">更新成功</string>
 
     <string name="profile_edit_profile">編輯個人檔案</string>
     <string name="profile_works_count">作品數</string>
@@ -89,6 +91,13 @@
     <string name="paint_save_description_hint">新增作品說明 請輸入作品簡短說明，並再說明後加上「#」，例:#BonnieDraw</string>
     <string name="paint_save_privacytype">觀看權限：</string>
     <string name="paint_save_title">新增作品</string>
+    <string name="paint_save_need_name">請輸入檔名或按取消</string>
+    <string name="paint_need_draw">請畫些東西吧！</string>
+    <string name="paint_delete_sketch">刪除草稿</string>
+    <string name="paint_sketch_save_title">是否要保留草稿</string>
+    <string name="play_end">播放完畢</string>
+    <string name="play_wait">請等畫完這一段再按</string>
+    <string name="play_frist">已經是最前步驟</string>
 
     <string name="login_need_password">請輸入密碼</string>
     <string name="login_need_correct_email">請輸入正確的信箱</string>
@@ -108,14 +117,12 @@
     <string name="signin_check_phone">請輸入手機號碼</string>
     <string name="signin_check_info">請確認輸入資料</string>
     <string name="signin_check_msg">您的輸入資料有誤或未填寫。</string>
-    <string name="paint_save_need_name">請輸入檔名或按取消</string>
-    <string name="public_user_permission">使用者拒絕權限 無法存取</string>
-    <string name="paint_need_draw">請畫些東西吧！</string>
-    <string name="play_end">播放完畢</string>
-    <string name="play_wait">請等畫完這一段再按</string>
-    <string name="play_frist">已經是最前步驟</string>
-    <string name="paint_delete_sketch">刪除草稿</string>
-    <string name="paint_sketch_save_title">是否要保留草稿</string>
     <string name="logout_title">登出？</string>
     <string name="logout_msg">您是否要登出呢</string>
+    <string name="profile_setting_chage_pwd">更改密碼</string>
+    <string name="profile_setting_link_account">已連結帳號</string>
+    <string name="profile_setting_description">使用說明</string>
+    <string name="profile_setting_privacy_policy">隱私政策</string>
+    <string name="profile_setting_terms_of_use">使用條款</string>
+    <string name="work_good_total">%s 個人按讚</string>
 </resources>

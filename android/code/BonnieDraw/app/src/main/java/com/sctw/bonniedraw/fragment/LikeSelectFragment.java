@@ -14,12 +14,6 @@ import com.sctw.bonniedraw.R;
  */
 public class LikeSelectFragment extends Fragment {
 
-
-    public LikeSelectFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

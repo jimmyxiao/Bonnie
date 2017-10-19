@@ -11,7 +11,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/edit_form_cancel"
+            android:id="@+id/btn_edit_form_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -19,7 +19,6 @@
             android:text="@string/public_cancel" />
 
         <TextView
-            android:id="@+id/edit_form_change_photo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
@@ -29,7 +28,7 @@
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/edit_form_done"
+            android:id="@+id/btn_edit_form_done"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -44,7 +43,7 @@
         android:background="#aaa" />
 
     <ImageView
-        android:id="@+id/edit_form_user_photo"
+        android:id="@+id/imgView_edit_user_photo"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_gravity="center"
@@ -52,6 +51,7 @@
         android:layout_marginTop="20dp" />
 
     <TextView
+        android:id="@+id/textView_edit_user_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -79,7 +79,7 @@
             android:textColor="@color/Black" />
 
         <EditText
-            android:id="@+id/edit_form_name"
+            android:id="@+id/editText_edit_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
@@ -102,7 +102,7 @@
             android:textColor="@color/Black" />
 
         <EditText
-            android:id="@+id/edit_form_user_nickname"
+            android:id="@+id/editText_edit_user_nickname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
@@ -125,7 +125,7 @@
             android:textColor="@color/Black" />
 
         <EditText
-            android:id="@+id/edit_form_profile"
+            android:id="@+id/editText_edit_profile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
@@ -148,7 +148,7 @@
             android:textColor="@color/Black" />
 
         <EditText
-            android:id="@+id/edit_form_email"
+            android:id="@+id/editText_edit_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
@@ -171,7 +171,7 @@
             android:textColor="@color/Black" />
 
         <EditText
-            android:id="@+id/edit_form_phone"
+            android:id="@+id/editText_edit_phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
@@ -195,28 +195,28 @@
             android:textColor="@color/Black" />
 
         <RadioGroup
-            android:id="@+id/edit_form_gender_group"
+            android:id="@+id/radioGroup_edit_gender"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/edit_form_gender_m"
+                android:id="@+id/radioBtn_edit_gender_m"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/public_male" />
 
             <RadioButton
-                android:id="@+id/edit_form_gender_f"
+                android:id="@+id/radioBtn_edit_gender_f"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/public_female" />
 
             <RadioButton
-                android:id="@+id/edit_form_gender_o"
+                android:id="@+id/radioBtn_edit_gender_o"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

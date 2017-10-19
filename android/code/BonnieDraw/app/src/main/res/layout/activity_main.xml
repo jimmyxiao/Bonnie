@@ -11,11 +11,11 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android:id="@+id/main_actitivy_layout"
+            android:id="@+id/frameLayout_actitivy"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/cotrol_panel_layout"
+            app:layout_constraintBottom_toTopOf="@+id/bottomView_layout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +23,7 @@
         </FrameLayout>
 
         <ImageButton
-            android:id="@+id/ic_btn_paint"
+            android:id="@+id/imgBtn_paint_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -37,7 +37,7 @@
             app:srcCompat="@drawable/bottom_bar_ic_new" />
 
         <com.sctw.bonniedraw.utility.BottomNavigationViewEx
-            android:id="@+id/cotrol_panel_layout"
+            android:id="@+id/bottomView_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
@@ -47,13 +47,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ic_btn_paint"
+            app:layout_constraintTop_toTopOf="@+id/imgBtn_paint_start"
             app:menu="@menu/bottom_nav_menu" />
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
+        android:id="@+id/sidebarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
