@@ -17,6 +17,7 @@ import com.bonniedraw.login.dao.LoginMapper;
 import com.bonniedraw.login.model.Login;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
 import com.bonniedraw.user.dao.UserInfoMapper;
+import com.bonniedraw.user.model.UserCounter;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.UserServiceAPI;
 import com.bonniedraw.util.EncryptUtil;
@@ -346,6 +347,10 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		return null;
 	}
 
+	@Override
+	public UserCounter getUserCounter(int userId) {
+		return userInfoMapper.getUserCounter(userId);
+	}
 	
 	@Override
 	public UserInfo queryUserInfo(int userId) {

@@ -1,13 +1,14 @@
-app.controller('myfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, userService) {
-		$rootScope.title = '帳號設定 | BonnieDRAW';
+app.controller('memberfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, userService) {
+		$rootScope.title = '帳戶設定 | BonnieDRAW';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		
+		$scope.user = util.clone($rootScope.rg_gl.currentUser.userInfo);
+		console.log($scope.user);
 		var baseBean = util.getInitalScope();
 		$scope.status = $state.params.v;
 		if(util.isEmpty($scope.status)){
 			$scope.tagView = 'profile';
-			$scope.user = util.clone($rootScope.rg_gl.currentUser.userInfo);
 			$scope.user.ui = baseBean.ui;
 			$scope.user.lk = baseBean.lk;
 			$scope.user.dt = baseBean.dt;

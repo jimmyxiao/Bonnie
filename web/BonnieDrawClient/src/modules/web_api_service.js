@@ -134,6 +134,9 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
     }
 }).factory('userService', function(baseHttp) {
     return {
+        userInfoQuery:function(params, callback) {
+            return baseHttp.service('userInfoQuery', params, callback);
+        },
         updateUser : function(params, callback) {
             return baseHttp.service('userInfoUpdate', params, callback);
         },

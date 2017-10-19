@@ -20,6 +20,9 @@ public class UserInfoQueryResponseVO extends ApiResponseVO {
 	private Integer status;
 	private String languageCode;
 	private String countryCode;
+	private Integer worksNum;
+	private Integer fansNum;
+	private Integer followNum;
 
 	public int getUserType() {
 		return userType;
@@ -139,6 +142,30 @@ public class UserInfoQueryResponseVO extends ApiResponseVO {
 
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
+	}
+
+	public Integer getWorksNum() {
+		return worksNum;
+	}
+
+	public void setWorksNum(Integer worksNum) {
+		this.worksNum = worksNum;
+	}
+
+	public Integer getFansNum() {
+		return fansNum;
+	}
+
+	public void setFansNum(Integer fansNum) {
+		this.fansNum = fansNum;
+	}
+
+	public Integer getFollowNum() {
+		return followNum;
+	}
+
+	public void setFollowNum(Integer followNum) {
+		this.followNum = followNum;
 	}
 
 }

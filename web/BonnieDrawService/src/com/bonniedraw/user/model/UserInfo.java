@@ -2,7 +2,7 @@ package com.bonniedraw.user.model;
 
 import java.util.Date;
 
-public class UserInfo {
+public class UserInfo{
     private Integer userId;
 
     private Integer userType;

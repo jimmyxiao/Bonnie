@@ -87,5 +87,19 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			})
 		}
 
+		$scope.shareLink = function(tag){
+			if(tag=='fb'){
+				FB.ui({
+    				method: 'share',
+    				display: 'popup',
+    				href: 'https://developers.facebook.com/docs/',
+  				}, function(response){});
+			}else if(tag=='google'){
+
+			}else if(tag=='twitter'){
+				
+			}
+		}
+
 	}
 )

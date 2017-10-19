@@ -5,20 +5,24 @@
 			<div class="container">
 				<div class="col-md-8 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-8 col-xs-offset-2">
 					<div class="_1eg8c">
-						<!-- <div class="_l8yre _5g4e2 col-md-4 col-sm-6 col-xs-10 col-xs-offset-2"> -->
 						<div class="_l8yre _5g4e2x col-md-4 col-sm-6 col-xs-10 col-xs-offset-2">
 							<img class="_fya1f" ng-if="user.profilePicture!=null && user.profilePicture!=''" ng-src="{{imageLoadUrl}}{{user.profilePicture}}">
 							<img class="_fya1f" ng-if="user.profilePicture==null || user.profilePicture==''" src="assets/images/avatar2.png">
 						</div>
-						<div class="col-md-8 col-sm-6 col-xs-10 col-xs-offset-1">
-							<h1 class="_9dz61">{{user.userCode}}</h1>
-							<h2 class="_9dzh2">{{user.userName}}</h2>
+						<div class="col-md-8 col-sm-10 col-xs-10 col-xs-offset-1">
+							<h1 class="_9dz61">{{user.userName}}</h1>
+							<div class="col-md-12" style="padding:0;">
+								<span>{{user.description}}</span>
+							</div>
 							<div class="col-sm-12" style="padding:0">
-								<a href="#/memberfile"><button type="submit" class="btn btn-snd-black">編輯個人檔案</button></a>
+								<button type="submit" class="btn btn-snd-white">追蹤</button>
+								<button type="submit" class="btn btn-snd-orange">追蹤中</button>
+								<button type="submit" class="btn btn-snd-white"><i class="material-icons">more_horiz</i></button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<div class="row">
 					<div class="vid-container file-box">
 						<div class="col-md-4 col-sm-4 col-xs-4 file-text-line">
@@ -40,10 +44,10 @@
 						<div class="col-md-4 col-sm-4 col-xs-6" ng-repeat="data in worksList track by $index">
 							<div class="latest-vid-img-container">		
 								<div class="vid-img" ng-if="data.imagePath!=null && data.imagePath!=''">
-									<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" alt="image">
-									<a href="video-detail.html" class="play-icon play-small-icon">
-							            <img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
-							        </a>
+									<img class="img-responsive" src="assets/images/2-column-vid-img_1.jpg" alt="image">
+										<a href="video-detail.html" class="play-icon play-small-icon">
+							                <img class="img-responsive play-svg svg" ng-src="{{imageLoadUrl}}{{data.imagePath}}" alt="play" onerror="this.src='images/play-button.png'">	                	
+							            </a>
 									<div class="overlay-div"></div>
 								</div>
 							</div>

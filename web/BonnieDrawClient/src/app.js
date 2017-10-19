@@ -107,7 +107,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        }
       	}
   	}).state('myfile', {
-      	url: '/myfile?v=',
+      	url: '/myfile',
       	views: {
       		"loader":{
       			templateUrl: 'modules/share/view/loader.html'
@@ -120,6 +120,40 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        	templateUrl: 'modules/share/view/header-menu.html'
 	        },
 	        "footer@myfile":{
+	        	templateUrl: 'modules/share/view/footer.html'
+	        }
+      	}
+  	}).state('memberfile', {
+      	url: '/memberfile?v=',
+      	views: {
+	        "loader":{
+      			templateUrl: 'modules/share/view/loader.html'
+      		},
+	        "layout": {
+	            templateUrl: 'modules/user/view/memberfile.html',
+	            controller:'memberfileController'
+	        },
+	        "headerMenu@memberfile":{
+	        	templateUrl: 'modules/share/view/header-menu.html'
+	        },
+	        "footer@memberfile":{
+	        	templateUrl: 'modules/share/view/footer.html'
+	        }
+      	}
+  	}).state('userfile', {
+      	url: '/userfile/{id}',
+      	views: {
+	        "loader":{
+      			templateUrl: 'modules/share/view/loader.html'
+      		},
+	        "layout": {
+	            templateUrl: 'modules/user/view/user-files.html',
+	            controller:'userfileController'
+	        },
+	        "headerMenu@userfile":{
+	        	templateUrl: 'modules/share/view/header-menu.html'
+	        },
+	        "footer@userfile":{
 	        	templateUrl: 'modules/share/view/footer.html'
 	        }
       	}

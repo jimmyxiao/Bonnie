@@ -27,6 +27,7 @@ import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.DictionaryService;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
+import com.bonniedraw.user.model.UserCounter;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.UserServiceAPI;
 import com.bonniedraw.util.EmailUtil;
@@ -223,30 +224,49 @@ public class ApiController {
 	@RequestMapping(value="/userInfoQuery" , produces="application/json")
 	public @ResponseBody UserInfoQueryResponseVO userInfoQuery(HttpServletRequest request,HttpServletResponse resp,@RequestBody UserInfoQueryRequestVO userInfoQueryRequestVO) {
 		UserInfoQueryResponseVO respResult = new UserInfoQueryResponseVO();
+		respResult.setRes(2);
 		String msg = "";
 		if(isLogin(userInfoQueryRequestVO)){
-			UserInfo userInfo = userServiceAPI.queryUserInfo(userInfoQueryRequestVO.getUi());
-			if(userInfo!=null){
-				respResult.setRes(1);
-				msg = messageSource.getMessage("api_success",null,request.getLocale());
-				respResult.setUserType(userInfo.getUserType());
-				respResult.setUserCode(userInfo.getUserCode());
-				respResult.setUserName(userInfo.getUserName());
-				respResult.setNickName(userInfo.getNickName());
-				respResult.setEmail(userInfo.getEmail());
-				respResult.setDescription(userInfo.getDescription());
-				respResult.setWebLink(userInfo.getWebLink());
-				respResult.setPhoneCountryCode(userInfo.getPhoneCountryCode());
-				respResult.setPhoneNo(userInfo.getPhoneNo());
-				respResult.setGender(userInfo.getGender());
-				respResult.setProfilePicture(userInfo.getProfilePicture());
-				respResult.setBirthday(userInfo.getBirthday());
-				respResult.setStatus(userInfo.getStatus());
-				respResult.setLanguageCode(userInfo.getLanguageCode());
-				respResult.setCountryCode(userInfo.getCountryCode());
+			int type = userInfoQueryRequestVO.getType();
+			UserInfo userInfo = null;
+			if(type==0 || (type ==1 && userInfoQueryRequestVO.getQueryId()!=null)){
+				int id = -1;
+				if(type==0){
+					id = userInfoQueryRequestVO.getUi();
+					userInfo = userServiceAPI.queryUserInfo(id); 
+				}else{
+					id = userInfoQueryRequestVO.getQueryId();
+					userInfo = userServiceAPI.queryUserInfo(id);
+				}
+				if(userInfo!=null){
+					UserCounter userCounter = userServiceAPI.getUserCounter(id);
+					if(userCounter!=null){
+						respResult.setWorksNum(userCounter.getWorksNum());
+						respResult.setFansNum(userCounter.getFansNum());
+						respResult.setFollowNum(userCounter.getFollowNum());
+					}
+					respResult.setRes(1);
+					msg = messageSource.getMessage("api_success",null,request.getLocale());
+					respResult.setUserType(userInfo.getUserType());
+					respResult.setUserCode(userInfo.getUserCode());
+					respResult.setUserName(userInfo.getUserName());
+					respResult.setNickName(userInfo.getNickName());
+					respResult.setEmail(userInfo.getEmail());
+					respResult.setDescription(userInfo.getDescription());
+					respResult.setWebLink(userInfo.getWebLink());
+					respResult.setPhoneCountryCode(userInfo.getPhoneCountryCode());
+					respResult.setPhoneNo(userInfo.getPhoneNo());
+					respResult.setGender(userInfo.getGender());
+					respResult.setProfilePicture(userInfo.getProfilePicture());
+					respResult.setBirthday(userInfo.getBirthday());
+					respResult.setStatus(userInfo.getStatus());
+					respResult.setLanguageCode(userInfo.getLanguageCode());
+					respResult.setCountryCode(userInfo.getCountryCode());
+				}else{
+					msg = messageSource.getMessage("api_fail",null,request.getLocale());
+				}
 			}else{
-				respResult.setRes(2);
-				msg = messageSource.getMessage("api_fail",null,request.getLocale());
+				msg="資料異常";
 			}
 		}else{
 			msg = "帳號未登入"; 
