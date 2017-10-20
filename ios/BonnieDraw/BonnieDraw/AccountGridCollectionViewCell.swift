@@ -1,5 +1,5 @@
 //
-//  AccountCollectionViewCell.swift
+//  AccountGridCollectionViewCell.swift
 //  BonnieDraw
 //
 //  Created by Professor on 17/10/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountCollectionViewCell: UICollectionViewCell {
+class AccountGridCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var thumbnail: UIImageView!
     override var isHighlighted: Bool {
         didSet {

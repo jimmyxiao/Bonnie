@@ -12,12 +12,17 @@ import Alamofire
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
+    var delegate: HomeViewControllerDelegate?
     private let commentTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray]
     private var works = [Work]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
 
     override func viewDidLoad() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu_ic_out"), style: .plain, target: self, action: #selector(didTapMenu))
+        let titleView = Bundle.main.loadView(from: "TitleView")
+        titleView?.backgroundColor = .clear
+        navigationItem.titleView = titleView
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
     }
@@ -117,6 +122,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.HOME, for: indexPath) as! HomeTableViewCell
         cell.profileImage.setImage(with: work.profileImage)
         cell.profileName.text = work.profileName
+        cell.title.text = work.title
         cell.thumbnail?.setImage(with: work.thumbnail)
         cell.likes.text = "\(work.likes ?? 0)" + "likes".localized
 //        let lastComment = NSMutableAttributedString(string: item.lastCommentProfileName + "\t")
@@ -152,4 +158,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             Logger.d("\(#function) \(indexPath.row)")
         }
     }
+
+    @objc func didTapMenu() {
+        delegate?.homeDidTapMenu()
+    }
+}
+
+protocol HomeViewControllerDelegate {
+    func homeDidTapMenu()
 }

@@ -8,14 +8,14 @@
 
 import UIKit
 
-class TabBarViewController: UIViewController, UITabBarDelegate, CustomTitleNavigationViewControllerDelegate {
+class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate {
     @IBOutlet weak var tabBar: UITabBar!
     var delegate: TabBarViewControllerDelegate?
     var itemHome: (item: UITabBarItem, viewController: UIViewController?)?
     var itemCollection: (item: UITabBarItem, viewController: UIViewController?)?
     var itemNotification: (item: UITabBarItem, viewController: UIViewController?)?
     var itemAccount: (item: UITabBarItem, viewController: UIViewController?)?
-    var customNavigationController: CustomTitleNavigationViewController?
+    var customNavigationController: UINavigationController?
 
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         var controllers = [UIViewController]()
@@ -23,6 +23,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, CustomTitleNavig
             if let controller = itemHome?.viewController {
                 controllers.append(controller)
             } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.HOME) as? HomeViewController {
+                controller.delegate = self
                 itemHome?.viewController = controller
                 controllers.append(controller)
             }
@@ -52,16 +53,16 @@ class TabBarViewController: UIViewController, UITabBarDelegate, CustomTitleNavig
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? CustomTitleNavigationViewController {
-            customNavigationController = controller
-            controller.customDelegate = self
-            controller.showDrawerMenu = true
+        if let navigationController = segue.destination as? UINavigationController,
+           let rootController = navigationController.viewControllers.first as? HomeViewController {
+            customNavigationController = navigationController
+            rootController.delegate = self
             if let items = tabBar.items {
                 for i in 0..<items.count {
                     switch i {
                     case 0:
                         tabBar.selectedItem = items[i]
-                        itemHome = (items[i], controller.viewControllers.first)
+                        itemHome = (items[i], navigationController.viewControllers.first)
                     case 1:
                         itemCollection = (items[i], nil)
                     case 3:
@@ -76,11 +77,11 @@ class TabBarViewController: UIViewController, UITabBarDelegate, CustomTitleNavig
         }
     }
 
-    func customTitleNavigationOpenDrawer() {
-        delegate?.tabBarOpenDrawer()
+    func homeDidTapMenu() {
+        delegate?.tabBarDidTapMenu()
     }
 }
 
 protocol TabBarViewControllerDelegate {
-    func tabBarOpenDrawer()
+    func tabBarDidTapMenu()
 }

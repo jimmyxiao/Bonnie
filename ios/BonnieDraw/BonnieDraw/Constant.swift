@@ -51,7 +51,8 @@ struct Cell {
     static let COLOR_PICKER = "colorPickerCell"
     static let SIZE_PICKER = "sizePickerCell"
     static let ACCOUNT_HEADER = "accountHeaderCell"
-    static let ACCOUNT = "accountCell"
+    static let ACCOUNT_GRID = "accountGridCell"
+    static let ACCOUNT_LIST = "accountListCell"
     static let ACCOUNT_FOOTER = "accountFooterCell"
 }
 

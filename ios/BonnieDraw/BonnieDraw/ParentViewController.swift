@@ -80,7 +80,7 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
         }
     }
 
-    func tabBarOpenDrawer() {
+    func tabBarDidTapMenu() {
         setDrawerState(.opened, animated: true)
     }
 }

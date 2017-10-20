@@ -15,7 +15,19 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     private var loadingLabel: UILabel?
     private var dataRequest: DataRequest?
     private var timestamp: Date?
+    private var cellId = Cell.ACCOUNT_GRID {
+        didSet {
+            collectionView.reloadSections([0])
+        }
+    }
     var works = [Work]()
+
+    override func viewDidLoad() {
+        navigationItem.rightBarButtonItems =
+                [UIBarButtonItem(image: UIImage(named: "personal_ic_rectangle"), style: .plain, target: self, action: #selector(didSelectGridLayout)),
+                 UIBarButtonItem(image: UIImage(named: "personal_ic_list"), style: .plain, target: self, action: #selector(didSelectListLayout))]
+//        (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         if let timestamp = timestamp {
@@ -29,6 +41,18 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
+    }
+
+    @objc func didSelectGridLayout() {
+        if cellId != Cell.ACCOUNT_GRID {
+            cellId = Cell.ACCOUNT_GRID
+        }
+    }
+
+    @objc func didSelectListLayout() {
+        if cellId != Cell.ACCOUNT_LIST {
+            cellId = Cell.ACCOUNT_LIST
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -85,7 +109,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                             title: work["title"] as? String,
                             likes: work["likeCount"] as? Int))
                 }
-                self.collectionView.reloadData()
+                self.collectionView.reloadSections([0])
                 self.loadingLabel?.text = self.works.isEmpty ? "empty_data".localized : nil
                 self.indicator?.stopAnimating()
                 self.timestamp = Date()
@@ -126,13 +150,26 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.ACCOUNT, for: indexPath) as! AccountCollectionViewCell
-        cell.thumbnail.setImage(with: works[indexPath.row].thumbnail)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        if let cell = cell as? AccountGridCollectionViewCell {
+            cell.thumbnail.setImage(with: works[indexPath.row].thumbnail)
+        } else if let cell = cell as? AccountListCollectionViewCell {
+            let work = works[indexPath.row]
+            cell.profileImage.setImage(with: work.profileImage)
+            cell.profileName.text = work.profileName
+            cell.title.text = work.title
+            cell.thumbnail?.setImage(with: work.thumbnail)
+            cell.likes.text = "\(work.likes ?? 0)" + "likes".localized
+        }
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width / CGFloat(3)
-        return CGSize(width: width, height: width)
+        if cellId == Cell.ACCOUNT_GRID {
+            let width = collectionView.bounds.width / CGFloat(3)
+            return CGSize(width: width, height: width)
+        } else {
+            return CGSize(width: collectionView.bounds.width, height: 255 + collectionView.bounds.width * 3 / 4)
+        }
     }
 }
