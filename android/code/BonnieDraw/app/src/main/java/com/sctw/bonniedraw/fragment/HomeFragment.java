@@ -25,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.WorkInfo;
@@ -42,7 +43,6 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -55,13 +55,13 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class HomeFragment extends Fragment {
 
-    RecyclerView mRecyclerViewHome;
-    Toolbar mToolbar;
-    ImageButton mImgBtnDrawer;
-    FragmentManager fragmentManager;
-    SearchView mSearchView;
-    SharedPreferences prefs;
-    List<WorkInfo> workInfoList;
+    private RecyclerView mRecyclerViewHome;
+    private Toolbar mToolbar;
+    private ImageButton mImgBtnDrawer;
+    private FragmentManager fragmentManager;
+    private SearchView mSearchView;
+    private SharedPreferences prefs;
+    private List<WorkInfo> workInfoList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -138,8 +138,7 @@ public class HomeFragment extends Fragment {
         Log.d("LOGIN JSON: ", json.toString());
 
         OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody body = FormBody.create(mediaType, json.toString());
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_WORK_LIST)
                 .post(body)

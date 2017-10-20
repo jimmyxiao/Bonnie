@@ -1,12 +1,9 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -21,9 +18,10 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.androidadvance.topsnackbar.TSnackbar;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.TSnackbarCall;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,16 +110,7 @@ public class EditProfileFragment extends Fragment {
     void getUserInfo() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        JSONObject json = new JSONObject();
-        try {
-            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
-            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
-            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            Log.d("LOGIN JSON: ", json.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        JSONObject json = ConnectJson.queryUserInfoJson(prefs);
         RequestBody body = RequestBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_USER_INFO_QUERY)
@@ -131,7 +120,7 @@ public class EditProfileFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showTSnackbar("連線失敗");
+                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"連線失敗");
             }
 
             @Override
@@ -183,7 +172,6 @@ public class EditProfileFragment extends Fragment {
                                             mIntGender = 2;
                                             break;
                                     }
-
                                 }
 
                                 if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
@@ -197,7 +185,7 @@ public class EditProfileFragment extends Fragment {
                                     }
                                 }
                             } else {
-                                showTSnackbar("連線失敗");
+                                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"連線失敗");
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -211,25 +199,18 @@ public class EditProfileFragment extends Fragment {
 
     void updateUserInfo() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        JSONObject json = new JSONObject();
-        try {
-            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
-            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
-            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("userType", prefs.getString(GlobalVariable.userPlatformStr, "null"));
-            json.put("userCode", prefs.getString(GlobalVariable.userEmailStr, "null"));
-            json.put("userName", mEditTextName.getText().toString());
-            json.put("nickName", mEditTextNickName.getText().toString());
-            json.put("description", mEditTextProfile.getText().toString());
-            json.put("phoneNo", mEditPhone.getText().toString());
-            if (mIntGender != null) json.put("gender", String.valueOf(mIntGender));
-            Log.d("JSON",json.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        RequestBody body = RequestBody.create(mediaType, json.toString());
+        String gender="";
+        if (mIntGender != null) gender=String.valueOf(mIntGender);
+        JSONObject json=ConnectJson.updateUserInfoJson(
+                prefs,
+                mEditTextName.getText().toString(),
+                mEditTextNickName.getText().toString(),
+                mEditTextProfile.getText().toString(),
+                mEditPhone.getText().toString(),
+                gender);
+
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         final Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_USER_INFO_UPDATE)
                 .post(body)
@@ -238,7 +219,7 @@ public class EditProfileFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showTSnackbar("更新失敗");
+                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"更新失敗");
             }
 
             @Override
@@ -251,20 +232,11 @@ public class EditProfileFragment extends Fragment {
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                                alertDialog.setMessage(getString(R.string.public_update_successful));
-                                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                        getUserInfo();
-                                    }
-                                });
-                                alertDialog.setCancelable(false);
-                                alertDialog.show();
 
+                                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),getString(R.string.public_update_successful));
+                                getUserInfo();
                             } else {
-                                showTSnackbar("更新失敗");
+                                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"更新失敗");
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -274,16 +246,5 @@ public class EditProfileFragment extends Fragment {
                 });
             }
         });
-    }
-
-    void showTSnackbar(String string){
-        TSnackbar snackbar = TSnackbar.make(getView().findViewById(R.id.coordinatorLayout_snackbar_content), "", TSnackbar.LENGTH_SHORT);
-        snackbar.setActionTextColor(Color.WHITE);
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(Color.parseColor("#ff5722"));
-        TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
-        textView.setText(string);
-        snackbar.show();
     }
 }

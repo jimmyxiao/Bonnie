@@ -23,7 +23,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,13 +45,15 @@ import com.twitter.sdk.android.core.TwitterCore;
 import java.io.IOException;
 import java.net.URL;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
     ImageButton mImgBtnBack, mImgBtnPaint;
     BottomNavigationViewEx mBottomNavigationViewEx;
     NavigationView mNavigationView;
     View mHeaderView;
-    ImageView mImgHeaderPhoto;
+    CircleImageView mImgHeaderPhoto;
     TextView mTextViewHeaderText;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         mNavigationView = (NavigationView) findViewById(R.id.sidebarView);
         mHeaderView = mNavigationView.getHeaderView(0);
-        mImgHeaderPhoto = (ImageView) mHeaderView.findViewById(R.id.header_user_photo);
+        mImgHeaderPhoto = (CircleImageView) mHeaderView.findViewById(R.id.header_user_photo);
         mTextViewHeaderText = (TextView) mHeaderView.findViewById(R.id.header_user_name);
         mImgBtnBack = (ImageButton) mHeaderView.findViewById(R.id.header_btn_back);
         mImgBtnPaint = (ImageButton) findViewById(R.id.imgBtn_paint_start);
@@ -151,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
     void createProfileInfo() {
         String userName = prefs.getString(GlobalVariable.userNameStr, "Null");
         mTextViewHeaderText.setText(userName);
-        if (!prefs.getString("userImgUrl", "").isEmpty()) {
+        if (!prefs.getString(GlobalVariable.userImgUrlStr, "").isEmpty()) {
             try {
-                URL profilePicUrl = new URL(prefs.getString("userImgUrl", "FailLoad"));
+                URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "FailLoad"));
                 Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
                 mImgHeaderPhoto.setImageBitmap(bitmap);
             } catch (IOException e) {

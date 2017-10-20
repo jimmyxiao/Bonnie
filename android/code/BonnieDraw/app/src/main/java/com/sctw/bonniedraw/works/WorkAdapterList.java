@@ -94,10 +94,10 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
 
         ViewHolder(View v) {
             super(v);
-            mTvUserName = (TextView) v.findViewById(R.id.textView_works_user_name);
-            mTvWorkName = (TextView) v.findViewById(R.id.textView_works_work_name);
+            mTvUserName = (TextView) v.findViewById(R.id.textView_works_username);
+            mTvWorkName = (TextView) v.findViewById(R.id.textView_works_title);
             mTvWorkGoodTotal = (TextView) v.findViewById(R.id.textView_works_good_total);
-            mImgViewWrok = (ImageView) v.findViewById(R.id.imgView_works_work_img);
+            mImgViewWrok = (ImageView) v.findViewById(R.id.imgView_works_img);
             imgBtnWorksUserExtra = (ImageButton) v.findViewById(R.id.imgBtn_works_extra);
             imgBtnWorksUserGood = (ImageButton) v.findViewById(R.id.imgBtn_works_good);
             imgBtnWorksUserMsg = (ImageButton) v.findViewById(R.id.imgBtn_works_msg);

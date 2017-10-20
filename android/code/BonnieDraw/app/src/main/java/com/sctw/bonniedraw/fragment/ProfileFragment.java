@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +37,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -53,7 +53,7 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
-    private ImageView imgPhoto;
+    private CircleImageView imgPhoto;
     private TextView mTextViewUserName, mTextViewUserId, mTextViewWorks, mTextViewFans, mTextViewFollows;
     private ImageButton mImgBtnSetting, mImgBtnGrid, mImgBtnList;
     Button mBtnEdit;
@@ -79,7 +79,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        imgPhoto = (ImageView) view.findViewById(R.id.circleImg_profile_photo);
+        imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
         mTextViewUserName = (TextView) view.findViewById(R.id.textView_profile_userName);
         mTextViewUserId = (TextView) view.findViewById(R.id.textView_profile_user_id);
         mTextViewWorks = (TextView) view.findViewById(R.id.textView_profile_userworks);
@@ -221,17 +221,19 @@ public class ProfileFragment extends Fragment {
                                     } else {
                                         mTextViewUserId.setText("");
                                     }
-
-                                    if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
+                                    if (!prefs.getString(GlobalVariable.userImgUrlStr, "").isEmpty()) {
                                         try {
-                                            //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                            URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "null"));
+                                            URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "FailLoad"));
                                             Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
                                             imgPhoto.setImageBitmap(bitmap);
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
                                     }
+                                    /*
+                                    if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
+                                        //暫時無作用
+                                    }*/
                                 } else {
                                     Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
                                 }

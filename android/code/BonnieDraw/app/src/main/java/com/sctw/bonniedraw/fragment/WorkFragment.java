@@ -2,6 +2,8 @@ package com.sctw.bonniedraw.fragment;
 
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,19 +17,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.WorkInfo;
+import com.sctw.bonniedraw.utility.TSnackbarCall;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -39,9 +44,9 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class WorkFragment extends Fragment {
-    TextView mTextViewName, mTextViewGoodTotal, mTextViewCreateTime, mTextViewClass;
-    ImageView imgViewUserPhoto, mImgViewWorkImage;
-    ImageButton worksUserExtra, worksUserGood, worksUserMsg, worksUserShare, worksUserFollow;
+    private TextView mTextViewUserName, mTextViewWorkDescription, mTextViewWorkName, mTextViewGoodTotal, mTextViewCreateTime, mTextViewClass;
+    private ImageView imgViewUserPhoto, mImgViewWorkImage;
+    private ImageButton worksUserExtra, worksUserGood, worksUserMsg, worksUserShare, worksUserFollow;
     SharedPreferences prefs;
     int wid;
 
@@ -60,36 +65,28 @@ public class WorkFragment extends Fragment {
             wid = bundle.getInt("wid");
         }
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        mTextViewName = view.findViewById(R.id.textView_works_user_name);
-        mTextViewGoodTotal = view.findViewById(R.id.textView_works_good_total);
-        mTextViewCreateTime = view.findViewById(R.id.textView_works_create_time);
-        mTextViewClass = view.findViewById(R.id.textView_works_user_class);
-        imgViewUserPhoto = view.findViewById(R.id.imgView_works_user_photo);
-        mImgViewWorkImage = view.findViewById(R.id.imgView_works_work_img);
-        worksUserExtra = view.findViewById(R.id.imgBtn_works_extra);
-        worksUserGood = view.findViewById(R.id.imgBtn_works_good);
-        worksUserMsg = view.findViewById(R.id.imgBtn_works_msg);
-        worksUserShare = view.findViewById(R.id.imgBtn_works_share);
-        worksUserFollow = view.findViewById(R.id.imgBtn_works_follow);
-        getWorksList();
+        mTextViewUserName = view.findViewById(R.id.textView_work_username);
+        mTextViewWorkName = view.findViewById(R.id.textView_work_title);
+        mTextViewWorkDescription = view.findViewById(R.id.textView_work_description);
+        mTextViewGoodTotal = view.findViewById(R.id.textView_work_good_total);
+        mTextViewCreateTime = view.findViewById(R.id.textView_work_create_time);
+        mTextViewClass = view.findViewById(R.id.textView_work_user_class);
+        imgViewUserPhoto = view.findViewById(R.id.imgView_work_user_photo);
+        mImgViewWorkImage = view.findViewById(R.id.imgView_work_img);
+        worksUserExtra = view.findViewById(R.id.imgBtn_work_extra);
+        worksUserGood = view.findViewById(R.id.imgBtn_work_good);
+        worksUserMsg = view.findViewById(R.id.imgBtn_work_msg);
+        worksUserShare = view.findViewById(R.id.imgBtn_work_share);
+        worksUserFollow = view.findViewById(R.id.imgBtn_work_follow);
+        getSingleWork();
     }
 
-    public void getWorksList() {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
-            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
-            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("wid",wid);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+    public void getSingleWork() {
+        JSONObject json = ConnectJson.querySingleWork(prefs, wid);
         Log.d("LOGIN JSON: ", json.toString());
 
         OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody body = FormBody.create(mediaType, json.toString());
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_WORK_LIST)
                 .post(body)
@@ -97,7 +94,7 @@ public class WorkFragment extends Fragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
+                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_work), "Fail Load");
             }
 
             @Override
@@ -112,7 +109,7 @@ public class WorkFragment extends Fragment {
                                     //下載資料
                                     try {
                                         System.out.println(responseJSON.toString());
-                                        getWork(responseJSON.getJSONArray("workList"));
+                                        getWork(responseJSON.getJSONObject("work"));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -129,18 +126,30 @@ public class WorkFragment extends Fragment {
         });
     }
 
-    public void getWork(JSONArray data) {
+    public void getWork(JSONObject data) {
         try {
-            WorkInfo workInfo = new WorkInfo();
-            workInfo.setWorkId(data.getJSONObject(0).getString("worksId"));
-            workInfo.setUserId(data.getJSONObject(0).getString("userId"));
-            workInfo.setUserName(data.getJSONObject(0).getString("userName"));
-            workInfo.setTitle(data.getJSONObject(0).getString("title"));
-            workInfo.setImagePath(data.getJSONObject(0).getString("imagePath"));
-            workInfo.setIsFollowing(data.getJSONObject(0).getString("isFollowing"));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN);
+            Date date = new Date(Long.valueOf(data.getString("updateDate")));
+            mTextViewUserName.setText(data.getString("userName"));
+            mTextViewWorkName.setText(data.getString("title"));
+            mTextViewWorkDescription.setText(data.getString("description"));
+            mTextViewGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getString("isFollowing")));
+            mTextViewCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
+            //imgViewUserPhoto data.getString("imagePath")
+            try {
+                URL url = new URL(GlobalVariable.API_LINK_GET_PHOTO +data.getString("imagePath"));
+                Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                mImgViewWorkImage.setImageBitmap(bitmap);
+                mImgViewWorkImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 }

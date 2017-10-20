@@ -17,10 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.TSnackbarCall;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +30,6 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -45,13 +45,12 @@ public class SignUpFragment extends Fragment {
     TextView mTextViewSignin;
     Button mBtnSignup;
     boolean userPhoneVaild, userNameVaild, userEmailVaild, userPwdVaild, userRePwdVaild = false;
-
     FragmentManager fragmentManager;
-
-    public SignUpFragment() {
-        // Required empty public constructor
-    }
-
+    final static int CHECK_PHONE=0;
+    final static int CHECK_EMAIL=1;
+    final static int CHECK_NAME=2;
+    final static int CHECK_PWD=3;
+    final static int CHECK_REPWD=4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,14 +105,14 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if (userPhoneVaild && userNameVaild && userEmailVaild && userPwdVaild && userRePwdVaild) {
-                    signupAPI(3);
+                signupAPI(3);
             } else {
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                infoCheck("phone");
-                infoCheck("name");
-                infoCheck("email");
-                infoCheck("pwd");
-                infoCheck("rePwd");
+                infoCheck(CHECK_PHONE);
+                infoCheck(CHECK_NAME);
+                infoCheck(CHECK_EMAIL);
+                infoCheck(CHECK_PWD);
+                infoCheck(CHECK_REPWD);
 
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.public_commit),
                         new DialogInterface.OnClickListener() {
@@ -160,9 +159,8 @@ public class SignUpFragment extends Fragment {
     private void signupAPI(final int style) {
         mBtnSignup.setEnabled(false);
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         JSONObject json = registerJSONFormat(style);
-        RequestBody body = RequestBody.create(mediaType, json.toString());
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_LOGIN)
                 .post(body)
@@ -171,7 +169,7 @@ public class SignUpFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), "註冊失敗", Toast.LENGTH_SHORT).show();
+                TSnackbarCall.showTSnackbar(getActivity().findViewById(R.id.coordinatorLayout_activity_login), getString(R.string.signin_fail_title));
             }
 
             @Override
@@ -185,11 +183,11 @@ public class SignUpFragment extends Fragment {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
                                 Log.d("RESTFUL API : ", responseJSON.toString());
-                                if(style==3) signupAPI(2);
-                                if(style==2) createLogSignup(1);
-                            }else {
-                                if(style==3) createLogSignup(2);
-                                if(style==2) createLogSignup(3);
+                                if (style == 3) signupAPI(2);
+                                if (style == 2) createLogSignup(1);
+                            } else {
+                                if (style == 3) createLogSignup(2);
+                                if (style == 2) createLogSignup(3);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -200,23 +198,23 @@ public class SignUpFragment extends Fragment {
         });
     }
 
-    public void createLogSignup(int format){
-        String title="";
-        String message="";
+    public void createLogSignup(int format) {
+        String title = "";
+        String message = "";
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        switch (format){
+        switch (format) {
             case 1:
-                title=getString(R.string.signin_successful_title);
-                message=getString(R.string.sigin_successful_msg);
+                title = getString(R.string.signin_successful_title);
+                message = getString(R.string.sigin_successful_msg);
 
                 break;
             case 2:
-                title=getString(R.string.signin_fail_title);
-                message=getString(R.string.signin_fail_email_used);
+                title = getString(R.string.signin_fail_title);
+                message = getString(R.string.signin_fail_email_used);
                 break;
             case 3:
-                title=getString(R.string.signin_fail_title);
-                message=getString(R.string.signin_fail_date_error);
+                title = getString(R.string.signin_fail_title);
+                message = getString(R.string.signin_fail_date_error);
         }
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -285,7 +283,7 @@ public class SignUpFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            infoCheck("phone");
+            infoCheck(CHECK_PHONE);
         }
 
         @Override
@@ -301,7 +299,7 @@ public class SignUpFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            infoCheck("name");
+            infoCheck(CHECK_NAME);
         }
 
         @Override
@@ -318,7 +316,7 @@ public class SignUpFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            infoCheck("email");
+            infoCheck(CHECK_EMAIL);
         }
 
         @Override
@@ -335,12 +333,12 @@ public class SignUpFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            infoCheck("pwd");
+            infoCheck(CHECK_PWD);
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
-            infoCheck("rePwd");
+            infoCheck(CHECK_REPWD);
         }
     };
 
@@ -352,7 +350,7 @@ public class SignUpFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            infoCheck("rePwd");
+            infoCheck(CHECK_REPWD);
         }
 
         @Override
@@ -362,49 +360,49 @@ public class SignUpFragment extends Fragment {
     };
 
     //檢查輸入資料
-    public void infoCheck(String str) {
-        switch (str) {
-            case "phone":
+    public void infoCheck(int checkNum) {
+        switch (checkNum) {
+            case CHECK_PHONE:
                 if (userPhone.getText().toString().trim().isEmpty()) {
-                    mTextInputLayoutPhone.setError("請輸入手機號碼");
+                    mTextInputLayoutPhone.setError(getString(R.string.signin_check_phone));
                     userPhoneVaild = false;
                 } else if (userPhone.getText().toString().length() < 10) {
-                    mTextInputLayoutPhone.setError("請輸入正確的手機號碼");
+                    mTextInputLayoutPhone.setError(getString(R.string.signin_need_correct_phone));
                     userPhoneVaild = false;
                 } else {
                     mTextInputLayoutPhone.setError(null);
                     userPhoneVaild = true;
                 }
                 break;
-            case "name":
+            case CHECK_NAME:
                 if (userName.getText().toString().equals("")) {
-                    mTextInputLayoutName.setError("請輸入姓名");
+                    mTextInputLayoutName.setError(getString(R.string.signin_check_name));
                     userNameVaild = false;
                 } else {
                     mTextInputLayoutName.setError(null);
                     userNameVaild = true;
                 }
                 break;
-            case "email":
+            case CHECK_EMAIL:
                 if (userEmail.getText().toString().trim().isEmpty()) {
-                    mTextInputLayoutEmail.setError("請輸入Email");
+                    mTextInputLayoutEmail.setError(getString(R.string.signin_check_email));
                     userEmailVaild = false;
                 } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail.getText().toString()).matches()) {
-                    mTextInputLayoutEmail.setError("請輸入正確的Email");
+                    mTextInputLayoutEmail.setError(getString(R.string.signin_need_correct_email));
                     userEmailVaild = false;
                 } else {
                     mTextInputLayoutEmail.setError(null);
                     userEmailVaild = true;
                 }
                 break;
-            case "pwd":
+            case CHECK_PWD:
                 if (userPassword.getText().toString().equals("")) {
-                    mTextInputLayoutPwd.setError("請輸入密碼");
+                    mTextInputLayoutPwd.setError(getString(R.string.login_need_password));
                     userPwdVaild = false;
                 } else {
                     if (userPassword.getText().toString().length() < 6) {
-                            mTextInputLayoutPwd.setError("密碼至少需要6個字元");
-                            userPwdVaild = false;
+                        mTextInputLayoutPwd.setError(getString(R.string.signin_need_correct_password));
+                        userPwdVaild = false;
                     } else {
                         mTextInputLayoutPwd.setError(null);
                         userPwdVaild = true;
@@ -412,9 +410,9 @@ public class SignUpFragment extends Fragment {
                 }
                 break;
 
-            case "rePwd":
+            case CHECK_REPWD:
                 if (userRePassword.getText().toString().equals("")) {
-                    mTextInputLayoutRePwd.setError("請再次輸入密碼");
+                    mTextInputLayoutRePwd.setError(getString(R.string.signin_recheck_password));
                     userRePwdVaild = false;
                 } else {
                     String userPasswordString = userPassword.getText().toString();
@@ -423,7 +421,7 @@ public class SignUpFragment extends Fragment {
                         mTextInputLayoutRePwd.setError(null);
                         userRePwdVaild = true;
                     } else {
-                        mTextInputLayoutRePwd.setError("密碼不一致");
+                        mTextInputLayoutRePwd.setError(getString(R.string.signin_need_correct_repassword));
                         userRePwdVaild = false;
                     }
                 }

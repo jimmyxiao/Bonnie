@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -20,7 +19,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.fragment.LoginFragment;
+import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -73,7 +74,11 @@ public class LoginActivity extends AppCompatActivity {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        //login animation
+        startAndCheck();
+    }
 
+    void startAndCheck(){
         AlphaAnimation mAlphaAnimation = new AlphaAnimation(0, 1);
         mAlphaAnimation.setDuration(2000);
         mLinearLayout = findViewById(R.id.frameLayout_login_frist);
@@ -89,12 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (prefs != null && !prefs.getString(GlobalVariable.userTokenStr, "").isEmpty()) {
                     checkLoginInfo(prefs);
                 } else {
-                    fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction ft = fragmentManager.beginTransaction();
-                    LoginFragment loginFragment = new LoginFragment();
-                    ft.add(R.id.frameLayout_login, loginFragment, "LoginFragment");
-                    ft.commit();
-                    mLinearLayout.setVisibility(View.INVISIBLE);
+                    transferLoginPage();
                 }
             }
 
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginEamil();
                 break;
             case "null":
-                Toast.makeText(this, "登入資料異常", Toast.LENGTH_SHORT).show();
+                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "登入資料異常");
                 break;
             default:
                 loginThird();
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loginEamil() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        JSONObject json = loginJSONFormat(1);
+        JSONObject json = ConnectJson.loginJson(prefs, 1);
 
         RequestBody body = RequestBody.create(mediaType, json.toString());
         Request request = new Request.Builder()
@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(LoginActivity.this, "連線失敗，請檢查網路狀態", Toast.LENGTH_SHORT).show();
+                        TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "連線失敗，請檢查網路狀態");
                     }
                 });
             }
@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                Toast.makeText(getApplication(), "登入失敗", Toast.LENGTH_SHORT).show();
+                                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "登入失敗");
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -177,9 +177,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginThird() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        JSONObject json = loginJSONFormat(3);
-        RequestBody body = RequestBody.create(mediaType, json.toString());
+        JSONObject json = ConnectJson.loginJson(prefs, 3);
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_LOGIN)
                 .post(body)
@@ -188,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getApplicationContext(), "連線失敗", Toast.LENGTH_SHORT).show();
+                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "登入失敗");
             }
 
             @Override
@@ -208,7 +207,8 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                Toast.makeText(getApplication(), "登入失敗", Toast.LENGTH_SHORT).show();
+                                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "登入失敗");
+                                transferLoginPage();
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -221,37 +221,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private JSONObject loginJSONFormat(int type) {
-        JSONObject json = new JSONObject();
-        try {
-            switch (type) {
-                case 3:
-                    if (prefs.getString(GlobalVariable.userPlatformStr, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
-                        json.put("uc", prefs.getString(GlobalVariable.userFbIdStr, ""));
-                    } else {
-                        json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
-                    }
-                    json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
-                    json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-                    json.put("fn", GlobalVariable.API_LOGIN);
-                    json.put("thirdEmail", prefs.getString(GlobalVariable.userEmailStr, ""));
-                    json.put("thirdPictureUrl", prefs.getString(GlobalVariable.userImgUrlStr, ""));
-                    break;
-                case 1:
-                    json.put("uc", prefs.getString(GlobalVariable.userEmailStr, "null"));
-                    json.put("up", prefs.getString("emailLoginPwd", "null"));
-                    json.put("ut", GlobalVariable.EMAIL_LOGIN);
-                    json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-                    json.put("fn", GlobalVariable.API_LOGIN);
-                    break;
-            }
-            Log.d("JSON DATA", json.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
+    public void transferLoginPage(){
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        LoginFragment loginFragment = new LoginFragment();
+        ft.replace(R.id.frameLayout_login, loginFragment, "LoginFragment");
+        ft.commit();
+        mLinearLayout.setVisibility(View.INVISIBLE);
     }
-
 
     public void transferMainPage() {
         Intent it = new Intent();

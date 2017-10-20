@@ -1,132 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout_work"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/White"
-    android:orientation="horizontal">
-
-    <LinearLayout
-        android:id="@+id/linearLayout_paint_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imgView_works_user_photo"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/textView_works_user_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center_vertical"
-            android:text="用戶名稱(TEMP)"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/textView_works_work_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center_vertical"
-            android:text="作品名稱(TEMP)" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_works_extra"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            card_view:srcCompat="@drawable/works_ic_more" />
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imgView_works_work_img"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout_paint_item"
-        android:scaleType="center"
-        card_view:srcCompat="@drawable/ic_mood_bad_black_24dp" />
+    android:background="@color/White">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imgView_works_work_img"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/imgBtn_works_good"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayout_paint_item"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@color/Transparent"
-            card_view:srcCompat="@drawable/work_ic_like" />
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/imgBtn_works_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_toEndOf="@+id/imgBtn_works_good"
-            android:background="@color/Transparent"
-            card_view:srcCompat="@drawable/work_ic_message" />
+            <ImageView
+                android:id="@+id/imgView_work_user_photo"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1" />
 
-        <ImageButton
-            android:id="@+id/imgBtn_works_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_toEndOf="@+id/imgBtn_works_msg"
-            android:background="@color/Transparent"
-            card_view:srcCompat="@drawable/work_ic_send" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/imgBtn_works_follow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="8dp" />
+                <TextView
+                    android:id="@+id/textView_work_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="用戶名稱"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView_work_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="作品名稱" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/imgBtn_work_extra"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/Transparent"
+                card_view:srcCompat="@drawable/works_ic_more" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/linearLayout_paint_item">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/Grey" />
+
+                <ImageView
+                    android:id="@+id/imgView_work_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    card_view:srcCompat="@drawable/ic_mood_bad_black_24dp" />
+
+                <View
+                    android:id="@id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/Grey" />
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_work_good"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:background="@color/Transparent"
+                        card_view:srcCompat="@drawable/work_ic_like" />
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_work_msg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/imgBtn_work_good"
+                        android:background="@color/Transparent"
+                        card_view:srcCompat="@drawable/work_ic_message" />
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_work_share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/imgBtn_work_msg"
+                        android:background="@color/Transparent"
+                        card_view:srcCompat="@drawable/work_ic_send" />
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_work_follow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="8dp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView_work_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="圖片說明" />
+
+                    <TextView
+                        android:id="@+id/textView_work_good_total"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="87人按讚(TEMP)" />
+
+                    <TextView
+                        android:id="@+id/textView_work_create_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="發布日期: 2017/10/2   22:00(TEMP)" />
+
+                    <TextView
+                        android:id="@+id/textView_work_user_class"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="類別: 插畫(TEMP)" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView_works_good_total"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="87人按讚(TEMP)" />
-
-        <TextView
-            android:id="@+id/textView_works_create_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="發布日期: 2017/10/2   22:00(TEMP)" />
-
-        <TextView
-            android:id="@+id/textView_works_user_class"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="類別: 插畫(TEMP)" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

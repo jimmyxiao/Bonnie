@@ -9,25 +9,35 @@
     android:orientation="vertical"
     tools:context="com.sctw.bonniedraw.paint.PaintActivity">
 
-    <FrameLayout
-        android:id="@+id/frameLayout_freepaint"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout_activity_paint"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_paint_border"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="0dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_paint_item" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_paint_item"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control">
+
+        <FrameLayout
+            android:id="@+id/frameLayout_freepaint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/shape_paint_border" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
 
     <Button
         android:id="@+id/btn_paint_zoom"
-        android:layout_width="50dp"
+        android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:text="Z"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="16dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout_paint_item"
@@ -79,16 +89,6 @@
             android:background="@color/Transparent"
             android:padding="12dp"
             app:srcCompat="@drawable/top_bar_ic_description" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_paint_play"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            android:padding="8dp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/top_bar_ic_play" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_open_autoplay"
@@ -181,81 +181,19 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/paint_play_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginLeft="24dp"
-        android:text="0/100%"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <ImageButton
-            android:id="@+id/imgBtn_previous"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            android:text="上"
-            android:textAllCaps="false"
-            android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:srcCompat="@drawable/drawplay_ic_backward" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_autoplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            android:text="下"
-            android:textAllCaps="false"
-            android:visibility="invisible"
-            app:layout_constraintLeft_toRightOf="@+id/imgBtn_previous"
-            app:srcCompat="@drawable/drawplay_ic_play" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_next"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            android:text="下"
-            android:textAllCaps="false"
-            android:visibility="invisible"
-            app:layout_constraintLeft_toRightOf="@+id/imgBtn_previous"
-            app:srcCompat="@drawable/drawplay_ic_forward" />
-    </LinearLayout>
 
     <com.sctw.bonniedraw.utility.CircleMenuLayout
         android:id="@+id/circlemenu_layout"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="0dp"
         android:background="@drawable/circle_bg"
         android:padding="100dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/linearLayout_paint_control"
         app:layout_constraintRight_toRightOf="@+id/linearLayout_paint_control"
-        app:layout_constraintTop_toTopOf="@+id/imgBtn_paint_change"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintTop_toTopOf="@+id/imgBtn_paint_change">
 
         <RelativeLayout
             android:id="@+id/circle_menu_item_center"
@@ -270,7 +208,6 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/draw_pen_box"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout_paint_control"
-        app:layout_constraintHorizontal_bias="0.5"
         arc:layout_constraintLeft_toLeftOf="parent"
         arc:layout_constraintRight_toRightOf="parent"
         arc:srcCompat="@drawable/draw_pen_ic_1" />

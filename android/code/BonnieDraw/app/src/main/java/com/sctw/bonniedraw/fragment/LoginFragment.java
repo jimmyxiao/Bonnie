@@ -38,7 +38,9 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.MainActivity;
+import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterCore;
@@ -56,7 +58,6 @@ import java.util.Arrays;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -225,7 +226,7 @@ public class LoginFragment extends Fragment {
                                 .putString(GlobalVariable.userEmailStr, email)
                                 .putString(GlobalVariable.userImgUrlStr, photoUrl)
                                 .apply();
-                        registerOrLoginThird(GlobalVariable.API_CHECK_EMAIL_CODE);
+                        loginThird(GlobalVariable.API_LOGIN_CODE);
                     }
 
                     @Override
@@ -292,12 +293,12 @@ public class LoginFragment extends Fragment {
                                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
                                             .putString(GlobalVariable.userFbIdStr, object.getString("id"))
                                             .apply();
-                                    registerOrLoginThird(GlobalVariable.API_CHECK_EMAIL_CODE);
+                                    loginThird(GlobalVariable.API_LOGIN_CODE);
                                     Log.d("Check FB", prefs.getString(GlobalVariable.userFbIdStr, "null"));
                                     Log.d("Check FB IMG URL", prefs.getString(GlobalVariable.userImgUrlStr, "null"));
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
-                                    Toast.makeText(getActivity(), "發生錯誤", Toast.LENGTH_SHORT).show();
+                                    TSnackbarCall.showTSnackbar(getActivity().findViewById(R.id.coordinatorLayout_activity_login), "發生錯誤");
                                 }
                             }
                         });
@@ -339,9 +340,9 @@ public class LoginFragment extends Fragment {
                             .putString(GlobalVariable.userEmailStr, acct.getEmail())
                             .putString(GlobalVariable.userImgUrlStr, profilePicUrl.toString())
                             .apply();
-                    registerOrLoginThird(GlobalVariable.API_CHECK_EMAIL_CODE);
+                    loginThird(GlobalVariable.API_LOGIN_CODE);
                 } catch (IOException e) {
-                    Toast.makeText(getActivity(), "發生錯誤", Toast.LENGTH_SHORT).show();
+                    TSnackbarCall.showTSnackbar(getActivity().findViewById(R.id.coordinatorLayout_activity_login), "發生錯誤");
                     e.printStackTrace();
                 }
             }
@@ -353,7 +354,6 @@ public class LoginFragment extends Fragment {
     private void loginEamil() {
         mBtnEmailLogin.setEnabled(false);
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         JSONObject json = new JSONObject();
         try {
             json.put("uc", mInputEditTextEmail.getText().toString());
@@ -366,7 +366,7 @@ public class LoginFragment extends Fragment {
             e.printStackTrace();
         }
 
-        RequestBody body = RequestBody.create(mediaType, json.toString());
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_LOGIN)
                 .post(body)
@@ -375,7 +375,7 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), "登入錯誤", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.login_fail_tittle, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -450,7 +450,6 @@ public class LoginFragment extends Fragment {
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
-                        Toast.makeText(getActivity(), "Logged Out", Toast.LENGTH_SHORT).show();
                         prefs.edit().clear().apply();
                     }
                 });
@@ -465,12 +464,12 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    //第三方平台登入
+    //第三方平台登入錯誤訊息
     public void logThirdSigninError() {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("登入失敗");
+        alertDialog.setTitle(R.string.login_fail_tittle);
         alertDialog.setMessage("此平台所使用的電子信箱已註冊，請改用電子信箱或是別的帳戶來登入。");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.public_commit),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         logoutPlatform();
@@ -481,11 +480,10 @@ public class LoginFragment extends Fragment {
         alertDialog.show();
     }
 
-    private void registerOrLoginThird(final int select) {
+    private void loginThird(int select) {
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         JSONObject json = loginJSONFormat(select);
-        RequestBody body = RequestBody.create(mediaType, json.toString());
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_LOGIN)
                 .post(body)
@@ -494,7 +492,7 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
+                TSnackbarCall.showTSnackbar(getActivity().findViewById(R.id.coordinatorLayout_activity_login), "連線失敗");
             }
 
             @Override
@@ -507,25 +505,15 @@ public class LoginFragment extends Fragment {
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                //檢測通過丟去註冊，失敗丟去登入
-                                if (select == 3) registerOrLoginThird(2);
-                                if (select == 2) registerOrLoginThird(1);
-                                if (select == 1) {
-                                    //要存TOKEN
-                                    prefs.edit()
-                                            .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
-                                            .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
-                                            .apply();
-                                    transferMainPage();
-                                }
+                                //要存TOKEN
+                                prefs.edit()
+                                        .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
+                                        .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
+                                        .apply();
+                                transferMainPage();
 
                             } else {
-                                if (select == 3) {
-                                    registerOrLoginThird(1);
-                                } else if
-                                        (select == 2 || select == 1) {
-                                    logThirdSigninError();
-                                }
+                                logThirdSigninError();
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {

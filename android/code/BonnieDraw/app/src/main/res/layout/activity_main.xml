@@ -67,7 +67,7 @@
             android:layout_gravity="bottom"
             android:lineSpacingExtra="8sp"
             android:padding="16dp"
-            android:text="© 2017 SourceCode \n原碼數位科技版權所有" />
+            android:text="@string/sourcecode_copyright" />
 
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>
