@@ -27,6 +27,7 @@ import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.DictionaryService;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
+import com.bonniedraw.user.model.OtherUserModel;
 import com.bonniedraw.user.model.UserCounter;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.UserServiceAPI;
@@ -221,6 +222,46 @@ public class ApiController {
 		return respResult;
 	}
 	
+	private void setUserResponse(UserInfoQueryResponseVO respResult, UserInfo userInfo, OtherUserModel otherUserModel){
+		if(userInfo!=null && otherUserModel!=null){
+			return;
+		}
+		if(userInfo!=null){
+			respResult.setUserType(userInfo.getUserType());
+			respResult.setUserCode(userInfo.getUserCode());
+			respResult.setUserName(userInfo.getUserName());
+			respResult.setNickName(userInfo.getNickName());
+			respResult.setEmail(userInfo.getEmail());
+			respResult.setDescription(userInfo.getDescription());
+			respResult.setWebLink(userInfo.getWebLink());
+			respResult.setPhoneCountryCode(userInfo.getPhoneCountryCode());
+			respResult.setPhoneNo(userInfo.getPhoneNo());
+			respResult.setGender(userInfo.getGender());
+			respResult.setProfilePicture(userInfo.getProfilePicture());
+			respResult.setBirthday(userInfo.getBirthday());
+			respResult.setStatus(userInfo.getStatus());
+			respResult.setLanguageCode(userInfo.getLanguageCode());
+			respResult.setCountryCode(userInfo.getCountryCode());
+		}else if(otherUserModel !=null){
+			respResult.setUserType(otherUserModel.getUserType());
+			respResult.setUserCode(otherUserModel.getUserCode());
+			respResult.setUserName(otherUserModel.getUserName());
+			respResult.setNickName(otherUserModel.getNickName());
+			respResult.setEmail(otherUserModel.getEmail());
+			respResult.setDescription(otherUserModel.getDescription());
+			respResult.setWebLink(otherUserModel.getWebLink());
+			respResult.setPhoneCountryCode(otherUserModel.getPhoneCountryCode());
+			respResult.setPhoneNo(otherUserModel.getPhoneNo());
+			respResult.setGender(otherUserModel.getGender());
+			respResult.setProfilePicture(otherUserModel.getProfilePicture());
+			respResult.setBirthday(otherUserModel.getBirthday());
+			respResult.setStatus(otherUserModel.getStatus());
+			respResult.setLanguageCode(otherUserModel.getLanguageCode());
+			respResult.setCountryCode(otherUserModel.getCountryCode());
+			respResult.setFollow(otherUserModel.isFollow());
+		}
+	}
+	
 	@RequestMapping(value="/userInfoQuery" , produces="application/json")
 	public @ResponseBody UserInfoQueryResponseVO userInfoQuery(HttpServletRequest request,HttpServletResponse resp,@RequestBody UserInfoQueryRequestVO userInfoQueryRequestVO) {
 		UserInfoQueryResponseVO respResult = new UserInfoQueryResponseVO();
@@ -229,41 +270,37 @@ public class ApiController {
 		if(isLogin(userInfoQueryRequestVO)){
 			int type = userInfoQueryRequestVO.getType();
 			UserInfo userInfo = null;
+			OtherUserModel otherUserModel = null;
+			UserCounter userCounter = null;
 			if(type==0 || (type ==1 && userInfoQueryRequestVO.getQueryId()!=null)){
 				int id = -1;
 				if(type==0){
 					id = userInfoQueryRequestVO.getUi();
 					userInfo = userServiceAPI.queryUserInfo(id); 
+					if(userInfo!=null){
+						userCounter = userServiceAPI.getUserCounter(id);
+						respResult.setRes(1);
+						msg = messageSource.getMessage("api_success",null,request.getLocale());
+						setUserResponse(respResult, userInfo, null);
+					}else{
+						msg = messageSource.getMessage("api_fail",null,request.getLocale());
+					}
 				}else{
 					id = userInfoQueryRequestVO.getQueryId();
-					userInfo = userServiceAPI.queryOtherUserInfo(id, userInfoQueryRequestVO.getUi());
-				}
-				if(userInfo!=null){
-					UserCounter userCounter = userServiceAPI.getUserCounter(id);
-					if(userCounter!=null){
-						respResult.setWorksNum(userCounter.getWorksNum());
-						respResult.setFansNum(userCounter.getFansNum());
-						respResult.setFollowNum(userCounter.getFollowNum());
+					otherUserModel = userServiceAPI.queryOtherUserInfo(id, userInfoQueryRequestVO.getUi());
+					if(otherUserModel!=null){
+						userCounter = userServiceAPI.getUserCounter(id);
+						respResult.setRes(1);
+						msg = messageSource.getMessage("api_success",null,request.getLocale());
+						setUserResponse(respResult, null, otherUserModel);
+					}else{
+						msg = messageSource.getMessage("api_fail",null,request.getLocale());
 					}
-					respResult.setRes(1);
-					msg = messageSource.getMessage("api_success",null,request.getLocale());
-					respResult.setUserType(userInfo.getUserType());
-					respResult.setUserCode(userInfo.getUserCode());
-					respResult.setUserName(userInfo.getUserName());
-					respResult.setNickName(userInfo.getNickName());
-					respResult.setEmail(userInfo.getEmail());
-					respResult.setDescription(userInfo.getDescription());
-					respResult.setWebLink(userInfo.getWebLink());
-					respResult.setPhoneCountryCode(userInfo.getPhoneCountryCode());
-					respResult.setPhoneNo(userInfo.getPhoneNo());
-					respResult.setGender(userInfo.getGender());
-					respResult.setProfilePicture(userInfo.getProfilePicture());
-					respResult.setBirthday(userInfo.getBirthday());
-					respResult.setStatus(userInfo.getStatus());
-					respResult.setLanguageCode(userInfo.getLanguageCode());
-					respResult.setCountryCode(userInfo.getCountryCode());
-				}else{
-					msg = messageSource.getMessage("api_fail",null,request.getLocale());
+				}
+				if(userCounter!=null){
+					respResult.setWorksNum(userCounter.getWorksNum());
+					respResult.setFansNum(userCounter.getFansNum());
+					respResult.setFollowNum(userCounter.getFollowNum());
 				}
 			}else{
 				msg="資料異常";
@@ -555,37 +592,65 @@ public class ApiController {
 	public @ResponseBody FileUploadResponseVO fileUpload(HttpServletRequest request, HttpServletResponse resp,  
 			@RequestParam("file") CommonsMultipartFile file) {
 		FileUploadResponseVO respResult = new FileUploadResponseVO();
+		respResult.setRes(2);
 		String msg = "";
 		try {
+			Integer ui = request.getParameter("ui") !=null? Integer.valueOf(request.getParameter("ui")):null;
+			Integer dt = request.getParameter("dt") !=null? Integer.valueOf(request.getParameter("dt")):null;
+			Integer wid = request.getParameter("wid") !=null? Integer.valueOf(request.getParameter("wid")):null;
+			Integer ftype = request.getParameter("ftype") !=null? Integer.valueOf(request.getParameter("ftype")):null;
+			String fn = request.getParameter("fn");
 			FileUploadRequestVO fileUploadRequestVO = new FileUploadRequestVO();
-			fileUploadRequestVO.setUi(Integer.valueOf(request.getParameter("ui")));
+			fileUploadRequestVO.setUi(ui);
 			fileUploadRequestVO.setLk(request.getParameter("lk"));
-			fileUploadRequestVO.setDt(Integer.valueOf(request.getParameter("dt")));
-			fileUploadRequestVO.setWid(Integer.valueOf(request.getParameter("wid")));
-			fileUploadRequestVO.setFtype(Integer.valueOf(request.getParameter("ftype")));
+			fileUploadRequestVO.setDt(dt);
+			fileUploadRequestVO.setWid(wid);
+			fileUploadRequestVO.setFtype(ftype);
+
 			if(file !=null && !file.isEmpty()){
 				if(isLogin(fileUploadRequestVO)){
-					int fType = fileUploadRequestVO.getFtype();
-					if(fType>=1 && fType<=2 ){
+					if("1".equals(fn)){
+						if(ftype==null || wid==null){
+							msg = messageSource.getMessage("api_fail",null,request.getLocale());
+							respResult.setMsg(msg);
+							return respResult;
+						}
+						int fType = fileUploadRequestVO.getFtype();
+						if(fType>=1 && fType<=2 ){
+							StringBuffer path = new StringBuffer();
+							path.append(fileUploadRequestVO.getWid()).append((fType==1 ? "/png" : "/bdw"));
+							Map<String, Object> result = FileUtil.uploadMultipartFile(file, path.toString());
+							boolean status = (boolean)result.get("status");
+							String filePath = result.get("path").toString();
+							if( status && ValidateUtil.isNotBlank(filePath)){
+								if(worksServiceAPI.updateWorksFilePath(fileUploadRequestVO.getWid(), fType, filePath)){
+									respResult.setRes(1);
+									msg = messageSource.getMessage("api_success",null,request.getLocale());
+								}else{
+									msg = messageSource.getMessage("api_fail",null,request.getLocale());
+								}
+							}else{
+								msg = messageSource.getMessage("api_fail",null,request.getLocale());
+							}
+						}else{
+							msg = messageSource.getMessage("api_data_error",null,request.getLocale());
+						}
+					}else if("2".equals(fn)){
 						StringBuffer path = new StringBuffer();
-						path.append(fileUploadRequestVO.getWid()).append((fType==1 ? "/png" : "/bdw"));
+						path.append("/picture/").append(fileUploadRequestVO.getUi());
 						Map<String, Object> result = FileUtil.uploadMultipartFile(file, path.toString());
 						boolean status = (boolean)result.get("status");
 						String filePath = result.get("path").toString();
 						if( status && ValidateUtil.isNotBlank(filePath)){
-							if(worksServiceAPI.updateWorksFilePath(fileUploadRequestVO.getWid(), fType, filePath)){
+							if(userServiceAPI.updateUserPicture(fileUploadRequestVO.getUi(), filePath)){
 								respResult.setRes(1);
 								msg = messageSource.getMessage("api_success",null,request.getLocale());
 							}else{
-								respResult.setRes(2);
 								msg = messageSource.getMessage("api_fail",null,request.getLocale());
 							}
 						}else{
-							respResult.setRes(2);
 							msg = messageSource.getMessage("api_fail",null,request.getLocale());
 						}
-					}else{
-						msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 					}
 				}else{
 					msg = "帳號未登入"; 
@@ -615,6 +680,8 @@ public class ApiController {
 			headers.setContentType(MediaType.IMAGE_PNG);
 		}else if("bdw".equals(extension)){
 			headers.setContentType(new MediaType("application", "octet-stream"));
+		}else if("jpg".equals(extension) || "jpeg".equals(extension)){
+			headers.setContentType(MediaType.IMAGE_JPEG);
 		}else{
 			return null;
 		}
@@ -729,7 +796,7 @@ public class ApiController {
 		DictionaryListResponseVO respResult = new DictionaryListResponseVO();
 		respResult.setRes(2);
 		String msg = "";
-		if(isLogin(dictionaryListRequestVO)){
+//		if(isLogin(dictionaryListRequestVO)){
 			int dictionaryType = dictionaryListRequestVO.getDictionaryType();
 			if(dictionaryType==1 || dictionaryType==2){
 				respResult.setDictionaryList(dictionaryService.getDictionaryList(dictionaryType, dictionaryListRequestVO.getDictionaryID()));
@@ -737,9 +804,9 @@ public class ApiController {
 			}else{
 				msg = "資料異常";
 			}
-		}else{
-			msg = "帳號未登入"; 
-		}
+//		}else{
+//			msg = "帳號未登入"; 
+//		}
 		respResult.setMsg(msg);
 		return respResult;
 	}

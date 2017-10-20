@@ -41,7 +41,7 @@
 							<div class="latest-vid-img-container">		
 								<div class="vid-img" ng-if="data.imagePath!=null && data.imagePath!=''">
 									<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" alt="image">
-									<a href="video-detail.html" class="play-icon play-small-icon">
+									<a ng-href="#/column-detail?id={{data.worksId}}" class="play-icon play-small-icon">
 							            <img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
 							        </a>
 									<div class="overlay-div"></div>

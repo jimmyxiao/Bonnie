@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bonniedraw.base.service.BaseService;
 import com.bonniedraw.email.EmailProcess;
+import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.login.dao.LoginMapper;
 import com.bonniedraw.login.model.Login;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
@@ -168,7 +169,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		return result;
 	}
 	
-	private UserInfo getInitalUserInfo(LoginRequestVO loginRequestVO, Date nowDate) throws Exception{
+	private UserInfo getInitalUserInfo(LoginRequestVO loginRequestVO, Date nowDate) throws Exception{	
 		int userType = loginRequestVO.getUt();
 		int dt = loginRequestVO.getDt();
 		String userCode;
@@ -261,6 +262,17 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 				}else{
 					UserInfo userInfo = getInitalUserInfo(loginRequestVO, nowDate);
 					userInfoMapper.insert(userInfo);
+					if(ValidateUtil.isNotBlank(loginRequestVO.getThirdPictureUrl())){
+						StringBuffer path = new StringBuffer();
+						path.append("/picture/").append(userInfo.getUserId());
+						Map<String, Object> resultMap = FileUtil.copyURLToFile(loginRequestVO.getThirdPictureUrl(), path.toString());
+						boolean status = (boolean)resultMap.get("status");
+						if(status){
+							String filePath = resultMap.get("path")!=null?resultMap.get("path").toString():null;
+							userInfo.setProfilePicture(filePath);
+							userInfoMapper.updateByPrimaryKeySelective(userInfo);
+						}
+					}
 				}
 				result.setRes(1);
 			}else{
@@ -434,7 +446,24 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		return success;
 	}
 	
-
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean updateUserPicture(int userId, String path) {
+		UserInfo updateUserInfo = new UserInfo();
+		Date nowDate = TimerUtil.getNowDate();
+		updateUserInfo.setUpdateDate(nowDate);
+		updateUserInfo.setUpdatedBy(userId);
+		updateUserInfo.setProfilePicture(path);
+		updateUserInfo.setUserId(userId);
+		try {
+			userInfoMapper.updateByPrimaryKeySelective(updateUserInfo);
+			return true;
+		} catch (Exception e) {
+			LogUtils.error(getClass(), "updateUserPicture has error :" + e);
+		}
+		return false;
+	}
+	
 	@Override
 	public FriendResponseVO getUserFriendsList(int userId, int thirdPlatform, List<Integer> uidList) {
 		FriendResponseVO friendResponseVO = new FriendResponseVO();

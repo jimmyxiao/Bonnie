@@ -18,7 +18,8 @@ app.controller('headerMenuController', function ($rootScope, $scope, $window, $l
 )
 
 app.controller('footerController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, generalService) {
-		var param = util.getInitalScope();
+		// var param = util.getInitalScope();
+		var param = {};
 		param.dictionaryType = 1;
 		param.dictionaryID = 0;
 		$scope.dictionaryList =[];

@@ -39,6 +39,8 @@ public interface WorksMapper {
     
     List<WorksResponse> queryUserWorksPager(Map<String, Integer> pagerMap);
     
+    List<WorksResponse> queryOtherUserWorksPager(Map<String, Integer> pagerMap);
+    
     List<WorksResponse> queryTrackWorksPager(Map<String, Integer> pagerMap);
     
     List<WorksResponse> queryCollectionWorksPager(Map<String, Integer> pagerMap);

@@ -17,7 +17,7 @@ app.controller('collectionListingController', function ($rootScope, $scope, $win
 			$scope.mainSectionArr = [];
 			var params = util.getInitalScope();
 			params.wid = 0;
-			params.wt = 6;
+			params.wt = 7;
 			params.stn = $scope.offset;
 			params.rc = 4; 
 			worksService.queryWorksList(params,function(data, status, headers, config){

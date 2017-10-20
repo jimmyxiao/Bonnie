@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,28 @@ import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.SercurityUtil;
 
 public class FileUtil {
+	
+	public static Map<String, Object> copyURLToFile(String url, String path){
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("status", false);
+		result.put("path", null);
+		String extension = url.substring(url.lastIndexOf("."));
+		String newFileName = SercurityUtil.getUUID() + extension;
+		String rootPath = System.getProperty("catalina.home");
+		String childrenPath = "/files/" + path;
+		File dir = new File(rootPath + childrenPath);
+		if (!dir.exists())
+			dir.mkdirs();
+		try {
+			URL domain = new URL(url);
+			File uploadFile = new File(dir.getAbsolutePath() + "/" +newFileName);
+			org.apache.commons.io.FileUtils.copyURLToFile(domain, dir);
+			result.put("status", true);
+	    	result.put("path", (uploadFile.getAbsolutePath().replace(rootPath, "")).replace("\\", "/"));
+		} catch (Exception e) {
+		}
+		return result;
+	}
 	
 	public static Map<String, Object> uploadMultipartFile(MultipartFile file,String path){
 		Map<String, Object> result = new HashMap<String, Object>();

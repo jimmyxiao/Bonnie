@@ -20,6 +20,8 @@ public interface UserServiceAPI {
 	public UserCounter getUserCounter(int userId);
 	public int updateUserInfo(UserInfo userInfo);
 	public int updatePwd(UpdatePwdRequestVO updatePwdRequestVO);
+	public boolean updateUserPicture(int userId, String path);
 	public FriendResponseVO getUserFriendsList(int userId, int thirdPlatform, List<Integer> uidList);
 	public List<UserInfoResponse> getFollowingList(int fn, int userId);
+	
 }

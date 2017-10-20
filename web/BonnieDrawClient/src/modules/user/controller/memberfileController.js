@@ -1,11 +1,41 @@
-app.controller('memberfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, userService) {
+app.controller('memberfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, Upload, userService) {
 		$rootScope.title = '帳戶設定 | BonnieDRAW';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		
 		$scope.user = util.clone($rootScope.rg_gl.currentUser.userInfo);
-		console.log($scope.user);
 		var baseBean = util.getInitalScope();
+		$scope.file={
+			imagePath:[]
+		}
+		$scope.upload = function(file) {
+		    var parameter = 'ui=' + baseBean.ui 
+		    	+ '&lk=' + baseBean.lk 
+		    	+ '&dt=' + baseBean.dt 
+		    	+ '&fn=2';
+
+			if (file) {
+				Upload.upload({
+					url: rootApi + 'fileUpload?' + parameter,
+					data: {
+						file: file
+			        }
+			    }).then(function(resp) {
+			    	console.log(resp);
+			        var data = resp.data;
+					if(data.res==1){
+						alert('上傳成功');
+					}else{
+						alert('上傳失敗');
+					}
+				}, function(resp) {
+				}, function(evt) {
+					$scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+				});
+			}
+		}
+
+
 		$scope.status = $state.params.v;
 		if(util.isEmpty($scope.status)){
 			$scope.tagView = 'profile';

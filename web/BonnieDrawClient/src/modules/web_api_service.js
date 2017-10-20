@@ -142,6 +142,9 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
         },
         updatePwd : function(params, callback) {
             return baseHttp.service('updatePwd', params, callback);
+        },
+        setFollowing:function(params, callback) {
+            return baseHttp.service('setFollowing', params, callback);
         }
     }
 })

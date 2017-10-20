@@ -12,7 +12,7 @@ var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
 var app = angular.module('app',
 	['ui.router', 'ngCookies', 'ui.bootstrap', 'ngRoute', 'ngSanitize',
-	 'pascalprecht.translate', 'ngTextareaEnter', 'Authentication']);
+	 'pascalprecht.translate', 'ngTextareaEnter', 'ngFileUpload', 'Authentication']);
 
 app.factory('baseHttp', function($rootScope, $http){
 	function doService(url, params, callback, error){
