@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bonniedraw.user.dao.UserInfoMapper">
+<resultMap id="OtherUserResult" type="com.bonniedraw.user.model.OtherUserModel" extends="BaseResultMap">
+  <result column="isFollow" jdbcType="BOOLEAN" property="isFollow" />
+</resultMap>
 <resultMap id="BaseResultMap" type="com.bonniedraw.user.model.UserInfo">
     <id column="USER_ID" jdbcType="INTEGER" property="userId" />
     <result column="USER_TYPE" jdbcType="INTEGER" property="userType" />
@@ -410,6 +413,7 @@
 		<if test="ut == 2 ">	 and REG_FACEBOOK_ID = #{uc, jdbcType=VARCHAR} </if>
 		<if test="ut == 3 "> and REG_GOOGLE_ID = #{uc, jdbcType=VARCHAR} </if>
 		<if test="ut == 4 "> and REG_TWITTER_ID = #{uc, jdbcType=VARCHAR} </if>
+		and STATUS !=2
 	</select>
 	
 	<select id="selectByUserCode" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -453,6 +457,13 @@
     	select 
     	<include refid="Base_Column_List" />
     	from user_info
+  	</select>
+  	
+  	<select id="queryOtherUserInfo" parameterType="java.util.Map" resultMap="OtherUserResult">
+    	select 
+    	<include refid="Base_Column_List" />, 
+		(case when exists (select following_id from following where following_user_id= #{queryId,jdbcType=INTEGER} and USER_ID = #{userId,jdbcType=INTEGER} ) then true else false end) as isFollow
+		from user_info where USER_ID = #{queryId,jdbcType=INTEGER} and status !=2
   	</select>
   	
   	<select id="getUserCounter" parameterType="java.lang.Integer" resultType="com.bonniedraw.user.model.UserCounter">

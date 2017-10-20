@@ -3,6 +3,7 @@ package com.bonniedraw.user.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.bonniedraw.user.model.OtherUserModel;
 import com.bonniedraw.user.model.UserCounter;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
@@ -32,6 +33,8 @@ public interface UserInfoMapper {
     UserInfo inspectOldPwd(UserInfo record);
     
     List<UserInfo> queryUserList();
+    
+    OtherUserModel queryOtherUserInfo(Map<String, Object> paramMap);
     
     UserCounter getUserCounter(Integer userId);
     

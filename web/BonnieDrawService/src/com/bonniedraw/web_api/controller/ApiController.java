@@ -236,7 +236,7 @@ public class ApiController {
 					userInfo = userServiceAPI.queryUserInfo(id); 
 				}else{
 					id = userInfoQueryRequestVO.getQueryId();
-					userInfo = userServiceAPI.queryUserInfo(id);
+					userInfo = userServiceAPI.queryOtherUserInfo(id, userInfoQueryRequestVO.getUi());
 				}
 				if(userInfo!=null){
 					UserCounter userCounter = userServiceAPI.getUserCounter(id);
@@ -282,7 +282,8 @@ public class ApiController {
 		if(isLogin(userInfoUpdateRequestVO)){
 			if(ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getUserCode())
 					&& ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getUserName())
-					&& ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getEmail())){
+//					&& ValidateUtil.isNotBlank(userInfoUpdateRequestVO.getEmail())
+					){
 				UserInfo userInfo = new UserInfo();
 				userInfo.setUserId(userInfoUpdateRequestVO.getUi());
 				userInfo.setUserType(userInfoUpdateRequestVO.getUserType());
@@ -383,20 +384,30 @@ public class ApiController {
 			if(isLogin(workListRequestVO)){
 				Integer wt = workListRequestVO.getWt();
 				Integer wid = workListRequestVO.getWid();
-				if(ValidateUtil.isNotNumNone(wt) && wt > 0){
-					if(wt!=3 && !(wt >=20)){
-						if(ValidateUtil.isNotNumNone(wid)){		//取得系統預設類別的單一作品
-							WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
-							if(worksResponse!=null){
-								List<WorksResponse> workList = respResult.getWorkList();
-								workList.add(worksResponse);
+				if(ValidateUtil.isNotNumNone(wid)){		//取得單一作品
+					WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
+					if(worksResponse!=null){
+						Integer resStatus = worksResponse.getStatus();
+						Integer resUserId = worksResponse.getUserId();
+						if(resStatus ==1 ||  (resStatus!=1 && resUserId == workListRequestVO.getUi())){
+							Integer privacyType = worksResponse.getPrivacyType();
+							if(privacyType == 1 || (privacyType!=1 && resUserId == workListRequestVO.getUi())){
+								respResult.setWork(worksResponse);
 								respResult.setRes(1);
 								msg = messageSource.getMessage("api_success",null,request.getLocale());
-							}else{
-								respResult.setRes(2);
-								msg = messageSource.getMessage("api_fail",null,request.getLocale());
 							}
-						}else{
+						}
+//						List<WorksResponse> workList = respResult.getWorkList();
+//						workList.add(worksResponse);
+//						respResult.setRes(1);
+//						msg = messageSource.getMessage("api_success",null,request.getLocale());
+					}else{
+						respResult.setRes(2);
+						msg = messageSource.getMessage("api_fail",null,request.getLocale());
+					}
+				}else{
+					if(ValidateUtil.isNotNumNone(wt) && wt > 0){
+						if(wt!=3 && !(wt >=20)){
 							List<WorksResponse> workList;
 							if(ValidateUtil.isNotNumNone(workListRequestVO.getStn())){		//取得含有分頁控制的作品列表,反之只取得顯示部分作品列表
 								Map<String, Object> resultMap = worksServiceAPI.queryAllWorksAndPagination(workListRequestVO);
@@ -408,26 +419,26 @@ public class ApiController {
 							respResult.setRes(1);
 							respResult.setWorkList(workList);
 							msg = messageSource.getMessage("api_success",null,request.getLocale());
+						}else{
+//							if(ValidateUtil.isNotNumNone(wid)){		//取得系統非預設類別的作品
+//								WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
+//								if(worksResponse!=null){
+//									Integer resStatus = worksResponse.getStatus();
+//									Integer resUserId = worksResponse.getUserId();
+//									if(resStatus ==1 ||  (resStatus!=1 && resUserId == workListRequestVO.getUi())){
+//										Integer privacyType = worksResponse.getPrivacyType();
+//										if(privacyType == 1 || (privacyType!=1 && resUserId == workListRequestVO.getUi())){
+//											respResult.setWork(worksResponse);
+//											respResult.setRes(1);
+//											msg = messageSource.getMessage("api_success",null,request.getLocale());
+//										}
+//									}
+//								}
+//							}
 						}
 					}else{
-						if(ValidateUtil.isNotNumNone(wid)){		//取得系統非預設類別的作品
-							WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
-							if(worksResponse!=null){
-								Integer resStatus = worksResponse.getStatus();
-								Integer resUserId = worksResponse.getUserId();
-								if(resStatus ==1 ||  (resStatus!=1 && resUserId == workListRequestVO.getUi())){
-									Integer privacyType = worksResponse.getPrivacyType();
-									if(privacyType == 1 || (privacyType!=1 && resUserId == workListRequestVO.getUi())){
-										respResult.setWork(worksResponse);
-										respResult.setRes(1);
-										msg = messageSource.getMessage("api_success",null,request.getLocale());
-									}
-								}
-							}
-						}
+						msg="類別錯誤";
 					}
-				}else{
-					msg="類別錯誤";
 				}
 			}else{
 				msg = "帳號未登入"; 

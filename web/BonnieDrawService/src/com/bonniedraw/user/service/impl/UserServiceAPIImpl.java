@@ -17,6 +17,7 @@ import com.bonniedraw.login.dao.LoginMapper;
 import com.bonniedraw.login.model.Login;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
 import com.bonniedraw.user.dao.UserInfoMapper;
+import com.bonniedraw.user.model.OtherUserModel;
 import com.bonniedraw.user.model.UserCounter;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.UserServiceAPI;
@@ -356,6 +357,14 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	public UserInfo queryUserInfo(int userId) {
 		return userInfoMapper.selectByPrimaryKey(userId);
 	}
+	
+	@Override
+	public OtherUserModel queryOtherUserInfo(int queryId, int userId) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("queryId", queryId);
+		paramMap.put("userId", userId);
+		return userInfoMapper.queryOtherUserInfo(paramMap);
+	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -364,22 +373,22 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		Date nowDate = TimerUtil.getNowDate();
 		
 		try {
-			String userCode = userInfo.getUserCode();
-			String userEmail = userInfo.getEmail();
+//			String userCode = userInfo.getUserCode();
+//			String userEmail = userInfo.getEmail();
 			userInfo.setUpdatedBy(userInfo.getUserId());
 			userInfo.setUpdateDate(nowDate);
-			if(userCode.compareTo(userEmail) !=0){
-				UserInfo existiUserInfo = userInfoMapper.selectByUserCode(userEmail);
-				if(existiUserInfo!=null){
-					return 4;
-				}
-				userInfo.setUserCode(userEmail);
-				userInfoMapper.updateByPrimaryKeySelective(userInfo);
-				success = 3;
-			}else{
+//			if(userCode.compareTo(userEmail) !=0){
+//				UserInfo existiUserInfo = userInfoMapper.selectByUserCode(userEmail);
+//				if(existiUserInfo!=null){
+//					return 4;
+//				}
+//				userInfo.setUserCode(userEmail);
+//				userInfoMapper.updateByPrimaryKeySelective(userInfo);
+//				success = 3;
+//			}else{
 				userInfoMapper.updateByPrimaryKeySelective(userInfo);
 				success = 1;
-			}
+//			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "updateUserInfo has error : " + e );
 			callRollBack();
@@ -394,7 +403,11 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		UserInfo userInfo = new UserInfo();
 		try {
 			userInfo.setUserId(updatePwdRequestVO.getUi());
-			userInfo.setUserPw(EncryptUtil.convertMD5(updatePwdRequestVO.getOldPwd()));
+			if(updatePwdRequestVO.getDt()==3){
+				userInfo.setUserPw(EncryptUtil.convertMD5(updatePwdRequestVO.getOldPwd()));
+			}else{
+				userInfo.setUserPw(updatePwdRequestVO.getOldPwd());
+			}
 			UserInfo resultUserInfo = userInfoMapper.inspectOldPwd(userInfo);
 			if(resultUserInfo == null ){
 				success = 4;
@@ -403,7 +416,11 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 					success = 3;
 				}else{
 					Date nowDate = TimerUtil.getNowDate();
-					userInfo.setUserPw(EncryptUtil.convertMD5(updatePwdRequestVO.getNewPwd()));
+					if(updatePwdRequestVO.getDt()==3){
+						userInfo.setUserPw(EncryptUtil.convertMD5(updatePwdRequestVO.getNewPwd()));
+					}else{
+						userInfo.setUserPw(updatePwdRequestVO.getNewPwd());
+					}
 					userInfo.setUpdateDate(nowDate);
 					userInfo.setUpdatedBy(updatePwdRequestVO.getUi());
 					userInfoMapper.updateByPrimaryKeySelective(userInfo);

@@ -284,7 +284,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			maxPagination = worksMapper.seletMaxPaginationBindUser(pagerMap);
 			worksResponseList = worksMapper.queryUserWorksPager(pagerMap);
 			break;
-		case 6:
+		case 7:
 			maxPagination = worksMapper.seletMaxPaginationBindCollection(pagerMap);
 			worksResponseList = worksMapper.queryCollectionWorksPager(pagerMap);
 			break;

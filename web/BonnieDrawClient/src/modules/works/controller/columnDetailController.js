@@ -46,7 +46,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			$scope.mainSection = {};
 			var params = util.getInitalScope();
 			params.wid = wid;
-			params.wt = 20; 
+			// params.wt = 20; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$scope.mainSection = data.work;

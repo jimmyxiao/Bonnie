@@ -10,7 +10,7 @@ app.controller('headerMenuController', function ($rootScope, $scope, $window, $l
 		$scope.getCategoryList();
 
 		$scope.clickCategory = function(data){
-			console.log(data);
+			
 		}
 
 
