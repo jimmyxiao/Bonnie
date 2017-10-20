@@ -1484,7 +1484,7 @@ h1.sidebar-heading {
 }
 .video-detail-text {
 	margin-top:20px;
-	padding: 75px 0px 50px;
+	padding: 35px 0px 50px;
 }
 .video-detail-text p {
 	color: #575757;
@@ -2522,4 +2522,11 @@ p.blog-vid-info-text {
 	padding:15px;
 	border-top: 1px #dadcdd solid; 
 	border-bottom: 1px #dadcdd solid; 
+}
+
+.report-box{
+	padding:10px 15px 15px 15px;
+	margin-bottom:20px;
+	border-top:1px solid #e4e4e4;
+	border-bottom:1px solid #e4e4e4;
 }
