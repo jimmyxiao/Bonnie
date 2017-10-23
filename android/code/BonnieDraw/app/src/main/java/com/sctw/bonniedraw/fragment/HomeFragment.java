@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.fragment;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -97,7 +99,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewHome.setLayoutManager(layoutManager);
-        mRecyclerViewHome.setOnScrollListener(new RecyclerPauseOnScrollListener(ImageLoader.getInstance(),true,true));
+        mRecyclerViewHome.addOnScrollListener(new RecyclerPauseOnScrollListener(ImageLoader.getInstance(),true,true));
         getWorksList();
     }
 
@@ -201,15 +203,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onWorkImgClick(int wid) {
                 Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
-                fragmentManager = getChildFragmentManager();
-                WorkFragment workFragment=new WorkFragment();
+                Intent intent=new Intent();
                 Bundle bundle=new Bundle();
                 bundle.putInt("wid",wid);
-                workFragment.setArguments(bundle);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout_home, workFragment)
-                        .addToBackStack(null)
-                        .commit();
+                intent.setClass(getActivity(), SingleWorkActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.sctw.bonniedraw.works;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,11 +59,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                 .displayImage(GlobalVariable.API_LINK_GET_PHOTO + data.get(position).getImagePath(), holder.mImgViewWrok, options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
-
                     }
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.d("IMG LOAD FAIL","FAIL");
                     }
 
                     @Override

@@ -53,7 +53,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private int displayWidth, offsetX, offsetY, realPaint = 0, miGridCol, count;
     private float startX, startSacle, startY, pointLength;
     private Xfermode eraseEffect;
-    private File backLoadBDW;
+    private File backLoadBDW=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

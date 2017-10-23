@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -61,7 +61,8 @@
                 <data android:pathPattern=".*\\.bdw" />
             </intent-filter>
         </activity>
-        <activity android:name=".paint.PaintPlayActivity"></activity>
+        <activity android:name=".paint.PaintPlayActivity" />
+        <activity android:name=".activity.SingleWorkActivity"></activity>
     </application>
 
 </manifest>
