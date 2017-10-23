@@ -1,0 +1,27 @@
+<div>
+	<h4 class='smaller'>
+		<i class='ace-icon fa fa-exclamation-circle blue'>
+		</i> Alert
+		<i class="fa fa-times" style="float:right;" ng-click="close()"></i> 
+	</h4>
+</div>
+<div class="row collapse" id="report">
+	<div class="col-md-12 report-box">
+		<h4 style="margin-bottom:20px">檢舉內容</h4>
+		<from>
+			<div class="form-group">
+				<label>
+					<input type="radio" name="location" value="one">內容不當
+				</label>
+			</div>
+			<div class="form-group">
+				<label>
+					<input type="radio" name="location" value="two">侵犯著作權利
+				</label>
+			</div>
+		</from>
+		<div class="row" style="margin:30px 0 10px 10px;">
+			<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#report">送出</button>
+		</div>
+	</div>
+</div>

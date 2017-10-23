@@ -3,7 +3,7 @@ app.factory('util', function($rootScope, $http, $modal) {
 		alert: function(msg,callback,size) {
 			size = size || 'sm';
 			$modal.open({
-				templateUrl: 'modules/common/views/alert.html',
+				templateUrl: 'modules/share/view/alert.html',
 				backdrop:'static',
 				controller: function($scope, $modalInstance) {
 					$scope.msg = msg;
@@ -16,7 +16,7 @@ app.factory('util', function($rootScope, $http, $modal) {
 		},
 		confirm: function(msg, callback) {
 			$modal.open({
-				templateUrl: 'modules/common/views/confirm.html',
+				templateUrl: 'modules/share/view/confirm.html',
 				backdrop: 'static',
 				controller: function($scope, $modalInstance) {
 					$scope.msg = msg;

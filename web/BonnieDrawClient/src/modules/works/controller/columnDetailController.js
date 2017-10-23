@@ -101,5 +101,17 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			}
 		}
 
+		$scope.turnModel = {
+			optin:'one'
+		}
+		
+		$scope.clickTurnIn = function(){
+			$scope.turnModel.option = 'one';
+		}
+
+		$scope.sendTurnIn = function(){
+
+		}
+
 	}
 )
