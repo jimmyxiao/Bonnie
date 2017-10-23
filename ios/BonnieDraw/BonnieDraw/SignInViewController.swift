@@ -80,13 +80,34 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                         return
                     }
                     if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
-                        let defaults = UserDefaults.standard
-                        defaults.set(token, forKey: Default.TOKEN)
-                        defaults.set(userId, forKey: Default.USER_ID)
-                        defaults.set(email, forKey: Default.EMAIL)
-                        defaults.set(password, forKey: Default.PASSWORD)
-                        defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
-                        self.launchMain()
+                        self.dataRequest = Alamofire.request(
+                                Service.standard(withPath: Service.USER_INFO_QUERY),
+                                method: .post,
+                                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                                encoding: JSONEncoding.default).validate().responseJSON {
+                            response in
+                            switch response.result {
+                            case .success:
+                                guard let data = response.result.value as? [String: Any] else {
+                                    self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                    return
+                                }
+                                Logger.d(token)
+                                let defaults = UserDefaults.standard
+                                defaults.set(token, forKey: Default.TOKEN)
+                                defaults.set(userId, forKey: Default.USER_ID)
+                                defaults.set(email, forKey: Default.EMAIL)
+                                defaults.set(password, forKey: Default.PASSWORD)
+                                defaults.set(data["profilePicture"] as? String, forKey: Default.THIRD_PARTY_IMAGE)
+                                defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                                self.launchMain()
+                            case .failure(let error):
+                                if let error = error as? URLError, error.code == .cancelled {
+                                    return
+                                }
+                                self.showErrorMessage(message: error.localizedDescription)
+                            }
+                        }
                     } else {
                         self.showErrorMessage(message: data["msg"] as? String)
                     }
@@ -220,17 +241,36 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     return
                 }
                 if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
-                    Logger.d(token)
-                    let defaults = UserDefaults.standard
-                    defaults.set(token, forKey: Default.TOKEN)
-                    defaults.set(userId, forKey: Default.USER_ID)
-                    defaults.set(type.rawValue, forKey: Default.USER_TYPE)
-                    defaults.set(id, forKey: Default.THIRD_PARTY_ID)
-                    defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
-                    defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
-                    defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
-                    defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
-                    self.launchMain()
+                    self.dataRequest = Alamofire.request(
+                            Service.standard(withPath: Service.USER_INFO_QUERY),
+                            method: .post,
+                            parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                            encoding: JSONEncoding.default).validate().responseJSON {
+                        response in
+                        switch response.result {
+                        case .success:
+                            guard let data = response.result.value as? [String: Any] else {
+                                self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                return
+                            }
+                            Logger.d(token)
+                            let defaults = UserDefaults.standard
+                            defaults.set(token, forKey: Default.TOKEN)
+                            defaults.set(userId, forKey: Default.USER_ID)
+                            defaults.set(type.rawValue, forKey: Default.USER_TYPE)
+                            defaults.set(id, forKey: Default.THIRD_PARTY_ID)
+                            defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
+                            defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
+                            defaults.set(data["profilePicture"] as? String ?? imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                            defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                            self.launchMain()
+                        case .failure(let error):
+                            if let error = error as? URLError, error.code == .cancelled {
+                                return
+                            }
+                            self.showErrorMessage(message: error.localizedDescription)
+                        }
+                    }
                 } else {
                     self.showErrorMessage(message: data["msg"] as? String)
                 }

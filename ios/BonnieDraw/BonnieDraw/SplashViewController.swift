@@ -40,9 +40,37 @@ class SplashViewController: UIViewController {
                             }
                             return
                         }
-                        if response == 1, let token = data["lk"] as? String {
-                            defaults.set(token, forKey: Default.TOKEN)
-                            self.launchMain()
+                        if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
+                            Alamofire.request(
+                                    Service.standard(withPath: Service.USER_INFO_QUERY),
+                                    method: .post,
+                                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                                    encoding: JSONEncoding.default).validate().responseJSON {
+                                response in
+                                switch response.result {
+                                case .success:
+                                    guard let data = response.result.value as? [String: Any] else {
+                                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized) {
+                                            action in
+                                            self.launchLogin()
+                                        }
+                                        return
+                                    }
+                                    Logger.d(token)
+                                    let defaults = UserDefaults.standard
+                                    defaults.set(token, forKey: Default.TOKEN)
+                                    if let imageUrl = data["profilePicture"] as? String {
+                                        defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                                    }
+                                    defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                                    self.launchMain()
+                                case .failure(let error):
+                                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
+                                        action in
+                                        self.launchLogin()
+                                    }
+                                }
+                            }
                         } else {
                             self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data["msg"] as? String) {
                                 action in
@@ -50,9 +78,6 @@ class SplashViewController: UIViewController {
                             }
                         }
                     case .failure(let error):
-                        if let error = error as? URLError, error.code == .cancelled {
-                            return
-                        }
                         self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
                             action in
                             self.launchLogin()
