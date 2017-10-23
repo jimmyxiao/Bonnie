@@ -23,7 +23,7 @@ class ForgetPasswordViewController: BackButtonViewController, UITextFieldDelegat
     }
 
     private func showErrorMessage(message: String?) {
-        presentDialog(title: "alert_sign_up_fail_title".localized, message: message)
+        presentDialog(title: "alert_forget_password_title".localized, message: message)
         loading.hide(true)
     }
 
@@ -47,7 +47,7 @@ class ForgetPasswordViewController: BackButtonViewController, UITextFieldDelegat
             view.endEditing(true)
             loading.hide(false)
             dataRequest = Alamofire.request(
-                    Service.standard(withPath: Service.LOGIN),
+                    Service.standard(withPath: Service.FORGET_PASSWORD),
                     method: .post,
                     parameters: ["email": email],
                     encoding: JSONEncoding.default).validate().responseJSON {
