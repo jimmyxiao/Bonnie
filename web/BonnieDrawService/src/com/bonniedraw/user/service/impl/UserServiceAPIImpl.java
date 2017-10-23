@@ -161,8 +161,8 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 							emailUserInfo.setStatus(1);
 							emailUserInfo.setUpdatedBy(0);
 							emailUserInfo.setUpdateDate(nowDate);
-							userInfoMapper.updateByPrimaryKey(emailUserInfo);
-							putLogin(result, loginRequestVO, existUserInfo, ipAddress);
+							userInfoMapper.updateByPrimaryKeySelective(emailUserInfo);
+							putLogin(result, loginRequestVO, emailUserInfo, ipAddress);
 						}else{
 							insertUserInfo(result, loginRequestVO, ipAddress);
 						}
@@ -294,7 +294,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 					existUserInfo.setRegValidDate(regVaildDate);
 					existUserInfo.setUpdatedBy(0);
 					existUserInfo.setUpdateDate(nowDate);
-					userInfoMapper.updateByPrimaryKey(existUserInfo);
+					userInfoMapper.updateByPrimaryKeySelective(existUserInfo);
 					if(EmailProcess.sendValideMail(systemSetupService,existUserInfo)){
 						result.setRes(1);
 					}else{
