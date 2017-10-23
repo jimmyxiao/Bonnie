@@ -72,7 +72,6 @@ struct Service {
     static let FOLLOW = "/setFollowing"
     static let REPORT = "/setTurnin"
     static let UPDATE_PASSWORD = "/updatePwd"
-    static let CATEGORY_LIST = "/categoryList"
     static let LOAD_FILE = "/loadFile"
 
     static func standard(withPath path: String) -> String {

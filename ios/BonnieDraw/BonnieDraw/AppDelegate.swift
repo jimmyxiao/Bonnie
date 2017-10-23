@@ -14,7 +14,6 @@ import Reachability
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    static let stack = CoreDataStack(modelName: "Model")
     static let reachability = Reachability()!
     var window: UIWindow?
 

@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     var delegate: HomeViewControllerDelegate?
@@ -95,6 +96,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             likes: work["likeCount"] as? Int))
                 }
                 self.tableView.reloadSections([0], with: .automatic)
+                self.emptyLabel.isHidden = !self.works.isEmpty
                 self.loading.hide(true)
                 self.timestamp = Date()
             case .failure(let error):
