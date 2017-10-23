@@ -29,7 +29,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if let timestamp = timestamp {
+        if works.isEmpty {
+            downloadData()
+        } else if let timestamp = timestamp {
             if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
                 downloadData()
             }

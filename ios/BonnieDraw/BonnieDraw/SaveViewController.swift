@@ -112,7 +112,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                                 multipartFormData in
                                 multipartFormData.append(workThumbnailData, withName: "file", fileName: "\(workId).png", mimeType: "image/png")
                             },
-                            to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&wid=\(workId)&ftype=\(FileType.png.rawValue)",
+                            to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&fn=1&wid=\(workId)&ftype=\(FileType.png.rawValue)",
                             encodingCompletion: {
                                 encodingResult in
                                 switch encodingResult {
@@ -134,7 +134,7 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
                                                         multipartFormData in
                                                         multipartFormData.append(workFileUrl, withName: "file", fileName: "\(workId).bdw", mimeType: "")
                                                     },
-                                                    to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&wid=\(workId)&ftype=\(FileType.bdw.rawValue)",
+                                                    to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&fn=1&wid=\(workId)&ftype=\(FileType.bdw.rawValue)",
                                                     encodingCompletion: {
                                                         encodingResult in
                                                         switch encodingResult {
