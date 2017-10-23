@@ -80,8 +80,14 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
     func homeDidTapMenu() {
         delegate?.tabBarDidTapMenu()
     }
+
+    func home(enableMenuGesture enable: Bool) {
+        delegate?.tabBar(enableMenuGesture: enable)
+    }
 }
 
 protocol TabBarViewControllerDelegate {
     func tabBarDidTapMenu()
+
+    func tabBar(enableMenuGesture enable: Bool)
 }

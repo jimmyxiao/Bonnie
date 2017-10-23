@@ -82,4 +82,8 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
     func tabBarDidTapMenu() {
         setDrawerState(.opened, animated: true)
     }
+
+    func tabBar(enableMenuGesture enable: Bool) {
+        screenEdgePanGestureEnabled = enable
+    }
 }

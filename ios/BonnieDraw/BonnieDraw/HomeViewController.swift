@@ -9,27 +9,41 @@
 import UIKit
 import Alamofire
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     var delegate: HomeViewControllerDelegate?
     private let commentTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray]
     private var works = [Work]()
+    private var tableViewWorks = [Work]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
+    private var backButton: UIBarButtonItem?
+    private let searchBar = UISearchBar()
+    private let titleView = Bundle.main.loadView(from: "TitleView")
 
     override func viewDidLoad() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu_ic_out"), style: .plain, target: self, action: #selector(didTapMenu))
-        let titleView = Bundle.main.loadView(from: "TitleView")
+        backButton = UIBarButtonItem(image: UIImage(named: "menu_ic_out"), style: .plain, target: self, action: #selector(didTapMenu))
+        navigationItem.leftBarButtonItem = backButton
         titleView?.backgroundColor = .clear
         navigationItem.titleView = titleView
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "title_bar_ic_search"), style: .plain, target: self, action: #selector(search))
+        searchBar.delegate = self
+        searchBar.searchBarStyle = .minimal
+        searchBar.returnKeyType = .done
+        if let textField = searchBar.value(forKey: "searchField") as? UITextField {
+            textField.textColor = UIColor.getTextColor()
+        }
+        if #available(iOS 11.0, *) {
+            searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        }
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if works.isEmpty {
+        if tableViewWorks.isEmpty {
             downloadData()
         } else if let timestamp = timestamp {
             if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
@@ -47,9 +61,45 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? WorkViewController,
            let indexPath = tableView.indexPathForSelectedRow {
-            controller.work = works[indexPath.row]
+            controller.work = tableViewWorks[indexPath.row]
             tableView.deselectRow(at: indexPath, animated: true)
         }
+    }
+
+    @objc internal func search() {
+        if navigationItem.titleView == titleView {
+            delegate?.home(enableMenuGesture: false)
+            navigationItem.setLeftBarButton(nil, animated: true)
+            navigationItem.titleView = searchBar
+            searchBar.becomeFirstResponder()
+        } else {
+            delegate?.home(enableMenuGesture: true)
+            navigationItem.setLeftBarButton(backButton, animated: true)
+            navigationItem.titleView = titleView
+            searchBar.text = nil
+            tableViewWorks = works
+            tableView.reloadSections([0], with: .automatic)
+            emptyLabel.isHidden = !tableViewWorks.isEmpty
+        }
+    }
+
+    internal func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+
+    internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            tableViewWorks = works
+        } else {
+            tableViewWorks.removeAll()
+            for work in works {
+                if work.title?.uppercased().range(of: searchText.uppercased()) != nil {
+                    tableViewWorks.append(work)
+                }
+            }
+        }
+        tableView.reloadSections([0], with: .automatic)
+        emptyLabel.isHidden = !tableViewWorks.isEmpty
     }
 
     private func downloadData() {
@@ -97,8 +147,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             title: work["title"] as? String,
                             likes: work["likeCount"] as? Int))
                 }
+                self.tableViewWorks = self.works
                 self.tableView.reloadSections([0], with: .automatic)
-                self.emptyLabel.isHidden = !self.works.isEmpty
+                self.emptyLabel.isHidden = !self.tableViewWorks.isEmpty
                 self.loading.hide(true)
                 self.timestamp = Date()
             case .failure(let error):
@@ -118,11 +169,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return works.count
+        return tableViewWorks.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let work = works[indexPath.row]
+        let work = tableViewWorks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.HOME, for: indexPath) as! HomeTableViewCell
         cell.profileImage.setImage(with: work.profileImage)
         cell.profileName.text = work.profileName
@@ -170,4 +221,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
+
+    func home(enableMenuGesture enable: Bool)
 }
