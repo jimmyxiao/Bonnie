@@ -30,7 +30,6 @@
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
 		164028E41F8719B20013AE6E /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 164028E21F8719B20013AE6E /* Model.xcdatamodeld */; };
 		164028EA1F871B8F0013AE6E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164028E91F871B8F0013AE6E /* CoreDataStack.swift */; };
-		164028EC1F8753A90013AE6E /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164028EB1F8753A80013AE6E /* CategoryViewController.swift */; };
 		16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */; };
 		164CA76C1F99E24C007F9374 /* AccountListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */; };
 		164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2471F7B376700E8B910 /* CollectionViewController.swift */; };
@@ -91,7 +90,6 @@
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		164028E31F8719B20013AE6E /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		164028E91F871B8F0013AE6E /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		164028EB1F8753A80013AE6E /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListCollectionViewCell.swift; sourceTree = "<group>"; };
 		164ED2471F7B376700E8B910 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
@@ -240,7 +238,6 @@
 				16332A221F7F3048007857E3 /* SaveViewController.swift */,
 				166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */,
 				166BDF411F860E7900274C6C /* SplashViewController.swift */,
-				164028EB1F8753A80013AE6E /* CategoryViewController.swift */,
 				16185C7C1F94A13F008F0840 /* WorkViewController.swift */,
 			);
 			name = Main;
@@ -453,7 +450,6 @@
 				16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */,
 				164028E41F8719B20013AE6E /* Model.xcdatamodeld in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
-				164028EC1F8753A90013AE6E /* CategoryViewController.swift in Sources */,
 				16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */,
 				16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */,
 				16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */,

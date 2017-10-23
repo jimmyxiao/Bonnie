@@ -80,37 +80,13 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                         return
                     }
                     if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
-                        self.dataRequest = Alamofire.request(
-                                Service.standard(withPath: Service.CATEGORY_LIST),
-                                method: .post,
-                                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
-                                encoding: JSONEncoding.default).validate().responseJSON {
-                            response in
-                            switch response.result {
-                            case .success:
-                                guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                                    self.showErrorMessage(message: "app_network_unreachable_content".localized)
-                                    return
-                                }
-                                if response == 1 {
-                                    let defaults = UserDefaults.standard
-                                    defaults.set(token, forKey: Default.TOKEN)
-                                    defaults.set(userId, forKey: Default.USER_ID)
-                                    defaults.set(email, forKey: Default.EMAIL)
-                                    defaults.set(password, forKey: Default.PASSWORD)
-                                    defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
-                                    self.parseCategory(forData: data)
-                                    self.launchMain()
-                                } else {
-                                    self.showErrorMessage(message: data["msg"] as? String)
-                                }
-                            case .failure(let error):
-                                if let error = error as? URLError, error.code == .cancelled {
-                                    return
-                                }
-                                self.showErrorMessage(message: error.localizedDescription)
-                            }
-                        }
+                        let defaults = UserDefaults.standard
+                        defaults.set(token, forKey: Default.TOKEN)
+                        defaults.set(userId, forKey: Default.USER_ID)
+                        defaults.set(email, forKey: Default.EMAIL)
+                        defaults.set(password, forKey: Default.PASSWORD)
+                        defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                        self.launchMain()
                     } else {
                         self.showErrorMessage(message: data["msg"] as? String)
                     }
@@ -150,7 +126,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                        let imageUrlString = data["url"] as? String {
                                         imageUrl = URL(string: imageUrlString)
                                     }
-                                    self.checkAndLogin(withUserType: .facebook, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
+                                    self.signInThirdParty(withUserType: .facebook, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
                                 case .failed(let error):
                                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                                     fallthrough
@@ -194,7 +170,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     } else {
                         TWTRAPIClient.withCurrentUser().loadUser(withID: session!.userID) {
                             user, error in
-                            self.checkAndLogin(withUserType: .twitter, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: URL(string: user?.profileImageLargeURL ?? ""))
+                            self.signInThirdParty(withUserType: .twitter, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: URL(string: user?.profileImageLargeURL ?? ""))
                         }
                     }
                 }
@@ -212,7 +188,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             loading.hide(true)
             presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
         } else {
-            checkAndLogin(withUserType: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128))
+            signInThirdParty(withUserType: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128))
         }
     }
 
@@ -226,72 +202,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
     }
 
-    private func checkAndLogin(withUserType type: UserType, userId id: String, name: String, email: String, imageUrl: URL?) {
-        var postData: [String: Any] = ["uc": id, "un": name, "ut": type.rawValue, "dt": SERVICE_DEVICE_TYPE, "fn": 3, "thirdEmail": email]
+    private func signInThirdParty(withUserType type: UserType, userId id: String, name: String, email: String, imageUrl: URL?) {
+        var postData: [String: Any] = ["uc": id, "un": name, "ut": type.rawValue, "dt": SERVICE_DEVICE_TYPE, "fn": 1, "thirdEmail": email]
         if let imageUrl = imageUrl {
             postData["thirdPictureUrl"] = imageUrl.absoluteString
-        }
-        let signInHandler: (Bool) -> Void = {
-            downloadCollection in
-            postData["fn"] = 1
-            self.dataRequest = Alamofire.request(
-                    Service.standard(withPath: Service.LOGIN),
-                    method: .post,
-                    parameters: postData,
-                    encoding: JSONEncoding.default).validate().responseJSON {
-                response in
-                switch response.result {
-                case .success:
-                    guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
-                        return
-                    }
-                    if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
-                        self.dataRequest = Alamofire.request(
-                                Service.standard(withPath: Service.CATEGORY_LIST),
-                                method: .post,
-                                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
-                                encoding: JSONEncoding.default).validate().responseJSON {
-                            response in
-                            switch response.result {
-                            case .success:
-                                guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                                    self.showErrorMessage(message: "app_network_unreachable_content".localized)
-                                    return
-                                }
-                                if response == 1 {
-                                    Logger.d(token)
-                                    let defaults = UserDefaults.standard
-                                    defaults.set(token, forKey: Default.TOKEN)
-                                    defaults.set(userId, forKey: Default.USER_ID)
-                                    defaults.set(type.rawValue, forKey: Default.USER_TYPE)
-                                    defaults.set(id, forKey: Default.THIRD_PARTY_ID)
-                                    defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
-                                    defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
-                                    defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
-                                    defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
-                                    self.parseCategory(forData: data)
-                                    self.launchMain()
-                                } else {
-                                    self.showErrorMessage(message: data["msg"] as? String)
-                                }
-                            case .failure(let error):
-                                if let error = error as? URLError, error.code == .cancelled {
-                                    return
-                                }
-                                self.showErrorMessage(message: error.localizedDescription)
-                            }
-                        }
-                    } else {
-                        self.showErrorMessage(message: data["msg"] as? String)
-                    }
-                case .failure(let error):
-                    if let error = error as? URLError, error.code == .cancelled {
-                        return
-                    }
-                    self.showErrorMessage(message: error.localizedDescription)
-                }
-            }
         }
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.LOGIN),
@@ -305,30 +219,20 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     self.showErrorMessage(message: "app_network_unreachable_content".localized)
                     return
                 }
-                if response == 1 {
-                    postData["fn"] = 2
-                    self.dataRequest = Alamofire.request(
-                            Service.standard(withPath: Service.LOGIN),
-                            method: .post,
-                            parameters: postData,
-                            encoding: JSONEncoding.default).validate().responseJSON {
-                        response in
-                        switch response.result {
-                        case .success:
-                            guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                self.showErrorMessage(message: "app_network_unreachable_content".localized)
-                                return
-                            }
-                            signInHandler(false)
-                        case .failure(let error):
-                            if let error = error as? URLError, error.code == .cancelled {
-                                return
-                            }
-                            self.showErrorMessage(message: error.localizedDescription)
-                        }
-                    }
+                if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
+                    Logger.d(token)
+                    let defaults = UserDefaults.standard
+                    defaults.set(token, forKey: Default.TOKEN)
+                    defaults.set(userId, forKey: Default.USER_ID)
+                    defaults.set(type.rawValue, forKey: Default.USER_TYPE)
+                    defaults.set(id, forKey: Default.THIRD_PARTY_ID)
+                    defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
+                    defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
+                    defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                    defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                    self.launchMain()
                 } else {
-                    signInHandler(true)
+                    self.showErrorMessage(message: data["msg"] as? String)
                 }
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {
@@ -346,29 +250,5 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         }
         textField.resignFirstResponder()
         return true
-    }
-
-    private func parseCategory(forData data: [String: Any]?) -> Void {
-        if let categories = data?["categoryList"] as? [[String: Any]] {
-            AppDelegate.stack?.insertData() {
-                context in
-                if let description = NSEntityDescription.entity(forEntityName: "WorkCategory", in: context) {
-                    for category in categories {
-                        self.parseCategory(forData: category)
-                        let workCategory = WorkCategory(entity: description, insertInto: context)
-                        workCategory.id = (category["categoryId"] as? Int16) ?? -1
-                        workCategory.name = category["categoryName"] as? String
-                        workCategory.level = (category["categoryLevel"] as? Int16) ?? -1
-                        var childIds = [Int16]()
-                        if let childCategories = category["categoryList"] as? [[String: Any]] {
-                            for childCategory in childCategories {
-                                childIds.append((childCategory["categoryId"] as? Int16) ?? -1)
-                            }
-                        }
-                        workCategory.childIds = childIds as NSObject
-                    }
-                }
-            }
-        }
     }
 }
