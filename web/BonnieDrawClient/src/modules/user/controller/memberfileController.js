@@ -21,7 +21,6 @@ app.controller('memberfileController', function ($cookieStore, $rootScope, $scop
 						file: file
 			        }
 			    }).then(function(resp) {
-			    	console.log(resp);
 			        var data = resp.data;
 					if(data.res==1){
 						alert('上傳成功');
