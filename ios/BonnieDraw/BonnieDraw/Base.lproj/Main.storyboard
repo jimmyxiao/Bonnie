@@ -1166,11 +1166,183 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="XO0-Xl-x95" id="pb7-y6-8KP"/>
+                        <segue destination="HhW-b9-Wz4" kind="show" identifier="settingSegue" id="Rzf-bP-uuO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jve-Uq-NKe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3421.2890625" y="1489.8975109809662"/>
+        </scene>
+        <!--Setting View Controller-->
+        <scene sceneID="pKL-fB-TF7">
+            <objects>
+                <viewController id="HhW-b9-Wz4" customClass="SettingViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wne-cr-O15">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zyu-iL-59N">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="1A5-i8-mfv">
+                                    <rect key="frame" x="0.0" y="72" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="basicCell" textLabel="xz4-tO-8K4" style="IBUITableViewCellStyleDefault" id="XqS-7P-rzf">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XqS-7P-rzf" id="hWm-F3-ZSq">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xz4-tO-8K4">
+                                                    <rect key="frame" x="15" y="0.0" width="270" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="HhW-b9-Wz4" id="NQn-Dm-0Vk"/>
+                                    <outlet property="delegate" destination="HhW-b9-Wz4" id="yFg-V5-thI"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zyu-iL-59N" firstAttribute="leading" secondItem="WIY-Re-pzf" secondAttribute="leading" id="7JB-DX-wYV"/>
+                            <constraint firstItem="zyu-iL-59N" firstAttribute="trailing" secondItem="WIY-Re-pzf" secondAttribute="trailing" id="LRM-Tc-DvI"/>
+                            <constraint firstItem="zyu-iL-59N" firstAttribute="top" secondItem="wne-cr-O15" secondAttribute="top" id="UWS-C4-Vy0"/>
+                            <constraint firstItem="zyu-iL-59N" firstAttribute="bottom" secondItem="WIY-Re-pzf" secondAttribute="bottom" id="lrW-7H-gMl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="WIY-Re-pzf"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="zyu-iL-59N" id="Zrg-Wt-C6Z"/>
+                        <segue destination="3iL-eb-z1b" kind="presentation" identifier="accountEditSegue" id="Psd-F6-of1"/>
+                        <segue destination="kmL-xv-eH3" kind="show" identifier="passwordSegue" id="mug-OT-gjj"/>
+                        <segue destination="Qcq-qW-0TC" kind="show" identifier="languageSegue" id="2rN-ia-59R"/>
+                        <segue destination="qVK-SM-hGb" kind="show" identifier="descriptionSegue" id="gG0-8z-ouN"/>
+                        <segue destination="riG-a2-qzl" kind="show" identifier="webSegue" id="btz-5g-QSI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xaO-OF-s9l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4206" y="1490"/>
+        </scene>
+        <!--Password View Controller-->
+        <scene sceneID="Xty-ch-adb">
+            <objects>
+                <viewController id="kmL-xv-eH3" customClass="PasswordViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eQK-1l-vz3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Thk-UC-q6K">
+                                <rect key="frame" x="123" y="273.5" width="74" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Thk-UC-q6K" firstAttribute="centerY" secondItem="eQK-1l-vz3" secondAttribute="centerY" id="2Ci-LU-Khz"/>
+                            <constraint firstItem="Thk-UC-q6K" firstAttribute="centerX" secondItem="eQK-1l-vz3" secondAttribute="centerX" id="5eD-4f-6s3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="OYH-5J-7q3"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0VU-xB-A8p" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4206" y="2286"/>
+        </scene>
+        <!--Language View Controller-->
+        <scene sceneID="0NU-Lo-wIP">
+            <objects>
+                <viewController id="Qcq-qW-0TC" customClass="LanguageViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b6g-sZ-ZTT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1BY-a2-36Z">
+                                <rect key="frame" x="122" y="273.5" width="76" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1BY-a2-36Z" firstAttribute="centerX" secondItem="b6g-sZ-ZTT" secondAttribute="centerX" id="HSn-Wm-Oer"/>
+                            <constraint firstItem="1BY-a2-36Z" firstAttribute="centerY" secondItem="b6g-sZ-ZTT" secondAttribute="centerY" id="h9D-g1-sbU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4uA-MV-LrD"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1q1-iY-u9r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5055" y="2286"/>
+        </scene>
+        <!--Description View Controller-->
+        <scene sceneID="6vZ-xQ-Nlw">
+            <objects>
+                <viewController id="qVK-SM-hGb" customClass="DescriptionViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uFS-w6-g0c">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6t7-4J-1pR">
+                                <rect key="frame" x="116" y="273.5" width="88" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6t7-4J-1pR" firstAttribute="centerX" secondItem="uFS-w6-g0c" secondAttribute="centerX" id="V7Y-Xf-XaY"/>
+                            <constraint firstItem="6t7-4J-1pR" firstAttribute="centerY" secondItem="uFS-w6-g0c" secondAttribute="centerY" id="xT9-aB-0bM"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="KKD-gu-PqG"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GPt-zs-Ckf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5908" y="2286"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="bLk-yn-Esy">
+            <objects>
+                <viewController id="riG-a2-qzl" customClass="WebViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2FR-oj-DrI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Web" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3k8-w0-h3e">
+                                <rect key="frame" x="142.5" y="273.5" width="35" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3k8-w0-h3e" firstAttribute="centerX" secondItem="2FR-oj-DrI" secondAttribute="centerX" id="nEm-8Q-mTO"/>
+                            <constraint firstItem="3k8-w0-h3e" firstAttribute="centerY" secondItem="2FR-oj-DrI" secondAttribute="centerY" id="u8l-og-TxY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="iwT-lB-61e"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="joO-3b-Pfo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6754" y="2286"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pfH-Fr-T2O">
@@ -1887,6 +2059,7 @@
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Psd-F6-of1"/>
         <segue reference="t9M-UA-MEl"/>
     </inferredMetricsTieBreakers>
 </document>

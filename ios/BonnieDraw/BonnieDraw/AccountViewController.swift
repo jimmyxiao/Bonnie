@@ -24,8 +24,9 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
 
     override func viewDidLoad() {
         navigationItem.rightBarButtonItems =
-                [UIBarButtonItem(image: UIImage(named: "personal_ic_rectangle"), style: .plain, target: self, action: #selector(didSelectGridLayout)),
-                 UIBarButtonItem(image: UIImage(named: "personal_ic_list"), style: .plain, target: self, action: #selector(didSelectListLayout))]
+                [UIBarButtonItem(image: UIImage(named: "menu_ic_account"), style: .plain, target: self, action: #selector(didSelectSetting)),
+                 UIBarButtonItem(image: UIImage(named: "personal_ic_list"), style: .plain, target: self, action: #selector(didSelectListLayout)),
+                 UIBarButtonItem(image: UIImage(named: "personal_ic_rectangle"), style: .plain, target: self, action: #selector(didSelectGridLayout))]
 //        (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
     }
 
@@ -53,6 +54,10 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         if cellId != Cell.ACCOUNT_LIST {
             cellId = Cell.ACCOUNT_LIST
         }
+    }
+
+    @objc func didSelectSetting() {
+        performSegue(withIdentifier: Segue.SETTING, sender: nil)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -24,7 +24,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let titleView = Bundle.main.loadView(from: "TitleView")
 
     override func viewDidLoad() {
-        backButton = UIBarButtonItem(image: UIImage(named: "menu_ic_out"), style: .plain, target: self, action: #selector(didTapMenu))
+        backButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
         navigationItem.leftBarButtonItem = backButton
         titleView?.backgroundColor = .clear
         navigationItem.titleView = titleView

@@ -98,7 +98,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                 defaults.set(userId, forKey: Default.USER_ID)
                                 defaults.set(email, forKey: Default.EMAIL)
                                 defaults.set(password, forKey: Default.PASSWORD)
-                                defaults.set(data["profilePicture"] as? String, forKey: Default.THIRD_PARTY_IMAGE)
+                                if let urlString = data["profilePicture"] as? String {
+                                    defaults.set(URL(string: urlString), forKey: Default.THIRD_PARTY_IMAGE)
+                                }
                                 defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                                 self.launchMain()
                             case .failure(let error):
@@ -261,7 +263,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             defaults.set(id, forKey: Default.THIRD_PARTY_ID)
                             defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
                             defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
-                            defaults.set(data["profilePicture"] as? String ?? imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                            if let urlString = data["profilePicture"] as? String {
+                                defaults.set(URL(string: urlString), forKey: Default.THIRD_PARTY_IMAGE)
+                            } else {
+                                defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                            }
                             defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                             self.launchMain()
                         case .failure(let error):

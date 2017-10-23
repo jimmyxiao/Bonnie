@@ -95,6 +95,12 @@ struct Identifier {
 }
 
 struct Segue {
+    static let ACCOUNT_EDIT = "accountEditSegue"
+    static let SETTING = "settingSegue"
+    static let PASSWORD = "passwordSegue"
+    static let LANGUAGE = "languageSegue"
+    static let DESCRIPTION = "descriptionSegue"
+    static let WEB = "webSegue"
 }
 
 struct Default {
