@@ -45,11 +45,11 @@ import android.widget.Toast;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paintpicker.ColorPicker;
 import com.sctw.bonniedraw.paintpicker.OnColorChangedListener;
+import com.sctw.bonniedraw.paintpicker.OnPaintChangeListener;
 import com.sctw.bonniedraw.paintpicker.OnSizeChangedListener;
 import com.sctw.bonniedraw.paintpicker.SizePicker;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
-import com.sctw.bonniedraw.utility.CircleMenuLayout;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -82,7 +82,7 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener {
+public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener,OnPaintChangeListener {
 
     public static final boolean HWLAYER = true;
     public static final boolean SWLAYER = false;
@@ -98,14 +98,14 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private Paint mPaint;
     private int count = 0;
     private ImageButton mBtnRedo, mBtnUndo, mBtnGrid, mBtnOpenAutoPlay, mBtnSize, mBtnChangePaint;
+    private Button mBtnZoom;
     private List<Integer> mListTempTagLength = new ArrayList<Integer>();
     private List<TagPoint> mListTagPoint, mListUndoTagPoint;
     private ColorPicker colorPicker;
     private SizePicker sizePicker;
     private FullScreenDialog fullScreenDialog;
-    private CircleMenuLayout mCircleMenuLayout;
-    private static final int[] mItemImgs = {R.drawable.draw_pen_on_1, R.drawable.draw_pen_on_2, R.drawable.draw_pen_on_3, R.drawable.draw_pen_on_4, R.drawable.draw_pen_on_5};
-    private String[] mItemTexts = new String[]{"1", "2", "3", "4", "5"};
+    private LinearLayout linearLayoutPaintSelect;
+    private static final int[] paints = {R.drawable.draw_pen_off_1, R.drawable.draw_pen_off_2, R.drawable.draw_pen_off_3, R.drawable.draw_pen_off_4, R.drawable.draw_pen_off_5};
     private int miPrivacyType, miGridCol;
     private File backLoadBDW, backLoadPNG;
     private int displayWidth, offsetX, offsetY, realPaint = 0;
@@ -137,33 +137,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mFrameLayoutFreePaint.addView(myView);
         mListTagPoint = new ArrayList<TagPoint>();
         mListUndoTagPoint = new ArrayList<TagPoint>();
-        //CIRCLE MENU
+
+        linearLayoutPaintSelect=findViewById(R.id.linearLayout_paint_select);
+        mBtnZoom=(Button) findViewById(R.id.btn_paint_zoom);
         mBtnChangePaint = (ImageButton) findViewById(R.id.imgBtn_paint_change);
-        mCircleMenuLayout = (CircleMenuLayout) findViewById(R.id.circlemenu_layout);
-        mCircleMenuLayout.setMenuItemIconsAndTexts(mItemImgs, mItemTexts);
-
-        mCircleMenuLayout.setOnMenuItemClickListener(new CircleMenuLayout.OnMenuItemClickListener() {
-
-            @Override
-            public void itemClick(View view, int pos) {
-                Toast.makeText(PaintActivity.this, mItemTexts[pos], Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void itemCenterClick(View view) {
-            }
-        });
-        mBtnChangePaint.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCircleMenuLayout.getVisibility() == View.VISIBLE) {
-                    mCircleMenuLayout.setVisibility(View.INVISIBLE);
-                } else {
-                    mCircleMenuLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
         mBtnRedo = (ImageButton) findViewById(R.id.imgBtn_paint_redo);
         mBtnUndo = (ImageButton) findViewById(R.id.imgBtn_paint_undo);
         mBtnGrid = (ImageButton) findViewById(R.id.imgBtn_paint_grid);
@@ -223,6 +200,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 mPaint.setXfermode(eraseEffect);
                 break;
         }
+    }
+
+    @Override
+    public void onPaintChange(int paint) {
+
     }
 
     public class MyView extends View {
@@ -621,6 +603,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 .addFormDataPart("ui", prefs.getString(GlobalVariable.API_UID, "null"))
                 .addFormDataPart("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
                 .addFormDataPart("dt", GlobalVariable.LOGIN_PLATFORM)
+                .addFormDataPart("fn", "1")
                 .addFormDataPart("wid", String.valueOf(wid))
                 .addFormDataPart("ftype", String.valueOf(type));
         switch (type) {
@@ -695,7 +678,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     //設定各個按鍵
     public void setOnclick() {
-        ((Button) findViewById(R.id.btn_paint_zoom)).setOnClickListener(new View.OnClickListener() {
+        mBtnZoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!mbZoomMode) {
@@ -711,7 +694,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             }
         });
 
-        ((Button) findViewById(R.id.btn_paint_zoom)).setOnLongClickListener(new View.OnLongClickListener() {
+        mBtnZoom.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 //myView.layout(0, 0, myView.getWidth(), myView.getHeight());
@@ -858,6 +841,19 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     }
                 } else {
                     savePictureEdit();
+                }
+            }
+        });
+
+        mBtnChangePaint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (linearLayoutPaintSelect.getVisibility()==View.INVISIBLE){
+                    mBtnZoom.setVisibility(View.INVISIBLE);
+                    linearLayoutPaintSelect.setVisibility(View.VISIBLE);
+                }else {
+                    linearLayoutPaintSelect.setVisibility(View.INVISIBLE);
+                    mBtnZoom.setVisibility(View.VISIBLE);
                 }
             }
         });

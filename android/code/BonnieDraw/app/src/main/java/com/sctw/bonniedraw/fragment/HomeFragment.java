@@ -24,10 +24,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.works.WorkAdapterList;
 import com.sctw.bonniedraw.works.WorkListOnClickListener;
@@ -95,6 +97,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewHome.setLayoutManager(layoutManager);
+        mRecyclerViewHome.setOnScrollListener(new RecyclerPauseOnScrollListener(ImageLoader.getInstance(),true,true));
         getWorksList();
     }
 
