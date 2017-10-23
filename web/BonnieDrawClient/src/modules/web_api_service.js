@@ -130,6 +130,9 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
         },
         setCollection: function(params,callback){
             return baseHttp.service('setCollection' ,params,callback);
+        },
+        setTurnin: function(params,callback){
+            return baseHttp.service('setTurnin' ,params,callback);
         }
     }
 }).factory('userService', function(baseHttp) {

@@ -56,6 +56,14 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		}
 		$scope.queryWorks();
 
+		$scope.covert = function(description){
+			var arr = util.splitHashTag(description);
+			for(i=0;i<arr.length;i++){
+				description = description.replace(arr[i],'<a href="">'+ arr[i] +'</a>');
+			}
+			return description;
+		}
+
 		$scope.clickWorksLike = function(data){
 			var params = util.getInitalScope();
 			if(data.like){
@@ -102,15 +110,24 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		}
 
 		$scope.turnModel = {
-			optin:'one'
+			optin:1,
+			description:['內容不當', '侵犯著作權利']
 		}
-		
+
 		$scope.clickTurnIn = function(){
-			$scope.turnModel.option = 'one';
+			$scope.turnModel.option = 1;
 		}
 
 		$scope.sendTurnIn = function(){
-
+			var params = util.getInitalScope();
+			params.worksId = $scope.mainSection.worksId;
+			params.turnInType = $scope.turnModel.option;
+			params.description = $scope.turnModel.description[($scope.turnModel.option - 1)];
+			worksService.setTurnin(params,function(data, status, headers, config){
+				if(data.res == 1){
+					alert('檢舉已發送');
+				}
+			})
 		}
 
 	}

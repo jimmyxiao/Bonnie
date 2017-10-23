@@ -107,6 +107,17 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		Date nowDate = TimerUtil.getNowDate();
 		UserInfo userInfo = getInitalUserInfo(loginRequestVO, nowDate);
 		userInfoMapper.insert(userInfo);
+		if(ValidateUtil.isNotBlank(loginRequestVO.getThirdPictureUrl())){
+			StringBuffer path = new StringBuffer();
+			path.append("/picture/").append(userInfo.getUserId());
+			Map<String, Object> resultMap = FileUtil.copyURLToFile(loginRequestVO.getThirdPictureUrl(), path.toString());
+			boolean status = (boolean)resultMap.get("status");
+			if(status){
+				String filePath = resultMap.get("path")!=null?resultMap.get("path").toString():null;
+				userInfo.setProfilePicture(filePath);
+				userInfoMapper.updateByPrimaryKeySelective(userInfo);
+			}
+		}
 		putLogin(result, loginRequestVO, userInfo, ipAddress);
 	}
 	
@@ -114,7 +125,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		LoginResponseVO result = new LoginResponseVO();
 		int dt = loginRequestVO.getDt();
 		int ut = loginRequestVO.getUt();
-		if(dt==3){
+		if(dt==3 && ut ==1){
 			try {
 				loginRequestVO.setUp((EncryptUtil.convertMD5(loginRequestVO.getUp())));
 			} catch (Exception e1) {

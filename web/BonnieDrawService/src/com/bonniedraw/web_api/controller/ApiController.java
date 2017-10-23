@@ -644,6 +644,7 @@ public class ApiController {
 						if( status && ValidateUtil.isNotBlank(filePath)){
 							if(userServiceAPI.updateUserPicture(fileUploadRequestVO.getUi(), filePath)){
 								respResult.setRes(1);
+								respResult.setProfilePicture(filePath);
 								msg = messageSource.getMessage("api_success",null,request.getLocale());
 							}else{
 								msg = messageSource.getMessage("api_fail",null,request.getLocale());

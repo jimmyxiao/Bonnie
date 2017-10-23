@@ -3,6 +3,10 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 
+		$scope.popupShare = function(){
+			util.alert('223344');
+		}
+
 		$scope.queryNewUploadWorks = function(){
 			$scope.secondarySectionArr_new = [];
 			var params = util.getInitalScope();

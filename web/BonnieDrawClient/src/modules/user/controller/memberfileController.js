@@ -23,6 +23,9 @@ app.controller('memberfileController', function ($cookieStore, $rootScope, $scop
 			    }).then(function(resp) {
 			        var data = resp.data;
 					if(data.res==1){
+						$scope.user.profilePicture = data.profilePicture;
+						$rootScope.rg_gl.currentUser.userInfo.profilePicture = data.profilePicture;
+						$cookieStore.put('rg_gl', $rootScope.rg_gl);
 						alert('上傳成功');
 					}else{
 						alert('上傳失敗');
