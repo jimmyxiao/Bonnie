@@ -46,11 +46,11 @@ public class SignUpFragment extends Fragment {
     Button mBtnSignup;
     boolean userPhoneVaild, userNameVaild, userEmailVaild, userPwdVaild, userRePwdVaild = false;
     FragmentManager fragmentManager;
-    final static int CHECK_PHONE=0;
-    final static int CHECK_EMAIL=1;
-    final static int CHECK_NAME=2;
-    final static int CHECK_PWD=3;
-    final static int CHECK_REPWD=4;
+    final static int CHECK_PHONE = 0;
+    final static int CHECK_EMAIL = 1;
+    final static int CHECK_NAME = 2;
+    final static int CHECK_PWD = 3;
+    final static int CHECK_REPWD = 4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,10 +94,7 @@ public class SignUpFragment extends Fragment {
     public View.OnClickListener clickListenerSignin = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.frameLayout_login, new LoginFragment());
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            ft.commit();
+            transLogin();
         }
     };
 
@@ -206,28 +203,51 @@ public class SignUpFragment extends Fragment {
             case 1:
                 title = getString(R.string.signin_successful_title);
                 message = getString(R.string.sigin_successful_msg);
-
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mBtnSignup.setEnabled(true);
+                                dialog.dismiss();
+                                transLogin();
+                                //寄送認證信，回到主畫面。
+                            }
+                        });
                 break;
             case 2:
                 title = getString(R.string.signin_fail_title);
                 message = getString(R.string.signin_fail_email_used);
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mBtnSignup.setEnabled(true);
+                                dialog.dismiss();
+                                //寄送認證信，回到主畫面。
+                            }
+                        });
                 break;
             case 3:
                 title = getString(R.string.signin_fail_title);
                 message = getString(R.string.signin_fail_date_error);
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mBtnSignup.setEnabled(true);
+                                dialog.dismiss();
+                                //寄送認證信，回到主畫面。
+                            }
+                        });
         }
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        mBtnSignup.setEnabled(true);
-                        dialog.dismiss();
-                        //寄送認證信，回到主畫面。
-                    }
-                });
         alertDialog.setCancelable(false);
         alertDialog.show();
+    }
+
+    public void transLogin() {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.frameLayout_login, new LoginFragment());
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        ft.commit();
     }
 
     //初始點選

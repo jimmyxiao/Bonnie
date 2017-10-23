@@ -50,15 +50,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(new TwitterAuthConfig(getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
                 .debug(true)
                 .build();
         Twitter.initialize(config);
-        ;
+        setContentView(R.layout.activity_login);
+        prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
@@ -78,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         startAndCheck();
     }
 
-    void startAndCheck(){
+    void startAndCheck() {
         AlphaAnimation mAlphaAnimation = new AlphaAnimation(0, 1);
         mAlphaAnimation.setDuration(2000);
         mLinearLayout = findViewById(R.id.frameLayout_login_frist);
@@ -221,7 +220,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void transferLoginPage(){
+    public void transferLoginPage() {
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         LoginFragment loginFragment = new LoginFragment();

@@ -539,6 +539,7 @@ public class LoginFragment extends Fragment {
             switch (style) {
                 case GlobalVariable.API_LOGIN_CODE:
                     json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
+                    json.put("un",prefs.getString(GlobalVariable.userNameStr,""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
                     json.put("thirdEmail", prefs.getString(GlobalVariable.userEmailStr, ""));
