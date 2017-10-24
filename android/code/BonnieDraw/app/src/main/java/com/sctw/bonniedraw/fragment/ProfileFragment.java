@@ -58,7 +58,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class ProfileFragment extends Fragment {
     private CircleImageView imgPhoto;
-    private TextView mTextViewUserName, mTextViewUserId, mTextViewWorks, mTextViewFans, mTextViewFollows;
+    private TextView mTextViewUserName, mTextViewUserId, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
     private ImageButton mImgBtnSetting, mImgBtnGrid, mImgBtnList;
     private Button mBtnEdit;
     private RecyclerView mRecyclerViewProfile;
@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private List<WorkInfo> workInfoList;
-    private boolean mbFist=true;
+    private boolean mbFist = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +86,7 @@ public class ProfileFragment extends Fragment {
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
         mTextViewUserName = (TextView) view.findViewById(R.id.textView_profile_userName);
+        mTextViewUserdescription = view.findViewById(R.id.textView_profile_user_description);
         mTextViewUserId = (TextView) view.findViewById(R.id.textView_profile_user_id);
         mTextViewWorks = (TextView) view.findViewById(R.id.textView_profile_userworks);
         mTextViewFollows = (TextView) view.findViewById(R.id.textView_profile_follows);
@@ -133,7 +134,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
                 mRecyclerViewProfile.setAdapter(mAdapterGrid);
-                mbFist=true;
+                mbFist = true;
             }
         });
 
@@ -142,7 +143,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 mRecyclerViewProfile.setLayoutManager(layoutManager);
                 mRecyclerViewProfile.setAdapter(mAdapterList);
-                mbFist=false;
+                mbFist = false;
             }
         });
     }
@@ -175,11 +176,18 @@ public class ProfileFragment extends Fragment {
                                     //Successful
                                     mTextViewUserName.setText(responseJSON.getString("userName"));
 
+                                    if (responseJSON.has("description") && !responseJSON.isNull("description")) {
+                                        mTextViewUserdescription.setText(responseJSON.getString("description"));
+                                    } else {
+                                        mTextViewUserdescription.setText("");
+                                    }
+
                                     if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
                                         mTextViewUserId.setText(responseJSON.getString("nickName"));
                                     } else {
                                         mTextViewUserId.setText("");
                                     }
+
                                     if (!prefs.getString(GlobalVariable.userImgUrlStr, "").isEmpty()) {
                                         try {
                                             URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "FailLoad"));
@@ -266,7 +274,7 @@ public class ProfileFragment extends Fragment {
             e.printStackTrace();
         }
 
-        mAdapterGrid=new WorkAdapterGrid(workInfoList, new WorkGridOnClickListener() {
+        mAdapterGrid = new WorkAdapterGrid(workInfoList, new WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
                 Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
@@ -312,10 +320,10 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        if(mbFist){
+        if (mbFist) {
             mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
             mRecyclerViewProfile.setAdapter(mAdapterGrid);
-        }else {
+        } else {
             mRecyclerViewProfile.setLayoutManager(layoutManager);
             mRecyclerViewProfile.setAdapter(mAdapterList);
         }
