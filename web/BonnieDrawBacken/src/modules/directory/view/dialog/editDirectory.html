@@ -12,6 +12,12 @@
 										<input type="text" ng-model="editDir.data.categoryName" class="col-xs-10 col-sm-5" />
 									</div>
 								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"> 狀態 </label>
+									<div class="col-sm-9">
+										<select ng-model="editDir.data.enable" ng-options="data.value as data.name for data in [{ 'name': '不啟用', 'value': false }, { 'name': '啟用', 'value': true }]"></select>
+									</div>
+								</div>
 								<div class="col-md-offset-3 col-md-9">
 									<button ng-disabled="loading" class="btn btn-info" type="button" ng-click="updateDir()">
 										更新
