@@ -51,7 +51,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private static int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 50;
     private Boolean mbAutoPlay = false, mbPlayState = false, mbPlaying = false, mbZoomMode = false, mbCheckFinger = false;
     private int displayWidth, offsetX, offsetY, realPaint = 0, miGridCol, count;
-    private float startX, startSacle, startY, pointLength;
+    private float startX, startY, pointLength;
     private Xfermode eraseEffect;
     private File backLoadBDW=null;
 
@@ -281,7 +281,6 @@ public class PaintPlayActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         startX = event.getX();
                         startY = event.getY();
-                        startSacle = myView.getScaleX();
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if (!mbCheckFinger) {

@@ -45,7 +45,6 @@ import android.widget.Toast;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paintpicker.ColorPicker;
 import com.sctw.bonniedraw.paintpicker.OnColorChangedListener;
-import com.sctw.bonniedraw.paintpicker.OnPaintChangeListener;
 import com.sctw.bonniedraw.paintpicker.OnSizeChangedListener;
 import com.sctw.bonniedraw.paintpicker.SizePicker;
 import com.sctw.bonniedraw.utility.BDWFileReader;
@@ -82,7 +81,7 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener, OnPaintChangeListener {
+public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener {
 
     public static final boolean HWLAYER = true;
     public static final boolean SWLAYER = false;
@@ -106,11 +105,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private LinearLayout linearLayoutPaintSelect;
     private int miPrivacyType, miGridCol;
     private File backLoadBDW, backLoadPNG;
-    private int displayWidth, offsetX, offsetY, realPaint = 0;
-    private float startX, startSacle, startY, pointLength;
+    private int displayWidth;
+    private int realPaint = 0;
+    private float startX, startY;
+    private float pointLength;
     private SharedPreferences prefs;
     private Xfermode eraseEffect;
-
     BDWFileReader reader = new BDWFileReader();
 
     @Override
@@ -156,53 +156,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
         //檢查草稿
         checkSketch();
-    }
-
-    public void checkSketch() {
-        backLoadBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
-        backLoadPNG = new File(getFilesDir().getPath() + SKETCH_FILE_PNG);
-        if (backLoadBDW.exists() && backLoadPNG.exists()) {
-            myView.onDrawSketch();
-            reader.readFromFile(backLoadBDW);
-            mListTagPoint = new ArrayList<>(reader.m_tagArray);
-        }
-    }
-
-    //強制正方形
-    public void getDisplay() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        displayWidth = size.x;
-        myView.setLayoutParams(new LinearLayout.LayoutParams(displayWidth, displayWidth));
-    }
-
-    //換筆
-    public void customPaint(int paintNum) {
-        switch (paintNum) {
-            case 0:
-                realPaint = 0;
-                mPaint.setXfermode(null);
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                //橡皮擦
-                realPaint = 5;
-                mPaint.setXfermode(eraseEffect);
-                break;
-        }
-    }
-
-    @Override
-    public void onPaintChange(int paint) {
-
     }
 
     public class MyView extends View {
@@ -309,12 +262,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     case MotionEvent.ACTION_DOWN:
                         startX = event.getX();
                         startY = event.getY();
-                        startSacle = myView.getScaleX();
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if (!mbCheckFinger) {
-                            offsetX = (int) (event.getX() - startX);
-                            offsetY = (int) (event.getY() - startY);
+                            int offsetX = (int) (event.getX() - startX);
+                            int offsetY = (int) (event.getY() - startY);
                             myView.setTranslationX(myView.getTranslationX() + offsetX);
                             myView.setTranslationY(myView.getTranslationY() + offsetY);
 
@@ -460,6 +412,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         }
     }
 
+    //產生預覽圖&上傳
     private void savePictureEdit() {
         fullScreenDialog = new FullScreenDialog(this, R.layout.paint_save_dialog);
         final EditText workName = (EditText) fullScreenDialog.findViewById(R.id.paint_save_work_name);
@@ -519,7 +472,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                         json.put("description", workDescription.getText().toString());
                         json.put("languageId", 2);
                         Log.d("LOGIN JSON: ", json.toString());
-                        fileInfo(json, GlobalVariable.API_LINK_WORK_SAVE);
+                        fileUpload(json, GlobalVariable.API_LINK_WORK_SAVE);
                         fullScreenDialog.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -540,23 +493,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         fullScreenDialog.show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    savePictureEdit();
-                } else {
-                    //使用者拒絕權限，停用檔案存取功能
-
-                    TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.public_user_permission));
-                }
-                break;
-        }
-    }
-
-    public void fileInfo(JSONObject json, String url) {
+    //獲得檔案wid , 取得後上傳檔案
+    public void fileUpload(JSONObject json, String url) {
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
@@ -592,9 +530,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
     }
 
+    //上傳檔案
     public void uploadFile(int type, int wid) {
         OkHttpClient okHttpClient = new OkHttpClient();
-
         MultipartBody.Builder bodyBuilder = new MultipartBody.Builder();
         bodyBuilder.setType(MultipartBody.FORM)
                 .addFormDataPart("ui", prefs.getString(GlobalVariable.API_UID, "null"))
@@ -646,7 +584,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
     }
 
-
+    //選擇大小
     public void sizesPicks(View view) {
         sizePicker.show();
     }
@@ -659,6 +597,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mBtnSize.setScaleY(scale);
     }
 
+    //選擇顏色
+    public void colorPicks(View view) {
+        colorPicker.show();
+    }
+
     @Override
     public void colorChanged(int color) {
         mPaint.setColor(color);
@@ -667,11 +610,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             recoveryPaint();
         }
     }
-
-    public void colorPicks(View view) {
-        colorPicker.show();
-    }
-
 
     //設定各個按鍵
     public void setOnclick() {
@@ -848,12 +786,120 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 if (linearLayoutPaintSelect.getVisibility() == View.INVISIBLE) {
                     mBtnZoom.setVisibility(View.INVISIBLE);
                     linearLayoutPaintSelect.setVisibility(View.VISIBLE);
+                    setPaintFouns();
                 } else {
                     linearLayoutPaintSelect.setVisibility(View.INVISIBLE);
                     mBtnZoom.setVisibility(View.VISIBLE);
                 }
             }
         });
+    }
+
+    //切換筆
+    public void selectPaint(View view) {
+        switch (view.getId()) {
+            case R.id.imgBtn_paint_left:
+                if (realPaint <= 4 && realPaint > 0) {
+                    realPaint--;
+                }
+                break;
+            case R.id.imgBtn_paint_type1:
+                customPaint(0);
+                break;
+            case R.id.imgBtn_paint_type2:
+                customPaint(1);
+                break;
+            case R.id.imgBtn_paint_type3:
+                customPaint(2);
+                break;
+            case R.id.imgBtn_paint_type4:
+                customPaint(3);
+                break;
+            case R.id.imgBtn_paint_type5:
+                customPaint(4);
+                break;
+            case R.id.imgBtn_paint_right:
+                if (realPaint < 4 && realPaint >= 0) {
+                    realPaint++;
+                }
+                break;
+        }
+        setPaintFouns();
+    }
+
+    //顯示當前的筆
+    public void setPaintFouns() {
+        findViewById(R.id.imgBtn_paint_type1).setSelected(false);
+        findViewById(R.id.imgBtn_paint_type2).setSelected(false);
+        findViewById(R.id.imgBtn_paint_type3).setSelected(false);
+        findViewById(R.id.imgBtn_paint_type4).setSelected(false);
+        findViewById(R.id.imgBtn_paint_type5).setSelected(false);
+
+        switch (realPaint) {
+            case 0:
+                findViewById(R.id.imgBtn_paint_type1).setSelected(true);
+                mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.draw_pen_ic_1));
+                break;
+            case 1:
+                findViewById(R.id.imgBtn_paint_type2).setSelected(true);
+                mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.draw_pen_ic_2));
+                break;
+            case 2:
+                findViewById(R.id.imgBtn_paint_type3).setSelected(true);
+                mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.draw_pen_ic_3));
+                break;
+            case 3:
+                findViewById(R.id.imgBtn_paint_type4).setSelected(true);
+                mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.draw_pen_ic_4));
+                break;
+            case 4:
+                findViewById(R.id.imgBtn_paint_type5).setSelected(true);
+                mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.draw_pen_ic_5));
+                break;
+        }
+    }
+
+    //換筆
+    public void customPaint(int paintNum) {
+        //筆的效果 放置於此
+        realPaint = paintNum;
+        switch (paintNum) {
+            case 0:
+                mPaint.setXfermode(null);
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                //橡皮擦
+                mPaint.setXfermode(eraseEffect);
+                break;
+        }
+    }
+
+    //檢查有沒有草稿
+    public void checkSketch() {
+        backLoadBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
+        backLoadPNG = new File(getFilesDir().getPath() + SKETCH_FILE_PNG);
+        if (backLoadBDW.exists() && backLoadPNG.exists()) {
+            myView.onDrawSketch();
+            reader.readFromFile(backLoadBDW);
+            mListTagPoint = new ArrayList<>(reader.m_tagArray);
+        }
+    }
+
+    //強制正方形
+    public void getDisplay() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        displayWidth = size.x;
+        myView.setLayoutParams(new LinearLayout.LayoutParams(displayWidth, displayWidth));
     }
 
     public void erase_mode(View view) {
@@ -953,6 +999,22 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     public void back(View view) {
         onBackMethod();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    savePictureEdit();
+                } else {
+                    //使用者拒絕權限，停用檔案存取功能
+
+                    TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.public_user_permission));
+                }
+                break;
+        }
     }
 
     @Override
