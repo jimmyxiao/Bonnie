@@ -82,7 +82,7 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener,OnPaintChangeListener {
+public class PaintActivity extends AppCompatActivity implements OnColorChangedListener, OnSizeChangedListener, OnPaintChangeListener {
 
     public static final boolean HWLAYER = true;
     public static final boolean SWLAYER = false;
@@ -91,7 +91,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private static final String SKETCH_FILE_PNG = "/backup.png";
     private static final String TEMP_FILE = "/temp.bdw";
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
-    private static int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 50;
     private Boolean mbEraseMode = false, mbZoomMode = false, mbCheckFinger = false;
     private MyView myView;
     private FrameLayout mFrameLayoutFreePaint;
@@ -105,7 +104,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private SizePicker sizePicker;
     private FullScreenDialog fullScreenDialog;
     private LinearLayout linearLayoutPaintSelect;
-    private static final int[] paints = {R.drawable.draw_pen_off_1, R.drawable.draw_pen_off_2, R.drawable.draw_pen_off_3, R.drawable.draw_pen_off_4, R.drawable.draw_pen_off_5};
     private int miPrivacyType, miGridCol;
     private File backLoadBDW, backLoadPNG;
     private int displayWidth, offsetX, offsetY, realPaint = 0;
@@ -138,8 +136,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mListTagPoint = new ArrayList<TagPoint>();
         mListUndoTagPoint = new ArrayList<TagPoint>();
 
-        linearLayoutPaintSelect=findViewById(R.id.linearLayout_paint_select);
-        mBtnZoom=(Button) findViewById(R.id.btn_paint_zoom);
+        linearLayoutPaintSelect = findViewById(R.id.linearLayout_paint_select);
+        mBtnZoom = (Button) findViewById(R.id.btn_paint_zoom);
         mBtnChangePaint = (ImageButton) findViewById(R.id.imgBtn_paint_change);
         mBtnRedo = (ImageButton) findViewById(R.id.imgBtn_paint_redo);
         mBtnUndo = (ImageButton) findViewById(R.id.imgBtn_paint_undo);
@@ -298,7 +296,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             mListTempTagLength.add(mListTagPoint.size());
             mPath.lineTo(mX, mY);
             // commit the path to our offscreen
-
             paths.add(new PathAndPaint(mPath, mPaint));
             // kill this so we don't double draw (新路徑/畫筆)
             mPath = new Path();
@@ -569,7 +566,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Save Works", "Fail");
+                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "與伺服器連接失敗");
             }
 
             @Override
@@ -711,9 +708,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             @Override
             public void onClick(View view) {
                 if (mListTagPoint.size() > 0) {
-                    Intent intent=new Intent();
-                    intent.setClass(getApplication(),PaintPlayActivity.class);
-                    startActivity(intent);
+                    if (saveTempBdw()) {
+                        Intent intent = new Intent();
+                        intent.setClass(getApplication(), PaintPlayActivity.class);
+                        startActivity(intent);
+                    }
                 } else {
                     TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.paint_need_draw));
                 }
@@ -815,8 +814,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 if (backLoadBDW.delete() && backLoadPNG.delete()) {
                     TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.paint_delete_sketch));
                 }
-                miPointCount = 0;
-                miPointCurrent = 0;
                 mFrameLayoutFreePaint.removeAllViews();
                 myView = new MyView(PaintActivity.this);
                 getDisplay();
@@ -848,10 +845,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mBtnChangePaint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (linearLayoutPaintSelect.getVisibility()==View.INVISIBLE){
+                if (linearLayoutPaintSelect.getVisibility() == View.INVISIBLE) {
                     mBtnZoom.setVisibility(View.INVISIBLE);
                     linearLayoutPaintSelect.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     linearLayoutPaintSelect.setVisibility(View.INVISIBLE);
                     mBtnZoom.setVisibility(View.VISIBLE);
                 }
@@ -910,8 +907,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                BDWFileWriter bdwFileWriter = new BDWFileWriter();
-                boolean result = bdwFileWriter.WriteToFile(mListTagPoint, getFilesDir().getPath() + SKETCH_FILE_BDW);
+                boolean result = saveTempBdw();
                 Toast.makeText(PaintActivity.this, "Successful", Toast.LENGTH_SHORT).show();
                 dialogInterface.dismiss();
                 if (!result) PaintActivity.this.finish();
@@ -932,6 +928,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         });
 
         builder.create().show();
+    }
+
+    public boolean saveTempBdw() {
+        BDWFileWriter bdwFileWriter = new BDWFileWriter();
+        return !bdwFileWriter.WriteToFile(mListTagPoint, getFilesDir().getPath() + SKETCH_FILE_BDW);
     }
 
     public void onBackMethod() {

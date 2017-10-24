@@ -80,13 +80,14 @@
                 <FrameLayout
                     android:id="@+id/frameLayout_single_work"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></FrameLayout>
+                    android:layout_height="match_parent">
+                </FrameLayout>
 
                 <ImageView
                     android:id="@+id/imgView_single_work_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="center"
+                    android:adjustViewBounds="true"
                     card_view:srcCompat="@drawable/ic_mood_bad_black_24dp" />
 
                 <LinearLayout
@@ -139,6 +140,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:onClick="previous"
                             android:text="上一步" />
 
                         <Button
@@ -146,6 +148,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:onClick="startPlay"
                             android:text="暫停/撥放" />
 
                         <Button
@@ -153,6 +156,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:onClick="next"
                             android:text="下一步" />
                     </LinearLayout>
 

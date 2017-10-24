@@ -96,4 +96,21 @@ public class ConnectJson {
         }
         return json;
     }
+
+    public static JSONObject queryListWork(SharedPreferences prefs, int wt,int stn,int rc){
+        //wt = 作品類別 , stn = 起始數 , rc = 筆數
+        JSONObject json = new JSONObject();
+        try {
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("wid", 0);
+            json.put("wt", 4);
+            json.put("stn", 0);
+            json.put("rc", 100);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
 }

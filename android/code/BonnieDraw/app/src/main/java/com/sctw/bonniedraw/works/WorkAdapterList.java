@@ -56,7 +56,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvWorkName.setText(data.get(position).getTitle());
         holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getIsFollowing()));
         ImageLoader.getInstance()
-                .displayImage(GlobalVariable.API_LINK_GET_PHOTO + data.get(position).getImagePath(), holder.mImgViewWrok, options, new SimpleImageLoadingListener() {
+                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }

@@ -93,7 +93,7 @@ public class PaintPlayActivity extends AppCompatActivity {
             miPointCount = mListTagPoint.size();
             miPointCurrent = 0;
             mbAutoPlay = true;
-            if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, 1);
+            if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
             mImgBtnReplay.setVisibility(View.INVISIBLE);
         }
     }
@@ -167,7 +167,7 @@ public class PaintPlayActivity extends AppCompatActivity {
 
 
                 if (brun) {
-                    mHandlerTimerPlay.postDelayed(rb_play, 50);
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else {
                     if (mbAutoPlay) {
                         mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
@@ -384,7 +384,7 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (miPointCount > 0) {
-                    mHandlerTimerPlay.postDelayed(rb_play, 100);
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
                     TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_end));
                 }
@@ -418,7 +418,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 miPointCurrent = 0;
                 mbAutoPlay = true;
                 mImgBtnReplay.setVisibility(View.INVISIBLE);
-                if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, 100);
+                if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
             }
         };
         mBtnAutoPlay.setOnClickListener(autoPlayAndReplay);

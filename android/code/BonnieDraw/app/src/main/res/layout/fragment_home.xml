@@ -21,8 +21,8 @@
         android:layout_height="1dp"
         android:background="@color/Grey" />
 
-    <FrameLayout
-        android:id="@+id/frameLayout_home"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -31,6 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="4dp" />
-    </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

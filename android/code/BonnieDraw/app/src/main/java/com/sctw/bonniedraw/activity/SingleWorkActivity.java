@@ -3,9 +3,7 @@ package com.sctw.bonniedraw.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -30,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paint.PathAndPaint;
 import com.sctw.bonniedraw.paint.TagPoint;
@@ -43,8 +42,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,12 +64,12 @@ public class SingleWorkActivity extends AppCompatActivity {
     private ImageView imgViewUserPhoto, mImgViewWorkImage;
     private ImageButton worksUserExtra, worksUserGood, worksUserMsg, worksUserShare, worksUserFollow;
     private Button mBtnPlayPause, mBtnNext, mBtnPrevious;
+    private String bdwPath = ""; //"bdwPath":
     SharedPreferences prefs;
-    int wid;
-
+    private int wid;
     public static final boolean HWLAYER = true;
     public static final boolean SWLAYER = false;
-    private static final String SKETCH_FILE_BDW = "/temp_play_use.bdw";
+    private static final String PLAY_FILE_BDW = "/temp_play_use.bdw";
     private Handler mHandlerTimerPlay = new Handler();
     private FrameLayout mFrameLayoutFreePaint;
     private Paint mPaint;
@@ -78,9 +78,8 @@ public class SingleWorkActivity extends AppCompatActivity {
     private List<TagPoint> mListTagPoint;
     private static int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 50;
     private Boolean mbAutoPlay = false, mbPlayState = false, mbPlaying = false;
-    private int displayHeight, displayWidth, offsetX, offsetY, realPaint = 0, count;
+    private int displayHeight, displayWidth, realPaint = 0, count;
     private Xfermode eraseEffect;
-    private File backLoadBDW = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +89,18 @@ public class SingleWorkActivity extends AppCompatActivity {
         if (bundle != null) {
             wid = bundle.getInt("wid");
         }
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
+        mPaint.setColor(0xFF000000);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeWidth(13);
+        eraseEffect = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+
+        myView = new MyView(this);
         mTextViewUserName = findViewById(R.id.textView_single_work_username);
         mTextViewWorkName = findViewById(R.id.textView_single_work_title);
         mTextViewWorkDescription = findViewById(R.id.textView_single_work_description);
@@ -104,46 +114,58 @@ public class SingleWorkActivity extends AppCompatActivity {
         worksUserMsg = findViewById(R.id.imgBtn_single_work_msg);
         worksUserShare = findViewById(R.id.imgBtn_single_work_share);
         worksUserFollow = findViewById(R.id.imgBtn_single_work_follow);
+        mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_single_work);
         getSingleWork();
-
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setColor(0xFF000000);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(13);
-        eraseEffect = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
 
         mBtnPlayPause = findViewById(R.id.imgBtn_single_work_play_pause);
         mBtnNext = findViewById(R.id.imgBtn_single_work_next);
         mBtnPrevious = findViewById(R.id.imgBtn_single_work_previous);
-        mBtnPlayPause.setOnClickListener(startPlay);
     }
 
-    public Button.OnClickListener startPlay = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            myView = new MyView(SingleWorkActivity.this);
+    public void next(View view){
+        if (miPointCount > 0) {
+            mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+        } else if (miPointCount == 0) {
+            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), getString(R.string.play_end));
+        }
+    }
+
+    public void previous(View view){
+        if (mbPlaying) {
+            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), getString(R.string.play_wait));
+        } else if (miPointCurrent > 0) {
+            mbPlayState = true;
+            myView.onClickPrevious();
+        } else if (miPointCurrent == 0) {
+            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), getString(R.string.play_frist));
+        }
+    }
+
+    public void startPlay(View view){
+        if (checkSketch()) {
             mImgViewWorkImage.setVisibility(View.GONE);
-            mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_single_work);
+            mFrameLayoutFreePaint.removeAllViews();
+            myView = new MyView(SingleWorkActivity.this);
             myView.setLayoutParams(new FrameLayout.LayoutParams(mImgViewWorkImage.getWidth(), mImgViewWorkImage.getHeight()));
             mFrameLayoutFreePaint.addView(myView);
-            mbPlayState=true;
-        }
-    };
-
-    public void checkSketch() {
-        backLoadBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
-        if (backLoadBDW.exists()) {
-            BDWFileReader reader = new BDWFileReader();
-            reader.readFromFile(backLoadBDW);
-            mListTagPoint = new ArrayList<>(reader.m_tagArray);
+            customPaint(0);
             miPointCount = mListTagPoint.size();
             miPointCurrent = 0;
             mbAutoPlay = true;
-            if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, 1);
+            if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+        }
+    }
+
+    public boolean checkSketch() {
+        File LoadBDW = new File(getFilesDir().getPath() + PLAY_FILE_BDW);
+        if (LoadBDW.exists()) {
+            BDWFileReader reader = new BDWFileReader();
+            reader.readFromFile(LoadBDW);
+            mListTagPoint = new ArrayList<>(reader.m_tagArray);
+            return true;
+        } else {
+            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), "讀取檔案失敗");
+            return false;
         }
     }
 
@@ -172,7 +194,6 @@ public class SingleWorkActivity extends AppCompatActivity {
     private Runnable rb_play = new Runnable() {
         public void run() {
             boolean brun = true;
-
             if (miPointCount > 0) {
                 TagPoint tagpoint = mListTagPoint.get(miPointCurrent);
                 switch (tagpoint.getiAction() - 1) {
@@ -206,7 +227,7 @@ public class SingleWorkActivity extends AppCompatActivity {
 
 
                 if (brun) {
-                    mHandlerTimerPlay.postDelayed(rb_play, 50);
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else {
                     if (mbAutoPlay) {
                         mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
@@ -243,7 +264,6 @@ public class SingleWorkActivity extends AppCompatActivity {
             mPaint = new Paint(mPaint);
 
             rectF = new RectF(getLeft(), getTop(), getRight(), getBottom());
-            //this.setBackground(getResources().getDrawable(R.drawable.transparent));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 if (HWLAYER) {
                     setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -260,7 +280,7 @@ public class SingleWorkActivity extends AppCompatActivity {
         @Override
         protected void onDraw(Canvas canvas) {
             canvas.save();
-            canvas.drawColor(Color.WHITE);
+            //canvas.drawColor(Color.WHITE);
             canvas.drawBitmap(mBitmap, 0, 0, null);
             canvas.restore();
         }
@@ -295,53 +315,26 @@ public class SingleWorkActivity extends AppCompatActivity {
             mPaint = new Paint(mPaint);
         }
 
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-            if (mbAutoPlay || mbPlayState) return true;//重播功能時不准畫
-
-            float x = event.getX();
-            float y = event.getY();
-
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    touch_start(x, y);
-                    invalidate();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    touch_move(x, y);
-                    invalidate();
-                    break;
-                case MotionEvent.ACTION_UP:
-                    touch_up();
-                    invalidate();
-                    break;
-            }
-            return true;
-        }
-
         //復原、重作、上一步、下一步
         public void onClickPrevious() {
             if (paths.size() > 0) {
                 paths.remove(paths.size() - 1);
+
                 count = paths.size() == 0 ? mListTempTagLength.get(0) : mListTempTagLength.get(paths.size()) - mListTempTagLength.get(paths.size() - 1);
+                Log.d("paths Num",String.valueOf(paths.size()));
+                Log.d("mListTempTagLength Num",String.valueOf(mListTempTagLength.toString()));
+                Log.d("Count Num",String.valueOf(count));
                 for (int x = 0; x <= count - 1; x++) {
                     miPointCount++;
                     miPointCurrent--;
                 }
-                mBitmap = Bitmap.createBitmap(displayWidth, displayHeight, Bitmap.Config.ARGB_8888);
+                mBitmap = Bitmap.createBitmap(displayWidth, displayWidth, Bitmap.Config.ARGB_8888);
                 mCanvas = new Canvas(mBitmap);
                 for (PathAndPaint p : paths) {
                     mCanvas.drawPath(p.get_mPath(), p.get_mPaint());
                 }
                 invalidate();
             }
-        }
-
-        //計算中間距離
-        private float spacing(MotionEvent event) {
-            float x = event.getX(0) - event.getX(1);
-            float y = event.getY(0) - event.getY(1);
-            return (float) Math.sqrt(x * x + y * y);
         }
     }
 
@@ -383,7 +376,41 @@ public class SingleWorkActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+    }
 
+    public void getBDW() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_GET_FILE + bdwPath)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), "Fail Load");
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                InputStream is = null;
+                byte[] buf = new byte[2048];
+                int len = 0;
+                FileOutputStream fos = null;
+                try {
+                    is = response.body().byteStream();
+                    File file = new File(getFilesDir().getPath() + PLAY_FILE_BDW);
+                    fos = new FileOutputStream(file);
+                    while ((len = is.read(buf)) != -1) {
+                        fos.write(buf, 0, len);
+                    }
+                    fos.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (is != null) is.close();
+                    if (fos != null) fos.close();
+                }
             }
         });
     }
@@ -397,21 +424,17 @@ public class SingleWorkActivity extends AppCompatActivity {
             mTextViewWorkDescription.setText(data.getString("description"));
             mTextViewGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getString("isFollowing")));
             mTextViewCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
-            //imgViewUserPhoto data.getString("imagePath")
-            try {
-                URL url = new URL(GlobalVariable.API_LINK_GET_PHOTO + data.getString("imagePath"));
-                Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                mImgViewWorkImage.setImageBitmap(bitmap);
-                mImgViewWorkImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"), mImgViewWorkImage);
+            bdwPath = data.getString("bdwPath");
+            displayWidth=mImgViewWorkImage.getWidth();
+            getBDW();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
