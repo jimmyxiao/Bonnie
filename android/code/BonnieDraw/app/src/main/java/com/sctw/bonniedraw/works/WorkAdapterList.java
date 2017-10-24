@@ -55,6 +55,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvUserName.setText(data.get(position).getUserName());
         holder.mTvWorkName.setText(data.get(position).getTitle());
         holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getIsFollowing()));
+        final int wid=Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
         ImageLoader.getInstance()
                 .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, options, new SimpleImageLoadingListener() {
                     @Override
@@ -78,31 +79,31 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mImgViewWrok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkImgClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkImgClick(wid);
             }
         });
         holder.imgBtnWorksUserExtra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkExtraClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkExtraClick(wid);
             }
         });
         holder.imgBtnWorksUserGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkGoodClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkGoodClick(wid);
             }
         });
         holder.imgBtnWorksUserMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkMsgClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkMsgClick(wid);
             }
         });
         holder.imgBtnWorksUserShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkShareClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkShareClick(wid);
             }
         });
     }

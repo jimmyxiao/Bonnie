@@ -15,6 +15,7 @@ import okhttp3.MediaType;
 public class ConnectJson {
     //所有與API連線的JSON格式都在這裡
     public final static MediaType MEDIA_TYPE_JSON_UTF8 = MediaType.parse("application/json; charset=utf-8");
+
     //登入用
     public static JSONObject loginJson(SharedPreferences prefs, int type) {
         //type 3 = third login , 1 = email login
@@ -28,7 +29,7 @@ public class ConnectJson {
                         json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
                     }
                     json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
-                    json.put("un",prefs.getString(GlobalVariable.userNameStr,""));
+                    json.put("un", prefs.getString(GlobalVariable.userNameStr, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
                     json.put("thirdEmail", prefs.getString(GlobalVariable.userEmailStr, ""));
@@ -50,7 +51,7 @@ public class ConnectJson {
     }
 
     //搜尋個人資料用
-    public static JSONObject queryUserInfoJson(SharedPreferences prefs){
+    public static JSONObject queryUserInfoJson(SharedPreferences prefs) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
@@ -64,7 +65,7 @@ public class ConnectJson {
     }
 
     //更新個人資料用
-    public static JSONObject updateUserInfoJson(SharedPreferences prefs,String userName,String nickName,String description,String phoneNo,String gender) {
+    public static JSONObject updateUserInfoJson(SharedPreferences prefs, String userName, String nickName, String description, String phoneNo, String gender) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
@@ -84,20 +85,20 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject querySingleWork(SharedPreferences prefs,int wid){
+    public static JSONObject querySingleWork(SharedPreferences prefs, int wid) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("wid",wid);
+            json.put("wid", wid);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return json;
     }
 
-    public static JSONObject queryListWork(SharedPreferences prefs, int wt,int stn,int rc){
+    public static JSONObject queryListWork(SharedPreferences prefs, int wt, int stn, int rc) {
         //wt = 作品類別 , stn = 起始數 , rc = 筆數
         JSONObject json = new JSONObject();
         try {

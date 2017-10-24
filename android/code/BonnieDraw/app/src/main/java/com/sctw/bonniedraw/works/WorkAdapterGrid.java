@@ -1,13 +1,23 @@
 package com.sctw.bonniedraw.works;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.WorkInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,12 +25,19 @@ import java.util.List;
  */
 
 public class WorkAdapterGrid extends RecyclerView.Adapter<WorkAdapterGrid.ViewHolder> {
-    List<String> mData;
+    List<WorkInfo> data = new ArrayList<>();
+    private DisplayImageOptions options;
     WorkGridOnClickListener listner;
 
-    public WorkAdapterGrid(List<String> mData, WorkGridOnClickListener listner) {
-        this.mData = mData;
+    public WorkAdapterGrid(List<WorkInfo> data, WorkGridOnClickListener listner) {
+        this.data = data;
         this.listner = listner;
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
     }
 
     @Override
@@ -33,26 +50,46 @@ public class WorkAdapterGrid extends RecyclerView.Adapter<WorkAdapterGrid.ViewHo
 
     @Override
     public void onBindViewHolder(final WorkAdapterGrid.ViewHolder holder, int position) {
-        holder.mTextView.setText(mData.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        final int wid=Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listner.onWorkClick(holder.getAdapterPosition());
+                listner.onWorkClick(wid);
             }
         });
+
+        ImageLoader.getInstance()
+                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImageView, options, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.d("IMG LOAD FAIL","FAIL");
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    }
+                }, new ImageLoadingProgressListener() {
+                    @Override
+                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                    }
+                });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTextView;
+        ImageView mImageView;
 
         ViewHolder(View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.card_textview);
+            mImageView = v.findViewById(R.id.imgView_work_grid);
         }
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return data.size();
     }
 }
