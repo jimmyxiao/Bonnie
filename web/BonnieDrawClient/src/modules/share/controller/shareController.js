@@ -13,7 +13,6 @@ app.controller('headerMenuController', function ($rootScope, $scope, $window, $l
 			
 		}
 
-
 	}
 )
 

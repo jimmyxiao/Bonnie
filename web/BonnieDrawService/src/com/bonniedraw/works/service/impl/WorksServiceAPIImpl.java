@@ -304,6 +304,30 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	}
 	
 	@Override
+	public Map<String, Object> queryAllWorksAndPaginationByCategory(WorkListRequestVO workListRequestVO) {
+		int wt = workListRequestVO.getWt();
+		int rc = workListRequestVO.getRc();
+		Integer stn = workListRequestVO.getStn();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<WorksResponse> worksResponseList = new ArrayList<WorksResponse>();
+		int maxPagination = 0;
+		Map<String, Object> pagerMap = new HashMap<String, Object>();
+		pagerMap.put("offset", (rc*(stn-1)));
+		pagerMap.put("limit", rc);
+		pagerMap.put("userId", workListRequestVO.getUi());
+		List<Integer> worksIdList = worksCategoryMapper.selectWorksIdList(wt);
+		if(ValidateUtil.isNotEmptyAndSize(worksIdList)){
+			maxPagination = (int) Math.ceil( Double.parseDouble(String.valueOf(worksIdList.size())) / Double.parseDouble(String.valueOf(rc)) );
+			pagerMap.put("list", worksIdList);
+			worksResponseList = worksMapper.queryCategoryWorksPager(pagerMap);
+		}
+		
+		resultMap.put("worksResponseList", worksResponseList);
+		resultMap.put("maxPagination", maxPagination);
+		return resultMap;
+	}
+	
+	@Override
 	public WorksResponse queryWorks(Integer wid, int userId) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("wid", wid);

@@ -45,4 +45,6 @@ public interface WorksMapper {
     
     List<WorksResponse> queryCollectionWorksPager(Map<String, Integer> pagerMap);
     
+    List<WorksResponse> queryCategoryWorksPager(Map<String, Object> pagerMap);
+    
 }

@@ -102,5 +102,14 @@
     	from works_category
     	where WORKS_ID = #{worksId, jdbcType=INTEGER}
   	</select>
+  	
+  	<select id="selectWorksIdList" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    	select wc.WORKS_ID
+    	from works_category wc left join works wk on wc.WORKS_ID = wk.WORKS_ID
+    	where wc.CATEGORY_ID = #{categoryId, jdbcType=INTEGER}
+    	and wk.PRIVACY_TYPE = 1
+		and wk.STATUS = 1
+		group by wc.WORKS_ID
+  	</select>
   
 </mapper>
