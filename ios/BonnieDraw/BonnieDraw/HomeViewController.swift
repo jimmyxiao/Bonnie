@@ -52,10 +52,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             downloadData()
         }
+        delegate?.home(enableMenuGesture: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
+        delegate?.home(enableMenuGesture: false)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
