@@ -34,7 +34,7 @@ public class GlobalVariable {
     public static final String API_LINK_WORK_LIST = "https://www.bonniedraw.com/bonniedraw_service/BDService/worksList";
     public static final String API_LINK_LOGIN = "https://www.bonniedraw.com/bonniedraw_service/BDService/login";
     public static final String API_LINK_UPDATE_PWD = "https://www.bonniedraw.com/bonniedraw_service/BDService/updatePwd";
-    public static final String API_LINK_GET_PHOTO = "https://www.bonniedraw.com/bonniedraw_service/BDService/loadFile";
+    public static final String API_LINK_GET_FILE = "https://www.bonniedraw.com/bonniedraw_service/BDService/loadFile";
 
 
 }

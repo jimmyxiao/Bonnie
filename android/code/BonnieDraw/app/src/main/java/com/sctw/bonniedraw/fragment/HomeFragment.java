@@ -1,12 +1,13 @@
 package com.sctw.bonniedraw.fragment;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,10 +25,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.works.WorkAdapterList;
 import com.sctw.bonniedraw.works.WorkListOnClickListener;
@@ -58,10 +62,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerViewHome;
     private Toolbar mToolbar;
     private ImageButton mImgBtnDrawer;
-    private FragmentManager fragmentManager;
     private SearchView mSearchView;
     private SharedPreferences prefs;
     private List<WorkInfo> workInfoList;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,21 +85,30 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar_home);
-        mToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mImgBtnDrawer = (ImageButton) view.findViewById(R.id.toolbar_switch);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
+        mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
+
+        mToolbar.setTitle("");
         mImgBtnDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((DrawerLayout) getActivity().findViewById(R.id.main_actitivy_drawlayout)).openDrawer(Gravity.START);
             }
         });
-
-        mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewHome.setLayoutManager(layoutManager);
+        mRecyclerViewHome.addOnScrollListener(new RecyclerPauseOnScrollListener(ImageLoader.getInstance(), true, true));
         getWorksList();
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getWorksList();
+            }
+        });
     }
 
     @Override
@@ -122,21 +135,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void getWorksList() {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
-            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
-            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("wid", 0);
-            json.put("wt", 4);
-            json.put("stn", 0);
-            json.put("rc", 10);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        JSONObject json = ConnectJson.queryListWork(prefs, 4, 0, 100);
         Log.d("LOGIN JSON: ", json.toString());
-
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
@@ -165,6 +165,7 @@ public class HomeFragment extends Fragment {
                                         e.printStackTrace();
                                     }
                                     Toast.makeText(getActivity(), "Download list successful", Toast.LENGTH_SHORT).show();
+                                    mSwipeRefreshLayout.setRefreshing(false);
                                 }
                             });
                         }
@@ -172,16 +173,15 @@ public class HomeFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }
 
     public void refreshWorks(JSONArray data) {
         try {
-            workInfoList=new ArrayList<>();
+            workInfoList = new ArrayList<>();
             for (int x = 0; x < data.length(); x++) {
-                WorkInfo workInfo=new WorkInfo();
+                WorkInfo workInfo = new WorkInfo();
                 workInfo.setWorkId(data.getJSONObject(x).getString("worksId"));
                 workInfo.setUserId(data.getJSONObject(x).getString("userId"));
                 workInfo.setUserName(data.getJSONObject(x).getString("userName"));
@@ -198,15 +198,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onWorkImgClick(int wid) {
                 Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
-                fragmentManager = getChildFragmentManager();
-                WorkFragment workFragment=new WorkFragment();
-                Bundle bundle=new Bundle();
-                bundle.putInt("wid",wid);
-                workFragment.setArguments(bundle);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout_home, workFragment)
-                        .addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putInt("wid", wid);
+                intent.setClass(getActivity(), SingleWorkActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
 
             @Override
@@ -220,7 +217,7 @@ public class HomeFragment extends Fragment {
                 extraShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("POSTION CLICK", "extraShare="+wid);
+                        Log.d("POSTION CLICK", "extraShare=" + wid);
                         extraDialog.dismiss();
                     }
                 });
@@ -228,7 +225,7 @@ public class HomeFragment extends Fragment {
                 extraCopyLink.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("POSTION CLICK", "extraCopyLink="+wid);
+                        Log.d("POSTION CLICK", "extraCopyLink=" + wid);
                         extraDialog.dismiss();
                     }
                 });
@@ -236,7 +233,7 @@ public class HomeFragment extends Fragment {
                 extraReport.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("POSTION CLICK", "extraReport"+wid);
+                        Log.d("POSTION CLICK", "extraReport" + wid);
                         extraDialog.dismiss();
                     }
                 });

@@ -60,7 +60,7 @@ public class DirectoryManagerServiceImpl extends BaseService implements
 	@Override
 	public int createDirectory(CategoryInfo categoryInfo, Integer passId) {
 		Integer categoeyParentId = categoryInfo.getCategoryParentId();
-		categoryInfo.setEnable(true);
+//		categoryInfo.setEnable(true);
 		if( categoeyParentId == 0 || categoeyParentId == null ){
 			categoryInfo.setCategoryParentId(null);
 			categoryInfo.setCategoryLevel(1);

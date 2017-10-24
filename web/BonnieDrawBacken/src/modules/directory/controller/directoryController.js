@@ -24,7 +24,6 @@ app.factory('directoryService', function(baseHttp) {
 
     $scope.insertDir = function(){
         $scope.loading = true;
-        console.log($scope.createDir);
         directoryService.createDirectory($scope.createDir,function(data, status, headers, config){
             if(data.result){
                 $scope.queryDirectoryList();
@@ -49,6 +48,7 @@ app.factory('directoryService', function(baseHttp) {
         directoryService.updateDirectory($scope.editDir.data,function(data, status, headers, config){
             if(data.result){
                 $scope.basicTree[$scope.editDir.index].categoryName = data.data.categoryName;
+                $scope.basicTree[$scope.editDir.index].enable = data.data.enable;
                 $scope.close();
                 util.alert('更新成功');
             }else{
@@ -173,6 +173,7 @@ app.factory('directoryService', function(baseHttp) {
     $scope.addDir = function(){
         $scope.createDir = {
             categoryName:null,
+            enable:false,
             categoryParentId:categoryParentId
         }
         var modalInstance = $modal.open({

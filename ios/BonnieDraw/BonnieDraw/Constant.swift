@@ -89,12 +89,18 @@ struct Service {
 struct Identifier {
     static let PARENT = "parentViewController"
     static let HOME = "homeViewController"
-    static let COLLECTION = "collectionViewController"
+    static let FOLLOW = "followViewController"
     static let NOTIFICATION = "notificationViewController"
-    static let ACCOUNT = "accountViewController"
 }
 
 struct Segue {
+    static let ACCOUNT_EDIT = "accountEditSegue"
+    static let SETTING = "settingSegue"
+    static let PASSWORD = "passwordSegue"
+    static let LANGUAGE = "languageSegue"
+    static let DESCRIPTION = "descriptionSegue"
+    static let WEB = "webSegue"
+    static let COLLECTION = "collectionSegue"
 }
 
 struct Default {
@@ -108,4 +114,8 @@ struct Default {
     static let THIRD_PARTY_NAME = "thirdPartyName"
     static let THIRD_PARTY_EMAIL = "thirdPartyEmail"
     static let THIRD_PARTY_IMAGE = "thirdPartyImage"
+}
+
+struct Url {
+    static let PRIVACY_POLICY = "https"
 }

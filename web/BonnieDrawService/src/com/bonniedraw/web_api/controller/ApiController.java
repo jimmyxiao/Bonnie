@@ -2,6 +2,7 @@ package com.bonniedraw.web_api.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -457,21 +458,31 @@ public class ApiController {
 							respResult.setWorkList(workList);
 							msg = messageSource.getMessage("api_success",null,request.getLocale());
 						}else{
-//							if(ValidateUtil.isNotNumNone(wid)){		//取得系統非預設類別的作品
-//								WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
-//								if(worksResponse!=null){
-//									Integer resStatus = worksResponse.getStatus();
-//									Integer resUserId = worksResponse.getUserId();
-//									if(resStatus ==1 ||  (resStatus!=1 && resUserId == workListRequestVO.getUi())){
-//										Integer privacyType = worksResponse.getPrivacyType();
-//										if(privacyType == 1 || (privacyType!=1 && resUserId == workListRequestVO.getUi())){
-//											respResult.setWork(worksResponse);
-//											respResult.setRes(1);
-//											msg = messageSource.getMessage("api_success",null,request.getLocale());
-//										}
-//									}
-//								}
-//							}
+							if(ValidateUtil.isNotNumNone(wid)){		//取得系統非預設類別的作品
+								WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
+								if(worksResponse!=null){
+									Integer resStatus = worksResponse.getStatus();
+									Integer resUserId = worksResponse.getUserId();
+									if(resStatus ==1 ||  (resStatus!=1 && resUserId == workListRequestVO.getUi())){
+										Integer privacyType = worksResponse.getPrivacyType();
+										if(privacyType == 1 || (privacyType!=1 && resUserId == workListRequestVO.getUi())){
+											respResult.setWork(worksResponse);
+											respResult.setRes(1);
+											msg = messageSource.getMessage("api_success",null,request.getLocale());
+										}
+									}
+								}
+							}else{
+								List<WorksResponse> workList=new ArrayList<WorksResponse>();
+								if(ValidateUtil.isNotNumNone(workListRequestVO.getStn())){
+									Map<String, Object> resultMap = worksServiceAPI.queryAllWorksAndPaginationByCategory(workListRequestVO);
+									workList = (List<WorksResponse>) resultMap.get("worksResponseList");
+									respResult.setMaxPagination((int) resultMap.get("maxPagination"));
+								}
+								respResult.setRes(1);
+								respResult.setWorkList(workList);
+								msg = messageSource.getMessage("api_success",null,request.getLocale());
+							}
 						}
 					}else{
 						msg="類別錯誤";
@@ -644,6 +655,7 @@ public class ApiController {
 						if( status && ValidateUtil.isNotBlank(filePath)){
 							if(userServiceAPI.updateUserPicture(fileUploadRequestVO.getUi(), filePath)){
 								respResult.setRes(1);
+								respResult.setProfilePicture(filePath);
 								msg = messageSource.getMessage("api_success",null,request.getLocale());
 							}else{
 								msg = messageSource.getMessage("api_fail",null,request.getLocale());

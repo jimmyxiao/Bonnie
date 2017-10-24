@@ -119,7 +119,10 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
     }
 }).factory('worksService', function(baseHttp) {
     return {
-        queryWorksList: function(params,callback){
+        getDrawingPlay: function(params,callback){
+            return baseHttp.service('drawingPlay' ,params,callback);
+        }
+        ,queryWorksList: function(params,callback){
             return baseHttp.service('worksList' ,params,callback);
         },
         setLike: function(params,callback){
@@ -130,6 +133,9 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
         },
         setCollection: function(params,callback){
             return baseHttp.service('setCollection' ,params,callback);
+        },
+        setTurnin: function(params,callback){
+            return baseHttp.service('setTurnin' ,params,callback);
         }
     }
 }).factory('userService', function(baseHttp) {

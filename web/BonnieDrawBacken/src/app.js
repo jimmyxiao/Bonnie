@@ -57,6 +57,14 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
             controller:'directoryController'
           }
         }
+    }).state('turnInManager', {
+        url: '/turnInManager',
+        views: {
+          "content":{
+            templateUrl:'modules/turnIn/view/turnInList.html',
+            controller:'turnInController'
+          }
+        }
     }).state('mailSet', {
       	url: '/mailSet',
       	views: {

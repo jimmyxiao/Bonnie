@@ -304,6 +304,30 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	}
 	
 	@Override
+	public Map<String, Object> queryAllWorksAndPaginationByCategory(WorkListRequestVO workListRequestVO) {
+		int wt = workListRequestVO.getWt();
+		int rc = workListRequestVO.getRc();
+		Integer stn = workListRequestVO.getStn();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<WorksResponse> worksResponseList = new ArrayList<WorksResponse>();
+		int maxPagination = 0;
+		Map<String, Object> pagerMap = new HashMap<String, Object>();
+		pagerMap.put("offset", (rc*(stn-1)));
+		pagerMap.put("limit", rc);
+		pagerMap.put("userId", workListRequestVO.getUi());
+		List<Integer> worksIdList = worksCategoryMapper.selectWorksIdList(wt);
+		if(ValidateUtil.isNotEmptyAndSize(worksIdList)){
+			maxPagination = (int) Math.ceil( Double.parseDouble(String.valueOf(worksIdList.size())) / Double.parseDouble(String.valueOf(rc)) );
+			pagerMap.put("list", worksIdList);
+			worksResponseList = worksMapper.queryCategoryWorksPager(pagerMap);
+		}
+		
+		resultMap.put("worksResponseList", worksResponseList);
+		resultMap.put("maxPagination", maxPagination);
+		return resultMap;
+	}
+	
+	@Override
 	public WorksResponse queryWorks(Integer wid, int userId) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("wid", wid);
@@ -415,43 +439,47 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	@Override
 	public List<Point> getDrawingPlay(int wid, int userId) {
 		List<Point> pointList = new ArrayList<Point>();
-		byte[] bdwBytes = null;
-		StringBuffer path = new StringBuffer();
-		path.append(wid).append(".bdw");
-		String rootPath = System.getProperty("catalina.home");
-		String filePath = rootPath + "/files/" + path;
-		File file = new File(filePath);
-		try{
-			if(file.exists()){
-				bdwBytes = org.apache.commons.io.FileUtils.readFileToByteArray(file);
-				for(int i=0; i< bdwBytes.length; i+=20){
-					int length = BinaryUtil.combindTwoBytes(bdwBytes[i], bdwBytes[i+1]);
-					int functionCode = BinaryUtil.combindTwoBytes(bdwBytes[i+2], bdwBytes[i+3]);
-					int xPos = BinaryUtil.combindTwoBytes(bdwBytes[i+4], bdwBytes[i+5]);
-					int yPos = BinaryUtil.combindTwoBytes(bdwBytes[i+6], bdwBytes[i+7]);
-					String color = String.valueOf(
-							BinaryUtil.combindTwoBytes((byte) BinaryUtil.combindTwoBytes(bdwBytes[i+8], bdwBytes[i+9]) , (byte) BinaryUtil.combindTwoBytes(bdwBytes[i+10], bdwBytes[i+11]))); 
-					int action = bdwBytes[i+12];
-					int size = BinaryUtil.combindTwoBytes(bdwBytes[i+13], bdwBytes[i+14]);
-					int brush = bdwBytes[i+15];
-					int time = BinaryUtil.combindTwoBytes(bdwBytes[i+16], bdwBytes[i+17]);
-					int reserve = BinaryUtil.combindTwoBytes(bdwBytes[i+18], bdwBytes[i+19]);
-					Point point = new Point();
-					point.setLength(length);
-					point.setFc(functionCode);
-					point.setxPos(xPos);
-					point.setyPos(yPos);
-					point.setColor(color);
-					point.setAction(action);
-					point.setSize(size);
-					point.setBrush(brush);
-					point.setTime(time);
-					point.setReserve(reserve);
-					pointList.add(point);
+		Works works = worksMapper.selectByPrimaryKey(wid);
+		if(works!=null){
+			if(works.getUserId() == userId || (works.getStatus()==1 && works.getPrivacyType()==1 && ValidateUtil.isNotBlank(works.getBdwPath())) ){
+				byte[] bdwBytes = null;
+				String path = works.getBdwPath();
+				String rootPath = System.getProperty("catalina.home");
+				String filePath = rootPath + path;
+				File file = new File(filePath);
+				try{
+					if(file.exists()){
+						bdwBytes = org.apache.commons.io.FileUtils.readFileToByteArray(file);
+						for(int i=0; i< bdwBytes.length; i+=20){
+							int length = BinaryUtil.combindTwoBytes(bdwBytes[i], bdwBytes[i+1]);
+							int functionCode = BinaryUtil.combindTwoBytes(bdwBytes[i+2], bdwBytes[i+3]);
+							int xPos = BinaryUtil.combindTwoBytes(bdwBytes[i+4], bdwBytes[i+5]);
+							int yPos = BinaryUtil.combindTwoBytes(bdwBytes[i+6], bdwBytes[i+7]);
+							String color = String.valueOf(
+									BinaryUtil.combindTwoBytes((byte) BinaryUtil.combindTwoBytes(bdwBytes[i+8], bdwBytes[i+9]) , (byte) BinaryUtil.combindTwoBytes(bdwBytes[i+10], bdwBytes[i+11]))); 
+							int action = bdwBytes[i+12];
+							int size = BinaryUtil.combindTwoBytes(bdwBytes[i+13], bdwBytes[i+14]);
+							int brush = bdwBytes[i+15];
+							int time = BinaryUtil.combindTwoBytes(bdwBytes[i+16], bdwBytes[i+17]);
+							int reserve = BinaryUtil.combindTwoBytes(bdwBytes[i+18], bdwBytes[i+19]);
+							Point point = new Point();
+							point.setLength(length);
+							point.setFc(functionCode);
+							point.setxPos(xPos);
+							point.setyPos(yPos);
+							point.setColor(color);
+							point.setAction(action);
+							point.setSize(size);
+							point.setBrush(brush);
+							point.setTime(time);
+							point.setReserve(reserve);
+							pointList.add(point);
+						}
+					}
+				}catch(IOException e){
+					LogUtils.fileConteollerError(filePath + " loadFile has error : 輸出發生異常 =>" +e);
 				}
 			}
-		}catch(IOException e){
-			LogUtils.fileConteollerError(filePath + " loadFile has error : 輸出發生異常 =>" +e);
 		}
 		return pointList;
 	}

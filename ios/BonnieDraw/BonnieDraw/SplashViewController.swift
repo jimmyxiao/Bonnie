@@ -59,8 +59,8 @@ class SplashViewController: UIViewController {
                                     Logger.d(token)
                                     let defaults = UserDefaults.standard
                                     defaults.set(token, forKey: Default.TOKEN)
-                                    if let imageUrl = data["profilePicture"] as? String {
-                                        defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                                    if let urlString = data["profilePicture"] as? String {
+                                        defaults.set(URL(string: urlString), forKey: Default.THIRD_PARTY_IMAGE)
                                     }
                                     defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                                     self.launchMain()

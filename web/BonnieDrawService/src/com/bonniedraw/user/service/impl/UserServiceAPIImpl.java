@@ -107,6 +107,17 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		Date nowDate = TimerUtil.getNowDate();
 		UserInfo userInfo = getInitalUserInfo(loginRequestVO, nowDate);
 		userInfoMapper.insert(userInfo);
+		if(ValidateUtil.isNotBlank(loginRequestVO.getThirdPictureUrl())){
+			StringBuffer path = new StringBuffer();
+			path.append("/picture/").append(userInfo.getUserId());
+			Map<String, Object> resultMap = FileUtil.copyURLToFile(loginRequestVO.getThirdPictureUrl(), path.toString());
+			boolean status = (boolean)resultMap.get("status");
+			if(status){
+				String filePath = resultMap.get("path")!=null?resultMap.get("path").toString():null;
+				userInfo.setProfilePicture(filePath);
+				userInfoMapper.updateByPrimaryKeySelective(userInfo);
+			}
+		}
 		putLogin(result, loginRequestVO, userInfo, ipAddress);
 	}
 	
@@ -114,7 +125,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		LoginResponseVO result = new LoginResponseVO();
 		int dt = loginRequestVO.getDt();
 		int ut = loginRequestVO.getUt();
-		if(dt==3){
+		if(dt==3 && ut ==1){
 			try {
 				loginRequestVO.setUp((EncryptUtil.convertMD5(loginRequestVO.getUp())));
 			} catch (Exception e1) {
@@ -150,8 +161,8 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 							emailUserInfo.setStatus(1);
 							emailUserInfo.setUpdatedBy(0);
 							emailUserInfo.setUpdateDate(nowDate);
-							userInfoMapper.updateByPrimaryKey(emailUserInfo);
-							putLogin(result, loginRequestVO, existUserInfo, ipAddress);
+							userInfoMapper.updateByPrimaryKeySelective(emailUserInfo);
+							putLogin(result, loginRequestVO, emailUserInfo, ipAddress);
 						}else{
 							insertUserInfo(result, loginRequestVO, ipAddress);
 						}
@@ -283,7 +294,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 					existUserInfo.setRegValidDate(regVaildDate);
 					existUserInfo.setUpdatedBy(0);
 					existUserInfo.setUpdateDate(nowDate);
-					userInfoMapper.updateByPrimaryKey(existUserInfo);
+					userInfoMapper.updateByPrimaryKeySelective(existUserInfo);
 					if(EmailProcess.sendValideMail(systemSetupService,existUserInfo)){
 						result.setRes(1);
 					}else{

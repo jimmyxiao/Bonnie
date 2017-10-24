@@ -6,14 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.works.WorkAdapterGrid;
-import com.sctw.bonniedraw.works.WorkGridOnClickListener;
 
 import java.util.ArrayList;
 
@@ -35,7 +33,7 @@ public class LikeAllFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        myDataset = new ArrayList<>();
+        /*myDataset = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             myDataset.add(Integer.toString(i));
         }
@@ -49,6 +47,6 @@ public class LikeAllFragment extends Fragment {
             }
         });
         mRecyclerViewLikeAll.setLayoutManager(gridLayoutManager);
-        mRecyclerViewLikeAll.setAdapter(mAdapterGrid);
+        mRecyclerViewLikeAll.setAdapter(mAdapterGrid);*/
     }
 }

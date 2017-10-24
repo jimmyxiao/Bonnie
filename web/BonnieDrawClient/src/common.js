@@ -153,6 +153,16 @@ app.factory('util', function($rootScope, $http, $modal) {
 			}
 			var newObj = JSON.parse(JSON.stringify(basicBean));
 			return newObj;
+		},
+		splitHashTag:function(words){
+			var tagslistarr = words.split(' ');
+			var arr=[];
+			$.each(tagslistarr,function(i,val){
+			    if(tagslistarr[i].indexOf('#') == 0){
+			      arr.push(tagslistarr[i]);  
+			    }
+			});
+			return arr;
 		}
 	}
 });

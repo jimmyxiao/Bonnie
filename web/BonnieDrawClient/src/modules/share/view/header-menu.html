@@ -62,9 +62,12 @@
 							<ul>
 							  	<li ng-repeat="data in categoryList track by $index">
 							  		<a href="#/category-listing?type={{data.categoryId}}" ng-click="clickCategory(data)">{{data.categoryName}}</a>
+							  		<ul>
+									  	<li ng-repeat="data2 in data.categoryList track by $index">
+									  		<a href="#/category-listing?type={{data2.categoryId}}" ng-click="clickCategory(data2)">{{data2.categoryName}}</a>
+									  	</li>
+									</ul>		
 							  	</li>
-<!-- 							  	<li><a href="">類別二</a></li>
-							  	<li><a href="">類別三</a></li> -->
 							</ul>		
 						</li>
 					</ul>

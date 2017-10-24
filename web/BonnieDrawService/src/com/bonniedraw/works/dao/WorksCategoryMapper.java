@@ -24,4 +24,7 @@ public interface WorksCategoryMapper {
     int deleteWorksCategoryList(List<WorksCategory> categorieyList);
     
     List<WorksCategory> selectByWorksId(Integer worksId);
+    
+    List<Integer> selectWorksIdList(Integer categoryId);
+    
 }

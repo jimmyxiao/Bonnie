@@ -5,5 +5,5 @@ package com.sctw.bonniedraw.works;
  */
 
 public interface WorkGridOnClickListener {
-    void onWorkClick(int postion);
+    void onWorkClick(int wid);
 }

@@ -1,5 +1,7 @@
 package com.bonniedraw.works.dao;
 
+import java.util.List;
+
 import com.bonniedraw.works.model.TurnIn;
 
 public interface TurnInMapper {
@@ -14,4 +16,6 @@ public interface TurnInMapper {
     int updateByPrimaryKeySelective(TurnIn record);
 
     int updateByPrimaryKey(TurnIn record);
+    
+    List<TurnIn> queryTurnInList();
 }

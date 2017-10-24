@@ -87,7 +87,7 @@
 														<i ng-if="newUpload.like" class="material-icons font-icon">favorite</i>
 													</a>
 													<span>{{newUpload.likeCount}}</span>
-													<a href=""><i class="material-icons share-icon">share</i></a>
+													<a href="" ng-click="popupShare()"><i class="material-icons share-icon">share</i></a>
 												</section>
 												<p><a ng-href="#/userfile/{{newUpload.userId}}">{{newUpload.userName}}</a></p>
 												<h1><a ng-href="#/column-detail?id={{newUpload.worksId}}">{{newUpload.title}}</a></h1>
@@ -134,7 +134,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-3 col-sm-4">
+<!-- 					<div class="col-md-3 col-sm-4">
 						<div class="sidebar">
 							<div class="sidebar-vid most-liked">
 								<h1 class="sidebar-heading">{{'HOME.USER_LIKE' | translate}}</h1>
@@ -177,7 +177,7 @@
 								</ul>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

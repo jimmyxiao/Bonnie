@@ -43,7 +43,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             return
         }
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        var password = self.password.text?.MD5() ?? ""
+        var password = self.password.text ?? ""
         if email.isEmpty {
             presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
                 action in
@@ -65,12 +65,13 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                 self.password.becomeFirstResponder()
             }
         } else {
+            let securePassword = password.MD5()
             view.endEditing(true)
             loading.hide(false)
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.LOGIN),
                     method: .post,
-                    parameters: ["uc": email, "up": password, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 1],
+                    parameters: ["uc": email, "up": securePassword, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 1],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {
@@ -97,8 +98,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                 defaults.set(token, forKey: Default.TOKEN)
                                 defaults.set(userId, forKey: Default.USER_ID)
                                 defaults.set(email, forKey: Default.EMAIL)
-                                defaults.set(password, forKey: Default.PASSWORD)
-                                defaults.set(data["profilePicture"] as? String, forKey: Default.THIRD_PARTY_IMAGE)
+                                defaults.set(securePassword, forKey: Default.PASSWORD)
+                                if let urlString = data["profilePicture"] as? String {
+                                    defaults.set(URL(string: urlString), forKey: Default.THIRD_PARTY_IMAGE)
+                                }
                                 defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                                 self.launchMain()
                             case .failure(let error):
@@ -261,7 +264,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             defaults.set(id, forKey: Default.THIRD_PARTY_ID)
                             defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
                             defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
-                            defaults.set(data["profilePicture"] as? String ?? imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                            if let urlString = data["profilePicture"] as? String {
+                                defaults.set(URL(string: urlString), forKey: Default.THIRD_PARTY_IMAGE)
+                            } else {
+                                defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                            }
                             defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                             self.launchMain()
                         case .failure(let error):

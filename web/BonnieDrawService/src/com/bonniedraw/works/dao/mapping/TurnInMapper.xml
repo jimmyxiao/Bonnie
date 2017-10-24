@@ -115,4 +115,10 @@
     where TURN_IN_ID = #{turnInId,jdbcType=INTEGER}
   </update>
   
+  <select id="queryTurnInList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from turn_in
+  </select>
+  
 </mapper>

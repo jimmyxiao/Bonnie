@@ -11,7 +11,8 @@
 								<div class="col-sm-12">
 									<div class="vid-player">
 										<div class="embed-responsive embed-responsive-16by9">
-				                            <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe>
+				                           <!--  <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe> -->
+				                           <canvas id="myCanvas" class="embed-responsive-item" style="border:1px solid #979797;"></canvas>
 				                        </div>
 									</div>
 									<h3>{{mainSection.title}}</h3>
@@ -30,13 +31,14 @@
 											</div>
 											<div class="col-md-6 col-sm-6">
 												<ul class="list-unstyled list-inline pull-right text-right sharing-bar">
-													<li><a href=""><i class="fa fa-facebook"></i></a></li>
+													<li><a href="" ng-click="shareLink('fb')"><i class="fa fa-facebook"></i></a></li>
 													<li><a href=""><i class="fa fa-twitter"></i></a></li>
 													<li><a href=""><i class="fa fa-google-plus"></i></a></li>
 													<li><a href=""><i class="fa fa-instagram"></i></a></li>
-													<a href="" title="檢舉" data-toggle="collapse" data-target="#report" ng-click="clickTurnIn()">
+													<li><a href="" title="檢舉" data-toggle="collapse" data-target="#report" ng-click="clickTurnIn()">
 														<i class="fa fa-info-circle" aria-hidden="true"></i>
 													</a>
+													</li>
 												</ul>
 											</div>
 										</div>
@@ -46,17 +48,17 @@
 												<from>
 													<div class="form-group">
 														<label>
-															<input type="radio" ng-model="turnModel.option" value="one">內容不當
+															<input type="radio" ng-model="turnModel.option" value="1" convert-to-number> {{turnModel.description[0]}}
 														</label>
 													</div>
 													<div class="form-group">
 														<label>
-															<input type="radio" ng-model="turnModel.option" value="two">侵犯著作權利
+															<input type="radio" ng-model="turnModel.option" value="2" convert-to-number> {{turnModel.description[1]}}
 														</label>
 													</div>
 												</from>
 												<div class="row" style="margin:30px 0 10px 10px;">
-													<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#report">送出</button>
+													<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#report" ng-click="sendTurnIn()">送出</button>
 												</div>
 											</div>
 										</div>
@@ -85,7 +87,7 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="video-detail-text">
-													<p>{{mainSection.description}}</p>
+													<p ng-bind-html="covert(mainSection.description)"></p>
 												</div>
 											</div>
 										</div>

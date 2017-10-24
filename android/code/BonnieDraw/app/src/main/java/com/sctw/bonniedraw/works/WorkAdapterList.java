@@ -1,8 +1,8 @@
 package com.sctw.bonniedraw.works;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +10,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.WorkInfo;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +27,19 @@ import java.util.List;
  */
 
 public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHolder> {
-    List<WorkInfo> data=new ArrayList<>();
+    List<WorkInfo> data = new ArrayList<>();
     WorkListOnClickListener listener;
+    private DisplayImageOptions options;
 
     public WorkAdapterList(List<WorkInfo> data, WorkListOnClickListener listener) {
         this.data = data;
         this.listener = listener;
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
     }
 
     @Override
@@ -45,44 +55,55 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvUserName.setText(data.get(position).getUserName());
         holder.mTvWorkName.setText(data.get(position).getTitle());
         holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getIsFollowing()));
-        if (!data.get(position).getImagePath().equals("null")) {
-            try {
-                URL url = new URL(GlobalVariable.API_LINK_GET_PHOTO + data.get(position).getImagePath());
-                Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                holder.mImgViewWrok.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        final int wid=Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
+        ImageLoader.getInstance()
+                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, options, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.d("IMG LOAD FAIL","FAIL");
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    }
+                }, new ImageLoadingProgressListener() {
+                    @Override
+                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                    }
+                });
 
         holder.mImgViewWrok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkImgClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkImgClick(wid);
             }
         });
         holder.imgBtnWorksUserExtra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkExtraClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkExtraClick(wid);
             }
         });
         holder.imgBtnWorksUserGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkGoodClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkGoodClick(wid);
             }
         });
         holder.imgBtnWorksUserMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkMsgClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkMsgClick(wid);
             }
         });
         holder.imgBtnWorksUserShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkShareClick(Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId()));
+                listener.onWorkShareClick(wid);
             }
         });
     }

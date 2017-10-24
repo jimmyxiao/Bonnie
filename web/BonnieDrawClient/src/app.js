@@ -2,11 +2,12 @@
 
 // localhost
 var locationIP='http://localhost:8080/';
+//var locationIP='http://www.bonniedraw.com:8080/';
 var rootUrl = locationIP + 'BonnieDrawService/';
 
 // release
-// var locationIP='https://www.bonniedraw.com/';
-// var rootUrl = locationIP + 'bonniedraw_service/';
+ // var locationIP='https://www.bonniedraw.com/';
+ // var rootUrl = locationIP + 'bonniedraw_service/';
 
 var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
@@ -379,3 +380,11 @@ window.googleAsyncInit = function() {
     js.src = "//apis.google.com/js/api:client.js?onload=googleAsyncInit";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'google-jssdk'));
+
+//twitter
+hello.init({
+	twitter: "HcXL8RV5wlnL1eM3OWSPcvN1N"
+}, {
+	//oauth_proxy: 'http://www.bonniedraw.com:8080/proxy'
+	scope: "email"
+});
