@@ -41,3 +41,6 @@
 "setting_term_of_use" = "使用條款";
 "setting_clear_search" = "清除搜尋紀錄";
 "setting_sign_out" = "登出";
+"alert_password_update_fail" = "更新密碼失敗";
+"alert_old_password_unmatch" = "舊密碼錯誤";
+"alert_new_password_unmatch" = "新密碼與驗證不相同";

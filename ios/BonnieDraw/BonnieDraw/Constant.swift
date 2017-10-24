@@ -115,3 +115,7 @@ struct Default {
     static let THIRD_PARTY_EMAIL = "thirdPartyEmail"
     static let THIRD_PARTY_IMAGE = "thirdPartyImage"
 }
+
+struct Url {
+    static let PRIVACY_POLICY = "https"
+}
