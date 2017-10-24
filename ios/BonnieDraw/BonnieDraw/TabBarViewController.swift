@@ -30,7 +30,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         } else if item == itemCollection?.item {
             if let controller = itemCollection?.viewController {
                 controllers.append(controller)
-            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.COLLECTION) as? CollectionViewController {
+            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.FOLLOW) as? CollectionViewController {
                 itemCollection?.viewController = controller
                 controllers.append(controller)
             }
@@ -44,7 +44,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         } else if item == itemAccount?.item {
             if let controller = itemAccount?.viewController {
                 controllers.append(controller)
-            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.ACCOUNT) as? AccountViewController {
+            } else if let controller = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController() as? AccountViewController {
                 itemAccount?.viewController = controller
                 controllers.append(controller)
             }
