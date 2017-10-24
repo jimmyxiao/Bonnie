@@ -5,6 +5,15 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var wid = $state.params.id;
 		$scope.isShow = false;
 
+		$scope.drawingPlay = function(){
+			var param = util.getInitalScope();
+			param.wid = wid;
+			worksService.getDrawingPlay(param,function(data, status, headers, config){
+				console.log(data);
+			})
+		}
+		$scope.drawingPlay();
+
 		$scope.textareaModel ={
 			text:'',
 			send:false
