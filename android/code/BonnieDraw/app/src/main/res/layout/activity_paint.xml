@@ -15,11 +15,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_paint_item"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_paint_item">
 
         <FrameLayout
             android:id="@+id/frameLayout_freepaint"
@@ -177,10 +175,7 @@
         android:id="@+id/linearLayout_paint_select"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:background="@drawable/paint_select_background"
+        android:background="@drawable/shape_paint_select_background"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -193,7 +188,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="0.5"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/ic_paint_left_24dp" />
+            android:onClick="selectPaint"
+            app:srcCompat="@drawable/icon_paint_left" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_type1"
@@ -201,9 +197,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.8"
             android:background="@color/Transparent"
+            android:onClick="selectPaint"
             android:paddingBottom="24dp"
+            android:paddingTop="8dp"
             android:rotation="30"
-            app:srcCompat="@drawable/draw_pen_off_1" />
+            app:srcCompat="@drawable/icon_paint_pen1" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_type2"
@@ -211,9 +209,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.8"
             android:background="@color/Transparent"
+            android:onClick="selectPaint"
             android:paddingBottom="24dp"
+            android:paddingTop="8dp"
             android:rotation="30"
-            app:srcCompat="@drawable/draw_pen_off_2" />
+            app:srcCompat="@drawable/icon_paint_pen2" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_type3"
@@ -221,9 +221,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.8"
             android:background="@color/Transparent"
+            android:onClick="selectPaint"
             android:paddingBottom="24dp"
+            android:paddingTop="8dp"
             android:rotation="30"
-            app:srcCompat="@drawable/draw_pen_off_3" />
+            app:srcCompat="@drawable/icon_paint_pen3" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_type4"
@@ -231,9 +233,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.8"
             android:background="@color/Transparent"
+            android:onClick="selectPaint"
             android:paddingBottom="24dp"
+            android:paddingTop="8dp"
             android:rotation="30"
-            app:srcCompat="@drawable/draw_pen_off_4" />
+            app:srcCompat="@drawable/icon_paint_pen4" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_type5"
@@ -241,9 +245,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.8"
             android:background="@color/Transparent"
+            android:onClick="selectPaint"
             android:paddingBottom="24dp"
+            android:paddingTop="8dp"
             android:rotation="30"
-            app:srcCompat="@drawable/draw_pen_off_5" />
+            app:srcCompat="@drawable/icon_paint_pen5" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_right"
@@ -252,7 +258,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="0.5"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/ic_paint_right_24dp" />
+            android:onClick="selectPaint"
+            app:srcCompat="@drawable/icon_paint_right" />
     </LinearLayout>
 
     <ImageButton
@@ -261,6 +268,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:background="@drawable/draw_pen_box"
+        android:rotation="30"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout_paint_control"
         arc:layout_constraintLeft_toLeftOf="parent"
         arc:layout_constraintRight_toRightOf="parent"
