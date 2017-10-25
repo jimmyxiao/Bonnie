@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bonniedraw.base.service.BaseService;
+import com.bonniedraw.file.BDWAnalysis;
 import com.bonniedraw.file.Point;
 import com.bonniedraw.util.BinaryUtil;
 import com.bonniedraw.util.HashTagUtil;
@@ -442,41 +443,15 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		Works works = worksMapper.selectByPrimaryKey(wid);
 		if(works!=null){
 			if(works.getUserId() == userId || (works.getStatus()==1 && works.getPrivacyType()==1 && ValidateUtil.isNotBlank(works.getBdwPath())) ){
-				byte[] bdwBytes = null;
 				String path = works.getBdwPath();
 				String rootPath = System.getProperty("catalina.home");
 				String filePath = rootPath + path;
 				File file = new File(filePath);
 				try{
 					if(file.exists()){
-						bdwBytes = org.apache.commons.io.FileUtils.readFileToByteArray(file);
-						for(int i=0; i< bdwBytes.length; i+=20){
-							int length = BinaryUtil.combindTwoBytes(bdwBytes[i], bdwBytes[i+1]);
-							int functionCode = BinaryUtil.combindTwoBytes(bdwBytes[i+2], bdwBytes[i+3]);
-							int xPos = BinaryUtil.combindTwoBytes(bdwBytes[i+4], bdwBytes[i+5]);
-							int yPos = BinaryUtil.combindTwoBytes(bdwBytes[i+6], bdwBytes[i+7]);
-							String color = String.valueOf(
-									BinaryUtil.combindTwoBytes((byte) BinaryUtil.combindTwoBytes(bdwBytes[i+8], bdwBytes[i+9]) , (byte) BinaryUtil.combindTwoBytes(bdwBytes[i+10], bdwBytes[i+11]))); 
-							int action = bdwBytes[i+12];
-							int size = BinaryUtil.combindTwoBytes(bdwBytes[i+13], bdwBytes[i+14]);
-							int brush = bdwBytes[i+15];
-							int time = BinaryUtil.combindTwoBytes(bdwBytes[i+16], bdwBytes[i+17]);
-							int reserve = BinaryUtil.combindTwoBytes(bdwBytes[i+18], bdwBytes[i+19]);
-							Point point = new Point();
-							point.setLength(length);
-							point.setFc(functionCode);
-							point.setxPos(xPos);
-							point.setyPos(yPos);
-							point.setColor(color);
-							point.setAction(action);
-							point.setSize(size);
-							point.setBrush(brush);
-							point.setTime(time);
-							point.setReserve(reserve);
-							pointList.add(point);
-						}
+						pointList = BDWAnalysis.decrypt(file);
 					}
-				}catch(IOException e){
+				}catch(Exception e){
 					LogUtils.fileConteollerError(filePath + " loadFile has error : 輸出發生異常 =>" +e);
 				}
 			}

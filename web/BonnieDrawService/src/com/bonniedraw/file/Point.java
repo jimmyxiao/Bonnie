@@ -12,6 +12,24 @@ public class Point {
 	private Integer time;
 	private Integer reserve;
 
+	public Point() {
+		super();
+	}
+
+	public Point(int length, int fc, int xPos, int yPos, String color, int action, int size, int brush, Integer time, Integer reserve) {
+		super();
+		this.length = 0;
+		this.fc = fc;
+		this.xPos = 0;
+		this.yPos = 0;
+		this.color = "0xFF000000";
+		this.action = 0;
+		this.size = 0;
+		this.brush = 0;
+		this.time = 0;
+		this.reserve = 0;
+	}
+
 	public int getLength() {
 		return length;
 	}
