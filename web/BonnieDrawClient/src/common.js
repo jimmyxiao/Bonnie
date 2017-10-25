@@ -167,20 +167,6 @@ app.factory('util', function($rootScope, $http, $modal) {
 	}
 });
 
-app.directive('convertToNumber', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$parsers.push(function(val) {
-        return val != null ? parseInt(val, 10) : null;
-      });
-      ngModel.$formatters.push(function(val) {
-        return val != null ? '' + val : null;
-      });
-    }
-  };
-});
-
 //自動補0
 app.filter('numberFixedLen', function () {
   return function (n, len) {
@@ -217,4 +203,30 @@ app.filter('numberFix', function ($filter) {
 	    }
 	    return num;
 	}
+});
+
+app.directive('convertToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(val) {
+        return val != null ? parseInt(val, 10) : null;
+      });
+      ngModel.$formatters.push(function(val) {
+        return val != null ? '' + val : null;
+      });
+    }
+  };
+});
+
+app.directive('onErrorSrc', function() {
+    return {
+        link: function(scope, element, attrs) {
+          element.bind('error', function() {
+            if (attrs.src != attrs.onErrorSrc) {
+              attrs.$set('src', attrs.onErrorSrc);
+            }
+          });
+        }
+    }
 });

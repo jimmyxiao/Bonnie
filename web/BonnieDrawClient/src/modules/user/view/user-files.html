@@ -43,8 +43,8 @@
 					<div class="vid-container">
 						<div class="col-md-4 col-sm-4 col-xs-6" ng-repeat="data in worksList track by $index">
 							<div class="latest-vid-img-container">		
-								<div class="vid-img" ng-if="data.imagePath!=null && data.imagePath!=''">
-									<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" alt="image">
+								<div class="vid-img">
+									<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
 										<a ng-href="#/column-detail?id={{data.worksId}}" class="play-icon play-small-icon">
 							                <img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='images/play-button.png'">	                	
 							            </a>
