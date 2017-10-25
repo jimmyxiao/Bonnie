@@ -44,3 +44,5 @@
 "alert_password_update_fail" = "更新密碼失敗";
 "alert_old_password_unmatch" = "舊密碼錯誤";
 "alert_new_password_unmatch" = "新密碼與驗證不相同";
+"following" = "追蹤中";
+"you" = "你";

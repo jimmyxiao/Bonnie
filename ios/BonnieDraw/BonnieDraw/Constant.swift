@@ -54,6 +54,7 @@ struct Cell {
     static let ACCOUNT_GRID = "accountGridCell"
     static let ACCOUNT_LIST = "accountListCell"
     static let ACCOUNT_FOOTER = "accountFooterCell"
+    static let FOLLOW = "followCell"
 }
 
 struct Service {
@@ -89,6 +90,7 @@ struct Service {
 struct Identifier {
     static let PARENT = "parentViewController"
     static let HOME = "homeViewController"
+    static let PAGE = "pageViewController"
     static let FOLLOW = "followViewController"
     static let NOTIFICATION = "notificationViewController"
 }

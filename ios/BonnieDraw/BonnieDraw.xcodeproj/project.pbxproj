@@ -26,12 +26,14 @@
 		163907001F6C0A4E00E5717A /* TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 163906FF1F6C0A4E00E5717A /* TitleView.xib */; };
 		163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163907021F6C0BE400E5717A /* ApplicationExtension.swift */; };
 		163907051F6C0BE400E5717A /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163907031F6C0BE400E5717A /* BundleExtension.swift */; };
+		163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */; };
+		163A5E211FA0315000FE70BD /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E201FA0315000FE70BD /* PageViewController.swift */; };
+		163A5E251FA061F100FE70BD /* FollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */; };
+		163A5E271FA062D500FE70BD /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E261FA062D500FE70BD /* FollowButton.swift */; };
 		163C2A621F9F2B7D00413D1C /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163C2A611F9F2B7D00413D1C /* Account.storyboard */; };
 		163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AA1F61663800945E04 /* AppDelegate.swift */; };
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
-		164028E41F8719B20013AE6E /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 164028E21F8719B20013AE6E /* Model.xcdatamodeld */; };
-		164028EA1F871B8F0013AE6E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164028E91F871B8F0013AE6E /* CoreDataStack.swift */; };
 		16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */; };
 		164CA76C1F99E24C007F9374 /* AccountListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */; };
 		164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2471F7B376700E8B910 /* CollectionViewController.swift */; };
@@ -90,6 +92,10 @@
 		163906FF1F6C0A4E00E5717A /* TitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TitleView.xib; path = Base.lproj/TitleView.xib; sourceTree = "<group>"; };
 		163907021F6C0BE400E5717A /* ApplicationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationExtension.swift; sourceTree = "<group>"; };
 		163907031F6C0BE400E5717A /* BundleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
+		163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowBarItem.swift; sourceTree = "<group>"; };
+		163A5E201FA0315000FE70BD /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowTableViewCell.swift; sourceTree = "<group>"; };
+		163A5E261FA062D500FE70BD /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
 		163C2A611F9F2B7D00413D1C /* Account.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		163F65A71F61663800945E04 /* BonnieDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BonnieDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		163F65AA1F61663800945E04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,8 +104,6 @@
 		163F65B41F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
-		164028E31F8719B20013AE6E /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		164028E91F871B8F0013AE6E /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListCollectionViewCell.swift; sourceTree = "<group>"; };
 		164ED2471F7B376700E8B910 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 				16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */,
 				162AC4AA1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift */,
 				164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */,
+				163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -206,7 +211,6 @@
 				1664F4A81F74AD9200809C32 /* Localizable.strings */,
 				165ECC5E1F73C10700E32AA5 /* GoogleService-Info.plist */,
 				163F65B61F61663900945E04 /* Info.plist */,
-				164028E21F8719B20013AE6E /* Model.xcdatamodeld */,
 				163906FF1F6C0A4E00E5717A /* TitleView.xib */,
 				1664F4B41F74E3F100809C32 /* Login.storyboard */,
 				163F65AE1F61663900945E04 /* Main.storyboard */,
@@ -243,6 +247,7 @@
 		1664F4B91F74ED8C00809C32 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				163A5E201FA0315000FE70BD /* PageViewController.swift */,
 				1633C0641F9ED4400039E7F6 /* WebViewController.swift */,
 				16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */,
 				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
@@ -279,7 +284,6 @@
 			isa = PBXGroup;
 			children = (
 				166C41231F90964F00A98385 /* DataExtension.swift */,
-				164028E91F871B8F0013AE6E /* CoreDataStack.swift */,
 				164ED24E1F7B414500E8B910 /* TableViewExtension.swift */,
 				16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */,
 				165ECC581F73A47C00E32AA5 /* StringExtension.swift */,
@@ -312,6 +316,8 @@
 				16FC10201F695C58008A6A92 /* CanvasView.swift */,
 				16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */,
 				16109CCA1F96E96D000864DB /* AccountFooterCollectionReusableView.swift */,
+				163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */,
+				163A5E261FA062D500FE70BD /* FollowButton.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -464,12 +470,12 @@
 			files = (
 				164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */,
 				163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */,
+				163A5E251FA061F100FE70BD /* FollowTableViewCell.swift in Sources */,
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
 				16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,
-				164028EA1F871B8F0013AE6E /* CoreDataStack.swift in Sources */,
 				166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */,
 				16185C7F1F94A264008F0840 /* Work.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
@@ -484,7 +490,6 @@
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
 				165E1B611F9DE4AD0050A7BB /* DescriptionViewController.swift in Sources */,
 				16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */,
-				164028E41F8719B20013AE6E /* Model.xcdatamodeld in Sources */,
 				165E1B5F1F9DE49F0050A7BB /* LanguageViewController.swift in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
 				16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */,
@@ -495,10 +500,12 @@
 				165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */,
 				165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */,
 				164CA76C1F99E24C007F9374 /* AccountListCollectionViewCell.swift in Sources */,
+				163A5E211FA0315000FE70BD /* PageViewController.swift in Sources */,
 				163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */,
 				162AC4AB1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift in Sources */,
 				165E1B5D1F9DE4920050A7BB /* PasswordViewController.swift in Sources */,
 				16812ADA1F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift in Sources */,
+				163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */,
 				166C41241F90964F00A98385 /* DataExtension.swift in Sources */,
 				164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */,
 				164ED2531F7BA45E00E8B910 /* ColorPickerViewController.swift in Sources */,
@@ -510,6 +517,7 @@
 				16D439651F66A9B300FF5878 /* Logger.swift in Sources */,
 				163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */,
 				165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */,
+				163A5E271FA062D500FE70BD /* FollowButton.swift in Sources */,
 				16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */,
 				164ED2511F7B517200E8B910 /* StatusBarBackgroundView.swift in Sources */,
 				16C013CB1F9F2E3E00238463 /* UserViewController.swift in Sources */,
@@ -667,7 +675,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BonnieDraw/BonnieDraw-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -685,7 +692,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BonnieDraw/BonnieDraw-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -712,19 +718,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		164028E21F8719B20013AE6E /* Model.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				164028E31F8719B20013AE6E /* Model.xcdatamodel */,
-			);
-			currentVersion = 164028E31F8719B20013AE6E /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 163F659F1F61663800945E04 /* Project object */;
 }

@@ -26,7 +26,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         backButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
         navigationItem.leftBarButtonItem = backButton
-        titleView?.backgroundColor = .clear
         navigationItem.titleView = titleView
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "title_bar_ic_search"), style: .plain, target: self, action: #selector(search))
         searchBar.delegate = self

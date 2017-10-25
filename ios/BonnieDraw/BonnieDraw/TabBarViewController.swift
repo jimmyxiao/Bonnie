@@ -30,7 +30,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         } else if item == itemCollection?.item {
             if let controller = itemCollection?.viewController {
                 controllers.append(controller)
-            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.FOLLOW) as? FollowViewController {
+            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.PAGE) as? PageViewController {
                 itemCollection?.viewController = controller
                 controllers.append(controller)
             }

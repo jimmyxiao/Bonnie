@@ -14,4 +14,5 @@ target 'BonnieDraw' do
   pod 'Google/SignIn'
   pod 'DeviceKit'
   pod 'Alamofire'
+  pod 'XLPagerTabStrip'
 end

@@ -17,7 +17,6 @@ class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFi
     @IBOutlet weak var workDescription: UITextView!
     var workThumbnailData: Data?
     var workFileUrl: URL?
-    var workCategory: WorkCategory?
     private var viewOriginY: CGFloat = 0
     private var keyboardOnScreen = false
     private var dataRequest: DataRequest?
