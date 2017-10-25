@@ -10,6 +10,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			param.wid = wid;
 			worksService.getDrawingPlay(param,function(data, status, headers, config){
 				console.log(data);
+				$scope.lin = data.pointList;
 			})
 		}
 		$scope.drawingPlay();
@@ -140,4 +141,199 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		}
 
 	}
-)
+).directive("drawing", function(){
+	  return {
+		    restrict: "A",
+		    link: function($scope, element){
+		       //paused	
+		       var paused= false;
+		       $scope.pausebol =true;
+		       	$scope.pasue = function(){
+		    		console.log('pasue');
+		    		if (!paused){
+						clearInterval(intervalID);
+						$scope.pausebol =false;
+						paused = true;
+				  	} else {
+				    	intervalID = setInterval(drawLine, 200, cxt);
+				    	$scope.pausebol =true;
+				    	paused = false;
+				  	}
+		    	};
+		    	
+		    	var can = document.getElementById("jsonCanvas");
+				var cxt = can.getContext('2d');
+
+				//console.log('canvas_width:'+can.width+'canvas_height:'+can.height);
+				var canvas_width = can.width;
+				var canvas_height = can.height;
+
+				//var lineCount = -1;
+				var pointCount = 0;
+				var point = 0;
+				var intervalID;
+
+				var lines =	[
+					{"xPos":20992,"yPos":12792,"color":"80c0392b","action":1,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":20992,"yPos":12792,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":20992,"yPos":13940,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":20336,"yPos":15088,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":19844,"yPos":15908,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":19680,"yPos":17056,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":19024,"yPos":17876,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":18040,"yPos":19680,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":17712,"yPos":20500,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":17056,"yPos":21648,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":16564,"yPos":22468,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":16072,"yPos":23124,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":15744,"yPos":23780,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":15416,"yPos":24600,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":15252,"yPos":25092,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":15088,"yPos":25584,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":14760,"yPos":26404,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":14432,"yPos":26896,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":14432,"yPos":27224,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":14104,"yPos":27880,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":13776,"yPos":28372,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":13776,"yPos":28864,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":13776,"yPos":28864,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":13776,"yPos":29028,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":13776,"yPos":29028,"color":"80c0392b","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":10496,"yPos":41984,"color":"80c0392b","action":2,"size":2184,"brush":0,"time":0,"reserve":0},
+					
+					{"xPos":10496,"yPos":41984,"color":"FF090aed","action":1,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":10496,"yPos":41984,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":10660,"yPos":41984,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":11972,"yPos":41328,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":13284,"yPos":40836,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":15088,"yPos":40180,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":17056,"yPos":39360,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":18696,"yPos":38376,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":20336,"yPos":37556,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":22304,"yPos":36736,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":24436,"yPos":35588,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":26240,"yPos":34932,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":28208,"yPos":34112,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":29684,"yPos":33456,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":31488,"yPos":32800,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":33456,"yPos":31652,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":35588,"yPos":30832,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":36736,"yPos":30340,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":38048,"yPos":29684,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":38376,"yPos":29520,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":38868,"yPos":29028,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":39360,"yPos":29028,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":39360,"yPos":29028,"color":"FF090aed","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":47888,"yPos":34932,"color":"FF090aed","action":2,"size":2184,"brush":0,"time":0,"reserve":0},
+					
+					{"xPos":47888,"yPos":34932,"color":"0D014f14","action":1,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":36080,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":37064,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":38376,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":40016,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":41492,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":43296,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":45264,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":46576,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":47396,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":48052,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":48052,"yPos":48216,"color":"0D014f14","action":3,"size":2184,"brush":0,"time":0,"reserve":0},
+					{"xPos":4592,"yPos":72488,"color":"0D014f14","action":2,"size":2184,"brush":0,"time":0,"reserve":0}
+					];
+				//console.log(JSON.stringify($scope.lin));
+				for(var i=0;i<lines.length; i++){
+
+					//畫點位置
+					//lines[i].xPos = Math.floor(lines[i].xPos/400*canvas_width);
+					//lines[i].yPos = Math.floor(lines[i].yPos/400*canvas_height);
+
+					lines[i].xPos = Math.floor(lines[i].xPos/65536*canvas_width);
+					lines[i].yPos = Math.floor(lines[i].yPos/65536*canvas_height);
+
+
+					//畫點顏色
+					var bigint = parseInt(lines[i].color, 16);
+					var a = (bigint >> 24)& 255;
+					var r = (bigint >> 16) & 255;
+					var g = (bigint >> 8) & 255;
+					var b = bigint & 255;
+
+					a /= 255;
+					a = a.toFixed(2);
+					lines[i].color = 'rgba('+r+','+g+','+b+','+a+')';
+
+
+					//畫點動作
+					lines[i].action = (lines[i].action!=2) ? false : true;
+
+
+					//畫點大小
+					lines[i].size = Math.floor(lines[i].size/65536*canvas_height);
+
+
+					//畫筆樣式
+					//lines[i].brush = lines[i].brush ;
+
+
+					//畫點停頓時間
+					//lines[i].time = lines[i].time ;
+				}
+
+				//console.log(lines);
+				
+				nextLine(cxt);
+				
+				function nextLine(cxt) {
+					/*lineCount++;
+					if(lineCount > 0){
+						return;
+					}*/
+					pointCount = 0;
+					//cxt.moveTo(lines[0].xPos,lines[0].yPos);
+					intervalID = setInterval(drawLine, 200, cxt);
+				}
+
+				function drawLine(context) {
+					context.globalCompositeOperation="source-over";
+					
+					context.beginPath();
+					if(pointCount==0){
+						pointord = lines[pointCount];
+					}else{
+						pointord = lines[pointCount-1];
+					}
+					point = lines[pointCount];
+
+					
+					
+					switch(point.brush) {
+						case 0:
+							//context.lineWidth = 10;
+							context.lineWidth = point.size;
+							context.lineCap = 'round';//線末端樣式
+							context.strokeStyle = point.color;
+							break;
+						
+					}
+					
+					
+
+
+					if(!point.action){
+						context.moveTo(pointord.xPos,pointord.yPos);
+					}
+					
+					context.lineTo(point.xPos, point.yPos);
+					context.stroke();
+					pointCount++;
+
+					if (pointCount == lines.length) {
+						clearInterval(intervalID);
+						cxt.clearRect(0, 0, can.width, can.height);
+						nextLine(context,true);
+					}
+				}
+		    	
+		    }
+		  };
+		});

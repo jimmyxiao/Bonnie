@@ -9,12 +9,15 @@
 						<div class="vid-detail-container">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="vid-player">
-										<div class="embed-responsive embed-responsive-16by9">
+									<div class="drwa-play">
 				                           <!--  <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe> -->
-				                           <canvas id="myCanvas" class="embed-responsive-item" style="border:1px solid #979797;"></canvas>
+				                           <canvas id="jsonCanvas"  ng-click="pasue()" drawing ></canvas>
+				                        	<div class="pasue-back" ng-hide=pausebol>
+				                        		<div class="pasue-img">
+				                        			<img  ng-click="pasue()" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'" style="width: 120px; height: 120px; margin: auto 0px;">
+				                        		</div>
+				                        	</div>
 				                        </div>
-									</div>
 									<h3>{{mainSection.title}}</h3>
 									<div class="vid-text">
 										<div class="row">

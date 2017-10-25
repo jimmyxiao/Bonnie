@@ -1,0 +1,24 @@
+.drwa-play{
+	width: 640px;
+    height: 640px;
+    margin: auto;
+}
+
+.drwa-play>canvas{
+	width: 640px;
+    height: 640px;
+}
+
+.pasue-back{
+ position: absolute; 
+ width: 640px;
+ height: 640px;
+ top: 0px; 
+ background: rgba(0,0,0,0.3);
+}
+
+.pasue-img{
+	width: 380px; 
+	float: right; 
+	margin-top: 260px;
+}
