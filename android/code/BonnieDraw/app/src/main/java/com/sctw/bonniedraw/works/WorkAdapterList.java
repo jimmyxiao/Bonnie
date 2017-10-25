@@ -10,17 +10,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LoadImageApp;
 import com.sctw.bonniedraw.utility.WorkInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Fatorin on 2017/10/2.
@@ -29,17 +31,11 @@ import java.util.List;
 public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHolder> {
     List<WorkInfo> data = new ArrayList<>();
     WorkListOnClickListener listener;
-    private DisplayImageOptions options;
 
     public WorkAdapterList(List<WorkInfo> data, WorkListOnClickListener listener) {
         this.data = data;
         this.listener = listener;
-        options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
+
     }
 
     @Override
@@ -55,16 +51,36 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvUserName.setText(data.get(position).getUserName());
         holder.mTvWorkName.setText(data.get(position).getTitle());
         holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getIsFollowing()));
-        final int wid=Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
+        final int wid = Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
         ImageLoader.getInstance()
-                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, options, new SimpleImageLoadingListener() {
+                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, LoadImageApp.optionsWorkImg, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        Log.d("IMG LOAD FAIL","FAIL");
+                        Log.d("IMG LOAD FAIL", "FAIL");
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    }
+                }, new ImageLoadingProgressListener() {
+                    @Override
+                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                    }
+                });
+
+        ImageLoader.getInstance()
+                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath(), holder.mCircleImageView, LoadImageApp.optionsUserImg, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.d("IMG LOAD FAIL", "FAIL");
                     }
 
                     @Override
@@ -111,6 +127,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTvUserName, mTvWorkName, mTvWorkGoodTotal;
         ImageView mImgViewWrok;
+        CircleImageView mCircleImageView;
         ImageButton imgBtnWorksUserExtra, imgBtnWorksUserGood, imgBtnWorksUserMsg, imgBtnWorksUserShare;
 
         ViewHolder(View v) {
@@ -123,6 +140,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             imgBtnWorksUserGood = (ImageButton) v.findViewById(R.id.imgBtn_works_good);
             imgBtnWorksUserMsg = (ImageButton) v.findViewById(R.id.imgBtn_works_msg);
             imgBtnWorksUserShare = (ImageButton) v.findViewById(R.id.imgBtn_works_share);
+            mCircleImageView = v.findViewById(R.id.circleImg_works_user_photo);
         }
     }
 

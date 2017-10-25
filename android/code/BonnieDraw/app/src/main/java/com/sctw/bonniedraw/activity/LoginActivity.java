@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
-
+                            finish();
                         }
                     }
                 });

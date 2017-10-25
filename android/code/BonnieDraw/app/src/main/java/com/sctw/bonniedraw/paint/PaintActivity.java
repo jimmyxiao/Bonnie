@@ -9,9 +9,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Xfermode;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -80,29 +77,13 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private LinearLayout mLinearLayoutPaintSelect;
     private int miPrivacyType;
     private SharedPreferences mPrefs;
-    private Xfermode mEffectErase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paint);
-        //Paint init
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setColor(0xFF000000);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(13);
-        mEffectErase = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
         mPrefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        mPaintView = new PaintView(this,mPaint);
-        mPaintView.checkSketch();
-        //view inti
-        mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
-        mFrameLayoutFreePaint.addView(mPaintView);
-
+        //set View
         mLinearLayoutPaintSelect = findViewById(R.id.linearLayout_paint_select);
         mBtnZoom = (Button) findViewById(R.id.btn_paint_zoom);
         mBtnChangePaint = (ImageButton) findViewById(R.id.imgBtn_paint_change);
@@ -112,7 +93,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mBtnOpenAutoPlay = (ImageButton) findViewById(R.id.imgBtn_paint_open_autoplay);
         mBtnSize = (ImageButton) findViewById(R.id.imgBtn_paint_size);
         setOnclick();
-        mColorPicker = new ColorPicker(mPaintView.getContext(), this, "", Color.WHITE);
+        mColorPicker = new ColorPicker(this, this, "", Color.WHITE);
         mColorPicker.getWindow().setGravity(Gravity.END);
         mColorPicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         mColorPicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
@@ -120,6 +101,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mSizePicker.getWindow().setGravity(Gravity.START);
         mSizePicker.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         mSizePicker.getWindow().getAttributes().windowAnimations = R.style.ColorPickStyle;
+
+        //Paint init & View
+        mPaintView = new PaintView(this);
+        mPaintView.checkSketch();
+        mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
+        mFrameLayoutFreePaint.addView(mPaintView);
     }
 
     //產生預覽圖&上傳
@@ -460,7 +447,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.paint_delete_sketch));
                 }
                 mFrameLayoutFreePaint.removeAllViews();
-                mPaintView = new PaintView(PaintActivity.this,mPaint);
+                mPaintView = new PaintView(getApplicationContext());
                 mFrameLayoutFreePaint.addView(mPaintView);
                 recoveryPaint();
                 playStateBtn();
@@ -505,19 +492,19 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
                 break;
             case R.id.imgBtn_paint_type1:
-                customPaint(0);
+                mPaintView.changePaint(0);
                 break;
             case R.id.imgBtn_paint_type2:
-                customPaint(1);
+                mPaintView.changePaint(1);
                 break;
             case R.id.imgBtn_paint_type3:
-                customPaint(2);
+                mPaintView.changePaint(2);
                 break;
             case R.id.imgBtn_paint_type4:
-                customPaint(3);
+                mPaintView.changePaint(3);
                 break;
             case R.id.imgBtn_paint_type5:
-                customPaint(4);
+                mPaintView.changePaint(4);
                 break;
             case R.id.imgBtn_paint_right:
                 if (mPaintView.miPaintNum < 4 && mPaintView.miPaintNum >= 0) {
@@ -560,41 +547,19 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         }
     }
 
-    //換筆
-    public void customPaint(int paintNum) {
-        //筆的效果 放置於此
-        mPaintView.miPaintNum = paintNum;
-        switch (paintNum) {
-            case 0:
-                mPaintView.mPaint.setXfermode(null);
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                //橡皮擦
-                mPaintView.mPaint.setXfermode(mEffectErase);
-                break;
-        }
-    }
-
     public void erase_mode(View view) {
         if (!mPaintView.mbEraseMode) {
-            customPaint(5);
+            mPaintView.changePaint(5);
             ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
             mPaintView.mbEraseMode = true;
         } else {
             recoveryPaint();
         }
+        setPaintFouns();
     }
 
     public void recoveryPaint() {
-        customPaint(0);
+        mPaintView.changePaint(0);
         ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
         mPaintView.mbEraseMode = false;
     }

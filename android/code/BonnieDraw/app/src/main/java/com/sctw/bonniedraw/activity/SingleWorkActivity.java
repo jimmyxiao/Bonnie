@@ -35,6 +35,7 @@ import com.sctw.bonniedraw.paint.TagPoint;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LoadImageApp;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 
@@ -51,6 +52,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -62,6 +64,7 @@ import okhttp3.Response;
 public class SingleWorkActivity extends AppCompatActivity {
     private TextView mTextViewUserName, mTextViewWorkDescription, mTextViewWorkName, mTextViewGoodTotal, mTextViewCreateTime, mTextViewClass;
     private ImageView imgViewUserPhoto, mImgViewWorkImage;
+    private CircleImageView mCircleImgUserPhoto;
     private ImageButton worksUserExtra, worksUserGood, worksUserMsg, worksUserShare, worksUserFollow;
     private Button mBtnPlayPause, mBtnNext, mBtnPrevious;
     private String bdwPath = ""; //"bdwPath":
@@ -107,8 +110,9 @@ public class SingleWorkActivity extends AppCompatActivity {
         mTextViewGoodTotal = findViewById(R.id.textView_single_work_good_total);
         mTextViewCreateTime = findViewById(R.id.textView_single_work_create_time);
         mTextViewClass = findViewById(R.id.textView_single_work_user_class);
-        imgViewUserPhoto = findViewById(R.id.imgView_single_work_user_photo);
+        imgViewUserPhoto = findViewById(R.id.circleImg_single_work_user_photo);
         mImgViewWorkImage = findViewById(R.id.imgView_single_work_img);
+        mCircleImgUserPhoto=findViewById(R.id.circleImg_single_work_user_photo);
         worksUserExtra = findViewById(R.id.imgBtn_single_work_extra);
         worksUserGood = findViewById(R.id.imgBtn_single_work_good);
         worksUserMsg = findViewById(R.id.imgBtn_single_work_msg);
@@ -424,7 +428,9 @@ public class SingleWorkActivity extends AppCompatActivity {
             mTextViewWorkDescription.setText(data.getString("description"));
             mTextViewGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getString("isFollowing")));
             mTextViewCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
-            ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"), mImgViewWorkImage);
+            ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"), mImgViewWorkImage,LoadImageApp.optionsWorkImg);
+            ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture"),mCircleImgUserPhoto, LoadImageApp.optionsUserImg);
+
             bdwPath = data.getString("bdwPath");
             displayWidth=mImgViewWorkImage.getWidth();
             getBDW();

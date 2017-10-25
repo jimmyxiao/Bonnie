@@ -8,9 +8,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.util.AttributeSet;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,8 +51,9 @@ public class PaintView extends View {
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
     private Paint gridPaint;
-    private int miWidth, miEachConut = 0;
+    private int miWidth, miEachConut;
     private float mfStartX, mfStartY, mfPointLength;
+    private boolean mbPlayMode = false;
     Boolean mbEraseMode = false, mbZoomMode = false, mbCheckFinger = false;
     Paint mPaint;
     File mFileBDW, mFilePNG;
@@ -56,11 +61,42 @@ public class PaintView extends View {
     BDWFileReader mBDWReader = new BDWFileReader();
     int miGridCol = 0, miPaintNum = 0;
 
-    public PaintView(Context c, Paint mPaint) {
-        super(c);
+
+    public PaintView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, Paint mPaint) {
+        super(context, attrs, defStyleAttr);
         this.mPaint = mPaint;
-        this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        miWidth = getWidth(c);
+        init();
+    }
+
+    public PaintView(Context context, @Nullable AttributeSet attrs, Paint mPaint) {
+        super(context, attrs);
+        this.mPaint = mPaint;
+        init();
+    }
+
+    public PaintView(Context c) {
+        super(c);
+        init();
+    }
+
+    public PaintView(Context c, boolean mbPlayMode) {
+        super(c);
+        this.mbPlayMode = mbPlayMode;
+        init();
+    }
+
+    public void init() {
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
+        mPaint.setColor(0xFF000000);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeWidth(13);
+        mPaint.setColor(Color.BLACK);
+
+        miWidth = getWidthSize(getContext());
         mBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
         mPath = new Path();
@@ -73,8 +109,9 @@ public class PaintView extends View {
         gridPaint.setAntiAlias(true);
         gridPaint.setStrokeWidth(3);
         gridPaint.setStyle(Paint.Style.STROKE);
-        gridPaint.setColor(ContextCompat.getColor(c, R.color.GridLineColor));
+        gridPaint.setColor(ContextCompat.getColor(getContext(), R.color.GridLineColor));
         //this.setBackground(getResources().getDrawable(R.drawable.transparent));
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             if (HWLAYER) {
                 setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -84,10 +121,6 @@ public class PaintView extends View {
                 setLayerType(View.LAYER_TYPE_NONE, null);
             }
         }
-    }
-
-    public Bitmap getBitmap() {
-        return mBitmap;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -103,12 +136,11 @@ public class PaintView extends View {
                 canvas.drawLine(0, (miWidth / miGridCol) * i, miWidth, (miWidth / miGridCol) * i, gridPaint);
             }
         }
-
         canvas.drawBitmap(mBitmap, 0, 0, null);
         canvas.restore();
     }
 
-    private void touch_start(float x, float y) {
+    public void touch_start(float x, float y) {
         undonePaths.clear();
         mPath.reset();
         mPath.moveTo(x, y);
@@ -116,7 +148,7 @@ public class PaintView extends View {
         mY = y;
     }
 
-    private void touch_move(float x, float y) {
+    public void touch_move(float x, float y) {
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
@@ -124,69 +156,74 @@ public class PaintView extends View {
             mX = x;
             mY = y;
         }
-
+        mPath.lineTo(mX, mY);
         mCanvas.drawPath(mPath, mPaint);
     }
 
-    private void touch_up() {
-        mListTempTagLength.add(mListTagPoint.size());
-        mPath.lineTo(mX, mY);
+    public void touch_up() {
         // commit the path to our offscreen
+        mListTempTagLength.add(mListTagPoint.size());
+        System.out.println(mListTempTagLength.toString());
         paths.add(new PathAndPaint(mPath, mPaint));
         // kill this so we don't double draw (新路徑/畫筆)
         mPath = new Path();
         mPaint = new Paint(mPaint);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (mbZoomMode) {
-            switch (event.getActionMasked()) {
-                case MotionEvent.ACTION_DOWN:
-                    mfStartX = event.getX();
-                    mfStartY = event.getY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    if (!mbCheckFinger) {
-                        int offsetX = (int) (event.getX() - mfStartX);
-                        int offsetY = (int) (event.getY() - mfStartY);
-                        this.setTranslationX(this.getTranslationX() + offsetX);
-                        this.setTranslationY(this.getTranslationY() + offsetY);
+    public boolean scale_zoom(MotionEvent event) {
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                mfStartX = event.getX();
+                mfStartY = event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (!mbCheckFinger) {
+                    int offsetX = (int) (event.getX() - mfStartX);
+                    int offsetY = (int) (event.getY() - mfStartY);
+                    this.setTranslationX(this.getTranslationX() + offsetX);
+                    this.setTranslationY(this.getTranslationY() + offsetY);
 
+                } else {
+                    float length = mfPointLength - spacing(event);
+                    if (PaintView.this.getScaleX() >= 1.1) {
+                        if (length > 0) {
+                            PaintView.this.setScaleX(PaintView.this.getScaleX() - 0.1f);
+                            PaintView.this.setScaleY(PaintView.this.getScaleY() - 0.1f);
+                        } else if (length < 0) {
+                            PaintView.this.setScaleX(PaintView.this.getScaleX() + 0.1f);
+                            PaintView.this.setScaleY(PaintView.this.getScaleY() + 0.1f);
+                        }
                     } else {
-                        float length = mfPointLength - spacing(event);
-                        if (PaintView.this.getScaleX() >= 1.1) {
-                            if (length > 0) {
-                                PaintView.this.setScaleX(PaintView.this.getScaleX() - 0.1f);
-                                PaintView.this.setScaleY(PaintView.this.getScaleY() - 0.1f);
-                            } else if (length < 0) {
-                                PaintView.this.setScaleX(PaintView.this.getScaleX() + 0.1f);
-                                PaintView.this.setScaleY(PaintView.this.getScaleY() + 0.1f);
-                            }
-                        } else {
-                            if (length > 0) {
-                                return true;
-                            } else if (length < 0) {
-                                PaintView.this.setScaleX(PaintView.this.getScaleX() + 0.1f);
-                                PaintView.this.setScaleY(PaintView.this.getScaleY() + 0.1f);
-                            }
+                        if (length > 0) {
+                            return true;
+                        } else if (length < 0) {
+                            PaintView.this.setScaleX(PaintView.this.getScaleX() + 0.1f);
+                            PaintView.this.setScaleY(PaintView.this.getScaleY() + 0.1f);
                         }
                     }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-                case MotionEvent.ACTION_POINTER_DOWN:
-                    mfPointLength = spacing(event);
-                    if (mfPointLength > 10) {
-                        mbCheckFinger = true;
-                    }
-                    break;
-                case MotionEvent.ACTION_POINTER_UP:
-                    mbCheckFinger = false;
-                    break;
-            }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                mfPointLength = spacing(event);
+                if (mfPointLength > 10) {
+                    mbCheckFinger = true;
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                mbCheckFinger = false;
+                break;
+        }
+        return true;
+    }
 
-            return true;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mbPlayMode) return true;
+
+        if (mbZoomMode) {
+            return scale_zoom(event);
         }
 
         float x = event.getX();
@@ -230,6 +267,14 @@ public class PaintView extends View {
         return true;
     }
 
+    public Bitmap getBitmap() {
+        return mBitmap;
+    }
+
+    public int getMiWidth() {
+        return miWidth;
+    }
+
     //復原、重作
     public void onClickUndo() {
         if (paths.size() > 0 && undonePaths.size() <= 20) {
@@ -266,8 +311,27 @@ public class PaintView extends View {
             }
             invalidate();
         } else {
-            TSnackbarCall.showTSnackbar(PaintView.this, "重作次數到達上限");
+            TSnackbarCall.showTSnackbar(this, "重作次數到達上限");
         }
+    }
+
+    public int onClickPrevious() {
+        if (paths.size() > 0) {
+            undonePaths.add(paths.remove(paths.size() - 1));
+            miEachConut = paths.size() == 0 ? mListTempTagLength.get(0) : mListTempTagLength.get(paths.size()) - mListTempTagLength.get(paths.size() - 1);
+            for (int x = 0; x <= miEachConut - 1; x++) {
+                mListUndoTagPoint.add(mListTagPoint.remove(mListTagPoint.size() - 1));
+            }
+            mBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
+            mCanvas = new Canvas(mBitmap);
+            for (PathAndPaint p : paths) {
+                mCanvas.drawPath(p.get_mPath(), p.get_mPaint());
+            }
+            invalidate();
+        } else {
+            TSnackbarCall.showTSnackbar(this, "復原次數到達上限");
+        }
+        return miEachConut;
     }
 
     public void onDrawSketch() {
@@ -282,6 +346,38 @@ public class PaintView extends View {
             mBDWReader.readFromFile(mFileBDW);
             mListTagPoint = new ArrayList<>(mBDWReader.m_tagArray);
         }
+    }
+
+    //換筆
+    public void changePaint(int paintNum) {
+        //筆的效果 放置於此
+        miPaintNum = paintNum;
+        switch (paintNum) {
+            case 0:
+                mPaint.setXfermode(null);
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                //橡皮擦
+                mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+                break;
+        }
+    }
+
+    private int getWidthSize(Context c) {
+        WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        setLayoutParams(new LinearLayout.LayoutParams(size.x, size.x));
+        return size.x;
     }
 
     public boolean saveTempPhotoAndBdw() {
@@ -302,14 +398,5 @@ public class PaintView extends View {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
         return (float) Math.sqrt(x * x + y * y);
-    }
-
-    private int getWidth(Context c) {
-        WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        setLayoutParams(new LinearLayout.LayoutParams(size.x, size.x));
-        return size.x;
     }
 }

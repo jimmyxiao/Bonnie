@@ -12,6 +12,7 @@ public class WorkInfo {
     private String description;
     private String imagePath;
     private String isFollowing;
+    private String userImgPath;
     private boolean like;
 
     public String getWorkId() {
@@ -68,6 +69,14 @@ public class WorkInfo {
 
     public void setIsFollowing(String isFollowing) {
         this.isFollowing = isFollowing;
+    }
+
+    public String getUserImgPath() {
+        return userImgPath;
+    }
+
+    public void setUserImgPath(String userImgPath) {
+        this.userImgPath = userImgPath;
     }
 
     public boolean isLike() {

@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -61,7 +60,6 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView mRecyclerViewHome;
     private Toolbar mToolbar;
-    private ImageButton mImgBtnDrawer;
     private SearchView mSearchView;
     private SharedPreferences prefs;
     private List<WorkInfo> workInfoList;
@@ -86,14 +84,12 @@ public class HomeFragment extends Fragment {
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar_home);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-        mImgBtnDrawer = (ImageButton) view.findViewById(R.id.toolbar_switch);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
         mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
-
-        mToolbar.setTitle("");
-        mImgBtnDrawer.setOnClickListener(new View.OnClickListener() {
+        mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 ((DrawerLayout) getActivity().findViewById(R.id.main_actitivy_drawlayout)).openDrawer(Gravity.START);
             }
         });
@@ -188,6 +184,7 @@ public class HomeFragment extends Fragment {
                 workInfo.setTitle(data.getJSONObject(x).getString("title"));
                 workInfo.setImagePath(data.getJSONObject(x).getString("imagePath"));
                 workInfo.setIsFollowing(data.getJSONObject(x).getString("isFollowing"));
+                workInfo.setUserImgPath(data.getJSONObject(x).getString("profilePicture"));
                 workInfoList.add(workInfo);
             }
         } catch (JSONException e) {
