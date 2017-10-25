@@ -17,7 +17,7 @@ public class BDWFileWriter {
 
     public boolean WriteToFile(List<TagPoint> tagPointsList , String strFileName)
     {
-        boolean bres = false;
+        boolean bres = true;
         try
         {
             int i , icount = tagPointsList.size();

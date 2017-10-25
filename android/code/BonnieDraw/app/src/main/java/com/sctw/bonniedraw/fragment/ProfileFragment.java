@@ -3,13 +3,12 @@ package com.sctw.bonniedraw.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
@@ -37,7 +37,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +60,7 @@ public class ProfileFragment extends Fragment {
     private TextView mTextViewUserName, mTextViewUserId, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
     private ImageButton mImgBtnSetting, mImgBtnGrid, mImgBtnList;
     private Button mBtnEdit;
+    private SwipeRefreshLayout mSwipeLayoutProfile;
     private RecyclerView mRecyclerViewProfile;
     private ArrayList<WorkInfo> myDataset;
     private WorkAdapterGrid mAdapterGrid;
@@ -85,6 +85,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
+        mSwipeLayoutProfile=view.findViewById(R.id.swipeLayout_profile);
         mTextViewUserName = (TextView) view.findViewById(R.id.textView_profile_userName);
         mTextViewUserdescription = view.findViewById(R.id.textView_profile_user_description);
         mTextViewUserId = (TextView) view.findViewById(R.id.textView_profile_user_id);
@@ -146,6 +147,13 @@ public class ProfileFragment extends Fragment {
                 mbFist = false;
             }
         });
+
+        mSwipeLayoutProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //nothing
+            }
+        });
     }
 
     void updateProfileInfo() {
@@ -188,15 +196,13 @@ public class ProfileFragment extends Fragment {
                                         mTextViewUserId.setText("");
                                     }
 
-                                    if (!prefs.getString(GlobalVariable.userImgUrlStr, "").isEmpty()) {
-                                        try {
-                                            URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "FailLoad"));
-                                            Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-                                            imgPhoto.setImageBitmap(bitmap);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                    if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
+                                        //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
+                                        ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.userImgUrlStr, "null"),imgPhoto);
+                                    }else {
+                                        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round,imgPhoto);
                                     }
+
                                     /*
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                         //暫時無作用
@@ -323,9 +329,11 @@ public class ProfileFragment extends Fragment {
         if (mbFist) {
             mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
             mRecyclerViewProfile.setAdapter(mAdapterGrid);
+            mSwipeLayoutProfile.setRefreshing(false);
         } else {
             mRecyclerViewProfile.setLayoutManager(layoutManager);
             mRecyclerViewProfile.setAdapter(mAdapterList);
+            mSwipeLayoutProfile.setRefreshing(false);
         }
     }
 
