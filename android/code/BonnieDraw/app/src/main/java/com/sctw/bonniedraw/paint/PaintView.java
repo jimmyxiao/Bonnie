@@ -54,12 +54,13 @@ public class PaintView extends View {
     private int miWidth, miEachConut;
     private float mfStartX, mfStartY, mfPointLength;
     private boolean mbPlayMode = false;
-    Boolean mbEraseMode = false, mbZoomMode = false, mbCheckFinger = false;
-    Paint mPaint;
-    File mFileBDW, mFilePNG;
-    List<TagPoint> mListTagPoint, mListUndoTagPoint;
-    BDWFileReader mBDWReader = new BDWFileReader();
-    int miGridCol = 0, miPaintNum = 0;
+    public Boolean mbEraseMode = false, mbZoomMode = false, mbCheckFinger = false;
+    public Paint mPaint;
+    public File mFileBDW, mFilePNG;
+    public List<TagPoint> mListTagPoint;
+    public List<TagPoint> mListUndoTagPoint;
+    public BDWFileReader mBDWReader = new BDWFileReader();
+    public int miGridCol = 0, miPaintNum = 0;
 
 
     public PaintView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, Paint mPaint) {
