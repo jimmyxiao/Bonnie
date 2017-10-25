@@ -2,13 +2,10 @@ package com.sctw.bonniedraw.fragment;
 
 
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -27,11 +25,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -109,9 +105,8 @@ public class EditProfileFragment extends Fragment {
 
     void getUserInfo() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         JSONObject json = ConnectJson.queryUserInfoJson(prefs);
-        RequestBody body = RequestBody.create(mediaType, json.toString());
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_USER_INFO_QUERY)
                 .post(body)
@@ -175,19 +170,14 @@ public class EditProfileFragment extends Fragment {
                                 }
 
                                 if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                    try {
-                                        //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "null"));
-                                        Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-                                        mImgViewPhoto.setImageBitmap(bitmap);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                                    //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
+                                    ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.userImgUrlStr, "null"),mImgViewPhoto);
+                                }else {
+                                    ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round,mImgViewPhoto);
                                 }
                             } else {
                                 TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"連線失敗");
                             }
-                            Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -238,7 +228,6 @@ public class EditProfileFragment extends Fragment {
                             } else {
                                 TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"更新失敗");
                             }
-                            Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

@@ -193,14 +193,21 @@
         </LinearLayout>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_profile"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout_user_status"
-        android:background="@color/Transparent" />
+        android:layout_below="@+id/linearLayout_user_status">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/Transparent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 
 </RelativeLayout>
