@@ -10,8 +10,9 @@ import UIKit
 import WebKit
 
 class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDelegate {
+    @IBOutlet weak var container: UIView!
     let keyPath = "loading"
-    let indicator = UIActivityIndicatorView()
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     var webView: WKWebView?
     var url: URL?
 
@@ -20,9 +21,12 @@ class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDel
         webView.uiDelegate = self
         webView.navigationDelegate = self
         webView.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)
-        view.addAndFill(subView: webView)
+        container.addAndFill(subView: webView)
+        indicator.startAnimating()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "top_bar_ic_back"), style: .plain, target: self, action: #selector(onBackPressed))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: indicator)
         self.webView = webView
+        url = URL(string: "https://www.google.com/")
     }
 
     override func viewDidAppear(_ animated: Bool) {

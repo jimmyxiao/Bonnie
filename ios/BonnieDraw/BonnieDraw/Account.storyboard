@@ -1052,20 +1052,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Web" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tfP-w0-7KG">
-                                <rect key="frame" x="170" y="323" width="35" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yz-do-ZFD">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="tfP-w0-7KG" firstAttribute="centerX" secondItem="ATy-hz-D2j" secondAttribute="centerX" id="6yq-Vc-LOa"/>
-                            <constraint firstItem="tfP-w0-7KG" firstAttribute="centerY" secondItem="ATy-hz-D2j" secondAttribute="centerY" id="Kqo-jw-JDw"/>
+                            <constraint firstItem="tVg-TY-Qqv" firstAttribute="bottom" secondItem="2yz-do-ZFD" secondAttribute="bottom" id="3yM-Qf-Yly"/>
+                            <constraint firstItem="tVg-TY-Qqv" firstAttribute="trailing" secondItem="2yz-do-ZFD" secondAttribute="trailing" id="TFM-WQ-4tJ"/>
+                            <constraint firstItem="2yz-do-ZFD" firstAttribute="leading" secondItem="tVg-TY-Qqv" secondAttribute="leading" id="qWL-WC-1CW"/>
+                            <constraint firstItem="2yz-do-ZFD" firstAttribute="top" secondItem="ATy-hz-D2j" secondAttribute="top" id="zAs-dT-buV"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tVg-TY-Qqv"/>
                     </view>
+                    <connections>
+                        <outlet property="container" destination="2yz-do-ZFD" id="kec-6W-Tj3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zFe-d6-08f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

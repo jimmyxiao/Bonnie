@@ -10,7 +10,7 @@ import UIKit
 import FacebookLogin
 import TwitterKit
 
-class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
 
     enum SettingItem: Int {
@@ -26,8 +26,13 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                     Setting(title: "setting_clear_search".localized, segueId: nil),
                     Setting(title: "setting_sign_out".localized, segueId: nil)]
 
+    override func viewDidLoad() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "top_bar_ic_back"), style: .plain, target: self, action: #selector(onBackPressed))
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let indexPath = tableView.indexPathForSelectedRow {
+            segue.destination.title = settings[indexPath.row].title
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
