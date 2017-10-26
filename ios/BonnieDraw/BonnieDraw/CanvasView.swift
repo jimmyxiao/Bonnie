@@ -178,9 +178,40 @@ class CanvasView: UIView {
         }
         redoPaths.removeAll()
         persistentImage = nil
-        delegate?.canvasPathsDidChange?()
         writeHandle?.write(self.parse(pointsToData: points))
         writeHandle?.closeFile()
+        setNeedsDisplay()
+        delegate?.canvasPathsDidChange?()
+    }
+
+    func saveForUpload() -> URL? {
+        guard let url = url else {
+            return nil
+        }
+        do {
+            let manager = FileManager.default
+            let uploadUrl = try manager.url(
+                    for: .documentationDirectory,
+                    in: .userDomainMask,
+                    appropriateFor: nil,
+                    create: true).appendingPathComponent("upload.bdw")
+            if manager.fileExists(atPath: uploadUrl.path) {
+                try manager.removeItem(at: uploadUrl)
+            }
+            try manager.copyItem(at: url, to: uploadUrl)
+            let writeHandle = try FileHandle(forWritingTo: uploadUrl)
+            writeHandle.seekToEndOfFile()
+            var points = [Point]()
+            for path in paths {
+                points.append(contentsOf: path.points)
+            }
+            writeHandle.write(self.parse(pointsToData: points))
+            writeHandle.closeFile()
+            return uploadUrl
+        } catch {
+            Logger.d(error.localizedDescription)
+        }
+        return nil
     }
 
     func load() {
