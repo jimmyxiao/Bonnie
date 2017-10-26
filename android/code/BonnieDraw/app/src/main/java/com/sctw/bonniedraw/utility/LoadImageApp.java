@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.paint.Brushes;
 
 /**
  * Created by Fatorin on 2017/10/23.
@@ -19,6 +20,8 @@ public class LoadImageApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Brushes.loadBrushList(getApplicationContext());
 
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)

@@ -78,6 +78,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private int miPrivacyType;
     private SharedPreferences mPrefs;
 
+    private int mDrawingColor = 0xFF4488CC; //default color
+    private int mCurrentBrushId = 0; //default brush
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +110,16 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mPaintView.checkSketch();
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
+
+        //********Brush*******
+        Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
+
+        mPaintView.setDrawingCacheEnabled(true);
+        mPaintView.setBrush(brush);
+        setColor(brush.defaultColor);
+        mPaintView.setDrawingBgColor(Color.WHITE);
+
+
     }
 
     //產生預覽圖&上傳
@@ -687,4 +700,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    private void setColor(int color) {
+        //this.mColorButton.setColor(getColorWithAlpha(color, this.mPaintView.getDrawingAlpha()));
+        this.mPaintView.setDrawingColor(color);
+        mDrawingColor = color;
+    }
+
+
 }
