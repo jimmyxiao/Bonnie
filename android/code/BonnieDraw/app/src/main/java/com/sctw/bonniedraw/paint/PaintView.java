@@ -718,7 +718,8 @@ public class PaintView extends View {
         canvas.drawColor(mBackgroundLayerColor, PorterDuff.Mode.SRC);
 
         if (rect == null) {
-            canvas.saveLayer(null, null, Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
+            canvas.saveLayer(null, null, Canvas.FULL_COLOR_LAYER_SAVE_FLAG
+            );
         } else {
             canvas.saveLayer((float) (rect.left - 1), (float) (this.mOnDrawCanvasRect.top - 1),
                     (float) (this.mOnDrawCanvasRect.right + 1), (float) (this.mOnDrawCanvasRect.bottom + 1),

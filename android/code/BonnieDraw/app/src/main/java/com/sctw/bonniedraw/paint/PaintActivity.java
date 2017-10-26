@@ -506,18 +506,23 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 break;
             case R.id.imgBtn_paint_type1:
                 mPaintView.changePaint(0);
+                setBrush(0);
                 break;
             case R.id.imgBtn_paint_type2:
                 mPaintView.changePaint(1);
+                setBrush(1);
                 break;
             case R.id.imgBtn_paint_type3:
                 mPaintView.changePaint(2);
+                setBrush(2);
                 break;
             case R.id.imgBtn_paint_type4:
                 mPaintView.changePaint(3);
+                setBrush(3);
                 break;
             case R.id.imgBtn_paint_type5:
                 mPaintView.changePaint(4);
+                setBrush(4);
                 break;
             case R.id.imgBtn_paint_right:
                 if (mPaintView.miPaintNum < 4 && mPaintView.miPaintNum >= 0) {
@@ -701,10 +706,17 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         super.onDestroy();
     }
 
+    //*******Brush **********
     private void setColor(int color) {
         //this.mColorButton.setColor(getColorWithAlpha(color, this.mPaintView.getDrawingAlpha()));
         this.mPaintView.setDrawingColor(color);
         mDrawingColor = color;
+    }
+
+    private void setBrush(int brushID) {
+        Brush brush = Brushes.get(getApplicationContext())[brushID];
+        mPaintView.setBrush(brush);
+
     }
 
 
