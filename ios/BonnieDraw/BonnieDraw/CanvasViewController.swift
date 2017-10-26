@@ -58,14 +58,22 @@ class CanvasViewController:
         canvas.redo()
     }
 
-    @IBAction func reset(_ sender: AnyObject) {
-        canvas.reset()
+    @IBAction func reset(_ sender: Any) {
+        presentConfirmationDialog(title: "alert_reset_title".localized, message: "alert_reset_content".localized) {
+            success in
+            if success {
+                self.canvas.reset()
+            }
+        }
     }
 
-    @IBAction func play(_ sender: AnyObject) {
+    @IBAction func play(_ sender: Any) {
         canvas.play()
     }
 
+    @IBAction func option(_ sender: Any) {
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         canvas.lastTimestamp = -1
         if let controller = segue.destination as? SizePickerViewController {
@@ -82,8 +90,7 @@ class CanvasViewController:
             controller.preferredContentSize = CGSize(width: 44, height: height > maxHeight ? maxHeight : height)
         } else if let controller = segue.destination as? SaveViewController {
             controller.workThumbnailData = canvas.thumbnailData()
-            canvas.save()
-            controller.workFileUrl = canvas.url
+            controller.workFileUrl = canvas.saveForUpload()
         }
     }
 

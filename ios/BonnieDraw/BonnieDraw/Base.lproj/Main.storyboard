@@ -470,21 +470,21 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZN-fw-jGW">
-                                                    <rect key="frame" x="68" y="19" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZN-fw-jGW">
+                                                    <rect key="frame" x="68" y="29.5" width="0.0" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yO4-b9-Kh9" customClass="FollowButton" customModule="BonnieDraw" customModuleProvider="target">
-                                                    <rect key="frame" x="242" y="12" width="62" height="34"/>
+                                                    <rect key="frame" x="257" y="12" width="47" height="34"/>
                                                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                                    <state key="normal" title="Button">
+                                                    <state key="normal" title="追蹤">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
-                                                    <state key="selected">
+                                                    <state key="selected" title="追蹤中">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
@@ -496,8 +496,8 @@
                                                         <action selector="selectFollow:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="XFf-Pd-TzA"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="07P-Yj-tQk">
-                                                    <rect key="frame" x="118" y="20.5" width="115.5" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="07P-Yj-tQk">
+                                                    <rect key="frame" x="76" y="29.5" width="172.5" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -847,6 +847,9 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="VrJ-HM-rzh"/>
                                     <barButtonItem image="top_bar_ic_grid" id="ZVH-2z-d34">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="option:" destination="uhE-RV-zqK" id="JKN-SC-nEF"/>
+                                        </connections>
                                     </barButtonItem>
                                 </items>
                                 <color key="barTintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
