@@ -22,7 +22,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -157,16 +156,6 @@ public class PaintView extends View {
     }
 
     public void init() {
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setColor(0xFF000000);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(13);
-        mPaint.setColor(Color.BLACK);
-
         miWidth = getWidthSize(getContext());
         mBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
@@ -182,7 +171,6 @@ public class PaintView extends View {
         gridPaint.setStyle(Paint.Style.STROKE);
         gridPaint.setColor(ContextCompat.getColor(getContext(), R.color.GridLineColor));
         //this.setBackground(getResources().getDrawable(R.drawable.transparent));
-        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             if (HWLAYER) {
                 setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -446,29 +434,6 @@ public class PaintView extends View {
         }
     }
 
-    //換筆
-    public void changePaint(int paintNum) {
-        //筆的效果 放置於此
-        miPaintNum = paintNum;
-        switch (paintNum) {
-            case 0:
-                mPaint.setXfermode(null);
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                //橡皮擦
-                mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-                break;
-        }
-    }
-
     private int getWidthSize(Context c) {
         WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -556,10 +521,7 @@ public class PaintView extends View {
         mRandom = new Random();
         mMatrix = new Matrix();
         mOldPt = new PointF();
-
     }
-
-
 
     public void setBrush(Brush brush) {
         mBrush = brush;
@@ -610,8 +572,6 @@ public class PaintView extends View {
         src.recycle();
         return dst;
     }
-
-
 
     public Brush getBrush() {
         return mBrush;
@@ -686,6 +646,12 @@ public class PaintView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (mbPlayMode) return true;
+
+        if (mbZoomMode) {
+            return scale_zoom(event);
+        }
+
         this.mIsBatchDraw = false;
 
         if (this.mBrush == null) {
@@ -718,12 +684,12 @@ public class PaintView extends View {
         canvas.drawColor(mBackgroundLayerColor, PorterDuff.Mode.SRC);
 
         if (rect == null) {
-            canvas.saveLayer(null, null, Canvas.FULL_COLOR_LAYER_SAVE_FLAG
+            canvas.saveLayer(null, null
             );
         } else {
             canvas.saveLayer((float) (rect.left - 1), (float) (this.mOnDrawCanvasRect.top - 1),
                     (float) (this.mOnDrawCanvasRect.right + 1), (float) (this.mOnDrawCanvasRect.bottom + 1),
-                    null, Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
+                    null);
         }
 
         if(mBrush.useSingleLayerStroke){

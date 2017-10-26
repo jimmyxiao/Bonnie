@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,7 +67,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
     private PaintView mPaintView;
     private FrameLayout mFrameLayoutFreePaint;
-    private Paint mPaint;
     private ImageButton mBtnRedo, mBtnUndo, mBtnGrid, mBtnOpenAutoPlay, mBtnSize, mBtnChangePaint;
     private Button mBtnZoom;
     private ColorPicker mColorPicker;
@@ -78,7 +76,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private int miPrivacyType;
     private SharedPreferences mPrefs;
 
-    private int mDrawingColor = 0xFF4488CC; //default color
     private int mCurrentBrushId = 0; //default brush
 
     @Override
@@ -113,13 +110,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
         //********Brush*******
         Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
-
         mPaintView.setDrawingCacheEnabled(true);
         mPaintView.setBrush(brush);
+        mPaintView.setDrawingScaledSize(1);
         setColor(brush.defaultColor);
         mPaintView.setDrawingBgColor(Color.WHITE);
-
-
     }
 
     //產生預覽圖&上傳
@@ -138,7 +133,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             if (!vPath.exists()) vPath.mkdirs();
             pngfile = new File(vPath + "thumbnail.png");
             FileOutputStream fos = new FileOutputStream(pngfile);
-            mPaintView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+            mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
             workPreview.setImageBitmap(Thumbnail.getBitmap(getApplicationContext(), Uri.fromFile(pngfile)));
 
@@ -298,8 +293,10 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     @Override
     public void sizeChanged(int size) {
-        mPaintView.mPaint.setStrokeWidth(size);
-        float scale = size / 13.0F;
+        //最大是1 最小是0.0
+        float scale = size / 27.0F;
+        mPaintView.setDrawingScaledSize(scale);
+        Log.d("SIZE",String.valueOf(mPaintView.getDrawingScaledSize()));
         mBtnSize.setScaleX(scale);
         mBtnSize.setScaleY(scale);
     }
@@ -311,7 +308,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
 
     @Override
     public void colorChanged(int color) {
-        mPaintView.mPaint.setColor(color);
+        mPaintView.setDrawingColor(color);
         findViewById(R.id.imgBtn_paint_colorpicker).setBackgroundColor(color);
         if (mPaintView.mbEraseMode) {
             recoveryPaint();
@@ -461,9 +458,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
                 mFrameLayoutFreePaint.removeAllViews();
                 mPaintView = new PaintView(getApplicationContext());
+                Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
+                mPaintView.setDrawingCacheEnabled(true);
+                mPaintView.setBrush(brush);
+                setColor(brush.defaultColor);
+                mPaintView.setDrawingBgColor(Color.WHITE);
                 mFrameLayoutFreePaint.addView(mPaintView);
-                recoveryPaint();
-                playStateBtn();
             }
         });
 
@@ -487,7 +487,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 if (mLinearLayoutPaintSelect.getVisibility() == View.INVISIBLE) {
                     mBtnZoom.setVisibility(View.INVISIBLE);
                     mLinearLayoutPaintSelect.setVisibility(View.VISIBLE);
-                    setPaintFouns();
+                    setPaintFoucs();
                 } else {
                     mLinearLayoutPaintSelect.setVisibility(View.INVISIBLE);
                     mBtnZoom.setVisibility(View.VISIBLE);
@@ -505,24 +505,24 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
                 break;
             case R.id.imgBtn_paint_type1:
-                mPaintView.changePaint(0);
                 setBrush(0);
+                mPaintView.miPaintNum=0;
                 break;
             case R.id.imgBtn_paint_type2:
-                mPaintView.changePaint(1);
                 setBrush(1);
+                mPaintView.miPaintNum=1;
                 break;
             case R.id.imgBtn_paint_type3:
-                mPaintView.changePaint(2);
                 setBrush(2);
+                mPaintView.miPaintNum=2;
                 break;
             case R.id.imgBtn_paint_type4:
-                mPaintView.changePaint(3);
                 setBrush(3);
+                mPaintView.miPaintNum=3;
                 break;
             case R.id.imgBtn_paint_type5:
-                mPaintView.changePaint(4);
                 setBrush(4);
+                mPaintView.miPaintNum=4;
                 break;
             case R.id.imgBtn_paint_right:
                 if (mPaintView.miPaintNum < 4 && mPaintView.miPaintNum >= 0) {
@@ -530,11 +530,11 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
                 break;
         }
-        setPaintFouns();
+        setPaintFoucs();
     }
 
     //顯示當前的筆
-    public void setPaintFouns() {
+    public void setPaintFoucs() {
         findViewById(R.id.imgBtn_paint_type1).setSelected(false);
         findViewById(R.id.imgBtn_paint_type2).setSelected(false);
         findViewById(R.id.imgBtn_paint_type3).setSelected(false);
@@ -566,20 +566,18 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public void erase_mode(View view) {
-        if (!mPaintView.mbEraseMode) {
-            mPaintView.changePaint(5);
+        if (!mPaintView.getBrush().isEraser) {
+            mPaintView.getBrush().isEraser=true;
             ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
-            mPaintView.mbEraseMode = true;
         } else {
             recoveryPaint();
         }
-        setPaintFouns();
+        setPaintFoucs();
     }
 
     public void recoveryPaint() {
-        mPaintView.changePaint(0);
+        mPaintView.getBrush().isEraser=false;
         ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
-        mPaintView.mbEraseMode = false;
     }
 
     public void playStateBtn() {
@@ -710,7 +708,6 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     private void setColor(int color) {
         //this.mColorButton.setColor(getColorWithAlpha(color, this.mPaintView.getDrawingAlpha()));
         this.mPaintView.setDrawingColor(color);
-        mDrawingColor = color;
     }
 
     private void setBrush(int brushID) {

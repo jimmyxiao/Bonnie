@@ -82,7 +82,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                             mPaintView.mPaint.setStrokeWidth(PxDpConvert.formatToDisplay(tagpoint.getiSize(), miViewWidth));
                         }
                         if (tagpoint.getiPaintType() != 0) {
-                            mPaintView.changePaint(tagpoint.getiPaintType());
+                            //mPaintView.changePaint(tagpoint.getiPaintType());
                         }
                         mPaintView.touch_start(PxDpConvert.formatToDisplay(tagpoint.getiPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), miViewWidth));
                         mPaintView.invalidate();

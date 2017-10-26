@@ -32,8 +32,8 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.imageView.setScaleX(sizes[position] / 13.0F);
-        holder.imageView.setScaleY(sizes[position] / 13.0F);
+        holder.imageView.setScaleX(sizes[position] / 27.0F);
+        holder.imageView.setScaleY(sizes[position] / 27.0F);
         holder.lm.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
