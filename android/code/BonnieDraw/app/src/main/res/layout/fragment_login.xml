@@ -116,7 +116,7 @@
         android:id="@+id/btn_twitter_login_hide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_twitter_login"
@@ -168,5 +168,6 @@
             android:text="@string/public_register"
             android:textColor="@color/Blue" />
     </LinearLayout>
+
 
 </RelativeLayout>

@@ -340,7 +340,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             @Override
             public void onClick(View view) {
                 if (mPaintView.mListTagPoint.size() > 0) {
-                    if (mPaintView.saveTempPhotoAndBdw()) {
+                    if (mPaintView.saveTempBdw()) {
                         Intent intent = new Intent();
                         intent.setClass(getApplication(), PaintPlayActivity.class);
                         startActivity(intent);

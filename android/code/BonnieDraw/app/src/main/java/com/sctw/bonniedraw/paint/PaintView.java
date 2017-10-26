@@ -45,20 +45,21 @@ public class PaintView extends View {
     private Bitmap mBitmap;
     private Canvas mCanvas;
     private Path mPath;
-    private ArrayList<PathAndPaint> paths = new ArrayList<>(20);
-    private ArrayList<PathAndPaint> undonePaths = new ArrayList<>(20);
-    private List<Integer> mListTempTagLength = new ArrayList<Integer>();
+    private ArrayList<PathAndPaint> mPaths = new ArrayList<>(20);
+    private ArrayList<PathAndPaint> mUndoPaths = new ArrayList<>(20);
+    private List<Integer> mListTempPoint = new ArrayList<Integer>();
+    private List<Integer> mListUndoPoint = new ArrayList<>();
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
     private Paint gridPaint;
     private int miWidth, miEachConut;
     private float mfStartX, mfStartY, mfPointLength;
     private boolean mbPlayMode = false;
+    public List<TagPoint> mListTagPoint;
+    public List<TagPoint> mListUndoTagPoint;
     public Boolean mbEraseMode = false, mbZoomMode = false, mbCheckFinger = false;
     public Paint mPaint;
     public File mFileBDW, mFilePNG;
-    public List<TagPoint> mListTagPoint;
-    public List<TagPoint> mListUndoTagPoint;
     public BDWFileReader mBDWReader = new BDWFileReader();
     public int miGridCol = 0, miPaintNum = 0;
 
@@ -142,7 +143,9 @@ public class PaintView extends View {
     }
 
     public void touch_start(float x, float y) {
-        undonePaths.clear();
+        mUndoPaths.clear();
+        mListUndoPoint.clear();
+        mListUndoTagPoint.clear();
         mPath.reset();
         mPath.moveTo(x, y);
         mX = x;
@@ -163,9 +166,8 @@ public class PaintView extends View {
 
     public void touch_up() {
         // commit the path to our offscreen
-        mListTempTagLength.add(mListTagPoint.size());
-        System.out.println(mListTempTagLength.toString());
-        paths.add(new PathAndPaint(mPath, mPaint));
+        mListTempPoint.add(mListTagPoint.size());
+        mPaths.add(new PathAndPaint(mPath, mPaint));
         // kill this so we don't double draw (新路徑/畫筆)
         mPath = new Path();
         mPaint = new Paint(mPaint);
@@ -278,19 +280,27 @@ public class PaintView extends View {
 
     //復原、重作
     public void onClickUndo() {
-        if (paths.size() > 0 && undonePaths.size() <= 20) {
-            undonePaths.add(paths.remove(paths.size() - 1));
-            miEachConut = paths.size() == 0 ? mListTempTagLength.get(0) : mListTempTagLength.get(paths.size()) - mListTempTagLength.get(paths.size() - 1);
-            for (int x = 0; x <= miEachConut - 1; x++) {
+        if (mPaths.size() > 0 && mUndoPaths.size() <= 20) {
+
+            mUndoPaths.add(mPaths.remove(mPaths.size() - 1));
+
+            mListUndoPoint.add(mListTempPoint.remove(mListTempPoint.size() - 1));
+            if (mListTempPoint.size() > 0) {
+                miEachConut = mListUndoPoint.get(mListUndoPoint.size() - 1) - mListTempPoint.get(mListTempPoint.size() - 1);
+            } else {
+                miEachConut = mListUndoPoint.get(mListUndoPoint.size() - 1);
+            }
+            for (int x = 0; x < miEachConut; x++) {
                 mListUndoTagPoint.add(mListTagPoint.remove(mListTagPoint.size() - 1));
             }
+
             if (mFilePNG.exists()) {
                 mBitmap = BitmapFactory.decodeFile(mFilePNG.toString()).copy(Bitmap.Config.ARGB_8888, true);
             } else {
                 mBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
             }
             mCanvas = new Canvas(mBitmap);
-            for (PathAndPaint p : paths) {
+            for (PathAndPaint p : mPaths) {
                 mCanvas.drawPath(p.get_mPath(), p.get_mPaint());
             }
             invalidate();
@@ -300,14 +310,24 @@ public class PaintView extends View {
     }
 
     public void onClickRedo() {
-        if (undonePaths.size() > 0) {
-            miEachConut = paths.size() == 0 ? mListTempTagLength.get(0) : mListTempTagLength.get(paths.size()) - mListTempTagLength.get(paths.size() - 1);
-            paths.add(undonePaths.remove(undonePaths.size() - 1));
-            for (int x = 0; x <= miEachConut - 1; x++) {
+        if (mUndoPaths.size() > 0) {
+            mPaths.add(mUndoPaths.remove(mUndoPaths.size() - 1));
+
+            mListTempPoint.add(mListUndoPoint.remove(mListUndoPoint.size() - 1));
+
+            for (int x = 0; x < miEachConut; x++) {
                 mListTagPoint.add(mListUndoTagPoint.remove(mListUndoTagPoint.size() - 1));
             }
 
-            for (PathAndPaint p : paths) {
+            if(mListUndoPoint.size()>0){
+                miEachConut = mListUndoPoint.get(mListUndoPoint.size() - 1) - mListTempPoint.get(mListTempPoint.size() - 1);
+            }else if(mListTempPoint.size()>1){
+                miEachConut = mListTempPoint.get(mListTempPoint.size() - 1) - mListTempPoint.get(mListTempPoint.size() - 2);
+            }else {
+                miEachConut = mListTempPoint.get(mListTempPoint.size() - 1);
+            }
+
+            for (PathAndPaint p : mPaths) {
                 mCanvas.drawPath(p.get_mPath(), p.get_mPaint());
             }
             invalidate();
@@ -317,15 +337,23 @@ public class PaintView extends View {
     }
 
     public int onClickPrevious() {
-        if (paths.size() > 0) {
-            undonePaths.add(paths.remove(paths.size() - 1));
-            miEachConut = paths.size() == 0 ? mListTempTagLength.get(0) : mListTempTagLength.get(paths.size()) - mListTempTagLength.get(paths.size() - 1);
-            for (int x = 0; x <= miEachConut - 1; x++) {
+        if (mPaths.size() > 0) {
+
+            mUndoPaths.add(mPaths.remove(mPaths.size() - 1));
+
+            mListUndoPoint.add(mListTempPoint.remove(mListTempPoint.size() - 1));
+            if (mListTempPoint.size() > 0) {
+                miEachConut = mListUndoPoint.get(mListUndoPoint.size() - 1) - mListTempPoint.get(mListTempPoint.size() - 1);
+            } else {
+                miEachConut = mListUndoPoint.get(mListUndoPoint.size() - 1);
+            }
+            for (int x = 0; x < miEachConut; x++) {
                 mListUndoTagPoint.add(mListTagPoint.remove(mListTagPoint.size() - 1));
             }
+
             mBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
             mCanvas = new Canvas(mBitmap);
-            for (PathAndPaint p : paths) {
+            for (PathAndPaint p : mPaths) {
                 mCanvas.drawPath(p.get_mPath(), p.get_mPaint());
             }
             invalidate();
@@ -390,6 +418,11 @@ public class PaintView extends View {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        BDWFileWriter bdwFileWriter = new BDWFileWriter();
+        return bdwFileWriter.WriteToFile(this.mListTagPoint, getContext().getFilesDir().getPath() + SKETCH_FILE_BDW);
+    }
+
+    public boolean saveTempBdw() {
         BDWFileWriter bdwFileWriter = new BDWFileWriter();
         return bdwFileWriter.WriteToFile(this.mListTagPoint, getContext().getFilesDir().getPath() + SKETCH_FILE_BDW);
     }

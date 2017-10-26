@@ -86,8 +86,11 @@ public class MainActivity extends AppCompatActivity {
         mTextViewHeaderText = (TextView) mHeaderView.findViewById(R.id.header_user_name);
         mImgBtnBack = (ImageButton) mHeaderView.findViewById(R.id.header_btn_back);
         mImgBtnPaint = (ImageButton) findViewById(R.id.imgBtn_paint_start);
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mBottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomView_layout);
 
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -116,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mBottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomView_layout);
         mBottomNavigationViewEx.enableShiftingMode(false);
         mBottomNavigationViewEx.enableItemShiftingMode(false);
         mBottomNavigationViewEx.setTextVisibility(false);
@@ -145,8 +147,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mBottomNavigationViewEx.setCurrentItem(0);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
     }
 
     void createProfileInfo() {
