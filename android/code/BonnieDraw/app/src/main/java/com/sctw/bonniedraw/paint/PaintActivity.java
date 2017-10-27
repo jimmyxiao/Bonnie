@@ -59,6 +59,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -294,9 +296,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     @Override
     public void sizeChanged(int size) {
         //最大是1 最小是0.0
-        float scale = size / 27.0F;
+        float scale = size / STROKE_SACLE_VALUE;
         mPaintView.setDrawingScaledSize(scale);
-        Log.d("SIZE",String.valueOf(mPaintView.getDrawingScaledSize()));
         mBtnSize.setScaleX(scale);
         mBtnSize.setScaleY(scale);
     }
@@ -390,8 +391,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 gridNone.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 0;
-                        mPaintView.invalidate();
+                        mPaintView.setMiGridCol(0);
                         gridDialog.dismiss();
                     }
                 });
@@ -399,8 +399,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 grid3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 3;
-                        mPaintView.invalidate();
+                        mPaintView.setMiGridCol(3);
                         gridDialog.dismiss();
                     }
                 });
@@ -408,8 +407,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 grid6.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 6;
-                        mPaintView.invalidate();
+                        mPaintView.setMiGridCol(6);
                         gridDialog.dismiss();
                     }
                 });
@@ -417,8 +415,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 grid10.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 10;
-                        mPaintView.invalidate();
+                        mPaintView.setMiGridCol(10);
                         gridDialog.dismiss();
                     }
                 });
@@ -426,8 +423,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 grid20.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 20;
-                        mPaintView.invalidate();
+                        mPaintView.setMiGridCol(20);
                         gridDialog.dismiss();
                     }
                 });

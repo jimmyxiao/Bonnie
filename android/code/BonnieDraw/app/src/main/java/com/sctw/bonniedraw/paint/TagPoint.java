@@ -81,5 +81,4 @@ public class TagPoint {
     public void setiOther(int iOther) {
         this.iOther = iOther;
     }
-
 }

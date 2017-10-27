@@ -18,10 +18,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -59,7 +56,7 @@ public class PaintView extends View {
     private List<Integer> mListTempPoint = new ArrayList<Integer>();
     private List<Integer> mListUndoPoint = new ArrayList<>();
     private float mX, mY;
-    private static final float TOUCH_TOLERANCE = 4;
+    private int miGridCol = 0;
     private Paint gridPaint;
     private int miWidth, miEachConut;
     private float mfStartX, mfStartY, mfPointLength;
@@ -70,11 +67,12 @@ public class PaintView extends View {
     public Paint mPaint;
     public File mFileBDW, mFilePNG;
     public BDWFileReader mBDWReader = new BDWFileReader();
-    public int miGridCol = 0, miPaintNum = 0;
+    public int miPaintNum = 0;
 
     //********  Brush  ******************
 
     private static final float STROKE_WIDTH = 20.0f;
+    public static final float STROKE_SACLE_VALUE = 27.0F;
 
     private Brush mBrush;
     private int mColor;
@@ -107,7 +105,6 @@ public class PaintView extends View {
     private Paint mSrcPaint;
     private Paint mDstInPaint;
     private Paint mDstOutPaint;
-
     private OnTouchHandler mCurveDrawingHandler;
     private TouchResampler mTouchResampler;
     private float mMaxVelocityScale;
@@ -126,22 +123,6 @@ public class PaintView extends View {
     private boolean mDrawingLayerNeedDrawn;
     private boolean mIsBatchDraw;
 
-
-
-    public PaintView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, Paint mPaint) {
-        super(context, attrs, defStyleAttr);
-        this.mPaint = mPaint;
-        init();
-        initBrush();
-    }
-
-    public PaintView(Context context, @Nullable AttributeSet attrs, Paint mPaint) {
-        super(context, attrs);
-        this.mPaint = mPaint;
-        init();
-        initBrush();
-    }
-
     public PaintView(Context c) {
         super(c);
         init();
@@ -157,8 +138,6 @@ public class PaintView extends View {
 
     public void init() {
         miWidth = getWidthSize(getContext());
-        mBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
-        mCanvas = new Canvas(mBitmap);
         mPath = new Path();
         mListTagPoint = new ArrayList<>();
         mListUndoTagPoint = new ArrayList<>();
@@ -171,32 +150,6 @@ public class PaintView extends View {
         gridPaint.setStyle(Paint.Style.STROKE);
         gridPaint.setColor(ContextCompat.getColor(getContext(), R.color.GridLineColor));
         //this.setBackground(getResources().getDrawable(R.drawable.transparent));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (HWLAYER) {
-                setLayerType(View.LAYER_TYPE_HARDWARE, null);
-            } else if (SWLAYER) {
-                setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            } else {
-                setLayerType(View.LAYER_TYPE_NONE, null);
-            }
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    //@Override
-    protected void onDraw_temp(Canvas canvas) {
-        canvas.save();
-        if (miGridCol == 0) {
-            canvas.drawColor(Color.WHITE);
-        } else {
-            canvas.drawColor(Color.WHITE);
-            for (int i = 0; i <= miGridCol; i++) {
-                canvas.drawLine((miWidth / miGridCol) * i, 0, (miWidth / miGridCol) * i, miWidth, gridPaint);
-                canvas.drawLine(0, (miWidth / miGridCol) * i, miWidth, (miWidth / miGridCol) * i, gridPaint);
-            }
-        }
-        canvas.drawBitmap(mBitmap, 0, 0, null);
-        canvas.restore();
     }
 
     public void touch_start(float x, float y) {
@@ -205,18 +158,9 @@ public class PaintView extends View {
         mListUndoTagPoint.clear();
         mPath.reset();
         mPath.moveTo(x, y);
-        mX = x;
-        mY = y;
     }
 
     public void touch_move(float x, float y) {
-        float dx = Math.abs(x - mX);
-        float dy = Math.abs(y - mY);
-        if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
-            mX = x;
-            mY = y;
-        }
         mPath.lineTo(mX, mY);
         mCanvas.drawPath(mPath, mPaint);
     }
@@ -230,7 +174,7 @@ public class PaintView extends View {
         mPaint = new Paint(mPaint);
     }
 
-    public boolean scale_zoom(MotionEvent event) {
+    public boolean scaleZoom(MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mfStartX = event.getX();
@@ -273,55 +217,6 @@ public class PaintView extends View {
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 mbCheckFinger = false;
-                break;
-        }
-        return true;
-    }
-
-    //@Override
-    public boolean onTouchEvent_temp(MotionEvent event) {
-        if (mbPlayMode) return true;
-
-        if (mbZoomMode) {
-            return scale_zoom(event);
-        }
-
-        float x = event.getX();
-        float y = event.getY();
-        TagPoint tagpoint;
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            TagPoint paint_tagpoint = new TagPoint();
-            paint_tagpoint.setiPosX(PxDpConvert.displayToFormat(x, miWidth));
-            paint_tagpoint.setiPosY(PxDpConvert.displayToFormat(y, miWidth));
-            paint_tagpoint.setiSize(PxDpConvert.displayToFormat(mPaint.getStrokeWidth(), miWidth));
-            paint_tagpoint.setiPaintType(miPaintNum);
-            paint_tagpoint.setiColor(mPaint.getColor());
-            paint_tagpoint.setiAction(MotionEvent.ACTION_DOWN + 1);
-            mListTagPoint.add(paint_tagpoint);
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            tagpoint = new TagPoint();
-            tagpoint.setiPosX(PxDpConvert.displayToFormat(x, miWidth));
-            tagpoint.setiPosY(PxDpConvert.displayToFormat(y, miWidth));
-            tagpoint.setiAction(event.getAction() + 1);
-            mListTagPoint.add(tagpoint);
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            tagpoint = new TagPoint();
-            tagpoint.setiAction(event.getAction() + 1);
-            mListTagPoint.add(tagpoint);
-        }
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                touch_start(x, y);
-                invalidate();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                touch_move(x, y);
-                invalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-                touch_up();
-                invalidate();
                 break;
         }
         return true;
@@ -376,11 +271,11 @@ public class PaintView extends View {
                 mListTagPoint.add(mListUndoTagPoint.remove(mListUndoTagPoint.size() - 1));
             }
 
-            if(mListUndoPoint.size()>0){
+            if (mListUndoPoint.size() > 0) {
                 miEachConut = mListUndoPoint.get(mListUndoPoint.size() - 1) - mListTempPoint.get(mListTempPoint.size() - 1);
-            }else if(mListTempPoint.size()>1){
+            } else if (mListTempPoint.size() > 1) {
                 miEachConut = mListTempPoint.get(mListTempPoint.size() - 1) - mListTempPoint.get(mListTempPoint.size() - 2);
-            }else {
+            } else {
                 miEachConut = mListTempPoint.get(mListTempPoint.size() - 1);
             }
 
@@ -619,7 +514,6 @@ public class PaintView extends View {
     public void setDrawingForegroundBitmap(Bitmap bitmap) {
         this.mDrawingLayerCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.SRC);
         this.mMergedLayerCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.SRC);
-
         invalidate();
     }
 
@@ -641,15 +535,12 @@ public class PaintView extends View {
         this.mTextureLayerCanvas.setBitmap(this.mTextureLayer);
         this.mTextureDrawable.setBounds(0, 0, w, h);
         this.mTextureDrawable.draw(this.mTextureLayerCanvas);
-
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mbPlayMode) return true;
-
         if (mbZoomMode) {
-            return scale_zoom(event);
+            return scaleZoom(event);
         }
 
         this.mIsBatchDraw = false;
@@ -657,6 +548,7 @@ public class PaintView extends View {
         if (this.mBrush == null) {
             return super.onTouchEvent(event);
         }
+
         int action = Build.VERSION.SDK_INT >= 8 ? event.getActionMasked() : event.getAction() & 255;
 
         if (this.mCurveDrawingHandler != null) {
@@ -664,14 +556,12 @@ public class PaintView extends View {
         }
 
         return false;
-
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         canvas.save();
         canvas.getClipBounds(this.mOnDrawCanvasRect);
         drawToCanvas(canvas, mOnDrawCanvasRect);
@@ -680,8 +570,22 @@ public class PaintView extends View {
         invalidate(mOnDrawCanvasRect);
     }
 
+    //** add Grid
+    public void setMiGridCol(int miGridCol){
+        this.miGridCol=miGridCol;
+        invalidate();
+    }
+
     private void drawToCanvas(Canvas canvas, Rect rect) {
+        //底色
         canvas.drawColor(mBackgroundLayerColor, PorterDuff.Mode.SRC);
+        if (miGridCol != 0) {
+            for (int i = 0; i <= miGridCol; i++) {
+                canvas.drawLine((miWidth / miGridCol) * i, 0, (miWidth / miGridCol) * i, miWidth, gridPaint);
+                canvas.drawLine(0, (miWidth / miGridCol) * i, miWidth, (miWidth / miGridCol) * i, gridPaint);
+            }
+        }
+
 
         if (rect == null) {
             canvas.saveLayer(null, null
@@ -692,18 +596,18 @@ public class PaintView extends View {
                     null);
         }
 
-        if(mBrush.useSingleLayerStroke){
+        if (mBrush.useSingleLayerStroke) {
             canvas.drawBitmap(this.mMergedLayer, 0.0f, 0.0f, this.mSrcPaint);
             if ((!this.mDrawingLayerNeedDrawn)) {
                 canvas.restore();
-            }else {
+            } else {
                 Paint p;
                 p = !(this.mBrush.isEraser) ? this.mNormalPaint : this.mDstOutPaint;
                 p.setAlpha((int) (this.mDrawingAlpha * 255.0f));
                 canvas.drawBitmap(mDrawingLayer, 0.0f, 0.0f, p);
                 canvas.restore();
             }
-        }else{
+        } else {
 
             canvas.drawBitmap(this.mMergedLayer, 0.0f, 0.0f, this.mSrcPaint);
             if ((this.mDrawingLayerNeedDrawn)) {
@@ -717,12 +621,11 @@ public class PaintView extends View {
     }
 
     private void moveToThread(float x, float y) {
-        float level = 1.0f;
         resetDrawingDirtyRect();
-        moveToAction(x, y, level);
+        moveToAction(x, y);
     }
 
-    private void moveToAction(float x, float y, float level) {
+    private void moveToAction(float x, float y) {
 
         mOldPt.set(x, y);
 
@@ -767,9 +670,9 @@ public class PaintView extends View {
         int color;
         float drawingAlpha;
 
-        if(mBrush.useSingleLayerStroke){
+        if (mBrush.useSingleLayerStroke) {
             drawingAlpha = 1.0f;
-        }else {
+        } else {
             drawingAlpha = mDrawingAlpha;
         }
 
@@ -794,7 +697,7 @@ public class PaintView extends View {
             this.mMatrix.setTranslate((float) (-mMaskPadding), (float) (-mMaskPadding));
             this.mMatrix.postRotate((float) Math.toDegrees((double) angle), this.mPathWidthHalf, this.mPathWidthHalf);
             mPathLayerCanvas.drawBitmap(maskLayer, this.mMatrix, mDstInPaint);
-        }else{
+        } else {
             mPathLayerCanvas.drawBitmap(maskLayer, (float) (-mMaskPadding), (float) (-mMaskPadding), mDstInPaint);
         }
 
@@ -810,9 +713,9 @@ public class PaintView extends View {
     }
 
     private void mergeWithAlpha(float alpha, Paint paint, RectF rectF) {
-        if(mBrush.useSingleLayerStroke){
+        if (mBrush.useSingleLayerStroke) {
             paint.setAlpha((int) (255.0f * alpha));
-        }else{
+        } else {
             paint.setAlpha(255);
         }
         this.mMergedLayerCanvas.save();
@@ -862,15 +765,13 @@ public class PaintView extends View {
 
         if (tipScale == 1.0f) {
             mDrawingLayerCanvas.drawBitmap(mPathLayer, x - mPathWidthHalf, y - mPathWidthHalf, mNormalPaint);
-        }else{
+        } else {
             mDrawingLayerCanvas.save();
             mDrawingLayerCanvas.translate(x, y);
             mDrawingLayerCanvas.scale(tipScale, tipScale);
             mDrawingLayerCanvas.drawBitmap(mPathLayer, -mPathWidthHalf, -mPathWidthHalf, mNormalPaint);
             mDrawingLayerCanvas.restore();
         }
-
-
     }
 
     private float getBrushSpotAngle(Brush brush, float oldX, float oldY, float curX, float curY) {
@@ -976,6 +877,7 @@ public class PaintView extends View {
             Log.d("PaintView", "onTouchDown");
             this.mLastDrawDistance = 0.0f;
             PaintView.this.moveToThread(x, y);
+            //**add TagPoint
         }
 
         @Override
@@ -1001,7 +903,7 @@ public class PaintView extends View {
                 }
                 if (this.mLastDrawDistance > 0.0f) {
 
-                    Log.d("PaintView", "onTouchMove "+px+", "+py);
+                    Log.d("PaintView", "onTouchMove " + px + ", " + py);
                     PaintView.this.addSpot(px, py, tipSpeedScale, tipSpeedAlpha);
                 }
                 this.mLastDrawDistance += PaintView.this.mSpacing * tipSpeedScale;
@@ -1016,6 +918,36 @@ public class PaintView extends View {
         }
     }
 
+    //***** New Add Tagpoint
 
+    private void onTouchDownTagPoint(float x, float y) {
+        TagPoint tagpoint = new TagPoint();
+        tagpoint.setiPosX(PxDpConvert.displayToFormat(x, miWidth));
+        tagpoint.setiPosY(PxDpConvert.displayToFormat(y, miWidth));
+        tagpoint.setiSize(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth));
+        tagpoint.setiPaintType(miPaintNum);
+        tagpoint.setiColor(mColor);
+        tagpoint.setiAction(MotionEvent.ACTION_DOWN + 1);
+        mListTagPoint.add(tagpoint);
+    }
 
+    private void onTouchMoveTagPoint(float x, float y, float t) {
+        TagPoint tagpoint = new TagPoint();
+        tagpoint = new TagPoint();
+        tagpoint.setiPosX(PxDpConvert.displayToFormat(x, miWidth));
+        tagpoint.setiPosY(PxDpConvert.displayToFormat(y, miWidth));
+        tagpoint.setiAction(MotionEvent.ACTION_MOVE + 1);
+        mListTagPoint.add(tagpoint);
+    }
+
+    private void onTouchUpTagPoint(float x, float y) {
+        TagPoint tagpoint = new TagPoint();
+        tagpoint.setiPosX(PxDpConvert.displayToFormat(x, miWidth));
+        tagpoint.setiPosY(PxDpConvert.displayToFormat(y, miWidth));
+        tagpoint.setiSize(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth));
+        tagpoint.setiPaintType(miPaintNum);
+        tagpoint.setiColor(mColor);
+        tagpoint.setiAction(MotionEvent.ACTION_UP + 1);
+        mListTagPoint.add(tagpoint);
+    }
 }

@@ -1,5 +1,6 @@
 package com.sctw.bonniedraw.paint;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
+
 public class PaintPlayActivity extends AppCompatActivity {
     private static final String SKETCH_FILE_BDW = "/backup.bdw";
     private Handler mHandlerTimerPlay = new Handler();
@@ -33,6 +36,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private boolean mbPlaying = false, mbAutoPlay = false;
     private File mFileBDW;
     private BDWFileReader mBDWFileReader;
+    private int mCurrentBrushId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,13 @@ public class PaintPlayActivity extends AppCompatActivity {
         mFileBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         if(mFileBDW.exists()) mBDWFileReader.readFromFile(mFileBDW);
+
+        Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
+        mPaintView.setDrawingCacheEnabled(true);
+        mPaintView.setBrush(brush);
+        mPaintView.setDrawingScaledSize(1);
+        mPaintView.setDrawingColor(brush.defaultColor);
+        mPaintView.setDrawingBgColor(Color.WHITE);
         setImgBtnOnClick();
         replayStart();
     }
@@ -76,26 +87,23 @@ public class PaintPlayActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         mbPlaying = true;
                         if (tagpoint.getiColor() != 0) {
-                            mPaintView.mPaint.setColor(tagpoint.getiColor());
+                            mPaintView.setDrawingColor(tagpoint.getiColor());
                         }
                         if (tagpoint.getiSize() != 0) {
-                            mPaintView.mPaint.setStrokeWidth(PxDpConvert.formatToDisplay(tagpoint.getiSize(), miViewWidth));
+                            mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.getiSize()/STROKE_SACLE_VALUE, miViewWidth));
                         }
                         if (tagpoint.getiPaintType() != 0) {
-                            //mPaintView.changePaint(tagpoint.getiPaintType());
+                            mPaintView.setBrush(Brushes.get(getApplicationContext())[tagpoint.getiPaintType()]);
                         }
-                        mPaintView.touch_start(PxDpConvert.formatToDisplay(tagpoint.getiPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), miViewWidth));
-                        mPaintView.invalidate();
+                        //開始畫 記錄每一個時間點 即可模擬回去
+                        mPaintView.onTouchEvent(MotionEvent.obtain(0,0,MotionEvent.ACTION_DOWN,PxDpConvert.formatToDisplay(tagpoint.getiPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), miViewWidth),0));
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        mPaintView.touch_move(PxDpConvert.formatToDisplay(tagpoint.getiPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), miViewWidth));
-                        mPaintView.invalidate();
+                        mPaintView.onTouchEvent(MotionEvent.obtain(0,0,MotionEvent.ACTION_MOVE,PxDpConvert.formatToDisplay(tagpoint.getiPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), miViewWidth),0));
                         break;
                     case MotionEvent.ACTION_UP:
                         mbPlaying = false;
                         brun = false;
-                        mPaintView.touch_up();
-                        mPaintView.invalidate();
                         break;
                 }
                 miPointCount--;
@@ -181,8 +189,8 @@ public class PaintPlayActivity extends AppCompatActivity {
                 gridNone.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 0;
-                        mPaintView.invalidate();
+                        mPaintView.setDrawingColor(Color.GREEN);
+                        //mPaintView.setDrawingForegrounGrid(0);
                         gridDialog.dismiss();
                     }
                 });
@@ -190,8 +198,6 @@ public class PaintPlayActivity extends AppCompatActivity {
                 grid3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 3;
-                        mPaintView.invalidate();
                         gridDialog.dismiss();
                     }
                 });
@@ -199,8 +205,6 @@ public class PaintPlayActivity extends AppCompatActivity {
                 grid6.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 6;
-                        mPaintView.invalidate();
                         gridDialog.dismiss();
                     }
                 });
@@ -208,8 +212,6 @@ public class PaintPlayActivity extends AppCompatActivity {
                 grid10.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 10;
-                        mPaintView.invalidate();
                         gridDialog.dismiss();
                     }
                 });
@@ -217,8 +219,6 @@ public class PaintPlayActivity extends AppCompatActivity {
                 grid20.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.miGridCol = 20;
-                        mPaintView.invalidate();
                         gridDialog.dismiss();
                     }
                 });

@@ -13,14 +13,6 @@ public abstract class TouchResampler {
 
     private static final String TAG = "LineBrush";
 
-    protected void addToPath(float x, float y, long t, boolean isMove) {
-        onTouchMove(x, y, (float) t);
-    }
-
-    protected void endPath() {
-        onTouchUp();
-    }
-
     public void feedXYT(float[] xyt) {
         startPath(xyt[0], xyt[1], (long) xyt[2]);
         int i = 3;
@@ -37,11 +29,10 @@ public abstract class TouchResampler {
         return false;
     }
 
-    protected abstract void onTouchDown(float f, float f2);
-
     public void onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
+        TagPoint tagPoint;
         long t = event.getEventTime() - event.getDownTime();
         switch ((VERSION.SDK_INT >= 8 ? event.getActionMasked() : event.getAction() & 255)) {
             case MotionEvent.ACTION_DOWN:
@@ -67,6 +58,8 @@ public abstract class TouchResampler {
         }
     }
 
+    protected abstract void onTouchDown(float f, float f2);
+
     protected abstract void onTouchMove(float f, float f2, float f3);
 
     protected abstract void onTouchUp();
@@ -74,4 +67,14 @@ public abstract class TouchResampler {
     protected void startPath(float x, float y, long t) {
         onTouchDown(x, y);
     }
+
+    protected void addToPath(float x, float y, long t, boolean isMove) {
+        onTouchMove(x, y, (float) t);
+    }
+
+    protected void endPath() {
+        onTouchUp();
+    }
+
+
 }
