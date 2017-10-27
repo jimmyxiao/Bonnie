@@ -878,6 +878,7 @@ public class PaintView extends View {
             this.mLastDrawDistance = 0.0f;
             PaintView.this.moveToThread(x, y);
             //**add TagPoint
+            onTouchDownTagPoint(x,y);
         }
 
         @Override
@@ -909,12 +910,16 @@ public class PaintView extends View {
                 this.mLastDrawDistance += PaintView.this.mSpacing * tipSpeedScale;
             }
             closeLine();
+            //**add TagPoint
+            onTouchMoveTagPoint(x,y,t);
         }
 
         @Override
         protected void onTouchUp() {
             Log.d("PaintView", "onTouchUp");
             PaintView.this.destLineThread();
+            //**add TagPoint
+            onTouchUpTagPoint();
         }
     }
 
@@ -935,13 +940,15 @@ public class PaintView extends View {
         TagPoint tagpoint = new TagPoint();
         tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
         tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
+        tagpoint.set_iTime((int) t);
         tagpoint.set_iAction(MotionEvent.ACTION_MOVE + 1);
         mListTagPoint.add(tagpoint);
     }
 
-    private void onTouchUpTagPoint(float x, float y) {
+    private void onTouchUpTagPoint() {
         TagPoint tagpoint = new TagPoint();
         tagpoint.set_iAction(MotionEvent.ACTION_UP + 1);
         mListTagPoint.add(tagpoint);
+        System.out.println(mListTagPoint.toString());
     }
 }

@@ -156,23 +156,23 @@ public class SingleWorkActivity extends AppCompatActivity {
             boolean brun = true;
             if (miPointCount > 0) {
                 TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
-                switch (tagpoint.getiAction() - 1) {
+                switch (tagpoint.get_iAction() - 1) {
                     case MotionEvent.ACTION_DOWN:
                         mbPlaying = true;
-                        if (tagpoint.getiColor() != 0) {
-                            mPaintView.mPaint.setColor(tagpoint.getiColor());
+                        if (tagpoint.get_iColor() != 0) {
+                            mPaintView.mPaint.setColor(tagpoint.get_iColor());
                         }
-                        if (tagpoint.getiSize() != 0) {
-                            mPaintView.mPaint.setStrokeWidth(PxDpConvert.formatToDisplay(tagpoint.getiSize(), miViewWidth));
+                        if (tagpoint.get_iSize() != 0) {
+                            mPaintView.mPaint.setStrokeWidth(PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
                         }
-                        if (tagpoint.getiPaintType() != 0) {
+                        if (tagpoint.get_iBrush() != 0) {
                             //mPaintView.changePaint(tagpoint.getiPaintType());
                         }
-                        mPaintView.touch_start(PxDpConvert.formatToDisplay(tagpoint.getiPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), miViewWidth));
+                        mPaintView.touch_start(PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth));
                         mPaintView.invalidate();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        mPaintView.touch_move(PxDpConvert.formatToDisplay(tagpoint.getiPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.getiPosY(), miViewWidth));
+                        mPaintView.touch_move(PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth));
                         mPaintView.invalidate();
                         break;
                     case MotionEvent.ACTION_UP:
