@@ -123,55 +123,19 @@ public class PaintView extends View {
     private boolean mDrawingLayerNeedDrawn;
     private boolean mIsBatchDraw;
 
+    //**add
+    private TouchResampler mPlayResampler;
+    private OnTouchHandler mPlayDrawingHandler;
+
     public PaintView(Context c) {
         super(c);
-        init();
         initBrush();
     }
 
     public PaintView(Context c, boolean mbPlayMode) {
         super(c);
         this.mbPlayMode = mbPlayMode;
-        init();
         initBrush();
-    }
-
-    public void init() {
-        miWidth = getWidthSize(getContext());
-        mPath = new Path();
-        mListTagPoint = new ArrayList<>();
-        mListUndoTagPoint = new ArrayList<>();
-        mFileBDW = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_BDW);
-        mFilePNG = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_PNG);
-        //  Set Grid
-        gridPaint = new Paint();
-        gridPaint.setAntiAlias(true);
-        gridPaint.setStrokeWidth(3);
-        gridPaint.setStyle(Paint.Style.STROKE);
-        gridPaint.setColor(ContextCompat.getColor(getContext(), R.color.GridLineColor));
-        //this.setBackground(getResources().getDrawable(R.drawable.transparent));
-    }
-
-    public void touch_start(float x, float y) {
-        mUndoPaths.clear();
-        mListUndoPoint.clear();
-        mListUndoTagPoint.clear();
-        mPath.reset();
-        mPath.moveTo(x, y);
-    }
-
-    public void touch_move(float x, float y) {
-        mPath.lineTo(mX, mY);
-        mCanvas.drawPath(mPath, mPaint);
-    }
-
-    public void touch_up() {
-        // commit the path to our offscreen
-        mListTempPoint.add(mListTagPoint.size());
-        mPaths.add(new PathAndPaint(mPath, mPaint));
-        // kill this so we don't double draw (新路徑/畫筆)
-        mPath = new Path();
-        mPaint = new Paint(mPaint);
     }
 
     public boolean scaleZoom(MotionEvent event) {
@@ -367,10 +331,23 @@ public class PaintView extends View {
     //************* Brush ******************
 
     private static interface OnTouchHandler {
-        boolean onTouchEvent(int i, MotionEvent motionEvent);
+        boolean onTouchEvent(MotionEvent motionEvent);
     }
 
     public void initBrush() {
+        //old init
+        this.miWidth = getWidthSize(getContext());
+        this.mListTagPoint = new ArrayList<>();
+        this.mListUndoTagPoint = new ArrayList<>();
+        this.mFileBDW = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_BDW);
+        this.mFilePNG = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_PNG);
+        //  Set Grid
+        gridPaint = new Paint();
+        this.gridPaint.setAntiAlias(true);
+        this.gridPaint.setStrokeWidth(3);
+        this.gridPaint.setStyle(Paint.Style.STROKE);
+        this.gridPaint.setColor(ContextCompat.getColor(getContext(), R.color.GridLineColor));
+
         this.mTextureDrawable = new BitmapDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.texture01));
         this.mTextureDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
 
@@ -401,21 +378,45 @@ public class PaintView extends View {
         mDstInPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
         mDstOutPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
 
-        this.mCurveDrawingHandler = new OnTouchHandler() {
-            public boolean onTouchEvent(int action, MotionEvent event) {
-                if (!PaintView.this.mBrush.traceMode) {
-                    mTouchResampler.onTouchEvent(event);
-                    return true;
+        if (mbPlayMode) {
+            this.mPlayResampler = new MyPlayDistanceResampler();
+            this.mPlayDrawingHandler = new OnTouchHandler() {
+                public boolean onTouchEvent(MotionEvent event) {
+                    if (!PaintView.this.mBrush.traceMode) {
+                        mPlayResampler.onTouchEvent(event);
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        };
-
-        this.mTouchResampler = new MyTouchDistanceResampler();
+            };
+        } else {
+            this.mCurveDrawingHandler = new OnTouchHandler() {
+                public boolean onTouchEvent(MotionEvent event) {
+                    if (!PaintView.this.mBrush.traceMode) {
+                        mTouchResampler.onTouchEvent(event);
+                        return true;
+                    }
+                    return false;
+                }
+            };
+            this.mTouchResampler = new MyTouchDistanceResampler();
+        }
 
         mRandom = new Random();
         mMatrix = new Matrix();
         mOldPt = new PointF();
+    }
+
+    public void usePlayHnad(MotionEvent event) {
+        this.mPlayDrawingHandler.onTouchEvent(event);
+    }
+
+    public void initDefaultBrush(Brush brush){
+        setBrush(brush);
+        setDrawingCacheEnabled(true);
+        setDrawingScaledSize(1);
+        setDrawingColor(Color.BLACK);
+        setDrawingBgColor(Color.WHITE);
     }
 
     public void setBrush(Brush brush) {
@@ -542,6 +543,9 @@ public class PaintView extends View {
         if (mbZoomMode) {
             return scaleZoom(event);
         }
+        if (mbPlayMode) {
+            return true;
+        }
 
         this.mIsBatchDraw = false;
 
@@ -551,8 +555,8 @@ public class PaintView extends View {
 
         int action = Build.VERSION.SDK_INT >= 8 ? event.getActionMasked() : event.getAction() & 255;
 
-        if (this.mCurveDrawingHandler != null) {
-            return this.mCurveDrawingHandler.onTouchEvent(action, event);
+        if (this.mCurveDrawingHandler != null && !mbPlayMode) {
+            return this.mCurveDrawingHandler.onTouchEvent(event);
         }
 
         return false;
@@ -571,8 +575,8 @@ public class PaintView extends View {
     }
 
     //** add Grid
-    public void setMiGridCol(int miGridCol){
-        this.miGridCol=miGridCol;
+    public void setMiGridCol(int miGridCol) {
+        this.miGridCol = miGridCol;
         invalidate();
     }
 
@@ -878,7 +882,7 @@ public class PaintView extends View {
             this.mLastDrawDistance = 0.0f;
             PaintView.this.moveToThread(x, y);
             //**add TagPoint
-            onTouchDownTagPoint(x,y);
+            onTouchDownTagPoint(x, y);
         }
 
         @Override
@@ -911,7 +915,7 @@ public class PaintView extends View {
             }
             closeLine();
             //**add TagPoint
-            onTouchMoveTagPoint(x,y,t);
+            onTouchMoveTagPoint(x, y, t);
         }
 
         @Override
@@ -924,6 +928,55 @@ public class PaintView extends View {
     }
 
     //***** New Add Tagpoint
+    private class MyPlayDistanceResampler extends TouchDistanceResampler {
+        private float mLastDrawDistance;
+        private float[] mTempXYV = new float[3];
+
+        @Override
+        protected void onTouchDown(float x, float y) {
+            Log.d("PaintView", "onTouchDown");
+            this.mLastDrawDistance = 0.0f;
+            PaintView.this.moveToThread(x, y);
+            //**add TagPoint
+        }
+
+        @Override
+        protected void onTouchMove(float x, float y, float t) {
+            Log.d("PaintView", "onTouchMove");
+            Brush brush = PaintView.this.mBrush;
+
+            openLine();
+            while (getXYVAtDistance(this.mLastDrawDistance, this.mTempXYV)) {
+                float tipSpeedScale;
+                float tipSpeedAlpha;
+                float px = this.mTempXYV[0];
+                float py = this.mTempXYV[1];
+                float pv = this.mTempXYV[2];
+                if (brush.lineEndSpeedLength > 0.0f) {
+                    float velocityLevel;
+                    velocityLevel = pv > PaintView.this.mMaxVelocityScale ? 1.0f : pv / PaintView.this.mMaxVelocityScale;
+                    tipSpeedScale = brush.lineEndSizeScale + (1.0f - velocityLevel) * (1.0f - brush.lineEndSizeScale);
+                    tipSpeedAlpha = brush.lineEndAlphaScale + (1.0f - velocityLevel) * (1.0f - brush.lineEndAlphaScale);
+                } else {
+                    tipSpeedScale = 1.0f;
+                    tipSpeedAlpha = 1.0f;
+                }
+                if (this.mLastDrawDistance > 0.0f) {
+
+                    Log.d("PaintView", "onTouchMove " + px + ", " + py);
+                    PaintView.this.addSpot(px, py, tipSpeedScale, tipSpeedAlpha);
+                }
+                this.mLastDrawDistance += PaintView.this.mSpacing * tipSpeedScale;
+            }
+            closeLine();
+        }
+
+        @Override
+        protected void onTouchUp() {
+            Log.d("PaintView", "onTouchUp");
+            PaintView.this.destLineThread();
+        }
+    }
 
     private void onTouchDownTagPoint(float x, float y) {
         TagPoint tagpoint = new TagPoint();
@@ -949,6 +1002,6 @@ public class PaintView extends View {
         TagPoint tagpoint = new TagPoint();
         tagpoint.set_iAction(MotionEvent.ACTION_UP + 1);
         mListTagPoint.add(tagpoint);
-        System.out.println(mListTagPoint.toString());
+        mListTempPoint.add(mListTagPoint.size());
     }
 }

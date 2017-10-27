@@ -168,17 +168,17 @@ public class SingleWorkActivity extends AppCompatActivity {
                         if (tagpoint.get_iBrush() != 0) {
                             //mPaintView.changePaint(tagpoint.getiPaintType());
                         }
-                        mPaintView.touch_start(PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth));
+                        //mPaintView.touch_start(PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth));
                         mPaintView.invalidate();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        mPaintView.touch_move(PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth));
+                        //mPaintView.touch_move(PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth));
                         mPaintView.invalidate();
                         break;
                     case MotionEvent.ACTION_UP:
                         mbPlaying = false;
                         brun = false;
-                        mPaintView.touch_up();
+                        //mPaintView.touch_up();
                         mPaintView.invalidate();
                         break;
                 }

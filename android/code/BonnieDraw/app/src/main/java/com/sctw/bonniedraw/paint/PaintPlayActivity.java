@@ -63,21 +63,10 @@ public class PaintPlayActivity extends AppCompatActivity {
         mPaintView.setDrawingCacheEnabled(true);
         mPaintView.setBrush(brush);
         mPaintView.setDrawingScaledSize(1);
-        mPaintView.setDrawingColor(brush.defaultColor);
+        mPaintView.setDrawingColor(Color.BLACK);
         mPaintView.setDrawingBgColor(Color.WHITE);
         setImgBtnOnClick();
-        replayStart();
     }
-
-    public void replayStart() {
-        mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
-        miPointCount = mPaintView.mListTagPoint.size();
-        miPointCurrent = 0;
-        if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-        mImgBtnReplay.setVisibility(View.INVISIBLE);
-        mbAutoPlay = true;
-    }
-
     private float mfLastPosX;
     private float mfLastPosY;
     private Runnable rb_play = new Runnable() {
@@ -85,28 +74,30 @@ public class PaintPlayActivity extends AppCompatActivity {
             boolean brun = true;
             if (miPointCount > 0) {
                 TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
-                mfLastPosX=PxDpConvert.formatToDisplay(tagpoint.get_iPosX(),miViewWidth);
-                mfLastPosY=PxDpConvert.formatToDisplay(tagpoint.get_iPosY(),miViewWidth);
                 switch (tagpoint.get_iAction() - 1) {
                     case MotionEvent.ACTION_DOWN:
                         mbPlaying = true;
+                        if (tagpoint.get_iBrush() != 0) {
+                            mPaintView.setBrush(Brushes.get(getApplicationContext())[tagpoint.get_iBrush()]);
+                        }
                         if (tagpoint.get_iColor() != 0) {
                             mPaintView.setDrawingColor(tagpoint.get_iColor());
                         }
                         if (tagpoint.get_iSize() != 0) {
                             mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize()/STROKE_SACLE_VALUE, miViewWidth));
                         }
-                        if (tagpoint.get_iBrush() != 0) {
-                            mPaintView.setBrush(Brushes.get(getApplicationContext())[tagpoint.get_iBrush()]);
-                        }
-                        //開始畫 記錄每一個時間點 即可模擬回去
-                        mPaintView.onTouchEvent(MotionEvent.obtain(0,0,MotionEvent.ACTION_DOWN,mfLastPosX, mfLastPosY,0));
+                        mfLastPosX=PxDpConvert.formatToDisplay(tagpoint.get_iPosX(),miViewWidth);
+                        mfLastPosY=PxDpConvert.formatToDisplay(tagpoint.get_iPosY(),miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0,0,MotionEvent.ACTION_DOWN,mfLastPosX, mfLastPosY,0));
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        mPaintView.onTouchEvent(MotionEvent.obtain(0,tagpoint.get_iTime(),MotionEvent.ACTION_MOVE,mfLastPosX, mfLastPosY,0));
+                        //開始畫 記錄每一個時間點 即可模擬回去
+                        mfLastPosX=PxDpConvert.formatToDisplay(tagpoint.get_iPosX(),miViewWidth);
+                        mfLastPosY=PxDpConvert.formatToDisplay(tagpoint.get_iPosY(),miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0,tagpoint.get_iTime(),MotionEvent.ACTION_MOVE,mfLastPosX, mfLastPosY,0));
                         break;
                     case MotionEvent.ACTION_UP:
-                        //mPaintView.onTouchEvent(MotionEvent.obtain(0,0,MotionEvent.ACTION_UP,mfLastPosX, mfLastPosY,0));
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0,0,MotionEvent.ACTION_UP,mfLastPosX, mfLastPosY,0));
                         mbPlaying = false;
                         brun = false;
                         break;
@@ -171,8 +162,14 @@ public class PaintPlayActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mFrameLayoutFreePaint.removeAllViews();
                 mPaintView = new PaintView(PaintPlayActivity.this, true);
+                mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
                 mFrameLayoutFreePaint.addView(mPaintView);
-                replayStart();
+                mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
+                miPointCount = mPaintView.mListTagPoint.size();
+                miPointCurrent = 0;
+                if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                mImgBtnReplay.setVisibility(View.INVISIBLE);
+                mbAutoPlay = true;
             }
         };
 

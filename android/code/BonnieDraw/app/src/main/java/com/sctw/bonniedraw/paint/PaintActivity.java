@@ -110,13 +110,8 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
 
-        //********Brush*******
-        Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
-        mPaintView.setDrawingCacheEnabled(true);
-        mPaintView.setBrush(brush);
-        mPaintView.setDrawingScaledSize(1);
-        setColor(brush.defaultColor);
-        mPaintView.setDrawingBgColor(Color.WHITE);
+        //********Init Brush*******
+        mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
     }
 
     //產生預覽圖&上傳
@@ -453,12 +448,9 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                     TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.paint_delete_sketch));
                 }
                 mFrameLayoutFreePaint.removeAllViews();
+                Brush brush = mPaintView.getBrush();
                 mPaintView = new PaintView(getApplicationContext());
-                Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
-                mPaintView.setDrawingCacheEnabled(true);
-                mPaintView.setBrush(brush);
-                setColor(brush.defaultColor);
-                mPaintView.setDrawingBgColor(Color.WHITE);
+                mPaintView.initDefaultBrush(brush);
                 mFrameLayoutFreePaint.addView(mPaintView);
             }
         });
@@ -627,6 +619,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
     }
 
     public void onBackMethod() {
+        System.out.println(mPaintView.mFileBDW.exists());
         if (mPaintView.mListTagPoint.size() != 0 && !mPaintView.mFileBDW.exists()) {
             callSaveDialog(0);
         } else if (mPaintView.mFileBDW.exists() && mPaintView.mBDWReader.m_tagArray != null) {
