@@ -68,45 +68,44 @@ public class BDWFileReader {
         {
             int iPosX = 0;
             int iPosY = 0;
-            int iTouchType = 0;
-            int iColor =  0xFF000000;
+            int iColor = 0;
             int iAction = 0;
             int iSize = 0;
-            int iPaintType = 0;
+            int iBrush = 0;
+            int iTime = 0;
             int iReserved = 0;
-			int iOther = 0;
 
             bdwFile.read(buf, 0, 2);
             iPosX = FileDataFormat.buf2ToInt(buf, 0, true);
-            tagPoint.setiPosX(iPosX);
+            tagPoint.set_iPosX(iPosX);
 
             bdwFile.read(buf, 0, 2);
             iPosY = FileDataFormat.buf2ToInt(buf, 0, true);
-            tagPoint.setiPosY(iPosY);
+            tagPoint.set_iPosY(iPosY);
 
             bdwFile.read(buf, 0, 4);
             iColor= FileDataFormat.buf4ToInt(buf, 0, true);
-            tagPoint.setiColor(iColor);
+            tagPoint.set_iColor(iColor);
 
             bdwFile.read(buf, 0, 1);
             iAction = FileDataFormat.byteToInt(buf[0]);
-            tagPoint.setiAction(iAction);
+            tagPoint.set_iAction(iAction);
 
             bdwFile.read(buf, 0, 2);
             iSize = FileDataFormat.buf2ToInt(buf, 0, true);
-			tagPoint.setiSize(iSize);
+			tagPoint.set_iSize(iSize);
 
             bdwFile.read(buf, 0, 1);
-            iPaintType = FileDataFormat.byteToInt(buf[0]);
-            tagPoint.setiPaintType(iPaintType);
+            iBrush = FileDataFormat.byteToInt(buf[0]);
+            tagPoint.set_iBrush(iBrush);
 
             bdwFile.read(buf, 0, 2);
-            iReserved =  FileDataFormat.buf2ToInt(buf, 0, true);
-            tagPoint.setiReserved(iReserved);
+            iTime =  FileDataFormat.buf2ToInt(buf, 0, true);
+            tagPoint.set_iTime(iTime);
 			
 			bdwFile.read(buf, 0, 2);
-	        iOther =  FileDataFormat.buf2ToInt(buf, 0, true);
-	        tagPoint.setiOther(iOther);
+            iReserved =  FileDataFormat.buf2ToInt(buf, 0, true);
+	        tagPoint.set_iReserved(iReserved);
 
         }
         catch (Exception e)

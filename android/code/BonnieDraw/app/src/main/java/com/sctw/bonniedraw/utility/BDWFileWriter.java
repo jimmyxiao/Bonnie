@@ -63,26 +63,26 @@ public class BDWFileWriter {
         {
             write_TagHeader(20, tagPoint.getTagCode() , bufStream);
             byte[] bData = new byte[2];
-            FileDataFormat.IntToBuf2(tagPoint.getiPosX(), bData, 0, true);
+            FileDataFormat.IntToBuf2(tagPoint.get_iPosX(), bData, 0, true);
             bufStream.write(bData,0,2);
-            FileDataFormat.IntToBuf2(tagPoint.getiPosY(), bData, 0, true);
+            FileDataFormat.IntToBuf2(tagPoint.get_iPosY(), bData, 0, true);
             bufStream.write(bData,0,2);
             bData = new byte[4];
-            FileDataFormat.IntToBuf4(tagPoint.getiColor(), bData, 0, true);
+            FileDataFormat.IntToBuf4(tagPoint.get_iColor(), bData, 0, true);
             bufStream.write(bData,0,4);
             bData = new byte[1];
-            FileDataFormat.IntToBuf1(tagPoint.getiAction(), bData, 0, true); 
+            FileDataFormat.IntToBuf1(tagPoint.get_iAction(), bData, 0, true);
             bufStream.write(bData,0,1);
             bData = new byte[2];
-            FileDataFormat.IntToBuf2(tagPoint.getiSize(), bData, 0, true);
+            FileDataFormat.IntToBuf2(tagPoint.get_iSize(), bData, 0, true);
             bufStream.write(bData,0,2);
             bData = new byte[1];
-            FileDataFormat.IntToBuf1(tagPoint.getiPaintType(), bData, 0, true);
+            FileDataFormat.IntToBuf1(tagPoint.get_iBrush(), bData, 0, true);
             bufStream.write(bData,0,1);
             bData = new byte[2];
-            FileDataFormat.IntToBuf2(tagPoint.getiReserved(), bData, 0, true);
+            FileDataFormat.IntToBuf2(tagPoint.get_iTime(), bData, 0, true);
             bufStream.write(bData,0,2);
-            FileDataFormat.IntToBuf2(tagPoint.getiOther(), bData, 0, true);
+            FileDataFormat.IntToBuf2(tagPoint.get_iReserved(), bData, 0, true);
             bufStream.write(bData,0,2);
         }
         catch(IOException ex)

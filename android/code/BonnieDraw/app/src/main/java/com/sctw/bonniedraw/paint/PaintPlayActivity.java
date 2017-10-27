@@ -189,8 +189,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 gridNone.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPaintView.setDrawingColor(Color.GREEN);
-                        //mPaintView.setDrawingForegrounGrid(0);
+                        mPaintView.setMiGridCol(0);
                         gridDialog.dismiss();
                     }
                 });
@@ -198,6 +197,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 grid3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mPaintView.setMiGridCol(3);
                         gridDialog.dismiss();
                     }
                 });
@@ -205,6 +205,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 grid6.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mPaintView.setMiGridCol(6);
                         gridDialog.dismiss();
                     }
                 });
@@ -212,6 +213,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 grid10.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mPaintView.setMiGridCol(10);
                         gridDialog.dismiss();
                     }
                 });
@@ -219,6 +221,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 grid20.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mPaintView.setMiGridCol(20);
                         gridDialog.dismiss();
                     }
                 });

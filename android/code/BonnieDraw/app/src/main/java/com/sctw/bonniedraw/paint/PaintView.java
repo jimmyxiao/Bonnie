@@ -922,32 +922,26 @@ public class PaintView extends View {
 
     private void onTouchDownTagPoint(float x, float y) {
         TagPoint tagpoint = new TagPoint();
-        tagpoint.setiPosX(PxDpConvert.displayToFormat(x, miWidth));
-        tagpoint.setiPosY(PxDpConvert.displayToFormat(y, miWidth));
-        tagpoint.setiSize(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth));
-        tagpoint.setiPaintType(miPaintNum);
-        tagpoint.setiColor(mColor);
-        tagpoint.setiAction(MotionEvent.ACTION_DOWN + 1);
+        tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
+        tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
+        tagpoint.set_iSize(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth));
+        tagpoint.set_iBrush(miPaintNum);
+        tagpoint.set_iColor(mColor);
+        tagpoint.set_iAction(MotionEvent.ACTION_DOWN + 1);
         mListTagPoint.add(tagpoint);
     }
 
     private void onTouchMoveTagPoint(float x, float y, float t) {
         TagPoint tagpoint = new TagPoint();
-        tagpoint = new TagPoint();
-        tagpoint.setiPosX(PxDpConvert.displayToFormat(x, miWidth));
-        tagpoint.setiPosY(PxDpConvert.displayToFormat(y, miWidth));
-        tagpoint.setiAction(MotionEvent.ACTION_MOVE + 1);
+        tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
+        tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
+        tagpoint.set_iAction(MotionEvent.ACTION_MOVE + 1);
         mListTagPoint.add(tagpoint);
     }
 
     private void onTouchUpTagPoint(float x, float y) {
         TagPoint tagpoint = new TagPoint();
-        tagpoint.setiPosX(PxDpConvert.displayToFormat(x, miWidth));
-        tagpoint.setiPosY(PxDpConvert.displayToFormat(y, miWidth));
-        tagpoint.setiSize(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth));
-        tagpoint.setiPaintType(miPaintNum);
-        tagpoint.setiColor(mColor);
-        tagpoint.setiAction(MotionEvent.ACTION_UP + 1);
+        tagpoint.set_iAction(MotionEvent.ACTION_UP + 1);
         mListTagPoint.add(tagpoint);
     }
 }
