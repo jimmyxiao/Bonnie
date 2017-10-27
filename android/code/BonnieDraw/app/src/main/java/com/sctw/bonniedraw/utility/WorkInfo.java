@@ -1,5 +1,7 @@
 package com.sctw.bonniedraw.utility;
 
+import java.util.ArrayList;
+
 /**
  * Created by Fatorin on 2017/10/19.
  */
@@ -13,6 +15,7 @@ public class WorkInfo {
     private String imagePath;
     private String isFollowing;
     private String userImgPath;
+    private ArrayList<Msg> msgList;
     private boolean like;
 
     public String getWorkId() {
@@ -77,6 +80,14 @@ public class WorkInfo {
 
     public void setUserImgPath(String userImgPath) {
         this.userImgPath = userImgPath;
+    }
+
+    public ArrayList<Msg> getMsgList() {
+        return msgList;
+    }
+
+    public void setMsgList(ArrayList<Msg> msgList) {
+        this.msgList = msgList;
     }
 
     public boolean isLike() {

@@ -19,7 +19,6 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,7 +66,7 @@ public class PaintView extends View {
     public Paint mPaint;
     public File mFileBDW, mFilePNG;
     public BDWFileReader mBDWReader = new BDWFileReader();
-    public int miPaintNum = 0;
+    public int miPaintNum;
 
     //********  Brush  ******************
 
@@ -590,7 +589,6 @@ public class PaintView extends View {
             }
         }
 
-
         if (rect == null) {
             canvas.saveLayer(null, null
             );
@@ -878,7 +876,7 @@ public class PaintView extends View {
 
         @Override
         protected void onTouchDown(float x, float y) {
-            Log.d("PaintView", "onTouchDown");
+            //Log.d("PaintView", "onTouchDown");
             this.mLastDrawDistance = 0.0f;
             PaintView.this.moveToThread(x, y);
             //**add TagPoint
@@ -887,7 +885,7 @@ public class PaintView extends View {
 
         @Override
         protected void onTouchMove(float x, float y, float t) {
-            Log.d("PaintView", "onTouchMove");
+            //Log.d("PaintView", "onTouchMove");
             Brush brush = PaintView.this.mBrush;
 
             openLine();
@@ -908,7 +906,7 @@ public class PaintView extends View {
                 }
                 if (this.mLastDrawDistance > 0.0f) {
 
-                    Log.d("PaintView", "onTouchMove " + px + ", " + py);
+                    //Log.d("PaintView", "onTouchMove " + px + ", " + py);
                     PaintView.this.addSpot(px, py, tipSpeedScale, tipSpeedAlpha);
                 }
                 this.mLastDrawDistance += PaintView.this.mSpacing * tipSpeedScale;
@@ -920,7 +918,7 @@ public class PaintView extends View {
 
         @Override
         protected void onTouchUp() {
-            Log.d("PaintView", "onTouchUp");
+            //Log.d("PaintView", "onTouchUp");
             PaintView.this.destLineThread();
             //**add TagPoint
             onTouchUpTagPoint();
@@ -934,15 +932,14 @@ public class PaintView extends View {
 
         @Override
         protected void onTouchDown(float x, float y) {
-            Log.d("PaintView", "onTouchDown");
+            //Log.d("PaintView", "onTouchDown");
             this.mLastDrawDistance = 0.0f;
             PaintView.this.moveToThread(x, y);
-            //**add TagPoint
         }
 
         @Override
         protected void onTouchMove(float x, float y, float t) {
-            Log.d("PaintView", "onTouchMove");
+            //Log.d("PaintView", "onTouchMove");
             Brush brush = PaintView.this.mBrush;
 
             openLine();
@@ -963,7 +960,7 @@ public class PaintView extends View {
                 }
                 if (this.mLastDrawDistance > 0.0f) {
 
-                    Log.d("PaintView", "onTouchMove " + px + ", " + py);
+                    //Log.d("PaintView", "onTouchMove " + px + ", " + py);
                     PaintView.this.addSpot(px, py, tipSpeedScale, tipSpeedAlpha);
                 }
                 this.mLastDrawDistance += PaintView.this.mSpacing * tipSpeedScale;
@@ -973,7 +970,7 @@ public class PaintView extends View {
 
         @Override
         protected void onTouchUp() {
-            Log.d("PaintView", "onTouchUp");
+            //Log.d("PaintView", "onTouchUp");
             PaintView.this.destLineThread();
         }
     }
@@ -987,6 +984,8 @@ public class PaintView extends View {
         tagpoint.set_iColor(mColor);
         tagpoint.set_iAction(MotionEvent.ACTION_DOWN + 1);
         mListTagPoint.add(tagpoint);
+        //.d("Ori Size",String.valueOf(PxDpConvert.displayToFormat(getDrawingScaledSize(), miWidth)));
+        //Log.d("Save Size",String.valueOf(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth)));
     }
 
     private void onTouchMoveTagPoint(float x, float y, float t) {

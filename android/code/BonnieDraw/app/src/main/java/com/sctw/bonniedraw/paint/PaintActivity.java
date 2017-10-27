@@ -449,8 +449,12 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
                 }
                 mFrameLayoutFreePaint.removeAllViews();
                 Brush brush = mPaintView.getBrush();
+                int brushNum = mPaintView.miPaintNum;
+                float brusnSize = mPaintView.getDrawingScaledSize();
                 mPaintView = new PaintView(getApplicationContext());
                 mPaintView.initDefaultBrush(brush);
+                setBrush(brushNum);
+                mPaintView.setDrawingScaledSize(brusnSize);
                 mFrameLayoutFreePaint.addView(mPaintView);
             }
         });

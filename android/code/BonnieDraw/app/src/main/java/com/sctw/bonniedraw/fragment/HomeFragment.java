@@ -30,6 +30,7 @@ import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.Msg;
 import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.works.WorkAdapterList;
@@ -178,6 +179,7 @@ public class HomeFragment extends Fragment {
             workInfoList = new ArrayList<>();
             for (int x = 0; x < data.length(); x++) {
                 WorkInfo workInfo = new WorkInfo();
+                ArrayList<Msg> msgList=new ArrayList<>();
                 workInfo.setWorkId(data.getJSONObject(x).getString("worksId"));
                 workInfo.setUserId(data.getJSONObject(x).getString("userId"));
                 workInfo.setUserName(data.getJSONObject(x).getString("userName"));
@@ -185,6 +187,7 @@ public class HomeFragment extends Fragment {
                 workInfo.setImagePath(data.getJSONObject(x).getString("imagePath"));
                 workInfo.setIsFollowing(data.getJSONObject(x).getString("isFollowing"));
                 workInfo.setUserImgPath(data.getJSONObject(x).getString("profilePicture"));
+                workInfo.setMsgList(msgList);
                 workInfoList.add(workInfo);
             }
         } catch (JSONException e) {

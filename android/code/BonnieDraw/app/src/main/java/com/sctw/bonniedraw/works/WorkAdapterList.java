@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -92,6 +93,10 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                     }
                 });
 
+        if (data.get(position).getMsgList().isEmpty()) {
+            holder.mLinearLayoutWorksMsgOutSide.setVisibility(View.GONE);
+        }
+
         holder.mImgViewWrok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +134,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         ImageView mImgViewWrok;
         CircleImageView mCircleImageView;
         ImageButton imgBtnWorksUserExtra, imgBtnWorksUserGood, imgBtnWorksUserMsg, imgBtnWorksUserShare;
+        LinearLayout mLinearLayoutWorksMsgOutSide, mLinearLayoutWorksMsg1, mLinearLayoutWorksMsg2;
 
         ViewHolder(View v) {
             super(v);
@@ -140,6 +146,9 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             imgBtnWorksUserGood = (ImageButton) v.findViewById(R.id.imgBtn_works_good);
             imgBtnWorksUserMsg = (ImageButton) v.findViewById(R.id.imgBtn_works_msg);
             imgBtnWorksUserShare = (ImageButton) v.findViewById(R.id.imgBtn_works_share);
+            mLinearLayoutWorksMsg1 = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_1);
+            mLinearLayoutWorksMsg2 = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_2);
+            mLinearLayoutWorksMsgOutSide = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_outside);
             mCircleImageView = v.findViewById(R.id.circleImg_works_user_photo);
         }
     }

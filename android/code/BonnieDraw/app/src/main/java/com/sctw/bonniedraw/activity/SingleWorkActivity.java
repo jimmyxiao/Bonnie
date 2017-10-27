@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.paint.Brushes;
 import com.sctw.bonniedraw.paint.PaintView;
 import com.sctw.bonniedraw.paint.TagPoint;
 import com.sctw.bonniedraw.utility.BDWFileReader;
@@ -46,6 +47,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
+
 public class SingleWorkActivity extends AppCompatActivity {
     private TextView mTextViewUserName, mTextViewWorkDescription, mTextViewWorkName, mTextViewGoodTotal, mTextViewCreateTime, mTextViewClass;
     private ImageView imgViewUserPhoto, mImgViewWorkImage;
@@ -64,6 +67,7 @@ public class SingleWorkActivity extends AppCompatActivity {
     private int miViewWidth;
     private File mFileBDW;
     private BDWFileReader mBDWFileReader;
+    private float mfLastPosX, mfLastPosY; //replay use
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +99,12 @@ public class SingleWorkActivity extends AppCompatActivity {
         mFileBDW = new File(getFilesDir().getPath() + PLAY_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         getSingleWork();
+
         mBtnPlayPause = findViewById(R.id.imgBtn_single_work_play_pause);
         mBtnNext = findViewById(R.id.imgBtn_single_work_next);
         mBtnPrevious = findViewById(R.id.imgBtn_single_work_previous);
+
+        mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[0]);
     }
 
     public void next(View view) {
@@ -123,6 +130,10 @@ public class SingleWorkActivity extends AppCompatActivity {
     }
 
     public void replayStart() {
+        mFrameLayoutFreePaint.removeAllViews();
+        mPaintView = new PaintView(SingleWorkActivity.this, true);
+        mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[0]);
+        mFrameLayoutFreePaint.addView(mPaintView);
         mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
         miPointCount = mPaintView.mListTagPoint.size();
         miPointCurrent = 0;
@@ -133,9 +144,6 @@ public class SingleWorkActivity extends AppCompatActivity {
     public void startPlay(View view) {
         if (checkSketch()) {
             mImgViewWorkImage.setVisibility(View.GONE);
-            mFrameLayoutFreePaint.removeAllViews();
-            mPaintView = new PaintView(this, true);
-            mFrameLayoutFreePaint.addView(mPaintView);
             replayStart();
         }
     }
@@ -159,27 +167,31 @@ public class SingleWorkActivity extends AppCompatActivity {
                 switch (tagpoint.get_iAction() - 1) {
                     case MotionEvent.ACTION_DOWN:
                         mbPlaying = true;
+                        if (tagpoint.get_iBrush() != 0) {
+                            mPaintView.setBrush(Brushes.get(getApplicationContext())[tagpoint.get_iBrush()]);
+                        }
                         if (tagpoint.get_iColor() != 0) {
-                            mPaintView.mPaint.setColor(tagpoint.get_iColor());
+                            mPaintView.setDrawingColor(tagpoint.get_iColor());
                         }
                         if (tagpoint.get_iSize() != 0) {
-                            mPaintView.mPaint.setStrokeWidth(PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
+                            mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize()/STROKE_SACLE_VALUE, miViewWidth));
+                            Log.d("Save Size",String.valueOf(PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth)));
+                            Log.d("Ori Size",String.valueOf(PxDpConvert.formatToDisplay(tagpoint.get_iSize()/STROKE_SACLE_VALUE, miViewWidth)));
                         }
-                        if (tagpoint.get_iBrush() != 0) {
-                            //mPaintView.changePaint(tagpoint.getiPaintType());
-                        }
-                        //mPaintView.touch_start(PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth));
-                        mPaintView.invalidate();
+                        mfLastPosX=PxDpConvert.formatToDisplay(tagpoint.get_iPosX(),miViewWidth);
+                        mfLastPosY=PxDpConvert.formatToDisplay(tagpoint.get_iPosY(),miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0,0,MotionEvent.ACTION_DOWN,mfLastPosX, mfLastPosY,0));
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        //mPaintView.touch_move(PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth), PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth));
-                        mPaintView.invalidate();
+                        //開始畫 記錄每一個時間點 即可模擬回去
+                        mfLastPosX=PxDpConvert.formatToDisplay(tagpoint.get_iPosX(),miViewWidth);
+                        mfLastPosY=PxDpConvert.formatToDisplay(tagpoint.get_iPosY(),miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0,tagpoint.get_iTime(),MotionEvent.ACTION_MOVE,mfLastPosX, mfLastPosY,0));
                         break;
                     case MotionEvent.ACTION_UP:
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0,0,MotionEvent.ACTION_UP,mfLastPosX, mfLastPosY,0));
                         mbPlaying = false;
                         brun = false;
-                        //mPaintView.touch_up();
-                        mPaintView.invalidate();
                         break;
                 }
                 miPointCount--;

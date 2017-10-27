@@ -101,39 +101,37 @@
             android:id="@+id/imgBtn_previous"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="20dp"
             android:layout_weight="1"
             android:background="@color/Transparent"
             android:text="上"
             android:textAllCaps="false"
-            android:visibility="visible"
-            app:layout_constraintLeft_toLeftOf="parent"
             app:srcCompat="@drawable/drawplay_ic_backward" />
 
         <ImageButton
             android:id="@+id/imgBtn_autoplay"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
             android:text="下"
-            android:textAllCaps="false"
-            android:visibility="visible"
-            app:layout_constraintLeft_toRightOf="@+id/imgBtn_previous"
             app:srcCompat="@drawable/drawplay_ic_play" />
 
         <ImageButton
             android:id="@+id/imgBtn_next"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
             android:layout_weight="1"
             android:background="@color/Transparent"
             android:text="下"
-            android:textAllCaps="false"
-            android:visibility="visible"
-            app:layout_constraintLeft_toRightOf="@+id/imgBtn_previous"
             app:srcCompat="@drawable/drawplay_ic_forward" />
+
+        <Button
+            android:id="@+id/btn_checkSize"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="產生外部檔"
+            android:textSize="10sp" />
 
 
     </LinearLayout>
