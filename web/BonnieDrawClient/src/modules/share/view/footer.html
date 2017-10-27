@@ -4,19 +4,19 @@
 				<div class="col-sm-6 col-xs-12 text-center" ng-controller="footerController">
 					<ul class="footer-menu">
 						<li ng-if="nowUrl !='/login' && nowUrl !='/singup'"><a href="#/about">關於BonnieDRAW</a></li>
-						<li><a href="#">隱私權</a></li>
-						<li><a href="#">使用條款</a></li>
+						<li><a href="#/privacy">隱私權</a></li>
+						<li><a href="#/terms">使用條款</a></li>
 						<li>
-							<span class="pqycz">語言</span>
+							<span class="pqycz">語言
 							<select class="fsoey" ng-options="ln.dictionaryCode as ln.dictionaryName for ln in dictionaryList" ng-model="language" ng-change="switchLanguage(language)"></select>
 							<!-- <select class="fsoey" ng-model="language" ng-change="switchLanguage(language)"> -->
-<!-- 							<option value="af">Afrikaans</option>
+							<!--<option value="af">Afrikaans</option>
 							<option value="cs">Čeština</option>
 							<option value="da">Dansk</option>
 							<option value="de">Deutsch</option>
 							<option value="el">Ελληνικά</option> -->
 							<!-- <option value="en" >English</option> -->
-<!-- 							<option value="es">Español</option>
+							<!--<option value="es">Español</option>
 							<option value="fi">Suomi</option>
 							<option value="fr">Français</option>
 							<option value="id">Bahasa Indonesia</option>
@@ -58,6 +58,7 @@
 							<option value="ro">Română</option>
 							<option value="sr">Српски</option> -->
 						<!-- </select> -->
+							</span>
 						</li>
 					</ul>
 				</div>
