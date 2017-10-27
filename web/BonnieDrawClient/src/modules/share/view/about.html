@@ -69,94 +69,43 @@
 					<div class="col-md-3 col-sm-12">
 						<div class="sidebar">
 							<div class="sidebar-vid most-liked">
-								<h1 class="sidebar-heading">你喜歡的</h1>
-								<div class="media">
+								<h1 class="sidebar-heading">{{'HOME.USER_LIKE' | translate}}</h1>
+								<div class="media" ng-repeat="data in secondarySectionArr_userLike track by $index">
 									<div class="media-left">
-										<img src="assets/images/most-liked-img-s1.jpg" alt="video">
+										<img ng-src="{{data.img}}" alt="video" style="width:90px;">
 									</div>
 									<div class="media-body">
-										<h1><a href="video-detail.html">Journey</a></h1>
+										<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a></h1>
 										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>
-								<div class="media">
-									<div class="media-left">
-										<img src="assets/images/most-liked-img-s2.jpg" alt="video">
-									</div>
-									<div class="media-body">
-										<h1><a href="video-detail.html">Magic</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>
-								<div class="media">
-									<div class="media-left">
-										<img src="assets/images/most-liked-img-s3.jpg" alt="video">
-									</div>
-									<div class="media-body">
-										<h1><a href="video-detail.html">Runner</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>
-								<div class="media">
-									<div class="media-left">
-										<img src="assets/images/most-liked-img-s4.jpg" alt="video">
-									</div>
-									<div class="media-body">
-										<h1><a href="video-detail.html">Fantasy</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
+											<span><i class="fa fa-comment"></i>{{data.comment}}</span>
+											<span><i class="fa fa-eye"></i>{{data.view}}</span>
 										</p>
 									</div>
 								</div>
 							</div>
+
 							<div class="sidebar-vid most-viewd">
-								<h1 class="sidebar-heading">更多畫作</h1>
-								<div class="most-viewd-container">
+								<h1 class="sidebar-heading">{{'HOME.MORE_CREATION' | translate}}</h1>
+								<div class="most-viewd-container" ng-repeat="data in secondarySectionArr_moreCreation track by $index">
 									<div class="most-viewd-img">
-										<img class="img-responsive" src="assets/images/most-viewd-1.jpg" alt="video">
+										<img class="img-responsive" ng-src="{{data.img}}" alt="video">
 									</div>
 									<div class="most-viewd-text">
-										<h1><a href="video-detail.html">Human Rights Violation</a></h1>
+										<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a></h1>
 										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
+											<span><i class="fa fa-comment"></i>{{data.comment}}</span>
+											<span><i class="fa fa-eye"></i>{{data.view}}</span>
 										</p>
 									</div>
-								</div>
-								<div class="most-viewd-container">
-									<div class="most-viewd-img">
-										<img class="img-responsive" src="assets/images/most-viewd-2.jpg" alt="video">
-									</div>
-									<div class="most-viewd-text">
-										<h1><a href="video-detail.html">War Video Compilation</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i> 10</span>
-											<span><i class="fa fa-eye"></i> 534</span>
-										</p>
-									</div>
-								</div>							
+								</div>	
 							</div>
+
 							<div class="tags">
-								<h1 class="sidebar-heading">關鍵字</h1>
+								<h1 class="sidebar-heading">{{'HOME.KEYWORD' | translate}}</h1>
 								<ul class="list-inline list-unstyled">
-									<li><a href="#">3D</a></li>
-									<li><a href="#">Animals &amp; Birds</a></li>
-									<li><a href="#">HD</a></li>
-									<li><a href="#">Horror</a></li>
-									<li><a href="#">Art</a></li>
-									<li><a href="#">Self</a></li>
-									<li><a href="#">HD Songs</a></li>
-									<li><a href="#">Comedy</a></li>
+									<li ng-repeat="keyword in secondarySectionArr_keyword track by $index">
+										<a href="#">{{keyword}}</a>
+									</li>
 								</ul>
 							</div>
 						</div>

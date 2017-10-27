@@ -6,7 +6,7 @@ var locationIP='http://localhost:8080/';
 var rootUrl = locationIP + 'BonnieDrawService/';
 
 // release
- // var locationIP='https://www.bonniedraw.com/';
+  //var locationIP='https://www.bonniedraw.com/';
  // var rootUrl = locationIP + 'bonniedraw_service/';
 
 var rootApi = rootUrl + 'BDService/';
@@ -104,6 +104,40 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        	templateUrl: 'modules/share/view/header-menu.html'
 	        },
 	        "footer@about":{
+	        	templateUrl: 'modules/share/view/footer.html'
+	        }
+      	}
+  	}).state('privacy', {
+      	url: '/privacy',
+      	views: {
+      		"loader":{
+      			templateUrl: 'modules/share/view/loader.html'
+      		},
+	        "layout": {
+	            templateUrl: 'modules/share/view/privacy.html',
+	            controller:'privacyController'
+	        },
+	        "headerMenu@privacy":{
+	        	templateUrl: 'modules/share/view/header-menu.html'
+	        },
+	        "footer@privacy":{
+	        	templateUrl: 'modules/share/view/footer.html'
+	        }
+      	}
+  	}).state('terms', {
+      	url: '/terms',
+      	views: {
+      		"loader":{
+      			templateUrl: 'modules/share/view/loader.html'
+      		},
+	        "layout": {
+	            templateUrl: 'modules/share/view/terms.html',
+	            controller:'termsController'
+	        },
+	        "headerMenu@terms":{
+	        	templateUrl: 'modules/share/view/header-menu.html'
+	        },
+	        "footer@terms":{
 	        	templateUrl: 'modules/share/view/footer.html'
 	        }
       	}
