@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -41,8 +40,9 @@ public class PaintPlayActivity extends AppCompatActivity {
     private File mFileBDW;
     private BDWFileReader mBDWFileReader;
     private int mCurrentBrushId = 0;
-    private Button mBtnCheckFileInfo;
+    private Button mBtnCheckFileInfo, mBtnPause;
     private float mfLastPosX, mfLastPosY; //replay use
+    private ArrayList<Integer> mListRecordInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +52,14 @@ public class PaintPlayActivity extends AppCompatActivity {
         mPaintView = new PaintView(this, true);
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
-
+        mListRecordInt = new ArrayList<>();
         mTextViewPlayProgress = findViewById(R.id.paint_play_progress);
         mBtnAutoPlay = findViewById(R.id.imgBtn_autoplay);
         mBtnNext = findViewById(R.id.imgBtn_next);
         mBtnPrevious = findViewById(R.id.imgBtn_previous);
         mBtnGrid = findViewById(R.id.imgBtn_paint_grid);
         mBtnBack = findViewById(R.id.imgBtn_paint_back);
+        mBtnPause = findViewById(R.id.btn_pause);
         mImgBtnReplay = findViewById(R.id.imgBtn_replay);
         miViewWidth = mPaintView.getMiWidth();
         mFileBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
@@ -76,7 +77,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                     File oldfile = mFileBDW;
                     if (oldfile.exists()) { //檔存在時
                         InputStream inStream = new FileInputStream(oldfile);//讀入原檔
-                        FileOutputStream fs = new FileOutputStream(logPath+"temp.bdw");
+                        FileOutputStream fs = new FileOutputStream(logPath + "temp.bdw");
                         byte[] buffer = new byte[2048];
                         int length;
                         while ((byteread = inStream.read(buffer)) != -1) {
@@ -114,8 +115,6 @@ public class PaintPlayActivity extends AppCompatActivity {
                         }
                         if (tagpoint.get_iSize() != 0) {
                             mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth));
-                            Log.d("Save Size", String.valueOf(PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth)));
-                            Log.d("Ori Size", String.valueOf(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth)));
                         }
                         mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
                         mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
@@ -129,6 +128,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
+                        mListRecordInt.add(miPointCurrent + 1);
                         mbPlaying = false;
                         brun = false;
                         break;
@@ -159,10 +159,19 @@ public class PaintPlayActivity extends AppCompatActivity {
             }
         });
 
+        mBtnPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mbAutoPlay=false;
+            }
+        });
+
         mBtnNext.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (miPointCount > 0) {
+                if (miPointCurrent == 0) {
+                    TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "請按撥放鍵開始撥放");
+                } else if (miPointCount > 0) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
                     TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_end));
@@ -176,11 +185,20 @@ public class PaintPlayActivity extends AppCompatActivity {
                 if (mbPlaying) {
                     TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_wait));
                 } else if (miPointCurrent > 0) {
-                    for (int x = 0; x <= mPaintView.onClickPrevious() - 1; x++) {
-                        miPointCount++;
-                        miPointCurrent--;
+                    mPaintView.onClickPrevious();
+                    // 兩個UP差異點數 = 減少的點數 在移除最後第一個
+                    int count;
+                    if (mListRecordInt.size() > 1) {
+                        count = mListRecordInt.remove(mListRecordInt.size() - 1) - mListRecordInt.get(mListRecordInt.size() - 1);
+                        System.out.println(count);
+                    } else {
+                        count = mListRecordInt.remove(mListRecordInt.size() - 1);
+                        System.out.println(count);
                     }
-                    Log.d("miPointCurrent", String.valueOf(miPointCurrent));
+                    System.out.println(miPointCurrent);
+                    miPointCount = miPointCount + count;
+                    miPointCurrent = miPointCurrent - count;
+
                 } else if (miPointCurrent == 0) {
                     TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_frist));
                 }
@@ -202,6 +220,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 mImgBtnReplay.setVisibility(View.INVISIBLE);
                 mbAutoPlay = true;
+                mListRecordInt.clear();
             }
         };
 

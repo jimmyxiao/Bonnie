@@ -116,6 +116,13 @@
             android:text="下"
             app:srcCompat="@drawable/drawplay_ic_play" />
 
+        <Button
+            android:id="@+id/btn_pause"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="暫停" />
+
         <ImageButton
             android:id="@+id/imgBtn_next"
             android:layout_width="0dp"

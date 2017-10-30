@@ -68,6 +68,7 @@ public class SingleWorkActivity extends AppCompatActivity {
     private File mFileBDW;
     private BDWFileReader mBDWFileReader;
     private float mfLastPosX, mfLastPosY; //replay use
+    private ArrayList<Integer> mListRecordInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class SingleWorkActivity extends AppCompatActivity {
         miViewWidth = mPaintView.getMiWidth();
         mFileBDW = new File(getFilesDir().getPath() + PLAY_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
+        mListRecordInt = new ArrayList<>();
         getSingleWork();
 
         mBtnPlayPause = findViewById(R.id.imgBtn_single_work_play_pause);
@@ -119,11 +121,20 @@ public class SingleWorkActivity extends AppCompatActivity {
         if (mbPlaying) {
             TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_wait));
         } else if (miPointCurrent > 0) {
-            for (int x = 0; x <= mPaintView.onClickPrevious() - 1; x++) {
-                miPointCount++;
-                miPointCurrent--;
+            mPaintView.onClickPrevious();
+            // 兩個UP差異點數 = 減少的點數 在移除最後第一個
+            int count;
+            if (mListRecordInt.size() > 1) {
+                count = mListRecordInt.remove(mListRecordInt.size() - 1) - mListRecordInt.get(mListRecordInt.size() - 1);
+                System.out.println(count);
+            } else {
+                count = mListRecordInt.remove(mListRecordInt.size() - 1);
+                System.out.println(count);
             }
-            Log.d("miPointCurrent", String.valueOf(miPointCurrent));
+            System.out.println(miPointCurrent);
+            miPointCount = miPointCount + count;
+            miPointCurrent = miPointCurrent - count;
+
         } else if (miPointCurrent == 0) {
             TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_frist));
         }
@@ -174,22 +185,21 @@ public class SingleWorkActivity extends AppCompatActivity {
                             mPaintView.setDrawingColor(tagpoint.get_iColor());
                         }
                         if (tagpoint.get_iSize() != 0) {
-                            mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize()/STROKE_SACLE_VALUE, miViewWidth));
-                            Log.d("Save Size",String.valueOf(PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth)));
-                            Log.d("Ori Size",String.valueOf(PxDpConvert.formatToDisplay(tagpoint.get_iSize()/STROKE_SACLE_VALUE, miViewWidth)));
+                            mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth));
                         }
-                        mfLastPosX=PxDpConvert.formatToDisplay(tagpoint.get_iPosX(),miViewWidth);
-                        mfLastPosY=PxDpConvert.formatToDisplay(tagpoint.get_iPosY(),miViewWidth);
-                        mPaintView.usePlayHnad(MotionEvent.obtain(0,0,MotionEvent.ACTION_DOWN,mfLastPosX, mfLastPosY,0));
+                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
                         break;
                     case MotionEvent.ACTION_MOVE:
                         //開始畫 記錄每一個時間點 即可模擬回去
-                        mfLastPosX=PxDpConvert.formatToDisplay(tagpoint.get_iPosX(),miViewWidth);
-                        mfLastPosY=PxDpConvert.formatToDisplay(tagpoint.get_iPosY(),miViewWidth);
-                        mPaintView.usePlayHnad(MotionEvent.obtain(0,tagpoint.get_iTime(),MotionEvent.ACTION_MOVE,mfLastPosX, mfLastPosY,0));
+                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
                         break;
                     case MotionEvent.ACTION_UP:
-                        mPaintView.usePlayHnad(MotionEvent.obtain(0,0,MotionEvent.ACTION_UP,mfLastPosX, mfLastPosY,0));
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
+                        mListRecordInt.add(miPointCurrent + 1);
                         mbPlaying = false;
                         brun = false;
                         break;

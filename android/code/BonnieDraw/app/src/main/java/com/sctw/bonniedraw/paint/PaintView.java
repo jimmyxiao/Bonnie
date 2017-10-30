@@ -18,7 +18,6 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -231,32 +230,16 @@ public class PaintView extends View {
         }
     }
 
-    public int onClickPrevious() {
-        /*if (mPaths.size() > 0) {
-
-            mUndoPaths.add(mPaths.remove(mPaths.size() - 1));
-
-            mListUndoPoint.add(mListTempPoint.remove(mListTempPoint.size() - 1));
-            if (mListTempPoint.size() > 0) {
-                miEachConut = mListUndoPoint.get(mListUndoPoint.size() - 1) - mListTempPoint.get(mListTempPoint.size() - 1);
-            } else {
-                miEachConut = mListUndoPoint.get(mListUndoPoint.size() - 1);
-            }
-            for (int x = 0; x < miEachConut; x++) {
-                mListUndoTagPoint.add(mListTagPoint.remove(mListTagPoint.size() - 1));
-            }
-
-            mBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
-            mCanvas = new Canvas(mBitmap);
-            for (PathAndPaint p : mPaths) {
-                mCanvas.drawPath(p.get_mPath(), p.get_mPaint());
-            }
+    public void onClickPrevious() {
+        if (mBitmapList.size() > 1) {
+            //回到上一個
+            mBitmapUndoList.add(mBitmapList.remove(mBitmapList.size() - 1));
+            this.mMergedLayer = Bitmap.createBitmap(mBitmapList.get(mBitmapList.size() - 1));
+            this.mMergedLayerCanvas.setBitmap(mMergedLayer);
             invalidate();
         } else {
-            TSnackbarCall.showTSnackbar(this, "復原次數到達上限");
+            TSnackbarCall.showTSnackbar(PaintView.this, "復原次數到達上限");
         }
-        return miEachConut;*/
-        return 0;
     }
 
    /* public void onDrawSketch() {
@@ -912,7 +895,6 @@ public class PaintView extends View {
             //**add TagPoint
             onTouchUpTagPoint();
             mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
-            Log.d("mBitmapList", String.valueOf(mBitmapList.size()));
         }
     }
 
@@ -963,6 +945,7 @@ public class PaintView extends View {
         protected void onTouchUp() {
             //Log.d("PaintView", "onTouchUp");
             PaintView.this.destLineThread();
+            mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
         }
     }
 
