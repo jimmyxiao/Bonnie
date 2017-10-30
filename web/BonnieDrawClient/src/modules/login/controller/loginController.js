@@ -1,10 +1,13 @@
 app.controller('loginController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, AuthenticationService) {
+        if ($rootScope.rg_gl.currentUser) {
+            $state.go('index');
+        }
+
         $rootScope.title = '登入 | BonnieDRAW';
     	$scope.loginUser = {
     		uc:null, up:null, ut:1, dt:3, fn:1
     	}
 
-    	AuthenticationService.ClearCredentials();
     	$scope.login_error = false ;
         $scope.login = function (valid) {
         	if(valid){
@@ -16,7 +19,6 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
 	                    $state.go('index');
 	            	}else{
 	            		$scope.error_msg = response.message;
-	            		// util.alert(response.message);
 	            		$scope.dataLoading = false;
 	            		$scope.login_error = true ;
 	            		alert('登入失敗');

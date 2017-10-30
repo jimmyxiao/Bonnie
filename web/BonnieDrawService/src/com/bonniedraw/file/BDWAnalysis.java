@@ -54,7 +54,7 @@ public class BDWAnalysis {
 			int p3 = buf[2] & 0xFF;
 			int p4 = buf[3] & 0xFF;
 			Color color = new Color(p1, p2, p3, p4);
-			point.setColor(Integer.toHexString(color.getRGB()));
+			point.setColor(Integer.toHexString(color.getRGB()) );
 
 			bdwFile.read(buf, 0, 1);
 			point.setAction(FileDataFormat.byteToInt(buf[0]));

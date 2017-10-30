@@ -6,8 +6,8 @@ var locationIP='http://localhost:8080/';
 var rootUrl = locationIP + 'BonnieDrawService/';
 
 // release
-  //var locationIP='https://www.bonniedraw.com/';
- // var rootUrl = locationIP + 'bonniedraw_service/';
+// var locationIP='https://www.bonniedraw.com/';
+// var rootUrl = locationIP + 'bonniedraw_service/';
 
 var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
@@ -107,41 +107,43 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        	templateUrl: 'modules/share/view/footer.html'
 	        }
       	}
-  	}).state('privacy', {
-      	url: '/privacy',
-      	views: {
-      		"loader":{
-      			templateUrl: 'modules/share/view/loader.html'
-      		},
-	        "layout": {
-	            templateUrl: 'modules/share/view/privacy.html',
-	            controller:'privacyController'
-	        },
-	        "headerMenu@privacy":{
-	        	templateUrl: 'modules/share/view/header-menu.html'
-	        },
-	        "footer@privacy":{
-	        	templateUrl: 'modules/share/view/footer.html'
-	        }
-      	}
-  	}).state('terms', {
-      	url: '/terms',
-      	views: {
-      		"loader":{
-      			templateUrl: 'modules/share/view/loader.html'
-      		},
-	        "layout": {
-	            templateUrl: 'modules/share/view/terms.html',
-	            controller:'termsController'
-	        },
-	        "headerMenu@terms":{
-	        	templateUrl: 'modules/share/view/header-menu.html'
-	        },
-	        "footer@terms":{
-	        	templateUrl: 'modules/share/view/footer.html'
-	        }
-      	}
-  	}).state('myfile', {
+  	})
+  	// .state('privacy', {
+   //    	url: '/privacy',
+   //    	views: {
+   //    		"loader":{
+   //    			templateUrl: 'modules/share/view/loader.html'
+   //    		},
+	  //       "layout": {
+	  //           templateUrl: 'modules/share/view/privacy.html',
+	  //           controller:'privacyController'
+	  //       },
+	  //       "headerMenu@privacy":{
+	  //       	templateUrl: 'modules/share/view/header-menu.html'
+	  //       },
+	  //       "footer@privacy":{
+	  //       	templateUrl: 'modules/share/view/footer.html'
+	  //       }
+   //    	}
+  	// }).state('terms', {
+   //    	url: '/terms',
+   //    	views: {
+   //    		"loader":{
+   //    			templateUrl: 'modules/share/view/loader.html'
+   //    		},
+	  //       "layout": {
+	  //           templateUrl: 'modules/share/view/terms.html',
+	  //           controller:'termsController'
+	  //       },
+	  //       "headerMenu@terms":{
+	  //       	templateUrl: 'modules/share/view/header-menu.html'
+	  //       },
+	  //       "footer@terms":{
+	  //       	templateUrl: 'modules/share/view/footer.html'
+	  //       }
+   //    	}
+  	// })
+  	.state('myfile', {
       	url: '/myfile',
       	views: {
       		"loader":{
@@ -323,6 +325,8 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
    		$rootScope.nowUrl = url;
 		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete') && !$rootScope.rg_gl.currentUser) {
 	        $state.go('login');
+	    }else if($rootScope.rg_gl.currentUser && (url == '/login' && url == '/singup' && url == '/forget' && url == '/complete')){
+	    	$state.go('index');
 	    }
 	});
 
@@ -344,6 +348,7 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 
 	$rootScope.logout = function() {
 		$cookieStore.remove('rg_gl');
+		$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
 		$state.go('login');
 	}
 

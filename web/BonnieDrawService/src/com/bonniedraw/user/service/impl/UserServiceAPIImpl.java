@@ -74,6 +74,22 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	}
 	
 	private void putLogin(LoginResponseVO result, LoginRequestVO loginRequestVO, UserInfo userInfo, String ipAddress) throws Exception{
+//		===== test start =====
+		if(loginRequestVO.getUt()==2 || loginRequestVO.getUt() ==3 || loginRequestVO.getUt()==4){
+			if(ValidateUtil.isNotBlank(loginRequestVO.getThirdPictureUrl())){
+				StringBuffer path = new StringBuffer();
+				path.append("/picture/").append(userInfo.getUserId());
+				Map<String, Object> resultMap = FileUtil.copyURLToFile(loginRequestVO.getThirdPictureUrl(), path.toString());
+				boolean status = (boolean)resultMap.get("status");
+				if(status){
+					String filePath = resultMap.get("path")!=null?resultMap.get("path").toString():null;
+					userInfo.setProfilePicture(filePath);
+					userInfoMapper.updateByPrimaryKeySelective(userInfo);
+				}
+			}
+		}
+//		===== test end =====
+		
 		Login loginVO = new Login();
 		loginVO.setUserId(userInfo.getUserId());
 		loginVO.setLoginToken(SercurityUtil.getUUID());

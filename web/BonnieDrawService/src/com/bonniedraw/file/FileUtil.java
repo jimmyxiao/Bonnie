@@ -34,6 +34,7 @@ public class FileUtil {
 			result.put("status", true);
 	    	result.put("path", (uploadFile.getAbsolutePath().replace(rootPath, "")).replace("\\", "/"));
 		} catch (Exception e) {
+			LogUtils.fileConteollerError("copyURLToFile has error : " + e );
 		}
 		return result;
 	}

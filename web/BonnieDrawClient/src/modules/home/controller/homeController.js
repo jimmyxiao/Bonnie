@@ -4,7 +4,7 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 		new WOW().init();
 
 		$scope.popupShare = function(){
-			util.alert('223344');
+			
 		}
 
 		$scope.queryNewUploadWorks = function(){
