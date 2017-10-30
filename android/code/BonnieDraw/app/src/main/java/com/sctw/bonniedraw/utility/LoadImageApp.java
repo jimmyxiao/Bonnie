@@ -41,6 +41,7 @@ public class LoadImageApp extends Application {
     }
 
     static public DisplayImageOptions optionsWorkImg = new DisplayImageOptions.Builder()
+            .showImageOnFail(R.drawable.ic_mood_bad_black_24dp)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)

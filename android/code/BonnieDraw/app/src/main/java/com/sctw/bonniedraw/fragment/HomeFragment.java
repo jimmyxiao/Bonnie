@@ -30,7 +30,6 @@ import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.Msg;
 import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.works.WorkAdapterList;
@@ -41,7 +40,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -175,25 +173,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void refreshWorks(JSONArray data) {
-        try {
-            workInfoList = new ArrayList<>();
-            for (int x = 0; x < data.length(); x++) {
-                WorkInfo workInfo = new WorkInfo();
-                ArrayList<Msg> msgList=new ArrayList<>();
-                workInfo.setWorkId(data.getJSONObject(x).getString("worksId"));
-                workInfo.setUserId(data.getJSONObject(x).getString("userId"));
-                workInfo.setUserName(data.getJSONObject(x).getString("userName"));
-                workInfo.setTitle(data.getJSONObject(x).getString("title"));
-                workInfo.setImagePath(data.getJSONObject(x).getString("imagePath"));
-                workInfo.setIsFollowing(data.getJSONObject(x).getString("isFollowing"));
-                workInfo.setUserImgPath(data.getJSONObject(x).getString("profilePicture"));
-                workInfo.setMsgList(msgList);
-                workInfoList.add(workInfo);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        workInfoList = WorkInfo.generateInfoList(data);
         WorkAdapterList mAdapter = new WorkAdapterList(workInfoList, new WorkListOnClickListener() {
             @Override
             public void onWorkImgClick(int wid) {

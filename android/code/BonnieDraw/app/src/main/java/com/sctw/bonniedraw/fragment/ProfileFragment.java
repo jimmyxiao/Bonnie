@@ -264,21 +264,7 @@ public class ProfileFragment extends Fragment {
     }
 
     public void refreshWorks(JSONArray data) {
-        try {
-            workInfoList = new ArrayList<>();
-            for (int x = 0; x < data.length(); x++) {
-                WorkInfo workInfo = new WorkInfo();
-                workInfo.setWorkId(data.getJSONObject(x).getString("worksId"));
-                workInfo.setUserId(data.getJSONObject(x).getString("userId"));
-                workInfo.setUserName(data.getJSONObject(x).getString("userName"));
-                workInfo.setTitle(data.getJSONObject(x).getString("title"));
-                workInfo.setImagePath(data.getJSONObject(x).getString("imagePath"));
-                workInfo.setIsFollowing(data.getJSONObject(x).getString("isFollowing"));
-                workInfoList.add(workInfo);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        workInfoList = WorkInfo.generateInfoList(data);
 
         mAdapterGrid = new WorkAdapterGrid(workInfoList, new WorkGridOnClickListener() {
             @Override

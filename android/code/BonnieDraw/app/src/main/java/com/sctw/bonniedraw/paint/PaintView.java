@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
@@ -19,6 +18,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,15 +43,8 @@ import java.util.Random;
  */
 
 public class PaintView extends View {
-    private static final boolean HWLAYER = true;
-    private static final boolean SWLAYER = false;
     private static final String SKETCH_FILE_BDW = "/backup.bdw";
     private static final String SKETCH_FILE_PNG = "/backup.png";
-    private Bitmap mBitmap;
-    private Canvas mCanvas;
-    private Path mPath;
-    private ArrayList<PathAndPaint> mPaths = new ArrayList<>(20);
-    private ArrayList<PathAndPaint> mUndoPaths = new ArrayList<>(20);
     private List<Integer> mListTempPoint = new ArrayList<Integer>();
     private List<Integer> mListUndoPoint = new ArrayList<>();
     private float mX, mY;
@@ -63,7 +56,6 @@ public class PaintView extends View {
     public List<TagPoint> mListTagPoint;
     public List<TagPoint> mListUndoTagPoint;
     public Boolean mbEraseMode = false, mbZoomMode = false, mbCheckFinger = false;
-    public Paint mPaint;
     public File mFileBDW, mFilePNG;
     public BDWFileReader mBDWReader = new BDWFileReader();
     public int miPaintNum;
@@ -125,6 +117,8 @@ public class PaintView extends View {
     //**add
     private TouchResampler mPlayResampler;
     private OnTouchHandler mPlayDrawingHandler;
+    private ArrayList<Bitmap> mBitmapList;
+    private ArrayList<Bitmap> mBitmapUndoList;
 
     public PaintView(Context c) {
         super(c);
@@ -185,19 +179,17 @@ public class PaintView extends View {
         return true;
     }
 
-    public Bitmap getBitmap() {
-        return mBitmap;
-    }
-
     public int getMiWidth() {
         return miWidth;
     }
 
     //復原、重作
     public void onClickUndo() {
-        if (mPaths.size() > 0 && mUndoPaths.size() <= 20) {
-
-            mUndoPaths.add(mPaths.remove(mPaths.size() - 1));
+        if (mBitmapList.size() > 1) {
+            //回到上一個
+            mBitmapUndoList.add(mBitmapList.remove(mBitmapList.size() - 1));
+            this.mMergedLayer = Bitmap.createBitmap(mBitmapList.get(mBitmapList.size() - 1));
+            this.mMergedLayerCanvas.setBitmap(mMergedLayer);
 
             mListUndoPoint.add(mListTempPoint.remove(mListTempPoint.size() - 1));
             if (mListTempPoint.size() > 0) {
@@ -208,16 +200,6 @@ public class PaintView extends View {
             for (int x = 0; x < miEachConut; x++) {
                 mListUndoTagPoint.add(mListTagPoint.remove(mListTagPoint.size() - 1));
             }
-
-            if (mFilePNG.exists()) {
-                mBitmap = BitmapFactory.decodeFile(mFilePNG.toString()).copy(Bitmap.Config.ARGB_8888, true);
-            } else {
-                mBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
-            }
-            mCanvas = new Canvas(mBitmap);
-            for (PathAndPaint p : mPaths) {
-                mCanvas.drawPath(p.get_mPath(), p.get_mPaint());
-            }
             invalidate();
         } else {
             TSnackbarCall.showTSnackbar(PaintView.this, "復原次數到達上限");
@@ -225,11 +207,12 @@ public class PaintView extends View {
     }
 
     public void onClickRedo() {
-        if (mUndoPaths.size() > 0) {
-            mPaths.add(mUndoPaths.remove(mUndoPaths.size() - 1));
+        if (mBitmapUndoList.size() > 0) {
+            mBitmapList.add(mBitmapUndoList.remove(mBitmapUndoList.size() - 1));
+            this.mMergedLayer = Bitmap.createBitmap(mBitmapList.get(mBitmapList.size() - 1));
+            this.mMergedLayerCanvas.setBitmap(mMergedLayer);
 
             mListTempPoint.add(mListUndoPoint.remove(mListUndoPoint.size() - 1));
-
             for (int x = 0; x < miEachConut; x++) {
                 mListTagPoint.add(mListUndoTagPoint.remove(mListUndoTagPoint.size() - 1));
             }
@@ -242,9 +225,6 @@ public class PaintView extends View {
                 miEachConut = mListTempPoint.get(mListTempPoint.size() - 1);
             }
 
-            for (PathAndPaint p : mPaths) {
-                mCanvas.drawPath(p.get_mPath(), p.get_mPaint());
-            }
             invalidate();
         } else {
             TSnackbarCall.showTSnackbar(this, "重作次數到達上限");
@@ -252,7 +232,7 @@ public class PaintView extends View {
     }
 
     public int onClickPrevious() {
-        if (mPaths.size() > 0) {
+        /*if (mPaths.size() > 0) {
 
             mUndoPaths.add(mPaths.remove(mPaths.size() - 1));
 
@@ -275,18 +255,19 @@ public class PaintView extends View {
         } else {
             TSnackbarCall.showTSnackbar(this, "復原次數到達上限");
         }
-        return miEachConut;
+        return miEachConut;*/
+        return 0;
     }
 
-    public void onDrawSketch() {
+   /* public void onDrawSketch() {
         mBitmap = BitmapFactory.decodeFile(mFilePNG.toString()).copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
         invalidate();
-    }
+    }*/
 
     public void checkSketch() {
         if (mFileBDW.exists() && mFilePNG.exists()) {
-            onDrawSketch();
+            //onDrawSketch();
             mBDWReader.readFromFile(mFileBDW);
             mListTagPoint = new ArrayList<>(mBDWReader.m_tagArray);
         }
@@ -305,7 +286,7 @@ public class PaintView extends View {
         try {
             File pngfile = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_PNG);
             FileOutputStream fos = new FileOutputStream(pngfile);
-            getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+            //getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -404,13 +385,19 @@ public class PaintView extends View {
         mRandom = new Random();
         mMatrix = new Matrix();
         mOldPt = new PointF();
+
+        ///add blank
+        mBitmapUndoList = new ArrayList<>();
+        mBitmapList = new ArrayList<>();
+        Bitmap emptyBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
+        mBitmapList.add(emptyBitmap);
     }
 
     public void usePlayHnad(MotionEvent event) {
         this.mPlayDrawingHandler.onTouchEvent(event);
     }
 
-    public void initDefaultBrush(Brush brush){
+    public void initDefaultBrush(Brush brush) {
         setBrush(brush);
         setDrawingCacheEnabled(true);
         setDrawingScaledSize(1);
@@ -570,7 +557,7 @@ public class PaintView extends View {
         drawToCanvas(canvas, mOnDrawCanvasRect);
         canvas.restore();
 
-        invalidate(mOnDrawCanvasRect);
+        //invalidate(mOnDrawCanvasRect);
     }
 
     //** add Grid
@@ -610,7 +597,6 @@ public class PaintView extends View {
                 canvas.restore();
             }
         } else {
-
             canvas.drawBitmap(this.mMergedLayer, 0.0f, 0.0f, this.mSrcPaint);
             if ((this.mDrawingLayerNeedDrawn)) {
                 Paint p;
@@ -877,6 +863,9 @@ public class PaintView extends View {
         @Override
         protected void onTouchDown(float x, float y) {
             //Log.d("PaintView", "onTouchDown");
+            mBitmapUndoList.clear();
+            mListUndoPoint.clear();
+            mListUndoTagPoint.clear();
             this.mLastDrawDistance = 0.0f;
             PaintView.this.moveToThread(x, y);
             //**add TagPoint
@@ -922,10 +911,12 @@ public class PaintView extends View {
             PaintView.this.destLineThread();
             //**add TagPoint
             onTouchUpTagPoint();
+            mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
+            Log.d("mBitmapList", String.valueOf(mBitmapList.size()));
         }
     }
 
-    //***** New Add Tagpoint
+    //***** Only Play
     private class MyPlayDistanceResampler extends TouchDistanceResampler {
         private float mLastDrawDistance;
         private float[] mTempXYV = new float[3];

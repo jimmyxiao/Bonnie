@@ -247,7 +247,7 @@ public class PaintActivity extends AppCompatActivity implements OnColorChangedLi
             //上傳圖片
             case 1:
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                mPaintView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+                //mPaintView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
                 bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()));
                 break;
             //上傳BDW檔案

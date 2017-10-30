@@ -52,7 +52,7 @@ public class WorkAdapterGrid extends RecyclerView.Adapter<WorkAdapterGrid.ViewHo
         });
 
         ImageLoader.getInstance()
-                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImageView, LoadImageApp.optionsWorkImg, new SimpleImageLoadingListener() {
+                .displayImage(GlobalVariable.API_LINK_GET_FILE +data.get(position).getImagePath(), holder.mImageView, LoadImageApp.optionsWorkImg, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }
