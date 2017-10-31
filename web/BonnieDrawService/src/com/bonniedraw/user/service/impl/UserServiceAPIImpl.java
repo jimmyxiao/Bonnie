@@ -78,7 +78,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		if(loginRequestVO.getUt()==2 || loginRequestVO.getUt() ==3 || loginRequestVO.getUt()==4){
 			if(ValidateUtil.isNotBlank(loginRequestVO.getThirdPictureUrl())){
 				StringBuffer path = new StringBuffer();
-				path.append("/picture/").append(userInfo.getUserId());
+				path.append("picture/").append(userInfo.getUserId());
 				Map<String, Object> resultMap = FileUtil.copyURLToFile(loginRequestVO.getThirdPictureUrl(), path.toString());
 				boolean status = (boolean)resultMap.get("status");
 				if(status){

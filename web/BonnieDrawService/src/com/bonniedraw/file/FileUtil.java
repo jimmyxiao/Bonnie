@@ -30,7 +30,7 @@ public class FileUtil {
 		try {
 			URL domain = new URL(url);
 			File uploadFile = new File(dir.getAbsolutePath() + "/" +newFileName);
-			org.apache.commons.io.FileUtils.copyURLToFile(domain, dir);
+			org.apache.commons.io.FileUtils.copyURLToFile(domain, uploadFile);
 			result.put("status", true);
 	    	result.put("path", (uploadFile.getAbsolutePath().replace(rootPath, "")).replace("\\", "/"));
 		} catch (Exception e) {
