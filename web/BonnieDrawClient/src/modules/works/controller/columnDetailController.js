@@ -5,7 +5,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var wid = $state.params.id;
 		$scope.isShow = false;
 
-		// =========test start=========
 		var paused= false;
 		$scope.pausebol =true;
 		$scope.pasue = function(){
@@ -109,7 +108,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			}
 			loop();
 		}
-		// =========test end=========
 
 		$scope.drawingPlay = function(){
 			var param = util.getInitalScope();
@@ -163,11 +161,18 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			})
 		}
 
+		$scope.covert = function(description){
+			var arr = util.splitHashTag(description);
+			for(i=0;i<arr.length;i++){
+				description = description.replace(arr[i],'<a href="#/page-not-found">'+ arr[i] +'</a>');
+			}
+			return description;
+		}
+
 		$scope.queryWorks = function(){
 			$scope.mainSection = {};
 			var params = util.getInitalScope();
-			params.wid = wid;
-			// params.wt = 20; 
+			params.wid = wid; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$scope.mainSection = data.work;
@@ -177,13 +182,36 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		}
 		$scope.queryWorks();
 
-		$scope.covert = function(description){
-			var arr = util.splitHashTag(description);
-			for(i=0;i<arr.length;i++){
-				description = description.replace(arr[i],'<a href="">'+ arr[i] +'</a>');
-			}
-			return description;
+		$scope.queryRelatedWorks = function(){
+			$scope.secondarySectionArr_userLike = [];
+			var params = util.getInitalScope();
+			params.wid = 0;
+			params.wt = 6;
+			params.stn= 1;
+			params.rc = 5;
+			params.queryId = wid; 
+			worksService.queryWorksList(params,function(data, status, headers, config){
+				if(data.res == 1){
+					$scope.secondarySectionArr_userLike = data.workList;
+				}
+			})
 		}
+		$scope.queryRelatedWorks();
+
+		$scope.queryMoreWorks = function(){
+			$scope.secondarySectionArr_moreCreation = [];
+			var params = util.getInitalScope();
+			params.wid = 0;
+			params.wt = 4;
+			params.stn = 0;
+			params.rc = 1; 
+			worksService.queryWorksList(params,function(data, status, headers, config){
+				if(data.res == 1){
+					$scope.secondarySectionArr_moreCreation = data.workList;
+				}
+			})
+		}
+		$scope.queryMoreWorks();
 
 		$scope.clickWorksLike = function(data){
 			var params = util.getInitalScope();
@@ -251,43 +279,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			})
 		}
 
-		 // $scope.secondarySectionArr_userLike = [
-		 // 	{
-		 // 		img:'../BonnieDrawService/BDService/loadFile/files/19/png/029c10c3aa424da19b02aeb0f1eedb6c.png',
-		 // 		title:'なおしま',
-		 // 		comment:'10',
-		 // 		view:'534',
-		 // 		worksId:'19'
-		 // 	},
-		 // 	{
-		 // 		img:'../BonnieDrawService/BDService/loadFile/files/20/png/b51441a82b154beaae0eda738d2ba4dc.png',
-		 // 		title:'FiFi',
-		 // 		comment:'10',
-		 // 		view:'534',
-		 // 		worksId:'20'
-		 // 	},
-		 // 	{
-		 // 		img:'../BonnieDrawService/BDService/loadFile/files/23/png/dce333f9fba54dc1a71e10066072b6ce.png',
-		 // 		title:'Bear',
-		 // 		comment:'10',
-		 // 		view:'534',
-		 // 		worksId:'23'
-		 // 	},
-		 // 	{
-		 // 		img:'../BonnieDrawService/BDService/loadFile/files/22/png/1f4f5b64ca95487599b0f934fa755517.png',
-		 // 		title:'test',
-		 // 		comment:'10',
-		 // 		view:'534',
-		 // 		worksId:'22'
-		 // 	},
-		 // 	{
-		 // 		img:'../BonnieDrawService/BDService/loadFile/files/11/png/927334e1e0a34a5eb4b14345e3803376.png',
-		 // 		title:'兔',
-		 // 		comment:'10',
-		 // 		view:'534',
-		 // 		worksId:'11'
-		 // 	}
-		 // ]
+		 
 
 		 // $scope.secondarySectionArr_moreCreation = [
 		 // 	{

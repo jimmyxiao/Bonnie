@@ -10,14 +10,13 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="drwa-play">
-				                           <!--  <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe> -->
-				                           <canvas id="jsonCanvas" width="1000" height="1000" ng-click="pasue()"></canvas>
-				                        	<div class="pasue-back" ng-hide=pausebol>
-				                        		<div class="pasue-img">
-				                        			<img  ng-click="pasue()" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'" style="width: 120px; height: 120px; margin: auto 0px;">
-				                        		</div>
+				                        <canvas id="jsonCanvas" width="1000" height="1000" ng-click="pasue()"></canvas>
+				                        <div class="pasue-back" ng-hide=pausebol>
+				                        	<div class="pasue-img">
+				                        		<img ng-click="pasue()" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'" style="width: 120px; height: 120px; margin: auto 0px;">
 				                        	</div>
 				                        </div>
+				                    </div>
 									<h3>{{mainSection.title}}</h3>
 									<div class="vid-text">
 										<div class="row">
@@ -132,56 +131,27 @@
 											</div>
 		 								</div>
 									</div>
-									<div class="related-item">
-										<div class="vid-heading overflow-hidden">
-											<span class="wow fadeInUp" data-wow-duration="0.8s">
-												相關畫作
-											</span>
-											<div class="hding-bottm-line wow zoomIn" data-wow-duration="0.8s"></div>
-										</div>
-<!-- 										<div class="row">
-											<div class="vid-container">
-												<div class="col-md-4 col-sm-6">
-													<div class="latest-vid-img-container">		
-														<div class="vid-img">
-															<img class="img-responsive" src="../BonnieDrawService/BDService/loadFile/files/19/png/029c10c3aa424da19b02aeb0f1eedb6c.png" alt="video image">
-															<a href="#/column-detail?id=19" class="play-icon play-small-icon">
-											                	<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">	                	
-											                </a>
-															<div class="overlay-div"></div>
-														</div>
-														<div class="vid-text">
-															<section class="_8oo9w">
-																<a  href="#" role="button" aria-disabled><i class="material-icons font-icon">favorite_border</i></a>
-																<span>57689</span>
-																<a href="#"><i class="material-icons share-icon">share</i></a>
-															</section>
-															<p><a href="#">江小菲</a></p>
-															<h1><a href="#/column-detail?id=19">なおしま</a></h1>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div> -->
-									</div>
 								</div>							
 							</div>
 						</div>					
 					</div>
 
-<!--  					<div class="col-md-3 col-sm-4">
+ 					<div class="col-md-3 col-sm-4">
 						<div class="sidebar">
 							<div class="sidebar-vid most-liked">
-								<h1 class="sidebar-heading">{{'HOME.USER_LIKE' | translate}}</h1>
+								<!-- <h1 class="sidebar-heading">{{'HOME.USER_LIKE' | translate}}</h1> -->
+								<h1 class="sidebar-heading">相關畫作</h1>
 								<div class="media" ng-repeat="data in secondarySectionArr_userLike track by $index">
 									<div class="media-left">
-										<img ng-src="{{data.img}}" alt="video" style="width:90px;">
+										<a ng-href="#/column-detail?id={{data.worksId}}">
+											<img ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image" style="width:90px;">
+										</a>
 									</div>
 									<div class="media-body">
 										<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a></h1>
 										<p>
-											<span><i class="fa fa-comment"></i>{{data.comment}}</span>
-											<span><i class="fa fa-eye"></i>{{data.view}}</span>
+											<span><i class="fa fa-comment"></i>{{data.msgCount}}</span>
+											<span><i class="fa fa-heart-o"></i>{{data.likeCount}}</span>
 										</p>
 									</div>
 								</div>
@@ -191,28 +161,22 @@
 								<h1 class="sidebar-heading">{{'HOME.MORE_CREATION' | translate}}</h1>
 								<div class="most-viewd-container" ng-repeat="data in secondarySectionArr_moreCreation track by $index">
 									<div class="most-viewd-img">
-										<img class="img-responsive" ng-src="{{data.img}}" alt="video">
+										<a ng-href="#/column-detail?id={{data.worksId}}">
+											<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
+										</a>
 									</div>
 									<div class="most-viewd-text">
 										<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a></h1>
 										<p>
-											<span><i class="fa fa-comment"></i>{{data.comment}}</span>
-											<span><i class="fa fa-eye"></i>{{data.view}}</span>
+											<span><i class="fa fa-comment"></i>{{data.msgCount}}</span>
+											<span><i class="fa fa-heart-o"></i>{{data.likeCount}}</span>
 										</p>
 									</div>
 								</div>	
 							</div>
 
-							<div class="tags">
-								<h1 class="sidebar-heading">{{'HOME.KEYWORD' | translate}}</h1>
-								<ul class="list-inline list-unstyled">
-									<li ng-repeat="keyword in secondarySectionArr_keyword track by $index">
-										<a href="#">{{keyword}}</a>
-									</li>
-								</ul>
-							</div>
 						</div>
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>
