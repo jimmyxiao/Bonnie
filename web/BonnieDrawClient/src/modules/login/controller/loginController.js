@@ -1,5 +1,5 @@
 app.controller('loginController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, AuthenticationService) {
-        if ($rootScope.rg_gl.currentUser) {
+        if($rootScope.rg_gl && $rootScope.rg_gl.currentUser) {
             $state.go('index');
         }
 

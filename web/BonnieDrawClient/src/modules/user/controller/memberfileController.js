@@ -25,7 +25,11 @@ app.controller('memberfileController', function ($cookieStore, $rootScope, $scop
 					if(data.res==1){
 						$scope.user.profilePicture = data.profilePicture;
 						$rootScope.rg_gl.currentUser.userInfo.profilePicture = data.profilePicture;
-						$cookieStore.put('rg_gl', $rootScope.rg_gl);
+						if(localStorageService.isSupported){
+                			localStorageService.set('rg_gl', $rootScope.rg_gl);
+            			}else{
+                			$cookieStore.put('rg_gl', $rootScope.rg_gl);
+            			}
 						alert('上傳成功');
 					}else{
 						alert('上傳失敗');
@@ -50,7 +54,11 @@ app.controller('memberfileController', function ($cookieStore, $rootScope, $scop
 					userService.updateUser($scope.user, function(data, status, headers, config) {
 	        			if(data.res == 1 || data.res == 3){
 	        				$rootScope.rg_gl.currentUser.userInfo = util.clone($scope.user);
-	        				$cookieStore.put('rg_gl', $rootScope.rg_gl);
+	        				if(localStorageService.isSupported){
+				                localStorageService.set('rg_gl', $rootScope.rg_gl);
+				            }else{
+				                $cookieStore.put('rg_gl', $rootScope.rg_gl);
+				            }
 	        				alert('更新成功');
 	        			}else{
 	        				alert(data.msg);

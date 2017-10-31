@@ -13,7 +13,8 @@ var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
 var app = angular.module('app',
 	['ui.router', 'ngCookies', 'ui.bootstrap', 'ngRoute', 'ngSanitize',
-	 'pascalprecht.translate', 'ngTextareaEnter', 'ngFileUpload', 'socialLinks', 'Authentication']);
+	 'pascalprecht.translate', 'ngTextareaEnter', 'ngFileUpload', 'socialLinks', 'LocalStorageModule',
+	 'Authentication']);
 
 app.factory('baseHttp', function($rootScope, $http){
 	function doService(url, params, callback, error){
@@ -308,24 +309,28 @@ app.config(['$translateProvider', function($translateProvider){
 	$translateProvider.preferredLanguage('zh-tw');
 }])
 
-app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $filter, $translate){
+app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $filter, $translate, localStorageService){
 	$rootScope.title = '';
 	$rootScope.iTunesStoreUrl = 'https://www.apple.com/tw/itunes/charts/free-apps/';
 	$rootScope.googlePlayStoreUrl = 'https://play.google.com/store';
 	$rootScope.nowUrl = '';
 	$rootScope.imageLoadUrl = rootApi + 'loadFile';
 
-	$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
-    if ($rootScope.rg_gl.currentUser) {
+	if(localStorageService.isSupported){
+		$rootScope.rg_gl = localStorageService.get('rg_gl');
+	}else{
+		$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
+	}
+    if ($rootScope.rg_gl && $rootScope.rg_gl.currentUser) {
         $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.rg_gl.currentUser.authdata;
  	}
 
    	$rootScope.$on('$locationChangeStart', function (event, next, current){
    		var url = $location.path();
    		$rootScope.nowUrl = url;
-		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete') && !$rootScope.rg_gl.currentUser) {
+		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete') && (!$rootScope.rg_gl || !$rootScope.rg_gl.currentUser) ) {
 	        $state.go('login');
-	    }else if($rootScope.rg_gl.currentUser && (url == '/login' && url == '/singup' && url == '/forget' && url == '/complete')){
+	    }else if( ($rootScope.rg_gl && $rootScope.rg_gl.currentUser) && (url == '/login' && url == '/singup' && url == '/forget' && url == '/complete')){
 	    	$state.go('index');
 	    }
 	});
@@ -347,8 +352,12 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 	});
 
 	$rootScope.logout = function() {
-		$cookieStore.remove('rg_gl');
-		$rootScope.rg_gl = $cookieStore.get('rg_gl') || {};
+		if(localStorageService.isSupported){
+        	localStorageService.remove('rg_gl');
+        }else{
+            $cookieStore.remove('rg_gl');
+        }
+		$rootScope.rg_gl = null;
 		$state.go('login');
 	}
 

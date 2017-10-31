@@ -1,5 +1,5 @@
-app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootScope', '$timeout','loginService',
-    function (Base64, $http, $cookieStore, $rootScope, $timeout ,loginService) {
+app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootScope', '$timeout', 'localStorageService', 'loginService',
+    function (Base64, $http, $cookieStore, $rootScope, $timeout, localStorageService, loginService) {
         var service = {};
         service.Login = function (loginUser, callback){
             $timeout(function(){
@@ -22,12 +22,20 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
             }
 
             $http.defaults.headers.common['Authorization'] = 'Basic' + authdata;
-            $cookieStore.put('rg_gl', $rootScope.rg_gl);
+            if(localStorageService.isSupported){
+                localStorageService.set('rg_gl', $rootScope.rg_gl);
+            }else{
+                $cookieStore.put('rg_gl', $rootScope.rg_gl);
+            }
         }
  
         service.ClearCredentials = function () {
-            $rootScope.rg_gl = {};
-            $cookieStore.remove('rg_gl');
+            if(localStorageService.isSupported){
+                localStorageService.remove('rg_gl');
+            }else{
+                $cookieStore.remove('rg_gl');
+            }
+            $rootScope.rg_gl = null;
             $http.defaults.headers.common.Authorization = 'Basic';
         }
         return service;
