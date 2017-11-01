@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.activity;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -208,7 +210,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -228,7 +229,17 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            finish();
+                            AlertDialog.Builder alertDialog=new AlertDialog.Builder(LoginActivity.this);
+                            alertDialog.setMessage("連線失敗，伺服器發生異常或錯誤，請稍後再試。");
+                            alertDialog.setCancelable(false);
+                            alertDialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            alertDialog.show();
                         }
                     }
                 });
