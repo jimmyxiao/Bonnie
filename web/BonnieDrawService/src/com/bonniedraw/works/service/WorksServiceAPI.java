@@ -13,6 +13,7 @@ import com.bonniedraw.web_api.model.request.WorkListRequestVO;
 import com.bonniedraw.web_api.model.request.WorksSaveRequestVO;
 import com.bonniedraw.web_api.module.CategoryInfoResponse;
 import com.bonniedraw.web_api.module.WorksResponse;
+import com.bonniedraw.works.model.TagInfo;
 
 public interface WorksServiceAPI {
 	public Integer worksSave(WorksSaveRequestVO worksSaveRequestVO);
@@ -42,4 +43,6 @@ public interface WorksServiceAPI {
 	public int setCollection(SetCollectionRequestVO setCollectionRequestVO);
 
 	public int deleteWork(int userId, int worksId);
+	
+	public List<TagInfo> getTagList(String tagName);
 }

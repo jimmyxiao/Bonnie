@@ -118,6 +118,9 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
     }
 }).factory('generalService', function(baseHttp) {
     return {
+        getTagList : function(params, callback) {
+            return baseHttp.service('tagList', params, callback);
+        },
         getCategoryList : function(params, callback) {
             return baseHttp.service('categoryList', params, callback);
         },

@@ -62,13 +62,8 @@
 						<li><a href="#/column"><i class="fi ion-ios-film-outline"></i>我的畫作</a></li>
 						<li><a href=""><i class="fi ion-android-apps"></i>畫作類別</a>
 							<ul>
-							  	<li ng-repeat="data in categoryList track by $index">
-							  		<a href="#/category-listing?type={{data.categoryId}}" ng-click="clickCategory(data)">{{data.categoryName}}</a>
-							  		<ul>
-									  	<li ng-repeat="data2 in data.categoryList track by $index">
-									  		<a href="#/category-listing?type={{data2.categoryId}}" ng-click="clickCategory(data2)">{{data2.categoryName}}</a>
-									  	</li>
-									</ul>		
+							  	<li ng-repeat="data in tagList track by $index">
+							  		<a href="#/category-listing?type={{data.tagName}}">{{data.tagName}}</a>	
 							  	</li>
 							</ul>		
 						</li>

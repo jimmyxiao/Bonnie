@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.works.dao.TagInfoMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.works.model.TagInfo">
+    <id column="TAG_ID" jdbcType="INTEGER" property="tagId" />
+    <result column="TAG_NAME" jdbcType="VARCHAR" property="tagName" />
+    <result column="TAG_ENG_NAME" jdbcType="VARCHAR" property="tagEngName" />
+    <result column="TAG_ORDER" jdbcType="INTEGER" property="tagOrder" />
+    <result column="COUNTRY_CODE" jdbcType="VARCHAR" property="countryCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TAG_ID, TAG_NAME, TAG_ENG_NAME, TAG_ORDER, COUNTRY_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tag_info
+    where TAG_ID = #{tagId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tag_info
+    where TAG_ID = #{tagId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.works.model.TagInfo">
+    insert into tag_info (TAG_ID, TAG_NAME, TAG_ENG_NAME, 
+      TAG_ORDER, COUNTRY_CODE)
+    values (#{tagId,jdbcType=INTEGER}, #{tagName,jdbcType=VARCHAR}, #{tagEngName,jdbcType=VARCHAR}, 
+      #{tagOrder,jdbcType=INTEGER}, #{countryCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.works.model.TagInfo">
+    insert into tag_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tagId != null">
+        TAG_ID,
+      </if>
+      <if test="tagName != null">
+        TAG_NAME,
+      </if>
+      <if test="tagEngName != null">
+        TAG_ENG_NAME,
+      </if>
+      <if test="tagOrder != null">
+        TAG_ORDER,
+      </if>
+      <if test="countryCode != null">
+        COUNTRY_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tagId != null">
+        #{tagId,jdbcType=INTEGER},
+      </if>
+      <if test="tagName != null">
+        #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagEngName != null">
+        #{tagEngName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagOrder != null">
+        #{tagOrder,jdbcType=INTEGER},
+      </if>
+      <if test="countryCode != null">
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.works.model.TagInfo">
+    update tag_info
+    <set>
+      <if test="tagName != null">
+        TAG_NAME = #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagEngName != null">
+        TAG_ENG_NAME = #{tagEngName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagOrder != null">
+        TAG_ORDER = #{tagOrder,jdbcType=INTEGER},
+      </if>
+      <if test="countryCode != null">
+        COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TAG_ID = #{tagId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.works.model.TagInfo">
+    update tag_info
+    set TAG_NAME = #{tagName,jdbcType=VARCHAR},
+      TAG_ENG_NAME = #{tagEngName,jdbcType=VARCHAR},
+      TAG_ORDER = #{tagOrder,jdbcType=INTEGER},
+      COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR}
+    where TAG_ID = #{tagId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getTagList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tag_info
+    <if test="tagName!=null">
+    	where TAG_NAME = #{tagName, jdbcType=VARCHAR}
+    </if>
+    order by TAG_ORDER asc
+  </select>
+  
+</mapper>

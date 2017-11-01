@@ -1,7 +1,6 @@
 package com.bonniedraw.works.service.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bonniedraw.base.service.BaseService;
 import com.bonniedraw.file.BDWAnalysis;
 import com.bonniedraw.file.Point;
-import com.bonniedraw.util.BinaryUtil;
 import com.bonniedraw.util.HashTagUtil;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.TimerUtil;
@@ -31,6 +29,7 @@ import com.bonniedraw.web_api.module.CategoryInfoResponse;
 import com.bonniedraw.web_api.module.WorksResponse;
 import com.bonniedraw.works.dao.CategoryInfoMapper;
 import com.bonniedraw.works.dao.FollowingMapper;
+import com.bonniedraw.works.dao.TagInfoMapper;
 import com.bonniedraw.works.dao.TurnInMapper;
 import com.bonniedraw.works.dao.WorksCategoryMapper;
 import com.bonniedraw.works.dao.WorksCollectionMapper;
@@ -40,6 +39,7 @@ import com.bonniedraw.works.dao.WorksMsgMapper;
 import com.bonniedraw.works.dao.WorksTagMapper;
 import com.bonniedraw.works.model.CategoryInfo;
 import com.bonniedraw.works.model.Following;
+import com.bonniedraw.works.model.TagInfo;
 import com.bonniedraw.works.model.TurnIn;
 import com.bonniedraw.works.model.Works;
 import com.bonniedraw.works.model.WorksCategory;
@@ -78,6 +78,9 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	
 	@Autowired
 	WorksTagMapper worksTagMapper;
+	
+	@Autowired
+	TagInfoMapper tagInfoMapper;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -524,6 +527,12 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			return 2;
 		}
 		return 1;
+	}
+	
+	@Override
+	public List<TagInfo> getTagList(String tagName) {
+		List<TagInfo> tagList = tagInfoMapper.getTagList(tagName);
+		return tagList;
 	}
 
 }

@@ -51,6 +51,7 @@ import com.bonniedraw.web_api.model.request.SetCollectionRequestVO;
 import com.bonniedraw.web_api.model.request.SetFollowingRequestVO;
 import com.bonniedraw.web_api.model.request.SetLikeRequestVO;
 import com.bonniedraw.web_api.model.request.SetTurnInRequestVO;
+import com.bonniedraw.web_api.model.request.TagListRequestVO;
 import com.bonniedraw.web_api.model.request.UpdatePwdRequestVO;
 import com.bonniedraw.web_api.model.request.UserInfoQueryRequestVO;
 import com.bonniedraw.web_api.model.request.UserInfoUpdateRequestVO;
@@ -70,6 +71,7 @@ import com.bonniedraw.web_api.model.response.SetCollectionResponseVO;
 import com.bonniedraw.web_api.model.response.SetFollowingResponseVO;
 import com.bonniedraw.web_api.model.response.SetLikeResponseVO;
 import com.bonniedraw.web_api.model.response.SetTurnInResponseVO;
+import com.bonniedraw.web_api.model.response.TagListResponseVO;
 import com.bonniedraw.web_api.model.response.UpdatePwdResponseVO;
 import com.bonniedraw.web_api.model.response.UserInfoQueryResponseVO;
 import com.bonniedraw.web_api.model.response.UserInfoUpdateResponseVO;
@@ -78,6 +80,7 @@ import com.bonniedraw.web_api.model.response.WorksSaveResponseVO;
 import com.bonniedraw.web_api.module.CategoryInfoResponse;
 import com.bonniedraw.web_api.module.UserInfoResponse;
 import com.bonniedraw.web_api.module.WorksResponse;
+import com.bonniedraw.works.model.TagInfo;
 import com.bonniedraw.works.service.WorksServiceAPI;
 
 @Controller
@@ -781,6 +784,22 @@ public class ApiController {
 		return respResult;
 	}
 	
+	@RequestMapping(value="/tagList" , produces="application/json")
+	public @ResponseBody TagListResponseVO getTagList(HttpServletRequest request,HttpServletResponse resp, @RequestBody TagListRequestVO tagListRequestVO) {
+		TagListResponseVO respResult = new TagListResponseVO();
+		respResult.setRes(2);
+		String msg = "";
+		if(isLogin(tagListRequestVO)){
+				List<TagInfo> tagList = worksServiceAPI.getTagList(null);
+				respResult.setTagList(tagList);
+				respResult.setRes(1);
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
 	@RequestMapping(value="/deleteWork" , produces="application/json")
 	public @ResponseBody DeleteWorkResponseVO deleteWork(HttpServletRequest request,HttpServletResponse resp, @RequestBody DeleteWorkRequestVO deleteWorkRequestVO) {
 		DeleteWorkResponseVO respResult = new DeleteWorkResponseVO();
@@ -822,4 +841,6 @@ public class ApiController {
 		respResult.setMsg(msg);
 		return respResult;
 	}
+	
+	
 }

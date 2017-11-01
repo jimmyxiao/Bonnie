@@ -33,7 +33,7 @@ app.controller('categoryListingController', function ($rootScope, $scope, $windo
 				}
 			})
 		}
-		$scope.queryCategoryWorks($scope.type);
+		// $scope.queryCategoryWorks($scope.type);
 
 		$scope.clickWorksLike = function(data){
 			var params = util.getInitalScope();

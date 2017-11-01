@@ -8,7 +8,8 @@
 					<div class="col-md-9 col-sm-8">
 						<div class="st-3-column secondary-vid">
 							<div class="vid-heading overflow-hidden">
-								<span class="wow fadeInUp" data-wow-duration="0.8s">畫作類別</span>
+								<!-- <span class="wow fadeInUp" data-wow-duration="0.8s">畫作類別</span> -->
+								<span class="wow fadeInUp" data-wow-duration="0.8s">{{type}}</span>
 								<div class="hding-bottm-line wow zoomIn" data-wow-duration="0.8s"></div>
 							</div>
 							<div class="row">
@@ -58,50 +59,6 @@
 						</div>
 					</div>
 					
-					<div class="col-md-3 col-sm-4">
-						<div class="sidebar">
-							<div class="sidebar-vid most-liked">
-								<h1 class="sidebar-heading">{{'HOME.USER_LIKE' | translate}}</h1>
-								<div class="media" ng-repeat="data in secondarySectionArr_userLike track by $index">
-									<div class="media-left">
-										<img ng-src="{{data.img}}" alt="video" style="width:90px; height:60px">
-									</div>
-									<div class="media-body">
-										<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i>{{data.comment}}</span>
-											<span><i class="fa fa-eye"></i>{{data.view}}</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-						<div class="sidebar-vid most-viewd">
-								<h1 class="sidebar-heading">{{'HOME.MORE_CREATION' | translate}}</h1>
-								<div class="most-viewd-container" ng-repeat="data in secondarySectionArr_moreCreation track by $index">
-									<div class="most-viewd-img">
-										<img class="img-responsive" ng-src="{{data.img}}" alt="video">
-									</div>
-									<div class="most-viewd-text">
-										<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a></h1>
-										<p>
-											<span><i class="fa fa-comment"></i>{{data.comment}}</span>
-											<span><i class="fa fa-eye"></i>{{data.view}}</span>
-										</p>
-									</div>
-								</div>	
-							</div>
-
-							<div class="tags">
-								<h1 class="sidebar-heading">{{'HOME.KEYWORD' | translate}}</h1>
-								<ul class="list-inline list-unstyled">
-									<li ng-repeat="keyword in secondarySectionArr_keyword track by $index">
-										<a href="#">{{keyword}}</a>
-									</li>
-								</ul>
-							</div>
-					</div>
 				</div>
 			</div>
 		</div>

@@ -1,13 +1,13 @@
 app.controller('headerMenuController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, generalService) {
 		var param = util.getInitalScope();
 		param.categoryId = 0;
-		$scope.categoryList =[];
-		$scope.getCategoryList = function(){
-			generalService.getCategoryList(param, function(data, status, headers, config) {
-	        	$scope.categoryList = data.categoryList;
+		$scope.tagList =[];
+		$scope.getTagList = function(){
+			generalService.getTagList(param, function(data, status, headers, config) {
+	        	$scope.tagList = data.tagList;
 			})
 		}
-		$scope.getCategoryList();
+		$scope.getTagList();
 
 		$scope.clickCategory = function(data){
 			
