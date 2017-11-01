@@ -177,6 +177,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				if(data.res == 1){
 					$scope.mainSection = data.work;
 					$scope.isShow = true;
+					$scope.queryRelatedWorks();
 				}
 			})
 		}
@@ -189,14 +190,13 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			params.wt = 6;
 			params.stn= 1;
 			params.rc = 5;
-			params.queryId = wid; 
+			params.queryId = $scope.mainSection.userId; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$scope.secondarySectionArr_userLike = data.workList;
 				}
 			})
 		}
-		$scope.queryRelatedWorks();
 
 		$scope.queryMoreWorks = function(){
 			$scope.secondarySectionArr_moreCreation = [];
@@ -278,18 +278,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				}
 			})
 		}
-
-		 
-
-		 // $scope.secondarySectionArr_moreCreation = [
-		 // 	{
-		 // 		img:'../BonnieDrawService/BDService/loadFile/files/23/png/dce333f9fba54dc1a71e10066072b6ce.png',
-		 // 		title:'Bear',
-		 // 		comment:'10',
-		 // 		view:'534',
-		 // 		worksId:'23'
-		 // 	}
-		 // ]
 
 		 // $scope.secondarySectionArr_keyword =['3D','Animals & Birds','HD','Horror','Art','Self','HD Songs','Comedy'];
 

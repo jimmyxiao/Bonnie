@@ -14,7 +14,7 @@ angular.module('Authentication', []);
 var app = angular.module('app',
 	['ui.router', 'ngCookies', 'ui.bootstrap', 'ngRoute', 'ngSanitize',
 	 'pascalprecht.translate', 'ngTextareaEnter', 'ngFileUpload', 'socialLinks', 'LocalStorageModule',
-	 'Authentication']);
+	 'vcRecaptcha', 'Authentication']);
 
 app.factory('baseHttp', function($rootScope, $http){
 	function doService(url, params, callback, error){

@@ -10,11 +10,11 @@ import com.bonniedraw.login.module.LoginInput;
 import com.bonniedraw.login.module.LoginOutput;
 import com.bonniedraw.login.service.LoginService;
 import com.bonniedraw.user.model.AdminInfo;
-import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.WebUserService;
 import com.bonniedraw.util.TimerUtil;
 import com.bonniedraw.util.ValidateUtil;
 import  com.bonniedraw.util.auth.AuthView;
+import com.bonniedraw.util.recaptchav2java.ReCaptcha;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +32,15 @@ public class LoginController {
 	
 	@Autowired
 	LoginService loginService;
+	
+	@RequestMapping(value="/recaptcha-valid")
+	public @ResponseBody BaseModel recaptchaValid(HttpServletRequest request, HttpServletResponse resp, @RequestBody String responseToken){
+		BaseModel baseModel = new BaseModel();
+		baseModel.setResult(false);
+		boolean result = new ReCaptcha().isValid(responseToken);
+		baseModel.setResult(result);
+		return baseModel;
+	}
 	
 	@RequestMapping(value="/complete")
 	public @ResponseBody BaseModel registerComplete(HttpServletRequest request, HttpServletResponse resp, @RequestParam String token){
@@ -55,32 +64,32 @@ public class LoginController {
 		return baseModel;
 	}
 	
-	@RequestMapping(value="/register")
-	public @ResponseBody BaseModel register(HttpServletRequest request, HttpServletResponse resp, @RequestBody UserInfo userInfo){
-		BaseModel baseModel = new BaseModel();
-		baseModel.setResult(false);
-		String msg ="";
-		if(ValidateUtil.isNotBlank(userInfo.getPhoneNo()) && ValidateUtil.isNotBlank(userInfo.getUserName())
-				&& ValidateUtil.isNotBlank(userInfo.getUserCode()) && ValidateUtil.isNotBlank(userInfo.getUserPw())){
-			int res = webUserService.register(userInfo);
-			switch (res) {
-			case 1:
-				baseModel.setResult(true);
-				msg = "信件已發送";
-				break;
-			case 2:
-				msg = "失敗";
-				break;
-			case 3:
-				msg = "已註冊";
-				break;
-			}
-		}else{
-			
-		}
-		baseModel.setMessage(msg);
-		return baseModel;
-	}
+//	@RequestMapping(value="/register")
+//	public @ResponseBody BaseModel register(HttpServletRequest request, HttpServletResponse resp, @RequestBody UserInfo userInfo){
+//		BaseModel baseModel = new BaseModel();
+//		baseModel.setResult(false);
+//		String msg ="";
+//		if(ValidateUtil.isNotBlank(userInfo.getPhoneNo()) && ValidateUtil.isNotBlank(userInfo.getUserName())
+//				&& ValidateUtil.isNotBlank(userInfo.getUserCode()) && ValidateUtil.isNotBlank(userInfo.getUserPw())){
+//			int res = webUserService.register(userInfo);
+//			switch (res) {
+//			case 1:
+//				baseModel.setResult(true);
+//				msg = "信件已發送";
+//				break;
+//			case 2:
+//				msg = "失敗";
+//				break;
+//			case 3:
+//				msg = "已註冊";
+//				break;
+//			}
+//		}else{
+//			
+//		}
+//		baseModel.setMessage(msg);
+//		return baseModel;
+//	}
 	
 	@AuthView
 	@RequestMapping(value="/loginFailed")
