@@ -1,24 +1,67 @@
+#main-bar .login .media .media-left{
+	width: 41px;
+}
+
+.media-mark{
+	margin-top: 2.8px;
+}
+ .media-body{
+ 	padding-top: 6.5px;
+ }
+.media-left img{
+	border-radius: 50%;
+}
+
 .drwa-play{
 	width: 640px;
-    height: 640px;
+    height: 740px;
     margin: auto;
 }
 
 .drwa-play>canvas{
 	width: 640px;
     height: 640px;
+    border: 1px solid #999999;
+    border-radius: 60px;
 }
 
 .pasue-back{
- position: absolute; 
- width: 640px;
- height: 640px;
- top: 0px; 
- background: rgba(0,0,0,0.3);
+	 /*position: absolute;*/
+	 position: relative; 
+	 width: 640px;
+	 /*height: 640px;*/
+	 height: 100px;
+	 top: 0px; 
+	 /*background: rgba(0,0,0,0.3);*/
 }
 
 .pasue-img{
-	width: 380px; 
+	width: 176px; 
 	float: right; 
-	margin-top: 260px;
+	margin-top: 18px;
+	
+}
+.last-img{
+	width: 176px; 
+	float: right; 
+	margin-top: 18px;
+
+}
+.next-img{
+	width: 176px; 
+	float: right; 
+	margin-top: 18px;
+
+}
+
+.pasue-back i{
+	font-size: 64px
+}
+
+.pasue-img i{
+	color: #f26f45;
+}
+
+.imgchag{
+	color: #999999;
 }

@@ -32,7 +32,9 @@
 						</div>
 						<div class="media-left">
 							<a href="#/myfile" >
-								<img class="img-responsive play-svg svg" src="assets/images/user.svg" alt="play" onerror="this.src='assets/images/user.png'">
+								<!--<img class="img-responsive play-svg svg" src="assets/images/user.svg" alt="play" onerror="this.src='assets/images/user.png'">-->
+								<img class="img-responsive play-svg svg" ng-if="rg_gl.currentUser.userInfo.profilePicture!=null && rg_gl.currentUser.userInfo.profilePicture!=''" ng-src="{{imageLoadUrl}}{{rg_gl.currentUser.userInfo.profilePicture}}">
+								<img class="img-responsive play-svg svg" ng-if="rg_gl.currentUser.userInfo.profilePicture==null || rg_gl.currentUser.userInfo.profilePicture==''" src="assets/images/avatar/photo-round@3x.png">
 							</a>
 						</div>
 						<div class="media-body">

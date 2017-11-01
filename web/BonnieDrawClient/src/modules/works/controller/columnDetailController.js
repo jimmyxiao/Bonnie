@@ -6,47 +6,131 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.isShow = false;
 
 		var paused= false;
+		var auto = true;
+		var nextstatus = false;
+		
+		$scope.islast = false;
+		$scope.isnext = false;
+		
 		$scope.pausebol =true;
 		$scope.pasue = function(){
+			console.log(predata.length);
 			if (!paused){
-				$scope.pausebol =false;
+				$scope.pausebol = false;
 				paused = true;
+				if(predata.length>0){
+					$scope.islast = true;
+				}else{
+					$scope.islast = false;
+				}
+				
+				if(draw_number>=lines.length){
+					$scope.isnext = false;
+				}else{
+					$scope.isnext = true;
+				}
 			} else {
 				loop();
 				$scope.pausebol =true;
 				paused = false;
+				$scope.islast = false;
+				$scope.isnext = false;
+			}
+		}
+		
+		$scope.last = function(){
+			//console.log('click last');
+			if (paused){
+				if(predata.length>0){
+					var popData = predata.pop();
+					draw_number = iarray.pop();
+                	cxt.putImageData(popData, 0, 0);
+                	$scope.islast = true;
+                }else{
+                	console.log('not last');
+                	$scope.islast = false;
+                }
+			}
+		}
+		
+		$scope.next = function(){
+			//console.log('click next');
+			if (paused){
+				if(!nextstatus){
+					nextstatus = true;
+					auto = false;
+					$scope.isnext = true;
+					loop();
+				}else{
+					
+				}
 			}
 		}
 
-		var i=0;
+		var i = 0;
+		var draw_number = 0;
 		var lines = [];
+		var predata = [];
+		var iarray = [];
 		var can = null;
 		var cxt = null;
 		var canvas_width = 1000;
 		var canvas_height = 1000;
 		function loop(){
-			if(i>=lines.length){
-				i=0;
+			if(draw_number>=lines.length){
+				
+				predata = [];
+		    	cxt.clearRect(0, 0, canvas_width, canvas_height);
+		    	draw_number=0;
+		    	
+		    	if(auto){
+			    	$scope.$apply( function() {
+						$scope.pasue();
+					})
+		    	}
+				/*
 				setTimeout(function(){
+					
+					predata = [];
 			    	cxt.clearRect(0, 0, canvas_width, canvas_height);
 			    	loop();
-				}, 5000);
+			    	
+				}, 5000);*/
 			}else{
 				setTimeout(function(){
 			    	drawDot();
-				}, lines[i].time);
+				}, lines[draw_number].time);
 			}
 		}
 
 		function drawDot(){
 			cxt.beginPath();
-			var data = lines[i];
+			var data = lines[draw_number];
 			var previewData =[];
-			if(i>0){
-				previewData = lines[i-1];
+			
+			if(draw_number==0){
+				if(predata.length>21){
+					predata.shift();
+				}
+				var pindata = cxt.getImageData(0, 0,canvas_width, canvas_height);
+				predata.push(pindata);
+				iarray.push(draw_number);
+			}
+			
+			if(draw_number>0){
+				previewData = lines[draw_number-1];
 			}
 
 			if(data.action==1 || data.action==2){
+				if(data.action==2){
+					if(predata.length>21){
+						predata.shift();
+					}
+					var pindata = cxt.getImageData(0, 0,canvas_width, canvas_height);
+					predata.push(pindata);
+					iarray.push(draw_number);
+				}
+				
 				cxt.arc(data.xPos, data.yPos, data.size , 0, 2 * Math.PI, false);
 				cxt.fillStyle = data.color;
 				cxt.fill();
@@ -62,9 +146,15 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				cxt.fill();
 			}
 			
-			i++;
+			draw_number++;
 			if(!paused){
 			  	loop();
+			}else if(!auto && data.action!=2){
+				loop();
+				nextstatus = true;
+			}else{
+				auto =true;
+				nextstatus = false;
 			}
 		}
 
