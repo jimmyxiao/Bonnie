@@ -29,8 +29,6 @@ import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.works.WorkAdapterGrid;
 import com.sctw.bonniedraw.works.WorkAdapterList;
-import com.sctw.bonniedraw.works.WorkGridOnClickListener;
-import com.sctw.bonniedraw.works.WorkListOnClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -266,7 +264,7 @@ public class ProfileFragment extends Fragment {
     public void refreshWorks(JSONArray data) {
         workInfoList = WorkInfo.generateInfoList(data);
 
-        mAdapterGrid = new WorkAdapterGrid(workInfoList, new WorkGridOnClickListener() {
+        mAdapterGrid = new WorkAdapterGrid(workInfoList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
                 Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
@@ -279,7 +277,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        mAdapterList = new WorkAdapterList(workInfoList, new WorkListOnClickListener() {
+        mAdapterList = new WorkAdapterList(workInfoList, new WorkAdapterList.WorkListOnClickListener() {
             @Override
             public void onWorkImgClick(int wid) {
                 Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));

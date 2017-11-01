@@ -85,4 +85,8 @@ public class WorkAdapterGrid extends RecyclerView.Adapter<WorkAdapterGrid.ViewHo
     public int getItemCount() {
         return data.size();
     }
+
+    public interface WorkGridOnClickListener {
+        void onWorkClick(int wid);
+    }
 }

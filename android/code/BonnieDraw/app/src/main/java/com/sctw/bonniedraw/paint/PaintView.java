@@ -383,7 +383,6 @@ public class PaintView extends View {
     public void initDefaultBrush(Brush brush) {
         setBrush(brush);
         setDrawingCacheEnabled(true);
-        setDrawingScaledSize(1);
         setDrawingColor(Color.BLACK);
         setDrawingBgColor(Color.WHITE);
     }

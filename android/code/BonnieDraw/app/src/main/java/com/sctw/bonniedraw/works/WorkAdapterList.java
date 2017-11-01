@@ -157,4 +157,14 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     public int getItemCount() {
         return data.size();
     }
+
+
+    public interface WorkListOnClickListener {
+        void onWorkImgClick(int wid);
+        void onWorkExtraClick(int wid);
+        void onWorkGoodClick(int wid);
+        void onWorkMsgClick(int wid);
+        void onWorkShareClick(int wid);
+    }
+
 }

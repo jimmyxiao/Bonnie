@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/shape_paint_setting_background"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/textView_paint_base"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="筆刷大小"
+            android:textColor="@color/White"
+            android:textSize="12sp" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_paint_base_decrease"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            app:srcCompat="@drawable/personal_ic_shape" />
+
+        <SeekBar
+            android:id="@+id/seekbar_paint_base"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="7" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_paint_base_add"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            app:srcCompat="@drawable/personal_ic_shape" />
+    </LinearLayout>
+</RelativeLayout>
