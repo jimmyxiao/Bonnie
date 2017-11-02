@@ -16,6 +16,6 @@ class SizePickerTableViewCell: UITableViewCell {
     }
 
     override func draw(_ rect: CGRect) {
-        UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: radius, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true).fill()
+        UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).fill()
     }
 }

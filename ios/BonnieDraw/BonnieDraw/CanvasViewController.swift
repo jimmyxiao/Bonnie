@@ -30,7 +30,7 @@ class CanvasViewController:
         penButton.layer.cornerRadius = view.bounds.width / 10
         let size = CGSize(width: 28, height: 28)
         UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
-        UIBezierPath(arcCenter: CGPoint(x: size.width / 2, y: size.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true).fill()
+        UIBezierPath(arcCenter: CGPoint(x: size.width / 2, y: size.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).fill()
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
         sizeButton.tintColor = canvas.color
         UIGraphicsGetCurrentContext()?.clear(CGRect(origin: .zero, size: size))
@@ -73,7 +73,7 @@ class CanvasViewController:
 
     @IBAction func option(_ sender: Any) {
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         canvas.lastTimestamp = -1
         if let controller = segue.destination as? SizePickerViewController {
@@ -144,7 +144,7 @@ class CanvasViewController:
         canvas.size = size
         let rect = CGSize(width: 28, height: 28)
         UIGraphicsBeginImageContextWithOptions(rect, false, UIScreen.main.scale)
-        UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true).fill()
+        UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).fill()
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
         sizeButton.tintColor = canvas.color
         UIGraphicsEndImageContext()

@@ -79,7 +79,7 @@ class CanvasView: UIView {
            let point = paths.last?.points.last,
            point.action == .move {
             UIColor.black.setStroke()
-            UIBezierPath(arcCenter: point.position, radius: point.size / 2, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true).stroke()
+            UIBezierPath(arcCenter: point.position, radius: point.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
         }
         if !isUserInteractionEnabled {
             if !animationPoints.isEmpty {
