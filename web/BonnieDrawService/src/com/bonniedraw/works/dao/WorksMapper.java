@@ -29,22 +29,30 @@ public interface WorksMapper {
     
     int seletMaxPagination(Integer rc);
     
-    int seletMaxPaginationBindUser(Map<String, Integer> pagerMap);
+    int seletMaxPaginationBindUser(Map<String, Object> pagerMap);
     
-    int seletMaxPaginationBindFollow(Map<String, Integer> pagerMap);
+    int seletMaxPaginationBindFollow(Map<String, Object> pagerMap);
     
-    int seletMaxPaginationBindCollection(Map<String, Integer> pagerMap);
+    int seletMaxPaginationBindCollection(Map<String, Object> pagerMap);
     
-    List<WorksResponse> queryPopularWorksPager(Map<String, Integer> pagerMap);
+    int seletMaxPaginationBindTagName(Map<String, Object> pagerMap);
     
-    List<WorksResponse> queryUserWorksPager(Map<String, Integer> pagerMap);
+    int seletMaxPaginationBindSearch(Map<String, Object> pagerMap);
     
-    List<WorksResponse> queryOtherUserWorksPager(Map<String, Integer> pagerMap);
+    List<WorksResponse> queryPopularWorksPager(Map<String, Object> pagerMap);
     
-    List<WorksResponse> queryTrackWorksPager(Map<String, Integer> pagerMap);
+    List<WorksResponse> queryUserWorksPager(Map<String, Object> pagerMap);
     
-    List<WorksResponse> queryCollectionWorksPager(Map<String, Integer> pagerMap);
+    List<WorksResponse> queryOtherUserWorksPager(Map<String, Object> pagerMap);
+    
+    List<WorksResponse> queryTrackWorksPager(Map<String, Object> pagerMap);
+    
+    List<WorksResponse> queryCollectionWorksPager(Map<String, Object> pagerMap);
     
     List<WorksResponse> queryCategoryWorksPager(Map<String, Object> pagerMap);
+    
+    List<WorksResponse> queryRelatedTagWorksPager(Map<String, Object> pagerMap);
+    
+    List<WorksResponse> querySearchWorksPager(Map<String, Object> pagerMap);
     
 }

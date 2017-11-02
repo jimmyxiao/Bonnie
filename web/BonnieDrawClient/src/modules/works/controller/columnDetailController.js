@@ -14,7 +14,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		
 		$scope.pausebol =true;
 		$scope.pasue = function(){
-			console.log(predata.length);
 			if (!paused){
 				$scope.pausebol = false;
 				paused = true;
@@ -254,7 +253,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.covert = function(description){
 			var arr = util.splitHashTag(description);
 			for(i=0;i<arr.length;i++){
-				description = description.replace(arr[i],'<a href="#/page-not-found">'+ arr[i] +'</a>');
+				description = description.replace(arr[i],'<a href="#/category-listing?type='+ util.covertTag(arr[i]) +'">'+ arr[i] +'</a>');
 			}
 			return description;
 		}
@@ -368,8 +367,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				}
 			})
 		}
-
-		 // $scope.secondarySectionArr_keyword =['3D','Animals & Birds','HD','Horror','Art','Self','HD Songs','Comedy'];
 
 	}
 )

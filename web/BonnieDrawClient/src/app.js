@@ -297,6 +297,23 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        	templateUrl: 'modules/share/view/footer.html'
 	        }
       	}
+  	}).state('searchListing', {
+      	url: '/searchListing?result=',
+      	views: {
+      		"loader":{
+      			templateUrl: 'modules/share/view/loader.html'
+      		},
+	        "layout": {
+	            templateUrl: 'modules/works/view/searchListing.html',
+	            controller:'searchListingController'
+	        },
+	        "headerMenu@searchListing":{
+	        	templateUrl: 'modules/share/view/header-menu.html'
+	        },
+	        "footer@searchListing":{
+	        	templateUrl: 'modules/share/view/footer.html'
+	        }
+      	}
   	})
 }])
 
@@ -359,6 +376,17 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
         }
 		$rootScope.rg_gl = null;
 		$state.go('login');
+	}
+
+	$rootScope.covertTag = function(tagName) {
+		var str = tagName.replace('#', '');
+		if(str.indexOf('+')!=-1){
+			str = str.replace(/\+/gi, '%2B');
+		}
+		if(str.indexOf('&')!=-1){
+			str = str.replace(/\&/gi, '&amp;');
+		}
+		return str;
 	}
 
 	$rootScope.language = 'zh-tw';

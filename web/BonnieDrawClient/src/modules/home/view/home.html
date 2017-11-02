@@ -170,7 +170,7 @@
 								<h1 class="sidebar-heading">{{'HOME.KEYWORD' | translate}}</h1>
 								<ul class="list-inline list-unstyled">
 									<li ng-repeat="keyword in secondarySectionArr_keyword track by $index">
-										<a href="#">{{keyword}}</a>
+										<a href="#/category-listing?type={{covertTag(keyword)}}">{{keyword}}</a>
 									</li>
 								</ul>
 							</div>

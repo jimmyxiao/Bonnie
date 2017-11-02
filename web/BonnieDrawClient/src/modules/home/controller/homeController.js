@@ -155,7 +155,7 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 		 	}
 		 ]
 
-		 $scope.secondarySectionArr_keyword =['3D','Animals & Birds','HD','Horror','Art','Self','HD Songs','Comedy'];
+		 $scope.secondarySectionArr_keyword =['hello', 'foobar', 'Face'];
 
 	}
 )

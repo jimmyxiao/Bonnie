@@ -13,6 +13,13 @@ app.controller('headerMenuController', function ($rootScope, $scope, $window, $l
 			
 		}
 
+		$scope.search = {
+			context:null
+		}
+		$scope.searchRangeWorks = function(){
+			$state.go('searchListing', {result:$scope.search.context});
+		}
+
 	}
 )
 

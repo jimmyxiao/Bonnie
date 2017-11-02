@@ -425,7 +425,8 @@ public class ApiController {
 			if(isLogin(workListRequestVO)){
 				Integer wt = workListRequestVO.getWt();
 				Integer wid = workListRequestVO.getWid();
-				if(ValidateUtil.isNotNumNone(wid)){		//取得單一作品
+				if(ValidateUtil.isNotNumNone(wid)){		
+					//取得單一作品
 					WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
 					if(worksResponse!=null){
 						Integer resStatus = worksResponse.getStatus();
@@ -438,15 +439,12 @@ public class ApiController {
 								msg = messageSource.getMessage("api_success",null,request.getLocale());
 							}
 						}
-//						List<WorksResponse> workList = respResult.getWorkList();
-//						workList.add(worksResponse);
-//						respResult.setRes(1);
-//						msg = messageSource.getMessage("api_success",null,request.getLocale());
 					}else{
 						respResult.setRes(2);
 						msg = messageSource.getMessage("api_fail",null,request.getLocale());
 					}
-				}else{
+				}else{	
+					//取得全部作品
 					if(ValidateUtil.isNotNumNone(wt) && wt > 0){
 						if(wt!=3 && !(wt >=20)){
 							List<WorksResponse> workList;
@@ -827,17 +825,13 @@ public class ApiController {
 		DictionaryListResponseVO respResult = new DictionaryListResponseVO();
 		respResult.setRes(2);
 		String msg = "";
-//		if(isLogin(dictionaryListRequestVO)){
-			int dictionaryType = dictionaryListRequestVO.getDictionaryType();
-			if(dictionaryType==1 || dictionaryType==2){
-				respResult.setDictionaryList(dictionaryService.getDictionaryList(dictionaryType, dictionaryListRequestVO.getDictionaryID()));
-				respResult.setRes(1);
-			}else{
-				msg = "資料異常";
-			}
-//		}else{
-//			msg = "帳號未登入"; 
-//		}
+		int dictionaryType = dictionaryListRequestVO.getDictionaryType();
+		if(dictionaryType==1 || dictionaryType==2){
+			respResult.setDictionaryList(dictionaryService.getDictionaryList(dictionaryType, dictionaryListRequestVO.getDictionaryID()));
+			respResult.setRes(1);
+		}else{
+			msg = "資料異常";
+		}
 		respResult.setMsg(msg);
 		return respResult;
 	}

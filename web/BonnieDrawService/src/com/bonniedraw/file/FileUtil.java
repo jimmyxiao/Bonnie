@@ -17,6 +17,9 @@ import com.bonniedraw.util.SercurityUtil;
 public class FileUtil {
 	
 	public static Map<String, Object> copyURLToFile(String url, String path){
+		if(url.indexOf("?") != -1){
+			url = url.split("\\?")[0].toString();
+		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("status", false);
 		result.put("path", null);

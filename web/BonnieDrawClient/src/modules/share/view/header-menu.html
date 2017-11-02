@@ -15,8 +15,8 @@
 			<div class="col-md-7 col-sm-6 col-xs-6 border-right sm-border-top">
 				<div class="search-box">
 					<form method="post">
-						<input type="text" name="search" id="search" class="form-control" placeholder="Search" required>
-						<button type="submit" class="search-icon">
+						<input type="text" ng-model="search.context" name="search" id="search" class="form-control" placeholder="Search" required>
+						<button type="submit" class="search-icon" ng-click="searchRangeWorks()" >
 							<i class="fa fa-search"></i>
 						</button>
 					</form>						
@@ -68,7 +68,7 @@
 						<li><a href=""><i class="fi ion-android-apps"></i>畫作類別</a>
 							<ul>
 							  	<li ng-repeat="data in tagList track by $index">
-							  		<a href="#/category-listing?type={{data.tagName}}">{{data.tagName}}</a>	
+							  		<a href="#/category-listing?type={{covertTag(data.tagName)}}">{{data.tagName}}</a>	
 							  	</li>
 							</ul>		
 						</li>

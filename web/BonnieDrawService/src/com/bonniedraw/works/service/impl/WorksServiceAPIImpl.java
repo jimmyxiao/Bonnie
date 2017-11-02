@@ -260,6 +260,10 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		return worksResponseList;
 	}
 	
+	/**
+	 *	wt type:
+	 *	1: 追蹤清單, 2:熱門, 5:個人, 6:其他用戶, 7:收藏, 8:HashTag, 9:一般查詢
+	 */
 	@Override
 	public Map<String, Object> queryAllWorksAndPagination(WorkListRequestVO workListRequestVO) {
 		int wt = workListRequestVO.getWt();
@@ -269,7 +273,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		List<WorksResponse> worksResponseList = new ArrayList<WorksResponse>();
 		int maxPagination = 0;
 		
-		Map<String, Integer> pagerMap = new HashMap<String, Integer>();
+		Map<String, Object> pagerMap = new HashMap<String, Object>();
 		pagerMap.put("offset", (rc*(stn-1)));
 		pagerMap.put("limit", rc);
 		pagerMap.put("userId", workListRequestVO.getUi());
@@ -282,14 +286,11 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			maxPagination = worksMapper.seletMaxPagination(rc);
 			worksResponseList = worksMapper.queryPopularWorksPager(pagerMap);
 			break;
-		case 4:
-			break;
 		case 5:
 			maxPagination = worksMapper.seletMaxPaginationBindUser(pagerMap);
 			worksResponseList = worksMapper.queryUserWorksPager(pagerMap);
 			break;
 		case 6:
-//			maxPagination = worksMapper.seletMaxPaginationBindUser(pagerMap);
 			Integer queryId = workListRequestVO.getQueryId();
 			if(queryId!=null && queryId>0 && queryId!=workListRequestVO.getUi()){
 				pagerMap.put("queryId", workListRequestVO.getQueryId());
@@ -299,6 +300,20 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		case 7:
 			maxPagination = worksMapper.seletMaxPaginationBindCollection(pagerMap);
 			worksResponseList = worksMapper.queryCollectionWorksPager(pagerMap);
+			break;
+		case 8:
+			if(ValidateUtil.isNotBlank(workListRequestVO.getTagName())){
+				pagerMap.put("tagName", workListRequestVO.getTagName());
+				maxPagination = worksMapper.seletMaxPaginationBindTagName(pagerMap);
+				worksResponseList = worksMapper.queryRelatedTagWorksPager(pagerMap);
+			}
+			break;
+		case 9:
+			if(ValidateUtil.isNotBlank(workListRequestVO.getSearch())){
+				pagerMap.put("search", workListRequestVO.getSearch());
+				maxPagination = worksMapper.seletMaxPaginationBindSearch(pagerMap);
+				worksResponseList = worksMapper.querySearchWorksPager(pagerMap);
+			}
 			break;
 		}
 		

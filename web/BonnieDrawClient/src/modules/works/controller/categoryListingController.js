@@ -3,6 +3,7 @@ app.controller('categoryListingController', function ($rootScope, $scope, $windo
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		$scope.type = $state.params.type;
+
 		if(util.isEmpty($scope.type)){
 			return;
 		}
@@ -11,19 +12,20 @@ app.controller('categoryListingController', function ($rootScope, $scope, $windo
 		$rootScope.paginList =[];
 		$scope.clickPagin = function(pagin){
 			$rootScope.offset = pagin;
-			$scope.queryCategoryWorks();
+			$scope.queryRelatedTagWorks();
 		}
 		$scope.movePagin = function(offset){
 			$rootScope.offset = $rootScope.offset + offset;
-			$scope.queryCategoryWorks();
+			$scope.queryRelatedTagWorks();
 		}
 
-		$scope.queryCategoryWorks = function(type){
+		$scope.queryRelatedTagWorks = function(type){
 			$scope.mainSectionArr = [];
 			var params = util.getInitalScope();
 			params.wid = 0;
-			params.wt = type;
+			params.wt = 8;
 			params.stn = $scope.offset;
+			params.tagName = type;
 			params.rc = 9; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
@@ -33,7 +35,7 @@ app.controller('categoryListingController', function ($rootScope, $scope, $windo
 				}
 			})
 		}
-		// $scope.queryCategoryWorks($scope.type);
+		$scope.queryRelatedTagWorks($scope.type);
 
 		$scope.clickWorksLike = function(data){
 			var params = util.getInitalScope();

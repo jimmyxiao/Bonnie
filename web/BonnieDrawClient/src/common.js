@@ -163,6 +163,13 @@ app.factory('util', function($rootScope, $http, $modal) {
 			    }
 			});
 			return arr;
+		},
+		covertTag:function(tagName){
+			var str = tagName.replace('#', '');
+			if(str.indexOf('+')!=-1){
+				str = str.replace(/\+/gi, '%2B');
+			}
+			return str;
 		}
 	}
 });

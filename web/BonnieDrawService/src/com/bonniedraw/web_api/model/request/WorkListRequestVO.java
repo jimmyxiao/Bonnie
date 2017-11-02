@@ -8,6 +8,8 @@ public class WorkListRequestVO extends ApiRequestVO {
 	private Integer stn;
 	private Integer rc;
 	private Integer queryId;
+	private String tagName;
+	private String search;
 
 	public Integer getWid() {
 		return wid;
@@ -49,4 +51,20 @@ public class WorkListRequestVO extends ApiRequestVO {
 		this.queryId = queryId;
 	}
 
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	
 }

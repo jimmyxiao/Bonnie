@@ -132,8 +132,8 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
     return {
         getDrawingPlay: function(params,callback){
             return baseHttp.service('drawingPlay' ,params,callback);
-        }
-        ,queryWorksList: function(params,callback){
+        },
+        queryWorksList: function(params,callback){
             return baseHttp.service('worksList' ,params,callback);
         },
         setLike: function(params,callback){
