@@ -17,4 +17,5 @@ public interface WorksMsgMapper {
     
     WorksMsg selectExistMsg(WorksMsg record);
     
+    int deleteByWorksId(int worksId);
 }

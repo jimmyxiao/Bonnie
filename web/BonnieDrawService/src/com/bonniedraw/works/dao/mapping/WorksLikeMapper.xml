@@ -87,4 +87,9 @@
     and LIKE_TYPE = #{likeType,jdbcType=INTEGER}
   </delete>
   
+  <delete id="deleteByWorksId" parameterType="java.lang.Integer">
+    delete from works_like
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </delete>
+  
 </mapper>

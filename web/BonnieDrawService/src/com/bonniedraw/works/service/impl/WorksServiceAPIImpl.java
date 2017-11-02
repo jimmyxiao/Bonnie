@@ -533,6 +533,10 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		try {
 			if(works !=null && works.getUserId().equals(userId)){
 				worksMapper.deleteByPrimaryKey(worksId);
+				worksLikeMapper.deleteByWorksId(worksId);
+				worksMsgMapper.deleteByWorksId(worksId);
+				worksTagMapper.deleteByWorksId(worksId);
+				worksCollectionMapper.deleteByWorksId(worksId);
 			}else{
 				return 3;
 			}

@@ -16,4 +16,6 @@ public interface WorksLikeMapper {
     int updateByPrimaryKey(WorksLike record);
     
     int deleteByNotPrimaryKey(WorksLike record);
+    
+    int deleteByWorksId(int worksId);
 }

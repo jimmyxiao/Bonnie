@@ -88,4 +88,9 @@
     and USER_ID = #{userId,jdbcType=INTEGER}
   </select>
   
+  <delete id="deleteByWorksId" parameterType="java.lang.Integer">
+    delete from works_collection
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </delete>
+  
 </mapper>

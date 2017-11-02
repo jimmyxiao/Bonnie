@@ -113,4 +113,9 @@
     and WORKS_ID = #{worksId,jdbcType=INTEGER}
   </select>
   
+  <delete id="deleteByWorksId" parameterType="java.lang.Integer">
+    delete from works_msg
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </delete>
+  
 </mapper>
