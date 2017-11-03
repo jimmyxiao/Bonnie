@@ -8,6 +8,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var paused= false;
 		var auto = true;
 		var nextstatus = false;
+		var linend =false;
 		
 		$scope.islast = false;
 		$scope.isnext = false;
@@ -60,10 +61,49 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					auto = false;
 					$scope.isnext = true;
 					loop();
-				}else{
-					
+					if(predata.length>0){
+						$scope.islast = true;
+					}else{
+						$scope.islast = false;
+					}
 				}
 			}
+		}
+
+		function changeColor(img, color) {
+			r=color.color_r;
+			g=color.color_g;
+			b=color.color_b;
+			//a=color.color_a;
+		    var c = document.createElement('canvas');
+		    c.width = img.width;
+		    c.height = img.height;
+
+		    var ctx_c = c.getContext('2d');
+		    ctx_c.clearRect(0, 0, c.width, c.height);
+		    ctx_c.drawImage(img, 0, 0);
+		    var imgData=ctx_c.getImageData(0, 0, c.width, c.height);
+		    for (var i=0;i<imgData.data.length;i+=4)
+		    {
+		        imgData.data[i]= r | imgData.data[i];
+		        imgData.data[i+1]= g | imgData.data[i+1];
+		        imgData.data[i+2]= b | imgData.data[i+2];
+		        //imgData.data[i+3]= imgData.data[i+3]*a;
+
+		        /*imgData.data[i]= r ;
+		        imgData.data[i+1]= g ;
+		        imgData.data[i+2]= b ;
+		        imgData.data[i+3]= imgData.data[i+3]*a;*/
+		    }
+		    ctx_c.putImageData(imgData,0,0);
+		    return c;
+		}  
+
+		function distanceBetween(point1, point2) {
+			return Math.sqrt(Math.pow(point2.xPos - point1.xPos, 2) + Math.pow(point2.yPos - point1.yPos, 2));
+		}
+		function angleBetween(point1, point2) {
+			return Math.atan2( point2.xPos - point1.xPos, point2.yPos - point1.yPos );
 		}
 
 		var i = 0;
@@ -75,18 +115,25 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var cxt = null;
 		var canvas_width = 1000;
 		var canvas_height = 1000;
+
+		var imgdata;
+		var brush_img = new Image();
+		brush_img.src = 'assets/images/BrushImage/FeltPen_brush_45.png';
+
 		function loop(){
 			if(draw_number>=lines.length){
 				
 				predata = [];
+				var imgendData=cxt.getImageData(0, 0,canvas_width, canvas_height);
 		    	cxt.clearRect(0, 0, canvas_width, canvas_height);
+		    	cxt.putImageData(imgendData,0,0);
 		    	draw_number=0;
-		    	
+		    	$scope.isnext = false;
 		    	if(auto){
-			    	$scope.$apply( function() {
-						$scope.pasue();
-					})
+			    	paused = false;
+			    	$scope.$apply( function() {$scope.pasue();})
 		    	}
+
 				/*
 				setTimeout(function(){
 					
@@ -111,6 +158,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				if(predata.length>21){
 					predata.shift();
 				}
+				cxt.clearRect(0, 0, canvas_width, canvas_height);
 				var pindata = cxt.getImageData(0, 0,canvas_width, canvas_height);
 				predata.push(pindata);
 				iarray.push(draw_number);
@@ -122,19 +170,20 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 			if(data.action==1 || data.action==2){
 				if(data.action==2){
-					if(predata.length>21){
+					if(predata.length>=21){
 						predata.shift();
 					}
 					var pindata = cxt.getImageData(0, 0,canvas_width, canvas_height);
 					predata.push(pindata);
 					iarray.push(draw_number);
 				}
-				
+				/*
 				cxt.arc(data.xPos, data.yPos, data.size , 0, 2 * Math.PI, false);
 				cxt.fillStyle = data.color;
 				cxt.fill();
+				*/
 			}else if(data.action==3){
-				cxt.lineWidth = data.size * 2 ;
+				/*cxt.lineWidth = data.size * 2 ;
 				cxt.moveTo(previewData.xPos, previewData.yPos);
 				cxt.lineTo(data.xPos, data.yPos);
 				cxt.strokeStyle = data.color;
@@ -142,16 +191,85 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 				cxt.arc(data.xPos, data.yPos, data.size , 0, 2 * Math.PI, false);
 				cxt.fillStyle = data.color;
-				cxt.fill();
-			}
+				cxt.fill();*/
+				switch(data.brush) {
+					case 0:
+						brush_img.src = 'assets/images/BrushImage/AirBrush_brush_05.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 0.52 * data.color.color_a;
+						break;
+					case 1:
+						brush_img.src = 'assets/images/BrushImage/Creyon_brush_18.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 0.58 * data.color.color_a;
+					    break;
+					case 2:
+						brush_img.src = 'assets/images/BrushImage/Creyon_brush_18_gb15.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 0.58 * data.color.color_a;
+					    break;
+					case 3:
+						brush_img.src = 'assets/images/BrushImage/FeltPen_brush_45.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 0.04 * data.color.color_a;
+					    break;
+					case 4:
+						brush_img.src = 'assets/images/BrushImage/FeltPen_brush_45_gb15.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 0.72 * data.color.color_a;
+						break;
+					case 5:
+						brush_img.src = 'assets/images/BrushImage/InkPen_brush_01.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 1 * data.color.color_a;
+						break;
+					case 6:
+						brush_img.src = 'assets/images/BrushImage/InkPen_brush_01_gb45.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 1 * data.color.color_a;
+						break;
+					case 7:
+						brush_img.src = 'assets/images/BrushImage/Pastel_brush_05.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 1 * data.color.color_a;
+						break;
+					case 8:
+						brush_img.src = 'assets/images/BrushImage/SoftPencil_brush_04.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 0.42 * data.color.color_a;
+						break;
+					case 9:
+						brush_img.src = 'assets/images/BrushImage/waterColor_brush_10_gb11.png';
+						imgdata = changeColor(brush_img, data.color);
+						cxt.globalAlpha = 0.6 * data.color.color_a;
+						break;
+				}
+
+				
+				
+
+				var dist = distanceBetween(previewData, data);
+				var angle = angleBetween(previewData, data);
+
+				for (var distnum = 0; distnum < dist; distnum++) {
+					x = previewData.xPos + (Math.sin(angle) * distnum) ;
+					y = previewData.yPos + (Math.cos(angle) * distnum) ;
+					//cxt.globalAlpha=0.04;
+					cxt.drawImage(imgdata, x, y, data.size, data.size);
+				}
+		}
 			
 			draw_number++;
+			
 			if(!paused){
 			  	loop();
 			}else if(!auto && data.action!=2){
 				loop();
 				nextstatus = true;
-			}else{
+			}else if(!auto && lines[draw_number-1].action==2){
+				if(draw_number==lines.length){
+					loop();
+				}
 				auto =true;
 				nextstatus = false;
 			}
@@ -169,7 +287,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			for(i=0;i<lines.length; i++){
 				lines[i].xPos = Math.floor(lines[i].xPos / 65536 * canvas_width);
 				lines[i].yPos = Math.floor(lines[i].yPos / 65536 * canvas_height);
-				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_height);
+				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_height)*2;
 				if(lines[i].action){
 					switch(lines[i].action){
 						case 1:
@@ -178,7 +296,14 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							var r = (bigint >> 16) & 255;
 							var g = (bigint >> 8) & 255;
 							var b = bigint & 255;
-							lines[i].color = 'rgba('+r+','+g+','+b+','+a+')';
+							var colordata = {
+								color_a: a,
+								color_r: r,
+								color_g: g,
+								color_b: b,
+								color_rgba: 'rgba('+r+','+g+','+b+','+a+')'
+							};
+							lines[i].color = colordata;
 							tmpColor = lines[i].color;
 							tmpSize = lines[i].size;
 						break;
@@ -253,7 +378,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.covert = function(description){
 			var arr = util.splitHashTag(description);
 			for(i=0;i<arr.length;i++){
-				description = description.replace(arr[i],'<a href="#/category-listing?type='+ util.covertTag(arr[i]) +'">'+ arr[i] +'</a>');
+				description = description.replace(arr[i],'<a href="#/page-not-found">'+ arr[i] +'</a>');
 			}
 			return description;
 		}
@@ -367,6 +492,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				}
 			})
 		}
+
+		 // $scope.secondarySectionArr_keyword =['3D','Animals & Birds','HD','Horror','Art','Self','HD Songs','Comedy'];
 
 	}
 )
