@@ -37,49 +37,55 @@ class CanvasAnimationView: UIView {
         }
     }
 
+    func play() {
+        if paths.isEmpty && cachePoints.isEmpty {
+            do {
+                timer?.invalidate()
+                if let url = url {
+                    let readHandle = try FileHandle(forReadingFrom: url)
+                    cachePoints.append(
+                            contentsOf: DataConverter.parse(
+                                    dataToPoints: readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)),
+                                    withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
+                    self.readHandle = readHandle
+                }
+                if !cachePoints.isEmpty {
+                    let point = cachePoints.removeFirst()
+                    currentPoint = point.position
+                    controlPoint = currentPoint
+                    if bounds.contains(currentPoint) {
+                        let path = UIBezierPath()
+                        path.move(to: currentPoint)
+                        path.lineCapStyle = .round
+                        path.lineWidth = point.size
+                        paths.append(
+                                Path(bezierPath: path,
+                                        points: [point],
+                                        color: point.color))
+                        persistentImage = nil
+                        setNeedsDisplay()
+                    }
+                } else {
+                    delegate?.canvasAnimationFileParseError()
+                }
+            } catch {
+                Logger.d("\(#function): \(error.localizedDescription)")
+            }
+        } else {
+            setNeedsDisplay()
+        }
+    }
+
+    func pause() {
+        timer?.invalidate()
+    }
+
     func stop() {
         timer?.invalidate()
         paths.removeAll()
         cachePoints.removeAll()
         persistentImage = nil
         setNeedsDisplay()
-    }
-
-    func play() {
-        do {
-            timer?.invalidate()
-            paths.removeAll()
-            cachePoints.removeAll()
-            if let url = url {
-                let readHandle = try FileHandle(forReadingFrom: url)
-                cachePoints.append(
-                        contentsOf: DataConverter.parse(
-                                dataToPoints: readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)),
-                                withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
-                self.readHandle = readHandle
-            }
-            if !cachePoints.isEmpty {
-                let point = cachePoints.removeFirst()
-                currentPoint = point.position
-                controlPoint = currentPoint
-                if bounds.contains(currentPoint) {
-                    let path = UIBezierPath()
-                    path.move(to: currentPoint)
-                    path.lineCapStyle = .round
-                    path.lineWidth = point.size
-                    paths.append(
-                            Path(bezierPath: path,
-                                    points: [point],
-                                    color: point.color))
-                    persistentImage = nil
-                    setNeedsDisplay()
-                }
-            } else {
-                delegate?.canvasAnimationFileParseError()
-            }
-        } catch {
-            Logger.d("\(#function): \(error.localizedDescription)")
-        }
     }
 
     private func animate() {

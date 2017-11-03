@@ -83,12 +83,19 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAn
     }
 
     @IBAction func play(_ sender: UIButton) {
-        sender.isEnabled = false
-        canvasAnimation.play()
+        if sender.isSelected {
+            canvasAnimation.pause()
+            sender.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+        } else {
+            canvasAnimation.play()
+            sender.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
+        }
+        sender.isSelected = !sender.isSelected
     }
 
     internal func canvasAnimationDidFinishAnimation() {
-        play.isEnabled = true
+        play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+        play.isSelected = false
     }
 
     internal func canvasAnimationFileParseError() {

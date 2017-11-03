@@ -269,7 +269,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="435"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IMJ-jP-hJb">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="482"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="494"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="PX3-xH-H4M">
                                                 <rect key="frame" x="16" y="16" width="288" height="44"/>
@@ -314,19 +314,22 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLh-xA-yIh">
-                                                <rect key="frame" x="16" y="396" width="288" height="32"/>
+                                                <rect key="frame" x="16" y="396" width="288" height="44"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d1X-Ye-EXO">
-                                                        <rect key="frame" x="0.0" y="0.0" width="288" height="32"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="288" height="44"/>
                                                         <state key="normal" image="drawplay_ic_play"/>
                                                         <connections>
                                                             <action selector="play:" destination="wJn-NR-0b0" eventType="touchUpInside" id="m8l-6f-rVy"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="44" id="0o9-WN-z6m"/>
+                                                </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7nx-iV-rmL">
-                                                <rect key="frame" x="16" y="436" width="118" height="38"/>
+                                                <rect key="frame" x="16" y="448" width="118" height="38"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpe-ET-Y35">
                                                         <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
@@ -432,7 +435,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-sx-Edr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="903.75" y="2285.9154929577467"/>
+            <point key="canvasLocation" x="903.75" y="2285.3873239436621"/>
         </scene>
         <!--Follow View Controller-->
         <scene sceneID="3iE-eI-gSs">
