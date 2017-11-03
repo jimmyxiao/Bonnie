@@ -155,6 +155,8 @@
             android:layout_weight="1"
             android:background="@color/Transparent"
             android:padding="8dp"
+            android:scaleX="0.5"
+            android:scaleY="0.7"
             app:srcCompat="@drawable/shape_paint_color" />
 
     </LinearLayout>

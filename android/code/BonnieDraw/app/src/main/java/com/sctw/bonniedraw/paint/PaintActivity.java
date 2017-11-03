@@ -30,6 +30,7 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.sctw.bonniedraw.utility.Thumbnail;
+import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
 import com.sctw.bonniedraw.widget.SeekbarPopup;
 import com.sctw.bonniedraw.widget.SizePopup;
@@ -59,10 +60,10 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SeekbarPopup.OnSeekChange {
+public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SeekbarPopup.OnSeekChange, ColorPopup.OnClickOpenColorPick {
     private PaintView mPaintView;
     private FrameLayout mFrameLayoutFreePaint;
-    private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting;
+    private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange;
     private Button mBtnZoom;
     private FullScreenDialog mFullScreenDialog;
     private LinearLayout mLinearLayoutPaintSelect;
@@ -71,6 +72,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private MenuPopup mMenuPopup;
     private SeekbarPopup mSeekbarPopup;
     private SizePopup mSizePopup;
+    private ColorPopup mColorPopup;
+    private boolean mbColorSwitch=false;
 
     private int mCurrentBrushId = 0; //default brush
 
@@ -87,12 +90,14 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnUndo = (ImageButton) findViewById(R.id.imgBtn_paint_undo);
         mBtnOpenAutoPlay = (ImageButton) findViewById(R.id.imgBtn_paint_open_autoplay);
         mBtnSize = (ImageButton) findViewById(R.id.imgBtn_paint_size);
+        mBtnColorChange = findViewById(R.id.imgBtn_paint_colorpicker);
         mBtnErase = findViewById(R.id.imgBtn_paint_erase);
         mBtnSetting = (ImageButton) findViewById(R.id.imgBtn_paint_setting);
         mMenuPopup = new MenuPopup(this, this);
         mSeekbarPopup = new SeekbarPopup(this, this);
         mSizePopup = new SizePopup(this);
         mSizePopup.setPopupGravity(Gravity.CENTER);
+        mColorPopup = new ColorPopup(this, this);
         setOnclick();
 
         //Paint init & View
@@ -276,8 +281,31 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         });
     }
 
+    //當切換成選顏色模式，畫面修改
+    @Override
+    public void onClickOpenColorPick() {
+        if(mbColorSwitch){
+            mColorPopup.dismiss();
+            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 2);
+            mbColorSwitch=false;
+        }else{
+            mColorPopup.dismiss();
+            mColorPopup.toggleColorPick(true);
+            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, 0);
+            mbColorSwitch=true;
+        }
+
+    }
+
     //設定各個按鍵
     public void setOnclick() {
+        mBtnColorChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 2);
+            }
+        });
+
         mBtnErase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -720,6 +748,4 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
         gridDialog.show();
     }
-
-
 }
