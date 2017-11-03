@@ -12,9 +12,11 @@ class CanvasViewController:
         BackButtonViewController,
         UIPopoverPresentationControllerDelegate,
         CanvasViewDelegate,
+        CanvasAnimationViewDelegate,
         SizePickerViewControllerDelegate,
         ColorPickerViewControllerDelegate {
     @IBOutlet weak var canvas: CanvasView!
+    @IBOutlet weak var canvasAnimation: CanvasAnimationView!
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var redoButton: UIBarButtonItem!
     @IBOutlet weak var playButton: UIBarButtonItem!
@@ -27,6 +29,7 @@ class CanvasViewController:
 
     override func viewDidLoad() {
         canvas.delegate = self
+        canvasAnimation.delegate = self
         penButton.layer.cornerRadius = view.bounds.width / 10
         let size = CGSize(width: 28, height: 28)
         UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
@@ -67,15 +70,23 @@ class CanvasViewController:
         }
     }
 
-    @IBAction func play(_ sender: Any) {
-        canvas.play()
-    }
-
-    @IBAction func option(_ sender: Any) {
+    @IBAction func play(_ sender: UIBarButtonItem) {
+        sender.isEnabled = false
+        undoButton.isEnabled = false
+        redoButton.isEnabled = false
+        saveButton.isEnabled = false
+        sizeButton.isEnabled = false
+        eraserButton.isEnabled = false
+        resetButton.isEnabled = false
+        colorButton.isEnabled = false
+        canvas.isHidden = true
+        canvas.isUserInteractionEnabled = false
+        canvasAnimation.isHidden = false
+        canvasAnimation.url = canvas.saveForUpload()
+        canvasAnimation.play()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        canvas.lastTimestamp = -1
         if let controller = segue.destination as? SizePickerViewController {
             controller.delegate = self
             controller.popoverPresentationController?.delegate = self
@@ -95,7 +106,7 @@ class CanvasViewController:
     }
 
     override func onBackPressed(_ sender: Any) {
-        canvas.stop()
+        canvasAnimation.stop()
         canvas.save()
         super.onBackPressed(sender)
     }
@@ -104,7 +115,7 @@ class CanvasViewController:
         return .none
     }
 
-    func canvasPathsDidChange() {
+    internal func canvasPathsDidChange() {
         undoButton.isEnabled = !canvas.paths.isEmpty
         redoButton.isEnabled = !canvas.redoPaths.isEmpty
         playButton.isEnabled = !canvas.paths.isEmpty
@@ -118,18 +129,7 @@ class CanvasViewController:
         }
     }
 
-    func canvasPathsWillBeginAnimation() {
-        undoButton.isEnabled = false
-        redoButton.isEnabled = false
-        playButton.isEnabled = false
-        saveButton.isEnabled = false
-        sizeButton.isEnabled = false
-        eraserButton.isEnabled = false
-        resetButton.isEnabled = false
-        colorButton.isEnabled = false
-    }
-
-    func canvasPathsDidFinishAnimation() {
+    internal func canvasAnimationDidFinishAnimation() {
         undoButton.isEnabled = true
         redoButton.isEnabled = !canvas.redoPaths.isEmpty
         playButton.isEnabled = true
@@ -138,6 +138,16 @@ class CanvasViewController:
         eraserButton.isEnabled = true
         resetButton.isEnabled = true
         colorButton.isEnabled = true
+        canvas.isHidden = false
+        canvas.isUserInteractionEnabled = true
+        canvasAnimation.isHidden = true
+    }
+
+    internal func canvasAnimationFileParseError() {
+        presentDialog(title: "canvas_data_parse_error_title".localized, message: "canvas_data_parse_error_content".localized) {
+            action in
+            super.onBackPressed(self)
+        }
     }
 
     func sizePicker(didSelect size: CGFloat) {

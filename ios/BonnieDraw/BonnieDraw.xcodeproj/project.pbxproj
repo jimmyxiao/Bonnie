@@ -22,6 +22,8 @@
 		16366AE21F7A0AA300E5799B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE11F7A0AA300E5799B /* HomeViewController.swift */; };
 		16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE41F7A131200E5799B /* HomeTableViewCell.swift */; };
 		16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */; };
+		16386DD41FABFC1000DFE2E5 /* CanvasAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16386DD31FABFC1000DFE2E5 /* CanvasAnimationView.swift */; };
+		16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16386DD51FAC019A00DFE2E5 /* DataConverter.swift */; };
 		163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163906FD1F6C083300E5717A /* SignInViewController.swift */; };
 		163907001F6C0A4E00E5717A /* TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 163906FF1F6C0A4E00E5717A /* TitleView.xib */; };
 		163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163907021F6C0BE400E5717A /* ApplicationExtension.swift */; };
@@ -88,6 +90,8 @@
 		16366AE11F7A0AA300E5799B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		16366AE41F7A131200E5799B /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
+		16386DD31FABFC1000DFE2E5 /* CanvasAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasAnimationView.swift; sourceTree = "<group>"; };
+		16386DD51FAC019A00DFE2E5 /* DataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverter.swift; sourceTree = "<group>"; };
 		163906FD1F6C083300E5717A /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		163906FF1F6C0A4E00E5717A /* TitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TitleView.xib; path = Base.lproj/TitleView.xib; sourceTree = "<group>"; };
 		163907021F6C0BE400E5717A /* ApplicationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationExtension.swift; sourceTree = "<group>"; };
@@ -294,6 +298,7 @@
 				16FC10231F6963B3008A6A92 /* ViewExtension.swift */,
 				16D439641F66A9B300FF5878 /* Logger.swift */,
 				16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */,
+				16386DD51FAC019A00DFE2E5 /* DataConverter.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -314,6 +319,7 @@
 				164ED2501F7B517200E8B910 /* StatusBarBackgroundView.swift */,
 				165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */,
 				16FC10201F695C58008A6A92 /* CanvasView.swift */,
+				16386DD31FABFC1000DFE2E5 /* CanvasAnimationView.swift */,
 				16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */,
 				16109CCA1F96E96D000864DB /* AccountFooterCollectionReusableView.swift */,
 				163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */,
@@ -474,11 +480,13 @@
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
 				16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
+				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,
 				166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */,
 				16185C7F1F94A264008F0840 /* Work.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
+				16386DD41FABFC1000DFE2E5 /* CanvasAnimationView.swift in Sources */,
 				16332A231F7F3048007857E3 /* SaveViewController.swift in Sources */,
 				1633C0651F9ED4410039E7F6 /* WebViewController.swift in Sources */,
 				1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */,

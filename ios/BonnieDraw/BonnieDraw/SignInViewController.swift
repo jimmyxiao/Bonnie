@@ -28,7 +28,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         var configureError: NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
         if let error = configureError {
-            Logger.d(error.localizedDescription)
+            Logger.d("\(#function): \(error.localizedDescription)")
             google.isEnabled = false
         }
     }

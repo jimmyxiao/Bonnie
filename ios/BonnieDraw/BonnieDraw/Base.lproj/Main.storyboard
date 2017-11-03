@@ -306,7 +306,7 @@
                                                     <constraint firstAttribute="height" constant="44" id="sAY-aU-lWN"/>
                                                 </constraints>
                                             </stackView>
-                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyN-mC-Mya" customClass="CanvasView" customModule="BonnieDraw" customModuleProvider="target">
+                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyN-mC-Mya" customClass="CanvasAnimationView" customModule="BonnieDraw" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="68" width="320" height="320"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -421,7 +421,7 @@
                         <viewLayoutGuide key="safeArea" id="cnW-vs-K24"/>
                     </view>
                     <connections>
-                        <outlet property="canvas" destination="PyN-mC-Mya" id="9Ip-mj-wHU"/>
+                        <outlet property="canvasAnimation" destination="PyN-mC-Mya" id="GHA-eG-dUC"/>
                         <outlet property="loading" destination="yDy-IQ-Hwa" id="Z6b-UP-RHk"/>
                         <outlet property="navigationBar" destination="Da8-0O-Aac" id="cdg-rG-Dnq"/>
                         <outlet property="play" destination="d1X-Ye-EXO" id="klJ-UF-H7h"/>
@@ -844,16 +844,13 @@
                                             <segue destination="8Bo-Vq-vKL" kind="show" id="PF2-oW-Uyd"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="VrJ-HM-rzh"/>
-                                    <barButtonItem image="top_bar_ic_grid" id="ZVH-2z-d34">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="option:" destination="uhE-RV-zqK" id="JKN-SC-nEF"/>
-                                        </connections>
-                                    </barButtonItem>
                                 </items>
                                 <color key="barTintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ubG-28-KVf" customClass="CanvasAnimationView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="124" width="320" height="320"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufQ-sW-bDW" customClass="CanvasView" customModule="BonnieDraw" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="124" width="320" height="320"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -916,7 +913,10 @@
                             <constraint firstItem="HxG-Gi-tk1" firstAttribute="trailing" secondItem="aBz-HM-cIA" secondAttribute="trailing" id="9hz-Ed-2st"/>
                             <constraint firstItem="HxG-Gi-tk1" firstAttribute="leading" secondItem="aBz-HM-cIA" secondAttribute="leading" id="Efj-le-FIL"/>
                             <constraint firstItem="ufQ-sW-bDW" firstAttribute="centerY" secondItem="s8T-WP-DKJ" secondAttribute="centerY" id="FiT-WG-Ats"/>
+                            <constraint firstItem="ubG-28-KVf" firstAttribute="trailing" secondItem="ufQ-sW-bDW" secondAttribute="trailing" id="GdL-uu-IkL"/>
+                            <constraint firstItem="ubG-28-KVf" firstAttribute="top" secondItem="ufQ-sW-bDW" secondAttribute="top" id="Hdf-7o-8yc"/>
                             <constraint firstItem="Fuo-iQ-nwF" firstAttribute="top" secondItem="s8T-WP-DKJ" secondAttribute="top" id="LRa-bO-c6F"/>
+                            <constraint firstItem="ubG-28-KVf" firstAttribute="leading" secondItem="ufQ-sW-bDW" secondAttribute="leading" id="NLv-Ci-lu2"/>
                             <constraint firstItem="xqN-j4-y2T" firstAttribute="centerX" secondItem="s8T-WP-DKJ" secondAttribute="centerX" id="T02-Nb-z3b"/>
                             <constraint firstItem="aBz-HM-cIA" firstAttribute="trailing" secondItem="ufQ-sW-bDW" secondAttribute="trailing" id="XX9-cp-FDE"/>
                             <constraint firstItem="HxG-Gi-tk1" firstAttribute="bottom" secondItem="aBz-HM-cIA" secondAttribute="bottom" id="Zes-ac-cRX"/>
@@ -925,6 +925,7 @@
                             <constraint firstItem="aBz-HM-cIA" firstAttribute="bottom" secondItem="xqN-j4-y2T" secondAttribute="bottom" constant="4" id="ext-18-R6Y"/>
                             <constraint firstItem="HXk-gE-ZeF" firstAttribute="top" secondItem="Fuo-iQ-nwF" secondAttribute="bottom" id="hEk-62-d9l"/>
                             <constraint firstItem="HXk-gE-ZeF" firstAttribute="trailing" secondItem="aBz-HM-cIA" secondAttribute="trailing" id="iE5-lC-k3g"/>
+                            <constraint firstItem="ubG-28-KVf" firstAttribute="bottom" secondItem="ufQ-sW-bDW" secondAttribute="bottom" id="pbv-sN-YqU"/>
                             <constraint firstAttribute="trailing" secondItem="Fuo-iQ-nwF" secondAttribute="trailing" id="sod-rQ-i04"/>
                             <constraint firstItem="HXk-gE-ZeF" firstAttribute="leading" secondItem="aBz-HM-cIA" secondAttribute="leading" id="srH-rB-nak"/>
                             <constraint firstItem="Fuo-iQ-nwF" firstAttribute="leading" secondItem="s8T-WP-DKJ" secondAttribute="leading" id="vhS-ib-lav"/>
@@ -934,6 +935,7 @@
                     <navigationItem key="navigationItem" id="uYa-EF-a8X"/>
                     <connections>
                         <outlet property="canvas" destination="ufQ-sW-bDW" id="WR5-4Z-b7J"/>
+                        <outlet property="canvasAnimation" destination="ubG-28-KVf" id="25J-Di-MTv"/>
                         <outlet property="colorButton" destination="da0-nx-vfp" id="lCF-DU-zhm"/>
                         <outlet property="eraserButton" destination="mCl-AI-Uj6" id="PGU-5q-eyL"/>
                         <outlet property="penButton" destination="xqN-j4-y2T" id="khP-Bu-WYc"/>
@@ -947,7 +949,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qhx-cz-5i5" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2589" y="36"/>
+            <point key="canvasLocation" x="2587.5" y="35.91549295774648"/>
         </scene>
         <!--Save View Controller-->
         <scene sceneID="noJ-Ly-hf0">
@@ -1314,7 +1316,6 @@
         <image name="top_bar_ic_Description" width="26" height="26"/>
         <image name="top_bar_ic_Forward" width="23" height="24"/>
         <image name="top_bar_ic_back" width="13" height="21"/>
-        <image name="top_bar_ic_grid" width="25" height="25"/>
         <image name="top_bar_ic_play" width="26" height="20"/>
         <image name="top_bar_ic_share" width="30" height="23"/>
         <image name="work_ic_like" width="22" height="19"/>

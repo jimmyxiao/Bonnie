@@ -9,19 +9,28 @@
 import UIKit
 import Alamofire
 
-class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasViewDelegate {
+class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAnimationViewDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
+    @IBOutlet weak var canvasAnimation: CanvasAnimationView!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
-    @IBOutlet weak var canvas: CanvasView!
     @IBOutlet weak var play: UIButton!
     var work: Work?
     private var downloadRequest: DownloadRequest?
 
     override func viewDidLoad() {
-        canvas.delegate = self
+        do {
+            canvasAnimation.url = try FileManager.default.url(
+                    for: .documentationDirectory,
+                    in: .userDomainMask,
+                    appropriateFor: nil,
+                    create: true).appendingPathComponent("download.bdw")
+        } catch {
+            Logger.d("\(#function): \(error.localizedDescription)")
+        }
+        canvasAnimation.delegate = self
         if navigationBar.items?.first?.titleView == nil {
             let titleView = Bundle.main.loadView(from: "TitleView")
             titleView?.backgroundColor = .clear
@@ -36,12 +45,12 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasVi
 
     override func viewWillDisappear(_ animated: Bool) {
         downloadRequest?.cancel()
-        canvas.stop()
+        canvasAnimation.stop()
     }
 
     private func downloadData() {
         guard let fileUrl = work?.file,
-              let destinationUrl = canvas.url else {
+              let destinationUrl = canvasAnimation.url else {
             return
         }
         progressBar.progress = 0
@@ -68,7 +77,6 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasVi
                 return
             }
             DispatchQueue.main.async {
-                self.canvas.load()
                 self.loading.hide(true)
             }
         }
@@ -76,17 +84,17 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasVi
 
     @IBAction func play(_ sender: UIButton) {
         sender.isEnabled = false
-        canvas.play()
+        canvasAnimation.play()
     }
 
-    func canvasPathsDidFinishAnimation() {
+    internal func canvasAnimationDidFinishAnimation() {
         play.isEnabled = true
     }
 
-    func canvasFileParseError() {
+    internal func canvasAnimationFileParseError() {
         presentDialog(title: "canvas_data_parse_error_title".localized, message: "canvas_data_parse_error_content".localized) {
             action in
-            self.dismiss(animated: true)
+            super.onBackPressed(self)
         }
     }
 }
