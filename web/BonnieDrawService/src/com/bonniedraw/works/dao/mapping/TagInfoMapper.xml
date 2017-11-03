@@ -95,8 +95,8 @@
     select 
     <include refid="Base_Column_List" />
     from tag_info
-    <if test="tagName!=null">
-    	where TAG_NAME = #{tagName, jdbcType=VARCHAR}
+    <if test="_parameter !=null">
+    	where TAG_NAME = #{_parameter, jdbcType=VARCHAR}
     </if>
     order by TAG_ORDER asc
   </select>
