@@ -30,6 +30,9 @@ public class TagManagerServiceImpl extends BaseService implements TagManagerServ
 			if(tagInfo.getTagOrder()==null){
 				tagInfo.setTagOrder(0);
 			}
+			if(ValidateUtil.isBlank(tagInfo.getCountryCode())){
+				tagInfo.setCountryCode("2");
+			}
 		}else{
 			return 2;
 		}
@@ -49,6 +52,9 @@ public class TagManagerServiceImpl extends BaseService implements TagManagerServ
 		try {
 			if(tagInfo.getTagOrder()==null){
 				tagInfo.setTagOrder(0);
+			}
+			if(ValidateUtil.isBlank(tagInfo.getCountryCode())){
+				tagInfo.setCountryCode("2");
 			}
 			tagInfoMapper.updateByPrimaryKey(tagInfo);
 			afterCustomTag = tagInfoMapper.selectByPrimaryKey(tagInfo.getTagId());
