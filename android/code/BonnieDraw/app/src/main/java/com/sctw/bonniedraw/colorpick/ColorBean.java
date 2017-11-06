@@ -35,4 +35,12 @@ public class ColorBean implements Serializable {
     public void setSelect(boolean select) {
         isSelect = select;
     }
+
+    @Override
+    public String toString() {
+        return "ColorBean{" +
+                "color=" + color +
+                ", isSelect=" + isSelect +
+                '}';
+    }
 }

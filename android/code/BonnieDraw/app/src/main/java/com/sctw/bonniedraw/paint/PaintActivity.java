@@ -24,7 +24,10 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.colorpick.ColorBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -43,6 +46,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import okhttp3.Call;
@@ -60,7 +64,7 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SeekbarPopup.OnSeekChange, ColorPopup.OnClickOpenColorPick {
+public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SeekbarPopup.OnSeekChange, ColorPopup.OnPopupColorPick {
     private PaintView mPaintView;
     private FrameLayout mFrameLayoutFreePaint;
     private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange;
@@ -73,7 +77,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private SeekbarPopup mSeekbarPopup;
     private SizePopup mSizePopup;
     private ColorPopup mColorPopup;
-    private boolean mbColorSwitch=false;
+    private boolean mbColorSwitch = false;
 
     private int mCurrentBrushId = 0; //default brush
 
@@ -98,8 +102,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mSizePopup = new SizePopup(this);
         mSizePopup.setPopupGravity(Gravity.CENTER);
         mColorPopup = new ColorPopup(this, this);
-        setOnclick();
-
+        setOnClick();
         //Paint init & View
         mPaintView = new PaintView(this);
         mPaintView.checkSketch();
@@ -110,6 +113,23 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
         mPaintView.setDrawingScaledSize(30 / 100.f);
         mPaintView.setDrawingAlpha(1);
+        defaultColor();
+    }
+
+    private void defaultColor() {
+        ArrayList<ColorBean> colorsList;
+        SharedPreferences pref = getSharedPreferences("colors", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = pref.getString("colorsInfo", "");
+        if (!json.isEmpty()) {
+            colorsList = gson.fromJson(json, new TypeToken<ArrayList<ColorBean>>() {
+            }.getType());
+            for (int i = 0; i < colorsList.size(); i++) {
+                if (colorsList.get(i).isSelect()) {
+                    onColorSelect(colorsList.get(i).getColor());
+                }
+            }
+        }
     }
 
     //產生預覽圖&上傳
@@ -283,22 +303,28 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     //當切換成選顏色模式，畫面修改
     @Override
+    public void onColorSelect(int color) {
+        this.mBtnColorChange.setColorFilter(color);
+        mPaintView.setDrawingColor(color);
+    }
+
+    @Override
     public void onClickOpenColorPick() {
-        if(mbColorSwitch){
+        if (mbColorSwitch) {
             mColorPopup.dismiss();
             mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 2);
-            mbColorSwitch=false;
-        }else{
+            mbColorSwitch = false;
+        } else {
             mColorPopup.dismiss();
             mColorPopup.toggleColorPick(true);
             mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, 0);
-            mbColorSwitch=true;
+            mbColorSwitch = true;
         }
 
     }
 
     //設定各個按鍵
-    public void setOnclick() {
+    public void setOnClick() {
         mBtnColorChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -606,15 +632,10 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     }
 
     //*******Brush **********
-    private void setColor(int color) {
-        //this.mColorButton.setColor(getColorWithAlpha(color, this.mPaintView.getDrawingAlpha()));
-        this.mPaintView.setDrawingColor(color);
-    }
 
     private void setBrush(int brushID) {
         Brush brush = Brushes.get(getApplicationContext())[brushID];
         mPaintView.setBrush(brush);
-
     }
 
     //設定選單
