@@ -37,8 +37,80 @@ class CanvasAnimationView: UIView {
         }
     }
 
+    func load(completionHandler: (() -> Void)? = nil) {
+        let bounds = self.bounds
+        DispatchQueue.global().async {
+            do {
+                let manager = FileManager.default
+                let url = try self.url ?? manager.url(
+                        for: .documentationDirectory,
+                        in: .userDomainMask,
+                        appropriateFor: nil,
+                        create: true).appendingPathComponent("draft.bdw")
+                if manager.fileExists(atPath: url.path) {
+                    var isEndOfFile = false
+                    let readHandle = try FileHandle(forReadingFrom: url)
+                    var points = DataConverter.parse(dataToPoints: readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)), withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height))
+                    if !points.isEmpty {
+                        var point = points.removeFirst()
+                        if bounds.contains(point.position) {
+                            self.currentPoint = point.position
+                            self.controlPoint = self.currentPoint
+                            let path = UIBezierPath()
+                            path.move(to: self.currentPoint)
+                            path.lineCapStyle = .round
+                            path.lineWidth = point.size
+                            self.paths.append(
+                                    Path(bezierPath: path,
+                                            points: [point],
+                                            color: point.color))
+                            while !points.isEmpty {
+                                point = points.removeFirst()
+                                self.currentPoint = point.position
+                                if point.action != .down {
+                                    self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (self.currentPoint.x + self.controlPoint.x) / 2, y: (self.currentPoint.y + self.controlPoint.y) / 2), controlPoint: self.controlPoint)
+                                    self.paths.last?.points.append(point)
+                                    if point.action == .up {
+                                        self.drawToPersistentImage()
+                                    }
+                                    self.controlPoint = self.currentPoint
+                                } else {
+                                    self.controlPoint = self.currentPoint
+                                    let path = UIBezierPath()
+                                    path.move(to: self.currentPoint)
+                                    path.lineCapStyle = .round
+                                    path.lineWidth = point.size
+                                    self.paths.append(
+                                            Path(bezierPath: path,
+                                                    points: [point],
+                                                    color: point.color))
+                                }
+                                if points.count < POINT_BUFFER_COUNT / 2 && !isEndOfFile {
+                                    let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
+                                    let data = readHandle.readData(ofLength: maxByteCount)
+                                    points.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
+                                    if data.count < maxByteCount {
+                                        readHandle.closeFile()
+                                        isEndOfFile = true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch {
+                Logger.d("\(#function): \(error.localizedDescription)")
+            }
+            DispatchQueue.main.async {
+                self.setNeedsDisplay()
+                completionHandler?()
+            }
+        }
+    }
+
     func play() {
-        if paths.isEmpty && cachePoints.isEmpty {
+        if cachePoints.isEmpty {
+            paths.removeAll()
             do {
                 timer?.invalidate()
                 if let url = url {

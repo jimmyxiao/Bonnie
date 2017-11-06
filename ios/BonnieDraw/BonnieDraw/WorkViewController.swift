@@ -61,7 +61,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAn
         }.downloadProgress() {
             progress in
             self.progressBar.setProgress(Float(progress.fractionCompleted), animated: true)
-        }.response(queue: DispatchQueue.global()) {
+        }.response(queue: DispatchQueue.main) {
             response in
             guard response.error == nil else {
                 self.presentConfirmationDialog(
@@ -77,6 +77,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAn
                 return
             }
             DispatchQueue.main.async {
+                self.canvasAnimation.load()
                 self.loading.hide(true)
             }
         }

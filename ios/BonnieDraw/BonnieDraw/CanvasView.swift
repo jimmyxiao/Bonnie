@@ -156,7 +156,7 @@ class CanvasView: UIView {
                     var points = DataConverter.parse(dataToPoints: readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)), withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height))
                     if !points.isEmpty {
                         var point = points.removeFirst()
-                        if self.bounds.contains(point.position) {
+                        if bounds.contains(point.position) {
                             self.currentPoint = point.position
                             self.controlPoint = self.currentPoint
                             let path = UIBezierPath()
