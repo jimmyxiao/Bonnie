@@ -1,6 +1,8 @@
 package com.bonniedraw.user.service.impl;
 
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -367,6 +369,27 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 			return callRegister(loginRequestVO);
 		case 3:
 			return callInspectRegister(loginRequestVO);
+		}
+		return null;
+	}
+	
+	@Override
+	public String setPwdByEmail(String email) {
+		SecureRandom random = new SecureRandom();
+		String code = new BigInteger(130, random).toString(32);
+		if(ValidateUtil.isNotBlank(code)){
+			code = code.substring(0,8);
+		}
+		try {
+			String md5Code = EncryptUtil.digest(code);
+			UserInfo userInfo = userInfoMapper.selectByUserCode(email);
+			if(userInfo!=null){
+				userInfo.setUserPw(md5Code);
+				userInfoMapper.updateByPrimaryKeySelective(userInfo);
+				return code;
+			}
+		} catch (Exception e) {
+			LogUtils.error(getClass(), "setPwdByEmail function encrypt md5Code has error : " + e );
 		}
 		return null;
 	}

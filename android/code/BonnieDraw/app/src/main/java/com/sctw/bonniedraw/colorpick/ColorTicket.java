@@ -86,7 +86,7 @@ public class ColorTicket extends RecyclerView.Adapter<ColorTicket.ViewHolder> {
         if (mSelectedPos != -1) {
             colors.get(mSelectedPos).setSelect(false);
         }
-        this.mSelectedPos = pos;
+        mSelectedPos = pos;
     }
 
     public int get_mSelectedPos() {
@@ -102,10 +102,6 @@ public class ColorTicket extends RecyclerView.Adapter<ColorTicket.ViewHolder> {
         notifyItemRemoved(mSelectedPos);
         notifyDataSetChanged();
         mSelectedPos = -1;
-    }
-
-    public void changeFirstColor(ColorBean bean) {
-        colors.set(0, bean);
     }
 
     public interface OnItemListener {

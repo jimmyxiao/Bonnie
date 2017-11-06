@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
 
+import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.DictionaryService;
@@ -178,21 +179,27 @@ public class ApiController {
 		String msg = "";
 		String email = forgetPwdRequestVO.getEmail();
 		respResult.setRes(0);
-		try {
-			if(ValidateUtil.isBlank(email)){
-				msg = "無郵件資訊";
+		if(ValidateUtil.isBlank(email)){
+			msg = "無郵件資訊";
+		}else{
+			String userPwd = userServiceAPI.setPwdByEmail(email);
+			if(ValidateUtil.isBlank(userPwd)){
+				msg="密碼重設失敗";
 			}else{
-				SystemSetup systemSetup = systemSetupService.querySystemSetup();
-				if(EmailUtil.send(systemSetup, email, "", "")){
-					msg = "已發送";
-				}else{
-					msg = "發送郵件伺服設定異常";
+				try {
+					SystemSetup systemSetup = systemSetupService.querySystemSetup();
+					if(EmailUtil.send(systemSetup, email, EmailContent.EMAIL_SUBJECT , EmailContent.getEmailBody(userPwd))){
+						msg = "已發送";
+					}else{
+						msg = "發送郵件伺服設定異常";
+					}
+				}catch (Exception e) {
+					LogUtils.error(this.getClass(), "send mail has error : " + e);
+					msg =  "發送失敗" ;
 				}
 			}
-		}catch (Exception e) {
-			LogUtils.error(this.getClass(), "send mail has error : " + e);
-			msg =  "發送失敗" ;
 		}
+		
 		respResult.setMsg(msg);
 		return respResult;
 	}
