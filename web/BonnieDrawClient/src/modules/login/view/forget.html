@@ -12,7 +12,7 @@
 						<h1 class="loginTitle">重設密碼</h1>
 						<p class="forget-text">我們可以使用你的用戶名稱或連結到你帳號的電子郵件地址，協助你重設密碼。</p>
 						<div class="form-group">
-							<input type="email" name="email" class="form-control" id="login-email" 	placeholder="電子郵件" required >
+							<input ng-model="model.email" type="email" name="email" class="form-control" id="login-email" 	placeholder="電子郵件" required >
 						</div>
 						<div class="form-group">
 							<div vc-recaptcha
@@ -23,8 +23,9 @@
 				                on-expire="cbExpiration()"
 				            ></div>
                         </div>
-						<button type="submit" value="login" class="btn btn-block btn2-login text-uppercase">
-							重設密碼
+						<button ng-disabled="dataLoading" type="submit" value="login" class="btn btn-block btn2-login text-uppercase">
+							<p ng-hide="dataLoading">重設密碼<p>
+							<i ng-show="dataLoading" class="fa fa-spinner fa-spin"></i>
 						</button>
 						<div class="loginBoxBottom">
 							<a href="#/login" style="color:#337ab7;padding-left:5px;">返回登入</a>

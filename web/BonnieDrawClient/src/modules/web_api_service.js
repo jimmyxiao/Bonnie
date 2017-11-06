@@ -164,4 +164,10 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
             return baseHttp.service('setFollowing', params, callback);
         }
     }
+}).factory('forgetService', function(baseHttp) {
+    return {
+        forgetpwd : function(params, callback) {
+            return baseHttp.service('forgetpwd', params, callback);
+        }
+    }
 })

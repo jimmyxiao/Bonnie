@@ -15,6 +15,7 @@ import com.bonniedraw.web_api.module.UserInfoResponse;
 public interface UserServiceAPI {
 	public boolean isLogin(ApiRequestVO apiRequestVO);
 	public LoginResponseVO login(LoginRequestVO loginRequestVO, String ipAddress);
+	public String setPwdByEmail(String email);
 	public UserInfo queryUserInfo(int userId);
 	public OtherUserModel queryOtherUserInfo(int queryId, int userId);
 	public UserCounter getUserCounter(int userId);
