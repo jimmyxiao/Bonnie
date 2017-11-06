@@ -1,5 +1,5 @@
 //
-//  SaveViewController.swift
+//  UploadViewController.swift
 //  BonnieDraw
 //
 //  Created by Professor on 30/09/2017.
@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class SaveViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate {
+class UploadViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var thumbnail: UIImageView!

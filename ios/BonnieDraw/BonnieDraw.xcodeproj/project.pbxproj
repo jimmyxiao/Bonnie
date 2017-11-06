@@ -17,7 +17,7 @@
 		162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1664F4A81F74AD9200809C32 /* Localizable.strings */; };
 		162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65AE1F61663900945E04 /* Main.storyboard */; };
 		162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B31F61663900945E04 /* LaunchScreen.storyboard */; };
-		16332A231F7F3048007857E3 /* SaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16332A221F7F3048007857E3 /* SaveViewController.swift */; };
+		16332A231F7F3048007857E3 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16332A221F7F3048007857E3 /* UploadViewController.swift */; };
 		1633C0651F9ED4410039E7F6 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1633C0641F9ED4400039E7F6 /* WebViewController.swift */; };
 		16366AE21F7A0AA300E5799B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE11F7A0AA300E5799B /* HomeViewController.swift */; };
 		16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE41F7A131200E5799B /* HomeTableViewCell.swift */; };
@@ -63,6 +63,7 @@
 		166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF411F860E7900274C6C /* SplashViewController.swift */; };
 		166C41241F90964F00A98385 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C41231F90964F00A98385 /* DataExtension.swift */; };
 		16812ADA1F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */; };
+		16816AA71FAFF8DD00855104 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16816AA61FAFF8DD00855104 /* ShadowView.swift */; };
 		169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169C71CA1F66AFEF00B5D786 /* Constant.swift */; };
 		16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */; };
 		16C013CB1F9F2E3E00238463 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CA1F9F2E3E00238463 /* UserViewController.swift */; };
@@ -85,7 +86,7 @@
 		16185C7C1F94A13F008F0840 /* WorkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkViewController.swift; sourceTree = "<group>"; };
 		16185C7E1F94A264008F0840 /* Work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Work.swift; sourceTree = "<group>"; };
 		162AC4AA1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountGridCollectionViewCell.swift; sourceTree = "<group>"; };
-		16332A221F7F3048007857E3 /* SaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveViewController.swift; sourceTree = "<group>"; };
+		16332A221F7F3048007857E3 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		1633C0641F9ED4400039E7F6 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		16366AE11F7A0AA300E5799B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		16366AE41F7A131200E5799B /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
@@ -137,6 +138,7 @@
 		166BDF411F860E7900274C6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		166C41231F90964F00A98385 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleNavigationViewController.swift; sourceTree = "<group>"; };
+		16816AA61FAFF8DD00855104 /* ShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		169C71CA1F66AFEF00B5D786 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		16C013CA1F9F2E3E00238463 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -261,7 +263,7 @@
 				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
 				164ED2521F7BA45E00E8B910 /* ColorPickerViewController.swift */,
 				16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */,
-				16332A221F7F3048007857E3 /* SaveViewController.swift */,
+				16332A221F7F3048007857E3 /* UploadViewController.swift */,
 				166BDF411F860E7900274C6C /* SplashViewController.swift */,
 				16185C7C1F94A13F008F0840 /* WorkViewController.swift */,
 				16C013CC1F9F321100238463 /* FollowViewController.swift */,
@@ -316,6 +318,7 @@
 		16FC10221F695C62008A6A92 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				16816AA61FAFF8DD00855104 /* ShadowView.swift */,
 				164ED2501F7B517200E8B910 /* StatusBarBackgroundView.swift */,
 				165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */,
 				16FC10201F695C58008A6A92 /* CanvasView.swift */,
@@ -487,7 +490,7 @@
 				16185C7F1F94A264008F0840 /* Work.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
 				16386DD41FABFC1000DFE2E5 /* CanvasAnimationView.swift in Sources */,
-				16332A231F7F3048007857E3 /* SaveViewController.swift in Sources */,
+				16332A231F7F3048007857E3 /* UploadViewController.swift in Sources */,
 				1633C0651F9ED4410039E7F6 /* WebViewController.swift in Sources */,
 				1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */,
 				165ECC551F73A40700E32AA5 /* ViewControllerExtension.swift in Sources */,
@@ -516,6 +519,7 @@
 				163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */,
 				166C41241F90964F00A98385 /* DataExtension.swift in Sources */,
 				164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */,
+				16816AA71FAFF8DD00855104 /* ShadowView.swift in Sources */,
 				164ED2531F7BA45E00E8B910 /* ColorPickerViewController.swift in Sources */,
 				165E1B5B1F9DDFA80050A7BB /* SettingViewController.swift in Sources */,
 				16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */,

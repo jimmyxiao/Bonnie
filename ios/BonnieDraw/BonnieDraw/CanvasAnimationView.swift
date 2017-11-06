@@ -91,27 +91,26 @@ class CanvasAnimationView: UIView {
     private func animate() {
         if !cachePoints.isEmpty {
             let point = cachePoints.removeFirst()
-            currentPoint = point.position
-            if point.action != .down {
-                var points = [CGPoint]()
-                if let lastPoint = paths.last?.bezierPath.currentPoint {
-                    points.append(lastPoint)
-                }
-                points.append(point.position)
-                paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
-                paths.last?.points.append(point)
-                if point.action == .up {
-                    drawToPersistentImage()
-                }
-                timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
-                    timer in
-                    self.setNeedsDisplay(self.calculateRedrawRect(forPoints: points, withSize: point.size))
-                }
-                controlPoint = currentPoint
-            } else {
+            if bounds.contains(point.position) {
                 currentPoint = point.position
-                controlPoint = currentPoint
-                if bounds.contains(currentPoint) {
+                if point.action != .down {
+                    var points = [CGPoint]()
+                    if let lastPoint = paths.last?.bezierPath.currentPoint {
+                        points.append(lastPoint)
+                    }
+                    points.append(point.position)
+                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
+                    paths.last?.points.append(point)
+                    if point.action == .up {
+                        drawToPersistentImage()
+                    }
+                    timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
+                        timer in
+                        self.setNeedsDisplay(self.calculateRedrawRect(forPoints: points, withSize: point.size))
+                    }
+                    controlPoint = currentPoint
+                } else {
+                    controlPoint = currentPoint
                     let path = UIBezierPath()
                     path.move(to: currentPoint)
                     path.lineCapStyle = .round
@@ -120,8 +119,8 @@ class CanvasAnimationView: UIView {
                             Path(bezierPath: path,
                                     points: [point],
                                     color: point.color))
+                    animate()
                 }
-                animate()
             }
             if let readHandle = readHandle, cachePoints.count < POINT_BUFFER_COUNT / 2 {
                 let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)

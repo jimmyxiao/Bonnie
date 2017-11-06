@@ -15,6 +15,7 @@ class CanvasViewController:
         CanvasAnimationViewDelegate,
         SizePickerViewControllerDelegate,
         ColorPickerViewControllerDelegate {
+    @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var canvas: CanvasView!
     @IBOutlet weak var canvasAnimation: CanvasAnimationView!
     @IBOutlet weak var undoButton: UIBarButtonItem!
@@ -26,6 +27,7 @@ class CanvasViewController:
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var resetButton: UIBarButtonItem!
     @IBOutlet weak var colorButton: UIBarButtonItem!
+    private var timer: Timer?
 
     override func viewDidLoad() {
         canvas.delegate = self
@@ -45,12 +47,36 @@ class CanvasViewController:
 
     override func viewDidAppear(_ animated: Bool) {
         if canvas.isHidden {
-            canvas.load()
-            canvas.isHidden = false
-            UIView.animate(withDuration: 0.4) {
-                self.canvas.alpha = 1
+            canvas.load() {
+                self.loading.hide(true)
+                self.canvas.isHidden = false
+                self.canvasPathsDidChange()
+                UIView.animate(withDuration: 0.4) {
+                    self.canvas.alpha = 1
+                }
+                self.startAutoSaveTimer()
             }
+        } else {
+            startAutoSaveTimer()
+            loading.hide(true)
         }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        timer?.invalidate()
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    private func startAutoSaveTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) {
+            timer in
+            self.canvas.save()
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+    }
+
+    @objc func applicationDidEnterBackground(notification: Notification) {
+        canvas.save()
     }
 
     @IBAction func undo(_ sender: Any) {
@@ -71,19 +97,39 @@ class CanvasViewController:
     }
 
     @IBAction func play(_ sender: UIBarButtonItem) {
-        sender.isEnabled = false
-        undoButton.isEnabled = false
-        redoButton.isEnabled = false
-        saveButton.isEnabled = false
-        sizeButton.isEnabled = false
-        eraserButton.isEnabled = false
-        resetButton.isEnabled = false
-        colorButton.isEnabled = false
-        canvas.isHidden = true
-        canvas.isUserInteractionEnabled = false
-        canvasAnimation.isHidden = false
-        canvasAnimation.url = canvas.saveForUpload()
-        canvasAnimation.play()
+        do {
+            let url = try FileManager.default.url(
+                    for: .documentationDirectory,
+                    in: .userDomainMask,
+                    appropriateFor: nil,
+                    create: true).appendingPathComponent("animation.bdw")
+            sender.isEnabled = false
+            undoButton.isEnabled = false
+            redoButton.isEnabled = false
+            saveButton.isEnabled = false
+            sizeButton.isEnabled = false
+            eraserButton.isEnabled = false
+            resetButton.isEnabled = false
+            colorButton.isEnabled = false
+            canvas.isHidden = true
+            canvas.isUserInteractionEnabled = false
+            canvasAnimation.isHidden = false
+            canvas.save(toUrl: url) {
+                url in
+                self.canvasAnimation.url = url
+                self.canvasAnimation.play()
+            }
+        } catch {
+            Logger.d("\(#function): \(error.localizedDescription)")
+        }
+    }
+
+    @IBAction func upload(_ sender: Any) {
+        loading.hide(false)
+        canvas.save() {
+            url in
+            self.performSegue(withIdentifier: Segue.UPLOAD, sender: url)
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -99,15 +145,17 @@ class CanvasViewController:
             let height = CGFloat(controller.colors.count * 44)
             let maxHeight = view.bounds.height - 111
             controller.preferredContentSize = CGSize(width: 44, height: height > maxHeight ? maxHeight : height)
-        } else if let controller = segue.destination as? SaveViewController {
+        } else if let url = sender as? URL,
+                  let controller = segue.destination as? UploadViewController {
             controller.workThumbnailData = canvas.thumbnailData()
-            controller.workFileUrl = canvas.saveForUpload()
+            controller.workFileUrl = url
         }
     }
 
     override func onBackPressed(_ sender: Any) {
         canvasAnimation.stop()
         canvas.save()
+        canvas.close()
         super.onBackPressed(sender)
     }
 

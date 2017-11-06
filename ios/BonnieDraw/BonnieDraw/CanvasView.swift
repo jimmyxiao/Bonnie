@@ -16,18 +16,22 @@ class CanvasView: UIView {
     var redoPaths = [Path]()
     var persistentImage: UIImage?
     private var lastTimestamp: TimeInterval = -1
-    private var url: URL?
+    private var url = try! FileManager.default.url(
+            for: .documentationDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("cache.bdw")
     private var controlPoint = CGPoint.zero, currentPoint = CGPoint.zero
     private var writeHandle: FileHandle?
-    private var readHandle: FileHandle?
 
     override func awakeFromNib() {
         do {
-            url = try FileManager.default.url(
-                    for: .documentationDirectory,
-                    in: .userDomainMask,
-                    appropriateFor: nil,
-                    create: true).appendingPathComponent("cache.bdw")
+            let manager = FileManager.default
+            if manager.fileExists(atPath: url.path) {
+                try manager.removeItem(at: url)
+            }
+            manager.createFile(atPath: url.path, contents: nil, attributes: nil)
+            writeHandle = try FileHandle(forWritingTo: url)
         } catch {
             Logger.d("\(#function): \(error.localizedDescription)")
         }
@@ -79,20 +83,18 @@ class CanvasView: UIView {
     }
 
     func reset() {
+        writeHandle?.closeFile()
         paths.removeAll()
         redoPaths.removeAll()
         persistentImage = nil
         delegate?.canvasPathsDidChange()
         do {
-            if let url = url {
-                let manager = FileManager.default
-                if manager.fileExists(atPath: url.path) {
-                    writeHandle?.closeFile()
-                    try manager.removeItem(at: url)
-                }
-                manager.createFile(atPath: url.path, contents: nil, attributes: nil)
-                writeHandle = try FileHandle(forWritingTo: url)
+            let manager = FileManager.default
+            if manager.fileExists(atPath: url.path) {
+                try manager.removeItem(at: url)
             }
+            manager.createFile(atPath: url.path, contents: nil, attributes: nil)
+            writeHandle = try FileHandle(forWritingTo: url)
         } catch {
             Logger.d("\(#function): \(error.localizedDescription)")
         }
@@ -100,94 +102,112 @@ class CanvasView: UIView {
         lastTimestamp = -1
     }
 
-    func save() {
-        var points = [Point]()
-        while !paths.isEmpty {
-            points.append(contentsOf: paths.removeFirst().points)
-        }
-        redoPaths.removeAll()
-        persistentImage = nil
-        writeHandle?.write(DataConverter.parse(pointsToData: points, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
+    func close() {
         writeHandle?.closeFile()
-        setNeedsDisplay()
-        delegate?.canvasPathsDidChange()
     }
 
-    func saveForUpload() -> URL? {
-        guard let url = url else {
-            return nil
-        }
-        do {
-            let manager = FileManager.default
-            let uploadUrl = try manager.url(
-                    for: .documentationDirectory,
-                    in: .userDomainMask,
-                    appropriateFor: nil,
-                    create: true).appendingPathComponent("upload.bdw")
-            if manager.fileExists(atPath: uploadUrl.path) {
-                try manager.removeItem(at: uploadUrl)
-            }
-            try manager.copyItem(at: url, to: uploadUrl)
-            let writeHandle = try FileHandle(forWritingTo: uploadUrl)
-            writeHandle.seekToEndOfFile()
-            var points = [Point]()
-            for path in paths {
-                points.append(contentsOf: path.points)
-            }
-            writeHandle.write(DataConverter.parse(pointsToData: points, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
-            writeHandle.closeFile()
-            return uploadUrl
-        } catch {
-            Logger.d("\(#function): \(error.localizedDescription)")
-        }
-        return nil
-    }
-
-    func load() {
-        do {
-            guard let url = url else {
-                return
-            }
-            let manager = FileManager.default
-            if manager.fileExists(atPath: url.path) {
-                let data = try Data(contentsOf: url)
-                if !data.isEmpty {
+    func save(toUrl url: URL? = nil, completionHandler: ((URL?) -> Void)? = nil) {
+        let bounds = self.bounds
+        DispatchQueue.global().async {
+            do {
+                let manager = FileManager.default
+                let url = try url ?? manager.url(
+                        for: .documentationDirectory,
+                        in: .userDomainMask,
+                        appropriateFor: nil,
+                        create: true).appendingPathComponent("draft.bdw")
+                if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
-                    manager.createFile(atPath: url.path, contents: nil, attributes: nil)
-                    writeHandle = try FileHandle(forWritingTo: url)
-                    for point in DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)) {
-                        if bounds.contains(currentPoint) {
-                            currentPoint = point.position
-                            if point.action != .down {
-                                paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
-                                paths.last?.points.append(point)
-                                if point.action == .up {
-                                    drawToPersistentImage(saveToFile: true)
+                }
+                try manager.copyItem(at: self.url, to: url)
+                let writeHandle = try FileHandle(forWritingTo: url)
+                writeHandle.seekToEndOfFile()
+                var points = [Point]()
+                for path in self.paths {
+                    points.append(contentsOf: path.points)
+                }
+                writeHandle.write(DataConverter.parse(pointsToData: points, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
+                writeHandle.closeFile()
+                DispatchQueue.main.async {
+                    completionHandler?(url)
+                }
+            } catch {
+                Logger.d("\(#function): \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completionHandler?(nil)
+                }
+            }
+        }
+    }
+
+    func load(fromUrl url: URL? = nil, completionHandler: @escaping () -> Void) {
+        let bounds = self.bounds
+        DispatchQueue.global().async {
+            do {
+                let manager = FileManager.default
+                let url = try url ?? manager.url(
+                        for: .documentationDirectory,
+                        in: .userDomainMask,
+                        appropriateFor: nil,
+                        create: true).appendingPathComponent("draft.bdw")
+                if manager.fileExists(atPath: url.path) {
+                    var isEndOfFile = false
+                    let readHandle = try FileHandle(forReadingFrom: url)
+                    var points = DataConverter.parse(dataToPoints: readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)), withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height))
+                    if !points.isEmpty {
+                        var point = points.removeFirst()
+                        if self.bounds.contains(point.position) {
+                            self.currentPoint = point.position
+                            self.controlPoint = self.currentPoint
+                            let path = UIBezierPath()
+                            path.move(to: self.currentPoint)
+                            path.lineCapStyle = .round
+                            path.lineWidth = point.size
+                            self.paths.append(
+                                    Path(bezierPath: path,
+                                            points: [point],
+                                            color: point.color))
+                            while !points.isEmpty {
+                                point = points.removeFirst()
+                                self.currentPoint = point.position
+                                if point.action != .down {
+                                    self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (self.currentPoint.x + self.controlPoint.x) / 2, y: (self.currentPoint.y + self.controlPoint.y) / 2), controlPoint: self.controlPoint)
+                                    self.paths.last?.points.append(point)
+                                    if point.action == .up {
+                                        self.drawToPersistentImage()
+                                    }
+                                    self.controlPoint = self.currentPoint
+                                } else {
+                                    self.controlPoint = self.currentPoint
+                                    let path = UIBezierPath()
+                                    path.move(to: self.currentPoint)
+                                    path.lineCapStyle = .round
+                                    path.lineWidth = point.size
+                                    self.paths.append(
+                                            Path(bezierPath: path,
+                                                    points: [point],
+                                                    color: point.color))
                                 }
-                            } else {
-                                let path = UIBezierPath()
-                                path.move(to: currentPoint)
-                                path.lineCapStyle = .round
-                                path.lineWidth = point.size
-                                paths.append(
-                                        Path(bezierPath: path,
-                                                points: [point],
-                                                color: point.color))
+                                if points.count < POINT_BUFFER_COUNT / 2 && !isEndOfFile {
+                                    let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
+                                    let data = readHandle.readData(ofLength: maxByteCount)
+                                    points.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(self.bounds.width, self.bounds.height)))
+                                    if data.count < maxByteCount {
+                                        readHandle.closeFile()
+                                        isEndOfFile = true
+                                    }
+                                }
                             }
-                            controlPoint = currentPoint
                         }
                     }
-                    setNeedsDisplay()
-                    delegate?.canvasPathsDidChange()
-                } else {
-                    writeHandle = try FileHandle(forWritingTo: url)
                 }
-            } else {
-                manager.createFile(atPath: url.path, contents: nil, attributes: nil)
-                writeHandle = try FileHandle(forWritingTo: url)
+            } catch {
+                Logger.d("\(#function): \(error.localizedDescription)")
             }
-        } catch {
-            Logger.d("\(#function): \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.setNeedsDisplay()
+                completionHandler()
+            }
         }
     }
 
@@ -286,14 +306,14 @@ class CanvasView: UIView {
                     }
                 }
             }
-            drawToPersistentImage(saveToFile: true)
+            drawToPersistentImage()
             setNeedsDisplay(calculateRedrawRect(forPoints: points))
             redoPaths.removeAll()
             delegate?.canvasPathsDidChange()
         }
     }
 
-    private func drawToPersistentImage(saveToFile save: Bool) {
+    private func drawToPersistentImage() {
         if paths.count > PATH_BUFFER_COUNT {
             var pointsToSave = [Point]()
             UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
