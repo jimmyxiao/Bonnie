@@ -27,7 +27,6 @@ class CanvasViewController:
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var resetButton: UIBarButtonItem!
     @IBOutlet weak var colorButton: UIBarButtonItem!
-    private var timer: Timer?
 
     override func viewDidLoad() {
         canvas.delegate = self
@@ -54,25 +53,15 @@ class CanvasViewController:
                 UIView.animate(withDuration: 0.4) {
                     self.canvas.alpha = 1
                 }
-                self.startAutoSaveTimer()
             }
         } else {
-            startAutoSaveTimer()
             loading.hide(true)
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        timer?.invalidate()
         NotificationCenter.default.removeObserver(self)
-    }
-
-    private func startAutoSaveTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) {
-            timer in
-            self.canvas.save()
-        }
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
     }
 
     @objc func applicationDidEnterBackground(notification: Notification) {
@@ -111,13 +100,13 @@ class CanvasViewController:
             eraserButton.isEnabled = false
             resetButton.isEnabled = false
             colorButton.isEnabled = false
-            canvas.isHidden = true
             canvas.isUserInteractionEnabled = false
-            canvasAnimation.isHidden = false
             canvas.save(toUrl: url) {
                 url in
                 self.canvasAnimation.url = url
                 self.canvasAnimation.play()
+                self.canvasAnimation.isHidden = false
+                self.canvas.isHidden = true
             }
         } catch {
             Logger.d("\(#function): \(error.localizedDescription)")

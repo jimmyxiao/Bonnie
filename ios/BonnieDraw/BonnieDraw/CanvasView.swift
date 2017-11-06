@@ -191,7 +191,7 @@ class CanvasView: UIView {
                                 if points.count < POINT_BUFFER_COUNT / 2 && !isEndOfFile {
                                     let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
                                     let data = readHandle.readData(ofLength: maxByteCount)
-                                    points.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(self.bounds.width, self.bounds.height)))
+                                    points.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
                                     if data.count < maxByteCount {
                                         readHandle.closeFile()
                                         isEndOfFile = true
