@@ -10,6 +10,7 @@
 #import "TWTRScribeSerializable.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Type of promotional card. Numeric values are direct mapping of what's in the backend.
  */
@@ -27,7 +28,6 @@ typedef NS_ENUM(NSUInteger, TWTRScribePromotionCardType) {
 @property(nonatomic, readonly) TWTRScribePromotionCardType promotionCardType;
 
 - (instancetype)init NS_UNAVAILABLE;
-
 - (instancetype)initWithPromotionCardType:(TWTRScribePromotionCardType)promotionCardType;
 
 @end

@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Possible values for the <i>result</i> parameter of the completionHandler property.
  */
@@ -16,6 +17,7 @@ typedef NS_ENUM(NSInteger, TWTRComposerResult) {
      *  The composer is dismissed without sending the Tweet (i.e. the user selects Cancel, or the account is unavailable).
      */
             TWTRComposerResultCancelled,
+
     /**
      *  The composer is dismissed and the message is being sent in the background, after the user selects Done.
      */
@@ -63,7 +65,7 @@ typedef void (^TWTRComposerCompletion)(TWTRComposerResult result);
  * @param fromController The controller in which to present the composer from.
  * @param completion completion The completion handler, which has a single parameter indicating whether the user finished or cancelled the Tweet composition.
  */
-- (void)showFromViewController:(UIViewController *)fromController completion:(TWTRComposerCompletion)completion;
+- (void)showFromViewController:(UIViewController *)fromController completion:(nullable TWTRComposerCompletion)completion;
 
 @end
 

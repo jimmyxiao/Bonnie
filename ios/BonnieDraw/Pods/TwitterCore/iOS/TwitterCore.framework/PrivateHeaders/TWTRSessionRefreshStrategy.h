@@ -24,6 +24,7 @@ typedef void (^TWTRSessionRefreshCompletion)(id _Nullable refreshedSession, NSEr
  *  Protocol for session refresh strategies.
  */
 @protocol TWTRSessionRefreshStrategy <NSObject>
+
 /**
  *  Determines whether the strategy supports the given session class.
  *

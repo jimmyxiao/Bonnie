@@ -15,10 +15,12 @@ FOUNDATION_EXPORT NSString *const TWTRMoPubSampleAdUnitID;
  *  Bridging class for configuring how to load your MoPub ad unit.
  */
 @interface TWTRMoPubAdConfiguration : NSObject
+
 /**
  *  Ad unit ID of the MoPub ad.
  */
 @property(nonatomic, copy, readonly) NSString *adUnitID;
+
 /**
  *  Keywords specified in comma-separated key-value pairs to provide
  *  better targetting of the ads. e.g. "marital:single,age:24"

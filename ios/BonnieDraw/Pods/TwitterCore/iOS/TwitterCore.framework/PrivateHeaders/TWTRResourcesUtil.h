@@ -11,9 +11,7 @@
 #if IS_UIKIT_AVAILABLE
 #import <UIKit/UIKit.h>
 #else
-
 #import <Cocoa/Cocoa.h>
-
 #endif
 NS_ASSUME_NONNULL_BEGIN
 

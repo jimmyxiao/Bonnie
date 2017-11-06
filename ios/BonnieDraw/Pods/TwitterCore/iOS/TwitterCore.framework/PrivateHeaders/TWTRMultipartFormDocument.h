@@ -13,18 +13,22 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^TWTRMultipartFormDocumentLoadDataCallback)(NSData *data);
 
 @interface TWTRMultipartFormElement : NSObject
+
 /**
  * The name of the form element.
  */
 @property(nonatomic, copy, readonly) NSString *name;
+
 /**
  * The content type of the form element.
  */
 @property(nonatomic, copy, readonly) NSString *contentType;
+
 /**
  * An optional filename for this element.
  */
 @property(nonatomic, copy, readonly, nullable) NSString *fileName;
+
 /**
  * The content's data.
  */
@@ -48,10 +52,12 @@ typedef void (^TWTRMultipartFormDocumentLoadDataCallback)(NSData *data);
  * A class representing a multipart form document.
  */
 @interface TWTRMultipartFormDocument : NSObject
+
 /**
  * The forms boundary
  */
 @property(nonatomic, copy, readonly) NSString *boundary;
+
 /**
  * Returns a value appropriate for the Content-Type header field
  */

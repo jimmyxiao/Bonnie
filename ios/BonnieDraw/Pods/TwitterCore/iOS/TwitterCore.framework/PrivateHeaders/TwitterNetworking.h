@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
 @class TWTRAuthConfig;
-
 /**
  *  Completion block called when the network request succeeds or fails.
  *
@@ -23,13 +21,10 @@ typedef void (^TWTRTwitterNetworkCompletion)(NSURLResponse *response, NSData *da
 @property(nonatomic, readonly) TWTRAuthConfig *authConfig;
 
 - (instancetype)init __unavailable;
-
 - (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig;
 
 - (NSURLRequest *)GET:(NSString *)URLString parameters:(NSDictionary *)parameters;
-
 - (NSURLRequest *)POST:(NSString *)URLString parameters:(NSDictionary *)parameters;
-
 - (NSURLRequest *)DELETE:(NSString *)URLString parameters:(NSDictionary *)parameters;
 
 - (NSURLRequest *)URLRequestWithMethod:(NSString *)method URL:(NSString *)URLString parameters:(NSDictionary *)parameters;

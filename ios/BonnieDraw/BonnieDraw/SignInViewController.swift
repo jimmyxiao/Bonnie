@@ -10,6 +10,7 @@ import UIKit
 import FacebookCore
 import FacebookLogin
 import TwitterKit
+import Google
 import Alamofire
 
 class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate, UITextFieldDelegate {

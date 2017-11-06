@@ -35,6 +35,7 @@
 
  */
 @interface TWTRTimelineCursor : NSObject
+
 /**
  *  The ID of the Tweet highest up in a batch of Tweets received from a Timeline.
  *  Often this corresponds to the newest Tweet in terms of time.
@@ -42,6 +43,7 @@
  *  For User, Search, and List Timelines this corresponds to a real Tweet ID..
  */
 @property(nonatomic, copy, readonly) NSString *maxPosition;
+
 /**
  *  The ID of the Tweet lowest in a batch of Tweets received from a Timeline. This
  *  often corresponds to the oldest Tweet in terms of time.

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
  * A Tweet entity which represents a Hashtag like '#twitterkit'
  */
 @interface TWTRTweetHashtagEntity : TWTRTweetEntity <NSCoding, TWTRJSONConvertible>
+
 /**
  * The text represented by this entity.
  * @note This entity does not include the '#'.

@@ -6,11 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #if IS_UIKIT_AVAILABLE
 #import <UIKit/UIKit.h>
 #else
-
 #import <Cocoa/Cocoa.h>
 
 // This adds type name compatibility, but definitely not API cmopatibility for these classes. This
@@ -26,69 +24,50 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Black and White
 
 + (UIColor *)blackColor;
-
 + (UIColor *)whiteColor;
 
 #pragma mark - Blues
 
 + (UIColor *)blueColor;
-
 + (UIColor *)blueTextColor;
-
 + (UIColor *)lightBlueColor;
-
 + (UIColor *)mediumBlueColor;
-
 + (UIColor *)darkBlueColor;
 
 #pragma mark - Reds
 
 + (UIColor *)redColor;
-
 + (UIColor *)darkRedColor;
 
 #pragma mark - Purples
 
 + (UIColor *)darkPurpleColor;
-
 + (UIColor *)deepPurpleColor;
-
 + (UIColor *)mediumPurpleColor;
 
 #pragma mark - Grays
 
 + (UIColor *)grayTextColor;
-
 + (UIColor *)darkGrayTextColor;
-
 + (UIColor *)grayColor;
-
 + (UIColor *)borderGrayColor;
-
 + (UIColor *)darkBorderGrayColor;
-
 + (UIColor *)faintGrayColor;
-
 + (UIColor *)mediumGrayColor;
-
 + (UIColor *)darkGrayColor;
 
 #pragma mark - Component Colors
 
 + (UIColor *)textColor;
-
 + (UIColor *)imagePlaceholderColor;
 
 #pragma mark - Utilities
 
 + (NSInteger)hexWithColor:(UIColor *)color;
-
 + (UIColor *)colorFromHex:(NSInteger)hex;
 
 + (UIImage *)imageWithColor:(UIColor *)color;
-
 + (BOOL)isLightColor:(UIColor *)color;
-
 + (BOOL)isLightColor:(UIColor *)color lightnessThreshold:(CGFloat)lightnessThreshold;
 
 + (BOOL)isOpaqueColor:(UIColor *)color;

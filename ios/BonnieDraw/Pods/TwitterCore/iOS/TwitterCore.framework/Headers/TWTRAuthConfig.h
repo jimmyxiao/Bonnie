@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Authentication configuration details. Encapsulates credentials required to authenticate a Twitter application. You can obtain your credentials at https://apps.twitter.com/.
  */
 @interface TWTRAuthConfig : NSObject
+
 /**
  *  The consumer key of the Twitter application.
  */

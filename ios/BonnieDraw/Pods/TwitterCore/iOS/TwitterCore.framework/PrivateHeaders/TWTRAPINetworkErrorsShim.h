@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithHTTPResponse:(NSURLResponse *)response responseData:(NSData *)responseData NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init __unavailable;
-
 /**
  *  Validates the error response while taking into account some Twitter-specific quirks.
  *

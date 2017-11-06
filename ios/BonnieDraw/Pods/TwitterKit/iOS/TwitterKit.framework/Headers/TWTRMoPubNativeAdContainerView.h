@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A default combination of colors for the native ads.
  */
@@ -42,24 +43,29 @@ typedef NS_ENUM(NSUInteger, TWTRNativeAdTheme) {
  *  view has already been added to the view hierarchy.
  */
 @interface TWTRMoPubNativeAdContainerView : UIView <UIAppearanceContainer>
+
 /**
  *  Setting the theme of ad views. This is the base template that can
  *  be overridden by setting your custom colors for the available view
  *  properties. Default is `TWTRNativeAdThemeLight`.
  */
 @property(nonatomic) TWTRNativeAdTheme theme UI_APPEARANCE_SELECTOR;
+
 /**
  *  Background color of this ad container view. Defaults to #F5F8FA.
  */
 @property(nonatomic) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
+
 /**
  *  Background color of the ad within the container. Defaults to #FFFFFF.
  */
 @property(nonatomic) UIColor *adBackgroundColor UI_APPEARANCE_SELECTOR;
+
 /**
  *  Primary text color used within the ad cell including the underlying ad. Defaults to #292F33.
  */
 @property(nonatomic) UIColor *primaryTextColor UI_APPEARANCE_SELECTOR;
+
 /**
  *  Background color of buttons. Defaults to #174791.
  */

@@ -5,6 +5,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TWTRVideoPlaybackState.h"
 
 @class TWTRSession;
 @class TWTRTweet;
@@ -25,6 +26,7 @@ typedef void (^TWTRAuthenticationCompletionHandler)(id <TWTRSessionStore> sessio
     tweetView.delegate = self;
  */
 @protocol TWTRTweetViewDelegate <NSObject>
+
 @optional
 /**
  *  The tweet view image was tapped.
@@ -69,6 +71,14 @@ typedef void (^TWTRAuthenticationCompletionHandler)(id <TWTRSessionStore> sessio
  *  @param tweet The Tweet that user tapped.
  */
 - (void)tweetView:(TWTRTweetView *)tweetView didTapTweet:(TWTRTweet *)tweet;
+
+/**
+ *  Called when video in the Tweet changes its state.
+ *
+ *  @param tweetView The Tweet view that was tapped.
+ *  @param newState The state of the video. (TWTRVideoPlaybackStatePaused, TWTRVideoPlaybackStatePlaying, TWTRVideoPlaybackStateCompleted)
+ */
+- (void)tweetView:(TWTRTweetView *)tweetView didChangePlaybackState:(TWTRVideoPlaybackState)newState;
 
 @end
 

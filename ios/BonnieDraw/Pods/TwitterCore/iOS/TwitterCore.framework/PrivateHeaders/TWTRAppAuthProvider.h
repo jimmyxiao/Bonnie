@@ -11,6 +11,7 @@
 @protocol TWTRAPIServiceConfig;
 
 @interface TWTRAppAuthProvider : TWTRAuthenticationProvider
+
 - (instancetype)init __unavailable;
 
 - (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig apiServiceConfig:(id <TWTRAPIServiceConfig>)apiServiceConfig;

@@ -45,6 +45,12 @@ enum FileType: Int {
     case bdw
 }
 
+enum AccessControl: Int {
+    case publicAccess = 1
+    case contactAccess
+    case privateAccess
+}
+
 struct Cell {
     static let BASIC = "basicCell"
     static let HOME = "homeCell"

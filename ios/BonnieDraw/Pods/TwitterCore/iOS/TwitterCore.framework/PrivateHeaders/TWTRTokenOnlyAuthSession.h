@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TWTRTokenOnlyAuthSession : NSObject <TWTRAuthSession>
 @property(nonatomic, copy, readonly) NSString *authToken;
 @property(nonatomic, copy, readonly) NSString *authTokenSecret;
+
 /**
  * This value is here to satisfy TWTRAuthSession protocol but
  * it defaults to an empty string and cannot be updated.
@@ -21,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, readonly) NSString *userID;
 
 - (instancetype)initWithToken:(NSString *)authToken secret:(NSString *)authTokenSecret;
-
 + (instancetype)authSessionWithToken:(NSString *)authToken secret:(NSString *)authTokenSecret;
 
 @end

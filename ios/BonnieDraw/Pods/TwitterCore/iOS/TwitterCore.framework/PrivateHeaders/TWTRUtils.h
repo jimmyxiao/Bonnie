@@ -9,28 +9,19 @@
 #if IS_UIKIT_AVAILABLE
 #import <UIKit/UIKit.h>
 #else
-
 #import <Cocoa/Cocoa.h>
-
 #endif
 
 @interface TWTRUtils : NSObject
 + (NSDictionary *)dictionaryWithQueryString:(NSString *)queryString;
-
 + (NSString *)queryStringFromDictionary:(NSDictionary *)dictionary;
-
 + (NSString *)urlEncodedStringForString:(NSString *)inputString;
-
 + (NSString *)urlDecodedStringForString:(NSString *)inputString;
-
 + (NSString *)base64EncodedStringWithData:(NSData *)data;
-
 #if IS_UIKIT_AVAILABLE
 + (UIViewController *)topViewController;
 #endif
-
 + (NSString *)localizedLongAppName;
-
 + (NSString *)localizedShortAppName;
 
 /**

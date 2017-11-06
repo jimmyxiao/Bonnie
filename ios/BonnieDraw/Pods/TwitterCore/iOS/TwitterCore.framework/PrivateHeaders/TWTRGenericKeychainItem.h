@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 extern NSString *const TWTRGenericKeychainItemErrorDomain;
 
 /**
@@ -14,20 +15,24 @@ extern NSString *const TWTRGenericKeychainItemErrorDomain;
  * retrieve items in the keychain.
  */
 @interface TWTRGenericKeychainQuery : NSObject
+
 /**
  * The name of the service corresponding with kSecAttrService.
  * If this value is specified the genericValue and accessGroup values are ignored.
  */
 @property(nonatomic, copy, readonly, nullable) NSString *service;
+
 /**
  * The name of the account corresponding with kSecAttrAccount.
  * If this value is specified the genericValue and accessGroup values are ignored.
  */
 @property(nonatomic, copy, readonly, nullable) NSString *account;
+
 /**
  * A generic value corresponding with kSecAttrGeneric.
  */
 @property(nonatomic, copy, readonly, nullable) NSString *genericValue;
+
 /**
  * The access group corresponding with kSecAttrAccessGroup.
  * This value is not used in equality checks.
@@ -74,15 +79,18 @@ extern NSString *const TWTRGenericKeychainItemErrorDomain;
  * kSecClassGenericPassword objects.
  */
 @interface TWTRGenericKeychainItem : NSObject
+
 /**
  * A value which specifies the item's service attribute. This
  * value represents the service associated with this item.
  */
 @property(nonatomic, copy, readonly) NSString *service;
+
 /**
  * A value which represents the items account name.
  */
 @property(nonatomic, copy, readonly) NSString *account;
+
 /**
  * The item that is intended to be kept secret. This may be
  * something like a password for an account or an oauth token.
@@ -91,15 +99,18 @@ extern NSString *const TWTRGenericKeychainItemErrorDomain;
  * should be smaller than ~2mb but can change from device to device.
  */
 @property(nonatomic, copy, readonly) NSData *secret;
+
 /**
  * An optional value that can be set on the item.
  */
 @property(nonatomic, copy, readonly, nullable) NSString *genericValue;
+
 /**
  * Returns the date that the item was last saved to the store. This value
  * is nil until the item is actually saved.
  */
 @property(nonatomic, copy, readonly, nullable) NSDate *lastSavedDate;
+
 /**
  * An optional value that can be used to specify the items accesss group.
  * If this value is not set the default access group which is only
@@ -147,9 +158,7 @@ extern NSString *const TWTRGenericKeychainItemErrorDomain;
  * @param accessGroup the access group for this item. If empty uses the default access group. *
  */
 - (instancetype)initWithService:(NSString *)service account:(NSString *)account secret:(NSData *)secret;
-
 - (instancetype)initWithService:(NSString *)service account:(NSString *)account secret:(NSData *)secret genericValue:(nullable NSString *)genericValue;
-
 - (instancetype)initWithService:(NSString *)service account:(NSString *)account secret:(NSData *)secret genericValue:(nullable NSString *)genericValue accessGroup:(nullable NSString *)accessGroup;
 
 /**
@@ -165,7 +174,6 @@ extern NSString *const TWTRGenericKeychainItemErrorDomain;
  * @return a value representing if the operation was successful
  */
 - (BOOL)storeInKeychain:(NSError **)error;
-
 - (BOOL)storeInKeychainReplacingExisting:(BOOL)replaceExisting error:(NSError **)error;
 
 /**

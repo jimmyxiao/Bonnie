@@ -15,6 +15,7 @@
 @protocol TWTRRefreshStrategies;
 
 NS_ASSUME_NONNULL_BEGIN
+
 typedef void (^TWTRSessionStoreLogoutHook)(NSString *userID);
 
 /**
@@ -28,6 +29,7 @@ typedef void (^TWTRSessionLogInCompletion)(id <TWTRAuthSession> _Nullable sessio
 typedef void (^TWTRSessionStoreUserSessionSavedCompletion)(id <TWTRAuthSession> session);
 
 @protocol TWTRUserSessionStore_Private <TWTRSessionStore>
+
 /**
  *  Saves the existing session to the store after validations.
  *
@@ -47,6 +49,7 @@ typedef void (^TWTRSessionStoreUserSessionSavedCompletion)(id <TWTRAuthSession> 
 @end
 
 @protocol TWTRSessionStore_Private <TWTRUserSessionStore_Private>
+
 /**
  *  The current guest session.
  *
@@ -57,19 +60,23 @@ typedef void (^TWTRSessionStoreUserSessionSavedCompletion)(id <TWTRAuthSession> 
 @end
 
 @interface TWTRSessionStore () <TWTRSessionStore_Private>
+
 /**
  *  Logger for logging important session lifecycle events.
  *  Scribe service used to log events.
  */
 @property(nonatomic, readonly) id <TWTRErrorLogger> errorLogger;
+
 /**
  *  Service config for configuring endpoints to make auth requests against.
  */
 @property(nonatomic, readonly) id <TWTRAPIServiceConfig> APIServiceConfig;
+
 /*
  * Called when the logoutUserID: method is called.
  */
 @property(nonatomic, copy, nullable) TWTRSessionStoreLogoutHook userLogoutHook;
+
 /**
  *  Completion block invoked whenever a user session is saved to the store.
  */

@@ -10,27 +10,33 @@
 @class TWTRTweet;
 
 NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  The style for Tweet views.
  */
 typedef NS_ENUM(NSUInteger, TWTRTweetViewStyle) {
+
     /**
      *  A full-size Tweet view. Displays images if present.
      */
             TWTRTweetViewStyleRegular,
+
     /**
      *  A small Tweet view, primarily designed to be used in table views.
      */
             TWTRTweetViewStyleCompact
 };
+
 /**
  *  A default combination of colors for Tweet views.
  */
 typedef NS_ENUM(NSUInteger, TWTRTweetViewTheme) {
+
     /**
      *  Official light theme.
      */
             TWTRTweetViewThemeLight,
+
     /**
      *  Official dark theme.
      */
@@ -59,6 +65,7 @@ typedef NS_ENUM(NSUInteger, TWTRTweetViewTheme) {
    - When the share button is tapped.
    - When the share action completes.
    - When the favorite action completes.
+   - When the video (if available) is paused or started to play.
 
  ## Usage in UITableView
 
@@ -88,27 +95,38 @@ typedef NS_ENUM(NSUInteger, TWTRTweetViewTheme) {
  _Note:_ You can't change the theme through an appearance proxy after the view has already been added to the view hierarchy. Direct `theme` property access will work though.
  */
 @interface TWTRTweetView : UIView <UIAppearanceContainer>
+
 /**
  *  The Tweet being displayed.
  */
 @property(nonatomic, readonly) TWTRTweet *tweet;
+
 /**
  *  Background color of the Tweet view and all text labels (fullname, username, Tweet text, timestamp).
  */
 @property(nonatomic) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
+
 /**
  *  Color of Tweet text and full name.
  */
 @property(nonatomic) UIColor *primaryTextColor UI_APPEARANCE_SELECTOR;
+
 /**
  *  Color of links in Tweet text.
  */
 @property(nonatomic) UIColor *linkTextColor UI_APPEARANCE_SELECTOR;
+
 /**
  *  Set whether the border should be shown.
  *  Defaults to YES.
  */
 @property(nonatomic) BOOL showBorder UI_APPEARANCE_SELECTOR;
+/**
+ * Set whether or not videos playing inline should be muted.
+ * Defaults to NO.
+ */
+@property(nonatomic) BOOL shouldPlayVideoMuted;
+
 /**
  *  Set whether the action buttons (Favorite, Share) should be shown. When toggled,
  *  both the visibility of the action buttons and the internal constraints are
@@ -117,20 +135,24 @@ typedef NS_ENUM(NSUInteger, TWTRTweetViewTheme) {
  *  Defaults to NO.
  */
 @property(nonatomic) BOOL showActionButtons;
+
 /**
  *  Setting the theme of the Tweet view will change the color properties accordingly.
  *
  *  Set to `TWTRTweetViewThemeLight` by default.
  */
 @property(nonatomic) TWTRTweetViewTheme theme;
+
 /**
  *  The style of the Tweet. i.e. `TWTRTweetViewStyleRegular` or `TWTRTweetViewStyleCompact`.
  */
 @property(nonatomic, readonly) TWTRTweetViewStyle style;
+
 /**
  *  Optional delegate to receive notifications when certain actions happen
  */
 @property(nonatomic, weak) IBOutlet id <TWTRTweetViewDelegate> delegate;
+
 /**
  *  Optional property to set a UIViewController from which to present various new UI
  *  e.g. when presenting a Share sheet, presenting a login view controller for actions, etc
@@ -180,6 +202,20 @@ typedef NS_ENUM(NSUInteger, TWTRTweetViewTheme) {
  *  @param tweet The Tweet to display.
  */
 - (void)configureWithTweet:(nullable TWTRTweet *)tweet;
+
+/**
+ * If the tweet contains playable media, calling this function will play the media. The media will also play if
+ * the user taps on the play button for the media.
+ */
+- (void)playVideo;
+
+/**
+ * If the tweet contains media that is currently playing, this function will pause the current video.
+ *
+ * If a TWTRTweetVideo is being added to a UICollectionView, implement the delegate collectionView:didEndDisplayingCell:forItemAtIndexPath: 
+ * and call pauseVideo here so videos stop playing when the user scrolls off the screen.
+ */
+- (void)pauseVideo;
 
 @end
 

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 @class TWTRAuthConfig;
 @class TWTRAuthConfigStore;
 @protocol TWTRSessionStore_Private;
@@ -15,6 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TWTRAuthConfigSessionsValidator : NSObject
+
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithConfigStore:(TWTRAuthConfigStore *)configStore sessionStore:(id <TWTRSessionStore_Private>)sessionStore;

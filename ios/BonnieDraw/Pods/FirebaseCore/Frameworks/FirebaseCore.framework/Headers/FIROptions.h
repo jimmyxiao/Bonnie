@@ -4,6 +4,7 @@
  * This class provides constant fields of Google APIs.
  */
 @interface FIROptions : NSObject <NSCopying>
+
 /**
  * Returns the default options.
  */

@@ -15,9 +15,7 @@
 
 // Designated initializer.
 - (id)initWithAccount:(NSString *)account service:(NSString *)service accessGroup:(NSString *)accessGroup;
-
 - (BOOL)setObject:(id)inObject forKey:(id)key;
-
 - (id)objectForKey:(id)key;
 
 // Initializes and resets the default generic keychain item data.

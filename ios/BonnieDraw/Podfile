@@ -15,4 +15,5 @@ target 'BonnieDraw' do
   pod 'DeviceKit'
   pod 'Alamofire'
   pod 'XLPagerTabStrip'
+  pod 'DropDown'
 end

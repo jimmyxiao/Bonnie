@@ -10,6 +10,7 @@
 #import "TWTRScribeSerializable.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Mapping to `MediaType` in scribing.
  */
@@ -38,7 +39,6 @@ typedef NS_ENUM(NSUInteger, TWTRScribeMediaType) {
 @property(nonatomic, readonly) TWTRScribeMediaType mediaType;
 
 - (instancetype)init NS_UNAVAILABLE;
-
 /**
  *  Initializes a new media detail scribe item.
  *

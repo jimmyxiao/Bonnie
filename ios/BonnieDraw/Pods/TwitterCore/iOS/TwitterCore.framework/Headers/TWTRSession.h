@@ -24,6 +24,7 @@ typedef void (^TWTRLogInCompletion)(TWTRSession *_Nullable session, NSError *_Nu
  *  TWTRSession represents a user's session authenticated with the Twitter API.
  */
 @interface TWTRSession : NSObject <TWTRAuthSession>
+
 /**
  *  The authorization token.
  */

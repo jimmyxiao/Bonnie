@@ -25,7 +25,6 @@ typedef void (^TWTRRequestSigningSuccessBlock)(NSURLRequest *signedRequest);
 typedef void (^TWTRRequestSigningCancelBlock)(void);
 
 typedef TWTRGuestSession *_Nonnull (^TWTRGuestSessionProvider)(void);
-
 typedef TWTRSession *_Nonnull (^TWTRUserSessionProvider)(void);
 
 /**

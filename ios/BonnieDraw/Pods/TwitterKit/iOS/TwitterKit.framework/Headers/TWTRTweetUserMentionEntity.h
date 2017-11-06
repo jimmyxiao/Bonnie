@@ -13,14 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
  * A Tweet entity which represents a user mention.
  */
 @interface TWTRTweetUserMentionEntity : TWTRTweetEntity <NSCoding, TWTRJSONConvertible>
+
 /**
  * The userID of the user whom ha   s been mentioned.
  */
 @property(nonatomic, copy, readonly) NSString *userID;
+
 /**
  * The name of the user whom has been mentioned.
  */
 @property(nonatomic, copy, readonly) NSString *name;
+
 /**
  * The screen name of the user whom has been mentioned.
  */

@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import DropDown
 
 class UploadViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
@@ -15,13 +16,29 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var workTitle: UITextField!
     @IBOutlet weak var workDescription: UITextView!
+    @IBOutlet weak var accessLabel: UILabel!
+    let dropDown = DropDown()
     var workThumbnailData: Data?
     var workFileUrl: URL?
     private var viewOriginY: CGFloat = 0
     private var keyboardOnScreen = false
     private var dataRequest: DataRequest?
+    private let dropDownItems: [(access: AccessControl, title: String)] = [(.publicAccess, "access_control_public".localized),
+                                                                           (.contactAccess, "access_control_contact".localized),
+                                                                           (.privateAccess, "access_control_private".localized)]
+    private var accessControl: (access: AccessControl, title: String) = (.publicAccess, "access_control_public".localized)
 
     override func viewDidLoad() {
+        dropDown.dataSource = dropDownItems.map() {
+            item in
+            return item.title
+        }
+        dropDown.selectRow(at: 0)
+        dropDown.selectionAction = {
+            (index, text) in
+            self.accessLabel.text = text
+            self.accessControl = self.dropDownItems[index]
+        }
         if let workThumbnailData = workThumbnailData {
             thumbnail.image = UIImage(data: workThumbnailData)
         }
@@ -68,6 +85,11 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
         loading.hide(true)
     }
 
+    @IBAction func accessControl(_ sender: UIButton) {
+        dropDown.anchorView = sender.superview
+        dropDown.show()
+    }
+
     @IBAction func save(_ sender: UIBarButtonItem) {
         guard AppDelegate.reachability.connection != .none else {
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
@@ -96,7 +118,7 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.WORK_SAVE),
                     method: .post,
-                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": 1, "title": title, "description": description],
+                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": accessControl.access.rawValue, "title": title, "description": description],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {

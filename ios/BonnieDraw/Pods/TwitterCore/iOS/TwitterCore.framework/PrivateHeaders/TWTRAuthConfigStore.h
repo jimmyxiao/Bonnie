@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 @class TWTRAuthConfig;
 
 NS_ASSUME_NONNULL_BEGIN

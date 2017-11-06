@@ -9,7 +9,6 @@
 
 @interface TWTRDateFormatters ()
 + (void)resetCache;
-
 + (void)setLocale:(NSLocale *)locale;
 
 @end

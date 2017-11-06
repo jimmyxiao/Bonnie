@@ -19,28 +19,34 @@ NS_ASSUME_NONNULL_BEGIN
  *  @see https://dev.twitter.com/rest/reference/get/lists/statuses
  */
 @interface TWTRListTimelineDataSource : NSObject <TWTRTimelineDataSource>
+
 /**
  *  The ID of the list to show Tweets for. Either the `listID` or the `listSlug` and `listOwnerScreenName` are required.
  */
 @property(nonatomic, copy, readonly) NSString *listID;
+
 /**
  *  The slug of the list to show Tweets for. Either the `listID` or the `listSlug` and `listOwnerScreenName` are required.
  */
 @property(nonatomic, copy, readonly) NSString *listSlug;
+
 /**
  *  Screen name of the owner of the list as specified by the `listSlug`. Either the `listID` or the `listSlug` and `listOwnerScreenName` are required.
  */
 @property(nonatomic, copy, readonly) NSString *listOwnerScreenName;
+
 /**
  *  The number of Tweets to request in each query to the Twitter Timeline API when fetching the next batch of Tweets. Will request 30 Tweets by default. Setting this value to 0 will use the server default.
  */
 @property(nonatomic, readonly) NSUInteger maxTweetsPerRequest;
+
 /**
  *  Whether to request retweets in the set of Tweets from the server.
  *
  *  Defaults to YES.
  */
 @property(nonatomic, readonly) BOOL includeRetweets;
+
 /*
  *  A filtering object that hides certain tweets.
  */

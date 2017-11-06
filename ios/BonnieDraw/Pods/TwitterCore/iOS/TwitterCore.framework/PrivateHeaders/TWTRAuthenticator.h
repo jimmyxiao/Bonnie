@@ -16,7 +16,6 @@
  */
 @interface TWTRAuthenticator : NSObject
 + (NSDictionary *)authenticationResponseForAuthType:(TWTRAuthType)authType __attribute__((deprecated("This class is removed in favor of TWTRSessionStore")));
-
 + (void)logoutAuthType:(TWTRAuthType)authType __attribute__((deprecated("This class is removed in favor of TWTRSessionStore")));
 
 /**

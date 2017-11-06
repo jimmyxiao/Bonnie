@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  A table view cell subclass which displays a Tweet.
  */
 @interface TWTRTweetTableViewCell : UITableViewCell
+
 /**
  *  The Tweet view inside this cell. Holds all relevant text and images.
  */

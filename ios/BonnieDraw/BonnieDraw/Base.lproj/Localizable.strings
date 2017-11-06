@@ -48,3 +48,6 @@
 "alert_reset_content" = "重設後會無法還原畫作";
 "following" = "追蹤中";
 "you" = "你";
+"access_control_public" = "公開";
+"access_control_private" = "不公開";
+"access_control_contact" = "只限朋友";

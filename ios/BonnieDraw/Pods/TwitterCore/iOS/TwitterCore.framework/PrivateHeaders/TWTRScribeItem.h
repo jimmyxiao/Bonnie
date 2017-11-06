@@ -14,6 +14,7 @@
 #import "TWTRScribeSerializable.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  The type of item (tweet, user, trend, list, etc). Certain values are deprecated so be sure to
  *  check `client_app.thrift` before adding more fields. The raw values here are exactly as they appear
@@ -40,11 +41,8 @@ typedef NS_ENUM(NSUInteger, TWTRScribeItemType) {
 @property(nonatomic, readonly, nullable) TWTRScribeFilterDetails *filterDetails;
 
 - (instancetype)init __attribute__((unavailable("Every attribute is optional on the backend but we want to be stricter on the client.")));
-
 - (instancetype)initWithItemType:(TWTRScribeItemType)itemType itemID:(NSString *)itemID;
-
 - (instancetype)initWithItemType:(TWTRScribeItemType)itemType itemID:(nullable NSString *)itemID cardEvent:(nullable TWTRScribeCardEvent *)cardEvent mediaDetails:(nullable TWTRScribeMediaDetails *)mediaDetails;
-
 /**
  *  Initiatizes a generic Scribe Item typically displayed in streams or dashboard modules e.g. Timelines
  *

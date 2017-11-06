@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @class TWTRTweet;
 @protocol TWTRComposerViewControllerDelegate;
 
@@ -29,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  add them at the end of `initialText`.
  */
 @interface TWTRComposerViewController : UIViewController
+
 /**
  * The delegate for this composer view controller.
  */

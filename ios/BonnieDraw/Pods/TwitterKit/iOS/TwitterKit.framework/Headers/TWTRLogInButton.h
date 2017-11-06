@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  A Button which launches the sign in to Twitter flow when tapped.
  */
 @interface TWTRLogInButton : UIButton
+
 /**
  *  The completion block to be called with a `TWTRSession` if successful,
  *  and a `NSError` if logging in failed or was canceled.

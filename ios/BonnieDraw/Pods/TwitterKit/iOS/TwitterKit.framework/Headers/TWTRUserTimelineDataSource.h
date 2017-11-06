@@ -18,30 +18,36 @@ NS_ASSUME_NONNULL_BEGIN
  *  These Tweets are ordered chronologically with the most recent first.
  */
 @interface TWTRUserTimelineDataSource : NSObject <TWTRTimelineDataSource>
+
 /**
  *  The screen name of the User whose Tweets are being shown. Either the `screenName` or the `userID` are required.
  */
 @property(nonatomic, copy, readonly) NSString *screenName;
+
 /**
  *  The userID of the User whose Tweets are being shown. Either the `screenName` or the `userID` are required.
  */
 @property(nonatomic, copy, readonly) NSString *userID;
+
 /**
  *  The number of Tweets to request in each query to the Twitter Timeline API when fetching the next batch of Tweets. Will request 30 Tweets by default. Setting this value to 0 will use the server default.
  */
 @property(nonatomic, readonly) NSUInteger maxTweetsPerRequest;
+
 /**
  *  Whether to request replies in the set of Tweets from the server.
  *
  *  Defaults to NO.
  */
 @property(nonatomic, readonly) BOOL includeReplies;
+
 /**
  *  Whether to request retweets in the set of Tweets from the server.
  *
  *  Defaults to YES.
  */
 @property(nonatomic, readonly) BOOL includeRetweets;
+
 /*
  *  A filtering object that hides certain tweets.
  */

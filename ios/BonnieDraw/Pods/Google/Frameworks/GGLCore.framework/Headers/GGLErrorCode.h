@@ -37,4 +37,5 @@ typedef enum {
      * Missing expected subspec error.
      */
             kGGLErrorCodeMissingExpectedSubspec = -106,
+
 } GGLErrorCode;

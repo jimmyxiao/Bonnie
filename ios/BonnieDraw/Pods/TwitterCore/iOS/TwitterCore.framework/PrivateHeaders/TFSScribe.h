@@ -11,6 +11,7 @@
 #ifndef NS_DESIGNATED_INITIALIZER
 #define NS_DESIGNATED_INITIALIZER __attribute((objc_designated_initializer))
 #endif
+
 FOUNDATION_EXTERN NSString *const TFSScribeDebugPreferencesKey;
 
 FOUNDATION_EXTERN NSString *const TFSScribeEventNotification;  // Triggered when the scribe API call returns
@@ -18,6 +19,7 @@ FOUNDATION_EXTERN NSString *const TFSScribeFlushNotification;  // Triggered afte
 FOUNDATION_EXTERN NSString *const TFSScribeFlushTokenInfoKey;  // Key in userInfo dictionary corresponding to the token used in the flush request.
 
 FOUNDATION_EXTERN const NSInteger TFSScribeServiceUpdateValue;
+
 /**
  *  Result of handling outgoing scribe events.
  */
@@ -41,17 +43,16 @@ typedef NS_ENUM(NSUInteger, TFSScribeServiceRequestDisposition) {
  *  Object representing a scribe event. These methods must be thread safe.
  */
 @protocol TFSScribeEventParameters <NSObject>
+
 /**
  *  Binary representation of the scribe event. This is what will be kept in
  *  the store and returned when flush is called.
  */
 - (NSData *)data;
-
 /**
  *  Dictionary representation of the event used for logging purposes.
  */
 - (NSDictionary *)dictionaryRepresentation;
-
 /**
  *  User ID of event
  */
@@ -62,6 +63,7 @@ typedef NS_ENUM(NSUInteger, TFSScribeServiceRequestDisposition) {
 @class TFSScribe;
 
 @protocol TFSScribeErrorDelegate <NSObject>
+
 /**
  *  Scribe will call this method on an arbitrary queue if it encounters
  *  an internal error.
@@ -71,7 +73,6 @@ typedef NS_ENUM(NSUInteger, TFSScribeServiceRequestDisposition) {
 @end
 
 typedef void (^TFSScribeRequestBatchedImpressionEventBlock)(id <TFSScribeEventParameters> scribeEventParameters);
-
 typedef void (^TFSScribeRequestCompletionBlock)(TFSScribeServiceRequestDisposition disposition);
 
 @protocol TFSScribeRequestHandler <NSObject>
@@ -103,7 +104,6 @@ typedef void (^TFSScribeRequestCompletionBlock)(TFSScribeServiceRequestDispositi
 @property(nonatomic, weak) id <TFSScribeErrorDelegate> errorDelegate;
 
 + (BOOL)isDebugEnabled;
-
 + (void)setDebugEnabled:(BOOL)enabled;
 
 /**
@@ -151,7 +151,6 @@ typedef void (^TFSScribeRequestCompletionBlock)(TFSScribeServiceRequestDispositi
  *  Suspend the scribe's internal background queue. This could be used to improve scrolling performance on older devices.
  */
 - (void)suspend;
-
 /**
  *  Resume the scribe's internal background queue.
  */

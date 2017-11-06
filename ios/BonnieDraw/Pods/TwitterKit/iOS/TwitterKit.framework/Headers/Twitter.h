@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @note This class can only be used from the main thread.
  */
 @interface Twitter : NSObject
+
 /**
  *  Returns the Twitter singleton.
  *
@@ -52,10 +53,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  The current version of this kit.
  */
 @property(nonatomic, copy, readonly) NSString *version;
+
 /**
  *  Authentication configuration details. Encapsulates the `consumerKey` and `consumerSecret` credentials required to authenticate a Twitter application.
  */
 @property(nonatomic, readonly) TWTRAuthConfig *authConfig;
+
 /**
  *  Session store exposing methods to fetch and manage active sessions. Applications that need to manage
  *  multiple users should use the session store to authenticate and log out users.

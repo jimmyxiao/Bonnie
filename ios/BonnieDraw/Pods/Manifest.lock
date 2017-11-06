@@ -7,6 +7,7 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
   - DeviceKit (1.4.0)
+  - DropDown (2)
   - FacebookCore (0.3.0):
     - Bolts (~> 1.8)
     - FBSDKCoreKit (~> 4.27)
@@ -54,19 +55,20 @@ PODS:
   - GTMSessionFetcher/Core (1.1.12)
   - GTMSessionFetcher/Full (1.1.12):
     - GTMSessionFetcher/Core (= 1.1.12)
-  - KYDrawerController (2.0.3)
+  - KYDrawerController (2.0.4)
   - ReachabilitySwift (4.1.0)
-  - SDWebImage (4.1.2):
-    - SDWebImage/Core (= 4.1.2)
-  - SDWebImage/Core (4.1.2)
-  - TwitterCore (3.0.1)
-  - TwitterKit (3.1.1):
-    - TwitterCore (>= 3.0.1)
+  - SDWebImage (4.2.1):
+    - SDWebImage/Core (= 4.2.1)
+  - SDWebImage/Core (4.2.1)
+  - TwitterCore (3.0.2)
+  - TwitterKit (3.2.1):
+    - TwitterCore (>= 3.0.2)
   - XLPagerTabStrip (8.0.0)
 
 DEPENDENCIES:
   - Alamofire
   - DeviceKit
+  - DropDown
   - FacebookLogin
   - Google/SignIn
   - KYDrawerController
@@ -79,6 +81,7 @@ SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   DeviceKit: fa74d97499660e88081718b16688e19217595dba
+  DropDown: 744784d9c9aa505100e942c16acd05430cbb2f0a
   FacebookCore: 3ffa190a3f1f96cec0e44d3fc221bc322c595ffa
   FacebookLogin: 0af839ea858faef99550d16596b87b4a8e8906e6
   FBSDKCoreKit: 03365dad5d790249196ffad8be4f6d8a2d98f932
@@ -91,13 +94,13 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: be83fd28d63ae3087e7d351b1f39c1a7e24ab6e7
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
-  KYDrawerController: 9a154a4bf23cda836f5ccd69a0586447fde87c10
+  KYDrawerController: cf5839877c442132123e9d482f458821026defdf
   ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
-  SDWebImage: cb6f9f266a9977741efcbc21e618e8be3734c774
-  TwitterCore: 6856288a1c25e5281363250681f33b42fce1da42
-  TwitterKit: 313bf02baee8427f7649b3640169178e5a8b5a99
+  SDWebImage: 1fa4c9edf525b744f002db89f3f5a38b3cd4c541
+  TwitterCore: e0420b01e02e7d20e94690e37f43e75de219ab8d
+  TwitterKit: 205ac89824bbfe9e85a16c420d30bb7bcbedac45
   XLPagerTabStrip: d1ab378af0923320ec0b5eab11d7b2f803d31261
 
-PODFILE CHECKSUM: 56dd2a9334a44d704f33d8ae17741e7725e8249d
+PODFILE CHECKSUM: 097e4e7e3c2990a9dbe0f83f3e5038c618c1076f
 
 COCOAPODS: 1.2.1

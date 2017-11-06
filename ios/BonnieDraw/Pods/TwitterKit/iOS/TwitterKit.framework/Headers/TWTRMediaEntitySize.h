@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, TWTRMediaEntitySizeResizingMode) {
     TWTRMediaEntitySizeResizingModeFit,
     TWTRMediaEntitySizeResizingModeCrop,
@@ -17,14 +18,17 @@ FOUNDATION_EXPORT NSString *NSStringFromTWTRMediaEntitySizeResizingMode(TWTRMedi
 FOUNDATION_EXPORT TWTRMediaEntitySizeResizingMode TWTRMediaEntitySizeResizingModeFromString(NSString *resizingModeString);
 
 @interface TWTRMediaEntitySize : NSObject <NSCoding>
+
 /**
  * The name of the size. 'large', 'medium', etc.
  */
 @property(nonatomic, copy, readonly) NSString *name;
+
 /**
  * Resize mode of the image size e.g. Fit, Crop.
  */
 @property(nonatomic, readonly) TWTRMediaEntitySizeResizingMode resizingMode;
+
 /**
  * The actual size.
  */

@@ -8,6 +8,7 @@
 #import <TwitterCore/TWTRSessionStore.h>
 
 @protocol TWTRSessionMigrating <NSObject>
+
 /**
  * Specifies that the migrator should migrate any existing sessions into the given store.
  *

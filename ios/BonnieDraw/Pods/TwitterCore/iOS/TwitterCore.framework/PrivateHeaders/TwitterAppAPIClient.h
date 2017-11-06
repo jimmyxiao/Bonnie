@@ -18,6 +18,7 @@
  If you have a logged in user, use TwitterUserAPIClient.
  */
 @interface TwitterAppAPIClient : TwitterNetworking
+
 // The application only access token
 @property(nonatomic, readonly) NSString *accessToken;
 
@@ -26,7 +27,6 @@
  @param accessToken An application only access token.
  */
 - (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig accessToken:(NSString *)accessToken;
-
 - (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig __unavailable;
 
 @end

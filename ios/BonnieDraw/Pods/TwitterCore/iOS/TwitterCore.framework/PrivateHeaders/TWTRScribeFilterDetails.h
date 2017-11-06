@@ -10,6 +10,7 @@
 #import "TWTRScribeSerializable.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, TWTRScribeFilterDetailsType) {
     TWTRScribeFilterDetailsTypeDefault = 1,
     TWTRScribeFilterDetailsTypeCompact = 2
@@ -22,9 +23,7 @@ typedef NS_ENUM(NSUInteger, TWTRScribeFilterDetailsType) {
 @property(nonatomic, assign, readonly) TWTRScribeFilterDetailsType scribeType;
 
 - (instancetype)init NS_UNAVAILABLE;
-
 - (instancetype)initWithFilters:(NSUInteger)totalFilters;
-
 /**
  *  Initializes a new filter detail scribe item.
  *

@@ -10,7 +10,6 @@
 
 @interface TwitterUserAPIClient : TwitterNetworking
 - (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig __unavailable;
-
 - (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig authToken:(NSString *)authToken authTokenSecret:(NSString *)authTokenSecret;
 
 @end

@@ -9,6 +9,7 @@
 @class TWTRUserSessionVerifier;
 
 @protocol TWTRUserSessionVerifierDelegate <NSObject>
+
 - (void)userSessionVerifierNeedsSessionVerification:(TWTRUserSessionVerifier *)userSessionVerifier;
 
 @end

@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @protocol TWTRTimelineDataSource;
 @protocol TWTRTweetViewDelegate;
 @protocol TWTRTimelineDelegate;
@@ -35,11 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
 
  */
 @interface TWTRTimelineViewController : UITableViewController
+
 /**
   The source of `TWTRTweet` objects for this `TWTRTimelineViewController`.
   May be set to update the Tweets being shown by this table view. Must be set on the main thread.
  */
 @property(nonatomic, copy) id <TWTRTimelineDataSource> dataSource;
+
 /**
  *  The configuration of MoPub ads to show in the timeline. You must
  *  link against the MoPub framework and provide this configuration in order
@@ -47,14 +48,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  @note Changing this will force a reload of the timeline. You can only set this once. Must be set on the main thread.
  */
 @property(nonatomic, nullable) TWTRMoPubAdConfiguration *adConfiguration;
+
 /**
  *  Whether action buttons (Like, Share) should be shown on the `TWTRTweetTableViewCell`s inside the tableview.
  */
 @property(nonatomic) BOOL showTweetActions;
+
 /**
  * If set, this value will be passed to all TWTRTweetView instances in the timeline.
  */
 @property(nonatomic, weak) id <TWTRTweetViewDelegate> tweetViewDelegate;
+
 /**
  *  The object that acts as the delegate for the timeline.
  */

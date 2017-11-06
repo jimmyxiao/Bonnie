@@ -31,6 +31,7 @@ FOUNDATION_EXPORT NSString *__nonnull const kFIRInstanceIDTokenRefreshNotificati
  */
 typedef void(^FIRInstanceIDTokenHandler)(NSString *__nullable token, NSError *__nullable error);
 
+
 /**
  *  @related FIRInstanceID
  *
@@ -87,6 +88,7 @@ typedef NS_ENUM(NSUInteger, FIRInstanceIDError) {
     /// InvalidRequest -- Some parameters of the request were invalid.
             FIRInstanceIDErrorInvalidRequest = 7,
 };
+
 /**
  *  The APNS token type for the app. If the token type is set to `UNKNOWN`
  *  InstanceID will implicitly try to figure out what the actual token type

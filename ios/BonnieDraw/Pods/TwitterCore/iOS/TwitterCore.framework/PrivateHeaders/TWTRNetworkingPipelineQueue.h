@@ -12,11 +12,13 @@
 @class TWTRNetworkingPipelinePackage;
 
 NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, TWTRNetworkingPipelineQueueType) {
     /**
      * Queues that depend on having a valid guest session
      */
             TWTRNetworkingPipelineQueueTypeGuest,
+
     /**
      * Queues that depend on having a valid user session
      */
@@ -24,10 +26,12 @@ typedef NS_ENUM(NSInteger, TWTRNetworkingPipelineQueueType) {
 };
 
 @interface TWTRNetworkingPipelineQueue : NSObject
+
 /**
  * Returns the type that this queue was initialized with.
  */
 @property(nonatomic, readonly) TWTRNetworkingPipelineQueueType queueType;
+
 /**
  * A response validator to use to validate network responses.
  */

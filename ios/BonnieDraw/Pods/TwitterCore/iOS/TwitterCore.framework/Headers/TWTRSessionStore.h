@@ -13,6 +13,7 @@
 @protocol TWTRErrorLogger;
 
 NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - TWTRSessionRefreshingStore Protocol
 
 /**
@@ -27,6 +28,7 @@ typedef void (^TWTRSessionStoreRefreshCompletion)(id _Nullable refreshedSession,
  *  Protocol for session stores that can refresh expired sessions.
  */
 @protocol TWTRSessionRefreshingStore <NSObject>
+
 /**
  *  Refresh an expired session.
  *
@@ -86,6 +88,7 @@ typedef void (^TWTRSessionStoreDeleteCompletion)(id <TWTRAuthSession> _Nullable 
  *  Protocol for session store that manages user sessions.
  */
 @protocol TWTRUserSessionStore <NSObject>
+
 /**
  *  Saves the existing session to the store after validations.
  *

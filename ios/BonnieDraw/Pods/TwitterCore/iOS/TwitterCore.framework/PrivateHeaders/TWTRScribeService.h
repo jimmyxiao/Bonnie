@@ -15,6 +15,7 @@
 @class TwitterNetworking;
 @protocol TWTRAuthSession;
 @protocol TWTRAPIServiceConfig;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TWTRScribeService : NSObject
@@ -30,7 +31,6 @@ __unavailable;
 - (void)setSessionStore:(TWTRSessionStore *)sessionStore networkingPipeline:(TWTRNetworkingPipeline *)pipeline;
 
 - (void)enqueueEvent:(nullable TWTRScribeEvent *)event;
-
 - (void)enqueueEvents:(nullable NSArray *)events;
 
 @end

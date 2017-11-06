@@ -17,7 +17,6 @@
  *  Canonical key used to serialize object to Scribe event JSON.
  */
 + (NSString *)scribeKey;
-
 /**
  *  Dictionary used to serialize object to Scribe event JSON.
  */

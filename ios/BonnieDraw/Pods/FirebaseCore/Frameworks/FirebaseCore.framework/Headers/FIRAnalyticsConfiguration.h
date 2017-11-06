@@ -4,6 +4,7 @@
  * This class provides configuration fields for Firebase Analytics.
  */
 @interface FIRAnalyticsConfiguration : NSObject
+
 /**
  * Returns the shared instance of FIRAnalyticsConfiguration.
  */

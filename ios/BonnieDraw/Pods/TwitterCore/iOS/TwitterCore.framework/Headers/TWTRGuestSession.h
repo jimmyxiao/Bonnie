@@ -24,14 +24,17 @@ typedef void (^TWTRGuestLogInCompletion)(TWTRGuestSession *_Nullable guestSessio
  *  `TWTRGuestSession` represents a guest session authenticated with the Twitter API. See `TWTRSession` for user sessions.
  */
 @interface TWTRGuestSession : NSObject <TWTRBaseSession>
+
 /**
  *  The bearer access token for guest auth.
  */
 @property(nonatomic, copy, readonly) NSString *accessToken;
+
 /**
  *  The guest access token.
  */
 @property(nonatomic, copy, readonly) NSString *guestToken;
+
 /**
  *  This property can be used to make a best guess about whether the token will
  *  still be valid or not.

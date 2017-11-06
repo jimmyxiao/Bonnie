@@ -15,6 +15,7 @@ typedef NS_ENUM(NSInteger, TWTRAPIServiceConfigType) {
 };
 
 @interface TWTRAPIServiceConfigRegistry : NSObject
+
 /**
  * Returns the default registry instance.
  */

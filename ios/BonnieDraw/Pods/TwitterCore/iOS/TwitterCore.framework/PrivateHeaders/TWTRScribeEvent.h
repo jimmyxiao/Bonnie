@@ -40,6 +40,7 @@ FOUNDATION_EXPORT NSString *const TWTRScribeActionStart;
 FOUNDATION_EXPORT NSString *const TWTRScribeActionSuccess;
 FOUNDATION_EXPORT NSString *const TWTRScribeActionCancelled;
 FOUNDATION_EXPORT NSString *const TWTRScribeActionFailure;
+
 /**
  *  Possible values for which category to scribe events to.
  */
@@ -64,7 +65,6 @@ typedef NS_ENUM(NSUInteger, TWTRScribeEventCategory) {
 @property(nonatomic, copy, readonly) NSArray<TWTRScribeItem *> *items;
 
 - (instancetype)init __unavailable;
-
 - (instancetype)initWithUserID:(nullable NSString *)userID tweetID:(nullable NSString *)tweetID category:(TWTRScribeEventCategory)category eventNamespace:(TWTRScribeClientEventNamespace *)eventNamespace items:(nullable NSArray<TWTRScribeItem *> *)items;
 
 - (instancetype)initWithUserID:(nullable NSString *)userID eventInfo:(nullable NSString *)eventInfo category:(TWTRScribeEventCategory)category eventNamespace:(TWTRScribeClientEventNamespace *)eventNamespace items:(nullable NSArray<TWTRScribeItem *> *)items;
@@ -72,9 +72,7 @@ typedef NS_ENUM(NSUInteger, TWTRScribeEventCategory) {
 #pragma mark - TFSScribeEventParameters
 
 - (NSDictionary *)dictionaryRepresentation;
-
 - (NSString *)userID;
-
 - (NSData *)data;
 
 @end

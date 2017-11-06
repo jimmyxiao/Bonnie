@@ -8,11 +8,13 @@
 #import <TwitterCore/TWTRSessionStore.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 @protocol TWTRNetworkingResponseValidating;
 
 typedef void (^TWTRNetworkingPipelineCallback)(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error);
 
 @interface TWTRNetworkingPipeline : NSObject
+
 /**
  *if set, this object will be used to validate network responses.
  */
