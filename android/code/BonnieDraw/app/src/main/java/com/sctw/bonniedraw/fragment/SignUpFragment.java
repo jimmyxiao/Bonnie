@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 
 import org.json.JSONException;
@@ -155,7 +156,7 @@ public class SignUpFragment extends Fragment {
 
     private void signupAPI(final int style) {
         mBtnSignup.setEnabled(false);
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         JSONObject json = registerJSONFormat(style);
         RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()

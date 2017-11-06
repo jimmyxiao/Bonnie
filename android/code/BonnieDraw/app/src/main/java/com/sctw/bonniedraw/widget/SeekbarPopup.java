@@ -22,7 +22,9 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
 
     public interface OnSeekChange {
         void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser);
+
         void onStopTrackingTouch(SeekBar seekBar);
+
         void onStartTrackingTouch(SeekBar seekBar);
     }
 
@@ -68,9 +70,7 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if (fromUser) {
-            listener.onProgressChanged(seekBar,progress,fromUser);
-        }
+        listener.onProgressChanged(seekBar, progress, fromUser);
     }
 
     @Override

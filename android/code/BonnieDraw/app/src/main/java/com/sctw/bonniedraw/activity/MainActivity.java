@@ -32,6 +32,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.fragment.FollowFragment;
 import com.sctw.bonniedraw.fragment.HomeFragment;
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         String userName = prefs.getString(GlobalVariable.userNameStr, "Null");
         mTextViewHeaderText.setText(userName);
         if (!prefs.getString(GlobalVariable.userImgUrlStr, "").isEmpty()) {
+            ImageLoader.getInstance().displayImage("",mImgHeaderPhoto);
             try {
                 URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "FailLoad"));
                 Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
@@ -198,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
-                        Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
                         cleanValue();
                     }
                 });

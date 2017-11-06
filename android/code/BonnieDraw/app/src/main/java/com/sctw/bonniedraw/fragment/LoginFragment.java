@@ -40,6 +40,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.MainActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthToken;
@@ -353,7 +354,7 @@ public class LoginFragment extends Fragment {
 
     private void loginEamil() {
         mBtnEmailLogin.setEnabled(false);
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         JSONObject json = new JSONObject();
         try {
             json.put("uc", mInputEditTextEmail.getText().toString());
@@ -481,7 +482,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void loginThird(int select) {
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         JSONObject json = loginJSONFormat(select);
         RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()

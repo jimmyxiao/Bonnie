@@ -27,6 +27,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.fragment.LoginFragment;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
@@ -138,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginEamil() {
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         JSONObject json = ConnectJson.loginJson(prefs, 1);
 
@@ -193,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginThird() {
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         JSONObject json = ConnectJson.loginJson(prefs, 3);
         RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()

@@ -8,20 +8,21 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -31,10 +32,12 @@ import com.sctw.bonniedraw.colorpick.ColorBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.sctw.bonniedraw.utility.Thumbnail;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
+import com.sctw.bonniedraw.widget.OpacityPopup;
 import com.sctw.bonniedraw.widget.SeekbarPopup;
 import com.sctw.bonniedraw.widget.SizePopup;
 
@@ -69,14 +72,17 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private FrameLayout mFrameLayoutFreePaint;
     private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange;
     private Button mBtnZoom;
+    private ImageButton mBtnOpacityAdd, mBtnOpacityDecrease;
+    private SeekBar mSeekbarOpacity;
     private FullScreenDialog mFullScreenDialog;
     private LinearLayout mLinearLayoutPaintSelect;
-    private int miPrivacyType;
+    private int miPrivacyType = 1;
     private SharedPreferences mPrefs;
     private MenuPopup mMenuPopup;
     private SeekbarPopup mSeekbarPopup;
     private SizePopup mSizePopup;
     private ColorPopup mColorPopup;
+    private OpacityPopup mOpacityPopup;
     private boolean mbColorSwitch = false;
 
     private int mCurrentBrushId = 0; //default brush
@@ -97,11 +103,15 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnColorChange = findViewById(R.id.imgBtn_paint_colorpicker);
         mBtnErase = findViewById(R.id.imgBtn_paint_erase);
         mBtnSetting = (ImageButton) findViewById(R.id.imgBtn_paint_setting);
+        mBtnOpacityAdd = (ImageButton) findViewById(R.id.imgBtn_paint_opacity_add);
+        mBtnOpacityDecrease = (ImageButton) findViewById(R.id.imgBtn_paint_opacity_decrease);
+        mSeekbarOpacity = (SeekBar) findViewById(R.id.seekbar_paint_opacity);
         mMenuPopup = new MenuPopup(this, this);
         mSeekbarPopup = new SeekbarPopup(this, this);
         mSizePopup = new SizePopup(this);
-        mSizePopup.setPopupGravity(Gravity.CENTER);
         mColorPopup = new ColorPopup(this, this);
+        mOpacityPopup = new OpacityPopup(this);
+
         setOnClick();
         //Paint init & View
         mPaintView = new PaintView(this);
@@ -110,9 +120,11 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mFrameLayoutFreePaint.addView(mPaintView);
 
         //********Init Brush*******
+        mSeekbarOpacity.setProgress(100);
+
         mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
         mPaintView.setDrawingScaledSize(30 / 100.f);
-        mPaintView.setDrawingAlpha(1);
+        mPaintView.setDrawingAlpha(100 / 100.0f);
         defaultColor();
     }
 
@@ -134,13 +146,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     //產生預覽圖&上傳
     private void savePictureEdit() {
-        mFullScreenDialog = new FullScreenDialog(this, R.layout.paint_save_dialog);
+        mFullScreenDialog = new FullScreenDialog(this, R.layout.dialog_paint_save);
         final EditText workName = (EditText) mFullScreenDialog.findViewById(R.id.paint_save_work_name);
         final EditText workDescription = (EditText) mFullScreenDialog.findViewById(R.id.paint_save_work_description);
         ImageView workPreview = mFullScreenDialog.findViewById(R.id.save_paint_preview);
         Button saveWork = (Button) mFullScreenDialog.findViewById(R.id.btn_save_paint_save);
         ImageButton saveCancel = (ImageButton) mFullScreenDialog.findViewById(R.id.btn_save_paint_back);
-        RadioGroup privacyTypes = (RadioGroup) mFullScreenDialog.findViewById(R.id.paint_save_work_privacytype);
+        Spinner privacyTypes = (Spinner) mFullScreenDialog.findViewById(R.id.paint_save_work_privacytype);
 
         File pngfile = null;
         try {
@@ -159,23 +171,23 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         }
 
         //設定公開權限與預設值
-        privacyTypes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
+                this, R.array.privacies, android.R.layout.simple_spinner_item);
+        privacyTypes.setAdapter(nAdapter);
+        nAdapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+        //預設值
+        privacyTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i) {
-                    case R.id.work_privacytype_public:
-                        miPrivacyType = 1;
-                        break;
-                    case R.id.work_privacytype_private:
-                        miPrivacyType = 2;
-                        break;
-                    case R.id.work_privacytype_close:
-                        miPrivacyType = 3;
-                        break;
-                }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                miPrivacyType = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
-        privacyTypes.check(R.id.work_privacytype_public);
 
         saveWork.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +227,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     //獲得檔案wid , 取得後上傳檔案
     public void fileUpload(JSONObject json, String url) {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(url)
@@ -252,7 +264,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     //上傳檔案
     public void uploadFile(int type, int wid) {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         MultipartBody.Builder bodyBuilder = new MultipartBody.Builder();
         bodyBuilder.setType(MultipartBody.FORM)
                 .addFormDataPart("ui", mPrefs.getString(GlobalVariable.API_UID, "null"))
@@ -325,6 +337,26 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     //設定各個按鍵
     public void setOnClick() {
+        mSeekbarOpacity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    mOpacityPopup.setText(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mOpacityPopup.showPopupWindow();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mPaintView.setDrawingAlpha(seekBar.getProgress() / 100f);
+                mOpacityPopup.dismiss();
+            }
+        });
+
         mBtnColorChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -428,18 +460,35 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         findViewById(R.id.imgBtn_paint_clear).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mPaintView.mFileBDW.delete() && mPaintView.mFilePNG.delete()) {
-                    TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.paint_delete_sketch));
-                }
-                mFrameLayoutFreePaint.removeAllViews();
-                Brush brush = mPaintView.getBrush();
-                int brushNum = mPaintView.miPaintNum;
-                float brusnSize = mPaintView.getDrawingScaledSize();
-                mPaintView = new PaintView(getApplicationContext());
-                mPaintView.initDefaultBrush(brush);
-                setBrush(brushNum);
-                mPaintView.setDrawingScaledSize(brusnSize);
-                mFrameLayoutFreePaint.addView(mPaintView);
+                final FullScreenDialog dialog = new FullScreenDialog(PaintActivity.this, R.layout.dialog_paint_back);
+                Button btnClean = dialog.findViewById(R.id.btn_paint_back_clean);
+                Button btnCancel = dialog.findViewById(R.id.btn_paint_back_cancel);
+                btnClean.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mPaintView.mFileBDW.delete() && mPaintView.mFilePNG.delete()) {
+                            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.paint_delete_sketch));
+                        }
+                        mFrameLayoutFreePaint.removeAllViews();
+                        Brush brush = mPaintView.getBrush();
+                        float brusnSize = mPaintView.getDrawingScaledSize();
+                        mPaintView = new PaintView(getApplicationContext());
+                        mPaintView.initDefaultBrush(brush);
+                        mPaintView.setBrush(brush);
+                        mPaintView.setDrawingScaledSize(brusnSize);
+                        mFrameLayoutFreePaint.addView(mPaintView);
+                        dialog.dismiss();
+                    }
+                });
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
 
@@ -698,7 +747,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     }
 
     private void openGridScreen() {
-        final FullScreenDialog gridDialog = new FullScreenDialog(PaintActivity.this, R.layout.paint_grid_dialog);
+        final FullScreenDialog gridDialog = new FullScreenDialog(PaintActivity.this, R.layout.dialog_paint_grid);
         Button gridNone = gridDialog.findViewById(R.id.paint_grid_none);
         Button grid3 = gridDialog.findViewById(R.id.paint_grid_3);
         Button grid6 = gridDialog.findViewById(R.id.paint_grid_6);

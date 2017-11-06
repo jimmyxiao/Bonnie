@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -25,7 +26,8 @@ public class SizePopup extends BasePopupWindow {
     public SizePopup(Context context) {
         super(context, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.mTextView = (TextView) findViewById(R.id.sizePopupText);
-        this.mCircleView=(CircleView) findViewById(R.id.sizePopupCircle);
+        this.mCircleView = (CircleView) findViewById(R.id.sizePopupCircle);
+        setPopupGravity(Gravity.CENTER);
     }
 
     @Override

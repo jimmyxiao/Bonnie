@@ -46,7 +46,6 @@ public class PaintView extends View {
     private static final String SKETCH_FILE_PNG = "/backup.png";
     private List<Integer> mListTempPoint = new ArrayList<Integer>();
     private List<Integer> mListUndoPoint = new ArrayList<>();
-    private float mX, mY;
     private int miGridCol = 0;
     private Paint gridPaint;
     private int miWidth, miEachConut;
@@ -54,7 +53,7 @@ public class PaintView extends View {
     private boolean mbPlayMode = false;
     public List<TagPoint> mListTagPoint;
     public List<TagPoint> mListUndoTagPoint;
-    public Boolean mbEraseMode = false, mbZoomMode = false, mbCheckFinger = false;
+    public Boolean mbZoomMode = false, mbCheckFinger = false;
     public File mFileBDW, mFilePNG;
     public BDWFileReader mBDWReader = new BDWFileReader();
     public int miPaintNum;

@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.LoginActivity;
+import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +31,6 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -156,9 +157,8 @@ public class UpdatePasswordFragment extends Fragment {
             e.printStackTrace();
         }
 
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody body = RequestBody.create(mediaType, json.toString());
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_UPDATE_PWD)
                 .post(body)

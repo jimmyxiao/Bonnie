@@ -33,4 +33,10 @@
         <item>3</item>
         <item>1</item>
     </integer-array>
+
+    <string-array name="privacies">
+        <item>@string/public_public</item>
+        <item>@string/public_private</item>
+        <item>@string/public_protect</item>
+    </string-array>
 </resources>

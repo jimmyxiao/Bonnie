@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayout_works_extra"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#50505050"
-    android:gravity="bottom"
-    android:id="@+id/relativeLayout_works_extra">
+    android:gravity="bottom">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_margin="4dp"
         app:cardBackgroundColor="@color/Transparent"
         app:cardCornerRadius="8dp">
@@ -41,12 +40,28 @@
                     android:layout_marginStart="16dp"
                     android:background="#aaa" />
 
+
                 <Button
-                    android:id="@+id/btn_extra_copylink"
+                    android:id="@+id/btn_extra_delete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="@string/public_copylink" />
+                    android:text="刪除作品" />
+
+                <View
+                    android:id="@+id/view_divier_extra_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:background="#aaa" />
+
+                <Button
+                    android:id="@+id/btn_extra_edit_work"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Transparent"
+                    android:text="編輯作品" />
 
                 <View
                     android:layout_width="match_parent"
@@ -56,12 +71,11 @@
                     android:background="#aaa" />
 
                 <Button
-                    android:id="@+id/btn_extra_report"
+                    android:id="@+id/btn_extra_edit_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Transparent"
-                    android:text="@string/public_report"
-                    android:textColor="@color/Red" />
+                    android:text="編輯說明" />
             </LinearLayout>
 
 
@@ -78,7 +92,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_save_border_textarea"
                     android:text="@string/public_cancel"
-                    android:textColor="@color/Blue" />
+                    android:textColor="@color/Blue"
+                    android:visibility="visible" />
 
             </LinearLayout>
         </RelativeLayout>

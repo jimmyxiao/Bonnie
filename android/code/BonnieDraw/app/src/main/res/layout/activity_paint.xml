@@ -159,96 +159,145 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/linearLayout_paint_select"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_paint_select_background"
+        android:orientation="vertical"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <ImageButton
-            android:id="@+id/imgBtn_paint_left"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.5"
-            android:background="@color/Transparent"
-            android:onClick="selectPaint"
-            app:srcCompat="@drawable/icon_paint_left" />
+            android:background="#5e5c5c"
+            android:orientation="horizontal"
+            android:padding="2dp">
 
-        <ImageButton
-            android:id="@+id/imgBtn_paint_type1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.8"
-            android:background="@color/Transparent"
-            android:onClick="selectPaint"
-            android:paddingBottom="24dp"
-            android:paddingTop="8dp"
-            android:rotation="30"
-            app:srcCompat="@drawable/icon_paint_pen1" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="筆刷不透明度"
+                android:textColor="@color/White"
+                android:textSize="12sp" />
 
-        <ImageButton
-            android:id="@+id/imgBtn_paint_type2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.8"
-            android:background="@color/Transparent"
-            android:onClick="selectPaint"
-            android:paddingBottom="24dp"
-            android:paddingTop="8dp"
-            android:rotation="30"
-            app:srcCompat="@drawable/icon_paint_pen2" />
+            <ImageButton
+                android:id="@+id/imgBtn_paint_opacity_decrease"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                app:srcCompat="@drawable/personal_ic_shape" />
 
-        <ImageButton
-            android:id="@+id/imgBtn_paint_type3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.8"
-            android:background="@color/Transparent"
-            android:onClick="selectPaint"
-            android:paddingBottom="24dp"
-            android:paddingTop="8dp"
-            android:rotation="30"
-            app:srcCompat="@drawable/icon_paint_pen3" />
+            <SeekBar
+                android:id="@+id/seekbar_paint_opacity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="6"
+                android:max="100"
+                android:min="0" />
 
-        <ImageButton
-            android:id="@+id/imgBtn_paint_type4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.8"
-            android:background="@color/Transparent"
-            android:onClick="selectPaint"
-            android:paddingBottom="24dp"
-            android:paddingTop="8dp"
-            android:rotation="30"
-            app:srcCompat="@drawable/icon_paint_pen4" />
+            <ImageButton
+                android:id="@+id/imgBtn_paint_opacity_add"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                app:srcCompat="@drawable/personal_ic_shape" />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/imgBtn_paint_type5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.8"
-            android:background="@color/Transparent"
-            android:onClick="selectPaint"
-            android:paddingBottom="24dp"
-            android:paddingTop="8dp"
-            android:rotation="30"
-            app:srcCompat="@drawable/icon_paint_pen5" />
 
-        <ImageButton
-            android:id="@+id/imgBtn_paint_right"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.5"
-            android:background="@color/Transparent"
-            android:onClick="selectPaint"
-            app:srcCompat="@drawable/icon_paint_right" />
+            android:background="@drawable/shape_paint_select_background">
+
+            <ImageButton
+                android:id="@+id/imgBtn_paint_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.5"
+                android:background="@color/Transparent"
+                android:onClick="selectPaint"
+                app:srcCompat="@drawable/icon_paint_left" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_paint_type1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:background="@color/Transparent"
+                android:onClick="selectPaint"
+                android:paddingBottom="24dp"
+                android:paddingTop="8dp"
+                android:rotation="30"
+                app:srcCompat="@drawable/icon_paint_pen1" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_paint_type2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:background="@color/Transparent"
+                android:onClick="selectPaint"
+                android:paddingBottom="24dp"
+                android:paddingTop="8dp"
+                android:rotation="30"
+                app:srcCompat="@drawable/icon_paint_pen2" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_paint_type3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:background="@color/Transparent"
+                android:onClick="selectPaint"
+                android:paddingBottom="24dp"
+                android:paddingTop="8dp"
+                android:rotation="30"
+                app:srcCompat="@drawable/icon_paint_pen3" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_paint_type4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:background="@color/Transparent"
+                android:onClick="selectPaint"
+                android:paddingBottom="24dp"
+                android:paddingTop="8dp"
+                android:rotation="30"
+                app:srcCompat="@drawable/icon_paint_pen4" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_paint_type5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:background="@color/Transparent"
+                android:onClick="selectPaint"
+                android:paddingBottom="24dp"
+                android:paddingTop="8dp"
+                android:rotation="30"
+                app:srcCompat="@drawable/icon_paint_pen5" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_paint_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.5"
+                android:background="@color/Transparent"
+                android:onClick="selectPaint"
+                app:srcCompat="@drawable/icon_paint_right" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <ImageButton

@@ -231,7 +231,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         mBtnGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final FullScreenDialog gridDialog = new FullScreenDialog(PaintPlayActivity.this, R.layout.paint_grid_dialog);
+                final FullScreenDialog gridDialog = new FullScreenDialog(PaintPlayActivity.this, R.layout.dialog_paint_grid);
                 Button gridNone = gridDialog.findViewById(R.id.paint_grid_none);
                 Button grid3 = gridDialog.findViewById(R.id.paint_grid_3);
                 Button grid6 = gridDialog.findViewById(R.id.paint_grid_6);

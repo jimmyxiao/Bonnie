@@ -47,8 +47,8 @@
     <string name="public_male">男性</string>
     <string name="public_female">女性</string>
     <string name="public_public">公開</string>
-    <string name="public_private">私人</string>
-    <string name="public_close">不公開</string>
+    <string name="public_private">不公開</string>
+    <string name="public_protect">只限朋友</string>
     <string name="public_save">儲存</string>
     <string name="public_report">檢舉</string>
     <string name="public_copylink">複製連結</string>
@@ -58,6 +58,7 @@
     <string name="public_user_permission">使用者拒絕權限 無法存取</string>
     <string name="public_update_successful">更新成功</string>
     <string name="public_connect_fail">連線失敗</string>
+    <string name="public_clean">清除</string>
 
     <string name="profile_edit_profile">編輯個人檔案</string>
     <string name="profile_works_count">作品數</string>
@@ -90,7 +91,7 @@
     <string name="paint_save_name">作品名稱：</string>
     <string name="paint_save_description">作品說明：</string>
     <string name="paint_save_description_hint">新增作品說明 請輸入作品簡短說明，並再說明後加上「#」，例:#BonnieDraw</string>
-    <string name="paint_save_privacytype">觀看權限：</string>
+    <string name="paint_save_privacytype">隱私權設定：</string>
     <string name="paint_save_title">新增作品</string>
     <string name="paint_save_need_name">請輸入檔名或按取消</string>
     <string name="paint_need_draw">請畫些東西吧！</string>

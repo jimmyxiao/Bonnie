@@ -19,13 +19,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.works.WorkAdapterGrid;
 import com.sctw.bonniedraw.works.WorkAdapterList;
@@ -35,7 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -60,7 +59,6 @@ public class ProfileFragment extends Fragment {
     private Button mBtnEdit;
     private SwipeRefreshLayout mSwipeLayoutProfile;
     private RecyclerView mRecyclerViewProfile;
-    private ArrayList<WorkInfo> myDataset;
     private WorkAdapterGrid mAdapterGrid;
     private WorkAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
@@ -103,7 +101,6 @@ public class ProfileFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        myDataset = new ArrayList<WorkInfo>();
         getWorksList();
     }
 
@@ -155,7 +152,7 @@ public class ProfileFragment extends Fragment {
     }
 
     void updateProfileInfo() {
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         JSONObject json = ConnectJson.queryUserInfoJson(prefs);
         RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         final Request request = new Request.Builder()
@@ -166,7 +163,6 @@ public class ProfileFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), "連線錯誤", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -206,7 +202,6 @@ public class ProfileFragment extends Fragment {
                                         //暫時無作用
                                     }*/
                                 } else {
-                                    Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -221,7 +216,7 @@ public class ProfileFragment extends Fragment {
     public void getWorksList() {
         JSONObject json = ConnectJson.queryListWork(prefs, 5, 0, 100);
         Log.d("LOGIN JSON: ", json.toString());
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_WORK_LIST)
@@ -248,8 +243,7 @@ public class ProfileFragment extends Fragment {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-                                    Toast.makeText(getActivity(), "Download list successful", Toast.LENGTH_SHORT).show();
-                                    //mSwipeRefreshLayout.setRefreshing(false);
+                                    mSwipeLayoutProfile.setRefreshing(false);
                                 }
                             });
                         }

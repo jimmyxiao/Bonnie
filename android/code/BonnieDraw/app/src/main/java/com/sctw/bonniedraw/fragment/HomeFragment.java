@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
@@ -30,7 +29,9 @@ import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
+import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.works.WorkAdapterList;
 
@@ -131,7 +132,7 @@ public class HomeFragment extends Fragment {
     public void getWorksList() {
         JSONObject json = ConnectJson.queryListWork(prefs, 4, 0, 100);
         Log.d("LOGIN JSON: ", json.toString());
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_WORK_LIST)
@@ -158,7 +159,6 @@ public class HomeFragment extends Fragment {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-                                    Toast.makeText(getActivity(), "Download list successful", Toast.LENGTH_SHORT).show();
                                     mSwipeRefreshLayout.setRefreshing(false);
                                 }
                             });
@@ -212,6 +212,7 @@ public class HomeFragment extends Fragment {
                 extraReport.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        TSnackbarCall.showTSnackbar(mSwipeRefreshLayout, "已成功檢舉，感謝您的協助");
                         Log.d("POSTION CLICK", "extraReport" + wid);
                         extraDialog.dismiss();
                     }
@@ -251,5 +252,11 @@ public class HomeFragment extends Fragment {
         });
 
         mRecyclerViewHome.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        getWorksList();
+        super.onResume();
     }
 }

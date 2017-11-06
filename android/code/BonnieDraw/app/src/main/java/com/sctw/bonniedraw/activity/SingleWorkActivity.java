@@ -1,8 +1,10 @@
 package com.sctw.bonniedraw.activity;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -12,7 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
@@ -21,10 +22,13 @@ import com.sctw.bonniedraw.paint.PaintView;
 import com.sctw.bonniedraw.paint.TagPoint;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.LoadImageApp;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
+import com.sctw.bonniedraw.widget.BasePopup;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,13 +53,14 @@ import okhttp3.Response;
 
 import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
 
-public class SingleWorkActivity extends AppCompatActivity {
+public class SingleWorkActivity extends AppCompatActivity implements BasePopup.OnBasePopupClick {
     private TextView mTextViewUserName, mTextViewWorkDescription, mTextViewWorkName, mTextViewGoodTotal, mTextViewCreateTime, mTextViewClass;
-    private ImageView imgViewUserPhoto, mImgViewWorkImage;
+    private ImageView mImgViewWorkImage;
     private CircleImageView mCircleImgUserPhoto;
-    private ImageButton worksUserExtra, worksUserGood, worksUserMsg, worksUserShare, worksUserFollow;
+    private ImageButton workUserExtra, workUserGood, workUserMsg, workUserShare, workUserFollow;
     private Button mBtnPlayPause, mBtnNext, mBtnPrevious;
     private String bdwPath = ""; //"bdwPath":
+    private String workUid = "";
     SharedPreferences prefs;
     private int wid;
     private static final String PLAY_FILE_BDW = "/temp_play_use.bdw";
@@ -69,6 +74,7 @@ public class SingleWorkActivity extends AppCompatActivity {
     private BDWFileReader mBDWFileReader;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
+    private BasePopup mBasePopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,26 +93,105 @@ public class SingleWorkActivity extends AppCompatActivity {
         mTextViewGoodTotal = findViewById(R.id.textView_single_work_good_total);
         mTextViewCreateTime = findViewById(R.id.textView_single_work_create_time);
         mTextViewClass = findViewById(R.id.textView_single_work_user_class);
-        imgViewUserPhoto = findViewById(R.id.circleImg_single_work_user_photo);
         mImgViewWorkImage = findViewById(R.id.imgView_single_work_img);
         mCircleImgUserPhoto = findViewById(R.id.circleImg_single_work_user_photo);
-        worksUserExtra = findViewById(R.id.imgBtn_single_work_extra);
-        worksUserGood = findViewById(R.id.imgBtn_single_work_good);
-        worksUserMsg = findViewById(R.id.imgBtn_single_work_msg);
-        worksUserShare = findViewById(R.id.imgBtn_single_work_share);
-        worksUserFollow = findViewById(R.id.imgBtn_single_work_follow);
+        workUserExtra = findViewById(R.id.imgBtn_single_work_extra);
+        workUserGood = findViewById(R.id.imgBtn_single_work_good);
+        workUserMsg = findViewById(R.id.imgBtn_single_work_msg);
+        workUserShare = findViewById(R.id.imgBtn_single_work_share);
+        workUserFollow = findViewById(R.id.imgBtn_single_work_follow);
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_single_work);
         miViewWidth = mPaintView.getMiWidth();
         mFileBDW = new File(getFilesDir().getPath() + PLAY_FILE_BDW);
+        mBasePopup = new BasePopup(this, this);
         mBDWFileReader = new BDWFileReader();
         mListRecordInt = new ArrayList<>();
         getSingleWork();
-
+        setOnClick();
         mBtnPlayPause = findViewById(R.id.imgBtn_single_work_play_pause);
         mBtnNext = findViewById(R.id.imgBtn_single_work_next);
         mBtnPrevious = findViewById(R.id.imgBtn_single_work_previous);
-
         mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[0]);
+    }
+
+    private void deleteWork() {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        JSONObject json = ConnectJson.deleteWork(prefs, wid);
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_DELETE_WORK)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), "Fail Load");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        finish();
+                    }
+                    Log.d("JSON RESPONE", responseJSON.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void setOnClick() {
+        workUserExtra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final FullScreenDialog dialog = new FullScreenDialog(SingleWorkActivity.this, R.layout.dialog_single_work_extra);
+                Button btnShareWork = dialog.findViewById(R.id.btn_extra_share);
+                Button btnDeleteWork = dialog.findViewById(R.id.btn_extra_delete);
+                Button btnEditWorkName = dialog.findViewById(R.id.btn_extra_edit_work);
+                Button btnEditDescription = dialog.findViewById(R.id.btn_extra_edit_description);
+                Button btnCancel = dialog.findViewById(R.id.btn_extra_cancel);
+
+                //刪除作品確認
+                btnDeleteWork.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SingleWorkActivity.this);
+                        builder.setMessage("確認要刪除這個作品嗎?");
+                        builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteWork();
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.setNegativeButton(R.string.public_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.dismiss();
+                        builder.show();
+                    }
+                });
+                if (!prefs.getString(GlobalVariable.API_UID, "null").equals(workUid)) {
+                    dialog.findViewById(R.id.view_divier_extra_delete).setVisibility(View.GONE);
+                    btnDeleteWork.setVisibility(View.GONE);
+                }
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
     }
 
     public void next(View view) {
@@ -225,7 +310,7 @@ public class SingleWorkActivity extends AppCompatActivity {
         JSONObject json = ConnectJson.querySingleWork(prefs, wid);
         Log.d("LOGIN JSON: ", json.toString());
 
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_WORK_LIST)
@@ -252,7 +337,6 @@ public class SingleWorkActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                Toast.makeText(SingleWorkActivity.this, "Download work successful", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -264,7 +348,7 @@ public class SingleWorkActivity extends AppCompatActivity {
     }
 
     public void getBDW() {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_GET_FILE + bdwPath)
                 .build();
@@ -310,6 +394,7 @@ public class SingleWorkActivity extends AppCompatActivity {
             ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"), mImgViewWorkImage, LoadImageApp.optionsWorkImg);
             ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture"), mCircleImgUserPhoto, LoadImageApp.optionsUserImg);
             bdwPath = data.getString("bdwPath");
+            workUid = data.getString("userId");
             getBDW();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -318,6 +403,11 @@ public class SingleWorkActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public void onBasePopupClick() {
         finish();
     }
 }

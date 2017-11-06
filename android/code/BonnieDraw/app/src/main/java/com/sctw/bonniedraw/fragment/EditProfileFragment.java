@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 
 import org.json.JSONException;
@@ -104,7 +105,7 @@ public class EditProfileFragment extends Fragment {
     }
 
     void getUserInfo() {
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         JSONObject json = ConnectJson.queryUserInfoJson(prefs);
         RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
@@ -188,7 +189,7 @@ public class EditProfileFragment extends Fragment {
     }
 
     void updateUserInfo() {
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
 
         String gender="";
         if (mIntGender != null) gender=String.valueOf(mIntGender);
