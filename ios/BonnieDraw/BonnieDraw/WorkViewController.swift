@@ -60,7 +60,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAn
             return (destinationUrl, [.removePreviousFile, .createIntermediateDirectories])
         }.downloadProgress() {
             progress in
-            self.progressBar.setProgress(Float(progress.fractionCompleted), animated: true)
+            self.progressBar.setProgress(Float(progress.fractionCompleted) * 0.9, animated: true)
         }.response(queue: DispatchQueue.main) {
             response in
             guard response.error == nil else {
@@ -76,8 +76,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAn
                 }
                 return
             }
-            DispatchQueue.main.async {
-                self.canvasAnimation.load()
+            self.canvasAnimation.load() {
+                self.progressBar.setProgress(1, animated: true)
                 self.loading.hide(true)
             }
         }

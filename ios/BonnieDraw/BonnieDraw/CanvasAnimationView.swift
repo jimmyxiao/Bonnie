@@ -71,7 +71,7 @@ class CanvasAnimationView: UIView {
                                     self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (self.currentPoint.x + self.controlPoint.x) / 2, y: (self.currentPoint.y + self.controlPoint.y) / 2), controlPoint: self.controlPoint)
                                     self.paths.last?.points.append(point)
                                     if point.action == .up {
-                                        self.drawToPersistentImage(withSize: bounds.size)
+                                        self.drawToPersistentImage(withBounds: bounds)
                                     }
                                     self.controlPoint = self.currentPoint
                                 } else {
@@ -174,7 +174,7 @@ class CanvasAnimationView: UIView {
                     paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
                     paths.last?.points.append(point)
                     if point.action == .up {
-                        drawToPersistentImage(withSize: bounds.size)
+                        drawToPersistentImage(withBounds: bounds)
                     }
                     timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
                         timer in
@@ -206,10 +206,10 @@ class CanvasAnimationView: UIView {
         }
     }
 
-    private func drawToPersistentImage(withSize size: CGSize) {
+    private func drawToPersistentImage(withBounds bounds: CGRect) {
         if paths.count > PATH_BUFFER_COUNT {
             var pointsToSave = [Point]()
-            UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+            UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
             persistentImage?.draw(in: bounds)
             while paths.count > PATH_BUFFER_COUNT {
                 let path = paths.removeFirst()

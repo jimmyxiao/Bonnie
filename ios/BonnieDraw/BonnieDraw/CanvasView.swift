@@ -174,7 +174,7 @@ class CanvasView: UIView {
                                     self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (self.currentPoint.x + self.controlPoint.x) / 2, y: (self.currentPoint.y + self.controlPoint.y) / 2), controlPoint: self.controlPoint)
                                     self.paths.last?.points.append(point)
                                     if point.action == .up {
-                                        self.drawToPersistentImage(withSize: bounds.size)
+                                        self.drawToPersistentImage(withBounds: bounds)
                                     }
                                     self.controlPoint = self.currentPoint
                                 } else {
@@ -306,17 +306,17 @@ class CanvasView: UIView {
                     }
                 }
             }
-            drawToPersistentImage(withSize: bounds.size)
+            drawToPersistentImage(withBounds: bounds)
             setNeedsDisplay(calculateRedrawRect(forPoints: points))
             redoPaths.removeAll()
             delegate?.canvasPathsDidChange()
         }
     }
 
-    private func drawToPersistentImage(withSize size: CGSize) {
+    private func drawToPersistentImage(withBounds bounds: CGRect) {
         if paths.count > PATH_BUFFER_COUNT {
             var pointsToSave = [Point]()
-            UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+            UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
             persistentImage?.draw(in: bounds)
             while paths.count > PATH_BUFFER_COUNT {
                 let path = paths.removeFirst()
