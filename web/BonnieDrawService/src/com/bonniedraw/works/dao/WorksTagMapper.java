@@ -2,7 +2,9 @@ package com.bonniedraw.works.dao;
 
 import java.util.List;
 
+import com.bonniedraw.web_api.module.WorksResponse;
 import com.bonniedraw.works.model.WorksTag;
+import com.bonniedraw.works.module.TagViewModule;
 
 public interface WorksTagMapper {
     int deleteByPrimaryKey(Integer worksTagId);
@@ -28,5 +30,11 @@ public interface WorksTagMapper {
     List<WorksTag> selectByWorksId(Integer worksId);
     
     int selectNextOrderNum(Integer worksId);
+    
+    List<WorksTag> findByTagName(String TAG_NAME);
+    
+    List<TagViewModule> queryTagViewList();
+    
+    List<WorksResponse> queryTagWorkList(List<WorksTag> worksTagList);
     
 }

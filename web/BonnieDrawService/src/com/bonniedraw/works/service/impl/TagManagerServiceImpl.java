@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 import com.bonniedraw.base.service.BaseService;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.ValidateUtil;
+import com.bonniedraw.web_api.module.WorksResponse;
 import com.bonniedraw.works.dao.TagInfoMapper;
+import com.bonniedraw.works.dao.WorksTagMapper;
 import com.bonniedraw.works.model.TagInfo;
+import com.bonniedraw.works.model.WorksTag;
+import com.bonniedraw.works.module.TagViewModule;
 import com.bonniedraw.works.service.TagManagerService;
 
 @Service
@@ -18,9 +22,18 @@ public class TagManagerServiceImpl extends BaseService implements TagManagerServ
 	@Autowired
 	TagInfoMapper tagInfoMapper;
 	
+	@Autowired
+	WorksTagMapper worksTagMapper;
+	
 	@Override
 	public List<TagInfo> queryTagList() {
 		return tagInfoMapper.getTagList(null);
+	}
+	
+	@Override
+	public List<TagViewModule> queryTagViewList() {
+		List<TagViewModule> tagViewList = worksTagMapper.queryTagViewList();
+		return tagViewList;
 	}
 
 	@Override
@@ -75,6 +88,11 @@ public class TagManagerServiceImpl extends BaseService implements TagManagerServ
 			return 0;
 		}
 		return 1;
+	}
+
+	@Override
+	public List<WorksResponse> queryTagWorkList(List<WorksTag> worksTagList) {
+		return worksTagMapper.queryTagWorkList(worksTagList);
 	}
 
 }

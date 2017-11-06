@@ -11,6 +11,12 @@ app.factory('tagManagerService', function(baseHttp) {
         },
         removeCustomTag: function(params,callback){
             return baseHttp.service('tagManager/removeCustomTag',params,callback);
+        },
+        queryTagViewList: function(params,callback){
+            return baseHttp.service('tagManager/queryTagViewList',params,callback);
+        },
+        queryTagWorkList: function(params,callback){
+            return baseHttp.service('tagManager/queryTagWorkList',params,callback);
         }
     }
 })

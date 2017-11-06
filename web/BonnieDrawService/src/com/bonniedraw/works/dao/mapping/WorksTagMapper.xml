@@ -125,5 +125,52 @@
     	from works_tag 
     	where WORKS_ID = #{worksId, jdbcType=INTEGER}
   	</select>
+  		
+  	<resultMap id="TagViewMap" type="com.bonniedraw.works.module.TagViewModule">
+	  	<id column="TAG_NAME" jdbcType="VARCHAR" property="tagName" />
+	  	<result column="count" jdbcType="INTEGER" property="count" />
+	    <collection property="worksIdList" column="TAG_NAME" select="findByTagName" >
+	    </collection>
+  	</resultMap>
+  	<select id="findByTagName" resultMap="BaseResultMap">
+        SELECT WORKS_TAG_ID, WORKS_ID, TAG_ORDER
+        FROM  works_tag 
+        where TAG_NAME = #{TAG_NAME}
+        order by WORKS_ID asc , TAG_ORDER asc
+    </select>	
+  	<select id="queryTagViewList" resultMap="TagViewMap">
+  		SELECT wt.TAG_NAME, count(wt.TAG_NAME) as count FROM bonnie_draw_db.works_tag wt
+		group by TAG_NAME
+		order by count desc 
+		limit 20
+	</select>
+	
+	<resultMap type="com.bonniedraw.web_api.module.WorksResponse" id="WorksResponseModule">
+	    <id column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
+	    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+	    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+	    <result column="PROFILE_PICTURE" jdbcType="VARCHAR" property="profilePicture" />
+	    <result column="PRIVACY_TYPE" jdbcType="INTEGER" property="privacyType" />
+	    <result column="DEVICE_TYPE" jdbcType="INTEGER" property="deviceType" />
+	    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+	    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+	    <result column="IMAGE_PATH" jdbcType="VARCHAR" property="imagePath" />
+	    <result column="BDW_PATH" jdbcType="VARCHAR" property="bdwPath" />
+	    <result column="LANGUAGE_CODE" jdbcType="VARCHAR" property="languageCode" />
+	    <result column="COUNTRY_CODE" jdbcType="VARCHAR" property="countryCode" />
+	    <result column="STATUS" jdbcType="INTEGER" property="status" />
+  	</resultMap>
+	<select id="queryTagWorkList" parameterType="java.util.List" resultMap="WorksResponseModule">
+		select 
+	 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+	 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE
+	    from works wk 
+	    left join user_info ur on ur.USER_ID = wk.USER_ID
+		where 1=1 
+	    and wk.WORKS_ID in 
+	    <foreach collection="list" item="element" index="index" open="(" separator=","  close=")">
+	    	#{element.worksId}
+	    </foreach>
+	</select>
   
 </mapper>

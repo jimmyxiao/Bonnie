@@ -65,6 +65,14 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
             controller:'tagManagerController'
           }
         }
+    }).state('tagView', {
+        url: '/tagView',
+        views: {
+          "content":{
+            templateUrl:'modules/hashtag/view/tagView.html',
+            controller:'tagViewController'
+          }
+        }
     }).state('turnInManager', {
         url: '/turnInManager',
         views: {

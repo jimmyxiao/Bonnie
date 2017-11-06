@@ -4,11 +4,16 @@
 			<div class="col-xs-12">
 				<h3 class="grey lighter">
 					<i class="ace-icon fa fa-hashtag green"></i>
-					自訂標籤
-					<button type="button" class="btn btn-white btn-info btn-bold pull-right" ng-click="addCustomTag()">
-						<i class="ace-icon fa fa-pencil bigger-120 blue"></i>
-						新增
+					標籤列表
+					<button type="button" class="btn btn-white btn-inverse btn-bold pull-right" ng-click="queryTagViewList()">
+						<i class="ace-icon fa fa-reply bigger-120 gray"></i>
+						預設
 					</button>
+					<button type="button" class="btn btn-white btn-info btn-bold pull-right" style="margin-right:10px;" ng-click="searching()">
+						<i class="ace-icon fa fa-pencil bigger-120 blue"></i>
+						搜尋
+					</button>
+					<input type="text" class="pull-right" style="margin-right:10px;"  ng-model="searchModel.text">
 				</h3>
 				<div class="hr hr-18 hr-double dotted"></div>
 				<div class="x_content">
