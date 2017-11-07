@@ -51,11 +51,6 @@ PODS:
     - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
-  - Google/Core (3.1.0):
-    - FirebaseAnalytics (~> 3.2)
-  - Google/SignIn (3.1.0):
-    - Google/Core
-    - GoogleSignIn (~> 4.0)
   - GoogleSignIn (4.1.1):
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
@@ -100,7 +95,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Crash
   - Firebase/Messaging
-  - Google/SignIn
+  - GoogleSignIn
   - KYDrawerController
   - ReachabilitySwift
   - SDWebImage
@@ -123,7 +118,6 @@ SPEC CHECKSUMS:
   FirebaseCrash: db4c05d9c75baa050744d31b36357c8f1efba481
   FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
   FirebaseMessaging: 753d05a925e9eb8eadd09a0ffc9b808578b72fac
-  Google: 98da4b1a60ed0beb80a290387a28333406a1eb90
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: be83fd28d63ae3087e7d351b1f39c1a7e24ab6e7
@@ -135,6 +129,6 @@ SPEC CHECKSUMS:
   TwitterCore: e0420b01e02e7d20e94690e37f43e75de219ab8d
   TwitterKit: 205ac89824bbfe9e85a16c420d30bb7bcbedac45
 
-PODFILE CHECKSUM: e511eba3c9cdfbedf364065c4806245fdafabfe1
+PODFILE CHECKSUM: d6975eb3427f532fc50bd04b45c03e2d61d6cfb4
 
 COCOAPODS: 1.2.1

@@ -10,7 +10,6 @@ import UIKit
 import FacebookCore
 import FacebookLogin
 import TwitterKit
-import Google
 import Alamofire
 
 class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate, UITextFieldDelegate {
@@ -24,13 +23,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         if DEBUG {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(launchMain))
         }
-        GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().delegate = self
-        var configureError: NSError?
-        GGLContext.sharedInstance().configureWithError(&configureError)
-        if let error = configureError {
-            Logger.d("\(#function): \(error.localizedDescription)")
-            google.isEnabled = false
+        if let path = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") {
+            let dictionary = NSDictionary(contentsOfFile: path)
+            GIDSignIn.sharedInstance().uiDelegate = self
+            GIDSignIn.sharedInstance().delegate = self
+            GIDSignIn.sharedInstance().clientID = dictionary?.object(forKey: "CLIENT_ID") as? String
         }
     }
 

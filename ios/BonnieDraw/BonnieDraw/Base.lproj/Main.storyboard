@@ -597,10 +597,10 @@
             </objects>
             <point key="canvasLocation" x="1762.5" y="1488.3802816901409"/>
         </scene>
-        <!--Notification View Controller-->
+        <!--通知-->
         <scene sceneID="vdd-3p-tbe">
             <objects>
-                <viewController storyboardIdentifier="notificationViewController" id="0iz-lF-Ckq" customClass="NotificationViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="notificationViewController" title="通知" id="0iz-lF-Ckq" customClass="NotificationViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rvt-a0-2lM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

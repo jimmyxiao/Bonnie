@@ -16,7 +16,7 @@ target 'BonnieDraw' do
   pod 'ReachabilitySwift'
   pod 'FacebookLogin'
   pod 'TwitterKit'
-  pod 'Google/SignIn'
+  pod 'GoogleSignIn'
   pod 'DeviceKit'
   pod 'Alamofire'
   pod 'DropDown'
