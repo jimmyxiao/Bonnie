@@ -53,6 +53,18 @@ public class TagManagerController extends BaseController{
 		return baseModel;
 	}
 	
+	@RequestMapping(value="/searchTagViewList")
+	public @ResponseBody BaseModel searchTagViewList(HttpServletRequest request, HttpServletResponse response, @RequestBody WorksTag worksTag){
+		BaseModel baseModel = new BaseModel();
+		baseModel.setResult(false);
+		List<TagViewModule> tagViewList = tagManagerService.searchTagViewList(worksTag.getTagName());
+		if(ValidateUtil.isNotEmptyAndSize(tagViewList)){
+			baseModel.setResult(true);
+			baseModel.setData(tagViewList);
+		}
+		return baseModel;
+	}
+	
 	@RequestMapping(value="/queryTagWorkList")
 	public @ResponseBody BaseModel queryTagWorkList(HttpServletRequest request, HttpServletResponse response, @RequestBody TagViewModule tagViewModule){
 		BaseModel baseModel = new BaseModel();

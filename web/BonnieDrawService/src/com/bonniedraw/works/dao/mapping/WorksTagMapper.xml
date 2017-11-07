@@ -145,6 +145,14 @@
 		limit 20
 	</select>
 	
+	<select id="searchTagViewList" parameterType="java.lang.String" resultMap="TagViewMap">
+  		SELECT wt.TAG_NAME, count(wt.TAG_NAME) as count FROM bonnie_draw_db.works_tag wt
+		where wt.TAG_NAME like concat('%', #{ _parameter, jdbcType=VARCHAR} , '%')
+		group by TAG_NAME
+		order by count desc 
+		limit 20
+	</select>
+	
 	<resultMap type="com.bonniedraw.web_api.module.WorksResponse" id="WorksResponseModule">
 	    <id column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
 	    <result column="USER_ID" jdbcType="INTEGER" property="userId" />

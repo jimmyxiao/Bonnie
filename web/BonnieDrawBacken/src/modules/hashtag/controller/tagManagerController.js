@@ -17,6 +17,9 @@ app.factory('tagManagerService', function(baseHttp) {
         },
         queryTagWorkList: function(params,callback){
             return baseHttp.service('tagManager/queryTagWorkList',params,callback);
+        },
+        searchTagViewList: function(params,callback){
+            return baseHttp.service('tagManager/searchTagViewList',params,callback);
         }
     }
 })
