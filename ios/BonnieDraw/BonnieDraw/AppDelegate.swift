@@ -8,6 +8,7 @@
 
 import UIKit
 import SystemConfiguration
+import Firebase
 import FacebookCore
 import TwitterKit
 import Reachability
@@ -18,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
+        FIRApp.configure()
         SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         Twitter.sharedInstance().start(
                 withConsumerKey: Bundle.main.infoDictionary?["TwitterConsumerKey"] as! String,

@@ -91,6 +91,7 @@
 		16366AE11F7A0AA300E5799B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		16366AE41F7A131200E5799B /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
+		163784621FB13EE600D70261 /* BonnieDraw.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BonnieDraw.entitlements; sourceTree = "<group>"; };
 		16386DD31FABFC1000DFE2E5 /* CanvasAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasAnimationView.swift; sourceTree = "<group>"; };
 		16386DD51FAC019A00DFE2E5 /* DataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverter.swift; sourceTree = "<group>"; };
 		163906FD1F6C083300E5717A /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +199,7 @@
 		163F65A91F61663800945E04 /* BonnieDraw */ = {
 			isa = PBXGroup;
 			children = (
+				163784621FB13EE600D70261 /* BonnieDraw.entitlements */,
 				16366AE31F7A130400E5799B /* Cell */,
 				16FC10221F695C62008A6A92 /* View */,
 				16D439661F66AC6800FF5878 /* Model */,
@@ -386,6 +388,11 @@
 						DevelopmentTeam = 3MMZ7UBHWG;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -680,6 +687,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = BonnieDraw/BonnieDraw.entitlements;
 				DEVELOPMENT_TEAM = 3MMZ7UBHWG;
 				INFOPLIST_FILE = BonnieDraw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -697,6 +705,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = BonnieDraw/BonnieDraw.entitlements;
 				DEVELOPMENT_TEAM = 3MMZ7UBHWG;
 				INFOPLIST_FILE = BonnieDraw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

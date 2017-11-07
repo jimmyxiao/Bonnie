@@ -23,12 +23,13 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     var works = [Work]()
 
     override func viewDidLoad() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Account", style: .plain, target: self, action: #selector(didSelectAccount))
+        navigationItem.leftBarButtonItem?.tintColor = .black
         navigationItem.rightBarButtonItems =
                 [UIBarButtonItem(image: UIImage(named: "personal_ic_shape"), style: .plain, target: self, action: #selector(didSelectSetting)),
                  UIBarButtonItem(image: UIImage(named: "works_ic_more"), style: .plain, target: self, action: #selector(didSelectColllection)),
                  UIBarButtonItem(image: UIImage(named: "personal_ic_list"), style: .plain, target: self, action: #selector(didSelectListLayout)),
                  UIBarButtonItem(image: UIImage(named: "personal_ic_rectangle"), style: .plain, target: self, action: #selector(didSelectGridLayout))]
-//        (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -43,6 +44,10 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
+    }
+
+    @objc func didSelectAccount() {
+        collectionView.setContentOffset(.zero, animated: true)
     }
 
     @objc func didSelectGridLayout() {
