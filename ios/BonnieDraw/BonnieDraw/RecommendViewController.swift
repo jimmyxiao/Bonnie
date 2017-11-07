@@ -1,5 +1,5 @@
 //
-//  FollowViewController.swift
+//  RecommendViewController.swift
 //  BonnieDraw
 //
 //  Created by Professor on 24/10/2017.
@@ -9,44 +9,37 @@
 import UIKit
 import Alamofire
 
-class FollowViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class RecommendViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
-    var delegate: FollowViewControllerDelegate?
-    private var items = [TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-            profileName: "Name",
-            thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-            likes: Int(arc4random_uniform(256))),
-        TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                profileName: "Name",
-                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                likes: Int(arc4random_uniform(256))),
-        TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                profileName: "Name",
-                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                likes: Int(arc4random_uniform(256))),
-        TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                profileName: "Name",
-                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                likes: Int(arc4random_uniform(256))),
-        TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                profileName: "Name",
-                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                likes: Int(arc4random_uniform(256)))]
+    private var items = [TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false)]
     private var tableViewItems = [TableViewItem]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
-    private var menuButton: UIBarButtonItem?
+    private var backButton: UIBarButtonItem?
     private let searchBar = UISearchBar()
-    private let titleView = Bundle.main.loadView(from: "TitleView")
     private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
-        menuButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
-        navigationItem.leftBarButtonItem = menuButton
-        navigationItem.titleView = titleView
+        backButton = UIBarButtonItem(image: UIImage(named: "top_bar_ic_back"), style: .plain, target: self, action: #selector(onBackPressed))
+        navigationItem.leftBarButtonItem = backButton
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "title_bar_ic_search"), style: .plain, target: self, action: #selector(search))
+        navigationItem.hidesBackButton = true
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
         searchBar.returnKeyType = .done
@@ -58,7 +51,6 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         }
         refreshControl.addTarget(self, action: #selector(downloadData), for: .valueChanged)
         tableView.refreshControl = refreshControl
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -71,40 +63,20 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             downloadData()
         }
-        delegate?.follow(enableMenuGesture: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
-        delegate?.follow(enableMenuGesture: false)
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableViewItems.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: Cell.FOLLOW, for: indexPath) as? FollowTableViewCell {
-            let item = tableViewItems[indexPath.row]
-            cell.profileImage.setImage(with: item.profileImage)
-            cell.profileName.text = item.profileName
-            cell.thumbnail.setImage(with: item.thumbnail)
-            cell.likes.text = "\(item.likes ?? 0)" + "likes".localized
-            return cell
-        }
-        return UITableViewCell()
     }
 
     @objc internal func search() {
-        if navigationItem.titleView == titleView {
-            delegate?.follow(enableMenuGesture: false)
+        if navigationItem.titleView != searchBar {
             navigationItem.setLeftBarButton(nil, animated: true)
             navigationItem.titleView = searchBar
             searchBar.becomeFirstResponder()
         } else {
-            delegate?.follow(enableMenuGesture: true)
-            navigationItem.setLeftBarButton(menuButton, animated: true)
-            navigationItem.titleView = titleView
+            navigationItem.setLeftBarButton(backButton, animated: true)
+            navigationItem.titleView = nil
             searchBar.text = nil
             tableViewItems = items
             tableView.reloadSections([0], with: .automatic)
@@ -122,7 +94,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             tableViewItems.removeAll()
             for item in items {
-                if item.profileName?.uppercased().range(of: searchText.uppercased()) != nil {
+                if item.title?.uppercased().range(of: searchText.uppercased()) != nil {
                     tableViewItems.append(item)
                 }
             }
@@ -164,7 +136,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                     }
                     return
                 }
-//                    self.items.removeAll()
+                //                    self.items.removeAll()
                 self.tableViewItems = self.items
                 self.tableView.reloadSections([0], with: .automatic)
                 self.emptyLabel.isHidden = !self.tableViewItems.isEmpty
@@ -189,20 +161,33 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    @objc private func didTapMenu() {
-        delegate?.followDidTapMenu()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableViewItems.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: Cell.RECOMMEND, for: indexPath) as? RecommendTableViewCell {
+            let item = items[indexPath.row]
+            cell.thumbnail.setImage(with: item.iamgeUrl)
+            cell.title.text = item.title
+            cell.status.text = item.status
+            cell.follow.isSelected = item.isSelected
+            return cell
+        }
+        return UITableViewCell()
+    }
+
+    @IBAction func selectFollow(_ sender: FollowButton) {
+        sender.isSelected = !sender.isSelected
+        if let indexPath = tableView.indexPath(forView: sender) {
+            items[indexPath.row].isSelected = sender.isSelected
+        }
     }
 
     struct TableViewItem {
-        let profileImage: URL?
-        let profileName: String?
-        let thumbnail: URL?
-        var likes: Int?
+        let iamgeUrl: URL?
+        let title: String?
+        let status: String?
+        var isSelected: Bool
     }
-}
-
-protocol FollowViewControllerDelegate {
-    func followDidTapMenu()
-
-    func follow(enableMenuGesture enable: Bool)
 }

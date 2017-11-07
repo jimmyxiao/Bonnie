@@ -119,7 +119,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
               let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
-        loading.hide(false)
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
@@ -153,7 +152,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.tableViewWorks = self.works
                 self.tableView.reloadSections([0], with: .automatic)
                 self.emptyLabel.isHidden = !self.tableViewWorks.isEmpty
-                self.loading.hide(true)
+                if !self.loading.isHidden {
+                    self.loading.hide(true)
+                }
                 self.timestamp = Date()
                 self.refreshControl.endRefreshing()
             case .failure(let error):

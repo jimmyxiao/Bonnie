@@ -62,6 +62,8 @@
 		16812ADA1F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */; };
 		16816AA71FAFF8DD00855104 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16816AA61FAFF8DD00855104 /* ShadowView.swift */; };
 		169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169C71CA1F66AFEF00B5D786 /* Constant.swift */; };
+		16A82D0E1FB1B564007D6128 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */; };
+		16A82D101FB1B56F007D6128 /* RecommendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0F1FB1B56F007D6128 /* RecommendTableViewCell.swift */; };
 		16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */; };
 		16C013CB1F9F2E3E00238463 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CA1F9F2E3E00238463 /* UserViewController.swift */; };
 		16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CC1F9F321100238463 /* FollowViewController.swift */; };
@@ -138,6 +140,8 @@
 		16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleNavigationViewController.swift; sourceTree = "<group>"; };
 		16816AA61FAFF8DD00855104 /* ShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		169C71CA1F66AFEF00B5D786 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
+		16A82D0F1FB1B56F007D6128 /* RecommendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendTableViewCell.swift; sourceTree = "<group>"; };
 		16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		16C013CA1F9F2E3E00238463 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		16C013CC1F9F321100238463 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 		16366AE31F7A130400E5799B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				16A82D0F1FB1B56F007D6128 /* RecommendTableViewCell.swift */,
 				16366AE41F7A131200E5799B /* HomeTableViewCell.swift */,
 				16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */,
 				162AC4AA1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift */,
@@ -278,6 +283,7 @@
 			children = (
 				164ED24C1F7B379200E8B910 /* AccountViewController.swift */,
 				16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */,
+				16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */,
 				164ED2471F7B376700E8B910 /* CollectionViewController.swift */,
 				165E1B5A1F9DDFA80050A7BB /* SettingViewController.swift */,
 				165E1B5C1F9DE4920050A7BB /* PasswordViewController.swift */,
@@ -532,6 +538,7 @@
 				16185C7D1F94A13F008F0840 /* WorkViewController.swift in Sources */,
 				165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */,
 				165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */,
+				16A82D101FB1B56F007D6128 /* RecommendTableViewCell.swift in Sources */,
 				164CA76C1F99E24C007F9374 /* AccountListCollectionViewCell.swift in Sources */,
 				163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */,
 				162AC4AB1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift in Sources */,
@@ -539,6 +546,7 @@
 				16812ADA1F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift in Sources */,
 				163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */,
 				166C41241F90964F00A98385 /* DataExtension.swift in Sources */,
+				16A82D0E1FB1B564007D6128 /* RecommendViewController.swift in Sources */,
 				164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */,
 				16816AA71FAFF8DD00855104 /* ShadowView.swift in Sources */,
 				164ED2531F7BA45E00E8B910 /* ColorPickerViewController.swift in Sources */,

@@ -61,6 +61,7 @@ struct Cell {
     static let ACCOUNT_LIST = "accountListCell"
     static let ACCOUNT_FOOTER = "accountFooterCell"
     static let FOLLOW = "followCell"
+    static let RECOMMEND = "recommendCell"
 }
 
 struct Service {
@@ -96,7 +97,6 @@ struct Service {
 struct Identifier {
     static let PARENT = "parentViewController"
     static let HOME = "homeViewController"
-    static let PAGE = "pageViewController"
     static let FOLLOW = "followViewController"
     static let NOTIFICATION = "notificationViewController"
 }
@@ -111,6 +111,7 @@ struct Segue {
     static let COLLECTION = "collectionSegue"
     static let UPLOAD = "uploadSegue"
     static let DEBUG = "debugSegue"
+    static let RECOMMEND = "recommendSegue"
 }
 
 struct Default {
