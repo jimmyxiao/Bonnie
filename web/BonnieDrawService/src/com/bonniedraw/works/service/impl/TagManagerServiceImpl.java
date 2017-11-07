@@ -35,6 +35,12 @@ public class TagManagerServiceImpl extends BaseService implements TagManagerServ
 		List<TagViewModule> tagViewList = worksTagMapper.queryTagViewList();
 		return tagViewList;
 	}
+	
+	@Override
+	public List<TagViewModule> searchTagViewList(String tagName) {
+		List<TagViewModule> tagViewList = worksTagMapper.searchTagViewList(tagName);
+		return tagViewList;
+	}
 
 	@Override
 	public int createCustomTag(TagInfo tagInfo, Integer passId) {

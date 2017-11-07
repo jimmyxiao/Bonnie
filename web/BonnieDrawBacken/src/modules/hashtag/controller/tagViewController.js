@@ -83,7 +83,15 @@ app.controller('tagViewController', function ($rootScope, $scope, $window, $loca
     }
     $scope.searching = function(){
         if(!util.isEmpty($scope.searchModel.text)){
-            console.log($scope.searchModel.text);
+            var param = {
+                tagName:$scope.searchModel.text
+            }
+            tagManagerService.searchTagViewList(param,function(data, status, headers, config){
+                if(data.result){
+                    $scope.tagList = data.data;
+                    util.refreshDataTable(myTable,$scope.tagList);
+                }
+            });
         }
     }
 

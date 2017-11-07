@@ -35,6 +35,8 @@ public interface WorksTagMapper {
     
     List<TagViewModule> queryTagViewList();
     
+    List<TagViewModule> searchTagViewList(String tagName);
+    
     List<WorksResponse> queryTagWorkList(List<WorksTag> worksTagList);
     
 }

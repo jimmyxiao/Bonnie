@@ -10,6 +10,7 @@ import com.bonniedraw.works.module.TagViewModule;
 public interface TagManagerService {
 	public List<TagInfo> queryTagList();
 	public List<TagViewModule> queryTagViewList();
+	public List<TagViewModule> searchTagViewList(String tagName);
 	public int createCustomTag(TagInfo tagInfo, Integer passId);
 	public TagInfo updateCustomTag(TagInfo tagInfo, Integer passId);
 	public int removeCustomTag(TagInfo tagInfo, Integer passId);
