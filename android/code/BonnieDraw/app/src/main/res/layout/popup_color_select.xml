@@ -20,7 +20,7 @@
             android:id="@+id/cpv_colorpanel"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
+            android:layout_weight="4"
             android:padding="8dp"
             app:cpv_colorShape="square" />
 
@@ -28,7 +28,7 @@
             android:id="@+id/editText_hex_color"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="3.5"
             android:digits="0123456789ABCDEFabcdef"
             android:hint="#"
             android:imeOptions="actionGo"
@@ -41,9 +41,12 @@
         <Button
             android:id="@+id/btn_add_ticket"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="新增色票" />
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_weight="3.5"
+            android:background="@drawable/shape_add_ticket_border"
+            android:text="新增色票"
+            android:textColor="#FFF" />
 
     </LinearLayout>
 
@@ -63,19 +66,25 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_colorpick_open"
+        <ImageButton
+            android:id="@+id/imgBtn_colorpick_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="OPEN" />
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_add_circle_24dp" />
 
-        <Button
-            android:id="@+id/btn_ticket_remove"
+        <ImageButton
+            android:id="@+id/imgBtn_ticket_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Remove" />
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_remove_circle_24dp" />
 
     </LinearLayout>
 

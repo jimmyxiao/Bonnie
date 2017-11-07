@@ -54,7 +54,7 @@ import okhttp3.Response;
 import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
 
 public class SingleWorkActivity extends AppCompatActivity implements BasePopup.OnBasePopupClick {
-    private TextView mTextViewUserName, mTextViewWorkDescription, mTextViewWorkName, mTextViewGoodTotal, mTextViewCreateTime, mTextViewClass;
+    private TextView mTextViewUserName, mTextViewWorkDescription, mTextViewWorkName, mTextViewGoodTotal, mTextViewCreateTime;
     private ImageView mImgViewWorkImage;
     private CircleImageView mCircleImgUserPhoto;
     private ImageButton workUserExtra, workUserGood, workUserMsg, workUserShare, workUserFollow;
@@ -74,7 +74,6 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
     private BDWFileReader mBDWFileReader;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
-    private BasePopup mBasePopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +91,6 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         mTextViewWorkDescription = findViewById(R.id.textView_single_work_description);
         mTextViewGoodTotal = findViewById(R.id.textView_single_work_good_total);
         mTextViewCreateTime = findViewById(R.id.textView_single_work_create_time);
-        mTextViewClass = findViewById(R.id.textView_single_work_user_class);
         mImgViewWorkImage = findViewById(R.id.imgView_single_work_img);
         mCircleImgUserPhoto = findViewById(R.id.circleImg_single_work_user_photo);
         workUserExtra = findViewById(R.id.imgBtn_single_work_extra);
@@ -103,7 +101,6 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_single_work);
         miViewWidth = mPaintView.getMiWidth();
         mFileBDW = new File(getFilesDir().getPath() + PLAY_FILE_BDW);
-        mBasePopup = new BasePopup(this, this);
         mBDWFileReader = new BDWFileReader();
         mListRecordInt = new ArrayList<>();
         getSingleWork();

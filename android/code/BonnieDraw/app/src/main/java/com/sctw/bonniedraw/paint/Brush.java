@@ -161,7 +161,7 @@ public class Brush {
         return true;
     }
 
-    public String toString() {
-        return "Brush " + this.angle + ", " + this.angleJitter + ", " + this.autoStrokeCount + ", " + this.name + ", " + this.isEraser + ", " + this.maskImageIdArray.length + ", " + (this.maskImageIdArray.length == 1 ? Integer.valueOf(this.maskImageIdArray[0]) : this.maskImageIdArray[0] + "/" + this.maskImageIdArray[1]);
+    public void setEraser(boolean set){
+        isEraser=set;
     }
 }

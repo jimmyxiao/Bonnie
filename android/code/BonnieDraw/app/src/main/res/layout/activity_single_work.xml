@@ -230,13 +230,6 @@
                         android:layout_marginStart="8dp"
                         android:text="Publish" />
 
-                    <TextView
-                        android:id="@+id/textView_single_work_user_class"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="Class" />
-
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

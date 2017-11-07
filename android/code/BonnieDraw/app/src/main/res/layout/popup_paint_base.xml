@@ -29,7 +29,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="0.5"
-            app:srcCompat="@drawable/personal_ic_shape" />
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/ic_remove_circle_outline" />
 
         <SeekBar
             android:id="@+id/seekbar_paint_base"
@@ -44,6 +45,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="0.5"
-            app:srcCompat="@drawable/personal_ic_shape" />
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/ic_add_circle_outline" />
     </LinearLayout>
 </RelativeLayout>

@@ -70,8 +70,7 @@ import okhttp3.Response;
 public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SeekbarPopup.OnSeekChange, ColorPopup.OnPopupColorPick {
     private PaintView mPaintView;
     private FrameLayout mFrameLayoutFreePaint;
-    private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange;
-    private Button mBtnZoom;
+    private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange,mBtnZoom;
     private ImageButton mBtnOpacityAdd, mBtnOpacityDecrease;
     private SeekBar mSeekbarOpacity;
     private FullScreenDialog mFullScreenDialog;
@@ -94,7 +93,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mPrefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         //set View
         mLinearLayoutPaintSelect = findViewById(R.id.linearLayout_paint_select);
-        mBtnZoom = (Button) findViewById(R.id.btn_paint_zoom);
+        mBtnZoom = (ImageButton) findViewById(R.id.btn_paint_zoom);
         mBtnChangePaint = (ImageButton) findViewById(R.id.imgBtn_paint_change);
         mBtnRedo = (ImageButton) findViewById(R.id.imgBtn_paint_redo);
         mBtnUndo = (ImageButton) findViewById(R.id.imgBtn_paint_undo);
@@ -403,12 +402,12 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             public void onClick(View view) {
                 if (!mPaintView.mbZoomMode) {
                     mPaintView.mbZoomMode = true;
-                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
+                    mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_down_icon));
                     playStateBtn();
 
                 } else {
                     mPaintView.mbZoomMode = false;
-                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
+                    mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_up_icon));
                     playStateBtn();
                 }
             }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -41,14 +42,15 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     private View conentView;
     private Context context;
     private SharedPreferences mPref;
-    private Button mBtnOpen, mBtnRemove, mBtnAddTicket;
+    private Button mBtnAddTicket;
+    private ImageButton mBtnOpen, mBtnRemove;
     private RecyclerView mRv;
     private ColorTicket mAdapterTicket;
     private ColorPickerView mColorPicker;
     private ColorPanelView mColorPanel;
     private EditText mEditTextHex;
     private LinearLayout mLlColorControl;
-    private int color = -1;
+    private int color = Color.BLACK;
     private boolean fromEditText;
     private ArrayList<ColorBean> colorsList;
     private OnPopupColorPick listener;
@@ -107,8 +109,8 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
         mEditTextHex = (EditText) conentView.findViewById(R.id.editText_hex_color);
         mBtnAddTicket = (Button) conentView.findViewById(R.id.btn_add_ticket);
         mColorPicker = (ColorPickerView) conentView.findViewById(R.id.cpv_colorpicker);
-        mBtnOpen = (Button) conentView.findViewById(R.id.btn_colorpick_open);
-        mBtnRemove = (Button) conentView.findViewById(R.id.btn_ticket_remove);
+        mBtnOpen = (ImageButton) conentView.findViewById(R.id.imgBtn_colorpick_open);
+        mBtnRemove = (ImageButton) conentView.findViewById(R.id.imgBtn_ticket_remove);
         mRv = (RecyclerView) conentView.findViewById(R.id.recyclerView_color_tickets);
         mColorPicker.setColor(color, true);
         mColorPanel.setColor(color);
@@ -304,6 +306,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
 
     public interface OnPopupColorPick {
         void onClickOpenColorPick();
+
         void onColorSelect(int color);
     }
 }

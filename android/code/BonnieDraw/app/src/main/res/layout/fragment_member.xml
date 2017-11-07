@@ -1,11 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/profile_container_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sctw.bonniedraw.fragment.ProfileFragment">
+    tools:context="com.sctw.bonniedraw.fragment.MemberFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,14 +13,20 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/textView_profile_user_id"
-            android:layout_width="0dp"
+        <ImageButton
+            android:id="@+id/imgBtn_member_back"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            android:src="@drawable/ic_chevron_left_black_24dp" />
+
+        <TextView
+            android:id="@+id/textView_member_user_id"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:layout_weight="6"
-            android:paddingLeft="16dp"
-            android:textColor="#000" />
+            android:layout_weight="6" />
 
         <ImageButton
             android:id="@+id/imgBtn_profile_grid"
@@ -38,14 +43,6 @@
             android:layout_weight="1"
             android:background="@color/Transparent"
             app:srcCompat="@drawable/personal_ic_list" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_profile_bookmark"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            app:srcCompat="@drawable/ic_bookmark_border_24dp" />
 
         <ImageButton
             android:id="@+id/imgBtn_profile_add"
@@ -70,7 +67,6 @@
         android:background="#aaa" />
 
     <LinearLayout
-        android:id="@+id/linearLayout_porfile_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -96,7 +92,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/icon_edit_profile"
-            android:text="@string/profile_edit_profile"
+            android:text="追蹤"
             android:textColor="@color/White"
             app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -108,8 +104,7 @@
             android:lineSpacingExtra="8sp"
             android:paddingEnd="72dp"
             android:paddingStart="72dp"
-            android:textAlignment="center"
-            android:textColor="#000" />
+            android:textAlignment="center" />
     </LinearLayout>
 
     <LinearLayout
@@ -134,7 +129,6 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="#000"
                 android:textStyle="bold" />
 
             <TextView
@@ -158,7 +152,6 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="#000"
                 android:textStyle="bold" />
 
             <TextView
@@ -181,7 +174,6 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="#000"
                 android:textStyle="bold" />
 
             <TextView
