@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate {
+class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate, FollowViewControllerDelegate {
     @IBOutlet weak var tabBar: UITabBar!
     var delegate: TabBarViewControllerDelegate?
     var itemHome: (item: UITabBarItem, viewController: UIViewController?)?
@@ -17,7 +17,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
     var itemAccount: (item: UITabBarItem, viewController: UIViewController?)?
     var customNavigationController: UINavigationController?
 
-    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+    internal func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         var controllers = [UIViewController]()
         if item == itemHome?.item {
             if let controller = itemHome?.viewController {
@@ -30,7 +30,8 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         } else if item == itemCollection?.item {
             if let controller = itemCollection?.viewController {
                 controllers.append(controller)
-            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.PAGE) as? PageViewController {
+            } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.FOLLOW) as? FollowViewController {
+                controller.delegate = self
                 itemCollection?.viewController = controller
                 controllers.append(controller)
             }
@@ -77,11 +78,19 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         }
     }
 
-    func homeDidTapMenu() {
+    internal func homeDidTapMenu() {
         delegate?.tabBarDidTapMenu()
     }
 
-    func home(enableMenuGesture enable: Bool) {
+    internal func home(enableMenuGesture enable: Bool) {
+        delegate?.tabBar(enableMenuGesture: enable)
+    }
+
+    internal func followDidTapMenu() {
+        delegate?.tabBarDidTapMenu()
+    }
+
+    internal func follow(enableMenuGesture enable: Bool) {
         delegate?.tabBar(enableMenuGesture: enable)
     }
 }

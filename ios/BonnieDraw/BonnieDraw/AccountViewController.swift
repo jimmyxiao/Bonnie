@@ -21,6 +21,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         }
     }
     var works = [Work]()
+    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Account", style: .plain, target: self, action: #selector(didSelectAccount))
@@ -30,6 +31,8 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                  UIBarButtonItem(image: UIImage(named: "works_ic_more"), style: .plain, target: self, action: #selector(didSelectColllection)),
                  UIBarButtonItem(image: UIImage(named: "personal_ic_list"), style: .plain, target: self, action: #selector(didSelectListLayout)),
                  UIBarButtonItem(image: UIImage(named: "personal_ic_rectangle"), style: .plain, target: self, action: #selector(didSelectGridLayout))]
+        refreshControl.addTarget(self, action: #selector(downloadData), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -78,7 +81,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         }
     }
 
-    private func downloadData() {
+    @objc private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
             presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
                 success in
@@ -128,6 +131,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                 self.loadingLabel?.text = self.works.isEmpty ? "empty_data".localized : nil
                 self.indicator?.stopAnimating()
                 self.timestamp = Date()
+                self.refreshControl.endRefreshing()
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {
                     return

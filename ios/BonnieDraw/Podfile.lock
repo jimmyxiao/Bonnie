@@ -89,7 +89,6 @@ PODS:
   - TwitterCore (3.0.2)
   - TwitterKit (3.2.1):
     - TwitterCore (>= 3.0.2)
-  - XLPagerTabStrip (8.0.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -106,7 +105,6 @@ DEPENDENCIES:
   - ReachabilitySwift
   - SDWebImage
   - TwitterKit
-  - XLPagerTabStrip
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -136,8 +134,7 @@ SPEC CHECKSUMS:
   SDWebImage: 1fa4c9edf525b744f002db89f3f5a38b3cd4c541
   TwitterCore: e0420b01e02e7d20e94690e37f43e75de219ab8d
   TwitterKit: 205ac89824bbfe9e85a16c420d30bb7bcbedac45
-  XLPagerTabStrip: d1ab378af0923320ec0b5eab11d7b2f803d31261
 
-PODFILE CHECKSUM: 933f247464aefb1317b3065a950416cb4309c20c
+PODFILE CHECKSUM: e511eba3c9cdfbedf364065c4806245fdafabfe1
 
 COCOAPODS: 1.2.1

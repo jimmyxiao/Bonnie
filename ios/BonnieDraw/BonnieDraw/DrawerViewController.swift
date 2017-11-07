@@ -13,6 +13,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         case popularWork, newWork, myWork, category1, category2, category3, account, signOut
     }
 
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     var delegate: DrawerViewControllerDelegate?
@@ -26,6 +27,9 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
                          TableViewItem(image: "menu_ic_out", title: "menu_sign_out".localized)]
 
     override func viewDidLoad() {
+        if DEBUG {
+            navigationBar.items?.first?.leftBarButtonItem = UIBarButtonItem(title: "Debug", style: .plain, target: self, action: #selector(debug))
+        }
         if let url = UserDefaults.standard.url(forKey: Default.THIRD_PARTY_IMAGE) {
             profileImage.setImage(with: url)
         }
@@ -49,6 +53,10 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.drawer(didSelectRowAt: indexPath)
+    }
+
+    @objc private func debug() {
+        performSegue(withIdentifier: Segue.DEBUG, sender: nil)
     }
 
     @IBAction func dismiss(_ sender: Any) {

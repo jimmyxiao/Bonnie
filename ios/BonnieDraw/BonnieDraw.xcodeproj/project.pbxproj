@@ -29,7 +29,6 @@
 		163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163907021F6C0BE400E5717A /* ApplicationExtension.swift */; };
 		163907051F6C0BE400E5717A /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163907031F6C0BE400E5717A /* BundleExtension.swift */; };
 		163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */; };
-		163A5E211FA0315000FE70BD /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E201FA0315000FE70BD /* PageViewController.swift */; };
 		163A5E251FA061F100FE70BD /* FollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */; };
 		163A5E271FA062D500FE70BD /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E261FA062D500FE70BD /* FollowButton.swift */; };
 		163C2A621F9F2B7D00413D1C /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163C2A611F9F2B7D00413D1C /* Account.storyboard */; };
@@ -101,7 +100,6 @@
 		163907021F6C0BE400E5717A /* ApplicationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationExtension.swift; sourceTree = "<group>"; };
 		163907031F6C0BE400E5717A /* BundleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
 		163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowBarItem.swift; sourceTree = "<group>"; };
-		163A5E201FA0315000FE70BD /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowTableViewCell.swift; sourceTree = "<group>"; };
 		163A5E261FA062D500FE70BD /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
 		163C2A611F9F2B7D00413D1C /* Account.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
@@ -260,7 +258,6 @@
 		1664F4B91F74ED8C00809C32 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				163A5E201FA0315000FE70BD /* PageViewController.swift */,
 				1633C0641F9ED4400039E7F6 /* WebViewController.swift */,
 				16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */,
 				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
@@ -540,7 +537,6 @@
 				165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */,
 				165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */,
 				164CA76C1F99E24C007F9374 /* AccountListCollectionViewCell.swift in Sources */,
-				163A5E211FA0315000FE70BD /* PageViewController.swift in Sources */,
 				163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */,
 				162AC4AB1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift in Sources */,
 				165E1B5D1F9DE4920050A7BB /* PasswordViewController.swift in Sources */,

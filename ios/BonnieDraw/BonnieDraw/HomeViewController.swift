@@ -19,13 +19,14 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var tableViewWorks = [Work]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
-    private var backButton: UIBarButtonItem?
+    private var menuButton: UIBarButtonItem?
     private let searchBar = UISearchBar()
     private let titleView = Bundle.main.loadView(from: "TitleView")
+    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
-        backButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
-        navigationItem.leftBarButtonItem = backButton
+        menuButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
+        navigationItem.leftBarButtonItem = menuButton
         navigationItem.titleView = titleView
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "title_bar_ic_search"), style: .plain, target: self, action: #selector(search))
         searchBar.delegate = self
@@ -37,8 +38,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if #available(iOS 11.0, *) {
             searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         }
+        refreshControl.addTarget(self, action: #selector(downloadData), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
-        tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -75,7 +77,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             searchBar.becomeFirstResponder()
         } else {
             delegate?.home(enableMenuGesture: true)
-            navigationItem.setLeftBarButton(backButton, animated: true)
+            navigationItem.setLeftBarButton(menuButton, animated: true)
             navigationItem.titleView = titleView
             searchBar.text = nil
             tableViewWorks = works
@@ -103,7 +105,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         emptyLabel.isHidden = !tableViewWorks.isEmpty
     }
 
-    private func downloadData() {
+    @objc private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
             presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
                 success in
@@ -118,7 +120,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return
         }
         loading.hide(false)
-        works.removeAll()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
@@ -138,6 +139,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     }
                     return
                 }
+                self.works.removeAll()
                 for work in workList {
                     self.works.append(Work(
                             id: work["worksId"] as? Int,
@@ -153,6 +155,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.emptyLabel.isHidden = !self.tableViewWorks.isEmpty
                 self.loading.hide(true)
                 self.timestamp = Date()
+                self.refreshControl.endRefreshing()
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {
                     return
@@ -215,7 +218,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    @objc func didTapMenu() {
+    @objc private func didTapMenu() {
         delegate?.homeDidTapMenu()
     }
 }
