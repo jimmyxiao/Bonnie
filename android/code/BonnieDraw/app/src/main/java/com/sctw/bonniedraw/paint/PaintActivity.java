@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -220,7 +221,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 mFullScreenDialog.dismiss();
             }
         });
-        mFullScreenDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogStyle;
+        mFullScreenDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
         mFullScreenDialog.show();
     }
 
@@ -706,7 +707,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     }
 
     public void savePicture() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.TAIWAN);
         Date curDate = new Date(System.currentTimeMillis());
         String filename = formatter.format(curDate);
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -753,7 +754,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         Button grid10 = gridDialog.findViewById(R.id.paint_grid_10);
         Button grid20 = gridDialog.findViewById(R.id.paint_grid_20);
         Button gridCacel = gridDialog.findViewById(R.id.paint_grid_cancel);
-        gridDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogStyle;
         gridNone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

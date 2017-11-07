@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout_actitivy"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/frameLayout_actitivy"
     tools:context="com.sctw.bonniedraw.activity.LoginActivity">
 
     <ImageView
@@ -21,42 +21,21 @@
         app:srcCompat="@drawable/title_bar_img_logo" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/inputLayout_signup_phone"
+        android:id="@+id/inputLayout_signup_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/logoImg"
         android:layout_marginEnd="60dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="15dp"
-        android:layout_alignParentStart="true"
-        app:counterEnabled="true"
-        app:counterMaxLength="10"
         app:errorEnabled="true">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/editText_signup_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/public_phone"
-            android:inputType="phone"
-            android:maxLength="10" />
-    </android.support.design.widget.TextInputLayout>
-
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/inputLayout_signup_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        android:layout_below="@+id/inputLayout_signup_phone"
-        android:layout_alignStart="@+id/inputLayout_signup_phone"
-        android:layout_alignEnd="@+id/inputLayout_signup_phone">
         <android.support.design.widget.TextInputEditText
             android:id="@+id/editText_signup_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/public_username"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName" />
     </android.support.design.widget.TextInputLayout>
 
 
@@ -64,71 +43,74 @@
         android:id="@+id/inputLayout_signup_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        android:layout_below="@+id/inputLayout_signup_name"
+        android:layout_alignEnd="@+id/inputLayout_signup_name"
         android:layout_alignStart="@+id/inputLayout_signup_name"
-        android:layout_alignEnd="@+id/inputLayout_signup_name">
+        android:layout_below="@+id/inputLayout_signup_name"
+        app:errorEnabled="true">
+
         <android.support.design.widget.TextInputEditText
             android:id="@+id/editText_signup_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/public_email"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/inputLayout_signup_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/inputLayout_signup_email"
+        android:layout_alignStart="@+id/inputLayout_signup_email"
+        android:layout_below="@+id/inputLayout_signup_email"
         app:counterEnabled="true"
         app:counterMaxLength="15"
-        app:passwordToggleEnabled="true"
-        android:layout_below="@+id/inputLayout_signup_email"
-        android:layout_alignStart="@+id/inputLayout_signup_email"
-        android:layout_alignEnd="@+id/inputLayout_signup_email"
-        app:hintEnabled="true">
+        app:hintEnabled="true"
+        app:passwordToggleEnabled="true">
+
         <android.support.design.widget.TextInputEditText
             android:id="@+id/editText_signup_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/public_password"
-            android:maxLength="15"
             android:inputType="textPassword"
+            android:maxLength="15"
             app:passwordToggleTint="@color/colorPrimaryDark"
-            app:passwordToggleTintMode="multiply"/>
+            app:passwordToggleTintMode="multiply" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/inputLayout_signup_repassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/inputLayout_signup_password"
+        android:layout_alignStart="@+id/inputLayout_signup_password"
+        android:layout_below="@+id/inputLayout_signup_password"
         app:counterEnabled="true"
         app:counterMaxLength="15"
-        app:passwordToggleEnabled="true"
-        android:layout_below="@+id/inputLayout_signup_password"
-        android:layout_alignStart="@+id/inputLayout_signup_password"
-        android:layout_alignEnd="@+id/inputLayout_signup_password">
+        app:passwordToggleEnabled="true">
+
         <android.support.design.widget.TextInputEditText
             android:id="@+id/editText_signup_repassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/public_check_password"
-            android:maxLength="15"
             android:inputType="textPassword"
+            android:maxLength="15"
             app:passwordToggleTint="@color/colorPrimaryDark"
-            app:passwordToggleTintMode="multiply"/>
+            app:passwordToggleTintMode="multiply" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/btn_get_password"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_alignEnd="@+id/inputLayout_signup_repassword"
+        android:layout_alignStart="@+id/inputLayout_signup_repassword"
+        android:layout_below="@+id/inputLayout_signup_repassword"
         android:background="@drawable/icon_login_email"
         android:text="@string/public_register"
-        android:textColor="@color/White"
-        android:layout_below="@+id/inputLayout_signup_repassword"
-        android:layout_alignStart="@+id/inputLayout_signup_repassword"
-        android:layout_alignEnd="@+id/inputLayout_signup_repassword" />
+        android:textColor="@color/White" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -29,11 +31,12 @@ import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.sctw.bonniedraw.utility.WorkInfo;
-import com.sctw.bonniedraw.works.WorkAdapterList;
+import com.sctw.bonniedraw.adapter.WorkAdapterList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +66,8 @@ public class HomeFragment extends Fragment {
     private SharedPreferences prefs;
     private List<WorkInfo> workInfoList;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,6 +90,7 @@ public class HomeFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
         mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
+        fragmentManager = getFragmentManager();
         mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +198,7 @@ public class HomeFragment extends Fragment {
                 Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
                 Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
                 Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
-                extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogStyle;
+                extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
                 extraShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -242,12 +248,25 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onWorkMsgClick(int wid) {
-
+                MessageDialog messageDialog=new MessageDialog();
+                messageDialog.show(fragmentManager,"TAG");
             }
 
             @Override
             public void onWorkShareClick(int wid) {
 
+            }
+
+            @Override
+            public void onUserClick(int wid) {
+                MemberFragment memberFragment = new MemberFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("userId", wid);
+                memberFragment.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 

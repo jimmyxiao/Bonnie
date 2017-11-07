@@ -28,7 +28,7 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/Transparent</item>
         <item name="android:colorBackground">@color/Transparent</item>
-        <item name="android:windowAnimationStyle">@style/FullScreenDialogStyle</item>
+        <item name="android:windowAnimationStyle">@style/FullScreenDialogAnim</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
@@ -37,23 +37,13 @@
         <item name="@android:windowExitAnimation">@anim/slide_bottom</item>
     </style>
 
-    <style name="FullScreenDialogStyle" parent="android:Animation">
+    <style name="FullScreenDialogAnim" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/alpha</item>
         <item name="android:windowExitAnimation">@anim/alpha_end</item>
     </style>
-	
-	  <style name="LightPickerDialogTheme" parent="android:Theme.Holo.Light.Dialog">
-    <item name="android:windowMinWidthMinor">0dip</item>
-    <item name="android:windowMinWidthMajor">0dip</item>
-  </style>
 
-  <style name="DarkPickerDialogTheme" parent="android:Theme.Holo.Dialog">
-    <item name="android:windowMinWidthMinor">0dip</item>
-    <item name="android:windowMinWidthMajor">0dip</item>
-  </style>
-
-  <style name="cpv_ColorPickerViewStyle">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">315dp</item>
-  </style>
+    <style name="cpv_ColorPickerViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">315dp</item>
+    </style>
 </resources>

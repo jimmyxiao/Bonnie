@@ -130,21 +130,28 @@
             android:layout_margin="4dp"
             android:orientation="horizontal">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/textView_works_msg_author_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="9"
                 android:text="留言者"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView_works_msg_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:text="內容" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView_works_msg_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="7"
+            android:text="內容" />
 
         <TextView
             android:id="@+id/textView_works_msg_time_1"
@@ -165,21 +172,26 @@
                 android:layout_margin="4dp"
                 android:orientation="horizontal">
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/textView_works_msg_author_2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="9"
                     android:text="留言者"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView_works_msg_2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:text="內容" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView_works_msg_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="內容" />
 
             <TextView
                 android:id="@+id/textView_works_msg_time_2"

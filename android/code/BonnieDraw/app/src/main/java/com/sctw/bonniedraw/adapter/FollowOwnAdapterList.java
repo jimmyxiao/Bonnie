@@ -1,4 +1,4 @@
-package com.sctw.bonniedraw.works;
+package com.sctw.bonniedraw.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

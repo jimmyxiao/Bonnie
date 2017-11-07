@@ -29,7 +29,7 @@
             android:layout_weight="6" />
 
         <ImageButton
-            android:id="@+id/imgBtn_profile_grid"
+            android:id="@+id/imgBtn_member_grid"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -37,7 +37,7 @@
             app:srcCompat="@drawable/personal_ic_rectangle" />
 
         <ImageButton
-            android:id="@+id/imgBtn_profile_list"
+            android:id="@+id/imgBtn_member_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -45,7 +45,7 @@
             app:srcCompat="@drawable/personal_ic_list" />
 
         <ImageButton
-            android:id="@+id/imgBtn_profile_add"
+            android:id="@+id/imgBtn_member_add"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -53,12 +53,12 @@
             app:srcCompat="@drawable/ic_person_add_24dp" />
 
         <ImageButton
-            android:id="@+id/imgBtn_profile_setting"
+            android:id="@+id/imgBtn_member_extra"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/personal_ic_shape" />
+            app:srcCompat="@drawable/works_ic_more" />
     </LinearLayout>
 
     <View
@@ -73,20 +73,20 @@
         android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImg_profile_photo"
+            android:id="@+id/circleImg_member_photo"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp" />
 
         <TextView
-            android:id="@+id/textView_profile_userName"
+            android:id="@+id/textView_member_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center" />
 
         <Button
-            android:id="@+id/btn_profile_edit"
+            android:id="@+id/btn_member_follow"
             android:layout_width="120dp"
             android:layout_height="30dp"
             android:layout_marginBottom="16dp"
@@ -97,7 +97,7 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
-            android:id="@+id/textView_profile_user_description"
+            android:id="@+id/textView_member_user_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -124,7 +124,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_profile_userworks"
+                android:id="@+id/textView_member_userworks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -147,7 +147,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_profile_fans"
+                android:id="@+id/textView_member_fans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -169,7 +169,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_profile_follows"
+                android:id="@+id/textView_member_follows"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -186,12 +186,12 @@
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeLayout_profile"
+        android:id="@+id/swipeLayout_member"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_profile"
+            android:id="@+id/recyclerview_member"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"

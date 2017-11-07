@@ -243,7 +243,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 Button grid10 = gridDialog.findViewById(R.id.paint_grid_10);
                 Button grid20 = gridDialog.findViewById(R.id.paint_grid_20);
                 Button gridCacel = gridDialog.findViewById(R.id.paint_grid_cancel);
-                gridDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogStyle;
+                gridDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
                 gridNone.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

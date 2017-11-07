@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.works.WorkAdapterGrid;
+import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 
 import java.util.ArrayList;
 

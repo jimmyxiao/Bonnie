@@ -27,8 +27,8 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfo;
-import com.sctw.bonniedraw.works.WorkAdapterGrid;
-import com.sctw.bonniedraw.works.WorkAdapterList;
+import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
+import com.sctw.bonniedraw.adapter.WorkAdapterList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,7 +96,6 @@ public class ProfileFragment extends Fragment {
         updateProfileInfo();
         setOnClick();
         fragmentManager = getFragmentManager();
-
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -300,6 +299,11 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onWorkShareClick(int wid) {
+
+            }
+
+            @Override
+            public void onUserClick(int wid) {
 
             }
         });

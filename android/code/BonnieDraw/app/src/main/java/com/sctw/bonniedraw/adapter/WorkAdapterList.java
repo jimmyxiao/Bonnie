@@ -1,4 +1,4 @@
-package com.sctw.bonniedraw.works;
+package com.sctw.bonniedraw.adapter;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -97,6 +97,20 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             holder.mLinearLayoutWorksMsgOutSide.setVisibility(View.GONE);
         }
 
+        holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onUserClick(wid);
+            }
+        });
+
+        holder.mCircleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onUserClick(wid);
+            }
+        });
+
         holder.mImgViewWrok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,6 +179,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         void onWorkGoodClick(int wid);
         void onWorkMsgClick(int wid);
         void onWorkShareClick(int wid);
+        void onUserClick(int wid);
     }
 
 }

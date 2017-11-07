@@ -959,8 +959,6 @@ public class PaintView extends View {
         }
         tagpoint.set_iAction(MotionEvent.ACTION_DOWN + 1);
         mListTagPoint.add(tagpoint);
-        //.d("Ori Size",String.valueOf(PxDpConvert.displayToFormat(getDrawingScaledSize(), miWidth)));
-        //Log.d("Save Size",String.valueOf(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth)));
     }
 
     private void onTouchMoveTagPoint(float x, float y, float t) {

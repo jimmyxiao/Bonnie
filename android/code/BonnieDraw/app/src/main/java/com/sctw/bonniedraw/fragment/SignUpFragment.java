@@ -41,11 +41,11 @@ import okhttp3.Response;
  * A simple {@link Fragment} subclass.
  */
 public class SignUpFragment extends Fragment {
-    TextInputLayout mTextInputLayoutPhone, mTextInputLayoutName, mTextInputLayoutEmail, mTextInputLayoutPwd, mTextInputLayoutRePwd;
-    TextInputEditText userPhone, userName, userEmail, userPassword, userRePassword;
+    TextInputLayout mTextInputLayoutName, mTextInputLayoutEmail, mTextInputLayoutPwd, mTextInputLayoutRePwd;
+    TextInputEditText userName, userEmail, userPassword, userRePassword;
     TextView mTextViewSignin;
     Button mBtnSignup;
-    boolean userPhoneVaild, userNameVaild, userEmailVaild, userPwdVaild, userRePwdVaild = false;
+    boolean userNameVaild, userEmailVaild, userPwdVaild, userRePwdVaild = false;
     FragmentManager fragmentManager;
     final static int CHECK_PHONE = 0;
     final static int CHECK_EMAIL = 1;
@@ -62,18 +62,14 @@ public class SignUpFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mTextInputLayoutPhone = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_phone);
         mTextInputLayoutName = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_name);
         mTextInputLayoutEmail = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_email);
         mTextInputLayoutPwd = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_password);
         mTextInputLayoutRePwd = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_repassword);
-        userPhone = (TextInputEditText) view.findViewById(R.id.editText_signup_phone);
         userName = (TextInputEditText) view.findViewById(R.id.editText_signup_repassword);
         userEmail = (TextInputEditText) view.findViewById(R.id.editText_signup_email);
         userPassword = (TextInputEditText) view.findViewById(R.id.editText_signup_password);
         userRePassword = (TextInputEditText) view.findViewById(R.id.editText_signup_repassword);
-        userPhone.setOnFocusChangeListener(userPhoneOnFocus);
-        userPhone.addTextChangedListener(userPhoneInvalid);
         userName.setOnFocusChangeListener(userNameOnFocus);
         userName.addTextChangedListener(userNameInvalid);
         userEmail.setOnFocusChangeListener(userEmailOnFocus);
@@ -102,7 +98,7 @@ public class SignUpFragment extends Fragment {
     public View.OnClickListener clickListenerSignup = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (userPhoneVaild && userNameVaild && userEmailVaild && userPwdVaild && userRePwdVaild) {
+            if (userNameVaild && userEmailVaild && userPwdVaild && userRePwdVaild) {
                 signupAPI(3);
             } else {
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
@@ -252,15 +248,6 @@ public class SignUpFragment extends Fragment {
     }
 
     //初始點選
-    public View.OnFocusChangeListener userPhoneOnFocus = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View view, boolean b) {
-            if (userPhone.getText().toString().trim().isEmpty()) {
-                mTextInputLayoutPhone.setError(getString(R.string.signin_check_phone));
-            }
-        }
-    };
-
     public View.OnFocusChangeListener userNameOnFocus = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View view, boolean b) {
@@ -294,22 +281,6 @@ public class SignUpFragment extends Fragment {
             if (userRePassword.getText().toString().equals("")) {
                 mTextInputLayoutRePwd.setError(getString(R.string.signin_recheck_password));
             }
-        }
-    };
-
-    public TextWatcher userPhoneInvalid = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            infoCheck(CHECK_PHONE);
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
         }
     };
 
@@ -383,18 +354,6 @@ public class SignUpFragment extends Fragment {
     //檢查輸入資料
     public void infoCheck(int checkNum) {
         switch (checkNum) {
-            case CHECK_PHONE:
-                if (userPhone.getText().toString().trim().isEmpty()) {
-                    mTextInputLayoutPhone.setError(getString(R.string.signin_check_phone));
-                    userPhoneVaild = false;
-                } else if (userPhone.getText().toString().length() < 10) {
-                    mTextInputLayoutPhone.setError(getString(R.string.signin_need_correct_phone));
-                    userPhoneVaild = false;
-                } else {
-                    mTextInputLayoutPhone.setError(null);
-                    userPhoneVaild = true;
-                }
-                break;
             case CHECK_NAME:
                 if (userName.getText().toString().equals("")) {
                     mTextInputLayoutName.setError(getString(R.string.signin_check_name));
