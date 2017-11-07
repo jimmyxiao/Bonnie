@@ -38,6 +38,7 @@
 	    	<mvc:exclude-mapping path="/BDService/**"/>
 	    	<mvc:exclude-mapping path="/resources/**"/>
 	    	<mvc:exclude-mapping path="/loadFile/**"/>  
+	    	<mvc:exclude-mapping path="/send"/>  
 	    	<bean class="com.bonniedraw.util.auth.AuthInterceptor"></bean>
     	</mvc:interceptor>
 	</mvc:interceptors>

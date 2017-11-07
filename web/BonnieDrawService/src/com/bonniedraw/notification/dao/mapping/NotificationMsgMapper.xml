@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.notification.dao.NotificationMsgMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.notification.model.NotificationMsg">
+    <id column="NOTI_MSG_ID" jdbcType="INTEGER" property="notiMsgId" />
+    <result column="NOTI_MSG_TYPE" jdbcType="INTEGER" property="notiMsgType" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="USER_ID_FOLLOW" jdbcType="INTEGER" property="userIdFollow" />
+    <result column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
+    <result column="WORKS_MSG_ID" jdbcType="INTEGER" property="worksMsgId" />
+    <result column="THIRD_TYPE" jdbcType="INTEGER" property="thirdType" />
+    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    NOTI_MSG_ID, NOTI_MSG_TYPE, USER_ID, USER_ID_FOLLOW, WORKS_ID, WORKS_MSG_ID, THIRD_TYPE, 
+    CREATION_DATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from notification_msg
+    where NOTI_MSG_ID = #{notiMsgId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from notification_msg
+    where NOTI_MSG_ID = #{notiMsgId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.notification.model.NotificationMsg">
+    insert into notification_msg (NOTI_MSG_ID, NOTI_MSG_TYPE, USER_ID, 
+      USER_ID_FOLLOW, WORKS_ID, WORKS_MSG_ID, 
+      THIRD_TYPE, CREATION_DATE)
+    values (#{notiMsgId,jdbcType=INTEGER}, #{notiMsgType,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{userIdFollow,jdbcType=INTEGER}, #{worksId,jdbcType=INTEGER}, #{worksMsgId,jdbcType=INTEGER}, 
+      #{thirdType,jdbcType=INTEGER}, #{creationDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.notification.model.NotificationMsg">
+    insert into notification_msg
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="notiMsgId != null">
+        NOTI_MSG_ID,
+      </if>
+      <if test="notiMsgType != null">
+        NOTI_MSG_TYPE,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="userIdFollow != null">
+        USER_ID_FOLLOW,
+      </if>
+      <if test="worksId != null">
+        WORKS_ID,
+      </if>
+      <if test="worksMsgId != null">
+        WORKS_MSG_ID,
+      </if>
+      <if test="thirdType != null">
+        THIRD_TYPE,
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="notiMsgId != null">
+        #{notiMsgId,jdbcType=INTEGER},
+      </if>
+      <if test="notiMsgType != null">
+        #{notiMsgType,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userIdFollow != null">
+        #{userIdFollow,jdbcType=INTEGER},
+      </if>
+      <if test="worksId != null">
+        #{worksId,jdbcType=INTEGER},
+      </if>
+      <if test="worksMsgId != null">
+        #{worksMsgId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdType != null">
+        #{thirdType,jdbcType=INTEGER},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.notification.model.NotificationMsg">
+    update notification_msg
+    <set>
+      <if test="notiMsgType != null">
+        NOTI_MSG_TYPE = #{notiMsgType,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userIdFollow != null">
+        USER_ID_FOLLOW = #{userIdFollow,jdbcType=INTEGER},
+      </if>
+      <if test="worksId != null">
+        WORKS_ID = #{worksId,jdbcType=INTEGER},
+      </if>
+      <if test="worksMsgId != null">
+        WORKS_MSG_ID = #{worksMsgId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdType != null">
+        THIRD_TYPE = #{thirdType,jdbcType=INTEGER},
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where NOTI_MSG_ID = #{notiMsgId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.notification.model.NotificationMsg">
+    update notification_msg
+    set NOTI_MSG_TYPE = #{notiMsgType,jdbcType=INTEGER},
+      USER_ID = #{userId,jdbcType=INTEGER},
+      USER_ID_FOLLOW = #{userIdFollow,jdbcType=INTEGER},
+      WORKS_ID = #{worksId,jdbcType=INTEGER},
+      WORKS_MSG_ID = #{worksMsgId,jdbcType=INTEGER},
+      THIRD_TYPE = #{thirdType,jdbcType=INTEGER},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP}
+    where NOTI_MSG_ID = #{notiMsgId,jdbcType=INTEGER}
+  </update>
+</mapper>
