@@ -14,31 +14,32 @@
             android:id="@+id/imgBtn_paint_setting_grid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/transparent"
-            app:srcCompat="@drawable/personal_ic_rectangle" />
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/grid_lines_ic" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_setting_bg_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/transparent"
-            app:srcCompat="@drawable/personal_ic_rectangle" />
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/color_icon" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_setting_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/transparent"
-            app:srcCompat="@drawable/personal_ic_rectangle" />
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/save_icon" />
 
         <ImageButton
             android:id="@+id/imgBtn_paint_setting_extra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/transparent"
-            app:srcCompat="@drawable/personal_ic_rectangle" />
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/system_icon" />
     </LinearLayout>
 </RelativeLayout>

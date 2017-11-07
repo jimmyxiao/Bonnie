@@ -116,6 +116,11 @@ public class PaintPlayActivity extends AppCompatActivity {
                         if (tagpoint.get_iSize() != 0) {
                             mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth));
                         }
+                        if(tagpoint.get_iReserved()==1){
+                            mPaintView.getBrush().setEraser(true);
+                        }else {
+                            mPaintView.getBrush().setEraser(false);
+                        }
                         mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
                         mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
                         mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));

@@ -954,6 +954,9 @@ public class PaintView extends View {
         tagpoint.set_iSize(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth));
         tagpoint.set_iBrush(miPaintNum);
         tagpoint.set_iColor(mColor);
+        if (mBrush.isEraser){
+            tagpoint.set_iReserved(1);
+        }
         tagpoint.set_iAction(MotionEvent.ACTION_DOWN + 1);
         mListTagPoint.add(tagpoint);
         //.d("Ori Size",String.valueOf(PxDpConvert.displayToFormat(getDrawingScaledSize(), miWidth)));

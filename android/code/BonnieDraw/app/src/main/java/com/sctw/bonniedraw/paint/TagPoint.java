@@ -2,15 +2,15 @@ package com.sctw.bonniedraw.paint;
 
 public class TagPoint {
 
-    static int tagCode = 0xA101;
-    int iPosX = 0;
-    int iPosY = 0;
-    int iColor = 0;
-    int iAction = 0;
-    int iSize = 0;
-    int iBrush = 0;
-    int iTime = 0;
-    int iReserved = 0;
+    private static int tagCode = 0xA101;
+    private int iPosX = 0;
+    private int iPosY = 0;
+    private int iColor = 0;
+    private int iAction = 0;
+    private int iSize = 0;
+    private int iBrush = 0;
+    private int iTime = 0;
+    private int iReserved = 0;
 
     public static int getTagCode() {
         return tagCode;

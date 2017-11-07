@@ -191,7 +191,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="0.5"
-                app:srcCompat="@drawable/personal_ic_shape" />
+                android:background="@color/Transparent"
+                app:srcCompat="@drawable/ic_remove_circle_outline" />
 
             <SeekBar
                 android:id="@+id/seekbar_paint_opacity"
@@ -208,7 +209,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="0.5"
-                app:srcCompat="@drawable/personal_ic_shape" />
+                android:background="@color/Transparent"
+                app:srcCompat="@drawable/ic_add_circle_outline" />
         </LinearLayout>
 
 
@@ -312,14 +314,15 @@
         arc:layout_constraintRight_toRightOf="parent"
         arc:srcCompat="@drawable/draw_pen_ic_1" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_paint_zoom"
-        android:layout_width="88dp"
+        android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Z"
+        android:background="@color/Transparent"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/zoom_up_icon" />
 
 </android.support.constraint.ConstraintLayout>
