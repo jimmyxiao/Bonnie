@@ -70,6 +70,8 @@
 		16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CC1F9F321100238463 /* FollowViewController.swift */; };
 		16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */; };
 		16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */; };
+		16D08F1D1FB14BE7001D167C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16D08F1C1FB14BE7001D167C /* GoogleService-Info.plist */; };
+		16D08F1F1FB14D84001D167C /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D08F1E1FB14D84001D167C /* DebugViewController.swift */; };
 		16D439651F66A9B300FF5878 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439641F66A9B300FF5878 /* Logger.swift */; };
 		16D439681F66AC8200FF5878 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439671F66AC8200FF5878 /* Point.swift */; };
 		16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FC10201F695C58008A6A92 /* CanvasView.swift */; };
@@ -146,6 +148,8 @@
 		16C013CC1F9F321100238463 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
 		16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButtonViewController.swift; sourceTree = "<group>"; };
+		16D08F1C1FB14BE7001D167C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		16D08F1E1FB14D84001D167C /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		16D439641F66A9B300FF5878 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		16D439671F66AC8200FF5878 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		16FC10201F695C58008A6A92 /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
@@ -199,6 +203,7 @@
 		163F65A91F61663800945E04 /* BonnieDraw */ = {
 			isa = PBXGroup;
 			children = (
+				16D08F1C1FB14BE7001D167C /* GoogleService-Info.plist */,
 				163784621FB13EE600D70261 /* BonnieDraw.entitlements */,
 				16366AE31F7A130400E5799B /* Cell */,
 				16FC10221F695C62008A6A92 /* View */,
@@ -269,6 +274,7 @@
 				166BDF411F860E7900274C6C /* SplashViewController.swift */,
 				16185C7C1F94A13F008F0840 /* WorkViewController.swift */,
 				16C013CC1F9F321100238463 /* FollowViewController.swift */,
+				16D08F1E1FB14D84001D167C /* DebugViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -363,6 +369,7 @@
 				163F65A51F61663800945E04 /* Resources */,
 				E582CE5F134C9329393F8078 /* [CP] Embed Pods Frameworks */,
 				306D15DA829BDA6EC351F7D6 /* [CP] Copy Pods Resources */,
+				16D08F1B1FB14B5B001D167C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -420,6 +427,7 @@
 			files = (
 				162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */,
 				162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */,
+				16D08F1D1FB14BE7001D167C /* GoogleService-Info.plist in Resources */,
 				162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */,
 				1664F4B51F74E3F100809C32 /* Login.storyboard in Resources */,
 				163907001F6C0A4E00E5717A /* TitleView.xib in Resources */,
@@ -432,6 +440,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		16D08F1B1FB14B5B001D167C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/Fabric/run";
+		};
 		306D15DA829BDA6EC351F7D6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -495,6 +516,7 @@
 				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,
 				166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */,
 				16185C7F1F94A264008F0840 /* Work.swift in Sources */,
+				16D08F1F1FB14D84001D167C /* DebugViewController.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
 				16386DD41FABFC1000DFE2E5 /* CanvasAnimationView.swift in Sources */,
 				16332A231F7F3048007857E3 /* UploadViewController.swift in Sources */,

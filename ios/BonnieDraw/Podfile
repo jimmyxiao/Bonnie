@@ -6,9 +6,11 @@ target 'BonnieDraw' do
   use_frameworks!
 
   # Pods for BonnieDraw
+  pod 'Fabric', '~> 1.7.2'
   pod 'Firebase/Core'
   pod 'Firebase/Crash'
   pod 'Firebase/Messaging'
+  pod 'Crashlytics', '~> 3.9.3'
   pod 'KYDrawerController'
   pod 'SDWebImage'
   pod 'ReachabilitySwift'

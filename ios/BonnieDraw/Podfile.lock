@@ -6,8 +6,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
+  - Crashlytics (3.9.3):
+    - Fabric (~> 1.7.2)
   - DeviceKit (1.4.0)
   - DropDown (2)
+  - Fabric (1.7.2)
   - FacebookCore (0.3.0):
     - Bolts (~> 1.8)
     - FBSDKCoreKit (~> 4.27)
@@ -90,8 +93,10 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Crashlytics (~> 3.9.3)
   - DeviceKit
   - DropDown
+  - Fabric (~> 1.7.2)
   - FacebookLogin
   - Firebase/Core
   - Firebase/Crash
@@ -106,8 +111,10 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   DeviceKit: fa74d97499660e88081718b16688e19217595dba
   DropDown: 744784d9c9aa505100e942c16acd05430cbb2f0a
+  Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   FacebookCore: 3ffa190a3f1f96cec0e44d3fc221bc322c595ffa
   FacebookLogin: 0af839ea858faef99550d16596b87b4a8e8906e6
   FBSDKCoreKit: 03365dad5d790249196ffad8be4f6d8a2d98f932
@@ -131,6 +138,6 @@ SPEC CHECKSUMS:
   TwitterKit: 205ac89824bbfe9e85a16c420d30bb7bcbedac45
   XLPagerTabStrip: d1ab378af0923320ec0b5eab11d7b2f803d31261
 
-PODFILE CHECKSUM: 01245082bdd788c341c5603e29fed055a9e0731e
+PODFILE CHECKSUM: 933f247464aefb1317b3065a950416cb4309c20c
 
 COCOAPODS: 1.2.1

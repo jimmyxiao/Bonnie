@@ -51,7 +51,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         delegate?.drawer(didSelectRowAt: indexPath)
     }
 
-    @IBAction func drawerDismiss(_ sender: Any) {
+    @IBAction func dismiss(_ sender: Any) {
         delegate?.drawerDidTapDismiss()
     }
 

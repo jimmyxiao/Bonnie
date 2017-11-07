@@ -110,6 +110,7 @@ struct Segue {
     static let WEB = "webSegue"
     static let COLLECTION = "collectionSegue"
     static let UPLOAD = "uploadSegue"
+    static let DEBUG = "debugSegue"
 }
 
 struct Default {
