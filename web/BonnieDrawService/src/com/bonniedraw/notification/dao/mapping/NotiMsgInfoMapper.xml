@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.notification.dao.NotiMsgInfoMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.notification.model.NotiMsgInfo">
+    <id column="NOTI_MSG_TYPE" jdbcType="INTEGER" property="notiMsgType" />
+    <id column="LANGUAGE_CODE" jdbcType="VARCHAR" property="languageCode" />
+    <result column="MESSAGE1" jdbcType="VARCHAR" property="message1" />
+    <result column="MESSAGE2" jdbcType="VARCHAR" property="message2" />
+    <result column="MESSAGE3" jdbcType="VARCHAR" property="message3" />
+    <result column="MESSAGE4" jdbcType="VARCHAR" property="message4" />
+    <result column="MESSAGE5" jdbcType="VARCHAR" property="message5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    NOTI_MSG_TYPE, LANGUAGE_CODE, MESSAGE1, MESSAGE2, MESSAGE3, MESSAGE4, MESSAGE5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.bonniedraw.notification.model.NotiMsgInfoKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from noti_msg_info
+    where NOTI_MSG_TYPE = #{notiMsgType,jdbcType=INTEGER}
+      and LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.bonniedraw.notification.model.NotiMsgInfoKey">
+    delete from noti_msg_info
+    where NOTI_MSG_TYPE = #{notiMsgType,jdbcType=INTEGER}
+      and LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.notification.model.NotiMsgInfo">
+    insert into noti_msg_info (NOTI_MSG_TYPE, LANGUAGE_CODE, MESSAGE1, 
+      MESSAGE2, MESSAGE3, MESSAGE4, 
+      MESSAGE5)
+    values (#{notiMsgType,jdbcType=INTEGER}, #{languageCode,jdbcType=VARCHAR}, #{message1,jdbcType=VARCHAR}, 
+      #{message2,jdbcType=VARCHAR}, #{message3,jdbcType=VARCHAR}, #{message4,jdbcType=VARCHAR}, 
+      #{message5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.notification.model.NotiMsgInfo">
+    insert into noti_msg_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="notiMsgType != null">
+        NOTI_MSG_TYPE,
+      </if>
+      <if test="languageCode != null">
+        LANGUAGE_CODE,
+      </if>
+      <if test="message1 != null">
+        MESSAGE1,
+      </if>
+      <if test="message2 != null">
+        MESSAGE2,
+      </if>
+      <if test="message3 != null">
+        MESSAGE3,
+      </if>
+      <if test="message4 != null">
+        MESSAGE4,
+      </if>
+      <if test="message5 != null">
+        MESSAGE5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="notiMsgType != null">
+        #{notiMsgType,jdbcType=INTEGER},
+      </if>
+      <if test="languageCode != null">
+        #{languageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="message1 != null">
+        #{message1,jdbcType=VARCHAR},
+      </if>
+      <if test="message2 != null">
+        #{message2,jdbcType=VARCHAR},
+      </if>
+      <if test="message3 != null">
+        #{message3,jdbcType=VARCHAR},
+      </if>
+      <if test="message4 != null">
+        #{message4,jdbcType=VARCHAR},
+      </if>
+      <if test="message5 != null">
+        #{message5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.notification.model.NotiMsgInfo">
+    update noti_msg_info
+    <set>
+      <if test="message1 != null">
+        MESSAGE1 = #{message1,jdbcType=VARCHAR},
+      </if>
+      <if test="message2 != null">
+        MESSAGE2 = #{message2,jdbcType=VARCHAR},
+      </if>
+      <if test="message3 != null">
+        MESSAGE3 = #{message3,jdbcType=VARCHAR},
+      </if>
+      <if test="message4 != null">
+        MESSAGE4 = #{message4,jdbcType=VARCHAR},
+      </if>
+      <if test="message5 != null">
+        MESSAGE5 = #{message5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where NOTI_MSG_TYPE = #{notiMsgType,jdbcType=INTEGER}
+      and LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.notification.model.NotiMsgInfo">
+    update noti_msg_info
+    set MESSAGE1 = #{message1,jdbcType=VARCHAR},
+      MESSAGE2 = #{message2,jdbcType=VARCHAR},
+      MESSAGE3 = #{message3,jdbcType=VARCHAR},
+      MESSAGE4 = #{message4,jdbcType=VARCHAR},
+      MESSAGE5 = #{message5,jdbcType=VARCHAR}
+    where NOTI_MSG_TYPE = #{notiMsgType,jdbcType=INTEGER}
+      and LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR}
+  </update>
+</mapper>
