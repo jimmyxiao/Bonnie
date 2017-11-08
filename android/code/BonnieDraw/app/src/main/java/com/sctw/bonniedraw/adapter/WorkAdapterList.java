@@ -99,9 +99,9 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         }
 
         if (data.get(position).isLike()) {
-            holder.imgBtnWorksUserGood.setPressed(true);
+            holder.imgBtnWorksUserGood.setSelected(true);
         } else {
-            holder.imgBtnWorksUserGood.setPressed(false);
+            holder.imgBtnWorksUserGood.setSelected(false);
         }
 
         holder.mTvUserName.setOnClickListener(new View.OnClickListener() {

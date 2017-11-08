@@ -132,14 +132,6 @@
             android:text="下"
             app:srcCompat="@drawable/drawplay_ic_forward" />
 
-        <Button
-            android:id="@+id/btn_checkSize"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="產生外部檔"
-            android:textSize="10sp" />
-
 
     </LinearLayout>
 

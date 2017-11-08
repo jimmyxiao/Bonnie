@@ -57,7 +57,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
     private TextView mTextViewUserName, mTextViewWorkDescription, mTextViewWorkName, mTextViewGoodTotal, mTextViewCreateTime;
     private ImageView mImgViewWorkImage;
     private CircleImageView mCircleImgUserPhoto;
-    private ImageButton workUserExtra, workUserGood, workUserMsg, workUserShare, workUserFollow;
+    private ImageButton mBtnUserExtra, mBtnUserGood, mBtnUserMsg, mBtnUserShare, mBtnUserFollow;
     private Button mBtnPlayPause, mBtnNext, mBtnPrevious;
     private String bdwPath = ""; //"bdwPath":
     private String workUid = "";
@@ -74,6 +74,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
     private BDWFileReader mBDWFileReader;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
+    private boolean mbLike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +94,11 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         mTextViewCreateTime = findViewById(R.id.textView_single_work_create_time);
         mImgViewWorkImage = findViewById(R.id.imgView_single_work_img);
         mCircleImgUserPhoto = findViewById(R.id.circleImg_single_work_user_photo);
-        workUserExtra = findViewById(R.id.imgBtn_single_work_extra);
-        workUserGood = findViewById(R.id.imgBtn_single_work_good);
-        workUserMsg = findViewById(R.id.imgBtn_single_work_msg);
-        workUserShare = findViewById(R.id.imgBtn_single_work_share);
-        workUserFollow = findViewById(R.id.imgBtn_single_work_follow);
+        mBtnUserExtra = findViewById(R.id.imgBtn_single_work_extra);
+        mBtnUserGood = findViewById(R.id.imgBtn_single_work_good);
+        mBtnUserMsg = findViewById(R.id.imgBtn_single_work_msg);
+        mBtnUserShare = findViewById(R.id.imgBtn_single_work_share);
+        mBtnUserFollow = findViewById(R.id.imgBtn_single_work_follow);
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_single_work);
         miViewWidth = mPaintView.getMiWidth();
         mFileBDW = new File(getFilesDir().getPath() + PLAY_FILE_BDW);
@@ -142,7 +143,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
     }
 
     private void setOnClick() {
-        workUserExtra.setOnClickListener(new View.OnClickListener() {
+        mBtnUserExtra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final FullScreenDialog dialog = new FullScreenDialog(SingleWorkActivity.this, R.layout.dialog_single_work_extra);
@@ -189,6 +190,19 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                 dialog.show();
             }
         });
+
+        mBtnUserGood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mbLike) {
+                    mBtnUserGood.setSelected(false);
+                    setLike(0, wid);
+                } else {
+                    mBtnUserGood.setSelected(true);
+                    setLike(1, wid);
+                }
+            }
+        });
     }
 
     public void next(View view) {
@@ -222,7 +236,14 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         }
     }
 
-    public void replayStart() {
+    public void startPlay(View view) {
+        if (checkSketch()) {
+            mImgViewWorkImage.setVisibility(View.GONE);
+            replayStart();
+        }
+    }
+
+    private void replayStart() {
         mFrameLayoutFreePaint.removeAllViews();
         mPaintView = new PaintView(SingleWorkActivity.this, true);
         mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[0]);
@@ -234,14 +255,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         mbAutoPlay = true;
     }
 
-    public void startPlay(View view) {
-        if (checkSketch()) {
-            mImgViewWorkImage.setVisibility(View.GONE);
-            replayStart();
-        }
-    }
-
-    public boolean checkSketch() {
+    private boolean checkSketch() {
         if (mFileBDW.exists()) {
             mBDWFileReader.readFromFile(mFileBDW);
             mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
@@ -302,8 +316,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         }
     };
 
-
-    public void getSingleWork() {
+    private void getSingleWork() {
         JSONObject json = ConnectJson.querySingleWork(prefs, wid);
         Log.d("LOGIN JSON: ", json.toString());
 
@@ -329,7 +342,6 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                             public void run() {
                                 //下載資料
                                 try {
-                                    System.out.println(responseJSON.toString());
                                     getWork(responseJSON.getJSONObject("work"));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -344,7 +356,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         });
     }
 
-    public void getBDW() {
+    private void getBDW() {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_GET_FILE + bdwPath)
@@ -379,7 +391,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         });
     }
 
-    public void getWork(JSONObject data) {
+    private void getWork(JSONObject data) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN);
             Date date = new Date(Long.valueOf(data.getString("updateDate")));
@@ -388,6 +400,10 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
             mTextViewWorkDescription.setText(data.getString("description"));
             mTextViewGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getString("isFollowing")));
             mTextViewCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
+            mbLike = data.getBoolean("like");
+            if (mbLike) {
+                mBtnUserGood.setPressed(true);
+            }
             ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"), mImgViewWorkImage, LoadImageApp.optionsWorkImg);
             ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture"), mCircleImgUserPhoto, LoadImageApp.optionsUserImg);
             bdwPath = data.getString("bdwPath");
@@ -396,6 +412,68 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setLike(final int fn, int wid) {
+        // fn = 1 點讚, 0 取消讚
+        JSONObject json = ConnectJson.setLike(prefs, fn, wid);
+        Log.d("LOGIN JSON: ", json.toString());
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_LIKE)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功 0 = DEL , 1 = ADD
+                                    switch (fn) {
+                                        case 0:
+                                            mBtnUserGood.setSelected(false);
+                                            mbLike = false;
+                                            break;
+                                        case 1:
+                                            mBtnUserGood.setSelected(true);
+                                            mbLike = true;
+                                            break;
+                                    }
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    switch (fn) {
+                                        case 0:
+                                            //del
+                                            mBtnUserMsg.setSelected(true);
+                                            break;
+                                        case 1:
+                                            //add
+                                            mBtnUserMsg.setSelected(false);
+                                            break;
+                                    }
+                                }
+                                Log.d("LOGIN JSON", responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

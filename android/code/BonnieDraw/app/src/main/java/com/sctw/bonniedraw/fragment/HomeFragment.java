@@ -299,10 +299,8 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     public void onWorkGoodClick(int position, boolean like, int wid) {
         //點讚 1 , 不點讚 0
         if (like) {
-            System.out.println("點讚囉");
             setLike(position, 1, wid);
         } else {
-            System.out.println("取消讚");
             setLike(position, 0, wid);
         }
     }

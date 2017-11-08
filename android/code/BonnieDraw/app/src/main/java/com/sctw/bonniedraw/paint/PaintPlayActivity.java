@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.paint;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.BDWFileReader;
@@ -19,9 +17,6 @@ import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -40,7 +35,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private File mFileBDW;
     private BDWFileReader mBDWFileReader;
     private int mCurrentBrushId = 0;
-    private Button mBtnCheckFileInfo, mBtnPause;
+    private Button mBtnPause;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
 
@@ -65,35 +60,6 @@ public class PaintPlayActivity extends AppCompatActivity {
         mFileBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         if (mFileBDW.exists()) mBDWFileReader.readFromFile(mFileBDW);
-        mBtnCheckFileInfo = findViewById(R.id.btn_checkSize);
-        mBtnCheckFileInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File logPath = new File(Environment.getExternalStorageDirectory() + "/bonniedraw/" + "Record/");
-                if (!logPath.exists()) logPath.mkdirs();
-                try {
-                    int bytesum = 0;
-                    int byteread = 0;
-                    File oldfile = mFileBDW;
-                    if (oldfile.exists()) { //檔存在時
-                        InputStream inStream = new FileInputStream(oldfile);//讀入原檔
-                        FileOutputStream fs = new FileOutputStream(logPath + "temp.bdw");
-                        byte[] buffer = new byte[2048];
-                        int length;
-                        while ((byteread = inStream.read(buffer)) != -1) {
-                            bytesum += byteread; //位元組數 檔案大小
-                            System.out.println(bytesum);
-                            fs.write(buffer, 0, byteread);
-                        }
-                        inStream.close();
-                        Toast.makeText(PaintPlayActivity.this, "複製到bonniedraw/Record成功", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(PaintPlayActivity.this, "複製出錯", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }
-        });
         Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
         mPaintView.initDefaultBrush(brush);
         setImgBtnOnClick();
