@@ -306,16 +306,18 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							lines[i].color = colordata;
 							tmpColor = lines[i].color;
 							tmpSize = lines[i].size;
+							lines[i].time = 0;
 						break;
 						case 2:
 							lines[i].color = util.clone(tmpColor);
 							lines[i].size = util.clone(tmpSize);
 							tmpColor = 0;
 							tmpSize = 0;
+							lines[i].time = 0;
 						break;
 						case 3:
 							lines[i].color = util.clone(tmpColor);
-							lines[i].size = util.clone(tmpSize);
+							lines[i].size = util.clone(tmpSize);	
 						break;
 					}
 				}
@@ -463,7 +465,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				FB.ui({
     				method: 'share',
     				display: 'popup',
-    				href: 'https://developers.facebook.com/docs/',
+    				href: location.href,
+    				//href: 'https://developers.facebook.com/docs/',
   				}, function(response){});
 			}else if(tag=='google'){
 

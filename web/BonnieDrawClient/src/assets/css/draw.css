@@ -9,7 +9,8 @@
  	padding-top: 6.5px;
  }
 .media-left img{
-	border-radius: 50%;
+	border-radius: 20px;
+	width: 90px;
 }
 
 .drwa-play{
