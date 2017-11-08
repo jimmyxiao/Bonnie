@@ -26,6 +26,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
+import com.bonniedraw.notification.service.NotiMsgService;
 import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.DictionaryService;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
@@ -48,6 +49,7 @@ import com.bonniedraw.web_api.model.request.ForgetPwdRequestVO;
 import com.bonniedraw.web_api.model.request.FriendRequestVO;
 import com.bonniedraw.web_api.model.request.LeaveMsgRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
+import com.bonniedraw.web_api.model.request.NotiMsgRequestVO;
 import com.bonniedraw.web_api.model.request.SetCollectionRequestVO;
 import com.bonniedraw.web_api.model.request.SetFollowingRequestVO;
 import com.bonniedraw.web_api.model.request.SetLikeRequestVO;
@@ -68,6 +70,7 @@ import com.bonniedraw.web_api.model.response.ForgetPwdResponseVO;
 import com.bonniedraw.web_api.model.response.FriendResponseVO;
 import com.bonniedraw.web_api.model.response.LeaveMsgResponseVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
+import com.bonniedraw.web_api.model.response.NotiMsgResponseVO;
 import com.bonniedraw.web_api.model.response.SetCollectionResponseVO;
 import com.bonniedraw.web_api.model.response.SetFollowingResponseVO;
 import com.bonniedraw.web_api.model.response.SetLikeResponseVO;
@@ -79,6 +82,7 @@ import com.bonniedraw.web_api.model.response.UserInfoUpdateResponseVO;
 import com.bonniedraw.web_api.model.response.WorkListResponseVO;
 import com.bonniedraw.web_api.model.response.WorksSaveResponseVO;
 import com.bonniedraw.web_api.module.CategoryInfoResponse;
+import com.bonniedraw.web_api.module.NotiMsgResponse;
 import com.bonniedraw.web_api.module.UserInfoResponse;
 import com.bonniedraw.web_api.module.WorksResponse;
 import com.bonniedraw.works.model.TagInfo;
@@ -102,6 +106,9 @@ public class ApiController {
 	
 	@Autowired
 	private DictionaryService dictionaryService;
+	
+	@Autowired
+	private NotiMsgService notiMsgService;
 	
  	private boolean isLogin(ApiRequestVO apiRequestVO){
 		if(ValidateUtil.isNotNumNone(apiRequestVO.getUi()) 
@@ -505,6 +512,28 @@ public class ApiController {
 		}
 		return respResult;
 	}
+	
+	@RequestMapping(value="/deleteWork" , produces="application/json")
+	public @ResponseBody DeleteWorkResponseVO deleteWork(HttpServletRequest request,HttpServletResponse resp, @RequestBody DeleteWorkRequestVO deleteWorkRequestVO) {
+		DeleteWorkResponseVO respResult = new DeleteWorkResponseVO();
+		respResult.setRes(2);
+		String msg = "";
+		if(isLogin(deleteWorkRequestVO)){
+			int res = worksServiceAPI.deleteWork(deleteWorkRequestVO.getUi(), deleteWorkRequestVO.getWorksId());
+			if(res == 1){
+				respResult.setRes(res);
+				msg = "成功";
+			}else if(res ==3){
+				msg = "拒絕刪除";
+			}else{
+				msg = "異常";
+			}
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
 
 	@RequestMapping(value="/leavemsg" , produces="application/json")
 	public @ResponseBody LeaveMsgResponseVO leavemsg(HttpServletRequest request,HttpServletResponse resp,@RequestBody LeaveMsgRequestVO leaveMsgRequestVO) {
@@ -805,21 +834,15 @@ public class ApiController {
 		return respResult;
 	}
 	
-	@RequestMapping(value="/deleteWork" , produces="application/json")
-	public @ResponseBody DeleteWorkResponseVO deleteWork(HttpServletRequest request,HttpServletResponse resp, @RequestBody DeleteWorkRequestVO deleteWorkRequestVO) {
-		DeleteWorkResponseVO respResult = new DeleteWorkResponseVO();
+	@RequestMapping(value="/notiMsg" , produces="application/json")
+	public @ResponseBody NotiMsgResponseVO getNotiMsgList(HttpServletRequest request,HttpServletResponse resp, @RequestBody NotiMsgRequestVO notiMsgRequestVO) {
+		NotiMsgResponseVO respResult = new NotiMsgResponseVO();
 		respResult.setRes(2);
 		String msg = "";
-		if(isLogin(deleteWorkRequestVO)){
-			int res = worksServiceAPI.deleteWork(deleteWorkRequestVO.getUi(), deleteWorkRequestVO.getWorksId());
-			if(res == 1){
-				respResult.setRes(res);
-				msg = "成功";
-			}else if(res ==3){
-				msg = "拒絕刪除";
-			}else{
-				msg = "異常";
-			}
+		if(isLogin(notiMsgRequestVO)){
+				List<NotiMsgResponse> notiMsgList  = notiMsgService.getNotiMsgList(notiMsgRequestVO);
+				respResult.setRes(1);
+				respResult.setNotiMsgList(notiMsgList);
 		}else{
 			msg = "帳號未登入"; 
 		}

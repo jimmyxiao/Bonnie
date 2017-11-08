@@ -14,5 +14,6 @@ public interface NotiMsgInfoMapper {
 
     int updateByPrimaryKeySelective(NotiMsgInfo record);
 
-    int updateByPrimaryKey(NotiMsgInfo record);
+    int updateByPrimaryKey(NotiMsgInfo record);   
+    
 }

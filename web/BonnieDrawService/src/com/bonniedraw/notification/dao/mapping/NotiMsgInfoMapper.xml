@@ -114,4 +114,5 @@
     where NOTI_MSG_TYPE = #{notiMsgType,jdbcType=INTEGER}
       and LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR}
   </update>
+  
 </mapper>

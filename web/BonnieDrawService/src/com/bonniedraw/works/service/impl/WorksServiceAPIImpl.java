@@ -116,6 +116,18 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				if(ValidateUtil.isNotEmptyAndSize(sharpTagList)){
 					insertWorksTagList(sharpTagList, wid);
 				}
+				
+				Map<String, Object> paramMap = new HashMap<String, Object>();
+				paramMap.put("fn", 2);
+				paramMap.put("userId", userId);
+				List<Integer> followIds = followingMapper.selectTrackOrFans(paramMap);
+				if(ValidateUtil.isNotEmptyAndSize(followIds)){
+					for(Integer followId : followIds){
+						if(followId!=null){
+							insertNotificationMsg(4, followId, userId, works.getWorksId(), null);
+						}
+					}
+				}
 			}else if(ac==2){
 				wid = worksSaveRequestVO.getWorksId();
 				works.setWorksId(wid);
@@ -373,6 +385,8 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				Date nowDate = TimerUtil.getNowDate();
 				worksMsg.setCreationDate(nowDate);
 				worksMsgMapper.insert(worksMsg);
+				Works works = worksMapper.selectByPrimaryKey(worksMsg.getWorksId());
+				insertNotificationMsg(3, works.getUserId(), worksMsg.getUserId(), worksMsg.getWorksId(), worksMsg.getWorksMsgId());
 			}else{
 				int worksMsgId = leaveMsgRequestVO.getMsgId();
 				worksMsg.setWorksMsgId(worksMsgId);
@@ -401,6 +415,8 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		try {
 			if(fn==1){
 				worksLikeMapper.insert(worksLike);
+				Works works = worksMapper.selectByPrimaryKey(worksLike.getWorksId());
+				insertNotificationMsg(5, works.getUserId(), worksLike.getUserId(), worksLike.getWorksId(), null);
 			}else{
 				worksLikeMapper.deleteByNotPrimaryKey(worksLike);
 			}
@@ -422,6 +438,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		try {
 			if(setFollowingRequestVO.getFn() == 1){
 				followingMapper.insert(following);
+				insertNotificationMsg(1, following.getFollowingUserId(), following.getUserId(), null, null);
 			}else{
 				followingMapper.deleteByNotPrimaryKey(following);
 			}
