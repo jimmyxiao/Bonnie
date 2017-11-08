@@ -81,7 +81,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
-        mSwipeLayoutProfile=view.findViewById(R.id.swipeLayout_profile);
+        mSwipeLayoutProfile = view.findViewById(R.id.swipeLayout_profile);
         mTextViewUserName = (TextView) view.findViewById(R.id.textView_profile_userName);
         mTextViewUserdescription = view.findViewById(R.id.textView_profile_user_description);
         mTextViewUserId = (TextView) view.findViewById(R.id.textView_profile_user_id);
@@ -191,9 +191,9 @@ public class ProfileFragment extends Fragment {
 
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                         //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.userImgUrlStr, "null"),imgPhoto);
-                                    }else {
-                                        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round,imgPhoto);
+                                        ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.userImgUrlStr, "null"), imgPhoto);
+                                    } else {
+                                        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round, imgPhoto);
                                     }
 
                                     /*
@@ -288,7 +288,7 @@ public class ProfileFragment extends Fragment {
             }
 
             @Override
-            public void onWorkGoodClick(int wid) {
+            public void onWorkGoodClick(int position,boolean like, int wid) {
 
             }
 

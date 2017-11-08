@@ -57,7 +57,7 @@ public class ConnectJson {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("type",0);
+            json.put("type", 0);
             Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -65,14 +65,14 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject queryOtherUserInfoJson(SharedPreferences prefs,int queryId) {
+    public static JSONObject queryOtherUserInfoJson(SharedPreferences prefs, int queryId) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("type",1);
-            json.put("queryId",queryId);
+            json.put("type", 1);
+            json.put("queryId", queryId);
             Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -133,16 +133,14 @@ public class ConnectJson {
 
     public static JSONObject setLike(SharedPreferences prefs, int fn, int wid) {
         JSONObject json = new JSONObject();
-        // fn  1=讚  2=取消讚
+        // fn  1=讚  0=取消讚
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("fn", fn);
             json.put("worksId", wid);
-            if (fn == 1) {
-                json.put("likeType", 1);
-            }
+            json.put("likeType", 1);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -163,11 +161,11 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject forgetPwd(String email,String mask) {
+    public static JSONObject forgetPwd(String email, String mask) {
         JSONObject json = new JSONObject();
         try {
             json.put("email", email);
-            json.put("mask",mask);
+            json.put("mask", mask);
         } catch (JSONException e) {
             e.printStackTrace();
         }

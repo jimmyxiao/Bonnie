@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@color/Transparent"
-            card_view:srcCompat="@drawable/work_ic_like" />
+            card_view:srcCompat="@drawable/ic_like_selector" />
 
         <ImageButton
             android:id="@+id/imgBtn_works_msg"

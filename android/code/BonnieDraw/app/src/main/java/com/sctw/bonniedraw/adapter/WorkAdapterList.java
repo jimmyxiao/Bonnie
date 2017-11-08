@@ -53,6 +53,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvWorkName.setText(data.get(position).getTitle());
         holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getIsFollowing()));
         final int wid = Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
+        //作品圖
         ImageLoader.getInstance()
                 .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, LoadImageApp.optionsWorkImg, new SimpleImageLoadingListener() {
                     @Override
@@ -72,7 +73,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                     public void onProgressUpdate(String imageUri, View view, int current, int total) {
                     }
                 });
-
+        //作者圖
         ImageLoader.getInstance()
                 .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath(), holder.mCircleImageView, LoadImageApp.optionsUserImg, new SimpleImageLoadingListener() {
                     @Override
@@ -95,6 +96,12 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
 
         if (data.get(position).getMsgList().isEmpty()) {
             holder.mLinearLayoutWorksMsgOutSide.setVisibility(View.GONE);
+        }
+
+        if (data.get(position).isLike()) {
+            holder.imgBtnWorksUserGood.setPressed(true);
+        } else {
+            holder.imgBtnWorksUserGood.setPressed(false);
         }
 
         holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +133,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.imgBtnWorksUserGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkGoodClick(wid);
+                if (!data.get(holder.getAdapterPosition()).isLike()) {
+                    listener.onWorkGoodClick(holder.getAdapterPosition(), true, wid);
+                } else {
+                    listener.onWorkGoodClick(holder.getAdapterPosition(), false, wid);
+                }
             }
         });
         holder.imgBtnWorksUserMsg.setOnClickListener(new View.OnClickListener() {
@@ -172,13 +183,21 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         return data.size();
     }
 
+    public void setLike(int position, boolean like) {
+        data.get(position).setLike(like);
+    }
 
     public interface WorkListOnClickListener {
         void onWorkImgClick(int wid);
+
         void onWorkExtraClick(int wid);
-        void onWorkGoodClick(int wid);
+
+        void onWorkGoodClick(int position, boolean like, int wid);
+
         void onWorkMsgClick(int wid);
+
         void onWorkShareClick(int wid);
+
         void onUserClick(int wid);
     }
 

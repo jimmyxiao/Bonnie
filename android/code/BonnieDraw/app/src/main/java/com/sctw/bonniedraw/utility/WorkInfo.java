@@ -114,6 +114,7 @@ public class WorkInfo {
                 workInfo.setImagePath(data.getJSONObject(x).getString("imagePath"));
                 workInfo.setIsFollowing(data.getJSONObject(x).getString("isFollowing"));
                 workInfo.setUserImgPath(data.getJSONObject(x).getString("profilePicture"));
+                workInfo.setLike(data.getJSONObject(x).getBoolean("like"));
                 workInfo.setMsgList(msgList);
                 workInfoList.add(workInfo);
             }

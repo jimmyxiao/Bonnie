@@ -2,16 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/White"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.sctw.bonniedraw.fragment.LikeSelectFragment">
 
     <ImageView
-        android:layout_width="128dp"
-        android:layout_height="128dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
-        android:background="@color/Amber"/>
+        app:srcCompat="@drawable/no_class_icon"/>
 
     <TextView
         android:layout_width="match_parent"

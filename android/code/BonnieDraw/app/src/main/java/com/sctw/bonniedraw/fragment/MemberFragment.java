@@ -232,7 +232,7 @@ public class MemberFragment extends Fragment {
             }
 
             @Override
-            public void onWorkGoodClick(int wid) {
+            public void onWorkGoodClick(int position,boolean like,int wid) {
 
             }
 
