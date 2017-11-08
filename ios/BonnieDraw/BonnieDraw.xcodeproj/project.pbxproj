@@ -56,7 +56,6 @@
 		1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4B61F74E5BB00809C32 /* ParentViewController.swift */; };
 		1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4BC1F75123C00809C32 /* TabBarViewController.swift */; };
 		16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */; };
-		166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */; };
 		166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF411F860E7900274C6C /* SplashViewController.swift */; };
 		166C41241F90964F00A98385 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C41231F90964F00A98385 /* DataExtension.swift */; };
 		16812ADA1F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */; };
@@ -134,7 +133,6 @@
 		1664F4B61F74E5BB00809C32 /* ParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentViewController.swift; sourceTree = "<group>"; };
 		1664F4BC1F75123C00809C32 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEditViewController.swift; sourceTree = "<group>"; };
-		166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStatusBarViewController.swift; sourceTree = "<group>"; };
 		166BDF411F860E7900274C6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		166C41231F90964F00A98385 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleNavigationViewController.swift; sourceTree = "<group>"; };
@@ -237,7 +235,6 @@
 		163F65BD1F616C0A00945E04 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				166BDF3F1F860DD200274C6C /* LightStatusBarViewController.swift */,
 				16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */,
 				16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */,
 				1664F4B81F74ED7700809C32 /* Login */,
@@ -282,10 +279,10 @@
 			isa = PBXGroup;
 			children = (
 				164ED24C1F7B379200E8B910 /* AccountViewController.swift */,
+				165E1B5A1F9DDFA80050A7BB /* SettingViewController.swift */,
 				16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */,
 				16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */,
 				164ED2471F7B376700E8B910 /* CollectionViewController.swift */,
-				165E1B5A1F9DDFA80050A7BB /* SettingViewController.swift */,
 				165E1B5C1F9DE4920050A7BB /* PasswordViewController.swift */,
 				165E1B5E1F9DE49F0050A7BB /* LanguageViewController.swift */,
 				165E1B601F9DE4AD0050A7BB /* DescriptionViewController.swift */,
@@ -513,7 +510,6 @@
 				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,
-				166BDF401F860DD200274C6C /* LightStatusBarViewController.swift in Sources */,
 				16185C7F1F94A264008F0840 /* Work.swift in Sources */,
 				16D08F1F1FB14D84001D167C /* DebugViewController.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,

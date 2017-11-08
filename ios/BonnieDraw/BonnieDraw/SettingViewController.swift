@@ -27,7 +27,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                     Setting(title: "setting_sign_out".localized, segueId: nil)]
 
     override func viewDidLoad() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "top_bar_ic_back"), style: .plain, target: self, action: #selector(onBackPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

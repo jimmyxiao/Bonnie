@@ -36,7 +36,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
-        backButton = UIBarButtonItem(image: UIImage(named: "top_bar_ic_back"), style: .plain, target: self, action: #selector(onBackPressed))
+        backButton = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
         navigationItem.leftBarButtonItem = backButton
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "title_bar_ic_search"), style: .plain, target: self, action: #selector(search))
         navigationItem.hidesBackButton = true

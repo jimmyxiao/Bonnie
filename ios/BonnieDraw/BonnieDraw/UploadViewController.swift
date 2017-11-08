@@ -27,6 +27,9 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
                                                                            (.contactAccess, "access_control_contact".localized),
                                                                            (.privateAccess, "access_control_private".localized)]
     private var accessControl: (access: AccessControl, title: String) = (.publicAccess, "access_control_public".localized)
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
     override func viewDidLoad() {
         dropDown.dataSource = dropDownItems.map() {

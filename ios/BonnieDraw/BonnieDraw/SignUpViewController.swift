@@ -17,7 +17,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
     private var dataRequest: DataRequest?
 
     override func viewDidLoad() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "top_bar_ic_back"), style: .plain, target: self, action: #selector(onBackPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
     }
 
     override func viewWillDisappear(_ animated: Bool) {

@@ -12,6 +12,10 @@ import FacebookLogin
 import TwitterKit
 
 class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, TabBarViewControllerDelegate {
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? DrawerViewController {
             controller.delegate = self

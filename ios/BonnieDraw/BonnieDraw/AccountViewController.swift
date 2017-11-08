@@ -28,8 +28,8 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         navigationItem.leftBarButtonItem?.tintColor = .black
         navigationItem.rightBarButtonItems =
                 [UIBarButtonItem(image: UIImage(named: "personal_ic_shape"), style: .plain, target: self, action: #selector(didSelectSetting)),
-                 UIBarButtonItem(image: UIImage(named: "works_ic_more"), style: .plain, target: self, action: #selector(didSelectRecommend)),
-                 UIBarButtonItem(image: UIImage(named: "works_ic_more"), style: .plain, target: self, action: #selector(didSelectColllection)),
+                 UIBarButtonItem(image: UIImage(named: "recommend_icon"), style: .plain, target: self, action: #selector(didSelectRecommend)),
+                 UIBarButtonItem(image: UIImage(named: "collect_ic_off"), style: .plain, target: self, action: #selector(didSelectColllection)),
                  UIBarButtonItem(image: UIImage(named: "personal_ic_list"), style: .plain, target: self, action: #selector(didSelectListLayout)),
                  UIBarButtonItem(image: UIImage(named: "personal_ic_rectangle"), style: .plain, target: self, action: #selector(didSelectGridLayout))]
         refreshControl.addTarget(self, action: #selector(downloadData), for: .valueChanged)
