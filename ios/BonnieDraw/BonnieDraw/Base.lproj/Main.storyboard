@@ -242,7 +242,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyz-PE-3Pi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="900" y="1489.9647887323945"/>
+            <point key="canvasLocation" x="919" y="1527"/>
         </scene>
         <!--Work View Controller-->
         <scene sceneID="nyB-2A-h4h">
@@ -448,7 +448,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-sx-Edr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="903.75" y="2285.3873239436621"/>
+            <point key="canvasLocation" x="923" y="2322"/>
         </scene>
         <!--Follow View Controller-->
         <scene sceneID="3iE-eI-gSs">
@@ -615,7 +615,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P8B-1q-Fml" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1762.5" y="1488.3802816901409"/>
+            <point key="canvasLocation" x="1781" y="1525"/>
         </scene>
         <!--通知-->
         <scene sceneID="vdd-3p-tbe">
@@ -642,7 +642,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5e3-Xf-zpr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2588" y="1489"/>
+            <point key="canvasLocation" x="2606" y="1525"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pfH-Fr-T2O">
@@ -656,12 +656,14 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
+                        <outlet property="delegate" destination="zjP-if-cn4" id="z0g-xa-FAg"/>
                         <segue destination="gud-V7-B39" kind="relationship" relationship="rootViewController" id="TRb-QT-oA0"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OQy-o9-POC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="zjP-if-cn4" customClass="TabNavigationControllerDelegate" customModule="BonnieDraw" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="904" y="774"/>
+            <point key="canvasLocation" x="923" y="811"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="fYN-7y-jDq">
@@ -1349,18 +1351,18 @@
             <objects>
                 <viewController id="szF-cK-l8c" customClass="SizePickerViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LNu-7z-sME">
-                        <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AP5-Me-4Mm">
-                                <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="sizePickerCell" id="6OC-ia-hs3" customClass="SizePickerTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="160" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6OC-ia-hs3" id="HQJ-44-NQR">
-                                            <rect key="frame" x="0.0" y="0.0" width="160" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1382,29 +1384,28 @@
                         <viewLayoutGuide key="safeArea" id="Ltb-H1-68k"/>
                     </view>
                     <value key="contentSizeForViewInPopover" type="size" width="0.0" height="0.0"/>
-                    <size key="freeformSize" width="160" height="160"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PXb-EH-y8X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2588" y="595"/>
+            <point key="canvasLocation" x="1781" y="809"/>
         </scene>
         <!--Color Picker View Controller-->
         <scene sceneID="KUn-Pb-PSu">
             <objects>
                 <viewController id="IqP-P3-lOq" customClass="ColorPickerViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IAE-Vz-3Yt">
-                        <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="u8T-ss-z9l">
-                                <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="colorPickerCell" id="JN3-YO-pTC">
-                                        <rect key="frame" x="0.0" y="28" width="160" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JN3-YO-pTC" id="NcH-5L-PRr">
-                                            <rect key="frame" x="0.0" y="0.0" width="160" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1425,11 +1426,10 @@
                         <viewLayoutGuide key="safeArea" id="Zns-CL-Zy5"/>
                     </view>
                     <value key="contentSizeForViewInPopover" type="size" width="0.0" height="0.0"/>
-                    <size key="freeformSize" width="160" height="160"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xym-M0-VU3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2588" y="953"/>
+            <point key="canvasLocation" x="2606" y="808"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="xVl-Yq-LD2">
