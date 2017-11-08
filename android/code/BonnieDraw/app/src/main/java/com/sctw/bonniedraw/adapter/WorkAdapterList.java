@@ -51,7 +51,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     public void onBindViewHolder(final WorkAdapterList.ViewHolder holder, int position) {
         holder.mTvUserName.setText(data.get(position).getUserName());
         holder.mTvWorkName.setText(data.get(position).getTitle());
-        holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getIsFollowing()));
+        holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getLikeCount()));
         final int wid = Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
         //作品圖
         ImageLoader.getInstance()
@@ -74,15 +74,20 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                     }
                 });
         //作者圖
+        String userImgUrl = "";
+        if (data.get(position).getUserImgPath().equals("null")) {
+            userImgUrl = "";
+        } else {
+            userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath();
+        }
         ImageLoader.getInstance()
-                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath(), holder.mCircleImageView, LoadImageApp.optionsUserImg, new SimpleImageLoadingListener() {
+                .displayImage(userImgUrl, holder.mCircleImageView, LoadImageApp.optionsUserImg, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        Log.d("IMG LOAD FAIL", "FAIL");
                     }
 
                     @Override
@@ -184,7 +189,13 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     }
 
     public void setLike(int position, boolean like) {
+        int likeCount = data.get(position).getLikeCount();
         data.get(position).setLike(like);
+        if (like) {
+            data.get(position).setLikeCount(likeCount + 1);
+        } else {
+            data.get(position).setLikeCount(likeCount - 1);
+        }
     }
 
     public interface WorkListOnClickListener {

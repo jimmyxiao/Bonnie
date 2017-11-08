@@ -49,6 +49,7 @@ public class LoadImageApp extends Application {
             .build();
 
     static public DisplayImageOptions optionsUserImg = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.drawable.photo_round)
             .showImageOnFail(R.drawable.photo_round)
             .cacheInMemory(true)
             .cacheOnDisk(true)

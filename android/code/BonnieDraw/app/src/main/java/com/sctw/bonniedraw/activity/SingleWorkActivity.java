@@ -104,7 +104,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         mFileBDW = new File(getFilesDir().getPath() + PLAY_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         mListRecordInt = new ArrayList<>();
-        getSingleWork();
+        getSingleWork(false);
         setOnClick();
         mBtnPlayPause = findViewById(R.id.imgBtn_single_work_play_pause);
         mBtnNext = findViewById(R.id.imgBtn_single_work_next);
@@ -316,7 +316,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         }
     };
 
-    private void getSingleWork() {
+    private void getSingleWork(final boolean refresh) {
         JSONObject json = ConnectJson.querySingleWork(prefs, wid);
         Log.d("LOGIN JSON: ", json.toString());
 
@@ -342,7 +342,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                             public void run() {
                                 //下載資料
                                 try {
-                                    getWork(responseJSON.getJSONObject("work"));
+                                    getWork(responseJSON.getJSONObject("work"), refresh);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -391,24 +391,35 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         });
     }
 
-    private void getWork(JSONObject data) {
+    private void getWork(JSONObject data, boolean refresh) {
         try {
+            String profilePictureUrl = "";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN);
             Date date = new Date(Long.valueOf(data.getString("updateDate")));
             mTextViewUserName.setText(data.getString("userName"));
             mTextViewWorkName.setText(data.getString("title"));
             mTextViewWorkDescription.setText(data.getString("description"));
-            mTextViewGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getString("isFollowing")));
+            mTextViewGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getInt("likeCount")));
             mTextViewCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
             mbLike = data.getBoolean("like");
             if (mbLike) {
                 mBtnUserGood.setPressed(true);
+            } else {
+                mBtnUserGood.setPressed(false);
+            }
+
+            if (data.getString("profilePicture").equals("null")) {
+                profilePictureUrl = "";
+            } else {
+                profilePictureUrl = GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture");
             }
             ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"), mImgViewWorkImage, LoadImageApp.optionsWorkImg);
-            ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture"), mCircleImgUserPhoto, LoadImageApp.optionsUserImg);
+            ImageLoader.getInstance().displayImage(profilePictureUrl, mCircleImgUserPhoto, LoadImageApp.optionsUserImg);
             bdwPath = data.getString("bdwPath");
             workUid = data.getString("userId");
-            getBDW();
+            if (!refresh) {
+                getBDW();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -440,16 +451,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                             try {
                                 if (responseJSON.getInt("res") == 1) {
                                     //點讚成功或刪除成功 0 = DEL , 1 = ADD
-                                    switch (fn) {
-                                        case 0:
-                                            mBtnUserGood.setSelected(false);
-                                            mbLike = false;
-                                            break;
-                                        case 1:
-                                            mBtnUserGood.setSelected(true);
-                                            mbLike = true;
-                                            break;
-                                    }
+                                    getSingleWork(true);
                                 } else {
                                     //點讚失敗或刪除失敗
                                     switch (fn) {

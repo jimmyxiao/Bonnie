@@ -77,7 +77,7 @@ public class MemberFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        miUserId=getArguments().getInt("userId");
+        miUserId = getArguments().getInt("userId");
         mTvMemberId = view.findViewById(R.id.textView_member_user_id);
         mTvMemberName = view.findViewById(R.id.textView_member_userName);
         mTvMemberDescription = view.findViewById(R.id.textView_member_user_description);
@@ -198,6 +198,7 @@ public class MemberFragment extends Fragment {
             }
         });
     }
+
     public void refreshWorks(JSONArray data) {
         workInfoList = WorkInfo.generateInfoList(data);
 
@@ -232,8 +233,12 @@ public class MemberFragment extends Fragment {
             }
 
             @Override
-            public void onWorkGoodClick(int position,boolean like,int wid) {
-
+            public void onWorkGoodClick(int position, boolean like, int wid) {
+                if (like) {
+                    setLike(position, 1, wid);
+                } else {
+                    setLike(position, 0, wid);
+                }
             }
 
             @Override
@@ -264,13 +269,73 @@ public class MemberFragment extends Fragment {
     }
 
     private void setOnClickEvent() {
-        mBtnFollow.setOnClickListener(new View.OnClickListener() {
+        mBtnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mRv.setLayoutManager(layoutManager);
+                mRv.setAdapter(mAdapterList);
+                mbFist = false;
             }
         });
 
+        mBtnGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRv.setLayoutManager(gridLayoutManager);
+                mRv.setAdapter(mAdapterGrid);
+                mbFist = true;
+            }
+        });
+    }
 
+    public void setLike(final int position, final int fn, int wid) {
+        // fn = 1 點讚, 0 取消讚
+        JSONObject json = ConnectJson.setLike(prefs, fn, wid);
+        Log.d("LOGIN JSON: ", json.toString());
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_LIKE)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapterList.setLike(position, false);
+                                            break;
+                                        case 1:
+                                            mAdapterList.setLike(position, true);
+                                            break;
+                                    }
+                                    mAdapterList.notifyItemChanged(position);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapterList.notifyItemChanged(position);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
