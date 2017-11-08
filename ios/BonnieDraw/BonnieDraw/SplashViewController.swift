@@ -11,6 +11,10 @@ import CoreData
 import Alamofire
 
 class SplashViewController: UIViewController {
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         if let timestamp = UserDefaults.standard.object(forKey: Default.TOKEN_TIMESTAMP) as? Date,
            let userType = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)) {
