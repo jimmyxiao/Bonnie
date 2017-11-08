@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -120,6 +121,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         inflater.inflate(R.menu.dashborad, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) item.getActionView();
+        mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -317,10 +319,10 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     }
 
     @Override
-    public void onUserClick(int wid) {
+    public void onUserClick(int uid) {
         MemberFragment memberFragment = new MemberFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("userId", wid);
+        bundle.putInt("userId", uid);
         memberFragment.setArguments(bundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);

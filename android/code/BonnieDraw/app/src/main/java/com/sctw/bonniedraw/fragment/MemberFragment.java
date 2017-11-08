@@ -23,6 +23,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LoadImageApp;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
@@ -142,7 +143,7 @@ public class MemberFragment extends Fragment {
 
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                         //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.userImgUrlStr, "null"), mCircleImg);
+                                        ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture"), mCircleImg, LoadImageApp.optionsUserImg);
                                     } else {
                                         ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round, mCircleImg);
                                     }
@@ -159,7 +160,6 @@ public class MemberFragment extends Fragment {
 
     public void getWorksList() {
         JSONObject json = ConnectJson.queryListWork(prefs, 6, 0, 100);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
@@ -205,7 +205,6 @@ public class MemberFragment extends Fragment {
         mAdapterGrid = new WorkAdapterGrid(workInfoList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
-                Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putInt("wid", wid);
@@ -218,7 +217,6 @@ public class MemberFragment extends Fragment {
         mAdapterList = new WorkAdapterList(workInfoList, new WorkAdapterList.WorkListOnClickListener() {
             @Override
             public void onWorkImgClick(int wid) {
-                Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putInt("wid", wid);
@@ -275,6 +273,13 @@ public class MemberFragment extends Fragment {
                 mRv.setLayoutManager(layoutManager);
                 mRv.setAdapter(mAdapterList);
                 mbFist = false;
+            }
+        });
+
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
             }
         });
 

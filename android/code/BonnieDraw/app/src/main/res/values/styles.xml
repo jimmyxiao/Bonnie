@@ -32,14 +32,25 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
-    <style name="ColorPickStyle" parent="android:Animation">
-        <item name="@android:windowEnterAnimation">@anim/slide_up</item>
-        <item name="@android:windowExitAnimation">@anim/slide_bottom</item>
-    </style>
-
     <style name="FullScreenDialogAnim" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/alpha</item>
         <item name="android:windowExitAnimation">@anim/alpha_end</item>
+    </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!-- Gets rid of the search icon -->
+        <item name="searchIcon">@drawable/title_bar_ic_search</item>
+        <!-- Gets rid of the "underline" in the text -->
+        <item name="queryBackground">@color/Black</item>
+        <!-- Gets rid of the search icon when the SearchView is expanded -->
+        <item name="searchHintIcon">@null</item>
+        <!-- The hint text that appears when the user has not typed anything -->
+        <item name="queryHint">@string/search_hint</item>
+    </style>
+
+    <style name="ColorPickStyle" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="@android:windowExitAnimation">@anim/slide_bottom</item>
     </style>
 
     <style name="cpv_ColorPickerViewStyle">

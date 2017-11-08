@@ -71,7 +71,7 @@ import okhttp3.Response;
 public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SeekbarPopup.OnSeekChange, ColorPopup.OnPopupColorPick {
     private PaintView mPaintView;
     private FrameLayout mFrameLayoutFreePaint;
-    private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange,mBtnZoom;
+    private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange, mBtnZoom;
     private ImageButton mBtnOpacityAdd, mBtnOpacityDecrease;
     private SeekBar mSeekbarOpacity;
     private FullScreenDialog mFullScreenDialog;
@@ -337,12 +337,30 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     //設定各個按鍵
     public void setOnClick() {
+        mBtnOpacityAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int progress = mSeekbarOpacity.getProgress();
+                mSeekbarOpacity.setProgress(progress + 1);
+                mPaintView.setDrawingAlpha(progress / 100f);
+                mOpacityPopup.showPopupWindow();
+            }
+        });
+
+        mBtnOpacityDecrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int progress = mSeekbarOpacity.getProgress();
+                mSeekbarOpacity.setProgress(progress - 1);
+                mPaintView.setDrawingAlpha(progress / 100f);
+                mOpacityPopup.showPopupWindow();
+            }
+        });
+
         mSeekbarOpacity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    mOpacityPopup.setText(progress);
-                }
+                mOpacityPopup.setText(progress);
             }
 
             @Override
@@ -471,10 +489,12 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         }
                         mFrameLayoutFreePaint.removeAllViews();
                         Brush brush = mPaintView.getBrush();
+                        int color = mPaintView.getDrawingColor();
                         float brusnSize = mPaintView.getDrawingScaledSize();
                         mPaintView = new PaintView(getApplicationContext());
                         mPaintView.initDefaultBrush(brush);
                         mPaintView.setBrush(brush);
+                        mPaintView.setDrawingColor(color);
                         mPaintView.setDrawingScaledSize(brusnSize);
                         mFrameLayoutFreePaint.addView(mPaintView);
                         dialog.dismiss();
@@ -744,6 +764,20 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     public void onStartTrackingTouch(SeekBar seekBar) {
         mSizePopup.showPopupWindow();
         mSizePopup.setConvertedValue(mPaintView.getBrush().getSizeFromScaledSize(seekBar.getProgress() / 100.0f));
+    }
+
+    @Override
+    public void onSizeAdd(int progress) {
+        mSizePopup.showPopupWindow();
+        mPaintView.setDrawingScaledSize(progress / 100.f);
+        mSizePopup.setConvertedValue(mPaintView.getBrush().getSizeFromScaledSize(progress / 100.0f));
+    }
+
+    @Override
+    public void onSizeDecrease(int progress) {
+        mSizePopup.showPopupWindow();
+        mPaintView.setDrawingScaledSize(progress / 100.f);
+        mSizePopup.setConvertedValue(mPaintView.getBrush().getSizeFromScaledSize(progress / 100.0f));
     }
 
     private void openGridScreen() {

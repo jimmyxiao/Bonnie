@@ -53,6 +53,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvWorkName.setText(data.get(position).getTitle());
         holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getLikeCount()));
         final int wid = Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
+        final int uid = Integer.parseInt(data.get(holder.getAdapterPosition()).getUserId());
         //作品圖
         ImageLoader.getInstance()
                 .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, LoadImageApp.optionsWorkImg, new SimpleImageLoadingListener() {
@@ -112,14 +113,14 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onUserClick(wid);
+                listener.onUserClick(uid);
             }
         });
 
         holder.mCircleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onUserClick(wid);
+                listener.onUserClick(uid);
             }
         });
 
@@ -199,7 +200,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     }
 
     public interface WorkListOnClickListener {
-        void onWorkImgClick(int wid);
+        void onWorkImgClick(int uid);
 
         void onWorkExtraClick(int wid);
 
@@ -209,7 +210,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
 
         void onWorkShareClick(int wid);
 
-        void onUserClick(int wid);
+        void onUserClick(int uid);
     }
 
 }

@@ -382,7 +382,6 @@ public class PaintView extends View {
     public void initDefaultBrush(Brush brush) {
         setBrush(brush);
         setDrawingCacheEnabled(true);
-        setDrawingColor(Color.BLACK);
         setDrawingBgColor(Color.WHITE);
     }
 
@@ -443,6 +442,10 @@ public class PaintView extends View {
 
     public void setDrawingColor(int color) {
         mColor = color;
+    }
+
+    public int getDrawingColor() {
+        return mColor;
     }
 
     public void setDrawingBgColor(int color) {
