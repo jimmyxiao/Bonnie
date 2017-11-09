@@ -26,12 +26,12 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
         int progress = mSeekbar.getProgress();
         switch (v.getId()) {
             case R.id.imgBtn_paint_base_add:
-                progress++;
+                if (progress < 100) progress++;
                 listener.onSizeAdd(progress);
                 mSeekbar.setProgress(progress);
                 break;
             case R.id.imgBtn_paint_base_decrease:
-                progress--;
+                if (progress > 0) progress--;
                 listener.onSizeAdd(progress);
                 mSeekbar.setProgress(progress);
                 break;
@@ -40,8 +40,6 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
 
     public interface OnSeekChange {
         void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser);
-
-        void onStopTrackingTouch(SeekBar seekBar);
 
         void onStartTrackingTouch(SeekBar seekBar);
 
@@ -106,6 +104,7 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        listener.onStopTrackingTouch(seekBar);
+
     }
+
 }

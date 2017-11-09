@@ -15,8 +15,8 @@
         android:paddingStart="16dp">
 
         <view
-            android:id="@+id/sizePopupCircle"
-            class="com.sctw.bonniedraw.widget.SizePopup$CircleView"
+            android:id="@+id/view_circle_size"
+            class="com.sctw.bonniedraw.widget.ToastUtil$CircleView"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_gravity="center" />
@@ -37,7 +37,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/sizePopupText"
+                android:id="@+id/textView_brush_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
