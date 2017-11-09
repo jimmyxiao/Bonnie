@@ -109,7 +109,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         setOnClick();
         //Paint init & View
         mPaintView = new PaintView(this);
-        mPaintView.checkSketch();
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
 
@@ -119,10 +118,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mPaintView.setDrawingScaledSize(30 / 100.f);
         mPaintView.setDrawingAlpha(100 / 100.0f);
         defaultColor();
-    }
-
-    private void check() {
-
+        mPaintView.onCheckSketch();
     }
 
     private void defaultColor() {
@@ -730,13 +726,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         String filename = formatter.format(curDate);
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             try {
-                File vPath = new File(Environment.getExternalStorageDirectory() + "/bonniedraw");
+                File vPath = new File(Environment.getExternalStorageDirectory() + "/Screenshots");
                 if (!vPath.exists()) vPath.mkdirs();
-                File pngfile = new File(Environment.getExternalStorageDirectory() + "/bonniedraw/" + filename + ".png");
+                File pngfile = new File(Environment.getExternalStorageDirectory() + "/Screenshots/" + "BDW" + filename + ".png");
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
-                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "儲存成功，檔案位於Bonniedraw資料夾。");
+                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "儲存成功，檔案位於Screenshots資料夾。");
                 mMenuPopup.dismiss();
             } catch (IOException e) {
                 e.printStackTrace();
