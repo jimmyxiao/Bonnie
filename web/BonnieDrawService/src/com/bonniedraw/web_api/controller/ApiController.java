@@ -1,11 +1,13 @@
 package com.bonniedraw.web_api.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -878,9 +880,23 @@ public class ApiController {
 			if(works!=null){
 				modelAndView = new ModelAndView("socialShare");
 				modelAndView.addObject("title", works.getTitle());
+				BufferedImage bimg;
+				int width = 1000;
+				int height = 1000;
+				try {
+					bimg = ImageIO.read(new File(System.getProperty("catalina.home") + works.getImagePath()));
+					width = bimg.getWidth();
+					height = bimg.getHeight();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				modelAndView.addObject("width", width);
+				modelAndView.addObject("height", height);
 				modelAndView.addObject("image", request.getRequestURL().toString().replace("socialShare", "loadFile") + works.getImagePath());
 				modelAndView.addObject("description", works.getDescription());
 				modelAndView.addObject("url", request.getRequestURL() + "?id=" + id);
+				modelAndView.addObject("type", "website");
+				modelAndView.addObject("fb_appId", "1376883092359322");
 			}
 		}
 		return modelAndView; 

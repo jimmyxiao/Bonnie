@@ -13,10 +13,12 @@
 <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 <meta property="og:title" content="${title}" />
 <meta property="og:image" content="${image}" />
+<meta property="og:image:width" content="${width}" />
+<meta property="og:image:height" content="${height}" />
 <meta property="og:description" content="${description}" />
 <meta property="og:url" content="${url}" />
-<meta property="og:type" content="website" />
-<meta property="fb:app_id" content="1376883092359322" />
+<meta property="og:type" content="${type}" />
+<meta property="fb:app_id" content="${fb_appId}" />
 <title></title>
 
 </head>
