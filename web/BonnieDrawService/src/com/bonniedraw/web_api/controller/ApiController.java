@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
@@ -86,6 +88,7 @@ import com.bonniedraw.web_api.module.NotiMsgResponse;
 import com.bonniedraw.web_api.module.UserInfoResponse;
 import com.bonniedraw.web_api.module.WorksResponse;
 import com.bonniedraw.works.model.TagInfo;
+import com.bonniedraw.works.model.Works;
 import com.bonniedraw.works.service.WorksServiceAPI;
 
 @Controller
@@ -864,6 +867,23 @@ public class ApiController {
 		}
 		respResult.setMsg(msg);
 		return respResult;
+	}
+	
+	@RequestMapping(value="/socialShare" ,method = RequestMethod.GET, produces="application/json")
+	public ModelAndView getSocialShare(HttpServletRequest request,HttpServletResponse resp) {
+		Integer id = request.getParameter("id") !=null? Integer.valueOf(request.getParameter("id")):null;
+		ModelAndView modelAndView = null;
+		if(id!=null){
+			Works  works = worksServiceAPI.getWorksMeta(id);
+			if(works!=null){
+				modelAndView = new ModelAndView("socialShare");
+				modelAndView.addObject("title", works.getTitle());
+				modelAndView.addObject("image", request.getRequestURL().toString().replace("socialShare", "loadFile") + works.getImagePath());
+				modelAndView.addObject("description", works.getDescription());
+				modelAndView.addObject("url", request.getRequestURL() + "?id=" + id);
+			}
+		}
+		return modelAndView; 
 	}
 	
 	

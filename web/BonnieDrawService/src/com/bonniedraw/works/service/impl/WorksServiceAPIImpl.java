@@ -571,4 +571,9 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		return tagList;
 	}
 
+	@Override
+	public Works getWorksMeta(Integer id) {
+		return worksMapper.selectByPrimaryKey(id);
+	}
+
 }
