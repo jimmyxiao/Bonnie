@@ -465,8 +465,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				FB.ui({
     				method: 'share',
     				display: 'popup',
-    				href: location.href,
-    				//href: 'https://developers.facebook.com/docs/',
+    				href: 'https://www.bonniedraw.com/bonniedraw_service/BDService/socialShare?id='+wid,
+    				//href: location.href,
   				}, function(response){});
 			}else if(tag=='google'){
 
