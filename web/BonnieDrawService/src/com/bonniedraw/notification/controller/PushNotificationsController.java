@@ -21,7 +21,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @Controller
 public class PushNotificationsController {
 	
-	private final String TOPIC = "bonniedraw";
+	private final String TOPIC = "/topics/bonniedraw";
+	
+	//test register key
+	private final String to ="APA91bERmZ6Q3zWzPBdbR9747V-m4gakzZmHomLSIaY7js-iC-rnM5ylpwJknoH8H5D1hyvEcjA9Cto3uZ8QG8G1nWLP1quFLbQNRFS-ruaavHrmEihGo-tqNRm25xs1L3pekc3OpCnf0c7ufTpXZ4kNJo5rfwiYVg";
 	
 	@Autowired
 	PushNotificationsService pushNotificationsService;
@@ -39,7 +42,7 @@ public class PushNotificationsController {
 		((ObjectNode)data).put("Key-1", "JSA Data 1");
 		((ObjectNode)data).put("Key-2", "JSA Data 2");
  
-		((ObjectNode) body).put("to", "/topics/" + TOPIC);
+		((ObjectNode) body).put("to", to);
 		((ObjectNode) body).put("priority", "high");
 		((ObjectNode) body).set("notification", notification);
 		((ObjectNode) body).set("data", data);
