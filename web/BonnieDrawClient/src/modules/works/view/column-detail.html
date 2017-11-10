@@ -14,17 +14,23 @@
 			                           <canvas id="jsonCanvas"  ng-click="pasue()"></canvas>
 			                        	<div class="pasue-back">
 			                        	<!--<div class="pasue-back" ng-hide=pausebol>-->
+			                        		<div class="forward-img">
+			                        			<a href="" ng-class="{true: '', false: 'imgchag'}[forwarded]" ng-click="fast('forward')"><i class="material-icons" >fast_forward</i></a>
+			                        		</div>
 			                        		<div class="next-img">
-			                        			<i class="fa fa-chevron-circle-right" ng-class="{true: '', false: 'imgchag'}[isnext]" ng-click="next()"></i>
+			                        			<a href=""  ng-class="{true: '', false: 'imgchag'}[isnext]" ng-click="next()"><i class="fa fa-chevron-circle-right"></i></a>
 			                        		</div>
 			                        		<div class="pasue-img">
-			                        			<i ng-class="{true: 'fa fa-pause-circle', false: 'fa fa-play-circle'}[pausebol]" ng-click="pasue()"></i>
+			                        			<a href=""  ng-click="pasue()"><i ng-class="{true: 'fa fa-pause-circle', false: 'fa fa-play-circle'}[pausebol]"></i></a>
 			                        			<!--<i class="fa fa-play-circle"  ng-hide="pausebol" ng-click="pasue()"></i>
 			                        			<i class="fa fa-pause-circle" ng-hide="!pausebol" ng-click="pasue()"></i>-->
 			                        			<!-- <img  ng-click="pasue()" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'"> -->
 			                        		</div>
 			                        		<div class="last-img">
-			                        			<i class="fa fa-chevron-circle-left" ng-class="{true: '', false: 'imgchag'}[islast]" ng-click="last()"></i>
+			                        			<a href=""  ng-class="{true: '', false: 'imgchag'}[islast]" ng-click="last()"><i class="fa fa-chevron-circle-left"></i></a>
+			                        		</div>
+			                        		<div class="rewind-img">
+			                        			<a href="" ng-class="{true: '', false: 'imgchag'}[rewinded]" ng-click="fast('rewind')"><i class="material-icons" >fast_rewind</i></a>
 			                        		</div>
 			                        		
 			                        	</div>

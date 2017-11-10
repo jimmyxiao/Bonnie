@@ -5,7 +5,14 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var wid = $state.params.id;
 		$scope.isShow = false;
 
+		$scope.fastarr = ['8','4','2','1','0.5','0.25','0.125'];//s~q
+		var fasti =3;
+		$scope.fastnum = 1;
+
 		var paused= false;
+		$scope.forwarded =true;
+		$scope.rewinded =true;
+		
 		var auto = true;
 		var nextstatus = false;
 		var linend =false;
@@ -67,6 +74,36 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 						$scope.islast = false;
 					}
 				}
+			}
+		}
+
+		$scope.fast = function(tag){
+			if(!$scope.islast){
+				switch(tag) {
+					case "forward":
+						if(($scope.fastarr.length-1)>fasti){
+							fasti++;							
+						}
+						break;
+					case "rewind":
+						if(fasti>0){
+							fasti--;							
+						}
+						break;
+				}
+				if(($scope.fastarr.length-1)==fasti){
+					$scope.forwarded = false;
+				}else{
+					$scope.forwarded = true;
+				}
+
+				if(fasti==0){
+					$scope.rewinded = false;
+				}else{
+					$scope.rewinded = true;
+				}
+				$scope.fastnum = $scope.fastarr[fasti];
+				console.log(fasti);
 			}
 		}
 
@@ -143,9 +180,15 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			    	
 				}, 5000);*/
 			}else{
+				if($scope.pausebol && $scope.fastnum!=1){
+			    		var sett = $scope.fastnum;
+			    	}else{
+			    		var sett = lines[draw_number].time;
+			    	}
 				setTimeout(function(){
 			    	drawDot();
-				}, lines[draw_number].time);
+
+				}, lines[draw_number].time*$scope.fastnum);
 			}
 		}
 
