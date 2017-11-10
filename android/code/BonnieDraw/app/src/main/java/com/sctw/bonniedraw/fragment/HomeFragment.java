@@ -250,7 +250,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     @Override
     public void onWorkExtraClick(final int wid) {
         final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.item_work_extra_dialog);
-        final Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
+        Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
         Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
@@ -309,7 +309,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
 
     @Override
     public void onWorkMsgClick(int wid) {
-        MessageDialog messageDialog = new MessageDialog();
+        MessageDialog messageDialog = MessageDialog.newInstance(wid);
         messageDialog.show(fragmentManager, "TAG");
     }
 

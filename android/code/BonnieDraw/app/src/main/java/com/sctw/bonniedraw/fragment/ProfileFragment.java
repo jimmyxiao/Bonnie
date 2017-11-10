@@ -23,12 +23,13 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.SingleWorkActivity;
+import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
+import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfo;
-import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
-import com.sctw.bonniedraw.adapter.WorkAdapterList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +53,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
     private CircleImageView imgPhoto;
     private TextView mTextViewUserName, mTextViewUserId, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
     private ImageButton mImgBtnSetting, mImgBtnGrid, mImgBtnList;
@@ -145,7 +146,7 @@ public class ProfileFragment extends Fragment {
         mSwipeLayoutProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //nothing
+                getWorksList();
             }
         });
     }
@@ -190,8 +191,8 @@ public class ProfileFragment extends Fragment {
                                     }
 
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                        //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.userImgUrlStr, "null"), imgPhoto);
+                                        //URL profilePicUrl = new URL();
+                                        ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture"), imgPhoto);
                                     } else {
                                         ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round, imgPhoto);
                                     }
@@ -270,47 +271,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        mAdapterList = new WorkAdapterList(workInfoList, new WorkAdapterList.WorkListOnClickListener() {
-            @Override
-            public void onWorkImgClick(int wid) {
-                Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putInt("wid", wid);
-                intent.setClass(getActivity(), SingleWorkActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onWorkExtraClick(final int wid) {
-
-            }
-
-            @Override
-            public void onWorkGoodClick(int position,boolean like, int wid) {
-                if (like) {
-                    setLike(position, 1, wid);
-                } else {
-                    setLike(position, 0, wid);
-                }
-            }
-
-            @Override
-            public void onWorkMsgClick(int wid) {
-
-            }
-
-            @Override
-            public void onWorkShareClick(int wid) {
-
-            }
-
-            @Override
-            public void onUserClick(int wid) {
-
-            }
-        });
+        mAdapterList = new WorkAdapterList(workInfoList, this);
 
         if (mbFist) {
             mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
@@ -357,7 +318,6 @@ public class ProfileFragment extends Fragment {
                                             mAdapterList.setLike(position, true);
                                             break;
                                     }
-                                    mAdapterList.notifyItemChanged(position);
                                 } else {
                                     //點讚失敗或刪除失敗
                                     mAdapterList.notifyItemChanged(position);
@@ -375,17 +335,93 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onWorkImgClick(int wid) {
+        Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putInt("wid", wid);
+        intent.setClass(getActivity(), SingleWorkActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onWorkExtraClick(final int wid) {
+        final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.item_work_extra_dialog);
+        Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
+        Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
+        Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
+        Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
+        extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
+        extraShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraShare=" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraCopyLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraCopyLink=" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraReport" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                extraDialog.dismiss();
+            }
+        });
+
+        extraDialog.findViewById(R.id.relativeLayout_works_extra).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                extraDialog.dismiss();
+            }
+        });
+
+        extraDialog.show();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onWorkGoodClick(int position, boolean like, int wid) {
+        if (like) {
+            setLike(position, 1, wid);
+        } else {
+            setLike(position, 0, wid);
+        }
+    }
+
+    @Override
+    public void onWorkMsgClick(int wid) {
+
+    }
+
+    @Override
+    public void onWorkShareClick(int wid) {
+
+    }
+
+    @Override
+    public void onUserClick(int uid) {
+        MemberFragment memberFragment = new MemberFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("userId", uid);
+        memberFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

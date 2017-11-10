@@ -1,8 +1,6 @@
 package com.sctw.bonniedraw.adapter;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.LoadImageApp;
@@ -56,24 +51,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         final int uid = Integer.parseInt(data.get(holder.getAdapterPosition()).getUserId());
         //作品圖
         ImageLoader.getInstance()
-                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, LoadImageApp.optionsWorkImg, new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        Log.d("IMG LOAD FAIL", "FAIL");
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    }
-                }, new ImageLoadingProgressListener() {
-                    @Override
-                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                    }
-                });
+                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, LoadImageApp.optionsWorkImg);
         //作者圖
         String userImgUrl = "";
         if (data.get(position).getUserImgPath().equals("null")) {
@@ -82,23 +60,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath();
         }
         ImageLoader.getInstance()
-                .displayImage(userImgUrl, holder.mCircleImageView, LoadImageApp.optionsUserImg, new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    }
-                }, new ImageLoadingProgressListener() {
-                    @Override
-                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                    }
-                });
+                .displayImage(userImgUrl, holder.mCircleImageView, LoadImageApp.optionsUserImg);
 
         if (data.get(position).getMsgList().isEmpty()) {
             holder.mLinearLayoutWorksMsgOutSide.setVisibility(View.GONE);
@@ -197,10 +159,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         } else {
             data.get(position).setLikeCount(likeCount - 1);
         }
+        notifyItemChanged(position);
     }
 
     public interface WorkListOnClickListener {
-        void onWorkImgClick(int uid);
+        void onWorkImgClick(int wid);
 
         void onWorkExtraClick(int wid);
 

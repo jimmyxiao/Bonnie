@@ -6,12 +6,12 @@ package com.sctw.bonniedraw.utility;
 
 public class GlobalVariable {
 
-    public static final String userPlatformStr = "userPlatform";
-    public static final String userFbIdStr = "userFbId";
-    public static final String userTokenStr = "userToken";
-    public static final String userNameStr = "userName";
-    public static final String userEmailStr = "userEmail";
-    public static final String userImgUrlStr = "userImgUrl";
+    public static final String USER_PLATFORM_STR = "userPlatform";
+    public static final String USER_FB_ID_STR = "userFbId";
+    public static final String USER_TOKEN_STR = "userToken";
+    public static final String USER_NAME_STR = "userName";
+    public static final String USER_EMAIL_STR = "userEmail";
+    public static final String USER_IMG_URL_STR = "userImgUrl";
     public static final String MEMBER_PREFS = "userInfo";
 
     public static final String LOGIN_PLATFORM = "1";
@@ -35,7 +35,8 @@ public class GlobalVariable {
     public static final String API_LINK_LOGIN = "https://www.bonniedraw.com/bonniedraw_service/BDService/login";
     public static final String API_LINK_UPDATE_PWD = "https://www.bonniedraw.com/bonniedraw_service/BDService/updatePwd";
     public static final String API_LINK_GET_FILE = "https://www.bonniedraw.com/bonniedraw_service/BDService/loadFile";
-    public static final String API_LINK_DELETE_WORK="https://www.bonniedraw.com/bonniedraw_service/BDService/deleteWork";
-    public static final String API_LINK_FORGET_PWD="https://www.bonniedraw.com/bonniedraw_service/BDService/forgetpwd";
-    public static final String API_LINK_SET_LIKE="https://www.bonniedraw.com/bonniedraw_service/BDService/setLike";
+    public static final String API_LINK_DELETE_WORK = "https://www.bonniedraw.com/bonniedraw_service/BDService/deleteWork";
+    public static final String API_LINK_FORGET_PWD = "https://www.bonniedraw.com/bonniedraw_service/BDService/forgetpwd";
+    public static final String API_LINK_SET_LIKE = "https://www.bonniedraw.com/bonniedraw_service/BDService/setLike";
+    public static final String API_LINK_LEAVE_MESSAGE = "https://www.bonniedraw.com/bonniedraw_service/BDService/leavemsg";
 }

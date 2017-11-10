@@ -29,6 +29,8 @@
     <color name="Transparent">#00000000</color>
     <color name="White">#ffffff</color>
     <color name="LightGrey">#c7c7c7</color>
+    <color name="HintColor">#808080</color>
     <color name="GridLineColor">#FFEEEEEE</color>
     <color name="PaintSettingBg">#4A4A4A</color>
+    <color name="HyperLinkColor">#0497fb</color>
 </resources>

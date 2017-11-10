@@ -396,6 +396,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
             String profilePictureUrl = "";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN);
             Date date = new Date(Long.valueOf(data.getString("updateDate")));
+            Log.d("TAG TIME", data.getString("updateDate"));
             mTextViewUserName.setText(data.getString("userName"));
             mTextViewWorkName.setText(data.getString("title"));
             mTextViewWorkDescription.setText(data.getString("description"));

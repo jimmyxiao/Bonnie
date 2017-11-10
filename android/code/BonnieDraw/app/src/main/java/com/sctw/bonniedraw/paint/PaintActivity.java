@@ -709,7 +709,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 openGridScreen();
                 break;
             case MenuPopup.PAINT_SETTING_BG_COLOR:
-                Toast.makeText(this, "還沒實作換背景", Toast.LENGTH_SHORT).show();
+                mPaintView.setDrawingBgColor(mPaintView.getDrawingColor());
                 break;
             case MenuPopup.PAINT_SETTING_SAVE:
                 savePicture();

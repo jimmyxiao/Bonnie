@@ -172,7 +172,7 @@ public class EditProfileFragment extends Fragment {
 
                                 if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                     //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                    ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.userImgUrlStr, "null"),mImgViewPhoto);
+                                    ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.USER_IMG_URL_STR, "null"),mImgViewPhoto);
                                 }else {
                                     ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round,mImgViewPhoto);
                                 }

@@ -1,7 +1,5 @@
 package com.sctw.bonniedraw.utility;
 
-import java.sql.Timestamp;
-
 /**
  * Created by Fatorin on 2017/10/27.
  */
@@ -12,7 +10,8 @@ public class Msg {
     private int userId;
     private String message;
     private int msgOrder;
-    private Timestamp creationDate;
+    private String creationDate;
+    private String userName;
 
     public int getWorksMsgId() {
         return worksMsgId;
@@ -54,11 +53,19 @@ public class Msg {
         this.msgOrder = msgOrder;
     }
 
-    public Timestamp getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Timestamp creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

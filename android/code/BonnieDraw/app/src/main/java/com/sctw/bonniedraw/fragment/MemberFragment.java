@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,13 +23,14 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.SingleWorkActivity;
+import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
+import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.LoadImageApp;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfo;
-import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
-import com.sctw.bonniedraw.adapter.WorkAdapterList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +53,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MemberFragment extends Fragment {
+public class MemberFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
     private TextView mTvMemberId, mTvMemberName, mTvMemberDescription, mTvMemberWorks, mTvMemberFans, mTvMemberFollows;
     private Button mBtnFollow;
     private CircleImageView mCircleImg;
@@ -65,6 +68,8 @@ public class MemberFragment extends Fragment {
     private GridLayoutManager gridLayoutManager;
     private LinearLayoutManager layoutManager;
     private boolean mbFist = true;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
 
     @Override
@@ -94,6 +99,7 @@ public class MemberFragment extends Fragment {
         mBtnExtra = view.findViewById(R.id.imgBtn_member_extra);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_member);
         mRv = view.findViewById(R.id.recyclerview_member);
+        fragmentManager = getFragmentManager();
         setOnClickEvent();
         getMemberInfo();
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
@@ -214,46 +220,7 @@ public class MemberFragment extends Fragment {
             }
         });
 
-        mAdapterList = new WorkAdapterList(workInfoList, new WorkAdapterList.WorkListOnClickListener() {
-            @Override
-            public void onWorkImgClick(int wid) {
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putInt("wid", wid);
-                intent.setClass(getActivity(), SingleWorkActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onWorkExtraClick(final int wid) {
-
-            }
-
-            @Override
-            public void onWorkGoodClick(int position, boolean like, int wid) {
-                if (like) {
-                    setLike(position, 1, wid);
-                } else {
-                    setLike(position, 0, wid);
-                }
-            }
-
-            @Override
-            public void onWorkMsgClick(int wid) {
-
-            }
-
-            @Override
-            public void onWorkShareClick(int wid) {
-
-            }
-
-            @Override
-            public void onUserClick(int wid) {
-
-            }
-        });
+        mAdapterList = new WorkAdapterList(workInfoList, this);
 
         if (mbFist) {
             mRv.setLayoutManager(gridLayoutManager);
@@ -267,6 +234,13 @@ public class MemberFragment extends Fragment {
     }
 
     private void setOnClickEvent() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getWorksList();
+            }
+        });
+
         mBtnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,7 +270,6 @@ public class MemberFragment extends Fragment {
     public void setLike(final int position, final int fn, int wid) {
         // fn = 1 點讚, 0 取消讚
         JSONObject json = ConnectJson.setLike(prefs, fn, wid);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
@@ -342,5 +315,96 @@ public class MemberFragment extends Fragment {
                 }
             }
         });
+    }
+
+    //覆寫interface事件
+    @Override
+    public void onWorkImgClick(int wid) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putInt("wid", wid);
+        intent.setClass(getActivity(), SingleWorkActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onWorkExtraClick(final int wid) {
+        final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.item_work_extra_dialog);
+        Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
+        Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
+        Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
+        Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
+        extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
+        extraShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraShare=" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraCopyLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraCopyLink=" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraReport" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                extraDialog.dismiss();
+            }
+        });
+
+        extraDialog.findViewById(R.id.relativeLayout_works_extra).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                extraDialog.dismiss();
+            }
+        });
+
+        extraDialog.show();
+    }
+
+    @Override
+    public void onWorkGoodClick(int position, boolean like, int wid) {
+        if (like) {
+            setLike(position, 1, wid);
+        } else {
+            setLike(position, 0, wid);
+        }
+    }
+
+    @Override
+    public void onWorkMsgClick(int wid) {
+
+    }
+
+    @Override
+    public void onWorkShareClick(int wid) {
+
+    }
+
+    @Override
+    public void onUserClick(int uid) {
+        MemberFragment memberFragment = new MemberFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("userId", uid);
+        memberFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

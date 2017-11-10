@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if (prefs != null && !prefs.getString(GlobalVariable.userTokenStr, "").isEmpty()) {
+                if (prefs != null && !prefs.getString(GlobalVariable.USER_TOKEN_STR, "").isEmpty()) {
                     checkLoginInfo(prefs);
                 } else {
                     transferLoginPage();
@@ -89,13 +89,13 @@ public class LoginActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_EXTERNAL_STORAGE);
-            }else {
+            } else {
                 startAndCheck();
             }
         }
     }
 
-    void init(){
+    void init() {
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(new TwitterAuthConfig(getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkLoginInfo(SharedPreferences prefs) {
-        switch (prefs.getString(GlobalVariable.userPlatformStr, "null")) {
+        switch (prefs.getString(GlobalVariable.USER_PLATFORM_STR, "null")) {
             case GlobalVariable.EMAIL_LOGIN:
                 loginEamil();
                 break;
@@ -172,12 +172,13 @@ public class LoginActivity extends AppCompatActivity {
                             if (responseJSON.getInt("res") == 1) {
                                 //Successful
                                 prefs.edit()
-                                        .putString(GlobalVariable.userPlatformStr, "1")
-                                        .putString(GlobalVariable.userTokenStr, responseJSON.getString("lk"))
-                                        .putString(GlobalVariable.userNameStr, responseJSON.getJSONObject("userInfo").getString("userName"))
-                                        .putString(GlobalVariable.userEmailStr, responseJSON.getJSONObject("userInfo").getString("email"))
+                                        .putString(GlobalVariable.USER_PLATFORM_STR, "1")
+                                        .putString(GlobalVariable.USER_TOKEN_STR, responseJSON.getString("lk"))
+                                        .putString(GlobalVariable.USER_NAME_STR, responseJSON.getJSONObject("userInfo").getString("userName"))
+                                        .putString(GlobalVariable.USER_EMAIL_STR, responseJSON.getJSONObject("userInfo").getString("email"))
                                         .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
+                                        .putString(GlobalVariable.USER_IMG_URL_STR, responseJSON.getJSONObject("userInfo").getString("profilePicture"))
                                         .apply();
                                 transferMainPage();
                             } else {
@@ -221,6 +222,7 @@ public class LoginActivity extends AppCompatActivity {
                                 prefs.edit()
                                         .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
+                                        .putString(GlobalVariable.USER_IMG_URL_STR, responseJSON.getJSONObject("userInfo").getString("profilePicture"))
                                         .apply();
                                 transferMainPage();
                             } else {
@@ -230,7 +232,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            AlertDialog.Builder alertDialog=new AlertDialog.Builder(LoginActivity.this);
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
                             alertDialog.setMessage("連線失敗，伺服器發生異常或錯誤，請稍後再試。");
                             alertDialog.setCancelable(false);
                             alertDialog.setPositiveButton("是", new DialogInterface.OnClickListener() {

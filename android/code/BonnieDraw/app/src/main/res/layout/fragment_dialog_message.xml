@@ -37,10 +37,64 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/frameLayout_msg_hint_null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_message_board"
+        android:layout_below="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="尚無留言"
+            android:textColor="@color/HintColor" />
+    </FrameLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout" />
+        android:layout_above="@+id/ll_message_board"
+        android:layout_below="@+id/linearLayout"
+        android:visibility="invisible">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_message_board"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/work_ic_message" />
+
+        <EditText
+            android:id="@+id/editText_write_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="8"
+            android:hint="留言..." />
+
+        <TextView
+            android:id="@+id/textView_publish_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="發佈"
+            android:textAlignment="center"
+            android:textColor="@color/HyperLinkColor" />
+
+    </LinearLayout>
 
 </RelativeLayout>
