@@ -1,3 +1,8 @@
+#video-detail{
+	padding-top: 20px;
+}
+
+
 #main-bar .login .media .media-left{
 	width: 41px;
 }
@@ -20,62 +25,106 @@
 	height: 90px;
 }
 
+.pasue-stop-img{
+	position: absolute;
+	height: 128px;
+	top: calc(250px - 64px);
+	left: calc(50% - 64px);
+	bottom: 0px;
+}
+.pasue-stop-img a{
+	position: absolute;
+	width: 90px;
+	height: 90px;
+	margin-top: 20px;
+	margin-left: 20px;
+	border-radius: 50%;
+	background-color: white;
+
+}
+.pasue-stop-img i{
+	position: relative;
+	top: -20px;
+	left: -20px;
+	color: #f26f45;
+	font-size: 128px;
+}
+
 .drwa-play{
-	width: 640px;
-    height: 740px;
+	width: auto;
+    height: 504px;
     margin: auto;
+    background: #6a6a6a;
+    margin-bottom: 50px;
 }
 
 .drwa-play>canvas{
-	width: 640px;
-    height: 640px;
-    border: 1px solid #999999;
-    border-radius: 60px;
+	width: 500px;
+    height: 500px;
+    margin: 2px 0px;
+    margin-left: calc(50% - 250px);
+    background-color: white;
+    /*border: 1px solid #999999;*/
 }
 
 .pasue-back{
 	 /*position: absolute;*/
 	 position: relative; 
-	 width: 640px;
+	 width: auto;
 	 /*height: 640px;*/
-	 height: 100px;
-	 top: 0px; 
-	 /*background: rgba(0,0,0,0.3);*/
+	 height: 60px;
+	 top: -65px; 
+	 background: rgba(0,0,0,0.3);
 }
 .pasue-back div{
 	float: right; 
-	margin-top: 18px;
+	margin-top: 5px;
 }
 .pasue-back a{
 	color: #333 ;
 }
+.pasue-back .circleimg a{
+	background: white;
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	margin-left: 10px;
+	margin-top: 10px;
+	border-radius: 10px;
+}
+.pasue-back .circleimg a i{
+	position: relative;
+	left: -10px;
+	top: -10px;
+}
 .pasue-img{
-	width: 117px; 
+	width: 100px; 
 	float: right; 
 	margin-top: 18px;
 	
 }
 .last-img{
-	width: 117px; 
+	width: 100px; 
 	float: right; 
 	margin-top: 18px;
 
 }
 .next-img{
-	width: 117px; 
+	width: 100px; 
 	float: right; 
 	margin-top: 18px;
 
 }
 .forward-img{
-	width: 118px;
+	width: calc(50% - 175px)
+
 	
 }
 .rewind-img{
     width: 118px;
 }
 .pasue-back i{
-	font-size: 64px
+	font-size: 50px
 }
 
 .pasue-img i{

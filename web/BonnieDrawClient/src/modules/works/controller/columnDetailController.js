@@ -3,7 +3,11 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		var wid = $state.params.id;
+		$scope.share_url ='https://www.bonniedraw.com/bonniedraw_service/BDService/socialShare?id='+wid;
 		$scope.isShow = false;
+
+		$scope.funcol = false;
+		$scope.funcolStop = false;
 
 		$scope.fastarr = ['8','4','2','1','0.5','0.25','0.125'];//s~q
 		var fasti =3;
@@ -21,10 +25,20 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.isnext = false;
 		
 		$scope.pausebol =true;
+
+		$scope.hoverIn = function(){
+        	$scope.funcol = true;
+	    };
+
+	    $scope.hoverOut = function(){
+	    	$scope.funcol = false;
+	    };
+
 		$scope.pasue = function(){
 			if (!paused){
 				$scope.pausebol = false;
 				paused = true;
+				$scope.funcolStop = true;
 				if(predata.length>0){
 					$scope.islast = true;
 				}else{
@@ -40,6 +54,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				loop();
 				$scope.pausebol =true;
 				paused = false;
+				$scope.funcolStop = false;
 				$scope.islast = false;
 				$scope.isnext = false;
 			}
