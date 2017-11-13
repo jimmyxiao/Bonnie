@@ -1,0 +1,56 @@
+<div class="main-content-inner">
+	<div class="page-content">
+		<div class="row">
+			<div class="col-xs-12">
+				<h3 class="grey lighter">
+					<i class="ace-icon fa fa-gear green"></i>
+					系統設定
+					<small><i class="ace-icon fa fa-angle-double-right"></i>提醒訊息設定</small>
+				</h3>
+				<div class="hr hr-18 hr-double dotted"></div>
+				<div class="x_content">
+					<div class="row">
+						<div class="col-xs-12">
+							<form class="form-horizontal" role="form" name="myForm">
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"> 訊息類型 </label>
+									<div class="col-sm-9">
+										<select ng-change="queryNotiMsgSetting()" ng-model="selectModel.notiMsgType" convert-to-number>
+											<option value="1">被追蹤通知</option>
+											<option value="2">朋友加入通知</option>
+											<option value="3">留言通知</option>
+											<option value="4">追蹤人發表通知</option>
+											<option value="5">作品按讚通知</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"> 語言 </label>
+									<div class="col-sm-9">
+										<select ng-change="queryNotiMsgSetting()" ng-model="selectModel.languageCode" ng-options="data.dictionaryCode as data.dictionaryName for data in dictionaryList"></select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"> 內容 </label>
+									<div class="col-sm-9">
+										<textarea ng-disabled="!(selectModel.languageCode && selectModel.notiMsgType)" ng-model="selectModel.message1" class="col-xs-10 col-sm-10" style="resize: none;" maxlength="100"></textarea>
+									</div>
+								</div>
+								
+								<div class="clearfix form-actions">
+									<div class="col-md-offset-3 col-md-9">
+										<button class="btn btn-info" type="button"
+											ng-click="save(myForm.$valid)">
+											<i class="ace-icon fa fa-check bigger-110"></i>儲存
+										</button>
+									</div>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

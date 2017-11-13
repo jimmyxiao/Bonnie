@@ -28,5 +28,14 @@ public class DictionaryServiceImpl extends BaseService implements DictionaryServ
 		dictionaryList = dictionaryMapper.queryDictionaryList(paramMap);
 		return dictionaryList;
 	}
+
+	@Override
+	public boolean isExistByLanguageCode(String languageCode) {
+		Dictionary dictionary = dictionaryMapper.selectByDictionaryCode(languageCode);
+		if(dictionary!=null){
+			return true;
+		}
+		return false;
+	}
 	
 }

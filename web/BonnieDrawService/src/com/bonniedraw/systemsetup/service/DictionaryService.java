@@ -6,4 +6,5 @@ import com.bonniedraw.systemsetup.model.Dictionary;
 
 public interface DictionaryService {
 	public List<Dictionary> getDictionaryList(int dictionaryType, Integer dictionaryId);
+	public boolean isExistByLanguageCode(String languageCode);
 }
