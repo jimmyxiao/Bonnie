@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.bonniedraw.notification.service.PushNotificationsService;
 
-@Service
+//@Service
 public class PushNotificationsServiceImpl implements PushNotificationsService {
 	private static final String FIREBASE_SERVER_KEY = "AAAAhwQRRww:APA91bGYB0twiYVgI4U5KEs2SRXJFExGsqwPbiByvV9iH9y1OAt-xeKqtiFBTwAqyFxOXkDrR4MN824dT9AnJHIt7cUGbLZ6gZVKRVlHUIOtmb3vISp-K2Fomhbjys-EHlpEFjubdb0r";
 	private static final String FIREBASE_API_URL = "https://fcm.googleapis.com/fcm/send";

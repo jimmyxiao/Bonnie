@@ -41,7 +41,8 @@ public class LoadImageApp extends Application {
     }
 
     static public DisplayImageOptions optionsWorkImg = new DisplayImageOptions.Builder()
-            .showImageOnFail(R.drawable.ic_mood_bad_black_24dp)
+            .showImageOnLoading(R.drawable.imageload_anim)
+            .showImageOnFail(R.drawable.imageload_anim)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)
@@ -49,6 +50,7 @@ public class LoadImageApp extends Application {
             .build();
 
     static public DisplayImageOptions optionsUserImg = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.drawable.photo_round)
             .showImageOnFail(R.drawable.photo_round)
             .cacheInMemory(true)
             .cacheOnDisk(true)

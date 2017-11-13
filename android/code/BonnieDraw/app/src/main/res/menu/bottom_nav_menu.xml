@@ -3,12 +3,12 @@
 
         <item
             android:id="@+id/ic_btn_home"
-            android:icon="@drawable/bottom_bar_ic_home"
+            android:icon="@drawable/ic_selector_home"
             android:title="Home" />
 
         <item
             android:id="@+id/ic_btn_like"
-            android:icon="@drawable/bottom_bar_ic_like"
+            android:icon="@drawable/ic_selector_hot"
             android:title="Like" />
 
         <item
@@ -16,12 +16,12 @@
 
         <item
             android:id="@+id/ic_btn_notice"
-            android:icon="@drawable/bottom_bar_ic_notice"
+            android:icon="@drawable/ic_selector_notice"
             android:title="Notice" />
 
         <item
             android:id="@+id/ic_btn_user"
-            android:icon="@drawable/bottom_bar_ic_user"
+            android:icon="@drawable/ic_selector_profile"
             android:title="User" />
 
 </menu>

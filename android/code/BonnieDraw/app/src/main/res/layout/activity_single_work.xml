@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout_work"
     android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/Transparent"
-                card_view:srcCompat="@drawable/works_ic_more" />
+                app:srcCompat="@drawable/works_ic_more" />
         </LinearLayout>
 
         <ScrollView
@@ -80,8 +80,7 @@
                 <FrameLayout
                     android:id="@+id/frameLayout_single_work"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </FrameLayout>
+                    android:layout_height="match_parent" />
 
                 <ImageView
                     android:id="@+id/imgView_single_work_img"
@@ -173,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:background="@color/Transparent"
-                        card_view:srcCompat="@drawable/work_ic_like" />
+                        app:srcCompat="@drawable/ic_favorite_selector" />
 
                     <ImageButton
                         android:id="@+id/imgBtn_single_work_msg"
@@ -182,7 +181,7 @@
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/imgBtn_single_work_good"
                         android:background="@color/Transparent"
-                        card_view:srcCompat="@drawable/work_ic_message" />
+                        app:srcCompat="@drawable/work_ic_message" />
 
                     <ImageButton
                         android:id="@+id/imgBtn_single_work_share"
@@ -191,28 +190,22 @@
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/imgBtn_single_work_msg"
                         android:background="@color/Transparent"
-                        card_view:srcCompat="@drawable/work_ic_send" />
+                        app:srcCompat="@drawable/work_ic_send" />
 
                     <ImageButton
                         android:id="@+id/imgBtn_single_work_follow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_margin="8dp" />
+                        android:layout_margin="8dp"
+                        android:background="@color/Transparent"
+                        app:srcCompat="@drawable/ic_bookmark_selector" />
                 </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView_single_work_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:text="Img Descriiption" />
 
                     <TextView
                         android:id="@+id/textView_single_work_good_total"
@@ -229,6 +222,14 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginStart="8dp"
                         android:text="Publish" />
+
+                    <TextView
+                        android:id="@+id/textView_single_work_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Img Descriiption" />
 
                 </LinearLayout>
             </LinearLayout>

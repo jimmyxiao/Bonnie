@@ -3,8 +3,6 @@ package com.sctw.bonniedraw.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -34,17 +32,15 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.fragment.FollowFragment;
+import com.sctw.bonniedraw.fragment.NoticeFragment;
 import com.sctw.bonniedraw.fragment.HomeFragment;
-import com.sctw.bonniedraw.fragment.LikeFragment;
+import com.sctw.bonniedraw.fragment.HotFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
 import com.sctw.bonniedraw.paint.PaintActivity;
 import com.sctw.bonniedraw.utility.BottomNavigationViewEx;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LoadImageApp;
 import com.twitter.sdk.android.core.TwitterCore;
-
-import java.io.IOException;
-import java.net.URL;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -124,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigationViewEx.enableItemShiftingMode(false);
         mBottomNavigationViewEx.setTextVisibility(false);
         fragmentManager = getSupportFragmentManager();
+        mBottomNavigationViewEx.enableAnimation(false);
         mBottomNavigationViewEx.getBottomNavigationItemView(2).setBackgroundColor(getResources().getColor(R.color.Transparent));
         mBottomNavigationViewEx.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -133,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(new HomeFragment());
                         return true;
                     case R.id.ic_btn_like:
-                        changeFragment(new LikeFragment());
+                        changeFragment(new HotFragment());
                         return true;
                     case R.id.ic_btn_notice:
-                        changeFragment(new FollowFragment());
+                        changeFragment(new NoticeFragment());
                         return true;
                     case R.id.ic_btn_user:
                         changeFragment(new ProfileFragment());
@@ -151,18 +148,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void createProfileInfo() {
-        String userName = prefs.getString(GlobalVariable.userNameStr, "Null");
+        String userName = prefs.getString(GlobalVariable.USER_NAME_STR, "Null");
         mTextViewHeaderText.setText(userName);
-        if (!prefs.getString(GlobalVariable.userImgUrlStr, "").isEmpty()) {
-            ImageLoader.getInstance().displayImage("",mImgHeaderPhoto);
-            try {
-                URL profilePicUrl = new URL(prefs.getString(GlobalVariable.userImgUrlStr, "FailLoad"));
-                Bitmap bitmap = BitmapFactory.decodeStream(profilePicUrl.openConnection().getInputStream());
-                mImgHeaderPhoto.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        String url = GlobalVariable.API_LINK_GET_FILE + prefs.getString(GlobalVariable.USER_IMG_URL_STR, "");
+        ImageLoader.getInstance().displayImage(url, mImgHeaderPhoto, LoadImageApp.optionsUserImg);
+
     }
 
     void logout() {
@@ -186,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logoutPlatform() {
-        switch (prefs.getString(GlobalVariable.userPlatformStr, "null")) {
+        switch (prefs.getString(GlobalVariable.USER_PLATFORM_STR, "null")) {
             case "0":
                 break;
             case "1":

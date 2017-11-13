@@ -345,9 +345,12 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
    	$rootScope.$on('$locationChangeStart', function (event, next, current){
    		var url = $location.path();
    		$rootScope.nowUrl = url;
-		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete') && (!$rootScope.rg_gl || !$rootScope.rg_gl.currentUser) ) {
+
+		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete') && (!$rootScope.rg_gl || !$rootScope.rg_gl.currentUser)) {
+	        event.preventDefault();
 	        $state.go('login');
 	    }else if( ($rootScope.rg_gl && $rootScope.rg_gl.currentUser) && (url == '/login' && url == '/singup' && url == '/forget' && url == '/complete')){
+	    	event.preventDefault();
 	    	$state.go('index');
 	    }
 	});

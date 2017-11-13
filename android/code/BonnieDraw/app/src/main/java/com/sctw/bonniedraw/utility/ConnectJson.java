@@ -23,20 +23,20 @@ public class ConnectJson {
         try {
             switch (type) {
                 case 3:
-                    if (prefs.getString(GlobalVariable.userPlatformStr, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
-                        json.put("uc", prefs.getString(GlobalVariable.userFbIdStr, ""));
+                    if (prefs.getString(GlobalVariable.USER_PLATFORM_STR, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
+                        json.put("uc", prefs.getString(GlobalVariable.USER_FB_ID_STR, ""));
                     } else {
-                        json.put("uc", prefs.getString(GlobalVariable.userEmailStr, ""));
+                        json.put("uc", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
                     }
-                    json.put("ut", prefs.getString(GlobalVariable.userPlatformStr, ""));
-                    json.put("un", prefs.getString(GlobalVariable.userNameStr, ""));
+                    json.put("ut", prefs.getString(GlobalVariable.USER_PLATFORM_STR, ""));
+                    json.put("un", prefs.getString(GlobalVariable.USER_NAME_STR, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
-                    json.put("thirdEmail", prefs.getString(GlobalVariable.userEmailStr, ""));
-                    json.put("thirdPictureUrl", prefs.getString(GlobalVariable.userImgUrlStr, ""));
+                    json.put("thirdEmail", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
+                    json.put("thirdPictureUrl", prefs.getString(GlobalVariable.USER_IMG_URL_STR, ""));
                     break;
                 case 1:
-                    json.put("uc", prefs.getString(GlobalVariable.userEmailStr, "null"));
+                    json.put("uc", prefs.getString(GlobalVariable.USER_EMAIL_STR, "null"));
                     json.put("up", prefs.getString("emailLoginPwd", "null"));
                     json.put("ut", GlobalVariable.EMAIL_LOGIN);
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
@@ -57,7 +57,7 @@ public class ConnectJson {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("type",0);
+            json.put("type", 0);
             Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -65,14 +65,14 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject queryOtherUserInfoJson(SharedPreferences prefs,int queryId) {
+    public static JSONObject queryOtherUserInfoJson(SharedPreferences prefs, int queryId) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("type",1);
-            json.put("queryId",queryId);
+            json.put("type", 1);
+            json.put("queryId", queryId);
             Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -87,8 +87,8 @@ public class ConnectJson {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("userType", prefs.getString(GlobalVariable.userPlatformStr, "null"));
-            json.put("userCode", prefs.getString(GlobalVariable.userEmailStr, "null"));
+            json.put("userType", prefs.getString(GlobalVariable.USER_PLATFORM_STR, "null"));
+            json.put("userCode", prefs.getString(GlobalVariable.USER_EMAIL_STR, "null"));
             json.put("userName", userName);
             json.put("nickName", nickName);
             json.put("description", description);
@@ -133,16 +133,14 @@ public class ConnectJson {
 
     public static JSONObject setLike(SharedPreferences prefs, int fn, int wid) {
         JSONObject json = new JSONObject();
-        // fn  1=讚  2=取消讚
+        // fn  1=讚  0=取消讚
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("fn", fn);
             json.put("worksId", wid);
-            if (fn == 1) {
-                json.put("likeType", 1);
-            }
+            json.put("likeType", 1);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -163,11 +161,42 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject forgetPwd(String email,String mask) {
+    public static JSONObject leaveMsg(SharedPreferences prefs, int wid, String msg) {
+        JSONObject json = new JSONObject();
+        try {
+            //fn 1= add , 0= delete
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("fn", 1);
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("worksId", wid);
+            json.put("message",msg);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    public static JSONObject deleteLeaveMsg(SharedPreferences prefs, int wid,int msgId) {
+        JSONObject json = new JSONObject();
+        try {
+            //fn 1= add , 0= delete
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("fn", 0);
+            json.put("worksId", wid);
+            json.put("msgId", msgId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    public static JSONObject forgetPwd(String email, String mask) {
         JSONObject json = new JSONObject();
         try {
             json.put("email", email);
-            json.put("mask",mask);
+            json.put("mask", mask);
         } catch (JSONException e) {
             e.printStackTrace();
         }

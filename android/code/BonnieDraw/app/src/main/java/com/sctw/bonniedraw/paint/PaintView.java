@@ -56,7 +56,7 @@ public class PaintView extends View {
     public Boolean mbZoomMode = false, mbCheckFinger = false;
     public File mFileBDW, mFilePNG;
     public BDWFileReader mBDWReader = new BDWFileReader();
-    public int miPaintNum;
+    public int miPaintNum = 3;
 
     //********  Brush  ******************
 
@@ -117,6 +117,7 @@ public class PaintView extends View {
     private OnTouchHandler mPlayDrawingHandler;
     private ArrayList<Bitmap> mBitmapList;
     private ArrayList<Bitmap> mBitmapUndoList;
+    private Bitmap mBackgroundLayer;
 
     public PaintView(Context c) {
         super(c);
@@ -241,17 +242,16 @@ public class PaintView extends View {
         }
     }
 
-   /* public void onDrawSketch() {
-        mBitmap = BitmapFactory.decodeFile(mFilePNG.toString()).copy(Bitmap.Config.ARGB_8888, true);
-        mCanvas = new Canvas(mBitmap);
-        invalidate();
-    }*/
-
-    public void checkSketch() {
+    public void onCheckSketch() {
         if (mFileBDW.exists() && mFilePNG.exists()) {
-            //onDrawSketch();
+            Bitmap bitmap = BitmapFactory.decodeFile(mFilePNG.getAbsolutePath()).copy(Bitmap.Config.ARGB_8888, true);
+            mBackgroundLayer = bitmap;
+            this.mMergedLayer = Bitmap.createBitmap(bitmap);
+            this.mMergedLayerCanvas.setBitmap(mMergedLayer);
+            mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
             mBDWReader.readFromFile(mFileBDW);
             mListTagPoint = new ArrayList<>(mBDWReader.m_tagArray);
+            invalidate();
         }
     }
 
@@ -268,7 +268,7 @@ public class PaintView extends View {
         try {
             File pngfile = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_PNG);
             FileOutputStream fos = new FileOutputStream(pngfile);
-            //getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+            this.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -289,10 +289,25 @@ public class PaintView extends View {
         return (float) Math.sqrt(x * x + y * y);
     }
 
-
+    public int selectPaint(int num) {
+        switch (num) {
+            case 1:
+                return 18;
+            case 2:
+                return 6;
+            case 3:
+                return 3;
+            case 4:
+                return 11;
+            case 5:
+                return 13;
+            default:
+                return 0;
+        }
+    }
     //************* Brush ******************
 
-    private static interface OnTouchHandler {
+    private interface OnTouchHandler {
         boolean onTouchEvent(MotionEvent motionEvent);
     }
 
@@ -318,11 +333,11 @@ public class PaintView extends View {
         mDstInPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
         mDstOutPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
-//        mNormalPaint.setAntiAlias(true);
-//        mNormalPaint.setColor(Color.BLACK);
-//        paint.setStyle(Paint.Style.STROKE);
-//        paint.setStrokeJoin(Paint.Join.ROUND);
-//        paint.setStrokeWidth(STROKE_WIDTH);
+        mNormalPaint.setAntiAlias(true);
+        mNormalPaint.setColor(Color.BLACK);
+        mNormalPaint.setStyle(Paint.Style.STROKE);
+        mNormalPaint.setStrokeJoin(Paint.Join.ROUND);
+        mNormalPaint.setStrokeWidth(STROKE_WIDTH);
 
         mDrawingLayerCanvas = new Canvas();
         mPathLayerCanvas = new Canvas();
@@ -371,8 +386,11 @@ public class PaintView extends View {
         ///add blank
         mBitmapUndoList = new ArrayList<>();
         mBitmapList = new ArrayList<>();
-        Bitmap emptyBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
-        mBitmapList.add(emptyBitmap);
+
+        if (!mFilePNG.exists()) {
+            Bitmap emptyBitmap = Bitmap.createBitmap(miWidth, miWidth, Bitmap.Config.ARGB_8888);
+            mBitmapList.add(emptyBitmap);
+        }
     }
 
     public void usePlayHnad(MotionEvent event) {
@@ -443,6 +461,10 @@ public class PaintView extends View {
 
     public void setDrawingColor(int color) {
         mColor = color;
+    }
+
+    public int getDrawingColor() {
+        return mColor;
     }
 
     public void setDrawingBgColor(int color) {
@@ -550,6 +572,10 @@ public class PaintView extends View {
     private void drawToCanvas(Canvas canvas, Rect rect) {
         //底色
         canvas.drawColor(mBackgroundLayerColor, PorterDuff.Mode.SRC);
+        if (mBackgroundLayer != null) {
+            canvas.drawBitmap(mBackgroundLayer, 0.0f, 0.0f, this.mSrcPaint);
+        }
+
         if (miGridCol != 0) {
             for (int i = 0; i <= miGridCol; i++) {
                 canvas.drawLine((miWidth / miGridCol) * i, 0, (miWidth / miGridCol) * i, miWidth, gridPaint);
@@ -954,7 +980,7 @@ public class PaintView extends View {
         tagpoint.set_iSize(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth));
         tagpoint.set_iBrush(miPaintNum);
         tagpoint.set_iColor(mColor);
-        if (mBrush.isEraser){
+        if (mBrush.isEraser) {
             tagpoint.set_iReserved(1);
         }
         tagpoint.set_iAction(MotionEvent.ACTION_DOWN + 1);

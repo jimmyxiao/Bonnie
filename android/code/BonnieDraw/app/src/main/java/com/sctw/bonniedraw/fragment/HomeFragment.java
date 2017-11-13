@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -28,15 +29,15 @@ import android.widget.Button;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.SingleWorkActivity;
+import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
 import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.sctw.bonniedraw.utility.WorkInfo;
-import com.sctw.bonniedraw.adapter.WorkAdapterList;
+import com.sctw.bonniedraw.widget.MessageDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,7 +59,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
 
     private RecyclerView mRecyclerViewHome;
     private Toolbar mToolbar;
@@ -68,6 +69,7 @@ public class HomeFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+    private WorkAdapterList mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,6 +121,7 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.dashborad, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) item.getActionView();
+        mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -131,6 +134,63 @@ public class HomeFragment extends Fragment {
             public boolean onQueryTextChange(String s) {
                 // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
                 return false;
+            }
+        });
+    }
+
+    public void refreshWorks(JSONArray data) {
+        workInfoList = WorkInfo.generateInfoList(data);
+        mAdapter = new WorkAdapterList(workInfoList, this);
+        mRecyclerViewHome.setAdapter(mAdapter);
+    }
+
+    public void setLike(final int position, final int fn, int wid) {
+        // fn = 1 點讚, 0 取消讚
+        JSONObject json = ConnectJson.setLike(prefs, fn, wid);
+        Log.d("LOGIN JSON: ", json.toString());
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_LIKE)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapter.setLike(position, false);
+                                            break;
+                                        case 1:
+                                            mAdapter.setLike(position, true);
+                                            break;
+                                    }
+                                    mAdapter.notifyItemChanged(position);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapter.notifyItemChanged(position);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -177,100 +237,97 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void refreshWorks(JSONArray data) {
-        workInfoList = WorkInfo.generateInfoList(data);
-        WorkAdapterList mAdapter = new WorkAdapterList(workInfoList, new WorkAdapterList.WorkListOnClickListener() {
+    @Override
+    public void onWorkImgClick(int wid) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putInt("wid", wid);
+        intent.setClass(getActivity(), SingleWorkActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onWorkExtraClick(final int wid) {
+        final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.item_work_extra_dialog);
+        Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
+        Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
+        Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
+        Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
+        extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
+        extraShare.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onWorkImgClick(int wid) {
-                Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putInt("wid", wid);
-                intent.setClass(getActivity(), SingleWorkActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onWorkExtraClick(final int wid) {
-                final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.item_work_extra_dialog);
-                Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
-                Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
-                Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
-                Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
-                extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
-                extraShare.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d("POSTION CLICK", "extraShare=" + wid);
-                        extraDialog.dismiss();
-                    }
-                });
-
-                extraCopyLink.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d("POSTION CLICK", "extraCopyLink=" + wid);
-                        extraDialog.dismiss();
-                    }
-                });
-
-                extraReport.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        TSnackbarCall.showTSnackbar(mSwipeRefreshLayout, "已成功檢舉，感謝您的協助");
-                        Log.d("POSTION CLICK", "extraReport" + wid);
-                        extraDialog.dismiss();
-                    }
-                });
-
-                extraCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        extraDialog.dismiss();
-                    }
-                });
-
-                extraDialog.findViewById(R.id.relativeLayout_works_extra).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        extraDialog.dismiss();
-                    }
-                });
-
-                extraDialog.show();
-            }
-
-            @Override
-            public void onWorkGoodClick(int wid) {
-
-            }
-
-            @Override
-            public void onWorkMsgClick(int wid) {
-                MessageDialog messageDialog=new MessageDialog();
-                messageDialog.show(fragmentManager,"TAG");
-            }
-
-            @Override
-            public void onWorkShareClick(int wid) {
-
-            }
-
-            @Override
-            public void onUserClick(int wid) {
-                MemberFragment memberFragment = new MemberFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("userId", wid);
-                memberFragment.setArguments(bundle);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraShare=" + wid);
+                extraDialog.dismiss();
             }
         });
 
-        mRecyclerViewHome.setAdapter(mAdapter);
+        extraCopyLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraCopyLink=" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TSnackbarCall.showTSnackbar(mSwipeRefreshLayout, "已成功檢舉，感謝您的協助");
+                Log.d("POSTION CLICK", "extraReport" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                extraDialog.dismiss();
+            }
+        });
+
+        extraDialog.findViewById(R.id.relativeLayout_works_extra).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                extraDialog.dismiss();
+            }
+        });
+
+        extraDialog.show();
+    }
+
+    @Override
+    public void onWorkGoodClick(int position, boolean like, int wid) {
+        //點讚 1 , 不點讚 0
+        if (like) {
+            setLike(position, 1, wid);
+        } else {
+            setLike(position, 0, wid);
+        }
+    }
+
+    @Override
+    public void onWorkMsgClick(int wid) {
+        MessageDialog messageDialog = MessageDialog.newInstance(wid);
+        messageDialog.show(fragmentManager, "TAG");
+    }
+
+    @Override
+    public void onWorkShareClick(int wid) {
+
+    }
+
+    @Override
+    public void onUserClick(int uid) {
+        MemberFragment memberFragment = new MemberFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("userId", uid);
+        memberFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override

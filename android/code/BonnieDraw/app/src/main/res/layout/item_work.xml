@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
     android:background="@color/White"
     android:orientation="vertical">
 
@@ -54,31 +55,32 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            card_view:srcCompat="@drawable/works_ic_more" />
+            app:srcCompat="@drawable/works_ic_more" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/Grey" />
+        android:layout_marginTop="4dp"
+        android:background="@color/background_dim_overlay" />
 
     <ImageView
         android:id="@+id/imgView_works_img"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="260dp"
         android:adjustViewBounds="false"
-        android:scaleType="centerCrop"
-        card_view:srcCompat="@drawable/ic_mood_bad_black_24dp" />
+        android:scaleType="centerCrop" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/Grey" />
+        android:background="@color/background_dim_overlay" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:orientation="horizontal">
 
         <ImageButton
@@ -87,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@color/Transparent"
-            card_view:srcCompat="@drawable/work_ic_like" />
+            app:srcCompat="@drawable/ic_favorite_selector" />
 
         <ImageButton
             android:id="@+id/imgBtn_works_msg"
@@ -96,7 +98,16 @@
             android:layout_margin="8dp"
             android:layout_toEndOf="@+id/imgBtn_works_good"
             android:background="@color/Transparent"
-            card_view:srcCompat="@drawable/work_ic_message" />
+            app:srcCompat="@drawable/work_ic_message" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_single_work_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/ic_bookmark_selector" />
 
         <ImageButton
             android:id="@+id/imgBtn_works_share"
@@ -105,7 +116,7 @@
             android:layout_margin="8dp"
             android:layout_toEndOf="@+id/imgBtn_works_msg"
             android:background="@color/Transparent"
-            card_view:srcCompat="@drawable/work_ic_send" />
+            app:srcCompat="@drawable/work_ic_send" />
 
         <TextView
             android:id="@+id/textView_works_good_total"
@@ -142,20 +153,18 @@
                 android:layout_weight="9"
                 android:text="留言者"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView_works_msg_1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:layout_weight="7"
             android:text="內容" />
 
         <TextView
             android:id="@+id/textView_works_msg_time_1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:text="時間" />
@@ -164,43 +173,36 @@
             android:id="@+id/linearLayout_works_msg_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/textView_works_msg_author_2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    android:text="留言者"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/textView_works_msg_2"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView_works_msg_author_2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:text="內容" />
-
-            <TextView
-                android:id="@+id/textView_works_msg_time_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="時間" />
-
+                android:layout_weight="9"
+                android:text="留言者"
+                android:textStyle="bold" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView_works_msg_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="內容" />
+
+        <TextView
+            android:id="@+id/textView_works_msg_time_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="時間" />
 
     </LinearLayout>
 

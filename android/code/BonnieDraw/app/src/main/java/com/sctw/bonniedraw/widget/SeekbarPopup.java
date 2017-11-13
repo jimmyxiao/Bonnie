@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 import com.sctw.bonniedraw.R;
@@ -16,16 +17,35 @@ import razerdp.basepopup.BasePopupWindow;
  * Created by Fatorin on 2017/11/1.
  */
 
-public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarChangeListener {
+public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
     private OnSeekChange listener;
     private SeekBar mSeekbar;
+
+    @Override
+    public void onClick(View v) {
+        int progress = mSeekbar.getProgress();
+        switch (v.getId()) {
+            case R.id.imgBtn_paint_base_add:
+                if (progress < 100) progress++;
+                listener.onSizeAdd(progress);
+                mSeekbar.setProgress(progress);
+                break;
+            case R.id.imgBtn_paint_base_decrease:
+                if (progress > 0) progress--;
+                listener.onSizeAdd(progress);
+                mSeekbar.setProgress(progress);
+                break;
+        }
+    }
 
     public interface OnSeekChange {
         void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser);
 
-        void onStopTrackingTouch(SeekBar seekBar);
-
         void onStartTrackingTouch(SeekBar seekBar);
+
+        void onSizeAdd(int progress);
+
+        void onSizeDecrease(int progress);
     }
 
     public SeekbarPopup(Context context, OnSeekChange listener) {
@@ -34,6 +54,10 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
         mSeekbar = (SeekBar) findViewById(R.id.seekbar_paint_base);
         mSeekbar.setOnSeekBarChangeListener(this);
         mSeekbar.setProgress(30);
+        ImageButton mBtnAdd = (ImageButton) findViewById(R.id.imgBtn_paint_base_add);
+        ImageButton mBtnDecrease = (ImageButton) findViewById(R.id.imgBtn_paint_base_decrease);
+        mBtnAdd.setOnClickListener(this);
+        mBtnDecrease.setOnClickListener(this);
     }
 
     @Override
@@ -80,6 +104,7 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        listener.onStopTrackingTouch(seekBar);
+
     }
+
 }

@@ -37,9 +37,8 @@ import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.sctw.bonniedraw.utility.Thumbnail;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
-import com.sctw.bonniedraw.widget.OpacityPopup;
 import com.sctw.bonniedraw.widget.SeekbarPopup;
-import com.sctw.bonniedraw.widget.SizePopup;
+import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +70,7 @@ import okhttp3.Response;
 public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SeekbarPopup.OnSeekChange, ColorPopup.OnPopupColorPick {
     private PaintView mPaintView;
     private FrameLayout mFrameLayoutFreePaint;
-    private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange,mBtnZoom;
+    private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange, mBtnZoom;
     private ImageButton mBtnOpacityAdd, mBtnOpacityDecrease;
     private SeekBar mSeekbarOpacity;
     private FullScreenDialog mFullScreenDialog;
@@ -80,12 +79,10 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private SharedPreferences mPrefs;
     private MenuPopup mMenuPopup;
     private SeekbarPopup mSeekbarPopup;
-    private SizePopup mSizePopup;
     private ColorPopup mColorPopup;
-    private OpacityPopup mOpacityPopup;
     private boolean mbColorSwitch = false;
 
-    private int mCurrentBrushId = 0; //default brush
+    private int mCurrentBrushId = 3; //default brush
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,24 +105,20 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mSeekbarOpacity = (SeekBar) findViewById(R.id.seekbar_paint_opacity);
         mMenuPopup = new MenuPopup(this, this);
         mSeekbarPopup = new SeekbarPopup(this, this);
-        mSizePopup = new SizePopup(this);
         mColorPopup = new ColorPopup(this, this);
-        mOpacityPopup = new OpacityPopup(this);
-
         setOnClick();
         //Paint init & View
         mPaintView = new PaintView(this);
-        mPaintView.checkSketch();
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
 
         //********Init Brush*******
         mSeekbarOpacity.setProgress(100);
-
         mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
         mPaintView.setDrawingScaledSize(30 / 100.f);
         mPaintView.setDrawingAlpha(100 / 100.0f);
         defaultColor();
+        mPaintView.onCheckSketch();
     }
 
     private void defaultColor() {
@@ -337,23 +330,42 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     //設定各個按鍵
     public void setOnClick() {
+        mBtnOpacityAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int progress = mSeekbarOpacity.getProgress() + 1;
+                mSeekbarOpacity.setProgress(progress);
+                mPaintView.setDrawingAlpha(progress / 100f);
+                ToastUtil.createToastWindow(PaintActivity.this, progress + "%");
+            }
+        });
+
+        mBtnOpacityDecrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int progress = mSeekbarOpacity.getProgress() - 1;
+                mSeekbarOpacity.setProgress(progress);
+                mPaintView.setDrawingAlpha(progress / 100f);
+                ToastUtil.createToastWindow(PaintActivity.this, progress + "%");
+            }
+        });
+
         mSeekbarOpacity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    mOpacityPopup.setText(progress);
+                    ToastUtil.createToastWindow(PaintActivity.this, progress + "%");
                 }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                mOpacityPopup.showPopupWindow();
+                ToastUtil.createToastWindow(PaintActivity.this, seekBar.getProgress() + "%");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mPaintView.setDrawingAlpha(seekBar.getProgress() / 100f);
-                mOpacityPopup.dismiss();
             }
         });
 
@@ -471,10 +483,12 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         }
                         mFrameLayoutFreePaint.removeAllViews();
                         Brush brush = mPaintView.getBrush();
+                        int color = mPaintView.getDrawingColor();
                         float brusnSize = mPaintView.getDrawingScaledSize();
                         mPaintView = new PaintView(getApplicationContext());
                         mPaintView.initDefaultBrush(brush);
                         mPaintView.setBrush(brush);
+                        mPaintView.setDrawingColor(color);
                         mPaintView.setDrawingScaledSize(brusnSize);
                         mFrameLayoutFreePaint.addView(mPaintView);
                         dialog.dismiss();
@@ -518,32 +532,32 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     public void selectPaint(View view) {
         switch (view.getId()) {
             case R.id.imgBtn_paint_left:
-                if (mPaintView.miPaintNum <= 4 && mPaintView.miPaintNum > 0) {
+                if (mPaintView.miPaintNum <= 5 && mPaintView.miPaintNum > 1) {
                     mPaintView.miPaintNum--;
                 }
                 break;
             case R.id.imgBtn_paint_type1:
-                setBrush(0);
-                mPaintView.miPaintNum = 0;
-                break;
-            case R.id.imgBtn_paint_type2:
-                setBrush(1);
+                setBrush(18);
                 mPaintView.miPaintNum = 1;
                 break;
-            case R.id.imgBtn_paint_type3:
-                setBrush(2);
+            case R.id.imgBtn_paint_type2:
+                setBrush(6);
                 mPaintView.miPaintNum = 2;
                 break;
-            case R.id.imgBtn_paint_type4:
+            case R.id.imgBtn_paint_type3:
                 setBrush(3);
                 mPaintView.miPaintNum = 3;
                 break;
-            case R.id.imgBtn_paint_type5:
-                setBrush(4);
+            case R.id.imgBtn_paint_type4:
+                setBrush(11);
                 mPaintView.miPaintNum = 4;
                 break;
+            case R.id.imgBtn_paint_type5:
+                setBrush(13);
+                mPaintView.miPaintNum = 5;
+                break;
             case R.id.imgBtn_paint_right:
-                if (mPaintView.miPaintNum < 4 && mPaintView.miPaintNum >= 0) {
+                if (mPaintView.miPaintNum < 5 && mPaintView.miPaintNum >= 1) {
                     mPaintView.miPaintNum++;
                 }
                 break;
@@ -560,23 +574,23 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         findViewById(R.id.imgBtn_paint_type5).setSelected(false);
 
         switch (mPaintView.miPaintNum) {
-            case 0:
+            case 1:
                 findViewById(R.id.imgBtn_paint_type1).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_1));
                 break;
-            case 1:
+            case 2:
                 findViewById(R.id.imgBtn_paint_type2).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_2));
                 break;
-            case 2:
+            case 3:
                 findViewById(R.id.imgBtn_paint_type3).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_3));
                 break;
-            case 3:
+            case 4:
                 findViewById(R.id.imgBtn_paint_type4).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_4));
                 break;
-            case 4:
+            case 5:
                 findViewById(R.id.imgBtn_paint_type5).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_5));
                 break;
@@ -695,7 +709,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 openGridScreen();
                 break;
             case MenuPopup.PAINT_SETTING_BG_COLOR:
-                Toast.makeText(this, "還沒實作換背景", Toast.LENGTH_SHORT).show();
+                mPaintView.setDrawingBgColor(mPaintView.getDrawingColor());
                 break;
             case MenuPopup.PAINT_SETTING_SAVE:
                 savePicture();
@@ -712,13 +726,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         String filename = formatter.format(curDate);
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             try {
-                File vPath = new File(Environment.getExternalStorageDirectory() + "/bonniedraw");
+                File vPath = new File(Environment.getExternalStorageDirectory() + "/Screenshots");
                 if (!vPath.exists()) vPath.mkdirs();
-                File pngfile = new File(Environment.getExternalStorageDirectory() + "/bonniedraw/" + filename + ".png");
+                File pngfile = new File(Environment.getExternalStorageDirectory() + "/Screenshots/" + "BDW" + filename + ".png");
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
-                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "儲存成功，檔案位於Bonniedraw資料夾。");
+                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "儲存成功，檔案位於Screenshots資料夾。");
                 mMenuPopup.dismiss();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -731,19 +745,25 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
             mPaintView.setDrawingScaledSize(progress / 100.f);
-            mSizePopup.setConvertedValue(mPaintView.getBrush().getSizeFromScaledSize(progress / 100.0f));
+            ToastUtil.createToastWindowSize(this, mPaintView.getBrush().getSizeFromScaledSize(progress / 100.0f));
         }
     }
 
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        mSizePopup.dismiss();
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        ToastUtil.createToastWindowSize(this, mPaintView.getBrush().getSizeFromScaledSize(seekBar.getProgress() / 100.0f));
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        mSizePopup.showPopupWindow();
-        mSizePopup.setConvertedValue(mPaintView.getBrush().getSizeFromScaledSize(seekBar.getProgress() / 100.0f));
+    public void onSizeAdd(int progress) {
+        mPaintView.setDrawingScaledSize(progress / 100.f);
+        ToastUtil.createToastWindowSize(this, mPaintView.getBrush().getSizeFromScaledSize(progress / 100.0f));
+    }
+
+    @Override
+    public void onSizeDecrease(int progress) {
+        mPaintView.setDrawingScaledSize(progress / 100.f);
+        ToastUtil.createToastWindowSize(this, mPaintView.getBrush().getSizeFromScaledSize(progress / 100.0f));
     }
 
     private void openGridScreen() {

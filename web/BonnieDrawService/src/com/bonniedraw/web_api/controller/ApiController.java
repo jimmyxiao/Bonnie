@@ -1,11 +1,13 @@
 package com.bonniedraw.web_api.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,9 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
+import com.bonniedraw.notification.service.NotiMsgService;
 import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.DictionaryService;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
@@ -48,6 +53,7 @@ import com.bonniedraw.web_api.model.request.ForgetPwdRequestVO;
 import com.bonniedraw.web_api.model.request.FriendRequestVO;
 import com.bonniedraw.web_api.model.request.LeaveMsgRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
+import com.bonniedraw.web_api.model.request.NotiMsgRequestVO;
 import com.bonniedraw.web_api.model.request.SetCollectionRequestVO;
 import com.bonniedraw.web_api.model.request.SetFollowingRequestVO;
 import com.bonniedraw.web_api.model.request.SetLikeRequestVO;
@@ -68,6 +74,7 @@ import com.bonniedraw.web_api.model.response.ForgetPwdResponseVO;
 import com.bonniedraw.web_api.model.response.FriendResponseVO;
 import com.bonniedraw.web_api.model.response.LeaveMsgResponseVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
+import com.bonniedraw.web_api.model.response.NotiMsgResponseVO;
 import com.bonniedraw.web_api.model.response.SetCollectionResponseVO;
 import com.bonniedraw.web_api.model.response.SetFollowingResponseVO;
 import com.bonniedraw.web_api.model.response.SetLikeResponseVO;
@@ -79,9 +86,11 @@ import com.bonniedraw.web_api.model.response.UserInfoUpdateResponseVO;
 import com.bonniedraw.web_api.model.response.WorkListResponseVO;
 import com.bonniedraw.web_api.model.response.WorksSaveResponseVO;
 import com.bonniedraw.web_api.module.CategoryInfoResponse;
+import com.bonniedraw.web_api.module.NotiMsgResponse;
 import com.bonniedraw.web_api.module.UserInfoResponse;
 import com.bonniedraw.web_api.module.WorksResponse;
 import com.bonniedraw.works.model.TagInfo;
+import com.bonniedraw.works.model.Works;
 import com.bonniedraw.works.service.WorksServiceAPI;
 
 @Controller
@@ -102,6 +111,9 @@ public class ApiController {
 	
 	@Autowired
 	private DictionaryService dictionaryService;
+	
+	@Autowired
+	private NotiMsgService notiMsgService;
 	
  	private boolean isLogin(ApiRequestVO apiRequestVO){
 		if(ValidateUtil.isNotNumNone(apiRequestVO.getUi()) 
@@ -505,6 +517,28 @@ public class ApiController {
 		}
 		return respResult;
 	}
+	
+	@RequestMapping(value="/deleteWork" , produces="application/json")
+	public @ResponseBody DeleteWorkResponseVO deleteWork(HttpServletRequest request,HttpServletResponse resp, @RequestBody DeleteWorkRequestVO deleteWorkRequestVO) {
+		DeleteWorkResponseVO respResult = new DeleteWorkResponseVO();
+		respResult.setRes(2);
+		String msg = "";
+		if(isLogin(deleteWorkRequestVO)){
+			int res = worksServiceAPI.deleteWork(deleteWorkRequestVO.getUi(), deleteWorkRequestVO.getWorksId());
+			if(res == 1){
+				respResult.setRes(res);
+				msg = "成功";
+			}else if(res ==3){
+				msg = "拒絕刪除";
+			}else{
+				msg = "異常";
+			}
+		}else{
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
 
 	@RequestMapping(value="/leavemsg" , produces="application/json")
 	public @ResponseBody LeaveMsgResponseVO leavemsg(HttpServletRequest request,HttpServletResponse resp,@RequestBody LeaveMsgRequestVO leaveMsgRequestVO) {
@@ -805,21 +839,15 @@ public class ApiController {
 		return respResult;
 	}
 	
-	@RequestMapping(value="/deleteWork" , produces="application/json")
-	public @ResponseBody DeleteWorkResponseVO deleteWork(HttpServletRequest request,HttpServletResponse resp, @RequestBody DeleteWorkRequestVO deleteWorkRequestVO) {
-		DeleteWorkResponseVO respResult = new DeleteWorkResponseVO();
+	@RequestMapping(value="/notiMsg" , produces="application/json")
+	public @ResponseBody NotiMsgResponseVO getNotiMsgList(HttpServletRequest request,HttpServletResponse resp, @RequestBody NotiMsgRequestVO notiMsgRequestVO) {
+		NotiMsgResponseVO respResult = new NotiMsgResponseVO();
 		respResult.setRes(2);
 		String msg = "";
-		if(isLogin(deleteWorkRequestVO)){
-			int res = worksServiceAPI.deleteWork(deleteWorkRequestVO.getUi(), deleteWorkRequestVO.getWorksId());
-			if(res == 1){
-				respResult.setRes(res);
-				msg = "成功";
-			}else if(res ==3){
-				msg = "拒絕刪除";
-			}else{
-				msg = "異常";
-			}
+		if(isLogin(notiMsgRequestVO)){
+				List<NotiMsgResponse> notiMsgList  = notiMsgService.getNotiMsgList(notiMsgRequestVO);
+				respResult.setRes(1);
+				respResult.setNotiMsgList(notiMsgList);
 		}else{
 			msg = "帳號未登入"; 
 		}
@@ -841,6 +869,37 @@ public class ApiController {
 		}
 		respResult.setMsg(msg);
 		return respResult;
+	}
+	
+	@RequestMapping(value="/socialShare" ,method = RequestMethod.GET, produces="application/json")
+	public ModelAndView getSocialShare(HttpServletRequest request,HttpServletResponse resp) {
+		Integer id = request.getParameter("id") !=null? Integer.valueOf(request.getParameter("id")):null;
+		ModelAndView modelAndView = null;
+		if(id!=null){
+			Works  works = worksServiceAPI.getWorksMeta(id);
+			if(works!=null){
+				modelAndView = new ModelAndView("socialShare");
+				modelAndView.addObject("title", works.getTitle());
+				BufferedImage bimg;
+				int width = 1000;
+				int height = 1000;
+				try {
+					bimg = ImageIO.read(new File(System.getProperty("catalina.home") + works.getImagePath()));
+					width = bimg.getWidth();
+					height = bimg.getHeight();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				modelAndView.addObject("width", width);
+				modelAndView.addObject("height", height);
+				modelAndView.addObject("image", request.getRequestURL().toString().replace("socialShare", "loadFile") + works.getImagePath());
+				modelAndView.addObject("description", works.getDescription());
+				modelAndView.addObject("url", request.getRequestURL() + "?id=" + id);
+				modelAndView.addObject("type", "website");
+				modelAndView.addObject("fb_appId", "1376883092359322");
+			}
+		}
+		return modelAndView; 
 	}
 	
 	

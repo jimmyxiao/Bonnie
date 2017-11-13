@@ -7,7 +7,7 @@
     android:background="@color/White"
     android:fitsSystemWindows="true"
     android:minHeight="?attr/actionBarSize"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    android:theme="@style/SearchViewStyle">
 
     <RelativeLayout
         android:layout_width="match_parent"

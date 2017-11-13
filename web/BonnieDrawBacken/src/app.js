@@ -89,7 +89,15 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       			controller:'mailSetController'
       		}
       	}
-  	})
+  	}).state('notiMsgSet', {
+        url: '/notiMsgSet',
+        views: {
+          "content":{
+            templateUrl:'modules/systemset/view/notiMsgSet.html',
+            controller:'notiMsgSetController'
+          }
+        }
+    })
 }])
 
 app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, locationIP, serviceName, backendName){

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bonniedraw.base.service.BaseService;
+import com.bonniedraw.notification.dao.NotiMsgInfoMapper;
+import com.bonniedraw.notification.model.NotiMsgInfo;
 import com.bonniedraw.systemsetup.dao.SystemSetupMapper;
 import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
@@ -15,6 +17,9 @@ public class SystemSetupServiceImpl extends BaseService implements SystemSetupSe
 
 	@Autowired
 	SystemSetupMapper systemSetupMapper;
+	
+	@Autowired
+	NotiMsgInfoMapper notiMsgInfoMapper;
 	
 	@Override
 	public SystemSetup querySystemSetup() {
@@ -44,6 +49,33 @@ public class SystemSetupServiceImpl extends BaseService implements SystemSetupSe
 			success = 1;
 		}catch(Exception ex){
 			LogUtils.error(getClass(), "updateSystemSetup has error :" + ex);
+			callRollBack();
+		}
+		return success;
+	}
+
+	@Override
+	public String queryNotiMsgSetting(NotiMsgInfo notiMsgInfo) {
+		NotiMsgInfo result = notiMsgInfoMapper.selectByPrimaryKey(notiMsgInfo);
+		if(result==null){
+			return "";
+		}
+		return result.getMessage1();
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int saveNotiMsgSetting(NotiMsgInfo notiMsgInfo) {
+		int success = 0;
+		try{
+			if(notiMsgInfoMapper.selectByPrimaryKey(notiMsgInfo)!=null){
+				notiMsgInfoMapper.updateByPrimaryKeySelective(notiMsgInfo);
+			}else{
+				notiMsgInfoMapper.insertSelective(notiMsgInfo);
+			}
+			success = 1;
+		}catch(Exception ex){
+			LogUtils.error(getClass(), "saveNotiMsgSetting has error :" + ex);
 			callRollBack();
 		}
 		return success;

@@ -1,6 +1,5 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:arc="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_paint_layout"
     android:layout_width="match_parent"
@@ -8,7 +7,6 @@
     android:background="@color/GridLineColor"
     android:orientation="vertical"
     tools:context="com.sctw.bonniedraw.paint.PaintActivity">
-
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout_activity_paint"
@@ -118,7 +116,6 @@
             android:adjustViewBounds="false"
             android:background="@color/Transparent"
             android:cropToPadding="false"
-            android:onClick="onBrushSize"
             android:padding="0dp"
             app:srcCompat="@drawable/shape_paint_size" />
 
@@ -128,7 +125,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:onClick="erase_mode"
             android:padding="8dp"
             app:srcCompat="@drawable/draw_ic_erase" />
 
@@ -183,7 +179,7 @@
                 android:gravity="center"
                 android:text="筆刷不透明度"
                 android:textColor="@color/White"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <ImageButton
                 android:id="@+id/imgBtn_paint_opacity_decrease"
@@ -310,9 +306,9 @@
         android:background="@drawable/draw_pen_box"
         android:rotation="30"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout_paint_control"
-        arc:layout_constraintLeft_toLeftOf="parent"
-        arc:layout_constraintRight_toRightOf="parent"
-        arc:srcCompat="@drawable/draw_pen_ic_1" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/draw_pen_ic_3" />
 
     <ImageButton
         android:id="@+id/btn_paint_zoom"

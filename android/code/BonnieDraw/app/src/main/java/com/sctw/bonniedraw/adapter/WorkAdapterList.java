@@ -1,8 +1,6 @@
 package com.sctw.bonniedraw.adapter;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.LoadImageApp;
@@ -30,8 +25,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHolder> {
-    List<WorkInfo> data = new ArrayList<>();
-    WorkListOnClickListener listener;
+    private List<WorkInfo> data = new ArrayList<>();
+    private WorkListOnClickListener listener;
 
     public WorkAdapterList(List<WorkInfo> data, WorkListOnClickListener listener) {
         this.data = data;
@@ -51,63 +46,43 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     public void onBindViewHolder(final WorkAdapterList.ViewHolder holder, int position) {
         holder.mTvUserName.setText(data.get(position).getUserName());
         holder.mTvWorkName.setText(data.get(position).getTitle());
-        holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getIsFollowing()));
+        holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getLikeCount()));
         final int wid = Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
+        final int uid = Integer.parseInt(data.get(holder.getAdapterPosition()).getUserId());
+        //作品圖
         ImageLoader.getInstance()
-                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, LoadImageApp.optionsWorkImg, new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        Log.d("IMG LOAD FAIL", "FAIL");
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    }
-                }, new ImageLoadingProgressListener() {
-                    @Override
-                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                    }
-                });
-
+                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, LoadImageApp.optionsWorkImg);
+        //作者圖
+        String userImgUrl = "";
+        if (data.get(position).getUserImgPath().equals("null")) {
+            userImgUrl = "";
+        } else {
+            userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath();
+        }
         ImageLoader.getInstance()
-                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath(), holder.mCircleImageView, LoadImageApp.optionsUserImg, new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        Log.d("IMG LOAD FAIL", "FAIL");
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    }
-                }, new ImageLoadingProgressListener() {
-                    @Override
-                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                    }
-                });
+                .displayImage(userImgUrl, holder.mCircleImageView, LoadImageApp.optionsUserImg);
 
         if (data.get(position).getMsgList().isEmpty()) {
             holder.mLinearLayoutWorksMsgOutSide.setVisibility(View.GONE);
         }
 
+        if (data.get(position).isLike()) {
+            holder.imgBtnWorksUserGood.setSelected(true);
+        } else {
+            holder.imgBtnWorksUserGood.setSelected(false);
+        }
+
         holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onUserClick(wid);
+                listener.onUserClick(uid);
             }
         });
 
         holder.mCircleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onUserClick(wid);
+                listener.onUserClick(uid);
             }
         });
 
@@ -126,7 +101,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.imgBtnWorksUserGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkGoodClick(wid);
+                if (!data.get(holder.getAdapterPosition()).isLike()) {
+                    listener.onWorkGoodClick(holder.getAdapterPosition(), true, wid);
+                } else {
+                    listener.onWorkGoodClick(holder.getAdapterPosition(), false, wid);
+                }
             }
         });
         holder.imgBtnWorksUserMsg.setOnClickListener(new View.OnClickListener() {
@@ -172,14 +151,29 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         return data.size();
     }
 
+    public void setLike(int position, boolean like) {
+        int likeCount = data.get(position).getLikeCount();
+        data.get(position).setLike(like);
+        if (like) {
+            data.get(position).setLikeCount(likeCount + 1);
+        } else {
+            data.get(position).setLikeCount(likeCount - 1);
+        }
+        notifyItemChanged(position);
+    }
 
     public interface WorkListOnClickListener {
         void onWorkImgClick(int wid);
+
         void onWorkExtraClick(int wid);
-        void onWorkGoodClick(int wid);
+
+        void onWorkGoodClick(int position, boolean like, int wid);
+
         void onWorkMsgClick(int wid);
+
         void onWorkShareClick(int wid);
-        void onUserClick(int wid);
+
+        void onUserClick(int uid);
     }
 
 }

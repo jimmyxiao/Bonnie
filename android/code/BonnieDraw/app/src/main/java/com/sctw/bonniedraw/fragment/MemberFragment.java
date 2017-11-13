@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,12 +23,14 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.SingleWorkActivity;
-import com.sctw.bonniedraw.utility.ConnectJson;
-import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
+import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
+import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LoadImageApp;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.WorkInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +53,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MemberFragment extends Fragment {
+public class MemberFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
     private TextView mTvMemberId, mTvMemberName, mTvMemberDescription, mTvMemberWorks, mTvMemberFans, mTvMemberFollows;
     private Button mBtnFollow;
     private CircleImageView mCircleImg;
@@ -64,6 +68,8 @@ public class MemberFragment extends Fragment {
     private GridLayoutManager gridLayoutManager;
     private LinearLayoutManager layoutManager;
     private boolean mbFist = true;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
 
     @Override
@@ -77,7 +83,7 @@ public class MemberFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        miUserId=getArguments().getInt("userId");
+        miUserId = getArguments().getInt("userId");
         mTvMemberId = view.findViewById(R.id.textView_member_user_id);
         mTvMemberName = view.findViewById(R.id.textView_member_userName);
         mTvMemberDescription = view.findViewById(R.id.textView_member_user_description);
@@ -93,6 +99,7 @@ public class MemberFragment extends Fragment {
         mBtnExtra = view.findViewById(R.id.imgBtn_member_extra);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_member);
         mRv = view.findViewById(R.id.recyclerview_member);
+        fragmentManager = getFragmentManager();
         setOnClickEvent();
         getMemberInfo();
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
@@ -142,7 +149,7 @@ public class MemberFragment extends Fragment {
 
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                         //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.userImgUrlStr, "null"), mCircleImg);
+                                        ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture"), mCircleImg, LoadImageApp.optionsUserImg);
                                     } else {
                                         ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round, mCircleImg);
                                     }
@@ -159,7 +166,6 @@ public class MemberFragment extends Fragment {
 
     public void getWorksList() {
         JSONObject json = ConnectJson.queryListWork(prefs, 6, 0, 100);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
@@ -198,13 +204,13 @@ public class MemberFragment extends Fragment {
             }
         });
     }
+
     public void refreshWorks(JSONArray data) {
         workInfoList = WorkInfo.generateInfoList(data);
 
         mAdapterGrid = new WorkAdapterGrid(workInfoList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
-                Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putInt("wid", wid);
@@ -214,43 +220,7 @@ public class MemberFragment extends Fragment {
             }
         });
 
-        mAdapterList = new WorkAdapterList(workInfoList, new WorkAdapterList.WorkListOnClickListener() {
-            @Override
-            public void onWorkImgClick(int wid) {
-                Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putInt("wid", wid);
-                intent.setClass(getActivity(), SingleWorkActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onWorkExtraClick(final int wid) {
-
-            }
-
-            @Override
-            public void onWorkGoodClick(int wid) {
-
-            }
-
-            @Override
-            public void onWorkMsgClick(int wid) {
-
-            }
-
-            @Override
-            public void onWorkShareClick(int wid) {
-
-            }
-
-            @Override
-            public void onUserClick(int wid) {
-
-            }
-        });
+        mAdapterList = new WorkAdapterList(workInfoList, this);
 
         if (mbFist) {
             mRv.setLayoutManager(gridLayoutManager);
@@ -264,13 +234,177 @@ public class MemberFragment extends Fragment {
     }
 
     private void setOnClickEvent() {
-        mBtnFollow.setOnClickListener(new View.OnClickListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onRefresh() {
+                getWorksList();
             }
         });
 
+        mBtnList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRv.setLayoutManager(layoutManager);
+                mRv.setAdapter(mAdapterList);
+                mbFist = false;
+            }
+        });
 
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        mBtnGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRv.setLayoutManager(gridLayoutManager);
+                mRv.setAdapter(mAdapterGrid);
+                mbFist = true;
+            }
+        });
+    }
+
+    public void setLike(final int position, final int fn, int wid) {
+        // fn = 1 點讚, 0 取消讚
+        JSONObject json = ConnectJson.setLike(prefs, fn, wid);
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_LIKE)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapterList.setLike(position, false);
+                                            break;
+                                        case 1:
+                                            mAdapterList.setLike(position, true);
+                                            break;
+                                    }
+                                    mAdapterList.notifyItemChanged(position);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapterList.notifyItemChanged(position);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //覆寫interface事件
+    @Override
+    public void onWorkImgClick(int wid) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putInt("wid", wid);
+        intent.setClass(getActivity(), SingleWorkActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onWorkExtraClick(final int wid) {
+        final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.item_work_extra_dialog);
+        Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
+        Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
+        Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
+        Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
+        extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
+        extraShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraShare=" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraCopyLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraCopyLink=" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("POSTION CLICK", "extraReport" + wid);
+                extraDialog.dismiss();
+            }
+        });
+
+        extraCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                extraDialog.dismiss();
+            }
+        });
+
+        extraDialog.findViewById(R.id.relativeLayout_works_extra).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                extraDialog.dismiss();
+            }
+        });
+
+        extraDialog.show();
+    }
+
+    @Override
+    public void onWorkGoodClick(int position, boolean like, int wid) {
+        if (like) {
+            setLike(position, 1, wid);
+        } else {
+            setLike(position, 0, wid);
+        }
+    }
+
+    @Override
+    public void onWorkMsgClick(int wid) {
+
+    }
+
+    @Override
+    public void onWorkShareClick(int wid) {
+
+    }
+
+    @Override
+    public void onUserClick(int uid) {
+        MemberFragment memberFragment = new MemberFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("userId", uid);
+        memberFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

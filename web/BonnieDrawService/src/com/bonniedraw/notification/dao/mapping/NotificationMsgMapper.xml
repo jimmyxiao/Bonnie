@@ -126,4 +126,38 @@
       CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP}
     where NOTI_MSG_ID = #{notiMsgId,jdbcType=INTEGER}
   </update>
+  
+  <resultMap id="NotiMsgResponseMap" type="com.bonniedraw.web_api.module.NotiMsgResponse">
+    <id column="NOTI_MSG_ID" jdbcType="INTEGER" property="notiMsgId" />
+    <result column="MESSAGE" jdbcType="VARCHAR" property="message" />
+    <result column="NOTI_MSG_TYPE" jdbcType="INTEGER" property="notiMsgType" />
+    <result column="USER_ID_FOLLOW" jdbcType="INTEGER" property="userIdFollow" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userNameFollow" />
+    <result column="PROFILE_PICTURE" jdbcType="VARCHAR" property="profilePicture" />
+    <result column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="IMAGE_PATH" jdbcType="VARCHAR" property="imagePath" />
+    <result column="WORKS_MSG_ID" jdbcType="INTEGER" property="worksMsgId" />
+    <result column="WORKS_MSG" jdbcType="VARCHAR" property="worksMsg" />
+    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+  </resultMap>
+  <select id="getNotiMsgList" parameterType="java.util.Map" resultMap="NotiMsgResponseMap">
+    select 
+	nm.noti_msg_id, nmi.message1 as message, nm.noti_msg_type, nm.user_id_follow, nm.works_id, nm.works_msg_id, nm.creation_date,
+	ui.user_name, ui.profile_picture, 
+	wk.title, wk.image_path,
+	wm.message as works_msg
+	from notification_msg nm
+	left join user_info ui on ui.user_id = nm.user_id_follow
+	left join noti_msg_info nmi on nmi.noti_msg_type = nm.noti_msg_type and nmi.language_code = ui.language_code
+	left join works wk on wk.works_id = nm.works_id
+	left join works_msg wm on wm.works_msg_id = nm.works_msg_id
+	where 1=1
+	and nm.user_id = #{userId, jdbcType=INTEGER}
+	<if test="notiMsgId!=null and notiMsgId!=0" >
+		and nm.noti_msg_id = #{notiMsgId, jdbcType=INTEGER}
+	</if>
+	order by nm.creation_date desc
+  </select>
+  
 </mapper>

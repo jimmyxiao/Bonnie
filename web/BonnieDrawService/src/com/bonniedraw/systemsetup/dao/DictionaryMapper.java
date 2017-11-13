@@ -20,4 +20,6 @@ public interface DictionaryMapper {
     
     List<Dictionary> queryDictionaryList(Map<String, Object> paramMap);
     
+    Dictionary selectByDictionaryCode(String languageCode);
+    
 }

@@ -22,7 +22,7 @@
     delete from works_msg
     where WORKS_MSG_ID = #{worksMsgId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.bonniedraw.works.model.WorksMsg">
+  <insert id="insert" parameterType="com.bonniedraw.works.model.WorksMsg" useGeneratedKeys="true" keyProperty="worksMsgId">
     insert into works_msg (WORKS_MSG_ID, WORKS_ID, USER_ID, 
       MESSAGE, MSG_ORDER, CREATION_DATE
       )

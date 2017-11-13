@@ -3,9 +3,20 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		var wid = $state.params.id;
+		$scope.share_url ='https://www.bonniedraw.com/bonniedraw_service/BDService/socialShare?id='+wid;
 		$scope.isShow = false;
 
+		$scope.funcol = false;
+		$scope.funcolStop = false;
+
+		$scope.fastarr = ['8','4','2','1','0.5','0.25','0.125'];//s~q
+		var fasti =3;
+		$scope.fastnum = 1;
+
 		var paused= false;
+		$scope.forwarded =true;
+		$scope.rewinded =true;
+		
 		var auto = true;
 		var nextstatus = false;
 		var linend =false;
@@ -14,10 +25,20 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.isnext = false;
 		
 		$scope.pausebol =true;
+
+		$scope.hoverIn = function(){
+        	$scope.funcol = true;
+	    };
+
+	    $scope.hoverOut = function(){
+	    	$scope.funcol = false;
+	    };
+
 		$scope.pasue = function(){
 			if (!paused){
 				$scope.pausebol = false;
 				paused = true;
+				$scope.funcolStop = true;
 				if(predata.length>0){
 					$scope.islast = true;
 				}else{
@@ -33,6 +54,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				loop();
 				$scope.pausebol =true;
 				paused = false;
+				$scope.funcolStop = false;
 				$scope.islast = false;
 				$scope.isnext = false;
 			}
@@ -67,6 +89,36 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 						$scope.islast = false;
 					}
 				}
+			}
+		}
+
+		$scope.fast = function(tag){
+			if(!$scope.islast){
+				switch(tag) {
+					case "forward":
+						if(($scope.fastarr.length-1)>fasti){
+							fasti++;							
+						}
+						break;
+					case "rewind":
+						if(fasti>0){
+							fasti--;							
+						}
+						break;
+				}
+				if(($scope.fastarr.length-1)==fasti){
+					$scope.forwarded = false;
+				}else{
+					$scope.forwarded = true;
+				}
+
+				if(fasti==0){
+					$scope.rewinded = false;
+				}else{
+					$scope.rewinded = true;
+				}
+				$scope.fastnum = $scope.fastarr[fasti];
+				console.log(fasti);
 			}
 		}
 
@@ -116,9 +168,48 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var canvas_width = 1000;
 		var canvas_height = 1000;
 
+		var brush_Alpha = [];
 		var imgdata;
-		var brush_img = new Image();
-		brush_img.src = 'assets/images/BrushImage/FeltPen_brush_45.png';
+		var imgarray = new Image();
+		imgarray[0] = new Image();
+		imgarray[0].src = 'assets/images/BrushImage/AirBrush_brush_05.png';
+		brush_Alpha[0] = 0.52;
+
+		imgarray[1] = new Image();
+		imgarray[1].src = 'assets/images/BrushImage/Creyon_brush_18.png';
+		brush_Alpha[1] = 0.58;
+
+		imgarray[2] = new Image();
+		imgarray[2].src = 'assets/images/BrushImage/Creyon_brush_18_gb15.png';
+		brush_Alpha[2] = 0.58;
+
+		imgarray[3] = new Image();
+		imgarray[3].src = 'assets/images/BrushImage/FeltPen_brush_45.png';
+		brush_Alpha[3] = 0.04;
+
+		imgarray[4] = new Image();
+		imgarray[4].src = 'assets/images/BrushImage/FeltPen_brush_45_gb15.png';
+		brush_Alpha[4] = 0.71;
+
+		imgarray[5] = new Image();
+		imgarray[5].src = 'assets/images/BrushImage/InkPen_brush_01.png';
+		brush_Alpha[5] = 1;
+
+		imgarray[6] = new Image();
+		imgarray[6].src = 'assets/images/BrushImage/InkPen_brush_01_gb45.png';
+		brush_Alpha[6] = 1;
+
+		imgarray[7] = new Image();
+		imgarray[7].src = 'assets/images/BrushImage/Pastel_brush_05.png';
+		brush_Alpha[7] = 1;
+
+		imgarray[8] = new Image();
+		imgarray[8].src = 'assets/images/BrushImage/SoftPencil_brush_04.png';
+		brush_Alpha[8] = 0.42;
+
+		imgarray[9] = new Image();
+		imgarray[9].src = 'assets/images/BrushImage/waterColor_brush_10_gb11.png';
+		brush_Alpha[9] = 0.6;
 
 		function loop(){
 			if(draw_number>=lines.length){
@@ -143,9 +234,15 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			    	
 				}, 5000);*/
 			}else{
+				if($scope.pausebol && $scope.fastnum!=1){
+			    		var sett = $scope.fastnum;
+			    	}else{
+			    		var sett = lines[draw_number].time;
+			    	}
 				setTimeout(function(){
 			    	drawDot();
-				}, lines[draw_number].time);
+
+				}, lines[draw_number].time*$scope.fastnum);
 			}
 		}
 
@@ -192,61 +289,9 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				cxt.arc(data.xPos, data.yPos, data.size , 0, 2 * Math.PI, false);
 				cxt.fillStyle = data.color;
 				cxt.fill();*/
-				switch(data.brush) {
-					case 0:
-						brush_img.src = 'assets/images/BrushImage/AirBrush_brush_05.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 0.52 * data.color.color_a;
-						break;
-					case 1:
-						brush_img.src = 'assets/images/BrushImage/Creyon_brush_18.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 0.58 * data.color.color_a;
-					    break;
-					case 2:
-						brush_img.src = 'assets/images/BrushImage/Creyon_brush_18_gb15.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 0.58 * data.color.color_a;
-					    break;
-					case 3:
-						brush_img.src = 'assets/images/BrushImage/FeltPen_brush_45.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 0.04 * data.color.color_a;
-					    break;
-					case 4:
-						brush_img.src = 'assets/images/BrushImage/FeltPen_brush_45_gb15.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 0.72 * data.color.color_a;
-						break;
-					case 5:
-						brush_img.src = 'assets/images/BrushImage/InkPen_brush_01.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 1 * data.color.color_a;
-						break;
-					case 6:
-						brush_img.src = 'assets/images/BrushImage/InkPen_brush_01_gb45.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 1 * data.color.color_a;
-						break;
-					case 7:
-						brush_img.src = 'assets/images/BrushImage/Pastel_brush_05.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 1 * data.color.color_a;
-						break;
-					case 8:
-						brush_img.src = 'assets/images/BrushImage/SoftPencil_brush_04.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 0.42 * data.color.color_a;
-						break;
-					case 9:
-						brush_img.src = 'assets/images/BrushImage/waterColor_brush_10_gb11.png';
-						imgdata = changeColor(brush_img, data.color);
-						cxt.globalAlpha = 0.6 * data.color.color_a;
-						break;
-				}
 
-				
-				
+				imgdata = changeColor(imgarray[data.brush], data.color);
+				cxt.globalAlpha = brush_Alpha[data.brush] * data.color.color_a;
 
 				var dist = distanceBetween(previewData, data);
 				var angle = angleBetween(previewData, data);
@@ -306,16 +351,18 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							lines[i].color = colordata;
 							tmpColor = lines[i].color;
 							tmpSize = lines[i].size;
+							lines[i].time = 0;
 						break;
 						case 2:
 							lines[i].color = util.clone(tmpColor);
 							lines[i].size = util.clone(tmpSize);
 							tmpColor = 0;
 							tmpSize = 0;
+							lines[i].time = 0;
 						break;
 						case 3:
 							lines[i].color = util.clone(tmpColor);
-							lines[i].size = util.clone(tmpSize);
+							lines[i].size = util.clone(tmpSize);	
 						break;
 					}
 				}
@@ -463,7 +510,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				FB.ui({
     				method: 'share',
     				display: 'popup',
-    				href: 'https://developers.facebook.com/docs/',
+    				href: 'https://www.bonniedraw.com/bonniedraw_service/BDService/socialShare?id='+wid,
+    				//href: location.href,
   				}, function(response){});
 			}else if(tag=='google'){
 

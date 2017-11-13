@@ -18,6 +18,7 @@ public class WorkInfo {
     private String imagePath;
     private String isFollowing;
     private String userImgPath;
+    private Integer likeCount;
     private ArrayList<Msg> msgList;
     private boolean like;
 
@@ -85,6 +86,14 @@ public class WorkInfo {
         this.userImgPath = userImgPath;
     }
 
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
     public ArrayList<Msg> getMsgList() {
         return msgList;
     }
@@ -114,6 +123,8 @@ public class WorkInfo {
                 workInfo.setImagePath(data.getJSONObject(x).getString("imagePath"));
                 workInfo.setIsFollowing(data.getJSONObject(x).getString("isFollowing"));
                 workInfo.setUserImgPath(data.getJSONObject(x).getString("profilePicture"));
+                workInfo.setLikeCount(data.getJSONObject(x).getInt("likeCount"));
+                workInfo.setLike(data.getJSONObject(x).getBoolean("like"));
                 workInfo.setMsgList(msgList);
                 workInfoList.add(workInfo);
             }

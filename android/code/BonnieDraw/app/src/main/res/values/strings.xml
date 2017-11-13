@@ -127,14 +127,12 @@
     <string name="profile_setting_description">使用說明</string>
     <string name="profile_setting_privacy_policy">隱私政策</string>
     <string name="profile_setting_terms_of_use">使用條款</string>
-    <string name="work_good_total">%s 個人按讚</string>
+    <string name="work_good_total">%d 個人按讚</string>
     <string name="work_release_time">發布日期: %s</string>
     <string name="sourcecode_copyright">© 2017 SourceCode  原碼數位科技版權所有</string>
     <string name="signin_need_correct_phone">請輸入正確的手機號碼</string>
     <string name="signin_need_correct_email">請輸入正確的Email</string>
     <string name="signin_need_correct_password">密碼至少需要6個字元</string>
     <string name="signin_need_correct_repassword">密碼不一致</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_hint">搜尋作品 or 作者</string>
 </resources>

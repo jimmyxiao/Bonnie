@@ -100,4 +100,12 @@
     order by DICTIONARY_ORDER asc 
   </select>
   
+  <select id="selectByDictionaryCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dictionary
+    where DICTIONARY_CODE = #{dictionaryCode,jdbcType=VARCHAR}
+    and DICTIONARY_TYPE = 1
+  </select>
+  
 </mapper>

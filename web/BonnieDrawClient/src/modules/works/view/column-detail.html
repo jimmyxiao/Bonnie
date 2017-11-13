@@ -11,20 +11,29 @@
 								<div class="col-sm-12">
 									<div class="drwa-play">
 			                           <!--  <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe> -->
-			                           <canvas id="jsonCanvas"  ng-click="pasue()"></canvas>
-			                        	<div class="pasue-back">
+			                            <canvas id="jsonCanvas"  ng-click="pasue()" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()"></canvas>
+			                            <div class="pasue-stop-img circleimg" ng-show="funcolStop">
+			                        			<a href="" ng-click="pasue()"><i class="fa fa-play-circle"></i></a>
+			                        	</div>
+			                        	<div class="pasue-back" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ng-show="funcol">
 			                        	<!--<div class="pasue-back" ng-hide=pausebol>-->
-			                        		<div class="next-img">
-			                        			<i class="fa fa-chevron-circle-right" ng-class="{true: '', false: 'imgchag'}[isnext]" ng-click="next()"></i>
+			                        		<div class="forward-img">
+			                        			<a href="" ng-class="{true: '', false: 'imgchag'}[forwarded]" ng-click="fast('forward')"><i class="material-icons" >fast_forward</i></a>
 			                        		</div>
-			                        		<div class="pasue-img">
-			                        			<i ng-class="{true: 'fa fa-pause-circle', false: 'fa fa-play-circle'}[pausebol]" ng-click="pasue()"></i>
+			                        		<div class="next-img circleimg">
+			                        			<a href=""  ng-class="{true: '', false: 'imgchag'}[isnext]" ng-click="next()"><i class="fa fa-chevron-circle-right"></i></a>
+			                        		</div>
+			                        		<div class="pasue-img circleimg">
+			                        			<a href=""  ng-click="pasue()"><i ng-class="{true: 'fa fa-pause-circle', false: 'fa fa-play-circle'}[pausebol]"></i></a>
 			                        			<!--<i class="fa fa-play-circle"  ng-hide="pausebol" ng-click="pasue()"></i>
 			                        			<i class="fa fa-pause-circle" ng-hide="!pausebol" ng-click="pasue()"></i>-->
 			                        			<!-- <img  ng-click="pasue()" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'"> -->
 			                        		</div>
-			                        		<div class="last-img">
-			                        			<i class="fa fa-chevron-circle-left" ng-class="{true: '', false: 'imgchag'}[islast]" ng-click="last()"></i>
+			                        		<div class="last-img circleimg">
+			                        			<a href=""  ng-class="{true: '', false: 'imgchag'}[islast]" ng-click="last()"><i class="fa fa-chevron-circle-left"></i></a>
+			                        		</div>
+			                        		<div class="rewind-img">
+			                        			<a href="" ng-class="{true: '', false: 'imgchag'}[rewinded]" ng-click="fast('rewind')"><i class="material-icons" >fast_rewind</i></a>
 			                        		</div>
 			                        		
 			                        	</div>
@@ -46,8 +55,8 @@
 											<div class="col-md-6 col-sm-6">
 												<ul class="list-unstyled list-inline pull-right text-right sharing-bar">
 													<li><a href="" ng-click="shareLink('fb')"><i class="fa fa-facebook"></i></a></li>
-													<li><a social-twitter href=""><i class="fa fa-twitter"></i></a></li>
-													<li><a social-gplus href=""><i class="fa fa-google-plus"></i></a></li>
+													<li><a social-twitter href="" custom-url="{{share_url}}"><i class="fa fa-twitter"></i></a></li>
+													<li><a social-gplus href=""  custom-url="{{share_url}}"><i class="fa fa-google-plus"></i></a></li>
 													<!-- <li><a href=""><i class="fa fa-instagram"></i></a></li> -->
 													<li><a href="" title="檢舉" data-toggle="collapse" data-target="#report" ng-click="clickTurnIn()">
 														<i class="fa fa-info-circle" aria-hidden="true"></i>
@@ -156,7 +165,7 @@
 								<div class="media" ng-repeat="data in secondarySectionArr_userLike track by $index">
 									<div class="media-left">
 										<a ng-href="#/column-detail?id={{data.worksId}}">
-											<img ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image" style="width:90px;">
+											<img ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
 										</a>
 									</div>
 									<div class="media-body">

@@ -3,7 +3,7 @@
     package="com.sctw.bonniedraw">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -24,8 +24,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:windowSoftInputMode="adjustPan" />
-
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -63,7 +62,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".paint.PaintPlayActivity" />
-        <activity android:name=".activity.SingleWorkActivity"></activity>
+        <activity android:name=".activity.SingleWorkActivity" />
     </application>
 
 </manifest>
