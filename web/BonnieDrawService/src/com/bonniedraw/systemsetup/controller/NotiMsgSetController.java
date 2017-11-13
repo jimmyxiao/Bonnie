@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bonniedraw.base.controller.BaseController;
 import com.bonniedraw.base.model.BaseModel;
 import com.bonniedraw.notification.model.NotiMsgInfo;
-import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.DictionaryService;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
 
