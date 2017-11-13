@@ -72,6 +72,12 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             holder.imgBtnWorksUserGood.setSelected(false);
         }
 
+        if (data.get(position).getIsFollowing() == 1) {
+            holder.imgBtnWokrsFollow.setSelected(true);
+        } else {
+            holder.imgBtnWokrsFollow.setSelected(false);
+        }
+
         holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,13 +126,25 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                 listener.onWorkShareClick(wid);
             }
         });
+
+        holder.imgBtnWokrsFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
+                    //設定成1  表示要追蹤
+                    listener.onFollowClick(holder.getAdapterPosition(), 1, uid);
+                } else {
+                    listener.onFollowClick(holder.getAdapterPosition(), 0, uid);
+                }
+            }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTvUserName, mTvWorkName, mTvWorkGoodTotal;
         ImageView mImgViewWrok;
         CircleImageView mCircleImageView;
-        ImageButton imgBtnWorksUserExtra, imgBtnWorksUserGood, imgBtnWorksUserMsg, imgBtnWorksUserShare;
+        ImageButton imgBtnWorksUserExtra, imgBtnWorksUserGood, imgBtnWorksUserMsg, imgBtnWorksUserShare, imgBtnWokrsFollow;
         LinearLayout mLinearLayoutWorksMsgOutSide, mLinearLayoutWorksMsg1, mLinearLayoutWorksMsg2;
 
         ViewHolder(View v) {
@@ -139,6 +157,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             imgBtnWorksUserGood = (ImageButton) v.findViewById(R.id.imgBtn_works_good);
             imgBtnWorksUserMsg = (ImageButton) v.findViewById(R.id.imgBtn_works_msg);
             imgBtnWorksUserShare = (ImageButton) v.findViewById(R.id.imgBtn_works_share);
+            imgBtnWokrsFollow = (ImageButton) v.findViewById(R.id.imgBtn_works_follow);
             mLinearLayoutWorksMsg1 = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_1);
             mLinearLayoutWorksMsg2 = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_2);
             mLinearLayoutWorksMsgOutSide = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_outside);
@@ -162,6 +181,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         notifyItemChanged(position);
     }
 
+    public void setFollow(int position, int isFollow) {
+        data.get(position).setIsFollowing(isFollow);
+        notifyItemChanged(position);
+    }
+
     public interface WorkListOnClickListener {
         void onWorkImgClick(int wid);
 
@@ -174,6 +198,9 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         void onWorkShareClick(int wid);
 
         void onUserClick(int uid);
+
+        // 0 = not follow , 1= following
+        void onFollowClick(int position, int isFollow, int uid);
     }
 
 }

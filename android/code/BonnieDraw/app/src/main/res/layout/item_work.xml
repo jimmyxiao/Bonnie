@@ -60,7 +60,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_marginTop="4dp"
         android:background="@color/background_dim_overlay" />
 
@@ -73,7 +73,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="@color/background_dim_overlay" />
 
     <RelativeLayout
@@ -101,7 +101,7 @@
             app:srcCompat="@drawable/work_ic_message" />
 
         <ImageButton
-            android:id="@+id/imgBtn_single_work_follow"
+            android:id="@+id/imgBtn_works_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

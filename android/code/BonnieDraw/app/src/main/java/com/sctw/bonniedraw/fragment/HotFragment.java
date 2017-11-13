@@ -331,6 +331,11 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
     }
 
     @Override
+    public void onFollowClick(int position, int isFollow, int uid) {
+        //Follow
+    }
+
+    @Override
     public void onResume() {
         getWorksList();
         super.onResume();

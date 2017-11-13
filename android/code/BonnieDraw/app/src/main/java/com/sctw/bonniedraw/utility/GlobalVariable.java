@@ -38,5 +38,6 @@ public class GlobalVariable {
     public static final String API_LINK_DELETE_WORK = "https://www.bonniedraw.com/bonniedraw_service/BDService/deleteWork";
     public static final String API_LINK_FORGET_PWD = "https://www.bonniedraw.com/bonniedraw_service/BDService/forgetpwd";
     public static final String API_LINK_SET_LIKE = "https://www.bonniedraw.com/bonniedraw_service/BDService/setLike";
+    public static final String API_LINK_SET_FOLLOW = "https://www.bonniedraw.com/bonniedraw_service/BDService/setFollowing";
     public static final String API_LINK_LEAVE_MESSAGE = "https://www.bonniedraw.com/bonniedraw_service/BDService/leavemsg";
 }

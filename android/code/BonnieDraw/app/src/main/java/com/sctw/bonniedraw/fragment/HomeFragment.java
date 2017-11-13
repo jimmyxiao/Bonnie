@@ -195,6 +195,58 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         });
     }
 
+    public void setFollow(final int position, final int fn, int followId) {
+        // fn = 1 點讚, 0 取消讚
+        JSONObject json = ConnectJson.setFollow(prefs, fn, followId);
+        Log.d("LOGIN JSON: ", json.toString());
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_FOLLOW)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapter.setFollow(position, 0);
+                                            break;
+                                        case 1:
+                                            mAdapter.setFollow(position, 1);
+                                            break;
+                                    }
+                                    mAdapter.notifyItemChanged(position);
+                                    System.out.println(responseJSON.toString());
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapter.notifyItemChanged(position);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public void getWorksList() {
         JSONObject json = ConnectJson.queryListWork(prefs, 4, 0, 100);
         Log.d("LOGIN JSON: ", json.toString());
@@ -328,6 +380,16 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onFollowClick(int position, int isFollow, int uid) {
+        //點FOLLOW
+        if (isFollow==1) {
+            setFollow(position, 1, uid);
+        } else {
+            setFollow(position, 0, uid);
+        }
     }
 
     @Override

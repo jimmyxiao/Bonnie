@@ -62,7 +62,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
     private String bdwPath = ""; //"bdwPath":
     private String workUid = "";
     SharedPreferences prefs;
-    private int wid;
+    private int wid, uid, miFollow;
     private static final String PLAY_FILE_BDW = "/temp_play_use.bdw";
     private Handler mHandlerTimerPlay = new Handler();
     private FrameLayout mFrameLayoutFreePaint;
@@ -77,6 +77,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
     private boolean mbLike;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_work);
@@ -200,6 +201,19 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                 } else {
                     mBtnUserGood.setSelected(true);
                     setLike(1, wid);
+                }
+            }
+        });
+
+        mBtnUserFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (miFollow == 1) {
+                    mBtnUserGood.setSelected(false);
+                    setFollow(0, uid);
+                } else {
+                    mBtnUserGood.setSelected(true);
+                    setFollow(1, uid);
                 }
             }
         });
@@ -397,17 +411,24 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
             String profilePictureUrl = "";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN);
             Date date = new Date(Long.valueOf(data.getString("updateDate")));
-            Log.d("TAG TIME", data.getString("updateDate"));
             mTextViewUserName.setText(data.getString("userName"));
             mTextViewWorkName.setText(data.getString("title"));
             mTextViewWorkDescription.setText(data.getString("description"));
             mTextViewGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getInt("likeCount")));
             mTextViewCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
+            uid = data.getInt("userId");
             mbLike = data.getBoolean("like");
+            miFollow = data.getInt("isFollowing");
+            System.out.println("miFollow = " + miFollow);
             if (mbLike) {
                 mBtnUserGood.setPressed(true);
             } else {
                 mBtnUserGood.setPressed(false);
+            }
+            if (miFollow == 1) {
+                mBtnUserFollow.setPressed(true);
+            } else {
+                mBtnUserFollow.setPressed(false);
             }
 
             if (data.getString("profilePicture").equals("null")) {
@@ -479,6 +500,60 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
             }
         });
     }
+
+    public void setFollow(final int fn, int followId) {
+        // fn = 1 點讚, 0 取消讚
+        JSONObject json = ConnectJson.setFollow(prefs, fn, followId);
+        Log.d("LOGIN JSON: ", json.toString());
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_FOLLOW)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功 0 = DEL , 1 = ADD
+                                    getSingleWork(true);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    switch (fn) {
+                                        case 0:
+                                            //del
+                                            mBtnUserFollow.setSelected(true);
+                                            break;
+                                        case 1:
+                                            //add
+                                            mBtnUserFollow.setSelected(false);
+                                            break;
+                                    }
+                                }
+                                Log.d("LOGIN JSON", responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 
     @Override
     public void onBackPressed() {

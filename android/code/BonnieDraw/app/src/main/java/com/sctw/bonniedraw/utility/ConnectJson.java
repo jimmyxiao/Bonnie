@@ -147,6 +147,21 @@ public class ConnectJson {
         return json;
     }
 
+    public static JSONObject setFollow(SharedPreferences prefs, int fn, int followId) {
+        JSONObject json = new JSONObject();
+        // fn  1=讚  0=取消讚
+        try {
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("fn", fn);
+            json.put("followId", followId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
     public static JSONObject deleteWork(SharedPreferences prefs, int wid) {
         JSONObject json = new JSONObject();
         // fn  1=讚  2=取消讚

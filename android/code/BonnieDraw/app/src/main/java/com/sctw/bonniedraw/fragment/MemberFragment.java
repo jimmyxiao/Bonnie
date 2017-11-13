@@ -317,6 +317,57 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         });
     }
 
+    public void setFollow(final int position, final int fn, int followId) {
+        // fn = 1 點讚, 0 取消讚
+        JSONObject json = ConnectJson.setFollow(prefs, fn, followId);
+        Log.d("LOGIN JSON: ", json.toString());
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_FOLLOW)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapterList.setFollow(position, 0);
+                                            break;
+                                        case 1:
+                                            mAdapterList.setFollow(position, 1);
+                                            break;
+                                    }
+                                    mAdapterList.notifyItemChanged(position);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapterList.notifyItemChanged(position);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     //覆寫interface事件
     @Override
     public void onWorkImgClick(int wid) {
@@ -406,5 +457,14 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onFollowClick(int position, int isFollow, int uid) {
+        if (isFollow==1) {
+            setFollow(position, 1, uid);
+        } else {
+            setFollow(position, 0, uid);
+        }
     }
 }
