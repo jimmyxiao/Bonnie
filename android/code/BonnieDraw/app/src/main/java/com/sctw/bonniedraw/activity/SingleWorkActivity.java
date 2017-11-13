@@ -275,7 +275,8 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                     case MotionEvent.ACTION_DOWN:
                         mbPlaying = true;
                         if (tagpoint.get_iBrush() != 0) {
-                            mPaintView.setBrush(Brushes.get(getApplicationContext())[tagpoint.get_iBrush()]);
+                            int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
+                            mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
                         }
                         if (tagpoint.get_iColor() != 0) {
                             mPaintView.setDrawingColor(tagpoint.get_iColor());

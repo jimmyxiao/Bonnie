@@ -34,7 +34,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private boolean mbPlaying = false, mbAutoPlay = false;
     private File mFileBDW;
     private BDWFileReader mBDWFileReader;
-    private int mCurrentBrushId = 0;
+    private int mCurrentBrushId = 3;
     private Button mBtnPause;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
@@ -74,7 +74,8 @@ public class PaintPlayActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         mbPlaying = true;
                         if (tagpoint.get_iBrush() != 0) {
-                            mPaintView.setBrush(Brushes.get(getApplicationContext())[tagpoint.get_iBrush()]);
+                            int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
+                            mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
                         }
                         if (tagpoint.get_iColor() != 0) {
                             mPaintView.setDrawingColor(tagpoint.get_iColor());
@@ -82,9 +83,9 @@ public class PaintPlayActivity extends AppCompatActivity {
                         if (tagpoint.get_iSize() != 0) {
                             mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth));
                         }
-                        if(tagpoint.get_iReserved()==1){
+                        if (tagpoint.get_iReserved() == 1) {
                             mPaintView.getBrush().setEraser(true);
-                        }else {
+                        } else {
                             mPaintView.getBrush().setEraser(false);
                         }
                         mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
@@ -133,7 +134,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         mBtnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mbAutoPlay=false;
+                mbAutoPlay = false;
             }
         });
 

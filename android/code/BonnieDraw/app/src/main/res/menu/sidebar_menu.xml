@@ -3,41 +3,47 @@
     <group android:checkableBehavior="single" android:id="@+id/group1">
     <item
         android:id="@+id/ic_btn_hotdraw"
-        android:icon="@drawable/menu_ic_hotdraw"
+        android:icon="@drawable/left_menu_icon_1"
         android:title="熱門畫作" />
 
     <item
         android:id="@+id/ic_btn_newdraw"
-        android:icon="@drawable/menu_ic_newdraw"
+        android:icon="@drawable/left_menu_icon_1"
         android:title="最新畫作" />
 
     <item
         android:id="@+id/ic_btn_mydraw"
-        android:icon="@drawable/menu_ic_mydraw"
+        android:icon="@drawable/left_menu_icon_1"
         android:title="我的畫作" />
     </group>
 
     <group android:checkableBehavior="single" android:id="@+id/group2">
         <item
             android:id="@+id/ic_btn_category1"
-            android:icon="@drawable/menu_ic_category_1"
+            android:icon="@drawable/left_menu_icon_1"
             android:title="類別一" />
 
         <item
             android:id="@+id/ic_btn_category2"
-            android:icon="@drawable/menu_ic_category_2"
+            android:icon="@drawable/left_menu_icon_1"
             android:title="類別二" />
 
         <item
             android:id="@+id/ic_btn_category3"
-            android:icon="@drawable/menu_ic_category_3"
+            android:icon="@drawable/left_menu_icon_1"
             android:title="類別三" />
     </group>
 
     <group android:checkableBehavior="single" android:id="@+id/group3">
         <item
+            android:id="@+id/ic_btn_collection"
+            android:icon="@drawable/ic_bookmark_border_24dp"
+            android:title="我的收藏"
+            />
+
+        <item
             android:id="@+id/ic_btn_account_setting"
-            android:icon="@drawable/bottom_bar_ic_home"
+            android:icon="@drawable/menu_ic_account"
             android:title="帳號設定" />
 
         <item

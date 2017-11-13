@@ -56,7 +56,7 @@ public class PaintView extends View {
     public Boolean mbZoomMode = false, mbCheckFinger = false;
     public File mFileBDW, mFilePNG;
     public BDWFileReader mBDWReader = new BDWFileReader();
-    public int miPaintNum;
+    public int miPaintNum = 3;
 
     //********  Brush  ******************
 
@@ -289,7 +289,22 @@ public class PaintView extends View {
         return (float) Math.sqrt(x * x + y * y);
     }
 
-
+    public int selectPaint(int num) {
+        switch (num) {
+            case 1:
+                return 18;
+            case 2:
+                return 6;
+            case 3:
+                return 3;
+            case 4:
+                return 11;
+            case 5:
+                return 13;
+            default:
+                return 0;
+        }
+    }
     //************* Brush ******************
 
     private interface OnTouchHandler {
@@ -385,6 +400,7 @@ public class PaintView extends View {
     public void initDefaultBrush(Brush brush) {
         setBrush(brush);
         setDrawingCacheEnabled(true);
+        setDrawingColor(Color.BLACK);
         setDrawingBgColor(Color.WHITE);
     }
 

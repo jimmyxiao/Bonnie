@@ -80,6 +80,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         getDialog().setCanceledOnTouchOutside(true);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         View rootView = inflater.inflate(R.layout.fragment_dialog_message, container, false);
         //Do something
         final Window window = getDialog().getWindow();
@@ -99,9 +100,9 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
         mBtnBack = view.findViewById(R.id.imgBtn_message_back);
         mEidtMsg = view.findViewById(R.id.editText_write_msg);
         mTtextPublish = view.findViewById(R.id.textView_publish_msg);
-        mFrameLayout = view.findViewById(R.id.frameLayout_msg_hint_null);
         mBtnBack.setOnClickListener(this);
         mTtextPublish.setOnClickListener(this);
+        mFrameLayout = view.findViewById(R.id.frameLayout_message_empty);
         mRv = view.findViewById(R.id.recyclerview_message);
         LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(lm);
@@ -190,10 +191,9 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                                         JSONArray data = responseJSON.getJSONObject("work").getJSONArray("msgList");
                                         if (data != null && data.length() > 0) {
                                             refreshWorks(data);
-                                            mRv.setVisibility(View.VISIBLE);
                                             mFrameLayout.setVisibility(View.GONE);
                                         } else {
-                                            mRv.setVisibility(View.INVISIBLE);
+                                            mFrameLayout.setVisibility(View.VISIBLE);
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();

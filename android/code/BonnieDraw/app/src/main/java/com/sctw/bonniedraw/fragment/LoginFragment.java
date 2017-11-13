@@ -365,6 +365,7 @@ public class LoginFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        System.out.println(json.toString());
 
         RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()

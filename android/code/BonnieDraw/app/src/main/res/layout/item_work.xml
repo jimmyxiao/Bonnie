@@ -61,7 +61,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/Grey" />
+        android:layout_marginTop="4dp"
+        android:background="@color/background_dim_overlay" />
 
     <ImageView
         android:id="@+id/imgView_works_img"
@@ -69,17 +70,18 @@
         android:layout_height="260dp"
         android:adjustViewBounds="false"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_mood_bad_black_24dp" />
+        app:srcCompat="@drawable/imageload_anim" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/Grey" />
+        android:background="@color/background_dim_overlay" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:orientation="horizontal">
 
         <ImageButton
@@ -156,15 +158,14 @@
 
         <TextView
             android:id="@+id/textView_works_msg_1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:layout_weight="7"
             android:text="內容" />
 
         <TextView
             android:id="@+id/textView_works_msg_time_1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:text="時間" />
@@ -199,7 +200,7 @@
 
         <TextView
             android:id="@+id/textView_works_msg_time_2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:text="時間" />

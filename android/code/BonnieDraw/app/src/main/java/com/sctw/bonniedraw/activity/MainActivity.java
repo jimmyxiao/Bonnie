@@ -34,7 +34,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.fragment.FollowFragment;
 import com.sctw.bonniedraw.fragment.HomeFragment;
-import com.sctw.bonniedraw.fragment.LikeFragment;
+import com.sctw.bonniedraw.fragment.HotFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
 import com.sctw.bonniedraw.paint.PaintActivity;
 import com.sctw.bonniedraw.utility.BottomNavigationViewEx;
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(new HomeFragment());
                         return true;
                     case R.id.ic_btn_like:
-                        changeFragment(new LikeFragment());
+                        changeFragment(new HotFragment());
                         return true;
                     case R.id.ic_btn_notice:
                         changeFragment(new FollowFragment());

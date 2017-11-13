@@ -82,7 +82,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private ColorPopup mColorPopup;
     private boolean mbColorSwitch = false;
 
-    private int mCurrentBrushId = 0; //default brush
+    private int mCurrentBrushId = 3; //default brush
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -532,32 +532,32 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     public void selectPaint(View view) {
         switch (view.getId()) {
             case R.id.imgBtn_paint_left:
-                if (mPaintView.miPaintNum <= 4 && mPaintView.miPaintNum > 0) {
+                if (mPaintView.miPaintNum <= 5 && mPaintView.miPaintNum > 1) {
                     mPaintView.miPaintNum--;
                 }
                 break;
             case R.id.imgBtn_paint_type1:
-                setBrush(0);
-                mPaintView.miPaintNum = 0;
-                break;
-            case R.id.imgBtn_paint_type2:
-                setBrush(1);
+                setBrush(18);
                 mPaintView.miPaintNum = 1;
                 break;
-            case R.id.imgBtn_paint_type3:
-                setBrush(2);
+            case R.id.imgBtn_paint_type2:
+                setBrush(6);
                 mPaintView.miPaintNum = 2;
                 break;
-            case R.id.imgBtn_paint_type4:
+            case R.id.imgBtn_paint_type3:
                 setBrush(3);
                 mPaintView.miPaintNum = 3;
                 break;
-            case R.id.imgBtn_paint_type5:
-                setBrush(4);
+            case R.id.imgBtn_paint_type4:
+                setBrush(11);
                 mPaintView.miPaintNum = 4;
                 break;
+            case R.id.imgBtn_paint_type5:
+                setBrush(13);
+                mPaintView.miPaintNum = 5;
+                break;
             case R.id.imgBtn_paint_right:
-                if (mPaintView.miPaintNum < 4 && mPaintView.miPaintNum >= 0) {
+                if (mPaintView.miPaintNum < 5 && mPaintView.miPaintNum >= 1) {
                     mPaintView.miPaintNum++;
                 }
                 break;
@@ -574,23 +574,23 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         findViewById(R.id.imgBtn_paint_type5).setSelected(false);
 
         switch (mPaintView.miPaintNum) {
-            case 0:
+            case 1:
                 findViewById(R.id.imgBtn_paint_type1).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_1));
                 break;
-            case 1:
+            case 2:
                 findViewById(R.id.imgBtn_paint_type2).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_2));
                 break;
-            case 2:
+            case 3:
                 findViewById(R.id.imgBtn_paint_type3).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_3));
                 break;
-            case 3:
+            case 4:
                 findViewById(R.id.imgBtn_paint_type4).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_4));
                 break;
-            case 4:
+            case 5:
                 findViewById(R.id.imgBtn_paint_type5).setSelected(true);
                 mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_5));
                 break;
