@@ -41,6 +41,7 @@ public class LoadImageApp extends Application {
     }
 
     static public DisplayImageOptions optionsWorkImg = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.imageload_anim)
             .showImageOnFail(R.drawable.imageload_anim)
             .cacheInMemory(true)
             .cacheOnDisk(true)

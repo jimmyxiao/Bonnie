@@ -32,7 +32,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.fragment.FollowFragment;
+import com.sctw.bonniedraw.fragment.NoticeFragment;
 import com.sctw.bonniedraw.fragment.HomeFragment;
 import com.sctw.bonniedraw.fragment.HotFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigationViewEx.enableItemShiftingMode(false);
         mBottomNavigationViewEx.setTextVisibility(false);
         fragmentManager = getSupportFragmentManager();
+        mBottomNavigationViewEx.enableAnimation(false);
         mBottomNavigationViewEx.getBottomNavigationItemView(2).setBackgroundColor(getResources().getColor(R.color.Transparent));
         mBottomNavigationViewEx.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(new HotFragment());
                         return true;
                     case R.id.ic_btn_notice:
-                        changeFragment(new FollowFragment());
+                        changeFragment(new NoticeFragment());
                         return true;
                     case R.id.ic_btn_user:
                         changeFragment(new ProfileFragment());
