@@ -133,10 +133,10 @@ class CanvasViewController:
             controller.preferredContentSize = CGSize(width: 44, height: height > maxHeight ? maxHeight : height)
         } else if let controller = segue.destination as? ColorPickerViewController {
             controller.delegate = self
+            controller.color = canvas.color
             controller.popoverPresentationController?.delegate = self
-            let height = CGFloat(controller.colors.count * 44)
-            let maxHeight = view.bounds.height - 111
-            controller.preferredContentSize = CGSize(width: 44, height: height > maxHeight ? maxHeight : height)
+            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            controller.preferredContentSize = CGSize(width: view.bounds.width * 0.8, height: 204)
         } else if let url = sender as? URL,
                   let controller = segue.destination as? UploadViewController {
             controller.workThumbnailData = canvas.thumbnailData()

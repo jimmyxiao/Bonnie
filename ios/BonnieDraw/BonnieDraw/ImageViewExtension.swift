@@ -10,8 +10,8 @@ import UIKit
 import SDWebImage
 
 extension UIImageView {
-    func setImage(with url: URL?, completion: ((CGSize?) -> Void)? = nil) {
-        sd_setImage(with: url, placeholderImage: nil, options: [.allowInvalidSSLCertificates, .retryFailed]) {
+    func setImage(with url: URL?, placeholderImage: UIImage? = nil, completion: ((CGSize?) -> Void)? = nil) {
+        sd_setImage(with: url, placeholderImage: placeholderImage, options: [.allowInvalidSSLCertificates, .retryFailed]) {
             image, error, type, url in
             if let error = error {
                 Logger.p("\(#function): \(error.localizedDescription)")

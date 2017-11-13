@@ -23,6 +23,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let searchBar = UISearchBar()
     private let titleView = Bundle.main.loadView(from: "TitleView")
     private let refreshControl = UIRefreshControl()
+    private let placeholderImage = UIImage(named: "photo-square")
 
     override func viewDidLoad() {
         menuButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
@@ -142,7 +143,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 for work in workList {
                     self.works.append(Work(
                             id: work["worksId"] as? Int,
-                            profileImage: nil,
+                            profileImage: URL(string: Service.filePath(withSubPath: work["profilePicture"] as? String)),
                             profileName: work["userName"] as? String,
                             thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
                             file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
@@ -180,7 +181,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let work = tableViewWorks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.HOME, for: indexPath) as! HomeTableViewCell
-        cell.profileImage.setImage(with: work.profileImage)
+        cell.profileImage.setImage(with: work.profileImage, placeholderImage: placeholderImage)
         cell.profileName.text = work.profileName
         cell.title.text = work.title
         cell.thumbnail?.setImage(with: work.thumbnail)

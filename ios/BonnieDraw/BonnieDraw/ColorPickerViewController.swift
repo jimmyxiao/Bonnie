@@ -8,30 +8,35 @@
 
 import UIKit
 
-class ColorPickerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ColorPickerViewController: UIViewController, SaturationBrightnessViewDelegate, HueViewDelegate {
     var delegate: ColorPickerViewControllerDelegate?
-    let colors: [UIColor] = [.black, .darkGray, .lightGray, .gray, .red, .blue, .green, .cyan, .yellow, .magenta, .orange, .purple, .brown]
+    @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var saturationBrightnessView: SaturationBrightnessView!
+    @IBOutlet weak var hueView: HueView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    var color: UIColor?
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return colors.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Cell.COLOR_PICKER, for: indexPath)
-        cell.backgroundColor = colors[indexPath.row]
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        tableView.cellForRow(at: indexPath)?.alpha = 0.5
-        return indexPath
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.colorPicker(didSelect: colors[indexPath.row])
-        DispatchQueue.main.async {
-            self.dismiss(animated: true)
+    override func viewDidLoad() {
+        saturationBrightnessView.delegate = self
+        hueView.delegate = self
+        if let color = color {
+            colorView.backgroundColor = color
+            saturationBrightnessView.set(color: color)
+            hueView.set(color: color)
         }
+    }
+
+    func saturationBrightness(didSelectColor color: UIColor) {
+        colorView.backgroundColor = color
+        delegate?.colorPicker(didSelect: color)
+    }
+
+    func hue(didSelectHue hue: CGFloat) {
+        saturationBrightnessView.hue = hue
+    }
+
+    @IBAction func add(_ sender: Any) {
+        preferredContentSize = CGSize(width: preferredContentSize.width, height: preferredContentSize.height + 10)
     }
 }
 
