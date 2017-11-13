@@ -25,8 +25,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHolder> {
-    List<WorkInfo> data = new ArrayList<>();
-    WorkListOnClickListener listener;
+    private List<WorkInfo> data = new ArrayList<>();
+    private WorkListOnClickListener listener;
 
     public WorkAdapterList(List<WorkInfo> data, WorkListOnClickListener listener) {
         this.data = data;
