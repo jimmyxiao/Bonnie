@@ -11,9 +11,14 @@
 								<div class="col-sm-12">
 									<div class="drwa-play">
 			                           <!--  <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe> -->
+			                            <div class="loading" ng-hide="loading">
+			                            	<div class="loader"></div>
+			                            </div>
+
 			                            <canvas id="jsonCanvas"  ng-click="pasue()" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()"></canvas>
+			                            
 			                            <div class="pasue-stop-img circleimg" ng-show="funcolStop">
-			                        			<a href="" ng-click="pasue()"><i class="fa fa-play-circle"></i></a>
+			                        		<a href="" ng-click="pasue()"><i class="fa fa-play-circle"></i></a>
 			                        	</div>
 			                        	<div class="pasue-back" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ng-show="funcol">
 			                        	<!--<div class="pasue-back" ng-hide=pausebol>-->

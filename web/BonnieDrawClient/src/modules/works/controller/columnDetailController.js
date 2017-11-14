@@ -6,6 +6,9 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.share_url ='https://www.bonniedraw.com/bonniedraw_service/BDService/socialShare?id='+wid;
 		$scope.isShow = false;
 
+		$scope.playRead = false;
+		$scope.loading =false;
+
 		$scope.funcol = false;
 		$scope.funcolStop = false;
 
@@ -25,20 +28,30 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.isnext = false;
 		
 		$scope.pausebol =true;
-
 		$scope.hoverIn = function(){
-        	$scope.funcol = true;
+			if($scope.pausebol&&$scope.playRead){
+				$scope.funcol = true;
+			}
 	    };
 
 	    $scope.hoverOut = function(){
-	    	$scope.funcol = false;
+	    	if($scope.pausebol&&$scope.playRead){
+	    		$scope.funcol = false;
+	    	}
 	    };
 
 		$scope.pasue = function(){
 			if (!paused){
 				$scope.pausebol = false;
 				paused = true;
-				$scope.funcolStop = true;
+				
+				$scope.rewinded = false;
+				$scope.forwarded = false;
+				if(draw_number==0){
+					$scope.funcolStop = true;
+					$scope.funcol = false;
+				}
+				
 				if(predata.length>0){
 					$scope.islast = true;
 				}else{
@@ -54,9 +67,15 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				loop();
 				$scope.pausebol =true;
 				paused = false;
-				$scope.funcolStop = false;
+				if(draw_number==0){
+					$scope.funcolStop = false;
+				}
+				
 				$scope.islast = false;
 				$scope.isnext = false;
+				$scope.rewinded = true;
+				$scope.forwarded = true;
+				//$scope.funcol = true;
 			}
 		}
 		
@@ -71,6 +90,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
                 }else{
                 	console.log('not last');
                 	$scope.islast = false;
+                	$scope.funcol = false;
+					$scope.funcolStop = true;
                 }
 			}
 		}
@@ -79,9 +100,12 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			//console.log('click next');
 			if (paused){
 				if(!nextstatus){
+					
 					nextstatus = true;
 					auto = false;
 					$scope.isnext = true;
+					$scope.funcol = false;
+					$scope.funcolStop = true;
 					loop();
 					if(predata.length>0){
 						$scope.islast = true;
@@ -118,7 +142,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					$scope.rewinded = true;
 				}
 				$scope.fastnum = $scope.fastarr[fasti];
-				console.log(fasti);
+				console.log("speed:" + $scope.fastnum);
 			}
 		}
 
@@ -213,7 +237,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		function loop(){
 			if(draw_number>=lines.length){
-				
 				predata = [];
 				var imgendData=cxt.getImageData(0, 0,canvas_width, canvas_height);
 		    	cxt.clearRect(0, 0, canvas_width, canvas_height);
@@ -292,7 +315,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 				imgdata = changeColor(imgarray[data.brush], data.color);
 				cxt.globalAlpha = brush_Alpha[data.brush] * data.color.color_a;
-
 				var dist = distanceBetween(previewData, data);
 				var angle = angleBetween(previewData, data);
 
@@ -367,7 +389,12 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					}
 				}
 			}
-			loop();
+			$scope.playRead = true;
+			$scope.$apply( function() {$scope.loading =true;})
+			
+			if($scope.loading){
+				loop();
+			}
 		}
 
 		$scope.drawingPlay = function(){
