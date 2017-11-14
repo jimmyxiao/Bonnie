@@ -135,8 +135,9 @@ class CanvasViewController:
             controller.delegate = self
             controller.color = canvas.color
             controller.popoverPresentationController?.delegate = self
+            controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            controller.preferredContentSize = CGSize(width: view.bounds.width * 0.8, height: 204)
+            controller.preferredContentSize = CGSize(width: UIScreen.main.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.9 : 0.45), height: 204)
         } else if let url = sender as? URL,
                   let controller = segue.destination as? UploadViewController {
             controller.workThumbnailData = canvas.thumbnailData()
