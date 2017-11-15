@@ -14,9 +14,10 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.widget.TSnackbarCall;
@@ -170,12 +171,15 @@ public class EditProfileFragment extends Fragment {
                                     }
                                 }
 
+                                String profileUrl="";
                                 if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                     //URL profilePicUrl = new URL();
-                                    ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture"), mImgViewPhoto);
-                                } else {
-                                    ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round, mImgViewPhoto);
+                                    profileUrl=GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                 }
+                                Glide.with(getContext())
+                                        .load(profileUrl)
+                                        .apply(GlideAppModule.getUserOptions())
+                                        .into(mImgViewPhoto);
                             } else {
                                 TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"連線失敗");
                             }

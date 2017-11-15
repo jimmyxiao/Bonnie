@@ -25,14 +25,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.PlayDialog;
@@ -102,7 +100,6 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRvHot.setLayoutManager(layoutManager);
-        mRvHot.addOnScrollListener(new RecyclerPauseOnScrollListener(ImageLoader.getInstance(), true, true));
         getWorksList();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -139,7 +136,7 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
 
     public void refreshWorks(JSONArray data) {
         workInfoList = WorkInfo.generateInfoList(data);
-        mAdapter = new WorkAdapterList(workInfoList, this);
+        mAdapter = new WorkAdapterList(getContext(),workInfoList, this);
         mRvHot.setAdapter(mAdapter);
     }
 

@@ -226,7 +226,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
             e.printStackTrace();
         }
 
-        MsgAdapter adapter = new MsgAdapter(msgArrayList, this);
+        MsgAdapter adapter = new MsgAdapter(getContext(),msgArrayList, this);
         mRv.setAdapter(adapter);
         mRv.setVisibility(View.VISIBLE);
     }

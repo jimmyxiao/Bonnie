@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,14 +20,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.LoadImageApp;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.widget.PlayDialog;
@@ -149,9 +149,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                         //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture"), mCircleImg, LoadImageApp.optionsUserImg);
+                                        Glide.with(getContext()).load(GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture")).into(mCircleImg).onLoadFailed(ContextCompat.getDrawable(getContext(), R.drawable.photo_round));
                                     } else {
-                                        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round, mCircleImg);
+                                        Glide.with(getContext()).load(R.drawable.photo_round).into(mCircleImg).onLoadFailed(ContextCompat.getDrawable(getContext(), R.drawable.photo_round));
                                     }
                                 }
                             } catch (JSONException e) {
@@ -210,7 +210,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     public void refreshWorks(JSONArray data) {
         workInfoList = WorkInfo.generateInfoList(data);
 
-        mAdapterGrid = new WorkAdapterGrid(workInfoList, new WorkAdapterGrid.WorkGridOnClickListener() {
+        mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
                 PlayDialog playDialog = PlayDialog.newInstance(wid);
@@ -218,7 +218,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             }
         });
 
-        mAdapterList = new WorkAdapterList(workInfoList, this);
+        mAdapterList = new WorkAdapterList(getContext(), workInfoList, this);
 
         if (mbFist) {
             mRv.setLayoutManager(gridLayoutManager);

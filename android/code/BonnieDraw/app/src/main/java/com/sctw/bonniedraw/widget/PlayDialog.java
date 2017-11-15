@@ -20,9 +20,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paint.Brushes;
 import com.sctw.bonniedraw.paint.PaintView;
@@ -30,8 +30,9 @@ import com.sctw.bonniedraw.paint.TagPoint;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
+import com.sctw.bonniedraw.utility.GlideApp;
+import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.LoadImageApp;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 
@@ -64,7 +65,8 @@ import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
  */
 
 public class PlayDialog extends DialogFragment {
-    private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvCreateTime, mTvUserFollow;
+    private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvCreateTime, mTvUserFollow, mTvPlayTotal;
+    private ProgressBar mProgressBar;
     private ImageView mImgViewWorkImage;
     private CircleImageView mCircleImgUserPhoto;
     private ImageButton mBtnExtra, mBtnGood, mBtnMsg, mBtnShare, mBtnCollection, mBtnPlay, mBtnPause, mBtnNext, mBtnPrevious;
@@ -129,6 +131,8 @@ public class PlayDialog extends DialogFragment {
         mTvWorkDescription = view.findViewById(R.id.textView_single_work_description);
         mTvGoodTotal = view.findViewById(R.id.textView_single_work_good_total);
         mTvCreateTime = view.findViewById(R.id.textView_single_work_create_time);
+        mTvPlayTotal = view.findViewById(R.id.textView_single_work_current_total);
+        mProgressBar = view.findViewById(R.id.progressBar_single_work);
         mImgViewWorkImage = view.findViewById(R.id.imgView_single_work_img);
         mCircleImgUserPhoto = view.findViewById(R.id.circleImg_single_work_user_photo);
         mBtnExtra = view.findViewById(R.id.imgBtn_single_work_extra);
@@ -398,6 +402,9 @@ public class PlayDialog extends DialogFragment {
                 }
                 miPointCount--;
                 miPointCurrent++;
+                int progress = 100 * miPointCurrent / mPaintView.mListTagPoint.size();
+                mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", progress));
+                mProgressBar.setProgress(progress);
 
                 if (brun) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
@@ -517,13 +524,15 @@ public class PlayDialog extends DialogFragment {
                 mBtnCollection.setPressed(false);
             }
 
-            if (data.getString("profilePicture").equals("null")) {
-                profilePictureUrl = "";
-            } else {
-                profilePictureUrl = GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture");
-            }
-            ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"), mImgViewWorkImage, LoadImageApp.optionsWorkImg);
-            ImageLoader.getInstance().displayImage(profilePictureUrl, mCircleImgUserPhoto, LoadImageApp.optionsUserImg);
+            GlideApp.with(getContext())
+                    .load(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"))
+                    .fitCenter()
+                    .error(R.drawable.loading_fail)
+                    .into(mImgViewWorkImage);
+            GlideApp.with(getContext())
+                    .load(GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture"))
+                    .apply(GlideAppModule.getUserOptions())
+                    .into(mCircleImgUserPhoto);
             bdwPath = data.getString("bdwPath");
             workUid = data.getString("userId");
             if (!refresh) {
@@ -704,5 +713,10 @@ public class PlayDialog extends DialogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

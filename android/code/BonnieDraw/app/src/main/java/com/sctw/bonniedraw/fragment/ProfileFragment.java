@@ -20,12 +20,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
+import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfo;
@@ -192,12 +193,15 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                         mTextViewUserId.setText("");
                                     }
 
+                                    String profileUrl="";
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                         //URL profilePicUrl = new URL();
-                                        ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture"), imgPhoto);
-                                    } else {
-                                        ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round, imgPhoto);
+                                        profileUrl=GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                     }
+                                    Glide.with(getContext())
+                                            .load(profileUrl)
+                                            .apply(GlideAppModule.getUserOptions())
+                                            .into(imgPhoto);
                                 } else {
                                     Toast.makeText(getContext(), "連線失敗", Toast.LENGTH_SHORT).show();
                                 }
@@ -256,7 +260,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     public void refreshWorks(JSONArray data) {
         workInfoList = WorkInfo.generateInfoList(data);
 
-        mAdapterGrid = new WorkAdapterGrid(workInfoList, new WorkAdapterGrid.WorkGridOnClickListener() {
+        mAdapterGrid = new WorkAdapterGrid(getContext(),workInfoList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
                 PlayDialog playDialog = PlayDialog.newInstance(wid);
@@ -264,7 +268,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             }
         });
 
-        mAdapterList = new WorkAdapterList(workInfoList, this);
+        mAdapterList = new WorkAdapterList(getContext(), workInfoList, this);
 
         if (mbFist) {
             mRecyclerViewProfile.setLayoutManager(gridLayoutManager);

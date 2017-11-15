@@ -25,14 +25,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.PlayDialog;
@@ -102,13 +100,12 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewHome.setLayoutManager(layoutManager);
-        mRecyclerViewHome.addOnScrollListener(new RecyclerPauseOnScrollListener(ImageLoader.getInstance(), true, true));
-        getWorksList();
+        getWorksList(false);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getWorksList();
+                getWorksList(true);
             }
         });
     }
@@ -137,10 +134,15 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         });
     }
 
+    public void getWorks(JSONArray data) {
+        workInfoList = WorkInfo.generateInfoList(data);
+        mAdapter = new WorkAdapterList(getContext(),workInfoList, this);
+        mRecyclerViewHome.setAdapter(mAdapter);
+    }
+
     public void refreshWorks(JSONArray data) {
         workInfoList = WorkInfo.generateInfoList(data);
-        mAdapter = new WorkAdapterList(workInfoList, this);
-        mRecyclerViewHome.setAdapter(mAdapter);
+        mAdapter.refreshData(workInfoList);
     }
 
     public void setLike(final int position, final int fn, int wid) {
@@ -296,7 +298,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         });
     }
 
-    public void getWorksList() {
+    public void getWorksList(final boolean refresh) {
         JSONObject json = ConnectJson.queryListWork(prefs, 4, 0, 100);
         Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
@@ -322,7 +324,11 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
                                 public void run() {
                                     //下載資料
                                     try {
-                                        refreshWorks(responseJSON.getJSONArray("workList"));
+                                        if(!refresh){
+                                            getWorks(responseJSON.getJSONArray("workList"));
+                                        }else{
+                                            refreshWorks(responseJSON.getJSONArray("workList"));
+                                        }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -444,12 +450,5 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         } else {
             setFollow(position, 0, uid);
         }
-    }
-
-
-    @Override
-    public void onResume() {
-        getWorksList();
-        super.onResume();
     }
 }

@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "579888826124",
-    "project_id": "bonniedraw-177201"
+    "firebase_url": "https://bonniedraw-177201.firebaseio.com",
+    "project_id": "bonniedraw-177201",
+    "storage_bucket": "bonniedraw-177201.appspot.com"
   },
   "client": [
     {
@@ -12,6 +14,10 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "579888826124-d2h3vojsiun49794g3cghi65iaiv8tgl.apps.googleusercontent.com",
+          "client_type": 3
+        },
         {
           "client_id": "579888826124-fhtjng8a80b7s3fdnuj4tfk4ngudid2j.apps.googleusercontent.com",
           "client_type": 1,
@@ -35,11 +41,23 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579888826124-j33ha9056gdu5i9v8n164r3k9rm63qtn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sctw.bonniedraw"
+              }
+            },
+            {
+              "client_id": "579888826124-d2h3vojsiun49794g3cghi65iaiv8tgl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

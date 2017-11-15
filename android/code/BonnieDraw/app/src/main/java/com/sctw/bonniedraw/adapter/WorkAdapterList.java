@@ -1,5 +1,6 @@
 package com.sctw.bonniedraw.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.utility.GlideApp;
+import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.LoadImageApp;
 import com.sctw.bonniedraw.utility.WorkInfo;
 
 import java.util.ArrayList;
@@ -27,8 +29,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHolder> {
     private List<WorkInfo> data = new ArrayList<>();
     private WorkListOnClickListener listener;
+    private Context context;
 
-    public WorkAdapterList(List<WorkInfo> data, WorkListOnClickListener listener) {
+    public WorkAdapterList(Context context, List<WorkInfo> data, WorkListOnClickListener listener) {
+        this.context = context;
         this.data = data;
         this.listener = listener;
 
@@ -51,22 +55,23 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         final int uid = Integer.parseInt(data.get(holder.getAdapterPosition()).getUserId());
         String workImgUrl = "";
         String userImgUrl = "";
-        //作品圖
-        if (data.get(position).getImagePath().equals("null")) {
-            workImgUrl = "";
-        } else {
+        if (!data.get(position).getImagePath().equals("null")) {
             workImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath();
         }
-        ImageLoader.getInstance()
-                .displayImage(workImgUrl, holder.mImgViewWrok, LoadImageApp.optionsWorkImg);
-        //作者圖
-        if (data.get(position).getUserImgPath().equals("null")) {
-            userImgUrl = "";
-        } else {
+        if (!data.get(position).getUserImgPath().equals("null")) {
             userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath();
         }
-        ImageLoader.getInstance()
-                .displayImage(userImgUrl, holder.mCircleImageView, LoadImageApp.optionsUserImg);
+
+        GlideApp.with(context)
+                .load(workImgUrl)
+                .apply(GlideAppModule.getWorkOptions())
+                .thumbnail(Glide.with(context).load(R.drawable.loading))
+                .into(holder.mImgViewWrok);
+        //作者圖
+        GlideApp.with(context)
+                .load(userImgUrl)
+                .apply(GlideAppModule.getUserOptions())
+                .into(holder.mCircleImageView);
 
         if (data.get(position).getMsgList().isEmpty()) {
             holder.mLinearLayoutWorksMsgOutSide.setVisibility(View.GONE);
@@ -195,6 +200,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     public void setCollection(int position, boolean isCollection) {
         data.get(position).setCollection(isCollection);
         notifyItemChanged(position);
+    }
+
+    public void refreshData(List<WorkInfo> newData) {
+        data = newData;
+        notifyDataSetChanged();
     }
 
     public interface WorkListOnClickListener {
