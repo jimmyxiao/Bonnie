@@ -229,6 +229,14 @@ public class PlayDialog extends DialogFragment {
             }
         });
 
+        mBtnMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MessageDialog messageDialog = MessageDialog.newInstance(wid);
+                messageDialog.show(getFragmentManager(), "TAG");
+            }
+        });
+
         mBtnGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -689,6 +697,7 @@ public class PlayDialog extends DialogFragment {
     public void onStop() {
         mHandlerTimerPlay.removeCallbacks(rb_play);
         mPaintView.release();
+        mPaintView.clear();
         super.onStop();
     }
 

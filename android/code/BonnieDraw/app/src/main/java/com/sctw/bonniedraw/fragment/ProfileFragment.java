@@ -184,8 +184,10 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                         mTextViewUserdescription.setText("");
                                     }
 
-                                    if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
-                                        mTextViewUserId.setText(responseJSON.getString("nickName"));
+                                    //if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
+                                    if (responseJSON.has("email") && !responseJSON.isNull("email")) {
+                                        String temp = responseJSON.getString("email");
+                                        mTextViewUserId.setText(temp.substring(0, temp.indexOf("@")));
                                     } else {
                                         mTextViewUserId.setText("");
                                     }

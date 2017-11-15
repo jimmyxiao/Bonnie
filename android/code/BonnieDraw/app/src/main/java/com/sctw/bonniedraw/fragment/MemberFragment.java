@@ -140,8 +140,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                         mTvMemberDescription.setText("");
                                     }
 
-                                    if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
-                                        mTvMemberId.setText(responseJSON.getString("nickName"));
+                                    if (responseJSON.has("email") && !responseJSON.isNull("email")) {
+                                        String temp = responseJSON.getString("email");
+                                        mTvMemberId.setText(temp.substring(0, temp.indexOf("@")));
                                     } else {
                                         mTvMemberId.setText("");
                                     }
@@ -164,13 +165,14 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     }
 
     public void getWorksList() {
-        JSONObject json = ConnectJson.queryListWork(prefs, 6, 0, 100);
+        JSONObject json = ConnectJson.queryListWorkOther(prefs, 6, miUserId);
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_WORK_LIST)
                 .post(body)
                 .build();
+        System.out.println(json.toString());
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -195,6 +197,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                     mSwipeRefreshLayout.setRefreshing(false);
                                 }
                             });
+                            System.out.println(responseJSON.toString());
                         }
                     }
                 } catch (JSONException e) {
@@ -512,7 +515,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
     @Override
     public void onFollowClick(int position, int isFollow, int uid) {
-        if (isFollow==1) {
+        if (isFollow == 1) {
             setFollow(position, 1, uid);
         } else {
             setFollow(position, 0, uid);

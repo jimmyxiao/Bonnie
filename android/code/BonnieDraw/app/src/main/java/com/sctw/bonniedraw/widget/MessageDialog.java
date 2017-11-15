@@ -97,6 +97,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         mBtnBack = view.findViewById(R.id.imgBtn_message_back);
         mEidtMsg = view.findViewById(R.id.editText_write_msg);
         mTtextPublish = view.findViewById(R.id.textView_publish_msg);
