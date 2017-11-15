@@ -174,3 +174,8 @@
  	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
+
+
+#secondary-section.vids-2-column.top20{
+	padding-top: 20px;
+}

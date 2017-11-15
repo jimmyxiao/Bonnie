@@ -24,6 +24,7 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 
 		$scope.queryPopularWorks = function(){
 			$scope.secondarySectionArr_popular = [];
+			$scope.secondarySectionArr_popular_first = [];
 			var params = util.getInitalScope();
 			params.wid = 0;
 			params.wt = 2;
@@ -32,6 +33,7 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$scope.secondarySectionArr_popular = data.workList;
+					$scope.secondarySectionArr_popular_first = $scope.secondarySectionArr_popular.shift();
 				}
 			})
 		}

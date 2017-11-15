@@ -3,41 +3,42 @@
 		<div ui-view="headerMenu"></div>
 
 		<!-- Main Section -->
-		<!-- <div id="main-section">
+		 <div id="main-section">
 			<div class="container">
 				<div class="row overflow-hidden">
-			    	<div class="col-md-6 col-sm-12 md-grid" ng-repeat="data in mainSectionArr_mdgrid track by $index">
-			       		<div class="vid-img-holder wow pulse" data-wow-duration="{{mainSectionArr_mdgrid.delay}}">
+			    	<!--<div class="col-md-6 col-sm-12 md-grid" ng-repeat="data in secondarySectionArr_popular_first track by $index">-->
+			    	<div class="col-md-6 col-sm-12 md-grid">
+			       		<div class="vid-img-holder wow pulse" data-wow-duration="{{secondarySectionArr_popular_first.delay}}">
 			        		<div class="top-shadow">
-			              		<a class="_eszkz _l9yih " href="#" role="button" aria-disabled><i class="material-icons author-font-icon">{{data.title}}</i></a>
-								<span style="float:left;"><i class="fa fa-thumbs-o-up author-font-icon" aria-hidden="true"></i>{{data.like}}</span>
+			              		<a class="_eszkz _l9yih " href="#" role="button" aria-disabled><i class="material-icons author-font-icon">{{secondarySectionArr_popular_first.title}}</i></a>
+								<span style="float:left;"><i class="fa fa-thumbs-o-up author-font-icon" aria-hidden="true"></i>{{secondarySectionArr_popular_first.like}}</span>
 			            	</div>
 			            	<a ng-href="#/column-detail?id={{data.worksId}}">
-			                	<img class="img-responsive hidden-sm hidden-xs" ng-src="{{data.imgXs}}" alt="video_thumb">
-			                	<img class="img-responsive hidden-md hidden-lg" ng-src="{{data.imgLg}}" alt="video_thumb">
+			                	<img class="img-responsive hidden-sm hidden-xs" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb">
+			                	<img class="img-responsive hidden-md hidden-lg" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb">
 			                	<span class="play-icon">
 			                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">		                	
 			                	</span>			                			                
 			            	</a> 
 			            	<h3 class="vid-author">
 				                <span>
-				                    By <a href="#" title="Posts by admin" rel="author">{{data.author}}</a>
+				                    By <a href="#" title="Posts by admin" rel="author">"{{secondarySectionArr_popular_first.userName}}"</a>
 				                </span>
-				                <a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a>
+				                <a ng-href="#/column-detail?id={{data.worksId}}">{{secondarySectionArr_popular_first.title}}</a>
 			            	</h3> 
 			            	<div class="bottom-shadow"></div>
 			            	<div class="overlay-div"></div>		
 			       	 	</div>
 			    	</div>
 
-			   		<div class="col-md-3 col-sm-6 small-grid" ng-repeat="data in mainSectionArr_smallgrid track by $index">
+			   		<div class="col-md-3 col-sm-6 small-grid" ng-repeat="data in secondarySectionArr_popular track by $index">
 		          		<div class="vid-img-holder wow fadeInUp" data-wow-duration="{{data.delay}}">
 	                		<div class="top-shadow">
 	                  			<a class="_eszkz _l9yih " href="#" role="button" aria-disabled><i class="material-icons author-font-icon">favorite_border</i></a>
 								<span style="float:left;"><i class="fa fa-thumbs-o-up author-font-icon" aria-hidden="true"></i>{{data.like}}</span>
 	                		</div>
 	                  		<a ng-href="#/column-detail?id={{data.worksId}}">
-	                    		<img class="img-responsive hidden-xs hidden-sm" ng-src="{{data.imgMds}}" alt="video_thumb">
+	                    		<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
 	                    		<img class="img-responsive hidden-md hidden-lg" src="{{data.imgSm}}" alt="video_thumb">
 	                    		<span class="play-icon play-small-icon">
 			                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">		                	
@@ -45,7 +46,7 @@
 	                  		</a>  
 	                  		<h3 class="vid-author">
 		                    	<span>
-		                    		By <a href="#" title="Posts by admin" rel="author">{{data.author}}</a>
+		                    		By <a href="#" title="Posts by admin" rel="author">{{data.userName}}</a>
 		                    	</span>
 			                    <a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a>
 	                  		</h3> 
@@ -55,7 +56,7 @@
 		      		</div>	      	
 				</div>
 			</div>
-		</div> -->
+		</div>
 		<!-- Main Section -->
 
 		<!-- Secondary Section -->
@@ -97,7 +98,7 @@
 							</div>
 						</div>
 
-						<div class="most-viewd secondary-vid">
+						<!--<div class="most-viewd secondary-vid">
 							<div class="vid-heading overflow-hidden">
 								<span class="wow fadeInUp" data-wow-duration="0.8s">{{'HOME.HOT_CREATION' | translate}}</span>
 								<div class="hding-bottm-line wow zoomIn" data-wow-duration="0.8s"></div>
@@ -121,7 +122,7 @@
 													</a>
 													<span>{{popularCreation.likeCount}}</span>
 													<!-- <a href=""><i class="material-icons share-icon">share</i></a> -->
-												</section>
+												<!--</section>
 												<p><a ng-href="#/userfile/{{popularCreation.userId}}">{{popularCreation.userName}}</a></p>
 												<h1><a ng-href="#/column-detail?id={{popularCreation.worksId}}">{{popularCreation.title}}</a></h1>
 											</div>
@@ -129,7 +130,7 @@
 									</div>				
 								</div>
 							</div>
-						</div>
+						</div>-->
 					</div>
 
  					<div class="col-md-3 col-sm-4">

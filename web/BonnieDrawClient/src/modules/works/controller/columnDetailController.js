@@ -19,7 +19,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var paused= false;
 		$scope.forwarded =true;
 		$scope.rewinded =true;
-		
 		var auto = true;
 		var nextstatus = false;
 		var linend =false;
@@ -41,6 +40,9 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 	    };
 
 		$scope.pasue = function(){
+			fasti =3;
+			$scope.fastnum = 1;
+			
 			if (!paused){
 				$scope.pausebol = false;
 				paused = true;
@@ -99,13 +101,12 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.next = function(){
 			//console.log('click next');
 			if (paused){
-				if(!nextstatus){
-					
+				if(!nextstatus&&draw_number!=0){
 					nextstatus = true;
 					auto = false;
 					$scope.isnext = true;
-					$scope.funcol = false;
-					$scope.funcolStop = true;
+					//$scope.funcol = false;
+					//$scope.funcolStop = true;
 					loop();
 					if(predata.length>0){
 						$scope.islast = true;
@@ -243,6 +244,9 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		    	cxt.putImageData(imgendData,0,0);
 		    	draw_number=0;
 		    	$scope.isnext = false;
+		    	$scope.islast = false;
+		    	$scope.funcolStop = true;
+		    	$scope.funcol = false;
 		    	if(auto){
 			    	paused = false;
 			    	$scope.$apply( function() {$scope.pasue();})
@@ -390,8 +394,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				}
 			}
 			$scope.playRead = true;
-			$scope.$apply( function() {$scope.loading =true;})
-			
+			$scope.$apply( function() {$scope.loading =true;});
+
 			if($scope.loading){
 				loop();
 			}
