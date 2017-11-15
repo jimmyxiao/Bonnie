@@ -62,7 +62,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".paint.PaintPlayActivity" />
-        <activity android:name=".activity.SingleWorkActivity" />
     </application>
 
 </manifest>

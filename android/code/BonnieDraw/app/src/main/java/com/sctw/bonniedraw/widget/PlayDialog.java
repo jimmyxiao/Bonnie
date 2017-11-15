@@ -1,14 +1,21 @@
-package com.sctw.bonniedraw.activity;
+package com.sctw.bonniedraw.widget;
+
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -27,8 +34,6 @@ import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.LoadImageApp;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
-import com.sctw.bonniedraw.utility.TSnackbarCall;
-import com.sctw.bonniedraw.widget.BasePopup;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,14 +56,18 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
 
-public class SingleWorkActivity extends AppCompatActivity implements BasePopup.OnBasePopupClick {
-    private TextView mTextViewUserName, mTextViewWorkDescription, mTextViewWorkName, mTextViewGoodTotal, mTextViewCreateTime;
+/**
+ * Created by Fatorin on 2017/11/7.
+ */
+
+public class PlayDialog extends DialogFragment {
+    private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvCreateTime, mTvUserFollow;
     private ImageView mImgViewWorkImage;
     private CircleImageView mCircleImgUserPhoto;
-    private ImageButton mBtnUserExtra, mBtnUserGood, mBtnUserMsg, mBtnUserShare, mBtnUserFollow;
-    private Button mBtnPlayPause, mBtnNext, mBtnPrevious;
+    private ImageButton mBtnExtra, mBtnGood, mBtnMsg, mBtnShare, mBtnCollection, mBtnPlay, mBtnPause, mBtnNext, mBtnPrevious;
     private String bdwPath = ""; //"bdwPath":
     private String workUid = "";
     SharedPreferences prefs;
@@ -74,43 +83,71 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
     private BDWFileReader mBDWFileReader;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
-    private boolean mbLike;
+    private boolean mbLike, mbCollection;
+
+    public static PlayDialog newInstance(int wid) {
+        PlayDialog f = new PlayDialog();
+        // Supply num input as an argument.
+        Bundle args = new Bundle();
+        args.putInt("wid", wid);
+        f.setArguments(args);
+        return f;
+    }
 
     @Override
-
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_work);
-        prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            wid = bundle.getInt("wid");
-        }
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.FullScreenDialog);
+        wid = getArguments().getInt("wid");
+        prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+    }
 
-        mPaintView = new PaintView(this);
-        mTextViewUserName = findViewById(R.id.textView_single_work_username);
-        mTextViewWorkName = findViewById(R.id.textView_single_work_title);
-        mTextViewWorkDescription = findViewById(R.id.textView_single_work_description);
-        mTextViewGoodTotal = findViewById(R.id.textView_single_work_good_total);
-        mTextViewCreateTime = findViewById(R.id.textView_single_work_create_time);
-        mImgViewWorkImage = findViewById(R.id.imgView_single_work_img);
-        mCircleImgUserPhoto = findViewById(R.id.circleImg_single_work_user_photo);
-        mBtnUserExtra = findViewById(R.id.imgBtn_single_work_extra);
-        mBtnUserGood = findViewById(R.id.imgBtn_single_work_good);
-        mBtnUserMsg = findViewById(R.id.imgBtn_single_work_msg);
-        mBtnUserShare = findViewById(R.id.imgBtn_single_work_share);
-        mBtnUserFollow = findViewById(R.id.imgBtn_single_work_follow);
-        mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_single_work);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        getDialog().setCanceledOnTouchOutside(true);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        View rootView = inflater.inflate(R.layout.dialog_single_work, container, false);
+        //Do something
+        final Window window = getDialog().getWindow();
+        window.setBackgroundDrawableResource(R.color.Transparent);
+        window.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(wlp);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPaintView = new PaintView(getContext());
+        mTvUserName = view.findViewById(R.id.textView_single_work_username);
+        mTvWorkName = view.findViewById(R.id.textView_single_work_title);
+        mTvWorkDescription = view.findViewById(R.id.textView_single_work_description);
+        mTvGoodTotal = view.findViewById(R.id.textView_single_work_good_total);
+        mTvCreateTime = view.findViewById(R.id.textView_single_work_create_time);
+        mImgViewWorkImage = view.findViewById(R.id.imgView_single_work_img);
+        mCircleImgUserPhoto = view.findViewById(R.id.circleImg_single_work_user_photo);
+        mBtnExtra = view.findViewById(R.id.imgBtn_single_work_extra);
+        mBtnGood = view.findViewById(R.id.imgBtn_single_work_good);
+        mBtnMsg = view.findViewById(R.id.imgBtn_single_work_msg);
+        mBtnShare = view.findViewById(R.id.imgBtn_single_work_share);
+        mBtnCollection = view.findViewById(R.id.imgBtn_single_work_collection);
+        mBtnPlay = view.findViewById(R.id.imgBtn_single_work_play);
+        mBtnPause = view.findViewById(R.id.imgBtn_single_work_pause);
+        mBtnNext = view.findViewById(R.id.imgBtn_single_work_next);
+        mBtnPrevious = view.findViewById(R.id.imgBtn_single_work_previous);
+        mFrameLayoutFreePaint = (FrameLayout) view.findViewById(R.id.frameLayout_single_work);
         miViewWidth = mPaintView.getMiWidth();
-        mFileBDW = new File(getFilesDir().getPath() + PLAY_FILE_BDW);
+        mFileBDW = new File(getActivity().getFilesDir().getPath() + PLAY_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         mListRecordInt = new ArrayList<>();
         getSingleWork(false);
         setOnClick();
-        mBtnPlayPause = findViewById(R.id.imgBtn_single_work_play_pause);
-        mBtnNext = findViewById(R.id.imgBtn_single_work_next);
-        mBtnPrevious = findViewById(R.id.imgBtn_single_work_previous);
-        mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[0]);
+        mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
     }
 
     private void deleteWork() {
@@ -124,7 +161,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), "Fail Load");
+                ToastUtil.createToastWindow(getContext(), "讀取錯誤");
             }
 
             @Override
@@ -132,7 +169,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                 try {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
                     if (responseJSON.getInt("res") == 1) {
-                        finish();
+                        dismiss();
                     }
                     Log.d("JSON RESPONE", responseJSON.toString());
                 } catch (JSONException e) {
@@ -144,10 +181,10 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
     }
 
     private void setOnClick() {
-        mBtnUserExtra.setOnClickListener(new View.OnClickListener() {
+        mBtnExtra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final FullScreenDialog dialog = new FullScreenDialog(SingleWorkActivity.this, R.layout.dialog_single_work_extra);
+                final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_single_work_extra);
                 Button btnShareWork = dialog.findViewById(R.id.btn_extra_share);
                 Button btnDeleteWork = dialog.findViewById(R.id.btn_extra_delete);
                 Button btnEditWorkName = dialog.findViewById(R.id.btn_extra_edit_work);
@@ -158,7 +195,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                 btnDeleteWork.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(SingleWorkActivity.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage("確認要刪除這個作品嗎?");
                         builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
                             @Override
@@ -192,75 +229,111 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
             }
         });
 
-        mBtnUserGood.setOnClickListener(new View.OnClickListener() {
+        mBtnGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mbLike) {
-                    mBtnUserGood.setSelected(false);
+                    mBtnGood.setSelected(false);
                     setLike(0, wid);
                 } else {
-                    mBtnUserGood.setSelected(true);
+                    mBtnGood.setSelected(true);
                     setLike(1, wid);
                 }
             }
         });
 
-        mBtnUserFollow.setOnClickListener(new View.OnClickListener() {
+        mBtnCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mbCollection) {
+                    mBtnCollection.setSelected(false);
+                    setCollection(0, wid);
+                } else {
+                    mBtnCollection.setSelected(true);
+                    setCollection(1, wid);
+                }
+            }
+        });
+
+        /*mBtnUserFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (miFollow == 1) {
-                    mBtnUserGood.setSelected(false);
+                    mBtnUserFollow.setSelected(false);
                     setFollow(0, uid);
                 } else {
-                    mBtnUserGood.setSelected(true);
+                    mBtnUserFollow.setSelected(true);
                     setFollow(1, uid);
+                }
+            }
+        });*/
+
+        mBtnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkSketch() && !mbAutoPlay) {
+                    mImgViewWorkImage.setVisibility(View.GONE);
+                    replayStart();
+                    mBtnNext.setVisibility(View.VISIBLE);
+                    mBtnPrevious.setVisibility(View.VISIBLE);
+                    mBtnPlay.setVisibility(View.GONE);
+                    mBtnPause.setVisibility(View.VISIBLE);
+                } else {
+                    if (miPointCount > 0)
+                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    mbAutoPlay = true;
+                }
+            }
+        });
+
+        mBtnPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mbAutoPlay = false;
+                mBtnPlay.setVisibility(View.VISIBLE);
+                mBtnPause.setVisibility(View.GONE);
+            }
+        });
+
+        mBtnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (miPointCount > 0) {
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                } else if (miPointCount == 0) {
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_end));
+                }
+            }
+        });
+
+        mBtnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mbPlaying) {
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_wait));
+                } else if (miPointCurrent > 0) {
+                    mPaintView.onClickPrevious();
+                    // 兩個UP差異點數 = 減少的點數 在移除最後第一個
+                    int count;
+                    if (mListRecordInt.size() > 1) {
+                        count = mListRecordInt.remove(mListRecordInt.size() - 1) - mListRecordInt.get(mListRecordInt.size() - 1);
+                    } else {
+                        count = mListRecordInt.remove(mListRecordInt.size() - 1);
+                    }
+                    miPointCount = miPointCount + count;
+                    miPointCurrent = miPointCurrent - count;
+
+                } else if (miPointCurrent == 0) {
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_frist));
                 }
             }
         });
     }
 
-    public void next(View view) {
-        if (miPointCount > 0) {
-            mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-        } else if (miPointCount == 0) {
-            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), getString(R.string.play_end));
-        }
-    }
-
-    public void previous(View view) {
-        if (mbPlaying) {
-            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_wait));
-        } else if (miPointCurrent > 0) {
-            mPaintView.onClickPrevious();
-            // 兩個UP差異點數 = 減少的點數 在移除最後第一個
-            int count;
-            if (mListRecordInt.size() > 1) {
-                count = mListRecordInt.remove(mListRecordInt.size() - 1) - mListRecordInt.get(mListRecordInt.size() - 1);
-                System.out.println(count);
-            } else {
-                count = mListRecordInt.remove(mListRecordInt.size() - 1);
-                System.out.println(count);
-            }
-            System.out.println(miPointCurrent);
-            miPointCount = miPointCount + count;
-            miPointCurrent = miPointCurrent - count;
-
-        } else if (miPointCurrent == 0) {
-            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_frist));
-        }
-    }
-
-    public void startPlay(View view) {
-        if (checkSketch()) {
-            mImgViewWorkImage.setVisibility(View.GONE);
-            replayStart();
-        }
-    }
-
     private void replayStart() {
         mFrameLayoutFreePaint.removeAllViews();
-        mPaintView = new PaintView(SingleWorkActivity.this, true);
-        mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[0]);
+        mPaintView = new PaintView(getContext(), true);
+        mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
         mFrameLayoutFreePaint.addView(mPaintView);
         mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
         miPointCount = mPaintView.mListTagPoint.size();
@@ -275,7 +348,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
             mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
             return true;
         } else {
-            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), "讀取檔案失敗");
+            ToastUtil.createToastWindow(getContext(), "讀取錯誤");
             return false;
         }
     }
@@ -290,7 +363,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                         mbPlaying = true;
                         if (tagpoint.get_iBrush() != 0) {
                             int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
-                            mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
+                            mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
                         }
                         if (tagpoint.get_iColor() != 0) {
                             mPaintView.setDrawingColor(tagpoint.get_iColor());
@@ -344,7 +417,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), "Fail Load");
+                ToastUtil.createToastWindow(getContext(), "讀取失敗");
             }
 
             @Override
@@ -352,7 +425,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                 try {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
                     if (responseJSON.getInt("res") == 1) {
-                        runOnUiThread(new Runnable() {
+                        getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 //下載資料
@@ -379,7 +452,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_work), "Fail Load");
+                ToastUtil.createToastWindow(getContext(), "讀取失敗");
             }
 
             @Override
@@ -411,24 +484,29 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
             String profilePictureUrl = "";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN);
             Date date = new Date(Long.valueOf(data.getString("updateDate")));
-            mTextViewUserName.setText(data.getString("userName"));
-            mTextViewWorkName.setText(data.getString("title"));
-            mTextViewWorkDescription.setText(data.getString("description"));
-            mTextViewGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getInt("likeCount")));
-            mTextViewCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
+            mTvUserName.setText(data.getString("userName"));
+            mTvWorkName.setText(data.getString("title"));
+            mTvWorkDescription.setText(data.getString("description"));
+            mTvGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getInt("likeCount")));
+            mTvCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
             uid = data.getInt("userId");
             mbLike = data.getBoolean("like");
+            mbCollection = data.getBoolean("collection");
             miFollow = data.getInt("isFollowing");
-            System.out.println("miFollow = " + miFollow);
             if (mbLike) {
-                mBtnUserGood.setPressed(true);
+                mBtnGood.setPressed(true);
             } else {
-                mBtnUserGood.setPressed(false);
+                mBtnGood.setPressed(false);
             }
-            if (miFollow == 1) {
+            /*if (miFollow == 1) {
                 mBtnUserFollow.setPressed(true);
             } else {
                 mBtnUserFollow.setPressed(false);
+            }*/
+            if (mbCollection) {
+                mBtnCollection.setPressed(true);
+            } else {
+                mBtnCollection.setPressed(false);
             }
 
             if (data.getString("profilePicture").equals("null")) {
@@ -468,7 +546,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
-                    runOnUiThread(new Runnable() {
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -480,11 +558,64 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                                     switch (fn) {
                                         case 0:
                                             //del
-                                            mBtnUserMsg.setSelected(true);
+                                            mBtnGood.setSelected(true);
                                             break;
                                         case 1:
                                             //add
-                                            mBtnUserMsg.setSelected(false);
+                                            mBtnGood.setSelected(false);
+                                            break;
+                                    }
+                                }
+                                Log.d("LOGIN JSON", responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void setCollection(final int fn, int wid) {
+        // fn = 1 點讚, 0 取消讚
+        JSONObject json = ConnectJson.setCollection(prefs, fn, wid);
+        Log.d("LOGIN JSON: ", json.toString());
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_COLLECTION)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功 0 = DEL , 1 = ADD
+                                    getSingleWork(true);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    switch (fn) {
+                                        case 0:
+                                            //del
+                                            mBtnCollection.setSelected(true);
+                                            break;
+                                        case 1:
+                                            //add
+                                            mBtnCollection.setSelected(false);
                                             break;
                                     }
                                 }
@@ -521,7 +652,7 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
-                    runOnUiThread(new Runnable() {
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -533,11 +664,11 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
                                     switch (fn) {
                                         case 0:
                                             //del
-                                            mBtnUserFollow.setSelected(true);
+                                            //mBtnUserFollow.setSelected(true);
                                             break;
                                         case 1:
                                             //add
-                                            mBtnUserFollow.setSelected(false);
+                                            //mBtnUserFollow.setSelected(false);
                                             break;
                                     }
                                 }
@@ -554,14 +685,15 @@ public class SingleWorkActivity extends AppCompatActivity implements BasePopup.O
         });
     }
 
-
     @Override
-    public void onBackPressed() {
-        finish();
+    public void onStop() {
+        mHandlerTimerPlay.removeCallbacks(rb_play);
+        mPaintView.release();
+        super.onStop();
     }
 
     @Override
-    public void onBasePopupClick() {
-        finish();
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

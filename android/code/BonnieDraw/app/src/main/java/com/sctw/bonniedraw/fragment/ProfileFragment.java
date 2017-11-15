@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,10 +18,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
@@ -30,6 +29,7 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfo;
+import com.sctw.bonniedraw.widget.PlayDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -196,12 +196,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                     } else {
                                         ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round, imgPhoto);
                                     }
-
-                                    /*
-                                    if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                        //暫時無作用
-                                    }*/
                                 } else {
+                                    Toast.makeText(getContext(), "連線失敗", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -261,13 +257,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mAdapterGrid = new WorkAdapterGrid(workInfoList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
-                Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putInt("wid", wid);
-                intent.setClass(getActivity(), SingleWorkActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                PlayDialog playDialog = PlayDialog.newInstance(wid);
+                playDialog.show(fragmentManager, "TAG");
             }
         });
 
@@ -387,13 +378,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     @Override
     public void onWorkImgClick(int wid) {
-        Log.d("POSTION CLICK", "POSTION=" + String.valueOf(wid));
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putInt("wid", wid);
-        intent.setClass(getActivity(), SingleWorkActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        PlayDialog playDialog = PlayDialog.newInstance(wid);
+        playDialog.show(fragmentManager, "TAG");
     }
 
     @Override
@@ -474,6 +460,66 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onWorkCollectionClick(int position, boolean isCollection, int wid) {
+        if (isCollection) {
+            setCollection(position, 1, wid);
+        } else {
+            setCollection(position, 0, wid);
+        }
+    }
+
+    public void setCollection(final int position, final int fn, int wid) {
+        // fn = 1 收藏, 0 取消收藏
+        JSONObject json = ConnectJson.setCollection(prefs, fn, wid);
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_COLLECTION)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapterList.setCollection(position, false);
+                                            break;
+                                        case 1:
+                                            mAdapterList.setCollection(position, true);
+                                            break;
+                                    }
+                                    mAdapterList.notifyItemChanged(position);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapterList.notifyItemChanged(position);
+                                }
+                                System.out.println(responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

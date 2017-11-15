@@ -10,6 +10,8 @@
         android:id="@+id/circle_msg_user_img"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -17,7 +19,8 @@
         android:id="@+id/ll"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/circle_msg_user_img"
@@ -28,7 +31,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="8"
-            android:text="使用者"
             android:textStyle="bold" />
 
         <ImageButton
@@ -45,9 +47,8 @@
         android:id="@+id/textView_msg_board"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:text="留言內容"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/circle_msg_user_img"
         app:layout_constraintTop_toBottomOf="@+id/ll" />
@@ -56,7 +57,7 @@
         android:id="@+id/ll2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,21 +68,22 @@
             android:id="@+id/textView_msg_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:text="時間HR" />
+            android:layout_marginRight="16dp" />
 
         <TextView
             android:id="@+id/textView_msg_like_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:text="XX讚" />
+            android:text="XX讚"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/textView_msg_reply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="回覆" />
+            android:text="回覆"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -89,9 +91,10 @@
         android:id="@+id/textView_msg_look_all"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="查看先前的X則回覆"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/circle_msg_user_img"
         app:layout_constraintTop_toBottomOf="@+id/ll2" />

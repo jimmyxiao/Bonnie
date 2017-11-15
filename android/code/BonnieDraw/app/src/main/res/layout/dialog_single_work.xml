@@ -5,8 +5,7 @@
     android:id="@+id/coordinatorLayout_work"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/White"
-    tools:context="com.sctw.bonniedraw.activity.SingleWorkActivity">
+    android:background="@color/White">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -133,29 +132,36 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <Button
+                        <ImageButton
                             android:id="@+id/imgBtn_single_work_previous"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:onClick="previous"
-                            android:text="上一步" />
+                            android:background="@color/Transparent"
+                            android:visibility="invisible"
+                            app:srcCompat="@drawable/ic_skip_previous_black_24dp" />
 
-                        <Button
-                            android:id="@+id/imgBtn_single_work_play_pause"
+                        <ImageButton
+                            android:id="@+id/imgBtn_single_work_play"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:onClick="startPlay"
-                            android:text="暫停/撥放" />
+                            android:background="@color/Transparent"
+                            app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
 
-                        <Button
+                        <ImageButton
+                            android:id="@+id/imgBtn_single_work_pause"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/Transparent"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_pause_circle_outline_black_24dp" />
+
+                        <ImageButton
                             android:id="@+id/imgBtn_single_work_next"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:onClick="next"
-                            android:text="下一步" />
+                            android:background="@color/Transparent"
+                            android:visibility="invisible"
+                            app:srcCompat="@drawable/ic_skip_next_black_24dp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -193,7 +199,7 @@
                         app:srcCompat="@drawable/work_ic_send" />
 
                     <ImageButton
-                        android:id="@+id/imgBtn_single_work_follow"
+                        android:id="@+id/imgBtn_single_work_collection"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

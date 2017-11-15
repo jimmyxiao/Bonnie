@@ -107,7 +107,6 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
         LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(lm);
         getMsgList();
-
     }
 
     @Override
@@ -228,6 +227,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
 
         MsgAdapter adapter = new MsgAdapter(msgArrayList, this);
         mRv.setAdapter(adapter);
+        mRv.setVisibility(View.VISIBLE);
     }
 
     private void onPublishMsg() {

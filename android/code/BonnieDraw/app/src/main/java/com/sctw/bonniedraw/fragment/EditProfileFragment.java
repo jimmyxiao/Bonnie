@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -20,13 +19,14 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.utility.TSnackbarCall;
+import com.sctw.bonniedraw.widget.TSnackbarCall;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -42,7 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class EditProfileFragment extends Fragment {
     Button mBtnDone, mBtnCancel;
     TextView mTextViewChangePhoto;
-    ImageView mImgViewPhoto;
+    CircleImageView mImgViewPhoto;
     EditText mEditTextName, mEditTextNickName, mEditTextProfile, mEditTextEmail, mEditPhone;
     RadioGroup mRadioGroupGender;
     SharedPreferences prefs;
@@ -171,10 +171,10 @@ public class EditProfileFragment extends Fragment {
                                 }
 
                                 if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                    //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                    ImageLoader.getInstance().displayImage(prefs.getString(GlobalVariable.USER_IMG_URL_STR, "null"),mImgViewPhoto);
-                                }else {
-                                    ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round,mImgViewPhoto);
+                                    //URL profilePicUrl = new URL();
+                                    ImageLoader.getInstance().displayImage(GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture"), mImgViewPhoto);
+                                } else {
+                                    ImageLoader.getInstance().displayImage("drawable://" + R.drawable.photo_round, mImgViewPhoto);
                                 }
                             } else {
                                 TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"連線失敗");

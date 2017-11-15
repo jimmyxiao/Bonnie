@@ -21,6 +21,7 @@ public class WorkInfo {
     private Integer likeCount;
     private ArrayList<Msg> msgList;
     private boolean like;
+    private boolean isCollection;
 
     public String getWorkId() {
         return workId;
@@ -110,6 +111,14 @@ public class WorkInfo {
         this.like = like;
     }
 
+    public boolean isCollection() {
+        return isCollection;
+    }
+
+    public void setCollection(boolean collection) {
+        isCollection = collection;
+    }
+
     public static ArrayList<WorkInfo> generateInfoList(JSONArray data) {
         ArrayList<WorkInfo> workInfoList = new ArrayList<>();
         try {
@@ -121,9 +130,14 @@ public class WorkInfo {
                 workInfo.setUserName(data.getJSONObject(x).getString("userName"));
                 workInfo.setTitle(data.getJSONObject(x).getString("title"));
                 workInfo.setImagePath(data.getJSONObject(x).getString("imagePath"));
+                workInfo.setCollection(data.getJSONObject(x).getBoolean("collection"));
                 workInfo.setIsFollowing(data.getJSONObject(x).getInt("isFollowing"));
                 workInfo.setUserImgPath(data.getJSONObject(x).getString("profilePicture"));
-                workInfo.setLikeCount(data.getJSONObject(x).getInt("likeCount"));
+                if (!data.getJSONObject(x).isNull("likeCount")) {
+                    workInfo.setLikeCount(data.getJSONObject(x).getInt("likeCount"));
+                } else {
+                    workInfo.setLikeCount(0);
+                }
                 workInfo.setLike(data.getJSONObject(x).getBoolean("like"));
                 workInfo.setMsgList(msgList);
                 workInfoList.add(workInfo);

@@ -49,11 +49,17 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvWorkGoodTotal.setText(String.format(holder.mTvWorkGoodTotal.getContext().getString(R.string.work_good_total), data.get(position).getLikeCount()));
         final int wid = Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
         final int uid = Integer.parseInt(data.get(holder.getAdapterPosition()).getUserId());
-        //作品圖
-        ImageLoader.getInstance()
-                .displayImage(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath(), holder.mImgViewWrok, LoadImageApp.optionsWorkImg);
-        //作者圖
+        String workImgUrl = "";
         String userImgUrl = "";
+        //作品圖
+        if (data.get(position).getImagePath().equals("null")) {
+            workImgUrl = "";
+        } else {
+            workImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath();
+        }
+        ImageLoader.getInstance()
+                .displayImage(workImgUrl, holder.mImgViewWrok, LoadImageApp.optionsWorkImg);
+        //作者圖
         if (data.get(position).getUserImgPath().equals("null")) {
             userImgUrl = "";
         } else {
@@ -65,17 +71,17 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         if (data.get(position).getMsgList().isEmpty()) {
             holder.mLinearLayoutWorksMsgOutSide.setVisibility(View.GONE);
         }
-
+        //設定讚
         if (data.get(position).isLike()) {
-            holder.imgBtnWorksUserGood.setSelected(true);
+            holder.imgBtnGood.setSelected(true);
         } else {
-            holder.imgBtnWorksUserGood.setSelected(false);
+            holder.imgBtnGood.setSelected(false);
         }
-
-        if (data.get(position).getIsFollowing() == 1) {
-            holder.imgBtnWokrsFollow.setSelected(true);
+        //設定收藏
+        if (data.get(position).isCollection()) {
+            holder.imgBtnCollection.setSelected(true);
         } else {
-            holder.imgBtnWokrsFollow.setSelected(false);
+            holder.imgBtnCollection.setSelected(false);
         }
 
         holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
@@ -98,13 +104,13 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                 listener.onWorkImgClick(wid);
             }
         });
-        holder.imgBtnWorksUserExtra.setOnClickListener(new View.OnClickListener() {
+        holder.imgBtnExtra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onWorkExtraClick(wid);
             }
         });
-        holder.imgBtnWorksUserGood.setOnClickListener(new View.OnClickListener() {
+        holder.imgBtnGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!data.get(holder.getAdapterPosition()).isLike()) {
@@ -114,37 +120,36 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                 }
             }
         });
-        holder.imgBtnWorksUserMsg.setOnClickListener(new View.OnClickListener() {
+        holder.imgBtnMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onWorkMsgClick(wid);
             }
         });
-        holder.imgBtnWorksUserShare.setOnClickListener(new View.OnClickListener() {
+        holder.imgBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onWorkShareClick(wid);
             }
         });
 
-        holder.imgBtnWokrsFollow.setOnClickListener(new View.OnClickListener() {
+        holder.imgBtnCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
-                    //設定成1  表示要追蹤
-                    listener.onFollowClick(holder.getAdapterPosition(), 1, uid);
+                if (!data.get(holder.getAdapterPosition()).isCollection()) {
+                    listener.onWorkCollectionClick(holder.getAdapterPosition(), true, wid);
                 } else {
-                    listener.onFollowClick(holder.getAdapterPosition(), 0, uid);
+                    listener.onWorkCollectionClick(holder.getAdapterPosition(), false, wid);
                 }
             }
         });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTvUserName, mTvWorkName, mTvWorkGoodTotal;
+        TextView mTvUserName, mTvWorkName, mTvWorkGoodTotal, mTvFollow;
         ImageView mImgViewWrok;
         CircleImageView mCircleImageView;
-        ImageButton imgBtnWorksUserExtra, imgBtnWorksUserGood, imgBtnWorksUserMsg, imgBtnWorksUserShare, imgBtnWokrsFollow;
+        ImageButton imgBtnExtra, imgBtnGood, imgBtnMsg, imgBtnShare, imgBtnCollection;
         LinearLayout mLinearLayoutWorksMsgOutSide, mLinearLayoutWorksMsg1, mLinearLayoutWorksMsg2;
 
         ViewHolder(View v) {
@@ -152,12 +157,13 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             mTvUserName = (TextView) v.findViewById(R.id.textView_works_username);
             mTvWorkName = (TextView) v.findViewById(R.id.textView_works_title);
             mTvWorkGoodTotal = (TextView) v.findViewById(R.id.textView_works_good_total);
+            mTvFollow = (TextView) v.findViewById(R.id.textView_works_follow);
             mImgViewWrok = (ImageView) v.findViewById(R.id.imgView_works_img);
-            imgBtnWorksUserExtra = (ImageButton) v.findViewById(R.id.imgBtn_works_extra);
-            imgBtnWorksUserGood = (ImageButton) v.findViewById(R.id.imgBtn_works_good);
-            imgBtnWorksUserMsg = (ImageButton) v.findViewById(R.id.imgBtn_works_msg);
-            imgBtnWorksUserShare = (ImageButton) v.findViewById(R.id.imgBtn_works_share);
-            imgBtnWokrsFollow = (ImageButton) v.findViewById(R.id.imgBtn_works_follow);
+            imgBtnExtra = (ImageButton) v.findViewById(R.id.imgBtn_works_extra);
+            imgBtnGood = (ImageButton) v.findViewById(R.id.imgBtn_works_good);
+            imgBtnMsg = (ImageButton) v.findViewById(R.id.imgBtn_works_msg);
+            imgBtnShare = (ImageButton) v.findViewById(R.id.imgBtn_works_share);
+            imgBtnCollection = (ImageButton) v.findViewById(R.id.imgBtn_works_collection);
             mLinearLayoutWorksMsg1 = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_1);
             mLinearLayoutWorksMsg2 = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_2);
             mLinearLayoutWorksMsgOutSide = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_outside);
@@ -186,6 +192,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         notifyItemChanged(position);
     }
 
+    public void setCollection(int position, boolean isCollection) {
+        data.get(position).setCollection(isCollection);
+        notifyItemChanged(position);
+    }
+
     public interface WorkListOnClickListener {
         void onWorkImgClick(int wid);
 
@@ -198,6 +209,8 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         void onWorkShareClick(int wid);
 
         void onUserClick(int uid);
+
+        void onWorkCollectionClick(int position, boolean isCollection, int wid);
 
         // 0 = not follow , 1= following
         void onFollowClick(int position, int isFollow, int uid);

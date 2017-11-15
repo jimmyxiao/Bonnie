@@ -27,7 +27,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="8"
+            android:layout_weight="7"
             android:orientation="vertical">
 
             <TextView
@@ -48,6 +48,16 @@
                 android:text="作品名稱" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView_works_follow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="追蹤"
+            android:textAlignment="center"
+            android:visibility="invisible" />
 
         <ImageButton
             android:id="@+id/imgBtn_works_extra"
@@ -101,7 +111,7 @@
             app:srcCompat="@drawable/work_ic_message" />
 
         <ImageButton
-            android:id="@+id/imgBtn_works_follow"
+            android:id="@+id/imgBtn_works_collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

@@ -122,7 +122,7 @@ public class ConnectJson {
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("wid", 0);
-            json.put("wt", 4);
+            json.put("wt", wt);
             json.put("stn", 0);
             json.put("rc", 100);
         } catch (JSONException e) {
@@ -141,6 +141,21 @@ public class ConnectJson {
             json.put("fn", fn);
             json.put("worksId", wid);
             json.put("likeType", 1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    public static JSONObject setCollection(SharedPreferences prefs, int fn, int wid) {
+        JSONObject json = new JSONObject();
+        // fn  1=讚  0=取消讚
+        try {
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("fn", fn);
+            json.put("worksId", wid);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -33,7 +33,7 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.utility.TSnackbarCall;
+import com.sctw.bonniedraw.widget.TSnackbarCall;
 import com.sctw.bonniedraw.utility.Thumbnail;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
@@ -629,7 +629,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 boolean result = mPaintView.saveTempPhotoAndBdw();
-                Toast.makeText(PaintActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PaintActivity.this, "草稿儲存成功", Toast.LENGTH_SHORT).show();
                 dialogInterface.dismiss();
                 if (result) finish();
             }

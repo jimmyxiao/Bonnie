@@ -1,4 +1,4 @@
-package com.sctw.bonniedraw.utility;
+package com.sctw.bonniedraw.widget;
 
 import android.graphics.Color;
 import android.view.View;

@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,16 +27,16 @@ import android.widget.Button;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.activity.SingleWorkActivity;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.RecyclerPauseOnScrollListener;
-import com.sctw.bonniedraw.utility.TSnackbarCall;
 import com.sctw.bonniedraw.utility.WorkInfo;
 import com.sctw.bonniedraw.widget.MessageDialog;
+import com.sctw.bonniedraw.widget.PlayDialog;
+import com.sctw.bonniedraw.widget.TSnackbarCall;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -147,7 +146,6 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     public void setLike(final int position, final int fn, int wid) {
         // fn = 1 點讚, 0 取消讚
         JSONObject json = ConnectJson.setLike(prefs, fn, wid);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
@@ -247,6 +245,57 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         });
     }
 
+    public void setCollection(final int position, final int fn, int wid) {
+        // fn = 1 收藏, 0 取消收藏
+        JSONObject json = ConnectJson.setCollection(prefs, fn, wid);
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_COLLECTION)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapter.setCollection(position, false);
+                                            break;
+                                        case 1:
+                                            mAdapter.setCollection(position, true);
+                                            break;
+                                    }
+                                    mAdapter.notifyItemChanged(position);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapter.notifyItemChanged(position);
+                                }
+                                System.out.println(responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public void getWorksList() {
         JSONObject json = ConnectJson.queryListWork(prefs, 4, 0, 100);
         Log.d("LOGIN JSON: ", json.toString());
@@ -291,12 +340,8 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
 
     @Override
     public void onWorkImgClick(int wid) {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putInt("wid", wid);
-        intent.setClass(getActivity(), SingleWorkActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        PlayDialog playDialog = PlayDialog.newInstance(wid);
+        playDialog.show(fragmentManager, "TAG");
     }
 
     @Override
@@ -383,14 +428,24 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     }
 
     @Override
+    public void onWorkCollectionClick(int position, boolean isCollection, int wid) {
+        if (isCollection) {
+            setCollection(position, 1, wid);
+        } else {
+            setCollection(position, 0, wid);
+        }
+    }
+
+    @Override
     public void onFollowClick(int position, int isFollow, int uid) {
         //點FOLLOW
-        if (isFollow==1) {
+        if (isFollow == 1) {
             setFollow(position, 1, uid);
         } else {
             setFollow(position, 0, uid);
         }
     }
+
 
     @Override
     public void onResume() {

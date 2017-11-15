@@ -28,7 +28,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
 import com.sctw.bonniedraw.utility.PxDpConvert;
-import com.sctw.bonniedraw.utility.TSnackbarCall;
+import com.sctw.bonniedraw.widget.TSnackbarCall;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -683,7 +683,6 @@ public class PaintView extends View {
     }
 
     private void maskBrushWithAngle(Brush brush, float angle, float tipAlpha) {
-
         mDstInPaint.setAlpha((int) ((tipAlpha * tipAlpha) * 255.0f));
 
         Bitmap maskLayer = this.mMaskBitmap.length == 1 ? this.mMaskBitmap[0] : this.mMaskBitmap[this.mRandom.nextInt(this.mMaskBitmap.length)];

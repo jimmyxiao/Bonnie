@@ -44,36 +44,29 @@
         android:layout_below="@id/ll"
         android:background="@color/background_dim_overlay" />
 
-    <ScrollView
+    <FrameLayout
+        android:id="@+id/frameLayout_message_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_message_board"
+        android:layout_below="@id/divier">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="成為第一個留言的人"
+            android:textColor="@color/HintColor" />
+
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_message_board"
-        android:layout_below="@id/divier"
-        android:fillViewport="true">
-
-        <FrameLayout
-            android:id="@+id/frameLayout_message_empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="成為第一個留言的人"
-                android:textColor="@color/HintColor" />
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview_message"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible">
-
-            </android.support.v7.widget.RecyclerView>
-        </FrameLayout>
-    </ScrollView>
-
+        android:layout_below="@id/divier">
+    </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:id="@+id/ll_message_board"
