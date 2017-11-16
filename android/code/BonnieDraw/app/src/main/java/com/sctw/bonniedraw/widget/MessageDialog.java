@@ -25,7 +25,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.MsgAdapter;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.Msg;
+import com.sctw.bonniedraw.utility.MsgBean;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 
 import org.json.JSONArray;
@@ -55,7 +55,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
     EditText mEidtMsg;
     TextView mTtextPublish;
     SharedPreferences prefs;
-    ArrayList<Msg> msgArrayList;
+    ArrayList<MsgBean> msgBeanArrayList;
     FrameLayout mFrameLayout;
     int miWid;
 
@@ -211,22 +211,22 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
     }
 
     private void refreshWorks(JSONArray data) {
-        msgArrayList = new ArrayList<>();
+        msgBeanArrayList = new ArrayList<>();
         try {
             for (int x = 0; x < data.length(); x++) {
-                Msg msg = new Msg();
-                msg.setUserId(data.getJSONObject(x).getInt("userId"));
-                msg.setWorksMsgId(data.getJSONObject(x).getInt("worksMsgId"));
-                msg.setMessage(data.getJSONObject(x).getString("message"));
-                msg.setCreationDate(data.getJSONObject(x).getString("creationDate"));
-                msg.setUserName(data.getJSONObject(x).getString("userName"));
-                msgArrayList.add(msg);
+                MsgBean msgBean = new MsgBean();
+                msgBean.setUserId(data.getJSONObject(x).getInt("userId"));
+                msgBean.setWorksMsgId(data.getJSONObject(x).getInt("worksMsgId"));
+                msgBean.setMessage(data.getJSONObject(x).getString("message"));
+                msgBean.setCreationDate(data.getJSONObject(x).getString("creationDate"));
+                msgBean.setUserName(data.getJSONObject(x).getString("userName"));
+                msgBeanArrayList.add(msgBean);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        MsgAdapter adapter = new MsgAdapter(getContext(),msgArrayList, this);
+        MsgAdapter adapter = new MsgAdapter(getContext(), msgBeanArrayList, this);
         mRv.setAdapter(adapter);
         mRv.setVisibility(View.VISIBLE);
     }

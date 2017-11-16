@@ -78,7 +78,7 @@ public class PlayDialog extends DialogFragment {
     private Handler mHandlerTimerPlay = new Handler();
     private FrameLayout mFrameLayoutFreePaint;
     private PaintView mPaintView;
-    private static int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 50;
+    private static int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 10;
     private boolean mbPlaying = false, mbAutoPlay = false;
     private int miViewWidth;
     private File mFileBDW;

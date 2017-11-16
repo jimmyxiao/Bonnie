@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:src="@drawable/ic_chevron_left_black_24dp" />
+            android:src="@drawable/back_icon" />
 
         <TextView
             android:id="@+id/textView_member_user_id"

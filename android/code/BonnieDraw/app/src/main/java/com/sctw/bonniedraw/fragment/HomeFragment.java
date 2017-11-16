@@ -31,7 +31,7 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.utility.WorkInfo;
+import com.sctw.bonniedraw.utility.WorkInfoBean;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.PlayDialog;
 import com.sctw.bonniedraw.widget.TSnackbarCall;
@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     private Toolbar mToolbar;
     private SearchView mSearchView;
     private SharedPreferences prefs;
-    private List<WorkInfo> workInfoList;
+    private List<WorkInfoBean> workInfoBeanList;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -135,14 +135,14 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     }
 
     public void getWorks(JSONArray data) {
-        workInfoList = WorkInfo.generateInfoList(data);
-        mAdapter = new WorkAdapterList(getContext(),workInfoList, this);
+        workInfoBeanList = WorkInfoBean.generateInfoList(data);
+        mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this);
         mRecyclerViewHome.setAdapter(mAdapter);
     }
 
     public void refreshWorks(JSONArray data) {
-        workInfoList = WorkInfo.generateInfoList(data);
-        mAdapter.refreshData(workInfoList);
+        workInfoBeanList = WorkInfoBean.generateInfoList(data);
+        mAdapter.refreshData(workInfoBeanList);
     }
 
     public void setLike(final int position, final int fn, int wid) {

@@ -41,4 +41,5 @@ public class GlobalVariable {
     public static final String API_LINK_SET_FOLLOW = "https://www.bonniedraw.com/bonniedraw_service/BDService/setFollowing";
     public static final String API_LINK_SET_COLLECTION = "https://www.bonniedraw.com/bonniedraw_service/BDService/setCollection";
     public static final String API_LINK_LEAVE_MESSAGE = "https://www.bonniedraw.com/bonniedraw_service/BDService/leavemsg";
+    public static final String API_LINK_NOTICE_MESSAGE = "https://www.bonniedraw.com/bonniedraw_service/BDService/notiMsg";
 }

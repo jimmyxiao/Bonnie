@@ -75,7 +75,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private SeekBar mSeekbarOpacity;
     private FullScreenDialog mFullScreenDialog;
     private LinearLayout mLinearLayoutPaintSelect;
-    private int miPrivacyType = 1;
+    private int miPrivacyType;
     private SharedPreferences mPrefs;
     private MenuPopup mMenuPopup;
     private SeekbarPopup mSeekbarPopup;
@@ -146,7 +146,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         Button saveWork = (Button) mFullScreenDialog.findViewById(R.id.btn_save_paint_save);
         ImageButton saveCancel = (ImageButton) mFullScreenDialog.findViewById(R.id.btn_save_paint_back);
         Spinner privacyTypes = (Spinner) mFullScreenDialog.findViewById(R.id.paint_save_work_privacytype);
-
         File pngfile = null;
         try {
             File vPath = new File(getFilesDir() + "/bonniedraw");
@@ -165,15 +164,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
         //設定公開權限與預設值
         ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
-                this, R.array.privacies, android.R.layout.simple_spinner_item);
+                this, R.array.privacies, android.R.layout.simple_spinner_dropdown_item);
         privacyTypes.setAdapter(nAdapter);
-        nAdapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item);
         //預設值
         privacyTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                miPrivacyType = position;
+                miPrivacyType = position + 1;
             }
 
             @Override
@@ -256,7 +253,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     }
 
     //上傳檔案
-    public void uploadFile(int type, int wid) {
+    public void uploadFile(final int type, int wid) {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         MultipartBody.Builder bodyBuilder = new MultipartBody.Builder();
         bodyBuilder.setType(MultipartBody.FORM)
@@ -270,7 +267,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             //上傳圖片
             case 1:
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                //mPaintView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+                mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
                 bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()));
                 break;
             //上傳BDW檔案
@@ -295,9 +292,14 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 try {
                     JSONObject responseJSON = new JSONObject(response.body().string());
                     if (responseJSON.getInt("res") == 1) {
-                        TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "上傳成功");
+                        if (type == 1) {
+                            Log.d("上傳圖片", "成功");
+                        } else {
+                            Log.d("上傳BDW", "成功");
+                            ToastUtil.createToastPublish(PaintActivity.this, "發佈成功", true);
+                        }
                     } else {
-                        TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "上傳失敗");
+                        ToastUtil.createToastPublish(PaintActivity.this, "發佈失敗", false);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

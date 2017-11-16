@@ -250,4 +250,17 @@ public class ConnectJson {
         }
         return json;
     }
+
+    public static JSONObject getNotice(SharedPreferences prefs,int notiMsgId){
+        JSONObject json = new JSONObject();
+        try {
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("notiMsgId", notiMsgId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
 }

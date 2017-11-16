@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.WorkInfo;
+import com.sctw.bonniedraw.utility.WorkInfoBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,10 @@ import java.util.List;
 
 public class WorkAdapterGrid extends RecyclerView.Adapter<WorkAdapterGrid.ViewHolder> {
     Context context;
-    List<WorkInfo> data = new ArrayList<>();
+    List<WorkInfoBean> data = new ArrayList<>();
     WorkGridOnClickListener listner;
 
-    public WorkAdapterGrid(Context context, List<WorkInfo> data, WorkGridOnClickListener listner) {
+    public WorkAdapterGrid(Context context, List<WorkInfoBean> data, WorkGridOnClickListener listner) {
         this.context = context;
         this.data = data;
         this.listner = listner;

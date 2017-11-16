@@ -15,7 +15,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlideApp;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.WorkInfo;
+import com.sctw.bonniedraw.utility.WorkInfoBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +27,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHolder> {
-    private List<WorkInfo> data = new ArrayList<>();
+    private List<WorkInfoBean> data = new ArrayList<>();
     private WorkListOnClickListener listener;
     private Context context;
 
-    public WorkAdapterList(Context context, List<WorkInfo> data, WorkListOnClickListener listener) {
+    public WorkAdapterList(Context context, List<WorkInfoBean> data, WorkListOnClickListener listener) {
         this.context = context;
         this.data = data;
         this.listener = listener;
@@ -73,7 +73,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                 .apply(GlideAppModule.getUserOptions())
                 .into(holder.mCircleImageView);
 
-        if (data.get(position).getMsgList().isEmpty()) {
+        if (data.get(position).getMsgBeanList().isEmpty()) {
             holder.mLinearLayoutWorksMsgOutSide.setVisibility(View.GONE);
         }
         //設定讚
@@ -202,7 +202,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         notifyItemChanged(position);
     }
 
-    public void refreshData(List<WorkInfo> newData) {
+    public void refreshData(List<WorkInfoBean> newData) {
         data = newData;
         notifyDataSetChanged();
     }

@@ -139,14 +139,14 @@
                             android:layout_height="wrap_content"
                             android:background="@color/Transparent"
                             android:visibility="invisible"
-                            app:srcCompat="@drawable/ic_skip_previous_black_24dp" />
+                            app:srcCompat="@drawable/prev_ic_off" />
 
                         <ImageButton
                             android:id="@+id/imgBtn_single_work_play"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/Transparent"
-                            app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+                            app:srcCompat="@drawable/play_ic_off" />
 
                         <ImageButton
                             android:id="@+id/imgBtn_single_work_pause"
@@ -154,7 +154,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/Transparent"
                             android:visibility="gone"
-                            app:srcCompat="@drawable/ic_pause_circle_outline_black_24dp" />
+                            app:srcCompat="@drawable/time_out_ic_off" />
 
                         <ImageButton
                             android:id="@+id/imgBtn_single_work_next"
@@ -162,7 +162,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/Transparent"
                             android:visibility="invisible"
-                            app:srcCompat="@drawable/ic_skip_next_black_24dp" />
+                            app:srcCompat="@drawable/next_ic_off" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -197,7 +197,7 @@
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/imgBtn_single_work_msg"
                         android:background="@color/Transparent"
-                        app:srcCompat="@drawable/work_ic_send" />
+                        app:srcCompat="@drawable/share_icon" />
 
                     <ImageButton
                         android:id="@+id/imgBtn_single_work_collection"

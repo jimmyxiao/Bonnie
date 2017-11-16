@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.DateFormatString;
-import com.sctw.bonniedraw.utility.Msg;
+import com.sctw.bonniedraw.utility.MsgBean;
 
 import java.util.ArrayList;
 
@@ -22,9 +22,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<Msg> data;
+    private ArrayList<MsgBean> data;
 
-    public FollowAdapter(Context context, ArrayList<Msg> data) {
+    public FollowAdapter(Context context, ArrayList<MsgBean> data) {
         this.context = context;
         this.data = data;
     }
