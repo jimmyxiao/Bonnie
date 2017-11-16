@@ -4,7 +4,7 @@ package com.sctw.bonniedraw.utility;
  * Created by Fatorin on 2017/10/27.
  */
 
-public class Msg {
+public class MsgBean {
     private int worksMsgId;
     private int worksId;
     private int userId;

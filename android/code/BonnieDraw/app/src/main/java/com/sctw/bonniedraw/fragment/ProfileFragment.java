@@ -29,7 +29,7 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.utility.WorkInfo;
+import com.sctw.bonniedraw.utility.WorkInfoBean;
 import com.sctw.bonniedraw.widget.PlayDialog;
 
 import org.json.JSONArray;
@@ -68,7 +68,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private SharedPreferences prefs;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-    private List<WorkInfo> workInfoList;
+    private List<WorkInfoBean> workInfoBeanList;
     private boolean mbFist = true;
 
     @Override
@@ -258,9 +258,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     }
 
     public void refreshWorks(JSONArray data) {
-        workInfoList = WorkInfo.generateInfoList(data);
+        workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
-        mAdapterGrid = new WorkAdapterGrid(getContext(),workInfoList, new WorkAdapterGrid.WorkGridOnClickListener() {
+        mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
                 PlayDialog playDialog = PlayDialog.newInstance(wid);
@@ -268,7 +268,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             }
         });
 
-        mAdapterList = new WorkAdapterList(getContext(), workInfoList, this);
+        mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this);
 
         if (mbFist) {
             mRecyclerViewProfile.setLayoutManager(gridLayoutManager);

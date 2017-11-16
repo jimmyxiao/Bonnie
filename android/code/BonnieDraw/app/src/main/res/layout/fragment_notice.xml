@@ -17,9 +17,29 @@
         android:layout_height="1dp"
         android:background="@color/DivColor" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_notice"
+    <FrameLayout
+        android:id="@+id/frameLayout_notice"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="您沒有任何訊息"
+            android:textColor="@color/HintColor" />
+    </FrameLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout_notice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_notice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

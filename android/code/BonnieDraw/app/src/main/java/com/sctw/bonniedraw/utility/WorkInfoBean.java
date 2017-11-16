@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Fatorin on 2017/10/19.
  */
 
-public class WorkInfo {
+public class WorkInfoBean {
     private String workId;
     private String userId;
     private String userName;
@@ -19,7 +19,7 @@ public class WorkInfo {
     private int isFollowing;
     private String userImgPath;
     private Integer likeCount;
-    private ArrayList<Msg> msgList;
+    private ArrayList<MsgBean> msgBeanList;
     private boolean like;
     private boolean isCollection;
 
@@ -95,12 +95,12 @@ public class WorkInfo {
         this.likeCount = likeCount;
     }
 
-    public ArrayList<Msg> getMsgList() {
-        return msgList;
+    public ArrayList<MsgBean> getMsgBeanList() {
+        return msgBeanList;
     }
 
-    public void setMsgList(ArrayList<Msg> msgList) {
-        this.msgList = msgList;
+    public void setMsgBeanList(ArrayList<MsgBean> msgBeanList) {
+        this.msgBeanList = msgBeanList;
     }
 
     public boolean isLike() {
@@ -119,32 +119,32 @@ public class WorkInfo {
         isCollection = collection;
     }
 
-    public static ArrayList<WorkInfo> generateInfoList(JSONArray data) {
-        ArrayList<WorkInfo> workInfoList = new ArrayList<>();
+    public static ArrayList<WorkInfoBean> generateInfoList(JSONArray data) {
+        ArrayList<WorkInfoBean> workInfoBeanList = new ArrayList<>();
         try {
             for (int x = 0; x < data.length(); x++) {
-                WorkInfo workInfo = new WorkInfo();
-                ArrayList<Msg> msgList = new ArrayList<>();
-                workInfo.setWorkId(data.getJSONObject(x).getString("worksId"));
-                workInfo.setUserId(data.getJSONObject(x).getString("userId"));
-                workInfo.setUserName(data.getJSONObject(x).getString("userName"));
-                workInfo.setTitle(data.getJSONObject(x).getString("title"));
-                workInfo.setImagePath(data.getJSONObject(x).getString("imagePath"));
-                workInfo.setCollection(data.getJSONObject(x).getBoolean("collection"));
-                workInfo.setIsFollowing(data.getJSONObject(x).getInt("isFollowing"));
-                workInfo.setUserImgPath(data.getJSONObject(x).getString("profilePicture"));
+                WorkInfoBean workInfoBean = new WorkInfoBean();
+                ArrayList<MsgBean> msgBeanList = new ArrayList<>();
+                workInfoBean.setWorkId(data.getJSONObject(x).getString("worksId"));
+                workInfoBean.setUserId(data.getJSONObject(x).getString("userId"));
+                workInfoBean.setUserName(data.getJSONObject(x).getString("userName"));
+                workInfoBean.setTitle(data.getJSONObject(x).getString("title"));
+                workInfoBean.setImagePath(data.getJSONObject(x).getString("imagePath"));
+                workInfoBean.setCollection(data.getJSONObject(x).getBoolean("collection"));
+                workInfoBean.setIsFollowing(data.getJSONObject(x).getInt("isFollowing"));
+                workInfoBean.setUserImgPath(data.getJSONObject(x).getString("profilePicture"));
                 if (!data.getJSONObject(x).isNull("likeCount")) {
-                    workInfo.setLikeCount(data.getJSONObject(x).getInt("likeCount"));
+                    workInfoBean.setLikeCount(data.getJSONObject(x).getInt("likeCount"));
                 } else {
-                    workInfo.setLikeCount(0);
+                    workInfoBean.setLikeCount(0);
                 }
-                workInfo.setLike(data.getJSONObject(x).getBoolean("like"));
-                workInfo.setMsgList(msgList);
-                workInfoList.add(workInfo);
+                workInfoBean.setLike(data.getJSONObject(x).getBoolean("like"));
+                workInfoBean.setMsgBeanList(msgBeanList);
+                workInfoBeanList.add(workInfoBean);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return workInfoList;
+        return workInfoBeanList;
     }
 }

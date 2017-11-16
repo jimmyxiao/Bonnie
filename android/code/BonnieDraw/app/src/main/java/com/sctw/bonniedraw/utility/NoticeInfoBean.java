@@ -4,16 +4,18 @@ package com.sctw.bonniedraw.utility;
  * Created by Fatorin on 2017/10/19.
  */
 
-public class NoticeInfo {
+public class NoticeInfoBean {
+
     private int notMsgId;
     private String msg;
-    private int msgType;
+    private int notiMsgType;
     private int userIdFollow;
     private String userNameFollow;
+    private String profilePicture;
     private int workId;
     private String title;
     private String imagePath;
-    private int workMsgId;
+    private String workMsgId;
     private String workMsg;
     private String creationDate;
 
@@ -33,12 +35,12 @@ public class NoticeInfo {
         this.msg = msg;
     }
 
-    public int getMsgType() {
-        return msgType;
+    public int getNotiMsgType() {
+        return notiMsgType;
     }
 
-    public void setMsgType(int msgType) {
-        this.msgType = msgType;
+    public void setNotiMsgType(int notiMsgType) {
+        this.notiMsgType = notiMsgType;
     }
 
     public int getUserIdFollow() {
@@ -55,6 +57,14 @@ public class NoticeInfo {
 
     public void setUserNameFollow(String userNameFollow) {
         this.userNameFollow = userNameFollow;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public int getWorkId() {
@@ -81,11 +91,11 @@ public class NoticeInfo {
         this.imagePath = imagePath;
     }
 
-    public int getWorkMsgId() {
+    public String getWorkMsgId() {
         return workMsgId;
     }
 
-    public void setWorkMsgId(int workMsgId) {
+    public void setWorkMsgId(String workMsgId) {
         this.workMsgId = workMsgId;
     }
 

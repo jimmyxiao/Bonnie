@@ -45,7 +45,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/ic_bookmark_border_24dp" />
+            app:srcCompat="@drawable/collect_ic_off" />
 
         <ImageButton
             android:id="@+id/imgBtn_profile_add"

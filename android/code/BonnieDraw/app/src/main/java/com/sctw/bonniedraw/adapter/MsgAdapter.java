@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.DateFormatString;
-import com.sctw.bonniedraw.utility.Msg;
+import com.sctw.bonniedraw.utility.MsgBean;
 
 import java.util.ArrayList;
 
@@ -24,10 +24,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<Msg> data;
+    private ArrayList<MsgBean> data;
     private OnClickMsgPublish listener;
 
-    public MsgAdapter(Context context, ArrayList<Msg> data, OnClickMsgPublish listener) {
+    public MsgAdapter(Context context, ArrayList<MsgBean> data, OnClickMsgPublish listener) {
         this.context = context;
         this.data = data;
         this.listener = listener;

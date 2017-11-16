@@ -14,7 +14,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +38,7 @@ import com.sctw.bonniedraw.fragment.NoticeFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
 import com.sctw.bonniedraw.paint.PaintActivity;
 import com.sctw.bonniedraw.utility.BottomNavigationViewEx;
+import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.twitter.sdk.android.core.TwitterCore;
 
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         String userName = prefs.getString(GlobalVariable.USER_NAME_STR, "Null");
         mTextViewHeaderText.setText(userName);
         String url = GlobalVariable.API_LINK_GET_FILE + prefs.getString(GlobalVariable.USER_IMG_URL_STR, "");
-        Glide.with(this).load(url).into(mImgHeaderPhoto).onLoadFailed(ContextCompat.getDrawable(this, R.drawable.photo_round));
+        Glide.with(this).load(url).apply(GlideAppModule.getUserOptions()).into(mImgHeaderPhoto);
     }
 
     void logout() {

@@ -116,12 +116,12 @@
             android:text="下"
             app:srcCompat="@drawable/drawplay_ic_play" />
 
-        <Button
-            android:id="@+id/btn_pause"
+        <ImageView
+            android:id="@+id/imgBtn_pause"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="暫停" />
+            app:srcCompat="@drawable/drawplay_ic_timeout" />
 
         <ImageButton
             android:id="@+id/imgBtn_next"

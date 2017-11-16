@@ -53,7 +53,7 @@ public class UserController extends BaseController {
 			UserInfo result = webUserService.changeStatus(userInfo);
 			if(result !=null){
 				baseModel.setResult(true);
-				baseModel.setData(userInfo);
+				baseModel.setData(result);
 			}
 		}
 		return baseModel;

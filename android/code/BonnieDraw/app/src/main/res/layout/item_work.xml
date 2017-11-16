@@ -126,7 +126,7 @@
             android:layout_margin="8dp"
             android:layout_toEndOf="@+id/imgBtn_works_msg"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/work_ic_send" />
+            app:srcCompat="@drawable/share_icon" />
 
         <TextView
             android:id="@+id/textView_works_good_total"

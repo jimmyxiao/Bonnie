@@ -54,7 +54,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         mBtnPrevious = findViewById(R.id.imgBtn_previous);
         mBtnGrid = findViewById(R.id.imgBtn_paint_grid);
         mBtnBack = findViewById(R.id.imgBtn_paint_back);
-        mBtnPause = findViewById(R.id.btn_pause);
+        mBtnPause = findViewById(R.id.imgBtn_pause);
         mImgBtnReplay = findViewById(R.id.imgBtn_replay);
         miViewWidth = mPaintView.getMiWidth();
         mFileBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
