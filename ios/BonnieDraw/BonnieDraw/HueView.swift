@@ -28,10 +28,17 @@ class HueView: UIView {
     private var image: UIImage?
     private var touchBounds = CGRect.zero
     private var y: CGFloat = 0, minY: CGFloat = 0, maxY: CGFloat = 0
+    private var drawCompletionHandler: (() -> Void)?
 
     override func draw(_ rect: CGRect) {
-        if touchBounds == .zero {
-            calculateTouchBounds()
+        if touchBounds == .zero && bounds.size != .zero {
+            minY = (sliderHeight + strokeWidth) / 2
+            maxY = bounds.height - minY
+            touchBounds = CGRect(x: strokeWidth, y: minY, width: bounds.width - strokeWidth * 2, height: bounds.height - sliderHeight - strokeWidth)
+            if let drawCompletionHandler = drawCompletionHandler {
+                drawCompletionHandler()
+                self.drawCompletionHandler = nil
+            }
         }
         if image == nil {
             UIGraphicsBeginImageContextWithOptions(CGSize(width: touchBounds.size.width, height: touchBounds.size.height), false, UIScreen.main.scale)
@@ -95,19 +102,18 @@ class HueView: UIView {
     }
 
     func set(color: UIColor) {
-        var hue: CGFloat = 0
-        color.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
-        if touchBounds == .zero {
-            calculateTouchBounds()
+        if bounds.size != .zero {
+            var hue: CGFloat = 0
+            color.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
+            if touchBounds == .zero {
+                drawCompletionHandler = {
+                    self.y = self.touchBounds.size.height * hue + self.minY
+                }
+            } else {
+                y = touchBounds.size.height * hue + minY
+                setNeedsDisplay()
+            }
         }
-        y = touchBounds.size.height * hue + minY
-        setNeedsDisplay()
-    }
-
-    private func calculateTouchBounds() {
-        minY = (sliderHeight + strokeWidth) / 2
-        maxY = bounds.height - minY
-        touchBounds = CGRect(x: strokeWidth, y: minY, width: bounds.width - strokeWidth * 2, height: bounds.height - sliderHeight - strokeWidth)
     }
 }
 

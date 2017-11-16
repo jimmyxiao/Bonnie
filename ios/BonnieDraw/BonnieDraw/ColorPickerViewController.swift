@@ -44,7 +44,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         let color = UIColor(hue: hue, saturation: saturationBrightnessView.saturation, brightness: saturationBrightnessView.brightness, alpha: 1)
         colorView.backgroundColor = color
         hexField.text = color.toHex()
-        saturationBrightnessView.hue = hue
+        saturationBrightnessView.set(hue: hue)
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -101,7 +101,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         stackViewTop.priority = UILayoutPriority(UILayoutPriority.defaultHigh.rawValue + 1)
         preferredContentSize = CGSize(
                 width: UIScreen.main.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.9 : 0.45),
-                height: 264 + saturationBrightnessView.bounds.height)
+                height: 272 + saturationBrightnessView.bounds.height)
         sender.isEnabled = false
     }
 

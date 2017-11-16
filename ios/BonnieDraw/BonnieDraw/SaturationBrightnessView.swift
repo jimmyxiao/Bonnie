@@ -24,12 +24,7 @@ class SaturationBrightnessView: UIView {
             setNeedsDisplay()
         }
     }
-    var hue: CGFloat = 0 {
-        didSet {
-            image = nil
-            setNeedsDisplay()
-        }
-    }
+    private var hue: CGFloat = 0
     var delegate: SaturationBrightnessViewDelegate?
     private var image: UIImage?
     private var touchBounds = CGRect.zero
@@ -41,10 +36,19 @@ class SaturationBrightnessView: UIView {
     var brightness: CGFloat {
         return 1 - (point.y - minY) / touchBounds.height
     }
+    private var drawCompletionHandler: (() -> Void)?
 
     override func draw(_ rect: CGRect) {
-        if touchBounds == .zero {
-            calculateTouchBounds()
+        if touchBounds == .zero && bounds.size != .zero {
+            minX = sliderRadius + strokeWidth / 2
+            minY = minX
+            maxX = bounds.width - minX
+            maxY = bounds.height - minY
+            touchBounds = CGRect(x: minX, y: minY, width: bounds.width - minX * 2, height: bounds.height - minY * 2)
+            if let drawCompletionHandler = drawCompletionHandler {
+                drawCompletionHandler()
+                self.drawCompletionHandler = nil
+            }
         }
         if image == nil {
             UIGraphicsBeginImageContextWithOptions(CGSize(width: touchBounds.size.width, height: touchBounds.size.height), false, UIScreen.main.scale)
@@ -116,23 +120,26 @@ class SaturationBrightnessView: UIView {
         }
     }
 
-    func set(color: UIColor) {
-        var saturation: CGFloat = 0
-        var brightness: CGFloat = 0
-        color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil)
-        if touchBounds == .zero {
-            calculateTouchBounds()
-        }
-        point = CGPoint(x: touchBounds.size.width * saturation + minX, y: touchBounds.size.height + minY - (touchBounds.size.height * brightness))
+    func set(hue: CGFloat) {
+        self.hue = hue
+        image = nil
         setNeedsDisplay()
     }
 
-    private func calculateTouchBounds() {
-        minX = sliderRadius + strokeWidth / 2
-        minY = minX
-        maxX = bounds.width - minX
-        maxY = bounds.height - minY
-        touchBounds = CGRect(x: minX, y: minY, width: bounds.width - minX * 2, height: bounds.height - minY * 2)
+    func set(color: UIColor) {
+        if bounds.size != .zero {
+            var saturation: CGFloat = 0
+            var brightness: CGFloat = 0
+            color.getHue(&self.hue, saturation: &saturation, brightness: &brightness, alpha: nil)
+            if touchBounds == .zero {
+                drawCompletionHandler = {
+                    self.point = CGPoint(x: self.touchBounds.size.width * saturation + self.minX, y: self.touchBounds.size.height + self.minY - (self.touchBounds.size.height * brightness))
+                }
+            } else {
+                point = CGPoint(x: touchBounds.size.width * saturation + minX, y: touchBounds.size.height + minY - (touchBounds.size.height * brightness))
+                setNeedsDisplay()
+            }
+        }
     }
 }
 
