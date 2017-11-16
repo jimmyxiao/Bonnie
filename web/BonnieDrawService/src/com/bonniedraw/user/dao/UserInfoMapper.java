@@ -22,6 +22,8 @@ public interface UserInfoMapper {
 
     int updateByPrimaryKey(UserInfo record);
     
+    int updateStatusByPrimaryKey(UserInfo record);
+    
     UserInfo selectByUserCode(String userCode);
     
     UserInfo inspectAppPwd(LoginRequestVO loginRequestVO);
@@ -32,7 +34,7 @@ public interface UserInfoMapper {
     
     UserInfo inspectOldPwd(UserInfo record);
     
-    List<UserInfo> queryUserList();
+    List<UserInfo> queryUserList(UserInfo searchInfo);
     
     OtherUserModel queryOtherUserInfo(Map<String, Object> paramMap);
     

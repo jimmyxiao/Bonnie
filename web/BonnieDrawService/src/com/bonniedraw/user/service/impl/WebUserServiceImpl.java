@@ -11,12 +11,14 @@ import com.bonniedraw.base.service.BaseService;
 import com.bonniedraw.email.EmailProcess;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
 import com.bonniedraw.user.dao.UserInfoMapper;
+import com.bonniedraw.user.model.UserCounter;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.WebUserService;
 import com.bonniedraw.util.EncryptUtil;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.SercurityUtil;
 import com.bonniedraw.util.TimerUtil;
+import com.bonniedraw.web_api.model.response.UserInfoQueryResponseVO;
 
 @Service
 public class WebUserServiceImpl extends BaseService implements WebUserService {
@@ -104,8 +106,52 @@ public class WebUserServiceImpl extends BaseService implements WebUserService {
 	}
 
 	@Override
-	public List<UserInfo> queryUserList() {
-		return userInfoMapper.queryUserList();
+	public List<UserInfo> queryUserList(UserInfo searchInfo) {
+		return userInfoMapper.queryUserList(searchInfo);
+	}
+
+	@Override
+	public UserInfoQueryResponseVO queryUserDetail(UserInfo searchInfo) {
+		UserInfoQueryResponseVO respResult = new UserInfoQueryResponseVO();
+		UserInfo userInfo = userInfoMapper.selectByPrimaryKey(searchInfo.getUserId());
+		if(userInfo!=null){
+			respResult.setUserType(userInfo.getUserType());
+			respResult.setUserCode(userInfo.getUserCode());
+			respResult.setUserName(userInfo.getUserName());
+			respResult.setNickName(userInfo.getNickName());
+			respResult.setEmail(userInfo.getEmail());
+			respResult.setDescription(userInfo.getDescription());
+			respResult.setWebLink(userInfo.getWebLink());
+			respResult.setPhoneCountryCode(userInfo.getPhoneCountryCode());
+			respResult.setPhoneNo(userInfo.getPhoneNo());
+			respResult.setGender(userInfo.getGender());
+			respResult.setProfilePicture(userInfo.getProfilePicture());
+			respResult.setBirthday(userInfo.getBirthday());
+			respResult.setStatus(userInfo.getStatus());
+			respResult.setLanguageCode(userInfo.getLanguageCode());
+			respResult.setCountryCode(userInfo.getCountryCode());
+			UserCounter userCounter = userInfoMapper.getUserCounter(searchInfo.getUserId());
+			if(userCounter!=null){
+				respResult.setWorksNum(userCounter.getWorksNum());
+				respResult.setFansNum(userCounter.getFansNum());
+				respResult.setFollowNum(userCounter.getFollowNum());
+			}
+		}
+		return respResult;
+	}
+
+	@Override
+	public UserInfo changeStatus(UserInfo userInfo) {
+		if(userInfo.getStatus() == 1){
+			userInfo.setStatus(2);
+			userInfoMapper.updateStatusByPrimaryKey(userInfo);
+		}else if(userInfo.getStatus() == 2){
+			userInfo.setStatus(1);
+			userInfoMapper.updateStatusByPrimaryKey(userInfo);
+		}else{
+			return null;
+		}
+		return userInfo;
 	}
 	
 }

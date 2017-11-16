@@ -1,0 +1,105 @@
+<div class="main-content-inner">
+	<div class="page-content" style="background: #E0FFFF;">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="x_content">
+					<div class="row">
+						<div class="col-xs-12">
+							<h3 class="grey lighter">
+								<i class="ace-icon fa fa-users green"></i>
+								會員資料明細
+							</h3>
+							<div class="hr hr-18 hr-double dotted"></div>
+							<div class="x_content">
+								<form class="form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 追蹤人數 </label>
+										<div class="col-sm-9">
+											<label class="control-label">{{userDetail.followNum}}</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 粉絲人數 </label>
+										<div class="col-sm-9">
+											<label class="control-label">{{userDetail.fansNum}}</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 類型 </label>
+										<div class="col-sm-9">
+											<select class="col-xs-10 col-sm-5" ng-disabled="true" ng-model="userDetail.userType" convert-to-number>
+												<option value="1">email</option>
+												<option value="2">facebook</option>
+												<option value="3">google</option>
+												<option value="4">twitter</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 帳號 </label>
+										<div class="col-sm-9">
+											<input type="text" ng-disabled="true" ng-model="userDetail.userCode" class="col-xs-10 col-sm-5"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 名稱 </label>
+										<div class="col-sm-9">
+											<input type="text" ng-disabled="true" ng-model="userDetail.userName" class="col-xs-10 col-sm-5"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 暱稱 </label>
+										<div class="col-sm-9">
+											<input type="text" ng-disabled="true" ng-model="userDetail.nickName" class="col-xs-10 col-sm-5"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 電子郵件 </label>
+										<div class="col-sm-9">
+											<input type="text" ng-disabled="true" ng-model="userDetail.email" class="col-xs-10 col-sm-5"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 第二郵件信箱 </label>
+										<div class="col-sm-9">
+											<input type="text" ng-disabled="true" ng-model="userDetail.secEmail" class="col-xs-10 col-sm-5"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 個人介紹 </label>
+										<div class="col-sm-9">
+											<input type="text" ng-disabled="true" ng-model="userDetail.description" class="col-xs-10 col-sm-5"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 電話號碼 </label>
+										<div class="col-sm-9">
+											<input type="text" ng-disabled="true" ng-model="userDetail.phoneNo" class="col-xs-10 col-sm-5"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 性別 </label>
+										<div class="col-sm-9">
+											<select class="col-xs-10 col-sm-5" ng-disabled="true" ng-model="userDetail.gender" convert-to-number>
+												<option value="0">多元</option>
+												<option value="1">男</option>
+												<option value="2">女</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"> 生日 </label>
+										<div class="col-sm-9">
+											<input type="text" ng-disabled="true" ng-model="userDetail.birthday" class="col-xs-10 col-sm-5"/>
+										</div>
+									</div>
+
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
