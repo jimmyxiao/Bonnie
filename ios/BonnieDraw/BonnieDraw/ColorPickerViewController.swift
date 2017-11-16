@@ -45,6 +45,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         colorView.backgroundColor = color
         hexField.text = color.toHex()
         saturationBrightnessView.set(hue: hue)
+        delegate?.colorPicker(didSelect: color)
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
