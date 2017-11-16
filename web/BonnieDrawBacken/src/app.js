@@ -49,7 +49,16 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       		}
       	},
       	reload: true
-  	}).state('directoryManager', {
+  	}).state('worksManager', {
+        url: '/worksManager',
+        views: {
+          "content":{
+            templateUrl:'modules/works/view/workInfoList.html',
+            controller:'workController'
+          }
+        },
+        reload: true
+    }).state('directoryManager', {
         url: '/directoryManager?cp',
         views: {
           "content":{
