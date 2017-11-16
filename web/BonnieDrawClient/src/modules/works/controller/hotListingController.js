@@ -1,5 +1,6 @@
 app.controller('hotListingController', function ($rootScope, $scope, $window ,$location, $http, $filter, $state, $modal, util, worksService) {
 		$rootScope.title = '熱門畫作 | BonnieDRAW';
+		$rootScope.nav = 'hot';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		$rootScope.maxPagination = 0;
@@ -19,7 +20,7 @@ app.controller('hotListingController', function ($rootScope, $scope, $window ,$l
 			params.wid = 0;
 			params.wt = 2;
 			params.stn = $scope.offset;
-			params.rc = 4; 
+			params.rc = 12; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$rootScope.maxPagination = data.maxPagination;

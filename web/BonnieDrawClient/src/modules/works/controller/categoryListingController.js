@@ -1,5 +1,6 @@
 app.controller('categoryListingController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, worksService) {
 		$rootScope.title = '畫作類別 | BonnieDRAW';
+		$rootScope.nav = 'category';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		$scope.type = $state.params.type;
@@ -26,7 +27,7 @@ app.controller('categoryListingController', function ($rootScope, $scope, $windo
 			params.wt = 8;
 			params.stn = $scope.offset;
 			params.tagName = type;
-			params.rc = 9; 
+			params.rc = 12; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$rootScope.maxPagination = data.maxPagination;

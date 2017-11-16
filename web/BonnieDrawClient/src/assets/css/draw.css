@@ -1,3 +1,7 @@
+#cssmenu ul ul li:active > a{
+	background-color: #ee4b16;
+}
+
 #video-detail{
 	padding-top: 20px;
 }

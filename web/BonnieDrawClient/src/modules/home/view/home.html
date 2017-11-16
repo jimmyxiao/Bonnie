@@ -10,10 +10,16 @@
 			    	<div class="col-md-6 col-sm-12 md-grid">
 			       		<div class="vid-img-holder wow pulse" data-wow-duration="{{secondarySectionArr_popular_first.delay}}">
 			        		<div class="top-shadow">
-			              		<a class="_eszkz _l9yih " href="#" role="button" aria-disabled><i class="material-icons author-font-icon">{{secondarySectionArr_popular_first.title}}</i></a>
-								<span style="float:left;"><i class="fa fa-thumbs-o-up author-font-icon" aria-hidden="true"></i>{{secondarySectionArr_popular_first.like}}</span>
+								<span style="float:left; width: auto;">
+									<!--<i class="material-icons author-font-icon">favorite_border</i>-->
+										<a ng-click="clickWorksLikeOne('p')" class="_eszkz _l9yih" href="" role="button" aria-disabled>
+										<i ng-if="!secondarySectionArr_popular_first.like" class="material-icons font-icon" style="color: white;">favorite_border</i>
+										<i ng-if="secondarySectionArr_popular_first.like" class="material-icons font-icon" style="color: white;">favorite</i>
+									</a>
+									{{secondarySectionArr_popular_first.likeCount}}
+								</span>
 			            	</div>
-			            	<a ng-href="#/column-detail?id={{data.worksId}}">
+			            	<a ng-href="#/column-detail?id={{secondarySectionArr_popular_first.worksId}}">
 			                	<img class="img-responsive hidden-sm hidden-xs" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb">
 			                	<img class="img-responsive hidden-md hidden-lg" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb">
 			                	<span class="play-icon">
@@ -22,9 +28,9 @@
 			            	</a> 
 			            	<h3 class="vid-author">
 				                <span>
-				                    By <a href="#" title="Posts by admin" rel="author">"{{secondarySectionArr_popular_first.userName}}"</a>
+				                    By <a href="#/userfile/{{secondarySectionArr_popular_first.userId}}" rel="author">{{secondarySectionArr_popular_first.userName}}</a>
 				                </span>
-				                <a ng-href="#/column-detail?id={{data.worksId}}">{{secondarySectionArr_popular_first.title}}</a>
+				                <a ng-href="#/column-detail?id={{secondarySectionArr_popular_first.worksId}}">{{secondarySectionArr_popular_first.title}}</a>
 			            	</h3> 
 			            	<div class="bottom-shadow"></div>
 			            	<div class="overlay-div"></div>		
@@ -34,8 +40,15 @@
 			   		<div class="col-md-3 col-sm-6 small-grid" ng-repeat="data in secondarySectionArr_popular track by $index">
 		          		<div class="vid-img-holder wow fadeInUp" data-wow-duration="{{data.delay}}">
 	                		<div class="top-shadow">
-	                  			<a class="_eszkz _l9yih " href="#" role="button" aria-disabled><i class="material-icons author-font-icon">favorite_border</i></a>
-								<span style="float:left;"><i class="fa fa-thumbs-o-up author-font-icon" aria-hidden="true"></i>{{data.like}}</span>
+
+								<span style="float:left; width: auto;">
+									<!--<i class="material-icons author-font-icon">favorite_border</i>-->
+										<a ng-click="clickWorksLike($index, 'p')" class="_eszkz _l9yih" href="" role="button" aria-disabled>
+										<i ng-if="!data.like" class="material-icons font-icon" style="color: white;">favorite_border</i>
+										<i ng-if="data.like" class="material-icons font-icon" style="color: white;">favorite</i>
+									</a>
+									{{data.likeCount}}
+								</span>
 	                		</div>
 	                  		<a ng-href="#/column-detail?id={{data.worksId}}">
 	                    		<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
@@ -46,7 +59,7 @@
 	                  		</a>  
 	                  		<h3 class="vid-author">
 		                    	<span>
-		                    		By <a href="#" title="Posts by admin" rel="author">{{data.userName}}</a>
+		                    		By <a href="#/userfile/{{data.userId}}" title="Posts by admin" rel="author">{{data.userName}}</a>
 		                    	</span>
 			                    <a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a>
 	                  		</h3> 

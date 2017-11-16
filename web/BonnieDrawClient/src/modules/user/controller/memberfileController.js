@@ -1,5 +1,6 @@
 app.controller('memberfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, Upload, userService, localStorageService) {
 		$rootScope.title = '帳戶設定 | BonnieDRAW';
+		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		

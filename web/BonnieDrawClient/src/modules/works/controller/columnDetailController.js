@@ -1,5 +1,6 @@
 app.controller('columnDetailController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, worksService) {
 		$rootScope.title = 'demo畫作 | BonnieDRAW';
+		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		var wid = $state.params.id;

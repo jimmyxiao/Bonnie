@@ -1,5 +1,6 @@
 app.controller('homeController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, worksService) {
 		$rootScope.title = 'BonnieDRAW';
+		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 
@@ -29,9 +30,14 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 			params.wid = 0;
 			params.wt = 2;
 			params.stn = 0;
-			params.rc = 3; 
+			params.rc = 5; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
+					for (var i = 0; i < data.workList.length; i++) {
+						if(data.workList[i].likeCount==false ||data.workList[i].likeCount==""||data.workList[i].likeCount==null){
+							data.workList[i].likeCount=0;
+						}
+					}
 					$scope.secondarySectionArr_popular = data.workList;
 					$scope.secondarySectionArr_popular_first = $scope.secondarySectionArr_popular.shift();
 				}
@@ -44,6 +50,27 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 				var data = $scope.secondarySectionArr_popular[index];
 			}else if(tag == 'n'){
 				var data = $scope.secondarySectionArr_new[index];
+			}else{
+				return;
+			}
+			var params = util.getInitalScope();
+			if(data.like){
+				params.fn = 0;
+			}else{
+				params.fn = 1;
+			}
+			params.worksId = data.worksId;
+			params.likeType = 1; 
+			worksService.setLike(params,function(data, status, headers, config){
+				if(data.res == 1){
+					$scope.queryNewUploadWorks();
+					$scope.queryPopularWorks();
+				}
+			})
+		}
+		$scope.clickWorksLikeOne = function(tag){
+			if(tag == 'p'){
+				var data = $scope.secondarySectionArr_popular_first;
 			}else{
 				return;
 			}

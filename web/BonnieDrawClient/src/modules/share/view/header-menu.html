@@ -62,10 +62,10 @@
 			<div class="col-md-9 col-sm-12">
 				<div id="cssmenu">
 					<ul>
-						<li><a href="#/hot-listing"><i class="fi ion-compose"></i>熱門畫作</a></li>
-						<li><a href="#/track-list"><i class="fi ion-android-desktop"></i>追蹤清單</a></li>
-						<li><a href="#/column"><i class="fi ion-ios-film-outline"></i>我的畫作</a></li>
-						<li><a href=""><i class="fi ion-android-apps"></i>畫作類別</a>
+						<li ng-class="{'active':nav=='hot'}"><a href="#/hot-listing"><i class="fi ion-compose"></i>熱門畫作</a></li>
+						<li ng-class="{'active':nav=='track'}"><a href="#/track-list"><i class="fi ion-android-desktop"></i>追蹤清單</a></li>
+						<li ng-class="{'active':nav=='column'}"><a href="#/column"><i class="fi ion-ios-film-outline"></i>我的畫作</a></li>
+						<li ng-class="{'active':nav=='category'}"><a href=""><i class="fi ion-android-apps"></i>畫作類別</a>
 							<ul>
 							  	<li ng-repeat="data in tagList track by $index">
 							  		<a href="#/category-listing?type={{covertTag(data.tagName)}}">{{data.tagName}}</a>	

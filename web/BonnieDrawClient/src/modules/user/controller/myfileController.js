@@ -1,5 +1,6 @@
 app.controller('myfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, userService, worksService) {
 		$rootScope.title = '我的帳戶 | BonnieDRAW';
+		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		

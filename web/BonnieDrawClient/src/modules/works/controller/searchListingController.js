@@ -1,5 +1,6 @@
 app.controller('searchListingController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, worksService) {
 		$rootScope.title = '搜尋 | BonnieDRAW';
+		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		$scope.type = $state.params.result;

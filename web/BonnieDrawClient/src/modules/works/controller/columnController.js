@@ -1,5 +1,6 @@
 app.controller('columnController', function ($rootScope, $scope, $window , $location, $http, $filter, $state, $modal, util, worksService) {
 		$rootScope.title = '我的畫作 | BonnieDRAW';
+		$rootScope.nav ='column';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		$rootScope.maxPagination = 0;
@@ -19,7 +20,7 @@ app.controller('columnController', function ($rootScope, $scope, $window , $loca
 			params.wid = 0;
 			params.wt = 5;
 			params.stn = $scope.offset;
-			params.rc = 4; 
+			params.rc = 12; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$rootScope.maxPagination = data.maxPagination;

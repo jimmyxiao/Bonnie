@@ -1,5 +1,6 @@
 app.controller('collectionListingController', function ($rootScope, $scope, $window ,$location, $http, $filter, $state, $modal, util, worksService) {
 		$rootScope.title = '收藏畫作 | BonnieDRAW';
+		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
 		$rootScope.maxPagination = 0;
@@ -19,7 +20,7 @@ app.controller('collectionListingController', function ($rootScope, $scope, $win
 			params.wid = 0;
 			params.wt = 7;
 			params.stn = $scope.offset;
-			params.rc = 4; 
+			params.rc = 12; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$rootScope.maxPagination = data.maxPagination;
