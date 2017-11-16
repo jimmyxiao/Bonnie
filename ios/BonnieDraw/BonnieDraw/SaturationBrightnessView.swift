@@ -28,9 +28,6 @@ class SaturationBrightnessView: UIView {
         didSet {
             image = nil
             setNeedsDisplay()
-            if touchBounds != .zero {
-                delegate?.saturationBrightness(didSelectColor: UIColor(hue: hue, saturation: (point.x - minX) / touchBounds.width, brightness: 1 - (point.y - minY) / touchBounds.height, alpha: 1))
-            }
         }
     }
     var delegate: SaturationBrightnessViewDelegate?
@@ -38,6 +35,12 @@ class SaturationBrightnessView: UIView {
     private var touchBounds = CGRect.zero
     private var minX: CGFloat = 0, maxX: CGFloat = 0, minY: CGFloat = 0, maxY: CGFloat = 0
     private var point = CGPoint.zero
+    var saturation: CGFloat {
+        return (point.x - minX) / touchBounds.width
+    }
+    var brightness: CGFloat {
+        return 1 - (point.y - minY) / touchBounds.height
+    }
 
     override func draw(_ rect: CGRect) {
         if touchBounds == .zero {
@@ -108,7 +111,7 @@ class SaturationBrightnessView: UIView {
             if lastPoint != point {
                 self.point = point
                 setNeedsDisplay()
-                delegate?.saturationBrightness(didSelectColor: UIColor(hue: hue, saturation: (point.x - minX) / touchBounds.width, brightness: 1 - (point.y - minY) / touchBounds.height, alpha: 1))
+                delegate?.saturationBrightness(didSelectColor: UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1))
             }
         }
     }

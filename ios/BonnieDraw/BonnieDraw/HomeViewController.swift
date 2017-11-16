@@ -24,6 +24,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let titleView = Bundle.main.loadView(from: "TitleView")
     private let refreshControl = UIRefreshControl()
     private let placeholderImage = UIImage(named: "photo-square")
+    private let likeImage = UIImage(named: "work_ic_like")
+    private let likeImageSelected = UIImage(named: "work_ic_like_on")
+    private let collectionImage = UIImage(named: "collect_ic_off")
+    private let collectionImageSelected = UIImage(named: "collect_ic_on")
 
     override func viewDidLoad() {
         menuButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
@@ -148,6 +152,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
                             file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
                             title: work["title"] as? String,
+                            isLike: work["isLike"] as? Int == 1,
+                            isCollection: work["isCollection"] as? Int == 1,
                             likes: work["likeCount"] as? Int))
                 }
                 self.tableViewWorks = self.works
@@ -174,17 +180,35 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewWorks.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let work = tableViewWorks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.HOME, for: indexPath) as! HomeTableViewCell
         cell.profileImage.setImage(with: work.profileImage, placeholderImage: placeholderImage)
         cell.profileName.text = work.profileName
         cell.title.text = work.title
         cell.thumbnail?.setImage(with: work.thumbnail)
+        if let isLike = work.isLike {
+            if isLike {
+                cell.likeButton.isSelected = true
+                cell.likeButton.setImage(likeImageSelected, for: .normal)
+            } else {
+                cell.likeButton.isSelected = false
+                cell.likeButton.setImage(likeImage, for: .normal)
+            }
+        }
+        if let isCollection = work.isCollection {
+            if isCollection {
+                cell.collectButton.isSelected = true
+                cell.collectButton.setImage(collectionImageSelected, for: .normal)
+            } else {
+                cell.collectButton.isSelected = false
+                cell.collectButton.setImage(collectionImage, for: .normal)
+            }
+        }
         cell.likes.text = "\(work.likes ?? 0)" + "likes".localized
 //        let lastComment = NSMutableAttributedString(string: item.lastCommentProfileName + "\t")
 //        lastComment.append(NSAttributedString(string: item.lastComment, attributes: commentTextAttributes))
@@ -203,8 +227,57 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     @IBAction func like(_ sender: UIButton) {
-        if let indexPath = tableView.indexPath(forView: sender) {
-            Logger.d("\(#function) \(indexPath.row)")
+        guard AppDelegate.reachability.connection != .none else {
+            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+                success in
+                if success {
+                    self.downloadData()
+                }
+            }
+            return
+        }
+        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            return
+        }
+        if let indexPath = tableView.indexPath(forView: sender),
+           let id = tableViewWorks[indexPath.row].id {
+            sender.isEnabled = false
+            Alamofire.request(
+                    Service.standard(withPath: Service.SET_LIKE),
+                    method: .post,
+                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": id, "likeType": 1],
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                sender.isEnabled = true
+                switch response.result {
+                case .success:
+                    guard let data = response.result.value as? [String: Any], let res = data["res"] as? Int else {
+                        self.presentDialog(
+                                title: "service_download_fail_title".localized,
+                                message: "app_network_unreachable_content".localized)
+                        return
+                    }
+                    if res != 1 {
+                        self.presentDialog(
+                                title: "service_download_fail_title".localized,
+                                message: data["msg"] as? String)
+                    } else {
+                        sender.isSelected = !sender.isSelected
+                        self.tableViewWorks[indexPath.row].isLike = sender.isSelected
+                        if let cell = self.tableView.cellForRow(at: indexPath) as? HomeTableViewCell {
+                            cell.likeButton.setImage(sender.isSelected ? self.likeImageSelected : self.likeImage, for: .normal)
+                        }
+                    }
+                case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
+                    self.presentDialog(
+                            title: "service_download_fail_title".localized,
+                            message: error.localizedDescription)
+                }
+            }
         }
     }
 
@@ -217,6 +290,61 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func share(_ sender: UIButton) {
         if let indexPath = tableView.indexPath(forView: sender) {
             Logger.d("\(#function) \(indexPath.row)")
+        }
+    }
+
+    @IBAction func collect(_ sender: UIButton) {
+        guard AppDelegate.reachability.connection != .none else {
+            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+                success in
+                if success {
+                    self.downloadData()
+                }
+            }
+            return
+        }
+        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            return
+        }
+        if let indexPath = tableView.indexPath(forView: sender),
+           let id = tableViewWorks[indexPath.row].id {
+            sender.isEnabled = false
+            Alamofire.request(
+                    Service.standard(withPath: Service.SET_COLLECTION),
+                    method: .post,
+                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": id, "likeType": 1],
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                sender.isEnabled = true
+                switch response.result {
+                case .success:
+                    guard let data = response.result.value as? [String: Any], let res = data["res"] as? Int else {
+                        self.presentDialog(
+                                title: "service_download_fail_title".localized,
+                                message: "app_network_unreachable_content".localized)
+                        return
+                    }
+                    if res != 1 {
+                        self.presentDialog(
+                                title: "service_download_fail_title".localized,
+                                message: data["msg"] as? String)
+                    } else {
+                        sender.isSelected = !sender.isSelected
+                        self.tableViewWorks[indexPath.row].isCollection = sender.isSelected
+                        if let cell = self.tableView.cellForRow(at: indexPath) as? HomeTableViewCell {
+                            cell.collectButton.setImage(sender.isSelected ? self.collectionImageSelected : self.collectionImage, for: .normal)
+                        }
+                    }
+                case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
+                    self.presentDialog(
+                            title: "service_download_fail_title".localized,
+                            message: error.localizedDescription)
+                }
+            }
         }
     }
 

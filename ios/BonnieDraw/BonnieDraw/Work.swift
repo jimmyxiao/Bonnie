@@ -15,5 +15,7 @@ struct Work {
     let thumbnail: URL?
     let file: URL?
     let title: String?
+    var isLike: Bool?
+    var isCollection: Bool?
     let likes: Int?
 }

@@ -17,17 +17,20 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
         case profile, password, language, description, privacyPolicy, termOfUse, clearSearch, signOut
     }
 
-    let settings = [Setting(title: "setting_edit_profile".localized, segueId: Segue.ACCOUNT_EDIT),
-                    Setting(title: "setting_change_password".localized, segueId: Segue.PASSWORD),
-                    Setting(title: "setting_language".localized, segueId: Segue.LANGUAGE),
-                    Setting(title: "setting_description".localized, segueId: Segue.DESCRIPTION),
-                    Setting(title: "setting_privacy_policy".localized, segueId: Segue.WEB),
-                    Setting(title: "setting_term_of_use".localized, segueId: Segue.WEB),
-                    Setting(title: "setting_clear_search".localized, segueId: nil),
-                    Setting(title: "setting_sign_out".localized, segueId: nil)]
+    var settings = [Setting(title: "setting_edit_profile".localized, segueId: Segue.ACCOUNT_EDIT)]
 
     override func viewDidLoad() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
+        if let type = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)),
+           type == .email {
+            settings.append(Setting(title: "setting_change_password".localized, segueId: Segue.PASSWORD))
+        }
+        settings.append(contentsOf: [Setting(title: "setting_language".localized, segueId: Segue.LANGUAGE),
+                                     Setting(title: "setting_description".localized, segueId: Segue.DESCRIPTION),
+                                     Setting(title: "setting_privacy_policy".localized, segueId: Segue.WEB),
+                                     Setting(title: "setting_term_of_use".localized, segueId: Segue.WEB),
+                                     Setting(title: "setting_clear_search".localized, segueId: nil),
+                                     Setting(title: "setting_sign_out".localized, segueId: nil)])
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

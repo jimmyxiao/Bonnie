@@ -60,7 +60,7 @@ class CanvasViewController:
         } else {
             loading.hide(true)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: .UIApplicationDidEnterBackground, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

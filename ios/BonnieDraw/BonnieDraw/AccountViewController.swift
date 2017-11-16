@@ -130,6 +130,8 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                             thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
                             file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
                             title: work["title"] as? String,
+                            isLike: work["isLike"] as? Int == 1,
+                            isCollection: work["isCollection"] as? Int == 1,
                             likes: work["likeCount"] as? Int))
                 }
                 self.collectionView.reloadSections([0])

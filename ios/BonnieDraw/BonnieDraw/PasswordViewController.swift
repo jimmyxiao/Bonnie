@@ -45,7 +45,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                 action in
                 self.currentPassword.becomeFirstResponder()
             }
-        } else if currentPassword.characters.count < 4 {
+        } else if currentPassword.count < 4 {
             presentDialog(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.currentPassword.becomeFirstResponder()
@@ -55,7 +55,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                 action in
                 self.newPassword.becomeFirstResponder()
             }
-        } else if newPassword.characters.count < 4 {
+        } else if newPassword.count < 4 {
             presentDialog(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.newPassword.becomeFirstResponder()
@@ -65,7 +65,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                 action in
                 self.confirmPassword.becomeFirstResponder()
             }
-        } else if confirmPassword.characters.count < 4 {
+        } else if confirmPassword.count < 4 {
             presentDialog(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.confirmPassword.becomeFirstResponder()

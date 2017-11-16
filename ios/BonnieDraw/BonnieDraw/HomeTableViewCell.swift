@@ -13,7 +13,9 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var thumbnail: UIImageView!
+    @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likes: UILabel!
+    @IBOutlet weak var collectButton: UIButton!
     @IBOutlet weak var lastComment: UILabel!
     @IBOutlet weak var secondLastComment: UILabel!
     @IBOutlet weak var lastCommentDate: UILabel!

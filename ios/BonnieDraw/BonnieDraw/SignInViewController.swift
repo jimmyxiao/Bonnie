@@ -57,7 +57,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                 action in
                 self.password.becomeFirstResponder()
             }
-        } else if password.characters.count < 4 {
+        } else if password.count < 4 {
             presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.password.becomeFirstResponder()
