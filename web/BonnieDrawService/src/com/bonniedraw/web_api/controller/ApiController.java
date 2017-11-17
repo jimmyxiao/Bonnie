@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
 import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.notification.service.NotiMsgService;
