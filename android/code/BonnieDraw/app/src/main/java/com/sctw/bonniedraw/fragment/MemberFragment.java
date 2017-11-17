@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +25,7 @@ import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
+import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfoBean;
@@ -143,12 +143,18 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                         mTvMemberId.setText("");
                                     }
 
+                                    mTvMemberWorks.setText(responseJSON.getString("worksNum"));
+                                    mTvMemberFans.setText(responseJSON.getString("fansNum"));
+                                    mTvMemberFollows.setText(responseJSON.getString("followNum"));
+
+                                    String profileUrl = "";
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                        //URL profilePicUrl = new URL(responseJSON.getString("profilePicture"));
-                                        Glide.with(getContext()).load(GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture")).into(mCircleImg).onLoadFailed(ContextCompat.getDrawable(getContext(), R.drawable.photo_round));
-                                    } else {
-                                        Glide.with(getContext()).load(R.drawable.photo_round).into(mCircleImg).onLoadFailed(ContextCompat.getDrawable(getContext(), R.drawable.photo_round));
+                                        profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                     }
+                                    Glide.with(getContext())
+                                            .load(profileUrl)
+                                            .apply(GlideAppModule.getUserOptions())
+                                            .into(mCircleImg);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

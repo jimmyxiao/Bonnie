@@ -189,10 +189,12 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                     } else {
                                         mTextViewUserId.setText("");
                                     }
+                                    mTextViewWorks.setText(responseJSON.getString("worksNum"));
+                                    mTextViewFans.setText(responseJSON.getString("fansNum"));;
+                                    mTextViewFollows.setText(responseJSON.getString("followNum"));;
 
                                     String profileUrl = "";
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                        //URL profilePicUrl = new URL();
                                         profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                     }
                                     Glide.with(getContext())
