@@ -2,6 +2,43 @@
 	background-color: #ee4b16;
 }
 
+.usercolor, .fanfollow a{
+	color: #333333;
+	text-decoration:none;
+}
+.usercolor:hover, .fanfollow a:hover{
+	color: #f26f45;
+	text-decoration:none;
+}
+.usercolor:focus, .usercolor:hover ,.usercolor:hover,
+.fanfollow a:focus, .fanfollow a:hover ,.fanfollow a:hover
+{
+	color: #f26f45;
+	text-decoration:none;
+}
+
+.fanfollow{
+	
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.fanfollowback{
+	background-color: #fafafa;
+	margin-bottom: 0px;
+}
+.fanfollow .vid-img{
+	float: left;
+}
+.fanfollow img{
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+.fanfollow p{
+	margin-bottom: 0px;
+}
+
+
 #video-detail{
 	padding-top: 20px;
 }

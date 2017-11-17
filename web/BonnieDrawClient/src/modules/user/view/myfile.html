@@ -1,7 +1,7 @@
 <div id="wrapper">
 	<div id="main-content">
 		<div ui-view="headerMenu"></div>
-		<div id="secondary-section" class="vids-2-column">
+		<div id="secondary-section" class="vids-2-column top20">
 			<div class="container">
 				<div class="col-md-8 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-8 col-xs-offset-2">
 					<div class="_1eg8c">
@@ -21,23 +21,35 @@
 				</div>
 				<div class="row">
 					<div class="vid-container file-box">
-						<div class="col-md-4 col-sm-4 col-xs-4 file-text-line">
-							<p class="file-text">{{user.worksNum}}</p>
-							<p class="file-num">作品數</p>
-						</div>
-						<div class="col-md-4 col-sm-4 col-xs-4 file-text-line">
-							<p class="file-text">{{user.fansNum}}</p>
-							<p class="file-num">粉絲數</p>
-						</div>
-						<div class="col-md-4 col-sm-4 col-xs-4 ">
-							<p class="file-text">{{user.followNum}}</p>
-							<p class="file-num">正在追蹤</p>
-						</div>
+						<a class="usercolor" href="" ng-click="queryMyWorks('w')">
+							<div class="col-md-3 col-sm-3 col-xs-3 file-text-line">
+								<p class="file-text">{{user.worksNum}}</p>
+								<p class="file-num">作品數</p>
+							</div>
+						</a>
+						<a class="usercolor" href="" ng-click="fansWorks('fa')">
+							<div class="col-md-3 col-sm-3 col-xs-3 file-text-line">
+								<p class="file-text">{{user.fansNum}}</p>
+								<p class="file-num">粉絲數</p>
+							</div>
+						</a>
+						<a class="usercolor" href="" ng-click="followWorks('fo')">
+							<div class="col-md-3 col-sm-3 col-xs-3 file-text-line">
+								<p class="file-text">{{user.followNum}}</p>
+								<p class="file-num">正在追蹤</p>
+							</div>
+						</a>
+						<a class="usercolor" href=""  ng-click="queryCollectionWorks('c')">
+							<div class="col-md-3 col-sm-3 col-xs-3 ">
+								<p class="file-text">0</p>
+								<p class="file-num">收藏畫作</p>
+							</div>
+						</a>
 					</div>
 				</div>
 				<div class="row">
 					<div class="vid-container">
-						<div class="col-md-4 col-sm-4 col-xs-6" ng-repeat="data in worksList track by $index">
+						<div ng-show="workclick"; class="col-md-3 col-sm-3 col-xs-6" ng-repeat="data in dataList track by $index">
 							<div class="latest-vid-img-container">		
 								<div class="vid-img">
 									<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
@@ -48,6 +60,57 @@
 								</div>
 							</div>
 						</div>
+
+						<!--<div ng-show="!workclick"; class="col-md-3 col-sm-3 col-xs-6 fanfollow" ng-repeat="data in dataList track by $index">
+							<div class="latest-vid-img-container">
+								<a ng-href="#/column-detail?id={{data.worksId}}">		
+									<div class="vid-img">
+										<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
+									</div>
+								</a>
+								<a href="#/userfile/{{data.userId}}">
+									<p class="file-num">{{data.userName}}</p>
+								</a>
+							</div>
+						</div>-->
+
+						<div ng-show="!workclick"; class="col-md-3 col-sm-3 col-xs-6 fanfollow" ng-repeat="data in dataList track by $index">
+							<div class="latest-vid-img-container fanfollowback">
+								<a ng-href="#/column-detail?id={{data.worksId}}">		
+									<div class="vid-img col-md-4 col-sm-4 col-xs-6 col-xs-offset-2">
+										<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
+									</div>
+								</a>
+								<div class="foll-r col-md-4 col-sm-4 col-xs-6 col-xs-offset-1">
+									<a href="#/userfile/{{data.userId}}">
+										<p class="file-num">{{data.userName}}</p>
+									</a>
+									<div class="foll-but">
+										<button class="btn btn-snd-black">追蹤中</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<!-- pagination top -->	
+						<div class="pagination-container text-center">
+							<ul class="pagination">
+							   	<li>
+							   		<a href="" ng-hide="offset==1 || maxPagination==0" ng-click="movePagin(-1)">&laquo;</a>
+							   	</li>
+							   	<li ng-class="{true:'active',false:''}[offset==pagin]" ng-repeat="pagin in paginList">
+							   		<a href="" ng-click="clickPagin(pagin)">{{pagin}}</a>
+							   		<div class="pagination-hvr"></div>
+							   	</li>
+							   	<li>
+							   		<a href="" ng-hide="offset==maxPagination || maxPagination==0" ng-click="movePagin(1)">&raquo;</a>
+							   	</li>
+							</ul>
+
+						</div>
+						<!-- pagination end -->
+
 					</div>
 				</div>
 			</div>
