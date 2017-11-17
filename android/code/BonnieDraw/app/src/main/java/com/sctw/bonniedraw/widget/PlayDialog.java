@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,11 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -190,7 +193,9 @@ public class PlayDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_single_work_extra);
-                Button btnShareWork = dialog.findViewById(R.id.btn_extra_share);
+                LinearLayout llOwn = dialog.findViewById(R.id.ll_single_own);
+                LinearLayout llOther = dialog.findViewById(R.id.ll_single_other);
+                Button btnReportWork = dialog.findViewById(R.id.btn_extra_report);
                 Button btnDeleteWork = dialog.findViewById(R.id.btn_extra_delete);
                 Button btnEditWorkName = dialog.findViewById(R.id.btn_extra_edit_work);
                 Button btnEditDescription = dialog.findViewById(R.id.btn_extra_edit_description);
@@ -224,12 +229,49 @@ public class PlayDialog extends DialogFragment {
                     btnDeleteWork.setVisibility(View.GONE);
                 }
 
+                btnReportWork.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        final FullScreenDialog reportDialog = new FullScreenDialog(getContext(), R.layout.dialog_work_report);
+                        final Spinner spinner = reportDialog.findViewById(R.id.spinner_report);
+                        final EditText editText = reportDialog.findViewById(R.id.editText_report);
+                        Button btnCancel = reportDialog.findViewById(R.id.btn_report_cancel);
+                        Button btnCommit = reportDialog.findViewById(R.id.btn_report_commit);
+                        ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
+                                getContext(), R.array.report, android.R.layout.simple_spinner_item);
+                        nAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+                        spinner.setAdapter(nAdapter);
+                        btnCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                reportDialog.dismiss();
+                            }
+                        });
+                        btnCommit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                setReport(wid, spinner.getSelectedItemPosition() + 1, editText.getText().toString());
+                                reportDialog.dismiss();
+                            }
+                        });
+                        reportDialog.show();
+                    }
+                });
+
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                     }
                 });
+
+                int userUid = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, "null"));
+                if (uid != userUid) {
+                    llOwn.setVisibility(View.GONE);
+                } else {
+                    llOther.setVisibility(View.GONE);
+                }
                 dialog.show();
             }
         });
@@ -514,11 +556,6 @@ public class PlayDialog extends DialogFragment {
             } else {
                 mBtnGood.setPressed(false);
             }
-            /*if (miFollow == 1) {
-                mBtnUserFollow.setPressed(true);
-            } else {
-                mBtnUserFollow.setPressed(false);
-            }*/
             if (mbCollection) {
                 mBtnCollection.setPressed(true);
             } else {
@@ -527,7 +564,9 @@ public class PlayDialog extends DialogFragment {
 
             Glide.with(getContext())
                     .load(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"))
-                    .into(mImgViewWorkImage).onLoadFailed(ContextCompat.getDrawable(getContext(), R.drawable.loading_fail));
+                    .apply(GlideAppModule.getWorkOptions())
+                    .thumbnail(Glide.with(getContext()).load(R.drawable.loading))
+                    .into(mImgViewWorkImage);
             Glide.with(getContext())
                     .load(GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture"))
                     .apply(GlideAppModule.getUserOptions())
@@ -544,14 +583,8 @@ public class PlayDialog extends DialogFragment {
 
     public void setLike(final int fn, int wid) {
         // fn = 1 點讚, 0 取消讚
-        JSONObject json = ConnectJson.setLike(prefs, fn, wid);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_SET_LIKE)
-                .post(body)
-                .build();
+        Request request = ConnectJson.setLike(prefs, fn, wid);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -597,14 +630,8 @@ public class PlayDialog extends DialogFragment {
 
     public void setCollection(final int fn, int wid) {
         // fn = 1 點讚, 0 取消讚
-        JSONObject json = ConnectJson.setCollection(prefs, fn, wid);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_SET_COLLECTION)
-                .post(body)
-                .build();
+        Request request = ConnectJson.setCollection(prefs, fn, wid);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -650,14 +677,8 @@ public class PlayDialog extends DialogFragment {
 
     public void setFollow(final int fn, int followId) {
         // fn = 1 點讚, 0 取消讚
-        JSONObject json = ConnectJson.setFollow(prefs, fn, followId);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_SET_FOLLOW)
-                .post(body)
-                .build();
+        Request request = ConnectJson.setFollow(prefs, fn, followId);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -689,6 +710,41 @@ public class PlayDialog extends DialogFragment {
                                     }
                                 }
                                 Log.d("LOGIN JSON", responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void setReport(int workId, int turnInType, String description) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.reportWork(prefs, workId, turnInType, description);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true);
+                                } else {
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false);
+                                }
+                                System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

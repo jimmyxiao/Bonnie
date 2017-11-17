@@ -15,8 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,7 @@ import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfoBean;
 import com.sctw.bonniedraw.widget.PlayDialog;
+import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,10 +46,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -154,12 +156,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     void updateProfileInfo() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
-        JSONObject json = ConnectJson.queryUserInfoJson(prefs);
-        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        final Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_USER_INFO_QUERY)
-                .post(body)
-                .build();
+        Request request = ConnectJson.queryUserInfoJson(prefs);
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -193,10 +190,10 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                         mTextViewUserId.setText("");
                                     }
 
-                                    String profileUrl="";
+                                    String profileUrl = "";
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                         //URL profilePicUrl = new URL();
-                                        profileUrl=GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
+                                        profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                     }
                                     Glide.with(getContext())
                                             .load(profileUrl)
@@ -216,14 +213,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     }
 
     public void getWorksList() {
-        JSONObject json = ConnectJson.queryListWork(prefs, 5, 0, 100);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_WORK_LIST)
-                .post(body)
-                .build();
+        Request request = ConnectJson.queryListWork(prefs, 5, 0, 100);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -250,6 +241,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                             });
                         }
                     }
+                    System.out.println(responseJSON.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -283,14 +275,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     public void setLike(final int position, final int fn, int wid) {
         // fn = 1 點讚, 0 取消讚
-        JSONObject json = ConnectJson.setLike(prefs, fn, wid);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_SET_LIKE)
-                .post(body)
-                .build();
+        Request request = ConnectJson.setLike(prefs, fn, wid);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -333,14 +319,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     public void setFollow(final int position, final int fn, int followId) {
         // fn = 1 點讚, 0 取消讚
-        JSONObject json = ConnectJson.setFollow(prefs, fn, followId);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_SET_FOLLOW)
-                .post(body)
-                .build();
+        Request request = ConnectJson.setFollow(prefs, fn, followId);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -382,6 +362,41 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         });
     }
 
+    public void setReport(int workId, int turnInType, String description) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.reportWork(prefs, workId, turnInType, description);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    ToastUtil.createToastIsCheck(getContext(),"檢舉成功",true);
+                                } else {
+                                    ToastUtil.createToastIsCheck(getContext(),"檢舉失敗，請再試一次",false);
+                                }
+                                System.out.println(responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     @Override
     public void onWorkImgClick(int wid) {
         PlayDialog playDialog = PlayDialog.newInstance(wid);
@@ -390,7 +405,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     @Override
     public void onWorkExtraClick(final int wid) {
-        final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.item_work_extra_dialog);
+        final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
         Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
@@ -415,8 +430,30 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         extraReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("POSTION CLICK", "extraReport" + wid);
                 extraDialog.dismiss();
+                final FullScreenDialog reportDialog = new FullScreenDialog(getContext(), R.layout.dialog_work_report);
+                final Spinner spinner = reportDialog.findViewById(R.id.spinner_report);
+                final EditText editText = reportDialog.findViewById(R.id.editText_report);
+                Button btnCancel = reportDialog.findViewById(R.id.btn_report_cancel);
+                Button btnCommit = reportDialog.findViewById(R.id.btn_report_commit);
+                ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
+                        getContext(), R.array.report, android.R.layout.simple_spinner_item);
+                nAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+                spinner.setAdapter(nAdapter);
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        reportDialog.dismiss();
+                    }
+                });
+                btnCommit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setReport(wid,spinner.getSelectedItemPosition() + 1,editText.getText().toString() );
+                        reportDialog.dismiss();
+                    }
+                });
+                reportDialog.show();
             }
         });
 
@@ -479,13 +516,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     public void setCollection(final int position, final int fn, int wid) {
         // fn = 1 收藏, 0 取消收藏
-        JSONObject json = ConnectJson.setCollection(prefs, fn, wid);
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_SET_COLLECTION)
-                .post(body)
-                .build();
+        Request request = ConnectJson.setCollection(prefs, fn, wid);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

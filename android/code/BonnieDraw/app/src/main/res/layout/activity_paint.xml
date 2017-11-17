@@ -47,7 +47,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout_paint_control"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="@+id/ll_single_own"
             app:srcCompat="@drawable/top_bar_ic_back" />
 
         <ImageButton
@@ -175,11 +175,12 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="3.5"
                 android:gravity="center"
                 android:text="筆刷不透明度"
+                android:textAlignment="center"
                 android:textColor="@color/White"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <ImageButton
                 android:id="@+id/imgBtn_paint_opacity_decrease"
@@ -195,9 +196,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="6"
-                android:max="100"
-                android:min="0" />
+                android:layout_weight="5.5"
+                android:max="100" />
 
             <ImageButton
                 android:id="@+id/imgBtn_paint_opacity_add"

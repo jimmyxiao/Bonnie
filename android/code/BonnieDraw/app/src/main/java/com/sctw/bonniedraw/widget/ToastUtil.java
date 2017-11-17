@@ -41,13 +41,13 @@ public class ToastUtil {
         mToast.show();
     }
 
-    public static void createToastPublish(Context context, String text, boolean isPublish) {
+    public static void createToastIsCheck(Context context, String text, boolean isCheck) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_toast_base, null);
         ImageView iv=(ImageView) view.findViewById(R.id.imgView_toast_base);
         TextView tv = (TextView) view.findViewById(R.id.textView_toast_base);
         tv.setText(text);
-        if(isPublish){
+        if(isCheck){
             iv.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_check_circle_black_24dp));
         }else {
             iv.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_cancel_black_24dp));

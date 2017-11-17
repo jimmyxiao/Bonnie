@@ -14,7 +14,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.PxDpConvert;
-import com.sctw.bonniedraw.widget.TSnackbarCall;
+import com.sctw.bonniedraw.widget.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private static final String SKETCH_FILE_BDW = "/backup.bdw";
     private Handler mHandlerTimerPlay = new Handler();
     private TextView mTextViewPlayProgress;
-    private ImageButton mBtnBack, mBtnAutoPlay, mBtnNext, mBtnPrevious, mBtnGrid, mImgBtnReplay;
+    private ImageButton mBtnBack, mBtnAutoPlay, mBtnNext, mBtnPrevious, mBtnGrid, mImgBtnReplay, mBtnPause;
     private int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 10;
     private FrameLayout mFrameLayoutFreePaint;
     private PaintView mPaintView;
@@ -35,7 +35,6 @@ public class PaintPlayActivity extends AppCompatActivity {
     private File mFileBDW;
     private BDWFileReader mBDWFileReader;
     private int mCurrentBrushId = 3;
-    private Button mBtnPause;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
 
@@ -142,11 +141,11 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (miPointCurrent == 0) {
-                    TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "請按撥放鍵開始撥放");
+                    ToastUtil.createToastWindow(PaintPlayActivity.this,"請按撥放鍵開始撥放");
                 } else if (miPointCount > 0) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
-                    TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_end));
+                    ToastUtil.createToastWindow(PaintPlayActivity.this,getString(R.string.play_end));
                 }
             }
         });
@@ -155,7 +154,7 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mbPlaying) {
-                    TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_wait));
+                    ToastUtil.createToastWindow(PaintPlayActivity.this,getString(R.string.play_wait));
                 } else if (miPointCurrent > 0) {
                     mPaintView.onClickPrevious();
                     // 兩個UP差異點數 = 減少的點數 在移除最後第一個
@@ -172,7 +171,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                     miPointCurrent = miPointCurrent - count;
 
                 } else if (miPointCurrent == 0) {
-                    TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.play_frist));
+                    ToastUtil.createToastWindow(PaintPlayActivity.this,getString(R.string.play_frist));
                 }
             }
         });

@@ -27,7 +27,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
-import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 
 import org.json.JSONException;
@@ -39,7 +38,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -76,12 +74,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
 
     void updateProfileInfo() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
-        JSONObject json = ConnectJson.forgetPwd(mTextViewEmail.getText().toString());
-        final RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        final Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_FORGET_PWD)
-                .post(body)
-                .build();
+        Request request = ConnectJson.forgetPwd(mTextViewEmail.getText().toString());
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -112,7 +105,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                             try {
                                 JSONObject responseJSON = new JSONObject(responseStr);
                                 if (responseJSON.getInt("res") == 1) {
-                                    AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setMessage("請至您的電子信箱來獲得新密碼。");
                                     builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
                                         @Override
@@ -122,7 +115,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                                     });
                                     builder.show();
                                 } else {
-                                    AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setMessage("查無此帳號。");
                                     builder.setPositiveButton(R.string.public_no, new DialogInterface.OnClickListener() {
                                         @Override

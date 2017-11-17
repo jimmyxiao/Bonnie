@@ -22,7 +22,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.widget.TSnackbarCall;
+import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -163,7 +163,7 @@ public class SignUpFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                TSnackbarCall.showTSnackbar(getActivity().findViewById(R.id.coordinatorLayout_activity_login), getString(R.string.signin_fail_title));
+                ToastUtil.createToastWindow(getContext(),getString(R.string.signin_fail_title));
             }
 
             @Override

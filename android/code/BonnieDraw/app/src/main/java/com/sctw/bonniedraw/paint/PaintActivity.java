@@ -33,7 +33,6 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.widget.TSnackbarCall;
 import com.sctw.bonniedraw.utility.Thumbnail;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
@@ -164,7 +163,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
         //設定公開權限與預設值
         ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
-                this, R.array.privacies, android.R.layout.simple_spinner_dropdown_item);
+                this, R.array.privacies, android.R.layout.simple_spinner_item);
+        nAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         privacyTypes.setAdapter(nAdapter);
         //預設值
         privacyTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -226,7 +226,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "與伺服器連接失敗");
+                ToastUtil.createToastWindow(PaintActivity.this,"與伺服器連接失敗");
             }
 
             @Override
@@ -296,10 +296,10 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                             Log.d("上傳圖片", "成功");
                         } else {
                             Log.d("上傳BDW", "成功");
-                            ToastUtil.createToastPublish(PaintActivity.this, "發佈成功", true);
+                            ToastUtil.createToastIsCheck(PaintActivity.this, "發佈成功", true);
                         }
                     } else {
-                        ToastUtil.createToastPublish(PaintActivity.this, "發佈失敗", false);
+                        ToastUtil.createToastIsCheck(PaintActivity.this, "發佈失敗", false);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -451,7 +451,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         startActivity(intent);
                     }
                 } else {
-                    TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.paint_need_draw));
+                    ToastUtil.createToastWindow(PaintActivity.this,getString(R.string.paint_need_draw));
                 }
 
             }
@@ -481,7 +481,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                     @Override
                     public void onClick(View v) {
                         if (mPaintView.mFileBDW.delete() && mPaintView.mFilePNG.delete()) {
-                            TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), getString(R.string.paint_delete_sketch));
+                            ToastUtil.createToastWindow(PaintActivity.this,getString(R.string.paint_delete_sketch));
                         }
                         mFrameLayoutFreePaint.removeAllViews();
                         Brush brush = mPaintView.getBrush();
@@ -734,7 +734,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
-                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_paint), "儲存成功，檔案位於Screenshots資料夾。");
+                ToastUtil.createToastWindow(PaintActivity.this,"儲存成功，檔案位於Screenshots資料夾。");
                 mMenuPopup.dismiss();
             } catch (IOException e) {
                 e.printStackTrace();

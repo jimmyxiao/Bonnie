@@ -67,7 +67,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout_paint_control"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="@+id/ll_single_own"
             app:srcCompat="@drawable/top_bar_ic_back" />
 
         <ImageButton
@@ -116,11 +116,12 @@
             android:text="下"
             app:srcCompat="@drawable/drawplay_ic_play" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/imgBtn_pause"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/Transparent"
             app:srcCompat="@drawable/drawplay_ic_timeout" />
 
         <ImageButton
@@ -148,7 +149,7 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/ll_single_own"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"

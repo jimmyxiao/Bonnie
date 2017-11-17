@@ -45,7 +45,7 @@ import com.sctw.bonniedraw.activity.MainActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.widget.TSnackbarCall;
+import com.sctw.bonniedraw.widget.ToastUtil;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterCore;
@@ -320,7 +320,7 @@ public class LoginFragment extends Fragment {
                                     Log.d("Check FB IMG URL", prefs.getString(GlobalVariable.USER_IMG_URL_STR, "null"));
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
-                                    TSnackbarCall.showTSnackbar(getActivity().findViewById(R.id.coordinatorLayout_activity_login), "發生錯誤");
+                                    ToastUtil.createToastWindow(getContext(),"發生錯誤");
                                 }
                             }
                         });
@@ -364,7 +364,7 @@ public class LoginFragment extends Fragment {
                             .apply();
                     loginThird(GlobalVariable.API_LOGIN_CODE);
                 } catch (IOException e) {
-                    TSnackbarCall.showTSnackbar(getActivity().findViewById(R.id.coordinatorLayout_activity_login), "發生錯誤");
+                    ToastUtil.createToastWindow(getContext(),"發生錯誤");
                     e.printStackTrace();
                 }
             }
@@ -514,7 +514,7 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                TSnackbarCall.showTSnackbar(getActivity().findViewById(R.id.coordinatorLayout_activity_login), "連線失敗");
+                ToastUtil.createToastWindow(getContext(),"連線失敗");
             }
 
             @Override

@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/Transparent"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:src="@drawable/back_icon" />
 
         <TextView

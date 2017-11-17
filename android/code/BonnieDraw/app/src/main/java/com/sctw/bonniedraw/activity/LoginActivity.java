@@ -24,7 +24,7 @@ import com.sctw.bonniedraw.fragment.LoginFragment;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.widget.TSnackbarCall;
+import com.sctw.bonniedraw.widget.ToastUtil;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -37,10 +37,8 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
@@ -109,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginEamil();
                 break;
             case "null":
-                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "登入資料異常");
+                ToastUtil.createToastWindow(this,"登入資料異常");
                 break;
             default:
                 loginThird();
@@ -120,14 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginEamil() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        JSONObject json = ConnectJson.loginJson(prefs, 1);
-
-        RequestBody body = RequestBody.create(mediaType, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_LOGIN)
-                .post(body)
-                .build();
+        Request request = ConnectJson.loginJson(prefs, 1);
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -135,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "連線失敗，請檢查網路狀態");
+                        ToastUtil.createToastWindow(LoginActivity.this,"連線失敗，請檢查網路狀態");
                     }
                 });
             }
@@ -162,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "登入失敗");
+                                ToastUtil.createToastWindow(LoginActivity.this, "登入失敗");
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -176,17 +167,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginThird() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
-        JSONObject json = ConnectJson.loginJson(prefs, 3);
-        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_LOGIN)
-                .post(body)
-                .build();
+        Request request = ConnectJson.loginJson(prefs, 3);
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "登入失敗");
+                ToastUtil.createToastWindow(LoginActivity.this,"登入失敗");
             }
 
             @Override
@@ -206,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                TSnackbarCall.showTSnackbar(findViewById(R.id.coordinatorLayout_activity_login), "登入失敗");
+                                ToastUtil.createToastWindow(LoginActivity.this, "登入失敗");
                                 transferLoginPage();
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());

@@ -6,7 +6,10 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * Created by Fatorin on 2017/10/20.
@@ -17,7 +20,7 @@ public class ConnectJson {
     public final static MediaType MEDIA_TYPE_JSON_UTF8 = MediaType.parse("application/json; charset=utf-8");
 
     //登入用
-    public static JSONObject loginJson(SharedPreferences prefs, int type) {
+    public static Request loginJson(SharedPreferences prefs, int type) {
         //type 3 = third login , 1 = email login
         JSONObject json = new JSONObject();
         try {
@@ -47,11 +50,17 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+
+        RequestBody body = RequestBody.create(MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_LOGIN)
+                .post(body)
+                .build();
+        return request;
     }
 
     //搜尋個人資料用
-    public static JSONObject queryUserInfoJson(SharedPreferences prefs) {
+    public static Request queryUserInfoJson(SharedPreferences prefs) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
@@ -62,10 +71,15 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_USER_INFO_QUERY)
+                .post(body)
+                .build();
+        return request;
     }
 
-    public static JSONObject queryOtherUserInfoJson(SharedPreferences prefs, int queryId) {
+    public static Request queryOtherUserInfoJson(SharedPreferences prefs, int queryId) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
@@ -77,7 +91,12 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_USER_INFO_QUERY)
+                .post(body)
+                .build();
+        return request;
     }
 
     //更新個人資料用
@@ -114,7 +133,7 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject queryListWork(SharedPreferences prefs, int wt, int stn, int rc) {
+    public static Request queryListWork(SharedPreferences prefs, int wt, int stn, int rc) {
         //wt = 作品類別 , stn = 起始數 , rc = 筆數
         JSONObject json = new JSONObject();
         try {
@@ -128,10 +147,16 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        System.out.println(json.toString());
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_WORK_LIST)
+                .post(body)
+                .build();
+        return request;
     }
 
-    public static JSONObject queryListWorkOther(SharedPreferences prefs, int wt,int queryId) {
+    public static JSONObject queryListWorkOther(SharedPreferences prefs, int wt, int queryId) {
         //wt = 作品類別 , stn = 起始數 , rc = 筆數
         JSONObject json = new JSONObject();
         try {
@@ -142,14 +167,14 @@ public class ConnectJson {
             json.put("wt", wt);
             json.put("stn", 0);
             json.put("rc", 100);
-            json.put("queryId",queryId);
+            json.put("queryId", queryId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return json;
     }
 
-    public static JSONObject setLike(SharedPreferences prefs, int fn, int wid) {
+    public static Request setLike(SharedPreferences prefs, int fn, int wid) {
         JSONObject json = new JSONObject();
         // fn  1=讚  0=取消讚
         try {
@@ -162,10 +187,16 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_LIKE)
+                .post(body)
+                .build();
+        return request;
+
     }
 
-    public static JSONObject setCollection(SharedPreferences prefs, int fn, int wid) {
+    public static Request setCollection(SharedPreferences prefs, int fn, int wid) {
         JSONObject json = new JSONObject();
         // fn  1=讚  0=取消讚
         try {
@@ -177,10 +208,15 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_COLLECTION)
+                .post(body)
+                .build();
+        return request;
     }
 
-    public static JSONObject setFollow(SharedPreferences prefs, int fn, int followId) {
+    public static Request setFollow(SharedPreferences prefs, int fn, int followId) {
         JSONObject json = new JSONObject();
         // fn  1=讚  0=取消讚
         try {
@@ -192,7 +228,12 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_SET_FOLLOW)
+                .post(body)
+                .build();
+        return request;
     }
 
     public static JSONObject deleteWork(SharedPreferences prefs, int wid) {
@@ -218,14 +259,14 @@ public class ConnectJson {
             json.put("fn", 1);
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("worksId", wid);
-            json.put("message",msg);
+            json.put("message", msg);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return json;
     }
 
-    public static JSONObject deleteLeaveMsg(SharedPreferences prefs, int wid,int msgId) {
+    public static JSONObject deleteLeaveMsg(SharedPreferences prefs, int wid, int msgId) {
         JSONObject json = new JSONObject();
         try {
             //fn 1= add , 0= delete
@@ -240,17 +281,22 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject forgetPwd(String email) {
+    public static Request forgetPwd(String email) {
         JSONObject json = new JSONObject();
         try {
             json.put("email", email);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_FORGET_PWD)
+                .post(body)
+                .build();
+        return request;
     }
 
-    public static JSONObject getNotice(SharedPreferences prefs,int notiMsgId){
+    public static JSONObject getNotice(SharedPreferences prefs, int notiMsgId) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
@@ -261,5 +307,27 @@ public class ConnectJson {
             e.printStackTrace();
         }
         return json;
+    }
+
+    public static Request reportWork(SharedPreferences prefs, int workId, int turnInType, String description) {
+        // turnInType 1:內容色情  2:內容暴力
+        JSONObject json = new JSONObject();
+        try {
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("workId", workId);
+            json.put("turnInType", turnInType);
+            json.put("description", description);
+            Log.d("LOGIN JSON: ", json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_REPOT_WORK)
+                .post(body)
+                .build();
+        return request;
     }
 }

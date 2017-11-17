@@ -29,6 +29,7 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.WorkInfoBean;
+import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.PlayDialog;
 
 import org.json.JSONArray;
@@ -109,12 +110,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
     private void getMemberInfo() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
-        JSONObject json = ConnectJson.queryOtherUserInfoJson(prefs, miUserId);
-        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        final Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_USER_INFO_QUERY)
-                .post(body)
-                .build();
+        Request request = ConnectJson.queryOtherUserInfoJson(prefs, miUserId);
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -263,17 +259,19 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                 mbFist = true;
             }
         });
+
+        mBtnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void setLike(final int position, final int fn, int wid) {
         // fn = 1 點讚, 0 取消讚
-        JSONObject json = ConnectJson.setLike(prefs, fn, wid);
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_SET_LIKE)
-                .post(body)
-                .build();
+        Request request = ConnectJson.setLike(prefs, fn, wid);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -317,14 +315,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
     public void setFollow(final int position, final int fn, int followId) {
         // fn = 1 點讚, 0 取消讚
-        JSONObject json = ConnectJson.setFollow(prefs, fn, followId);
-        Log.d("LOGIN JSON: ", json.toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_SET_FOLLOW)
-                .post(body)
-                .build();
+        Request request = ConnectJson.setFollow(prefs, fn, followId);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -368,13 +360,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
     public void setCollection(final int position, final int fn, int wid) {
         // fn = 1 收藏, 0 取消收藏
-        JSONObject json = ConnectJson.setCollection(prefs, fn, wid);
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_SET_COLLECTION)
-                .post(body)
-                .build();
+        Request request = ConnectJson.setCollection(prefs, fn, wid);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -426,12 +413,11 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
     @Override
     public void onWorkExtraClick(final int wid) {
-        final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.item_work_extra_dialog);
+        final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
         Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
         Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
-        extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
         extraShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -484,7 +470,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
     @Override
     public void onWorkMsgClick(int wid) {
-
+        MessageDialog messageDialog = MessageDialog.newInstance(wid);
+        messageDialog.show(fragmentManager, "TAG");
     }
 
     @Override

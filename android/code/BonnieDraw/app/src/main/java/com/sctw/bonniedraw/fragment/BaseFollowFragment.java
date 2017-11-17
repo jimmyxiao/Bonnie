@@ -14,12 +14,6 @@ import com.sctw.bonniedraw.R;
  */
 public class BaseFollowFragment extends Fragment {
 
-
-    public BaseFollowFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

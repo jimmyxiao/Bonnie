@@ -20,7 +20,7 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.widget.TSnackbarCall;
+import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,17 +107,12 @@ public class EditProfileFragment extends Fragment {
 
     void getUserInfo() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
-        JSONObject json = ConnectJson.queryUserInfoJson(prefs);
-        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_USER_INFO_QUERY)
-                .post(body)
-                .build();
+        Request request = ConnectJson.queryUserInfoJson(prefs);
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"連線失敗");
+                ToastUtil.createToastWindow(getContext(),"連線失敗");
             }
 
             @Override
@@ -181,7 +176,7 @@ public class EditProfileFragment extends Fragment {
                                         .apply(GlideAppModule.getUserOptions())
                                         .into(mImgViewPhoto);
                             } else {
-                                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"連線失敗");
+                                ToastUtil.createToastWindow(getContext(), "連線失敗");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -214,7 +209,7 @@ public class EditProfileFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"更新失敗");
+                ToastUtil.createToastWindow(getContext(),"更新失敗");
             }
 
             @Override
@@ -228,10 +223,10 @@ public class EditProfileFragment extends Fragment {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
 
-                                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),getString(R.string.public_update_successful));
+                                ToastUtil.createToastWindow(getContext(),"更新成功");
                                 getUserInfo();
                             } else {
-                                TSnackbarCall.showTSnackbar(getView().findViewById(R.id.coordinatorLayout_edit_profile),"更新失敗");
+                                ToastUtil.createToastWindow(getContext(), "更新失敗");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

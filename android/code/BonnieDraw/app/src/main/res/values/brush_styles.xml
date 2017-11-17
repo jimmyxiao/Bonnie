@@ -24,7 +24,6 @@
         <item name="maxSize">55.645844dip</item>
         <item name="minSize">11.492035dip</item>
         <item name="name">@string/brush_Bamboo1</item>
-        <item name="preview">@drawable/stylishbrush_bamboo1</item>
         <item name="size">25.329437dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.17868505</item>
@@ -61,7 +60,6 @@
         <item name="maxSize">55.645844dip</item>
         <item name="minSize">11.492035dip</item>
         <item name="name">@string/brush_Bamboo2</item>
-        <item name="preview">@drawable/stylishbrush_bamboo2</item>
         <item name="size">19.941925dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.17248908</item>
@@ -98,7 +96,6 @@
         <item name="maxSize">23.153503dip</item>
         <item name="minSize">1.3062134dip</item>
         <item name="name">@string/brush_Pen</item>
-        <item name="preview">@drawable/stylishbrush_pen</item>
         <item name="size">5.7261353dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.24895397</item>
@@ -135,7 +132,6 @@
         <item name="maxSize">70.94dip</item>
         <item name="minSize">8.809998dip</item>
         <item name="name">@string/brush_Calligraphy</item>
-        <item name="preview">@drawable/stylishbrush_calligraphy</item>
         <item name="size">27.459991dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.1404658</item>
@@ -172,7 +168,6 @@
         <item name="maxSize">25.20633dip</item>
         <item name="minSize">2.8571167dip</item>
         <item name="name">@string/brush_HardPencil</item>
-        <item name="preview">@drawable/stylishbrush_hard_pencil</item>
         <item name="size">4.0dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.2</item>
@@ -209,7 +204,6 @@
         <item name="maxSize">25.20633dip</item>
         <item name="minSize">3.7460022dip</item>
         <item name="name">@string/brush_SoftPencil</item>
-        <item name="preview">@drawable/stylishbrush_soft_pencil</item>
         <item name="size">4.634918dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.2</item>
@@ -246,7 +240,6 @@
         <item name="maxSize">15.239471dip</item>
         <item name="minSize">1.6545715dip</item>
         <item name="name">@string/brush_InkPen</item>
-        <item name="preview">@drawable/stylishbrush_ink_pen</item>
         <item name="size">2.5253906dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.23221758</item>
@@ -283,7 +276,6 @@
         <item name="maxSize">100.0dip</item>
         <item name="minSize">3.0dip</item>
         <item name="name">@string/brush_HardEraser</item>
-        <item name="preview">@drawable/stylishbrush_head_eraser</item>
         <item name="size">20.0dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.2</item>
@@ -319,7 +311,6 @@
         <item name="maxSize">120.0dip</item>
         <item name="minSize">3.0dip</item>
         <item name="name">@string/brush_SoftEraser</item>
-        <item name="preview">@drawable/stylishbrush_soft_eraser</item>
         <item name="size">79.301575dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.2</item>
@@ -355,7 +346,6 @@
         <item name="maxSize">24.470245dip</item>
         <item name="minSize">4.6153564dip</item>
         <item name="name">@string/brush_BallpointPen</item>
-        <item name="preview">@drawable/stylishbrush_ballpoint_pen</item>
         <item name="size">6.0086975dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.29475984</item>
@@ -392,7 +382,6 @@
         <item name="maxSize">120.0dip</item>
         <item name="minSize">10.536987dip</item>
         <item name="name">@string/brush_AirBrush</item>
-        <item name="preview">@drawable/stylishbrush_air_brush</item>
         <item name="size">32.83017dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.26710334</item>
@@ -429,7 +418,6 @@
         <item name="maxSize">50.659973dip</item>
         <item name="minSize">3.539978dip</item>
         <item name="name">@string/brush_Oil</item>
-        <item name="preview">@drawable/stylishbrush_oil</item>
         <item name="size">25.799988dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.11924686</item>
@@ -466,7 +454,6 @@
         <item name="maxSize">62.41269dip</item>
         <item name="minSize">13.523804dip</item>
         <item name="name">@string/brush_FeltPen</item>
-        <item name="preview">@drawable/stylishbrush_felt_pen</item>
         <item name="size">28.761902dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.16812228</item>
@@ -504,7 +491,6 @@
         <item name="maxSize">58.799988dip</item>
         <item name="minSize">7.619995dip</item>
         <item name="name">@string/brush_WaterColor</item>
-        <item name="preview">@drawable/stylishbrush_water_color</item>
         <item name="size">34.5dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.33263597</item>
@@ -542,7 +528,6 @@
         <item name="maxSize">67.66327dip</item>
         <item name="minSize">10.014496dip</item>
         <item name="name">@string/brush_OilPastel</item>
-        <item name="preview">@drawable/stylishbrush_oil_pastel</item>
         <item name="size">34.22351dip</item>
         <item name="smudgingPatchAlpha">0.8179916</item>
         <item name="spacing">0.21548118</item>
@@ -579,7 +564,6 @@
         <item name="maxSize">57.599976dip</item>
         <item name="minSize">22.449982dip</item>
         <item name="name">@string/brush_Pastel</item>
-        <item name="preview">@drawable/stylishbrush_pastel</item>
         <item name="size">41.049988dip</item>
         <item name="smudgingPatchAlpha">0.9861718</item>
         <item name="spacing">0.2569141</item>
@@ -616,7 +600,6 @@
         <item name="maxSize">72.0dip</item>
         <item name="minSize">8.409973dip</item>
         <item name="name">@string/brush_HardPastel</item>
-        <item name="preview">@drawable/stylishbrush_hard_pastel</item>
         <item name="size">26.389984dip</item>
         <item name="smudgingPatchAlpha">0.9861718</item>
         <item name="spacing">0.11924686</item>
@@ -653,7 +636,6 @@
         <item name="maxSize">36.313477dip</item>
         <item name="minSize">6.357025dip</item>
         <item name="name">@string/brush_Creyon</item>
-        <item name="preview">@drawable/stylishbrush_creyon</item>
         <item name="size">10.885315dip</item>
         <item name="smudgingPatchAlpha">0.9861718</item>
         <item name="spacing">0.11924686</item>
@@ -690,7 +672,6 @@
         <item name="maxSize">70.0dip</item>
         <item name="minSize">11.419983dip</item>
         <item name="name">@string/brush_Knife1</item>
-        <item name="preview">@drawable/stylishbrush_knife1</item>
         <item name="size">40.669983dip</item>
         <item name="smudgingPatchAlpha">0.97161573</item>
         <item name="spacing">0.17364016</item>
@@ -727,7 +708,6 @@
         <item name="maxSize">85.25397dip</item>
         <item name="minSize">39.796783dip</item>
         <item name="name">@string/brush_Knife2</item>
-        <item name="preview">@drawable/stylishbrush_knife2</item>
         <item name="size">48.505066dip</item>
         <item name="smudgingPatchAlpha">0.8231441</item>
         <item name="spacing">0.25313807</item>
@@ -764,7 +744,6 @@
         <item name="maxSize">68.47998dip</item>
         <item name="minSize">14.839996dip</item>
         <item name="name">@string/brush_CombKnife</item>
-        <item name="preview">@drawable/stylishbrush_coub_knife</item>
         <item name="size">36.70999dip</item>
         <item name="smudgingPatchAlpha">0.95269287</item>
         <item name="spacing">0.12882096</item>
@@ -801,7 +780,6 @@
         <item name="maxSize">63.879974dip</item>
         <item name="minSize">13.719971dip</item>
         <item name="name">@string/brush_ColorlessOil</item>
-        <item name="preview">@drawable/stylishbrush_colorless_oil</item>
         <item name="size">33.28dip</item>
         <item name="smudgingPatchAlpha">0.8096234</item>
         <item name="spacing">0.11924686</item>
@@ -838,7 +816,6 @@
         <item name="maxSize">62.389984dip</item>
         <item name="minSize">11.599976dip</item>
         <item name="name">@string/brush_Finger</item>
-        <item name="preview">@drawable/stylishbrush_finger</item>
         <item name="size">28.399994dip</item>
         <item name="smudgingPatchAlpha">0.90585774</item>
         <item name="spacing">0.12882096</item>
@@ -881,7 +858,6 @@
         <item name="maxSize">90.0dip</item>
         <item name="minSize">23.319977dip</item>
         <item name="name">@string/brush_InkSpot</item>
-        <item name="preview">@drawable/stylishbrush_ink_spot</item>
         <item name="size">43.169983dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.23653567</item>
@@ -920,7 +896,6 @@
         <item name="maxSize">54.899994dip</item>
         <item name="minSize">9.759979dip</item>
         <item name="name">@string/brush_Flowers</item>
-        <item name="preview">@drawable/stylishbrush_flowers</item>
         <item name="size">30.809998dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.26987448</item>
@@ -957,7 +932,6 @@
         <item name="maxSize">75.0dip</item>
         <item name="minSize">9.379974dip</item>
         <item name="name">@string/brush_Fish</item>
-        <item name="preview">@drawable/stylishbrush_fish</item>
         <item name="size">31.569977dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.3033473</item>
@@ -995,7 +969,6 @@
         <item name="maxSize">75.0dip</item>
         <item name="minSize">9.569977dip</item>
         <item name="name">@string/brush_Sponge</item>
-        <item name="preview">@drawable/stylishbrush_sponge</item>
         <item name="size">41.75998dip</item>
         <item name="smudgingPatchAlpha">0.78451884</item>
         <item name="spacing">0.21966527</item>
@@ -1033,7 +1006,6 @@
         <item name="maxSize">39.03dip</item>
         <item name="minSize">9.399994dip</item>
         <item name="name">@string/brush_ImageVanGogh</item>
-        <item name="preview">@drawable/photobrush_van_gogh</item>
         <item name="size">15.459991dip</item>
         <item name="smudgingPatchAlpha">0.73726344</item>
         <item name="spacing">0.40247452</item>
@@ -1074,7 +1046,6 @@
         <item name="maxSize">25.25dip</item>
         <item name="minSize">5.3099976dip</item>
         <item name="name">@string/brush_ImageRenoir</item>
-        <item name="preview">@drawable/photobrush_renoir</item>
         <item name="size">14.059998dip</item>
         <item name="smudgingPatchAlpha">0.73012555</item>
         <item name="spacing">0.24895397</item>
@@ -1111,7 +1082,6 @@
         <item name="maxSize">16.269989dip</item>
         <item name="minSize">3.5599976dip</item>
         <item name="name">@string/brush_ImageSeurat</item>
-        <item name="preview">@drawable/photobrush_seurat</item>
         <item name="size">5.659973dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
         <item name="spacing">0.11924686</item>
@@ -1148,7 +1118,6 @@
         <item name="maxSize">25.149994dip</item>
         <item name="minSize">7.0599976dip</item>
         <item name="name">@string/brush_ImageWetCanvas</item>
-        <item name="preview">@drawable/photobrush_wet_canvas</item>
         <item name="size">12.059998dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.3451883</item>
@@ -1186,7 +1155,6 @@
         <item name="maxSize">36.47dip</item>
         <item name="minSize">11.029999dip</item>
         <item name="name">@string/brush_ImageWetSponge</item>
-        <item name="preview">@drawable/photobrush_wet_sponge</item>
         <item name="size">16.75dip</item>
         <item name="smudgingPatchAlpha">0.78451884</item>
         <item name="spacing">0.11087866</item>
@@ -1223,7 +1191,6 @@
         <item name="maxSize">27.00998dip</item>
         <item name="minSize">4.139984dip</item>
         <item name="name">@string/brush_ImageImpress</item>
-        <item name="preview">@drawable/photobrush_impress</item>
         <item name="size">8.579987dip</item>
         <item name="smudgingPatchAlpha">0.8933054</item>
         <item name="spacing">0.20711297</item>
@@ -1260,7 +1227,6 @@
         <item name="maxSize">16.75998dip</item>
         <item name="minSize">3.269989dip</item>
         <item name="name">@string/brush_ImageOil</item>
-        <item name="preview">@drawable/photobrush_oil</item>
         <item name="size">7.789978dip</item>
         <item name="smudgingPatchAlpha">0.8933054</item>
         <item name="spacing">0.24672489</item>
@@ -1298,7 +1264,6 @@
         <item name="maxSize">23.019989dip</item>
         <item name="minSize">3.6599731dip</item>
         <item name="name">@string/brush_ImageWaterColor</item>
-        <item name="preview">@drawable/photobrush_water_color</item>
         <item name="size">10.0dip</item>
         <item name="smudgingPatchAlpha">0.92259413</item>
         <item name="spacing">0.11506276</item>
@@ -1339,7 +1304,6 @@
         <item name="maxSize">30.629974dip</item>
         <item name="minSize">5.659973dip</item>
         <item name="name">@string/brush_ImageAcrylic</item>
-        <item name="preview">@drawable/photobrush_acrylic</item>
         <item name="size">14.289978dip</item>
         <item name="smudgingPatchAlpha">1.0</item>
         <item name="spacing">0.24895397</item>
@@ -1376,7 +1340,6 @@
         <item name="maxSize">29.309998dip</item>
         <item name="minSize">4.98999dip</item>
         <item name="name">@string/brush_ImagePen</item>
-        <item name="preview">@drawable/photobrush_pen</item>
         <item name="size">14.259979dip</item>
         <item name="smudgingPatchAlpha">1.0</item>
         <item name="spacing">0.22803347</item>
@@ -1413,7 +1376,6 @@
         <item name="maxSize">53.639984dip</item>
         <item name="minSize">8.809998dip</item>
         <item name="name">@string/brush_ImageFish</item>
-        <item name="preview">@drawable/photobrush_fish</item>
         <item name="size">16.629974dip</item>
         <item name="smudgingPatchAlpha">1.0</item>
         <item name="spacing">0.71421</item>
@@ -1452,7 +1414,6 @@
         <item name="maxSize">46.409973dip</item>
         <item name="minSize">7.189972dip</item>
         <item name="name">@string/brush_ImageFlowers</item>
-        <item name="preview">@drawable/photobrush_flowers</item>
         <item name="size">15.179993dip</item>
         <item name="smudgingPatchAlpha">1.0</item>
         <item name="spacing">0.71421</item>
@@ -1489,7 +1450,6 @@
         <item name="maxSize">21.279999dip</item>
         <item name="minSize">4.6099854dip</item>
         <item name="name">@string/brush_ImageHardPastel</item>
-        <item name="preview">@drawable/photobrush_hard_pastel</item>
         <item name="size">12.779999dip</item>
         <item name="smudgingPatchAlpha">0.9861718</item>
         <item name="spacing">0.11924686</item>
@@ -1526,7 +1486,6 @@
         <item name="maxSize">39.599976dip</item>
         <item name="minSize">5.73999dip</item>
         <item name="name">@string/brush_ImageAirBrush</item>
-        <item name="preview">@drawable/photobrush_air_brush</item>
         <item name="size">13.22998dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.2</item>
@@ -1563,7 +1522,6 @@
         <item name="maxSize">40.369995dip</item>
         <item name="minSize">6.7099915dip</item>
         <item name="name">@string/brush_ImageOilPastel</item>
-        <item name="preview">@drawable/photobrush_oil_pastel</item>
         <item name="size">16.75dip</item>
         <item name="smudgingPatchAlpha">0.8144105</item>
         <item name="spacing">0.27405858</item>

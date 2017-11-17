@@ -28,7 +28,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
 import com.sctw.bonniedraw.utility.PxDpConvert;
-import com.sctw.bonniedraw.widget.TSnackbarCall;
+import com.sctw.bonniedraw.widget.ToastUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -201,7 +201,7 @@ public class PaintView extends View {
             }
             invalidate();
         } else {
-            TSnackbarCall.showTSnackbar(PaintView.this, "復原次數到達上限");
+            ToastUtil.createToastWindow(getContext(), "復原次數到達上限");
         }
     }
 
@@ -226,7 +226,7 @@ public class PaintView extends View {
 
             invalidate();
         } else {
-            TSnackbarCall.showTSnackbar(this, "重作次數到達上限");
+            ToastUtil.createToastWindow(getContext(), "重作次數到達上限");
         }
     }
 
@@ -238,7 +238,7 @@ public class PaintView extends View {
             this.mMergedLayerCanvas.setBitmap(mMergedLayer);
             invalidate();
         } else {
-            TSnackbarCall.showTSnackbar(PaintView.this, "復原次數到達上限");
+            ToastUtil.createToastWindow(getContext(), "復原次數到達上限");
         }
     }
 

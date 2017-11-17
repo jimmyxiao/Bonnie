@@ -52,7 +52,6 @@ dependencies {
     compile 'com.twitter.sdk.android:twitter:3.1.1'
     compile 'com.twitter.sdk.android:twitter-mopub:3.1.1'
     compile 'de.hdodenhof:circleimageview:2.2.0'
-    compile 'com.androidadvance:topsnackbar:1.1.1'
     compile 'com.github.bumptech.glide:okhttp3-integration:4.3.0'
     compile 'com.github.razerdp:BasePopup:1.8.5.1'
     compile 'com.github.bumptech.glide:glide:4.3.1'

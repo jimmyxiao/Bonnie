@@ -39,4 +39,9 @@
         <item>@string/public_private</item>
         <item>@string/public_protect</item>
     </string-array>
+
+    <string-array name="report">
+        <item>內容色情</item>
+        <item>內容暴力</item>
+    </string-array>
 </resources>
