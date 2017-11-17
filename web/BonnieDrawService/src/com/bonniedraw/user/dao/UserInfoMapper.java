@@ -44,6 +44,6 @@ public interface UserInfoMapper {
     
     List<UserInfo> getUserFriendsList(Map<String, Object> paramMap);
     
-    List<UserInfoResponse> queryUserByIds(List<Integer> ids);
+    List<UserInfoResponse> queryUserByIds(Map<String, Object> paramMap);
     
 }

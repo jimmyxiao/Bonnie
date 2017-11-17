@@ -524,7 +524,8 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		paramMap.put("fn", fn);
 		List<Integer> followList = followingMapper.selectTrackOrFans(paramMap);
 		if(ValidateUtil.isNotEmptyAndSize(followList)){
-			result =  userInfoMapper.queryUserByIds(followList);		
+			paramMap.put("list", followList);
+			result =  userInfoMapper.queryUserByIds(paramMap);		
 		}
 		return result;
 	}
