@@ -74,7 +74,7 @@ app.factory('workService', function(baseHttp) {
 		})
 	}
 
-	 $scope.queryWorkDetail = function(data){
+	$scope.queryWorkDetail = function(data){
         var modalInstance = $modal.open({
             templateUrl : 'modules/works/view/dialog/workDetail.html',
             scope:$scope,

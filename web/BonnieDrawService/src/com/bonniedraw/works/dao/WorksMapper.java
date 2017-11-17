@@ -62,4 +62,6 @@ public interface WorksMapper {
     
     WorksResponse queryWorkDetail(Works works);
     
+    List<WorksResponse> queryTurnInWorkList();
+    
 }

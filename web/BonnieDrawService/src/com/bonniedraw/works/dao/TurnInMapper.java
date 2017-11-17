@@ -17,5 +17,5 @@ public interface TurnInMapper {
 
     int updateByPrimaryKey(TurnIn record);
     
-    List<TurnIn> queryTurnInList();
+    List<TurnIn> queryTurnInList(Integer worksId);
 }

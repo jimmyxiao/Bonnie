@@ -86,7 +86,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
         url: '/turnInManager',
         views: {
           "content":{
-            templateUrl:'modules/turnIn/view/turnInList.html',
+            templateUrl:'modules/turnIn/view/turnInWorkList.html',
             controller:'turnInController'
           }
         }

@@ -625,4 +625,14 @@
 	where wk.WORKS_ID = #{worksId,jdbcType=INTEGER}
   </select>
   
+  <select id="queryTurnInWorkList" resultMap="WorksResponseModule">
+    select distinct
+    wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION, wk.IMAGE_PATH, wk.BDW_PATH, 
+    wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.CREATION_DATE, wk.CREATED_BY, wk.UPDATE_DATE, wk.UPDATED_BY,
+    ui.USER_NAME
+   	from works wk 
+	right join turn_in ti on wk.works_id = ti.works_id
+	left join user_info ui on wk.user_id = ui.user_id
+  </select>
+  
 </mapper>
