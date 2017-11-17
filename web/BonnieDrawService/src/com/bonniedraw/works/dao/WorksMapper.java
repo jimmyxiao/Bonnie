@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.bonniedraw.web_api.module.WorksResponse;
 import com.bonniedraw.works.model.Works;
+import com.bonniedraw.works.module.SearchWorkModule;
 
 public interface WorksMapper {
     int deleteByPrimaryKey(Integer worksId);
@@ -18,6 +19,8 @@ public interface WorksMapper {
     int updateByPrimaryKeySelective(Works record);
 
     int updateByPrimaryKey(Works record);
+    
+    int updateStatusByPrimaryKey(Works record);
     
     WorksResponse queryWorks(Map<String, Object> paramMap);
     
@@ -54,5 +57,9 @@ public interface WorksMapper {
     List<WorksResponse> queryRelatedTagWorksPager(Map<String, Object> pagerMap);
     
     List<WorksResponse> querySearchWorksPager(Map<String, Object> pagerMap);
+    
+    List<WorksResponse> queryWorkListBySearchWorkModule(SearchWorkModule searchWorkModule);
+    
+    WorksResponse queryWorkDetail(Works works);
     
 }

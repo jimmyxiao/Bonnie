@@ -15,25 +15,26 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right"> 按讚數 </label>
 										<div class="col-sm-9">
-											<label class="control-label">{{userDetail.followNum}}</label>
+											<label class="control-label">{{workDetail.likeCount}}</label>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right"> 留言數 </label>
 										<div class="col-sm-9">
-											<label class="control-label">{{userDetail.fansNum}}</label>
+											<label class="control-label">{{workDetail.msgCount}}</label>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right"> 是否有被檢舉 </label>
 										<div class="col-sm-9">
-											<label class="control-label">{{userDetail.fansNum}}</label>
+											<label ng-if="workDetail.isTurnIn" class="control-label">已檢舉</label>
+											<label ng-if="!workDetail.isTurnIn" class="control-label">無檢舉</label>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right"> 隱私權限 </label>
 										<div class="col-sm-9">
-											<select class="col-xs-10 col-sm-5" ng-disabled="true" ng-model="userDetail.userType" convert-to-number>
+											<select class="col-xs-10 col-sm-5" ng-disabled="true" ng-model="workDetail.privacyType" convert-to-number>
 												<option value="1">公開</option>
 												<option value="2">私人</option>
 												<option value="3">非公開</option>
@@ -43,7 +44,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right"> 製作平台 </label>
 										<div class="col-sm-9">
-											<select class="col-xs-10 col-sm-5" ng-disabled="true" ng-model="userDetail.userType" convert-to-number>
+											<select class="col-xs-10 col-sm-5" ng-disabled="true" ng-model="workDetail.deviceType" convert-to-number>
 												<option value="1">Android</option>
 												<option value="2">IOS</option>
 											</select>
@@ -52,13 +53,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right"> 標題 </label>
 										<div class="col-sm-9">
-											<input type="text" ng-disabled="true" ng-model="userDetail.userCode" class="col-xs-10 col-sm-5"/>
+											<input type="text" ng-disabled="true" ng-model="workDetail.title" class="col-xs-10 col-sm-5"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right"> 說明 </label>
 										<div class="col-sm-9">
-											<input type="text" ng-disabled="true" ng-model="userDetail.userName" class="col-xs-10 col-sm-5"/>
+											<textarea ng-disabled="true" ng-model="workDetail.description" class="col-xs-10 col-sm-10" style="resize: none;"></textarea>
 										</div>
 									</div>
 

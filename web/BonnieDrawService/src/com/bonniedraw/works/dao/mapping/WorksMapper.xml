@@ -210,6 +210,14 @@
     where WORKS_ID = #{worksId,jdbcType=INTEGER}
   </update>
   
+  <update id="updateStatusByPrimaryKey" parameterType="com.bonniedraw.works.model.Works">
+    update works
+    set STATUS = #{status,jdbcType=INTEGER},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATED_BY = #{updatedBy,jdbcType=INTEGER}
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </update>
+  
   <resultMap type="com.bonniedraw.web_api.module.WorksResponse" id="WorksResponseModule">
     <id column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
     <result column="USER_ID" jdbcType="INTEGER" property="userId" />
@@ -230,6 +238,7 @@
     <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
     <result column="isLike" jdbcType="BOOLEAN" property="isLike" />
     <result column="isCollection" jdbcType="BOOLEAN" property="isCollection" />
+    <result column="isTurnIn" jdbcType="BOOLEAN" property="isTurnIn" />
     <collection property="likeList" ofType="com.bonniedraw.works.model.WorksLike" resultMap="LikeModuleMap"/>
     <collection property="msgList" ofType="com.bonniedraw.works.model.WorksMsg" resultMap="MsgModuleMap"/>
     <collection property="categoryList" ofType="com.bonniedraw.works.model.WorksCategory" resultMap="CategoryModuleMap"/>
@@ -576,6 +585,44 @@
     )
     order by wk.UPDATE_DATE desc
     LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryWorkListBySearchWorkModule" parameterType="com.bonniedraw.works.module.SearchWorkModule" resultMap="WorksResponseModule">
+    select distinct
+    wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION, wk.IMAGE_PATH, wk.BDW_PATH, 
+    wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.CREATION_DATE, wk.CREATED_BY, wk.UPDATE_DATE, wk.UPDATED_BY,
+    ui.USER_NAME
+    from works wk
+    left join user_info ui on wk.user_id = ui.user_id
+    left join works_tag wt on wk.works_id = wt.works_id
+    where 1=1 
+    <if test="userName !=null and userName !='' "> and ui.user_name like concat('%', #{userName, jdbcType=VARCHAR}, '%') </if>
+    <if test="email !=null and email !='' "> and ui.email = #{email, jdbcType=VARCHAR} </if>
+    <if test="title !=null and title !='' "> and wk.title = #{title, jdbcType=VARCHAR} </if>
+    <if test="description !=null and description !='' "> and wk.description = #{description, jdbcType=VARCHAR} </if>
+    <if test="tagName !=null and tagName !='' "> and wt.tag_name = #{tagName, jdbcType=VARCHAR} </if>
+    order by wk.works_id
+    limit 100
+  </select>
+  
+  <select id="queryWorkDetail" parameterType="com.bonniedraw.works.model.Works" resultMap="WorksResponseModule">
+    select distinct 
+ 	wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+ 	ur.USER_NAME, 
+ 	(case when exists 
+		(select works_id from turn_in ti where ti.status = 1 and ti.works_id = wk.works_id) 
+	then true else false end) as isTurnIn
+    from works wk 
+    left outer join user_info ur on ur.user_id = wk.user_id
+    left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
+    left outer join 
+    (select 
+    wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER,
+    wm.CREATION_DATE as MSG_CREATION_DATE, user_info.USER_NAME as  MSG_USER_NAME
+    from works_msg wm left outer join user_info on wm.USER_ID = user_info.USER_ID ) t
+    on t.MSG_WORKS_ID = wk.WORKS_ID
+	where wk.WORKS_ID = #{worksId,jdbcType=INTEGER}
   </select>
   
 </mapper>

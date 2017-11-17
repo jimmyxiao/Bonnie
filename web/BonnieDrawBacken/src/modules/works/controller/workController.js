@@ -26,14 +26,14 @@ app.factory('workService', function(baseHttp) {
 		"sPaginationType":'full_numbers',
 		data: $scope.workInfoList,
 		columns: [
-			{ title: "項次",sWidth:"10%",render: function(data, type, full, meta) {
+			{ title: "項次",sWidth:"10%",render: function(data, type, row, meta) {
 					return (meta.row + 1);
 				}
 			},
 			{ title: "作者",data: "userName",sWidth:"20%" },
 			{ title: "標題",data: "title",sWidth:"20%" },
-			{ title: "說明",sWidth:"30%", data:"description" },
-			{data:null,"bSortable": false,sWidth:"20%",render: function(data, type, full, meta) {
+			{ title: "圖檔位置", data: "imagePath", sWidth:"20%" },
+			{data:null,"bSortable": false,sWidth:"30%",render: function(data, type, full, meta) {
 				var row = meta.row;
 				var str = '';
 				if(data.status == 1){
@@ -69,7 +69,7 @@ app.factory('workService', function(baseHttp) {
 		workService.changeStatus($scope.workInfoList[index],function(data, status, headers, config){
 			if(data.result){
 				$scope.workInfoList[index] = data.data;
-				myTable.row(index).data(data.data).draw();
+				myTable.row(index).data(data.data).invalidate();
 			}
 		})
 	}

@@ -84,7 +84,7 @@ app.factory('userService', function(baseHttp) {
 		userService.changeStatus($scope.userInfoList[index],function(data, status, headers, config){
 			if(data.result){
 				$scope.userInfoList[index] = data.data;
-				myTable.row(index).data(data.data).draw();
+				myTable.row(index).data(data.data).invalidate();
 			}
 		})
 	}

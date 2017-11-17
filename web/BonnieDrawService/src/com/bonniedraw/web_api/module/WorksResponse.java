@@ -18,6 +18,7 @@ public class WorksResponse extends Works {
 	private boolean isCollection;
 	private int isFollowing;
 	private boolean isLike;
+	private boolean isTurnIn;
 
 	public String getUserName() {
 		return userName;
@@ -97,6 +98,14 @@ public class WorksResponse extends Works {
 
 	public void setLike(boolean isLike) {
 		this.isLike = isLike;
+	}
+
+	public boolean isTurnIn() {
+		return isTurnIn;
+	}
+
+	public void setTurnIn(boolean isTurnIn) {
+		this.isTurnIn = isTurnIn;
 	}
 	
 }
