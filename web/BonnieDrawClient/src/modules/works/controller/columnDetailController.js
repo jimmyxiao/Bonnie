@@ -13,13 +13,13 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.funcol = false;
 		$scope.funcolStop = false;
 
-		$scope.fastarr = ['8','4','2','1','0.5','0.25','0.125'];//s~q
-		var fasti =3;
-		$scope.fastnum = 1;
+		$scope.fastarr = ['100','70','40','10','0.2','0.5'];//s~q
+		$scope.fasti =0;
+		$scope.fastnum = 100;
 
 		var paused= false;
 		$scope.forwarded =true;
-		$scope.rewinded =true;
+		$scope.rewinded =false;
 		var auto = true;
 		var nextstatus = false;
 		var linend =false;
@@ -41,8 +41,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 	    };
 
 		$scope.pasue = function(){
-			fasti =3;
-			$scope.fastnum = 1;
+			$scope.fasti =0;
+			$scope.fastnum = 100;
 			
 			if (!paused){
 				$scope.pausebol = false;
@@ -122,28 +122,28 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			if(!$scope.islast){
 				switch(tag) {
 					case "forward":
-						if(($scope.fastarr.length-1)>fasti){
-							fasti++;							
+						if(($scope.fastarr.length-1)>$scope.fasti){
+							$scope.fasti++;							
 						}
 						break;
 					case "rewind":
-						if(fasti>0){
-							fasti--;							
+						if($scope.fasti>0){
+							$scope.fasti--;							
 						}
 						break;
 				}
-				if(($scope.fastarr.length-1)==fasti){
+				if(($scope.fastarr.length-1)==$scope.fasti){
 					$scope.forwarded = false;
 				}else{
 					$scope.forwarded = true;
 				}
 
-				if(fasti==0){
+				if($scope.fasti==0){
 					$scope.rewinded = false;
 				}else{
 					$scope.rewinded = true;
 				}
-				$scope.fastnum = $scope.fastarr[fasti];
+				$scope.fastnum = $scope.fastarr[$scope.fasti];
 				console.log("speed:" + $scope.fastnum);
 			}
 		}
@@ -262,15 +262,16 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			    	
 				}, 5000);*/
 			}else{
-				if($scope.pausebol && $scope.fastnum!=1){
+				/*if($scope.pausebol && $scope.fastnum!=1){
 			    		var sett = $scope.fastnum;
 			    	}else{
 			    		var sett = lines[draw_number].time;
-			    	}
+			    }*/
+			    var sett = $scope.fastnum;
 				setTimeout(function(){
 			    	drawDot();
-
-				}, lines[draw_number].time*$scope.fastnum);
+			    }, $scope.fastnum);
+				//}, lines[draw_number].time*$scope.fastnum);
 			}
 		}
 

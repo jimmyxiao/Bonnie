@@ -43,6 +43,13 @@
 	padding-top: 20px;
 }
 
+.speennum{
+	position: relative;
+	top: -5px;
+	left: 15px;
+	font-size: 52px;
+	color: white;
+}
 
 #main-bar .login .media .media-left{
 	width: 41px;
