@@ -3,7 +3,6 @@ package com.sctw.bonniedraw.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
@@ -160,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         logoutPlatform();
-                        mImgHeaderPhoto.setBackgroundColor(Color.BLACK);
                     }
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.public_cancel),

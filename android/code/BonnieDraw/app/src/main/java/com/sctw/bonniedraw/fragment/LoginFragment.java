@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -33,7 +34,10 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.sctw.bonniedraw.R;
@@ -65,7 +69,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.sctw.bonniedraw.activity.LoginActivity.mGoogleApiClient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,6 +87,7 @@ public class LoginFragment extends Fragment {
     private TextInputLayout mInputLayoutEmail, mInputLayoutPassword;
     private TextInputEditText mInputEditTextEmail, mInputEditTextPassword;
     boolean emailCheck = false;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,7 +101,7 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         fragmentManager = getActivity().getSupportFragmentManager();
-
+        init();
         mBtnEmailLogin = (Button) view.findViewById(R.id.btn_email_login);
         mBtnEmailLogin.setOnClickListener(clickListenerEmail);
         mTextViewSignup = (TextView) view.findViewById(R.id.textView_singup_login);
@@ -128,6 +132,23 @@ public class LoginFragment extends Fragment {
         mInputEditTextEmail.addTextChangedListener(checkEmail);
         facebookLinkAPI();
         twitterResult();
+    }
+
+    void init() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .enableAutoManage(getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        System.out.println(connectionResult.toString());
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     TextWatcher checkPassword = new TextWatcher() {
@@ -540,7 +561,7 @@ public class LoginFragment extends Fragment {
             switch (style) {
                 case GlobalVariable.API_LOGIN_CODE:
                     json.put("ut", prefs.getString(GlobalVariable.USER_PLATFORM_STR, ""));
-                    json.put("un",prefs.getString(GlobalVariable.USER_NAME_STR,""));
+                    json.put("un", prefs.getString(GlobalVariable.USER_NAME_STR, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
                     json.put("thirdEmail", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
@@ -576,7 +597,9 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onPause() {
+        super.onPause();
+        mGoogleApiClient.stopAutoManage(getActivity());
+        mGoogleApiClient.disconnect();
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paint.Brushes;
 import com.sctw.bonniedraw.paint.PaintView;
@@ -30,7 +32,6 @@ import com.sctw.bonniedraw.paint.TagPoint;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
-import com.sctw.bonniedraw.utility.GlideApp;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
@@ -524,12 +525,10 @@ public class PlayDialog extends DialogFragment {
                 mBtnCollection.setPressed(false);
             }
 
-            GlideApp.with(getContext())
+            Glide.with(getContext())
                     .load(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"))
-                    .fitCenter()
-                    .error(R.drawable.loading_fail)
-                    .into(mImgViewWorkImage);
-            GlideApp.with(getContext())
+                    .into(mImgViewWorkImage).onLoadFailed(ContextCompat.getDrawable(getContext(), R.drawable.loading_fail));
+            Glide.with(getContext())
                     .load(GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture"))
                     .apply(GlideAppModule.getUserOptions())
                     .into(mCircleImgUserPhoto);

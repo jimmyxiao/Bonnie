@@ -4,6 +4,7 @@ package com.sctw.bonniedraw.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -17,8 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.safetynet.SafetyNet;
+import com.google.android.gms.safetynet.SafetyNetApi;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -39,17 +45,14 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ForgetPasswordFragment extends Fragment implements TextWatcher {
+public class ForgetPasswordFragment extends Fragment implements TextWatcher, View.OnClickListener {
+    private static final String SITE_KEY = "6LfZIDkUAAAAABgHI0HkKRCzaqdqCMTabI5vXWgs";
+    private static final String ST_KEY = "6LfZIDkUAAAAACK0iX4foZSovZG5ZpStkGSxIKdc";
     private TextView mTextViewEmail, mTextViewSignup;
     private Button mBtnGetPassword;
     private FragmentManager fragmentManager;
     private boolean mbCheckEmail = false;
     private TextInputLayout mTextInputLayoutEmail;
-
-    public ForgetPasswordFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,36 +69,15 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher {
         mTextViewSignup = (TextView) view.findViewById(R.id.textView_singup_login);
         mBtnGetPassword = (Button) view.findViewById(R.id.btn_get_password);
         mTextInputLayoutEmail = (TextInputLayout) view.findViewById(R.id.textInputLayout_forget_email);
-        mTextViewSignup.setOnClickListener(signIn);
-        mBtnGetPassword.setOnClickListener(getPwd);
+        mTextViewSignup.setOnClickListener(this);
+        mBtnGetPassword.setOnClickListener(this);
         mTextViewEmail.addTextChangedListener(this);
     }
 
-    private View.OnClickListener getPwd = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mbCheckEmail) {
-                updateProfileInfo();
-            } else {
-                checkEmail();
-            }
-        }
-    };
-
-    private View.OnClickListener signIn = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.frameLayout_login, new SignUpFragment());
-            ft.addToBackStack(null);
-            ft.commit();
-        }
-    };
-
     void updateProfileInfo() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
-        JSONObject json = ConnectJson.forgetPwd(mTextViewEmail.getText().toString(), "MASKTEST123456");
-        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        JSONObject json = ConnectJson.forgetPwd(mTextViewEmail.getText().toString());
+        final RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         final Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_FORGET_PWD)
                 .post(body)
@@ -116,7 +98,6 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher {
                             }
                         });
                         builder.show();
-
                     }
                 });
             }
@@ -131,9 +112,25 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher {
                             try {
                                 JSONObject responseJSON = new JSONObject(responseStr);
                                 if (responseJSON.getInt("res") == 1) {
-                                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                                    AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                                    builder.setMessage("請至您的電子信箱來獲得新密碼。");
+                                    builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    builder.show();
                                 } else {
-                                    Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
+                                    AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                                    builder.setMessage("查無此帳號。");
+                                    builder.setPositiveButton(R.string.public_no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    builder.show();
                                 }
                                 Log.d("GET RESPONE", responseJSON.toString());
                             } catch (JSONException e) {
@@ -169,5 +166,57 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher {
             mTextInputLayoutEmail.setError(null);
             mbCheckEmail = true;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_get_password:
+                recaptcha(v);
+                break;
+            case R.id.textView_singup_login:
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.frameLayout_login, new SignUpFragment());
+                ft.addToBackStack(null);
+                ft.commit();
+                break;
+        }
+    }
+
+    private void recaptcha(View view) {
+        SafetyNet.getClient(this.getActivity()).verifyWithRecaptcha(SITE_KEY)
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<SafetyNetApi.RecaptchaTokenResponse>() {
+                    @Override
+                    public void onSuccess(SafetyNetApi.RecaptchaTokenResponse response) {
+                        // Indicates communication with reCAPTCHA service was
+                        // successful.
+                        String userResponseToken = response.getTokenResult();
+                        if (!userResponseToken.isEmpty()) {
+                            if (mbCheckEmail) {
+                                updateProfileInfo();
+                            } else {
+                                checkEmail();
+                            }
+                            // Validate the user response token using the
+                            // reCAPTCHA siteverify API.
+                        }
+                    }
+                }).addOnFailureListener(getActivity(), new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ApiException) {
+                    // An error occurred when communicating with the
+                    // reCAPTCHA service. Refer to the status code to
+                    // handle the error appropriately.
+                    ApiException apiException = (ApiException) e;
+                    int statusCode = apiException.getStatusCode();
+                    Log.d("recaptcha", "Error: " + CommonStatusCodes
+                            .getStatusCodeString(statusCode));
+                } else {
+                    // A different, unknown type of error occurred.
+                    Log.d("recaptcha", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 }

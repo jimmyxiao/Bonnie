@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.utility.GlideApp;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.WorkInfoBean;
@@ -62,13 +61,13 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath();
         }
 
-        GlideApp.with(context)
+        Glide.with(context)
                 .load(workImgUrl)
                 .apply(GlideAppModule.getWorkOptions())
                 .thumbnail(Glide.with(context).load(R.drawable.loading))
                 .into(holder.mImgViewWrok);
         //作者圖
-        GlideApp.with(context)
+        Glide.with(context)
                 .load(userImgUrl)
                 .apply(GlideAppModule.getUserOptions())
                 .into(holder.mCircleImageView);

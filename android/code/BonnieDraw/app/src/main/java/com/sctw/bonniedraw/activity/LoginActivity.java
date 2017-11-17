@@ -19,10 +19,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.fragment.LoginFragment;
 import com.sctw.bonniedraw.utility.ConnectJson;
@@ -53,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     Boolean result = false;
     FragmentManager fragmentManager;
     LinearLayout mLinearLayout;
-    public static GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,21 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                 .debug(true)
                 .build();
         Twitter.initialize(config);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.server_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        System.out.println(connectionResult.toString());
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
     }
 
     void startAndCheck() {

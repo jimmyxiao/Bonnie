@@ -240,11 +240,10 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject forgetPwd(String email, String mask) {
+    public static JSONObject forgetPwd(String email) {
         JSONObject json = new JSONObject();
         try {
             json.put("email", email);
-            json.put("mask", mask);
         } catch (JSONException e) {
             e.printStackTrace();
         }
