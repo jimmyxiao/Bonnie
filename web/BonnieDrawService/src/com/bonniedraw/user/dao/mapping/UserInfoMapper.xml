@@ -518,12 +518,15 @@
     	<id column="USER_ID" jdbcType="INTEGER" property="userId" />
     	<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
     	<result column="PROFILE_PICTURE" jdbcType="VARCHAR" property="profilePicture" />
+    	 <result column="isFollowing" jdbcType="BOOLEAN" property="isFollowing" />
   	</resultMap>
-  	<select id="queryUserByIds" parameterType="java.util.List" resultMap="UserInfoResponseModule">
-    	select user_id, user_name, profile_picture
-		from user_info
+  	<select id="queryUserByIds" parameterType="java.util.Map" resultMap="UserInfoResponseModule">
+    	select ui.user_id, ui.user_name, uiprofile_picture,
+    	(case when user_id = tmp.following_user_id then true else false end) as isFollowing
+		from user_info ui,
+		(select following_user_id from following where user_id = #{userId,jdbcType=INTEGER} ) tmp
 		where user_id in 
-		<foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
 			#{item}
 		</foreach>
   	</select>
