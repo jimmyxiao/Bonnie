@@ -136,7 +136,7 @@ public class PlayDialog extends DialogFragment {
         mTvGoodTotal = view.findViewById(R.id.textView_single_work_good_total);
         mTvCreateTime = view.findViewById(R.id.textView_single_work_create_time);
         mTvPlayTotal = view.findViewById(R.id.textView_single_work_current_total);
-        mTvUserFollow=view.findViewById(R.id.textView_single_work_follow);
+        mTvUserFollow = view.findViewById(R.id.textView_single_work_follow);
         mProgressBar = view.findViewById(R.id.progressBar_single_work);
         mImgViewWorkImage = view.findViewById(R.id.imgView_single_work_img);
         mCircleImgUserPhoto = view.findViewById(R.id.circleImg_single_work_user_photo);
@@ -418,8 +418,11 @@ public class PlayDialog extends DialogFragment {
                     case MotionEvent.ACTION_DOWN:
                         mbPlaying = true;
                         if (tagpoint.get_iBrush() != 0) {
+                            mPaintView.getBrush().setEraser(false);
                             int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                             mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
+                        } else {
+                            mPaintView.getBrush().setEraser(true);
                         }
                         if (tagpoint.get_iColor() != 0) {
                             mPaintView.setDrawingColor(tagpoint.get_iColor());

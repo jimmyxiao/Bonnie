@@ -73,19 +73,17 @@ public class PaintPlayActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         mbPlaying = true;
                         if (tagpoint.get_iBrush() != 0) {
+                            mPaintView.getBrush().setEraser(false);
                             int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                             mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
+                        }else {
+                            mPaintView.getBrush().setEraser(true);
                         }
                         if (tagpoint.get_iColor() != 0) {
                             mPaintView.setDrawingColor(tagpoint.get_iColor());
                         }
                         if (tagpoint.get_iSize() != 0) {
                             mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth));
-                        }
-                        if (tagpoint.get_iReserved() == 1) {
-                            mPaintView.getBrush().setEraser(true);
-                        } else {
-                            mPaintView.getBrush().setEraser(false);
                         }
                         mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
                         mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
