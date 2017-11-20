@@ -298,9 +298,9 @@ public class PaintView extends View {
             case 3:
                 return 3;
             case 4:
-                return 11;
-            case 5:
                 return 13;
+            case 5:
+                return 11;
             default:
                 return 0;
         }

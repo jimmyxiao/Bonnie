@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.DateFormatString;
-import com.sctw.bonniedraw.utility.MsgBean;
+import com.sctw.bonniedraw.bean.MsgBean;
 
 import java.util.ArrayList;
 

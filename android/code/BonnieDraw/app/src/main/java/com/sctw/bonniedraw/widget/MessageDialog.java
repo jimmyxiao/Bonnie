@@ -25,7 +25,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.MsgAdapter;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.MsgBean;
+import com.sctw.bonniedraw.bean.MsgBean;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 
 import org.json.JSONArray;

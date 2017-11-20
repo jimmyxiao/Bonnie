@@ -138,6 +138,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     //產生預覽圖&上傳
     private void savePictureEdit() {
+        //上傳要關掉格線
+        mPaintView.setMiGridCol(0);
         mFullScreenDialog = new FullScreenDialog(this, R.layout.dialog_paint_save);
         final EditText workName = (EditText) mFullScreenDialog.findViewById(R.id.paint_save_work_name);
         final EditText workDescription = (EditText) mFullScreenDialog.findViewById(R.id.paint_save_work_description);
@@ -551,11 +553,11 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 mPaintView.miPaintNum = 3;
                 break;
             case R.id.imgBtn_paint_type4:
-                setBrush(11);
+                setBrush(13);
                 mPaintView.miPaintNum = 4;
                 break;
             case R.id.imgBtn_paint_type5:
-                setBrush(13);
+                setBrush(11);
                 mPaintView.miPaintNum = 5;
                 break;
             case R.id.imgBtn_paint_right:
@@ -712,9 +714,11 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 break;
             case MenuPopup.PAINT_SETTING_BG_COLOR:
                 mPaintView.setDrawingBgColor(mPaintView.getDrawingColor());
+                mMenuPopup.dismiss();
                 break;
             case MenuPopup.PAINT_SETTING_SAVE:
                 savePicture();
+                mMenuPopup.dismiss();
                 break;
             case MenuPopup.PAINT_SETTING_EXTRA:
                 Toast.makeText(this, "還沒實作額外按鈕", Toast.LENGTH_SHORT).show();
@@ -723,6 +727,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     }
 
     public void savePicture() {
+        //存檔要關掉格線
+        mPaintView.setMiGridCol(0);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.TAIWAN);
         Date curDate = new Date(System.currentTimeMillis());
         String filename = formatter.format(curDate);

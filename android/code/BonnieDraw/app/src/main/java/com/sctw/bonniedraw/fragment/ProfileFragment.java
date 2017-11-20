@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,8 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.utility.WorkInfoBean;
+import com.sctw.bonniedraw.bean.WorkInfoBean;
+import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.PlayDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
@@ -59,13 +61,14 @@ import static android.content.Context.MODE_PRIVATE;
 public class ProfileFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
     private CircleImageView imgPhoto;
     private TextView mTextViewUserName, mTextViewUserId, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
-    private ImageButton mImgBtnBookmark,mImgBtnSetting, mImgBtnGrid, mImgBtnList;
+    private ImageButton mImgBtnBookmark, mImgBtnSetting, mImgBtnGrid, mImgBtnList;
     private Button mBtnEdit;
     private SwipeRefreshLayout mSwipeLayoutProfile;
     private RecyclerView mRecyclerViewProfile;
     private WorkAdapterGrid mAdapterGrid;
     private WorkAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
+    private LinearLayout mLlFans, mLlFollow;
     private LinearLayoutManager layoutManager;
     private SharedPreferences prefs;
     private FragmentManager fragmentManager;
@@ -86,13 +89,15 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
         mSwipeLayoutProfile = view.findViewById(R.id.swipeLayout_profile);
+        mLlFans = (LinearLayout) view.findViewById(R.id.ll_profile_fans);
+        mLlFollow = (LinearLayout) view.findViewById(R.id.ll_profile_follow);
         mTextViewUserName = (TextView) view.findViewById(R.id.textView_profile_userName);
         mTextViewUserdescription = view.findViewById(R.id.textView_profile_user_description);
         mTextViewUserId = (TextView) view.findViewById(R.id.textView_profile_user_id);
         mTextViewWorks = (TextView) view.findViewById(R.id.textView_profile_userworks);
         mTextViewFollows = (TextView) view.findViewById(R.id.textView_profile_follows);
         mTextViewFans = (TextView) view.findViewById(R.id.textView_profile_fans);
-        mImgBtnBookmark=(ImageButton) view.findViewById(R.id.imgBtn_profile_bookmark);
+        mImgBtnBookmark = (ImageButton) view.findViewById(R.id.imgBtn_profile_bookmark);
         mImgBtnSetting = (ImageButton) view.findViewById(R.id.imgBtn_profile_setting);
         mImgBtnGrid = (ImageButton) view.findViewById(R.id.imgBtn_profile_grid);
         mImgBtnList = (ImageButton) view.findViewById(R.id.imgBtn_profile_list);
@@ -109,6 +114,35 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     }
 
     private void setOnClick() {
+        mLlFans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                // 1=fans   2=follow
+                bundle.putInt("fn",1);
+                FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
+                fansOrFollowFragment.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        mLlFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                bundle.putInt("fn",2);
+                FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
+                fansOrFollowFragment.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
         mImgBtnBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,8 +235,10 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                         mTextViewUserId.setText("");
                                     }
                                     mTextViewWorks.setText(responseJSON.getString("worksNum"));
-                                    mTextViewFans.setText(responseJSON.getString("fansNum"));;
-                                    mTextViewFollows.setText(responseJSON.getString("followNum"));;
+                                    mTextViewFans.setText(responseJSON.getString("fansNum"));
+                                    ;
+                                    mTextViewFollows.setText(responseJSON.getString("followNum"));
+                                    ;
 
                                     String profileUrl = "";
                                     if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
@@ -439,9 +475,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(),"檢舉成功",true);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(),"檢舉失敗，請再試一次",false);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
@@ -508,7 +544,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                 btnCommit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setReport(wid,spinner.getSelectedItemPosition() + 1,editText.getText().toString() );
+                        setReport(wid, spinner.getSelectedItemPosition() + 1, editText.getText().toString());
                         reportDialog.dismiss();
                     }
                 });
@@ -544,7 +580,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     @Override
     public void onWorkMsgClick(int wid) {
-
+        MessageDialog messageDialog = MessageDialog.newInstance(wid);
+        messageDialog.show(fragmentManager, "TAG");
     }
 
     @Override

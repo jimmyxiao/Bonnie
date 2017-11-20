@@ -1,4 +1,4 @@
-package com.sctw.bonniedraw.utility;
+package com.sctw.bonniedraw.bean;
 
 /**
  * Created by Fatorin on 2017/10/27.

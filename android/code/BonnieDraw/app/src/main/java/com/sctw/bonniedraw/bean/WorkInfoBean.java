@@ -1,4 +1,4 @@
-package com.sctw.bonniedraw.utility;
+package com.sctw.bonniedraw.bean;
 
 import org.json.JSONArray;
 import org.json.JSONException;

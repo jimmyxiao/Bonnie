@@ -18,7 +18,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.NoticeAdapter;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.NoticeInfoBean;
+import com.sctw.bonniedraw.bean.NoticeInfoBean;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 
 import org.json.JSONArray;

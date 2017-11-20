@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.utility.WorkInfoBean;
+import com.sctw.bonniedraw.bean.WorkInfoBean;
 
 import java.util.ArrayList;
 import java.util.List;
