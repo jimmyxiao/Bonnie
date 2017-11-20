@@ -268,6 +268,13 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		case 4:
 			worksResponseList = worksMapper.queryNewUploadWorks(paramMap);
 			break;
+		case 6:
+			Integer queryId = workListRequestVO.getQueryId();
+			if(queryId!=null && queryId>0 && queryId!=workListRequestVO.getUi()){
+				paramMap.put("queryId", workListRequestVO.getQueryId());
+				worksResponseList = worksMapper.queryOtherUserWorks(paramMap);
+			}
+			break;
 		}
 		return worksResponseList;
 	}
