@@ -93,56 +93,78 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       	reload: true
   	}).state('about', {
       	url: '/about',
-      	views: {
-      		"loader":{
-      			templateUrl: 'modules/share/view/loader.html'
-      		},
+	    views: {
 	        "layout": {
 	            templateUrl: 'modules/share/view/about.html',
-	            controller:'aboutController'
-	        },
-	        "headerMenu@about":{
-	        	templateUrl: 'modules/share/view/header-menu.html'
-	        },
-	        "footer@about":{
-	        	templateUrl: 'modules/share/view/footer.html'
 	        }
-      	}
+	    }
+  	}).state('privacy', {
+      	url: '/privacy',
+	    views: {
+	        "layout": {
+	            templateUrl: 'modules/share/view/privacy.html',
+	        }
+	    }
+  	}).state('terms', {
+      	url: '/terms',
+	    views: {
+	        "layout": {
+	            templateUrl: 'modules/share/view/use-terms.html',
+	        }
+	    }
   	})
+  	//.state('about', {
+    //  	url: '/about',
+    // 	views: {
+    //  		"loader":{
+    //  			templateUrl: 'modules/share/view/loader.html'
+    //  		},
+	//        "layout": {
+	//            templateUrl: 'modules/share/view/about.html',
+	//            controller:'aboutController'
+	//        },
+	//        "headerMenu@about":{
+	//        	templateUrl: 'modules/share/view/header-menu.html'
+	//        },
+	//        "footer@about":{
+	//        	templateUrl: 'modules/share/view/footer.html'
+	//        }
+    //  	}
+  	//})
   	// .state('privacy', {
-   //    	url: '/privacy',
-   //    	views: {
-   //    		"loader":{
-   //    			templateUrl: 'modules/share/view/loader.html'
-   //    		},
-	  //       "layout": {
-	  //           templateUrl: 'modules/share/view/privacy.html',
-	  //           controller:'privacyController'
-	  //       },
-	  //       "headerMenu@privacy":{
-	  //       	templateUrl: 'modules/share/view/header-menu.html'
-	  //       },
-	  //       "footer@privacy":{
-	  //       	templateUrl: 'modules/share/view/footer.html'
-	  //       }
-   //    	}
+    //    	url: '/privacy',
+    //    	views: {
+    //    		"loader":{
+    //    			templateUrl: 'modules/share/view/loader.html'
+    //    		},
+	//       "layout": {
+	//           templateUrl: 'modules/share/view/privacy.html',
+	//           controller:'privacyController'
+	//       },
+	//       "headerMenu@privacy":{
+	//       	templateUrl: 'modules/share/view/header-menu.html'
+	//       },
+	//       "footer@privacy":{
+	//       	templateUrl: 'modules/share/view/footer.html'
+	//       }
+    //    	}
   	// }).state('terms', {
-   //    	url: '/terms',
-   //    	views: {
-   //    		"loader":{
-   //    			templateUrl: 'modules/share/view/loader.html'
-   //    		},
-	  //       "layout": {
-	  //           templateUrl: 'modules/share/view/terms.html',
-	  //           controller:'termsController'
-	  //       },
-	  //       "headerMenu@terms":{
-	  //       	templateUrl: 'modules/share/view/header-menu.html'
-	  //       },
-	  //       "footer@terms":{
-	  //       	templateUrl: 'modules/share/view/footer.html'
-	  //       }
-   //    	}
+    //    	url: '/terms',
+    //    	views: {
+    //    		"loader":{
+    //    			templateUrl: 'modules/share/view/loader.html'
+    //    		},
+	//       "layout": {
+	//           templateUrl: 'modules/share/view/terms.html',
+	//           controller:'termsController'
+	//       },
+	//       "headerMenu@terms":{
+	//       	templateUrl: 'modules/share/view/header-menu.html'
+	//       },
+	//       "footer@terms":{
+	//       	templateUrl: 'modules/share/view/footer.html'
+	//       }
+    //    	}
   	// })
   	.state('myfile', {
       	url: '/myfile',
@@ -346,7 +368,7 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
    		var url = $location.path();
    		$rootScope.nowUrl = url;
 
-		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete') && (!$rootScope.rg_gl || !$rootScope.rg_gl.currentUser)) {
+		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete' && url !== '/about' && url !== '/privacy' && url !== '/terms') && (!$rootScope.rg_gl || !$rootScope.rg_gl.currentUser)) {
 	        event.preventDefault();
 	        $state.go('login');
 	    }else if( ($rootScope.rg_gl && $rootScope.rg_gl.currentUser) && (url == '/login' && url == '/singup' && url == '/forget' && url == '/complete')){
