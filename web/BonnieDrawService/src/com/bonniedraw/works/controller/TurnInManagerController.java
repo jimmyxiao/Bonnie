@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,5 +52,21 @@ public class TurnInManagerController extends BaseController {
 		}
 		return baseModel;
 	}
+	
+	@RequestMapping(value="/changeStatus")
+	public @ResponseBody BaseModel changeStatus(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response, @RequestBody TurnIn turnIn){
+//		Integer pass_id =(Integer) httpSession.getAttribute("pass_id");
+		BaseModel baseModel = new BaseModel();
+		baseModel.setResult(false);
+		if(turnIn.getTurnInId() !=null){
+			TurnIn resultTurnIn= turnInManagerService.changeStatus(turnIn);
+			if(resultTurnIn !=null){
+				baseModel.setResult(true);
+				baseModel.setData(resultTurnIn);
+			}
+		}
+		return baseModel;
+	}
+	
 	
 }

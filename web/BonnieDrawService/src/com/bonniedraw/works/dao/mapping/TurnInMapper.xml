@@ -115,6 +115,12 @@
     where TURN_IN_ID = #{turnInId,jdbcType=INTEGER}
   </update>
   
+  <update id="updateStatusByPrimaryKey" parameterType="com.bonniedraw.works.model.TurnIn">
+    update turn_in
+    set STATUS = #{status,jdbcType=INTEGER}
+    where TURN_IN_ID = #{turnInId,jdbcType=INTEGER}
+  </update>
+  
   <select id="queryTurnInList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

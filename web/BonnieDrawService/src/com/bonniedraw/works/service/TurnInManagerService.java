@@ -8,4 +8,5 @@ import com.bonniedraw.works.model.TurnIn;
 public interface TurnInManagerService {
 	public List<WorksResponse> queryTurnInWorkList();
 	public List<TurnIn> queryTurnInList(Integer worksId);
+	public TurnIn changeStatus(TurnIn turnIn);
 }

@@ -31,4 +31,18 @@ public class TurnInManagerServiceImpl extends BaseService implements TurnInManag
 		return turnInMapper.queryTurnInList(worksId);
 	}
 
+	@Override
+	public TurnIn changeStatus(TurnIn turnIn) {
+		if(turnIn.getStatus() ==1){
+			turnIn.setStatus(2);
+			turnInMapper.updateStatusByPrimaryKey(turnIn);
+		}else if(turnIn.getStatus() ==2){
+			turnIn.setStatus(1);
+			turnInMapper.updateStatusByPrimaryKey(turnIn);
+		}else{
+			return null;
+		}
+		return turnIn;
+	}
+
 }
