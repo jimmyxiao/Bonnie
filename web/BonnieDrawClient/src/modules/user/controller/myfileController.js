@@ -145,6 +145,20 @@ app.controller('myfileController', function ($cookieStore, $rootScope, $scope, $
 			}
 		}
 		
+		$scope.clickFollow = function(){
+			var params = util.getInitalScope();
+			params.followingUserId = $scope.status;
+			if($scope.user.follow){
+				params.fn = 0;
+			}else{
+				params.fn = 1;
+			}
+			userService.setFollowing(params,function(data, status, headers, config){
+				if(data.res == 1){
+					$scope.queryUser();
+				}
+			})
+		}
 
 	}
 )

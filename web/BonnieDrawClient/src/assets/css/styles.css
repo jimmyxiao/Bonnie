@@ -2531,3 +2531,27 @@ p.blog-vid-info-text {
 	border-top:1px solid #e4e4e4;
 	border-bottom:1px solid #e4e4e4;
 }
+
+.privacy-box{
+	background: #dfe0e0;
+	padding:20px;
+	margin:20px 0;
+	line-height: 24px;
+}
+
+.privacyList{
+	margin-top:10px;
+    color: #262626;
+}
+
+.use-box{
+	padding:0;
+	margin:20px 0;
+	line-height: 24px;
+}
+
+.app-icon{
+	float: left;
+	padding:15px 5px 10px 0;
+	max-width: 120px;
+}

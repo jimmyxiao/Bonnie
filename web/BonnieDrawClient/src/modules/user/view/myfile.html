@@ -85,8 +85,11 @@
 									<a href="#/userfile/{{data.userId}}">
 										<p class="file-num">{{data.userName}}</p>
 									</a>
-									<div class="foll-but">
-										<button class="btn btn-snd-black">追蹤中</button>
+									<div class="foll-but" ng-if="data.like">
+										<button class="btn btn-snd-black">追蹤</button>
+									</div>
+									<div class="foll-but" ng-if="!data.like">
+										<button class="btn btn-snd-black">正在追蹤</button>
 									</div>
 								</div>
 							</div>
