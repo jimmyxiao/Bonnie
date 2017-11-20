@@ -7,6 +7,7 @@ import com.bonniedraw.web_api.module.UserInfoResponse;
 
 public class FollowingListResponseVO extends ApiResponseVO {
 	private List<UserInfoResponse> userList;
+	private int maxPagination;
 
 	public List<UserInfoResponse> getUserList() {
 		return userList;
@@ -14,6 +15,14 @@ public class FollowingListResponseVO extends ApiResponseVO {
 
 	public void setUserList(List<UserInfoResponse> userList) {
 		this.userList = userList;
+	}
+
+	public int getMaxPagination() {
+		return maxPagination;
+	}
+
+	public void setMaxPagination(int maxPagination) {
+		this.maxPagination = maxPagination;
 	}
 
 }

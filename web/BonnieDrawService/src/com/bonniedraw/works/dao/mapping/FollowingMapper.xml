@@ -85,4 +85,27 @@
     <if test="fn == 2"> and FOLLOWING_USER_ID = #{userId, jdbcType=INTEGER} </if>
   </select>
   
+  <select id="seletTrackOrFansMaxPagination" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select ifnull(CEILING(MAX(counted) / #{limit, jdbcType=INTEGER} ), 0) as maxPagination
+	from ( 
+		select count(*) as counted 
+       	from following fl    
+		where 1 = 1 
+		<if test="fn == 1"> and fl.FOLLOWING_USER_ID = #{userId, jdbcType=INTEGER}</if>
+    	<if test="fn == 2"> and fl.USER_ID = #{userId, jdbcType=INTEGER}</if>
+	) as counts
+  </select>
+  
+  <select id="selectTrackOrFansPager" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select 
+    <if test="fn == 1"> FOLLOWING_USER_ID </if>
+    <if test="fn == 2"> USER_ID </if>
+    from following
+    where 1=1
+    <if test="fn == 1">	and USER_ID = #{userId, jdbcType=INTEGER} </if>
+    <if test="fn == 2"> and FOLLOWING_USER_ID = #{userId, jdbcType=INTEGER} </if>
+    order by FOLLOWING_ID asc
+    LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
+  </select>
+  
 </mapper>

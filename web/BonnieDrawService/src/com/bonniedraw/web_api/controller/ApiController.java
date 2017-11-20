@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.notification.service.NotiMsgService;
@@ -808,9 +809,22 @@ public class ApiController {
 		if(isLogin(followingListRequestVO)){
 			int fn = followingListRequestVO.getFn();
 			if(fn==1 || fn==2){
-				List<UserInfoResponse> userList = userServiceAPI.getFollowingList(fn, followingListRequestVO.getUi());
-				respResult.setUserList(userList);
-				respResult.setRes(1);
+				List<UserInfoResponse> userList = null;
+				if(followingListRequestVO.getDt() == 3){
+					if(followingListRequestVO.getStn() != null && followingListRequestVO.getRc() != null){
+						Map<String, Object> resultMap = userServiceAPI.getFollowingListForWeb(followingListRequestVO); 
+						userList = (List<UserInfoResponse>) resultMap.get("userList");
+						respResult.setUserList(userList);
+						respResult.setMaxPagination((int) resultMap.get("maxPagination"));
+						respResult.setRes(1);
+					}else{
+						msg = "資料異常";
+					}
+				}else{
+					userList = userServiceAPI.getFollowingList(fn, followingListRequestVO.getUi());
+					respResult.setUserList(userList);
+					respResult.setRes(1);
+				}
 			}else{
 				msg = "資料異常";
 			}

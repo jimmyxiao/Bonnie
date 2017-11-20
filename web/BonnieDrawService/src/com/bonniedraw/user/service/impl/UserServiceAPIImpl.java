@@ -30,6 +30,7 @@ import com.bonniedraw.util.SercurityUtil;
 import com.bonniedraw.util.TimerUtil;
 import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.web_api.model.ApiRequestVO;
+import com.bonniedraw.web_api.model.request.FollowingListRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
 import com.bonniedraw.web_api.model.request.UpdatePwdRequestVO;
 import com.bonniedraw.web_api.model.response.FriendResponseVO;
@@ -528,6 +529,31 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 			result =  userInfoMapper.queryUserByIds(paramMap);		
 		}
 		return result;
+	}
+
+	@Override
+	public Map<String, Object> getFollowingListForWeb(FollowingListRequestVO followingListRequestVO) {
+		int rc = followingListRequestVO.getRc();
+		Integer stn = followingListRequestVO.getStn();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<UserInfoResponse> resultList = new ArrayList<UserInfoResponse>();
+		int maxPagination = 0;
+		
+		Map<String, Object> pagerMap = new HashMap<String, Object>();
+		pagerMap.put("offset", (rc*(stn-1)));
+		pagerMap.put("limit", rc);
+		pagerMap.put("userId", followingListRequestVO.getUi());
+		pagerMap.put("fn", followingListRequestVO.getFn());
+		maxPagination = followingMapper.seletTrackOrFansMaxPagination(pagerMap);
+		List<Integer> followList = followingMapper.selectTrackOrFansPager(pagerMap);
+		if(ValidateUtil.isNotEmptyAndSize(followList)){
+			pagerMap.put("list", followList);
+			resultList =  userInfoMapper.queryUserByIds(pagerMap);		
+		}
+
+		resultMap.put("userList", resultList);
+		resultMap.put("maxPagination", maxPagination);
+		return resultMap;
 	}
 	
 }

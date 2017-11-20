@@ -521,7 +521,7 @@
     	 <result column="isFollowing" jdbcType="BOOLEAN" property="isFollowing" />
   	</resultMap>
   	<select id="queryUserByIds" parameterType="java.util.Map" resultMap="UserInfoResponseModule">
-    	select ui.user_id, ui.user_name, uiprofile_picture,
+    	select ui.user_id, ui.user_name, ui.profile_picture,
     	(case when user_id = tmp.following_user_id then true else false end) as isFollowing
 		from user_info ui,
 		(select following_user_id from following where user_id = #{userId,jdbcType=INTEGER} ) tmp

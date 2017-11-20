@@ -21,4 +21,9 @@ public interface FollowingMapper {
     int deleteByNotPrimaryKey(Following record);
     
     List<Integer> selectTrackOrFans(Map<String, Object> paramMap);
+    
+    int seletTrackOrFansMaxPagination(Map<String, Object> pagerMap);
+    
+    List<Integer> selectTrackOrFansPager(Map<String, Object> paramMap);
+    
 }
