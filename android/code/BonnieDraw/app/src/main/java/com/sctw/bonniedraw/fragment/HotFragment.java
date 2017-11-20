@@ -268,6 +268,51 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         });
     }
 
+    public void setFollow(final int position, final int fn, int followId) {
+        // fn = 1 點讚, 0 取消讚
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.setFollow(prefs, fn, followId);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapter.setFollow(position, 0);
+                                            break;
+                                        case 1:
+                                            mAdapter.setFollow(position, 1);
+                                            break;
+                                    }
+                                    mAdapter.notifyItemChanged(position);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapter.notifyItemChanged(position);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public void setReport(int workId, int turnInType, String description) {
         // fn = 1 收藏, 0 取消收藏
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
@@ -427,6 +472,11 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
     @Override
     public void onFollowClick(int position, int isFollow, int uid) {
         //Follow
+        if (isFollow == 0) {
+            setFollow(position, 1, uid);
+        } else {
+            setFollow(position, 0, uid);
+        }
     }
 
     @Override

@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.ic_btn_out:
                         logout();
                         break;
+                    case R.id.ic_btn_collection:
+                        break;
                 }
                 return true;
             }

@@ -59,7 +59,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class ProfileFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
     private CircleImageView imgPhoto;
     private TextView mTextViewUserName, mTextViewUserId, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
-    private ImageButton mImgBtnSetting, mImgBtnGrid, mImgBtnList;
+    private ImageButton mImgBtnBookmark,mImgBtnSetting, mImgBtnGrid, mImgBtnList;
     private Button mBtnEdit;
     private SwipeRefreshLayout mSwipeLayoutProfile;
     private RecyclerView mRecyclerViewProfile;
@@ -92,6 +92,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mTextViewWorks = (TextView) view.findViewById(R.id.textView_profile_userworks);
         mTextViewFollows = (TextView) view.findViewById(R.id.textView_profile_follows);
         mTextViewFans = (TextView) view.findViewById(R.id.textView_profile_fans);
+        mImgBtnBookmark=(ImageButton) view.findViewById(R.id.imgBtn_profile_bookmark);
         mImgBtnSetting = (ImageButton) view.findViewById(R.id.imgBtn_profile_setting);
         mImgBtnGrid = (ImageButton) view.findViewById(R.id.imgBtn_profile_grid);
         mImgBtnList = (ImageButton) view.findViewById(R.id.imgBtn_profile_list);
@@ -108,6 +109,16 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     }
 
     private void setOnClick() {
+        mImgBtnBookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, new CollectionFragment());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
         mImgBtnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -319,6 +330,52 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         });
     }
 
+    public void setCollection(final int position, final int fn, int wid) {
+        // fn = 1 收藏, 0 取消收藏
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.setCollection(prefs, fn, wid);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapterList.setCollection(position, false);
+                                            break;
+                                        case 1:
+                                            mAdapterList.setCollection(position, true);
+                                            break;
+                                    }
+                                    mAdapterList.notifyItemChanged(position);
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapterList.notifyItemChanged(position);
+                                }
+                                System.out.println(responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public void setFollow(final int position, final int fn, int followId) {
         // fn = 1 點讚, 0 取消讚
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
@@ -516,55 +573,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         }
     }
 
-    public void setCollection(final int position, final int fn, int wid) {
-        // fn = 1 收藏, 0 取消收藏
-        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.setCollection(prefs, fn, wid);
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    final JSONObject responseJSON = new JSONObject(response.body().string());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                if (responseJSON.getInt("res") == 1) {
-                                    //點讚成功或刪除成功
-                                    switch (fn) {
-                                        case 0:
-                                            mAdapterList.setCollection(position, false);
-                                            break;
-                                        case 1:
-                                            mAdapterList.setCollection(position, true);
-                                            break;
-                                    }
-                                    mAdapterList.notifyItemChanged(position);
-                                } else {
-                                    //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position);
-                                }
-                                System.out.println(responseJSON.toString());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     @Override
     public void onFollowClick(int position, int isFollow, int uid) {
-        if (isFollow == 1) {
+        if (isFollow == 0) {
             setFollow(position, 1, uid);
         } else {
             setFollow(position, 0, uid);

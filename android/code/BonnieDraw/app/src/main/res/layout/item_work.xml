@@ -27,7 +27,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="7"
+            android:layout_weight="6.5"
             android:orientation="vertical">
 
             <TextView
@@ -53,10 +53,11 @@
             android:id="@+id/textView_works_follow"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center_vertical"
             android:text="追蹤"
             android:textAlignment="center"
+            android:textColor="@color/HyperLinkColor"
             android:visibility="invisible" />
 
         <ImageButton

@@ -53,6 +53,18 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/textView_single_work_follow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="24dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="追蹤"
+                android:textAlignment="center"
+                android:textColor="@color/HyperLinkColor"
+                android:visibility="invisible" />
+
             <ImageButton
                 android:id="@+id/imgBtn_single_work_extra"
                 android:layout_width="0dp"

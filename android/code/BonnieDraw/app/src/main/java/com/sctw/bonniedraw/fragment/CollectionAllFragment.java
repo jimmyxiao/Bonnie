@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LikeAllFragment extends Fragment {
+public class CollectionAllFragment extends Fragment {
     ArrayList<String> myDataset;
     RecyclerView mRecyclerViewLikeAll;
     WorkAdapterGrid mAdapterGrid;

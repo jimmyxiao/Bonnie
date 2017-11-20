@@ -576,13 +576,6 @@ public class PaintView extends View {
             canvas.drawBitmap(mBackgroundLayer, 0.0f, 0.0f, this.mSrcPaint);
         }
 
-        if (miGridCol != 0) {
-            for (int i = 0; i <= miGridCol; i++) {
-                canvas.drawLine((miWidth / miGridCol) * i, 0, (miWidth / miGridCol) * i, miWidth, gridPaint);
-                canvas.drawLine(0, (miWidth / miGridCol) * i, miWidth, (miWidth / miGridCol) * i, gridPaint);
-            }
-        }
-
         if (rect == null) {
             canvas.saveLayer(null, null
             );
@@ -611,6 +604,13 @@ public class PaintView extends View {
                 canvas.drawBitmap(mDrawingLayer, 0.0f, 0.0f, p);
             }
             canvas.restore();
+        }
+
+        if (miGridCol != 0) {
+            for (int i = 0; i <= miGridCol; i++) {
+                canvas.drawLine((miWidth / miGridCol) * i, 0, (miWidth / miGridCol) * i, miWidth, gridPaint);
+                canvas.drawLine(0, (miWidth / miGridCol) * i, miWidth, (miWidth / miGridCol) * i, gridPaint);
+            }
         }
 
     }

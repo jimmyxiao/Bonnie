@@ -67,7 +67,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     private WorkAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
     private LinearLayoutManager layoutManager;
-    private boolean mbFist = true;
+    private boolean mbFist = true, mbFollow = false;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
@@ -141,6 +141,13 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                         mTvMemberId.setText(temp.substring(0, temp.indexOf("@")));
                                     } else {
                                         mTvMemberId.setText("");
+                                    }
+
+                                    if (responseJSON.getBoolean("follow")) {
+                                        mbFollow = true;
+                                        mBtnFollow.setText("追蹤中");
+                                    } else {
+                                        mbFollow = false;
                                     }
 
                                     mTvMemberWorks.setText(responseJSON.getString("worksNum"));
@@ -269,7 +276,10 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mBtnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!mbFollow) {
+                    //IF
+                    setFollow(1, miUserId);
+                }
             }
         });
     }
@@ -306,6 +316,51 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                 } else {
                                     //點讚失敗或刪除失敗
                                     mAdapterList.notifyItemChanged(position);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void setFollow(final int fn, int followId) {
+        // fn = 1 點追蹤, 0 取消追蹤
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.setFollow(prefs, fn, followId);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點讚成功或刪除成功
+                                    switch (fn) {
+                                        case 0:
+                                            mbFollow = false;
+                                            mBtnFollow.setText("追蹤");
+                                            break;
+                                        case 1:
+                                            mbFollow = true;
+                                            mBtnFollow.setText("追蹤中");
+                                            break;
+                                    }
+                                } else {
+                                    //點讚失敗或刪除失敗
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -508,7 +563,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
     @Override
     public void onFollowClick(int position, int isFollow, int uid) {
-        if (isFollow == 1) {
+        if (isFollow == 0) {
             setFollow(position, 1, uid);
         } else {
             setFollow(position, 0, uid);

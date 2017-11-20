@@ -134,4 +134,7 @@
     <string name="signin_need_correct_password">密碼至少需要6個字元</string>
     <string name="signin_need_correct_repassword">密碼不一致</string>
     <string name="search_hint">搜尋作品 or 作者</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

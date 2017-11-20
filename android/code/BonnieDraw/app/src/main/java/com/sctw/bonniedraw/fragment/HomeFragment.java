@@ -192,7 +192,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     }
 
     public void setFollow(final int position, final int fn, int followId) {
-        // fn = 1 點讚, 0 取消讚
+        // fn = 1 設定追蹤, 0 取消追蹤
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         Request request = ConnectJson.setFollow(prefs, fn, followId);
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -210,7 +210,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    //點讚成功或刪除成功
+                                    //點成功或失敗
                                     switch (fn) {
                                         case 0:
                                             mAdapter.setFollow(position, 0);
@@ -478,8 +478,8 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
 
     @Override
     public void onFollowClick(int position, int isFollow, int uid) {
-        //點FOLLOW
-        if (isFollow == 1) {
+        //點FOLLOW   0代表沒有追蹤，點下去要追蹤
+        if (isFollow == 0) {
             setFollow(position, 1, uid);
         } else {
             setFollow(position, 0, uid);

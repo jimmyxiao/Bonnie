@@ -12,7 +12,7 @@ import com.sctw.bonniedraw.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LikeSelectFragment extends Fragment {
+public class CollectionSelectFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

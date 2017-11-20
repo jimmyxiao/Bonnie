@@ -19,9 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:src="@drawable/back_icon" />
+            app:srcCompat="@drawable/back_icon" />
 
         <TextView
             android:id="@+id/textView_member_user_id"
@@ -52,7 +50,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/ic_person_add_24dp" />
+            app:srcCompat="@drawable/recommend_icon" />
 
         <ImageButton
             android:id="@+id/imgBtn_member_extra"

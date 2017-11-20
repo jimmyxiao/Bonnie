@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by Fatorin on 2017/10/2.
  */
@@ -29,12 +32,14 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     private List<WorkInfoBean> data = new ArrayList<>();
     private WorkListOnClickListener listener;
     private Context context;
+    private int ownUid;
 
     public WorkAdapterList(Context context, List<WorkInfoBean> data, WorkListOnClickListener listener) {
         this.context = context;
         this.data = data;
         this.listener = listener;
-
+        SharedPreferences prefs=context.getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+        ownUid=Integer.valueOf(prefs.getString(GlobalVariable.API_UID,""));
     }
 
     @Override
@@ -86,6 +91,30 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             holder.imgBtnCollection.setSelected(true);
         } else {
             holder.imgBtnCollection.setSelected(false);
+        }
+
+        if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0){
+            holder.mTvFollow.setText("追蹤");
+        }else {
+            holder.mTvFollow.setText("追蹤中");
+        }
+
+        //設定追蹤  0=沒追蹤，傳出沒追蹤的值
+        holder.mTvFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0){
+                    listener.onFollowClick(holder.getAdapterPosition(), 0, uid);
+                }else {
+                    listener.onFollowClick(holder.getAdapterPosition(), 1, uid);
+                }
+
+            }
+        });
+
+        //是自己的就沒有設定追蹤選項
+        if(uid!=ownUid){
+            holder.mTvFollow.setVisibility(View.VISIBLE);
         }
 
         holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
