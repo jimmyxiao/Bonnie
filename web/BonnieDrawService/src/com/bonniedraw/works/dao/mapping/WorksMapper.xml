@@ -689,6 +689,7 @@
    	from works wk 
 	right join turn_in ti on wk.works_id = ti.works_id
 	left join user_info ui on wk.user_id = ui.user_id
+	where wk.WORKS_ID IS NOT null
   </select>
   
 </mapper>
