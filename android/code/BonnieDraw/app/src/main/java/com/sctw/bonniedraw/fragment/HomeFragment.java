@@ -26,15 +26,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
+import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.PlayDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
@@ -67,6 +68,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+    private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
 
     @Override
@@ -90,6 +92,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
         mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
+        mProgressBar=(ProgressBar) view.findViewById(R.id.progressBar_home);
         fragmentManager = getFragmentManager();
         mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -138,6 +141,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     public void getWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
         mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this);
+        mProgressBar.setVisibility(View.GONE);
         mRecyclerViewHome.setAdapter(mAdapter);
     }
 
@@ -322,6 +326,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         Request request = ConnectJson.queryListWork(prefs, 4, 0, 100);
         okHttpClient.newCall(request).enqueue(new Callback() {
+
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("Get List Works", "Fail");

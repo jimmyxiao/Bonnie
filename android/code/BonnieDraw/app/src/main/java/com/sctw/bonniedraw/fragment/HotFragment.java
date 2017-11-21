@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.sctw.bonniedraw.R;
@@ -67,6 +68,7 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+    private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
 
     @Override
@@ -90,6 +92,7 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_hot);
         mRvHot = (RecyclerView) view.findViewById(R.id.recyclerView_hot);
+        mProgressBar=(ProgressBar)view.findViewById(R.id.progressBar_hot);
         fragmentManager = getFragmentManager();
         mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -138,6 +141,7 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
     public void refreshWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
         mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this);
+        mProgressBar.setVisibility(View.GONE);
         mRvHot.setAdapter(mAdapter);
     }
 
