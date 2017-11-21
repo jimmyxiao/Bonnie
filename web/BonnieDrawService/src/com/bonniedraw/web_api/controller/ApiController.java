@@ -602,6 +602,10 @@ public class ApiController {
 				if(res==1){
 					respResult.setRes(res);
 					msg = messageSource.getMessage("api_success",null,request.getLocale());
+				}else if(res == -1){
+					msg = "已追蹤或已取消追蹤, 請檢查控制端應用程式";
+				}else if(res ==-2){
+					msg = "不存在此追蹤者, 請檢查控制端應用程式";
 				}else{
 					msg = messageSource.getMessage("api_fail",null,request.getLocale());
 				}

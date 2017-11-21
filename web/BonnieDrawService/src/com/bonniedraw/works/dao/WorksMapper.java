@@ -28,6 +28,8 @@ public interface WorksMapper {
     
     List<WorksResponse> queryNewUploadWorks(Map<String, Object> paramMap);
     
+    List<WorksResponse> queryUserWorks(Map<String, Object> paramMap);
+    
     List<WorksResponse> queryPopularWorks(Map<String, Object> paramMap);
     
     List<WorksResponse> queryOtherUserWorks(Map<String, Object> paramMap);

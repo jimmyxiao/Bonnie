@@ -481,7 +481,9 @@
     	select * from (
 			(select count(WORKS_ID) as worksNum from WORKS where USER_ID = #{userId,jdbcType=INTEGER} ) wk,
 			(select count(FOLLOWING_ID) as fansNum from FOLLOWING where FOLLOWING_USER_ID = #{userId,jdbcType=INTEGER} ) fan,
-			(select count(FOLLOWING_ID) as followNum from FOLLOWING where USER_ID = #{userId,jdbcType=INTEGER} ) fol
+			(select count(FOLLOWING_ID) as followNum from FOLLOWING fl 
+				RIGHT JOIN user_info ui on fl.FOLLOWING_USER_ID = ui.USER_ID 
+					where fl.USER_ID = #{userId,jdbcType=INTEGER} ) fol
 		)
   	</select>
   	

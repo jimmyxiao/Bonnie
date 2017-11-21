@@ -268,6 +268,9 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		case 4:
 			worksResponseList = worksMapper.queryNewUploadWorks(paramMap);
 			break;
+		case 5:
+			worksResponseList = worksMapper.queryUserWorks(paramMap);
+			break;
 		case 6:
 			Integer queryId = workListRequestVO.getQueryId();
 			if(queryId!=null && queryId>0 && queryId!=workListRequestVO.getUi()){
@@ -439,11 +442,21 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	@Transactional(rollbackFor = Exception.class)
 	public int setFollowing(SetFollowingRequestVO setFollowingRequestVO) {
 		int success= 2;
+		int fn = setFollowingRequestVO.getFn();
 		Following following = new Following();
 		following.setUserId(setFollowingRequestVO.getUi());
 		following.setFollowingUserId(setFollowingRequestVO.getFollowingUserId());
 		try {
-			if(setFollowingRequestVO.getFn() == 1){
+			if(followingMapper.selectByPrimaryKey(setFollowingRequestVO.getFollowingUserId()) ==null ){
+				return -2;
+			}
+			
+			Following existFollowing = followingMapper.selectByNotPrimaryKey(following);
+			if( (existFollowing!=null && fn==1) || (existFollowing == null && fn==0 ) ){
+				return -1;
+			}
+			
+			if(fn == 1){
 				followingMapper.insert(following);
 				insertNotificationMsg(1, following.getFollowingUserId(), following.getUserId(), null, null);
 			}else{

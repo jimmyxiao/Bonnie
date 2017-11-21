@@ -69,6 +69,14 @@
     where FOLLOWING_ID = #{followingId,jdbcType=INTEGER}
   </update>
   
+  <select id="selectByNotPrimaryKey" parameterType="com.bonniedraw.works.model.Following" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from following
+    where USER_ID = #{userId,jdbcType=INTEGER}
+    and FOLLOWING_USER_ID = #{followingUserId,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByNotPrimaryKey" parameterType="com.bonniedraw.works.model.Following">
     delete from following
     where USER_ID = #{userId,jdbcType=INTEGER}

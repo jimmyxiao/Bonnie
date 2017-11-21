@@ -18,6 +18,8 @@ public interface FollowingMapper {
 
     int updateByPrimaryKey(Following record);
     
+    Following selectByNotPrimaryKey(Following record);
+    
     int deleteByNotPrimaryKey(Following record);
     
     List<Integer> selectTrackOrFans(Map<String, Object> paramMap);
