@@ -70,6 +70,8 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
     private FragmentTransaction fragmentTransaction;
     private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
+    private int miWt = 2, miStn = 0, miRc = 100;
+    private String mStrQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,13 +129,32 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                mStrQuery = query;
+                mProgressBar.setVisibility(View.VISIBLE);
+                miWt = 9;
+                getQueryWorksList(query);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                 // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
                 return false;
+            }
+        });
+        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                miWt = 2;
+                miStn = 0;
+                miRc = 100;
+                getWorksList();
+                return true;
             }
         });
     }
@@ -183,6 +204,43 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
                             }
                         }
                     });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void getQueryWorksList(String input) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.queryListWorkAdvanced(prefs, miWt, miStn, miRc, input);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //下載資料
+                                    try {
+                                        refreshWorks(responseJSON.getJSONArray("workList"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
