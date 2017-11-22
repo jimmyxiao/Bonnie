@@ -70,6 +70,8 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     private FragmentTransaction fragmentTransaction;
     private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
+    private int miWt = 4, miStn = 0, miRc = 100;
+    private String mStrQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,7 +94,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
         mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
-        mProgressBar=(ProgressBar) view.findViewById(R.id.progressBar_home);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_home);
         fragmentManager = getFragmentManager();
         mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -109,7 +111,11 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getWorksList(true);
+                if (miWt != 9) {
+                    getWorksList(false);
+                } else {
+                    getQueryWorksList(mStrQuery);
+                }
             }
         });
     }
@@ -127,13 +133,32 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                mStrQuery = query;
+                mProgressBar.setVisibility(View.VISIBLE);
+                miWt = 9;
+                getQueryWorksList(query);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                 // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
                 return false;
+            }
+        });
+        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                miWt = 4;
+                miStn = 0;
+                miRc = 100;
+                getWorksList(true);
+                return true;
             }
         });
     }
@@ -305,9 +330,9 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(),"檢舉成功",true);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(),"檢舉失敗，請再試一次",false);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
@@ -322,9 +347,46 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
         });
     }
 
+    public void getQueryWorksList(String input) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.queryListWorkAdvanced(prefs, miWt, miStn, miRc, input);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //下載資料
+                                    try {
+                                        getWorks(responseJSON.getJSONArray("workList"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public void getWorksList(final boolean refresh) {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.queryListWork(prefs, 4, 0, 100);
+        Request request = ConnectJson.queryListWork(prefs, miWt, miStn, miRc);
         okHttpClient.newCall(request).enqueue(new Callback() {
 
             @Override
@@ -414,7 +476,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
                 btnCommit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setReport(wid,spinner.getSelectedItemPosition() + 1,editText.getText().toString() );
+                        setReport(wid, spinner.getSelectedItemPosition() + 1, editText.getText().toString());
                         reportDialog.dismiss();
                     }
                 });
