@@ -22,10 +22,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapter.ViewHolder> {
     private Context context;
     private ArrayList<FansOfFollowBean> data;
+    private OnFansOfFollowClick listener;
 
-    public FansOfFollowAdapter(Context context, ArrayList<FansOfFollowBean> data) {
+    public interface OnFansOfFollowClick {
+        void onFansOfFollowClick(int position, int fn, int uid);
+    }
+
+    public FansOfFollowAdapter(Context context, ArrayList<FansOfFollowBean> data, OnFansOfFollowClick listener) {
         this.context = context;
         this.data = data;
+        this.listener = listener;
     }
 
     @Override
@@ -38,13 +44,24 @@ public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapte
 
     @Override
     public void onBindViewHolder(final FansOfFollowAdapter.ViewHolder holder, int position) {
-            holder.mTvUserName.setText(data.get(position).getUserName());
+        holder.mTvUserName.setText(data.get(position).getUserName());
+        if (data.get(position).isFollowing()) {
+            holder.mBtnFollow.setText("追蹤中");
+        } else {
+            holder.mBtnFollow.setText("追蹤");
+        }
 
-            if(data.get(position).isFollowing()){
-                holder.mBtnFollow.setText("追蹤中");
-            }else {
-                holder.mBtnFollow.setText("追蹤");
+        holder.mBtnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int uid = data.get(holder.getAdapterPosition()).getUserId();
+                if (data.get(holder.getAdapterPosition()).isFollowing()) {
+                    listener.onFansOfFollowClick(holder.getAdapterPosition(), 0, uid);
+                } else {
+                    listener.onFansOfFollowClick(holder.getAdapterPosition(), 1, uid);
+                }
             }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,14 +71,19 @@ public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapte
 
         ViewHolder(View v) {
             super(v);
-            mCircleImg=v.findViewById(R.id.circle_fof_user_img);
-            mTvUserName=v.findViewById(R.id.textView_fof_username);
-            mBtnFollow=v.findViewById(R.id.btn_fof_follow);
+            mCircleImg = v.findViewById(R.id.circle_fof_user_img);
+            mTvUserName = v.findViewById(R.id.textView_fof_username);
+            mBtnFollow = v.findViewById(R.id.btn_fof_follow);
         }
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void setFollow(int position, boolean isFollowing) {
+        data.get(position).setFollowing(isFollowing);
+        notifyItemChanged(position);
     }
 }
