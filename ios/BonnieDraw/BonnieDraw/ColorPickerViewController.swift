@@ -95,7 +95,13 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
             colors.append(color)
         }
         UserDefaults.standard.set(colors: colors, forKey: Default.COLORS)
-        collectionView.insertItems(at: [IndexPath(row: colors.count - 1, section: 0)])
+        let indexPath = IndexPath(row: colors.count - 1, section: 0)
+        collectionView.performBatchUpdates({
+            collectionView.insertItems(at: [indexPath])
+        }) {
+            completed in
+            self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        }
     }
 
     @IBAction func add(_ sender: UIButton) {

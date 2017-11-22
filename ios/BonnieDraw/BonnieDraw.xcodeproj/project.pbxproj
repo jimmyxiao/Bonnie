@@ -33,6 +33,7 @@
 		163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */; };
 		163A5E251FA061F100FE70BD /* FollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */; };
 		163A5E271FA062D500FE70BD /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E261FA062D500FE70BD /* FollowButton.swift */; };
+		163DDF3E1FC5526D0052DF80 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */; };
 		163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AA1F61663800945E04 /* AppDelegate.swift */; };
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
@@ -110,6 +111,7 @@
 		163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowBarItem.swift; sourceTree = "<group>"; };
 		163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowTableViewCell.swift; sourceTree = "<group>"; };
 		163A5E261FA062D500FE70BD /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
+		163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		163F65A71F61663800945E04 /* BonnieDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BonnieDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		163F65AA1F61663800945E04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		163F65AF1F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */,
 				163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */,
 				169490F51FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift */,
+				163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 				164ED2531F7BA45E00E8B910 /* ColorPickerViewController.swift in Sources */,
 				165E1B5B1F9DDFA80050A7BB /* SettingViewController.swift in Sources */,
 				16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */,
+				163DDF3E1FC5526D0052DF80 /* NotificationTableViewCell.swift in Sources */,
 				1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */,
 				169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */,
 				16076EBC1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift in Sources */,

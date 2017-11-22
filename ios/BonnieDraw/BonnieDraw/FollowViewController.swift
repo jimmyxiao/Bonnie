@@ -14,27 +14,61 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     var delegate: FollowViewControllerDelegate?
-    private var items = [TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+    private var works = [Work(id: nil,
+            profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
             profileName: "Name",
             thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+            file: nil,
+            title: nil,
+            isLike: nil,
+            isCollection: nil,
             likes: Int(arc4random_uniform(256))),
-        TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+        Work(id: nil,
+                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 profileName: "Name",
                 thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+                file: nil,
+                title: nil,
+                isLike: nil,
+                isCollection: nil,
                 likes: Int(arc4random_uniform(256))),
-        TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+        Work(id: nil,
+                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 profileName: "Name",
                 thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+                file: nil,
+                title: nil,
+                isLike: nil,
+                isCollection: nil,
                 likes: Int(arc4random_uniform(256))),
-        TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+        Work(id: nil,
+                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 profileName: "Name",
                 thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+                file: nil,
+                title: nil,
+                isLike: nil,
+                isCollection: nil,
                 likes: Int(arc4random_uniform(256))),
-        TableViewItem(profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+        Work(id: nil,
+                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 profileName: "Name",
                 thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+                file: nil,
+                title: nil,
+                isLike: nil,
+                isCollection: nil,
+                likes: Int(arc4random_uniform(256))),
+        Work(id: nil,
+                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+                profileName: "Name",
+                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
+                file: nil,
+                title: nil,
+                isLike: nil,
+                isCollection: nil,
                 likes: Int(arc4random_uniform(256)))]
-    private var tableViewItems = [TableViewItem]()
+    private var tableViewWorks = [Work]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
     private var menuButton: UIBarButtonItem?
@@ -56,13 +90,12 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         if #available(iOS 11.0, *) {
             searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         }
-        refreshControl.addTarget(self, action: #selector(downloadData), for: .valueChanged)
         tableView.refreshControl = refreshControl
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if tableViewItems.isEmpty {
+        if tableViewWorks.isEmpty {
             downloadData()
         } else if let timestamp = timestamp {
             if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
@@ -79,13 +112,19 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         delegate?.follow(enableMenuGesture: false)
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableViewItems.count
+    internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if refreshControl.isRefreshing {
+            downloadData()
+        }
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableViewWorks.count
+    }
+
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Cell.FOLLOW, for: indexPath) as? FollowTableViewCell {
-            let item = tableViewItems[indexPath.row]
+            let item = tableViewWorks[indexPath.row]
             cell.profileImage.setImage(with: item.profileImage)
             cell.profileName.text = item.profileName
             cell.thumbnail.setImage(with: item.thumbnail)
@@ -106,9 +145,9 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             navigationItem.setLeftBarButton(menuButton, animated: true)
             navigationItem.titleView = titleView
             searchBar.text = nil
-            tableViewItems = items
+            tableViewWorks = works
             tableView.reloadSections([0], with: .automatic)
-            emptyLabel.isHidden = !tableViewItems.isEmpty
+            emptyLabel.isHidden = !tableViewWorks.isEmpty
         }
     }
 
@@ -118,17 +157,17 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
 
     internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            tableViewItems = items
+            tableViewWorks = works
         } else {
-            tableViewItems.removeAll()
-            for item in items {
+            tableViewWorks.removeAll()
+            for item in works {
                 if item.profileName?.uppercased().range(of: searchText.uppercased()) != nil {
-                    tableViewItems.append(item)
+                    tableViewWorks.append(item)
                 }
             }
         }
         tableView.reloadSections([0], with: .automatic)
-        emptyLabel.isHidden = !tableViewItems.isEmpty
+        emptyLabel.isHidden = !tableViewWorks.isEmpty
     }
 
     @objc private func downloadData() {
@@ -148,7 +187,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128],
+                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 1, "stn": 1, "rc": 128],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -165,9 +204,9 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                     return
                 }
 //                    self.items.removeAll()
-                self.tableViewItems = self.items
+                self.tableViewWorks = self.works
                 self.tableView.reloadSections([0], with: .automatic)
-                self.emptyLabel.isHidden = !self.tableViewItems.isEmpty
+                self.emptyLabel.isHidden = !self.tableViewWorks.isEmpty
                 if !self.loading.isHidden {
                     self.loading.hide(true)
                 }
@@ -191,13 +230,6 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
 
     @objc private func didTapMenu() {
         delegate?.followDidTapMenu()
-    }
-
-    struct TableViewItem {
-        let profileImage: URL?
-        let profileName: String?
-        let thumbnail: URL?
-        var likes: Int?
     }
 }
 

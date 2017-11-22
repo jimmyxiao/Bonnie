@@ -1,21 +1,19 @@
 //
-//  HomeTableViewCell.swift
+//  NotificationTableViewCell.swift
 //  BonnieDraw
 //
-//  Created by Professor on 26/09/2017.
+//  Created by Professor on 22/11/2017.
 //  Copyright © 2017 Professor. All rights reserved.
 //
 
 import UIKit
 
-class HomeTableViewCell: UITableViewCell {
+class NotificationTableViewCell: UITableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
-    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var message: UILabel!
     @IBOutlet weak var thumbnail: UIImageView!
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var likes: UILabel!
-    @IBOutlet weak var collectButton: UIButton!
 
     override func awakeFromNib() {
         profileImage.sd_setShowActivityIndicatorView(true)

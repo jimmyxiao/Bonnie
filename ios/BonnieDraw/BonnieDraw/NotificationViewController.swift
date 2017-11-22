@@ -6,25 +6,137 @@
 //
 
 import UIKit
+import Alamofire
 
-class NotificationViewController: UIViewController {
+class NotificationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var emptyLabel: UILabel!
+    @IBOutlet weak var loading: LoadingIndicatorView!
+    @IBOutlet weak var tableView: UITableView!
+    private let refreshControl = UIRefreshControl()
+    private var dataRequest: DataRequest?
+    private var timestamp: Date?
+    private var notifications = [Notification]()
+    private let dateFormatter = DateFormatter()
+
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        tableView.refreshControl = refreshControl
+        dateFormatter.dateFormat = "yyyy-MM-dd"
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(_ animated: Bool) {
+        if notifications.isEmpty {
+            downloadData()
+        } else if let timestamp = timestamp {
+            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+                downloadData()
+            }
+        } else {
+            downloadData()
+        }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @objc private func downloadData() {
+        guard AppDelegate.reachability.connection != .none else {
+            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+                success in
+                if success {
+                    self.downloadData()
+                }
+            }
+            return
+        }
+        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            return
+        }
+        dataRequest = Alamofire.request(
+                Service.standard(withPath: Service.NOTIFICATION),
+                method: .post,
+                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                encoding: JSONEncoding.default).validate().responseJSON {
+            response in
+            switch response.result {
+            case .success:
+                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let notificationList = data["notiMsgList"] as? [[String: Any]] else {
+                    self.presentConfirmationDialog(
+                            title: "service_download_fail_title".localized,
+                            message: "app_network_unreachable_content".localized) {
+                        success in
+                        if success {
+                            self.downloadData()
+                        }
+                    }
+                    return
+                }
+                self.notifications.removeAll()
+                for notification in notificationList {
+                    self.notifications.append(Notification(
+                            id: notification["notiMsgId"] as? Int,
+                            type: NotificationType(rawValue: notification["notiMsgType"] as? Int ?? -1),
+                            profileImage: URL(string: Service.filePath(withSubPath: notification["profilePicture"] as? String)),
+                            profileName: notification["userNameFollow"] as? String,
+                            date: self.dateFormatter.date(from: (notification["creationDate"] as? String) ?? ""),
+                            thumbnail: URL(string: Service.filePath(withSubPath: notification["imagePath"] as? String))))
+                }
+                self.tableView.reloadSections([0], with: .automatic)
+                self.emptyLabel.isHidden = !self.notifications.isEmpty
+                if !self.loading.isHidden {
+                    self.loading.hide(true)
+                }
+                self.timestamp = Date()
+                self.refreshControl.endRefreshing()
+            case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
+                self.presentConfirmationDialog(
+                        title: "service_download_fail_title".localized,
+                        message: error.localizedDescription) {
+                    success in
+                    if success {
+                        self.downloadData()
+                    }
+                }
+            }
+        }
     }
-    */
+
+    internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if refreshControl.isRefreshing {
+            downloadData()
+        }
+    }
+
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return notifications.count
+    }
+
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let notification = notifications[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: Cell.NOTIFICATION, for: indexPath) as! NotificationTableViewCell
+        cell.profileImage.setImage(with: notification.profileImage)
+        cell.profileName.text = notification.profileName
+        if let date = notification.date {
+            cell.date.text = dateFormatter.string(from: date)
+        }
+        if let type = notification.type {
+            switch type {
+            case .liked:
+                cell.message.text = "user_liked_work".localized
+            default:
+                break
+            }
+        }
+        cell.thumbnail.setImage(with: notification.thumbnail)
+        return cell
+    }
+
+    struct Notification {
+        let id: Int?
+        let type: NotificationType?
+        let profileImage: URL?
+        let profileName: String?
+        let date: Date?
+        let thumbnail: URL?
+    }
 }

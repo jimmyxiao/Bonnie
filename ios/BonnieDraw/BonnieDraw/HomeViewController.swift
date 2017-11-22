@@ -21,8 +21,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var timestamp: Date?
     private var menuButton: UIBarButtonItem?
     private let searchBar = UISearchBar()
-    private let titleView = Bundle.main.loadView(from: "TitleView")
     private let refreshControl = UIRefreshControl()
+    private let titleView = Bundle.main.loadView(from: "TitleView")
     private let placeholderImage = UIImage(named: "photo-square")
     private let likeImage = UIImage(named: "work_ic_like")
     private let likeImageSelected = UIImage(named: "work_ic_like_on")
@@ -43,7 +43,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if #available(iOS 11.0, *) {
             searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         }
-        refreshControl.addTarget(self, action: #selector(downloadData), for: .valueChanged)
         tableView.refreshControl = refreshControl
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
     }
@@ -152,8 +151,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
                             file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
                             title: work["title"] as? String,
-                            isLike: work["isLike"] as? Int == 1,
-                            isCollection: work["isCollection"] as? Int == 1,
+                            isLike: work["like"] as? Bool,
+                            isCollection: work["collection"] as? Bool,
                             likes: work["likeCount"] as? Int))
                 }
                 self.tableViewWorks = self.works
@@ -177,6 +176,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     }
                 }
             }
+        }
+    }
+
+    internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if refreshControl.isRefreshing {
+            downloadData()
         }
     }
 
@@ -210,13 +215,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         }
         cell.likes.text = "\(work.likes ?? 0)" + "likes".localized
-//        let lastComment = NSMutableAttributedString(string: item.lastCommentProfileName + "\t")
-//        lastComment.append(NSAttributedString(string: item.lastComment, attributes: commentTextAttributes))
-//        cell.lastComment.attributedText = lastComment
-//        let secondLastComment = NSMutableAttributedString(string: item.secondLastCommentProfileName + "\t")
-//        secondLastComment.append(NSAttributedString(string: item.secondLastComment, attributes: commentTextAttributes))
-//        cell.secondLastComment.attributedText = secondLastComment
-//        cell.lastCommentDate.text = "\(item.lastCommentDate)"
         return cell
     }
 

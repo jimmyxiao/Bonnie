@@ -13,22 +13,22 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
-    private var items = [TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
-                         TableViewItem(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false)]
-    private var tableViewItems = [TableViewItem]()
+    private var recommendations = [Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false),
+                                   Recommendation(iamgeUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), title: "Title", status: "Status", isSelected: false)]
+    private var tableViewRecommendations = [Recommendation]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
     private var backButton: UIBarButtonItem?
@@ -54,7 +54,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if tableViewItems.isEmpty {
+        if tableViewRecommendations.isEmpty {
             downloadData()
         } else if let timestamp = timestamp {
             if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
@@ -78,9 +78,9 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
             navigationItem.setLeftBarButton(backButton, animated: true)
             navigationItem.titleView = nil
             searchBar.text = nil
-            tableViewItems = items
+            tableViewRecommendations = recommendations
             tableView.reloadSections([0], with: .automatic)
-            emptyLabel.isHidden = !tableViewItems.isEmpty
+            emptyLabel.isHidden = !tableViewRecommendations.isEmpty
         }
     }
 
@@ -90,17 +90,17 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
 
     internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            tableViewItems = items
+            tableViewRecommendations = recommendations
         } else {
-            tableViewItems.removeAll()
-            for item in items {
+            tableViewRecommendations.removeAll()
+            for item in recommendations {
                 if item.title?.uppercased().range(of: searchText.uppercased()) != nil {
-                    tableViewItems.append(item)
+                    tableViewRecommendations.append(item)
                 }
             }
         }
         tableView.reloadSections([0], with: .automatic)
-        emptyLabel.isHidden = !tableViewItems.isEmpty
+        emptyLabel.isHidden = !tableViewRecommendations.isEmpty
     }
 
     @objc private func downloadData() {
@@ -137,9 +137,9 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                     return
                 }
                 //                    self.items.removeAll()
-                self.tableViewItems = self.items
+                self.tableViewRecommendations = self.recommendations
                 self.tableView.reloadSections([0], with: .automatic)
-                self.emptyLabel.isHidden = !self.tableViewItems.isEmpty
+                self.emptyLabel.isHidden = !self.tableViewRecommendations.isEmpty
                 if !self.loading.isHidden {
                     self.loading.hide(true)
                 }
@@ -161,13 +161,19 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         }
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableViewItems.count
+    internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if refreshControl.isRefreshing {
+            downloadData()
+        }
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableViewRecommendations.count
+    }
+
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Cell.RECOMMEND, for: indexPath) as? RecommendTableViewCell {
-            let item = items[indexPath.row]
+            let item = recommendations[indexPath.row]
             cell.thumbnail.setImage(with: item.iamgeUrl)
             cell.title.text = item.title
             cell.status.text = item.status
@@ -180,11 +186,11 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     @IBAction func selectFollow(_ sender: FollowButton) {
         sender.isSelected = !sender.isSelected
         if let indexPath = tableView.indexPath(forView: sender) {
-            items[indexPath.row].isSelected = sender.isSelected
+            recommendations[indexPath.row].isSelected = sender.isSelected
         }
     }
 
-    struct TableViewItem {
+    struct Recommendation {
         let iamgeUrl: URL?
         let title: String?
         let status: String?

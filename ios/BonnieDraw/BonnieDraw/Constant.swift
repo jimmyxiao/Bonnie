@@ -45,6 +45,14 @@ enum FileType: Int {
     case bdw
 }
 
+enum NotificationType: Int {
+    case followed = 1
+    case joined
+    case commented
+    case messaged
+    case liked
+}
+
 enum AccessControl: Int {
     case publicAccess = 1
     case contactAccess
@@ -62,6 +70,7 @@ struct Cell {
     static let ACCOUNT_FOOTER = "accountFooterCell"
     static let FOLLOW = "followCell"
     static let RECOMMEND = "recommendCell"
+    static let NOTIFICATION = "notificationCell"
 }
 
 struct Service {
@@ -70,6 +79,7 @@ struct Service {
     static let HOST = "www.bonniedraw.com"
     static let LOGIN = "/login"
     static let FORGET_PASSWORD = "/forgetpwd"
+    static let NOTIFICATION = "/notiMsg"
     static let WORK_SAVE = "/worksSave"
     static let WORK_LIST = "/worksList"
     static let FILE_UPLOAD = "/fileUpload"

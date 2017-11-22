@@ -41,7 +41,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             return
         }
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        var password = self.password.text ?? ""
+        let password = self.password.text ?? ""
         if email.isEmpty {
             presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
                 action in

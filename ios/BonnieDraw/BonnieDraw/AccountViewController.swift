@@ -32,7 +32,6 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                  UIBarButtonItem(image: UIImage(named: "collect_ic_off"), style: .plain, target: self, action: #selector(didSelectColllection)),
                  UIBarButtonItem(image: UIImage(named: "personal_ic_list"), style: .plain, target: self, action: #selector(didSelectListLayout)),
                  UIBarButtonItem(image: UIImage(named: "personal_ic_rectangle"), style: .plain, target: self, action: #selector(didSelectGridLayout))]
-        refreshControl.addTarget(self, action: #selector(downloadData), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
 
@@ -130,8 +129,8 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                             thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
                             file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
                             title: work["title"] as? String,
-                            isLike: work["isLike"] as? Int == 1,
-                            isCollection: work["isCollection"] as? Int == 1,
+                            isLike: work["like"] as? Bool,
+                            isCollection: work["collection"] as? Bool,
                             likes: work["likeCount"] as? Int))
                 }
                 self.collectionView.reloadSections([0])
@@ -155,11 +154,17 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if refreshControl.isRefreshing {
+            downloadData()
+        }
+    }
+
+    internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return works.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    internal func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
             if let url = UserDefaults.standard.url(forKey: Default.THIRD_PARTY_IMAGE) {
@@ -175,7 +180,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
         if let cell = cell as? AccountGridCollectionViewCell {
             cell.thumbnail.setImage(with: works[indexPath.row].thumbnail)
@@ -190,7 +195,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if cellId == Cell.ACCOUNT_GRID {
             let width = collectionView.bounds.width / CGFloat(3)
             return CGSize(width: width, height: width)
