@@ -14,19 +14,16 @@ class AccountListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var likes: UILabel!
-    @IBOutlet weak var lastComment: UILabel!
-    @IBOutlet weak var secondLastComment: UILabel!
-    @IBOutlet weak var lastCommentDate: UILabel!
     override var isHighlighted: Bool {
         willSet {
             if newValue {
-                alpha = 0.5
+                backgroundColor = .lightGray
             }
         }
         didSet {
             if !isHighlighted {
                 UIView.animate(withDuration: 0.4) {
-                    self.alpha = 1
+                    self.backgroundColor = .clear
                 }
             }
         }

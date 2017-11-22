@@ -20,6 +20,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
             collectionView.reloadSections([0])
         }
     }
+    var user: User?
     var works = [Work]()
     private let refreshControl = UIRefreshControl()
 
@@ -101,16 +102,15 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         loadingLabel?.text = "loading".localized
         indicator?.startAnimating()
-        works.removeAll()
         dataRequest = Alamofire.request(
-                Service.standard(withPath: Service.WORK_LIST),
+                Service.standard(withPath: Service.USER_INFO_QUERY),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 5, "stn": 1, "rc": 128],
+                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
             case .success:
-                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workList = data["workList"] as? [[String: Any]] else {
+                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
                     self.presentConfirmationDialog(
                             title: "service_download_fail_title".localized,
                             message: "app_network_unreachable_content".localized) {
@@ -121,23 +121,65 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                     }
                     return
                 }
-                for work in workList {
-                    self.works.append(Work(
-                            id: work["worksId"] as? Int,
-                            profileImage: nil,
-                            profileName: work["userName"] as? String,
-                            thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
-                            file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
-                            title: work["title"] as? String,
-                            isLike: work["like"] as? Bool,
-                            isCollection: work["collection"] as? Bool,
-                            likes: work["likeCount"] as? Int))
+                self.user = User(
+                        type: UserType(rawValue: data["userType"] as? Int ?? -1),
+                        code: data["userCode"] as? String,
+                        name: data["userName"] as? String,
+                        email: data["email"] as? String,
+                        worksCount: data["worksNum"] as? Int,
+                        fansCount: data["fansNum"] as? Int,
+                        followsCount: data["followNum"] as? Int)
+                self.dataRequest = Alamofire.request(
+                        Service.standard(withPath: Service.WORK_LIST),
+                        method: .post,
+                        parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 5, "stn": 1, "rc": 128],
+                        encoding: JSONEncoding.default).validate().responseJSON {
+                    response in
+                    switch response.result {
+                    case .success:
+                        guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workList = data["workList"] as? [[String: Any]] else {
+                            self.presentConfirmationDialog(
+                                    title: "service_download_fail_title".localized,
+                                    message: "app_network_unreachable_content".localized) {
+                                success in
+                                if success {
+                                    self.downloadData()
+                                }
+                            }
+                            return
+                        }
+                        self.works.removeAll()
+                        for work in workList {
+                            self.works.append(Work(
+                                    id: work["worksId"] as? Int,
+                                    profileImage: nil,
+                                    profileName: work["userName"] as? String,
+                                    thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
+                                    file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
+                                    title: work["title"] as? String,
+                                    isLike: work["like"] as? Bool,
+                                    isCollection: work["collection"] as? Bool,
+                                    likes: work["likeCount"] as? Int))
+                        }
+                        self.collectionView.reloadSections([0])
+                        self.loadingLabel?.text = self.works.isEmpty ? "empty_data".localized : nil
+                        self.indicator?.stopAnimating()
+                        self.timestamp = Date()
+                        self.refreshControl.endRefreshing()
+                    case .failure(let error):
+                        if let error = error as? URLError, error.code == .cancelled {
+                            return
+                        }
+                        self.presentConfirmationDialog(
+                                title: "service_download_fail_title".localized,
+                                message: error.localizedDescription) {
+                            success in
+                            if success {
+                                self.downloadData()
+                            }
+                        }
+                    }
                 }
-                self.collectionView.reloadSections([0])
-                self.loadingLabel?.text = self.works.isEmpty ? "empty_data".localized : nil
-                self.indicator?.stopAnimating()
-                self.timestamp = Date()
-                self.refreshControl.endRefreshing()
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {
                     return
@@ -167,10 +209,11 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     internal func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
-            if let url = UserDefaults.standard.url(forKey: Default.THIRD_PARTY_IMAGE) {
-                headerView.profileImage.setImage(with: url)
-            }
-            headerView.profileName.text = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_NAME)
+            headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.THIRD_PARTY_IMAGE))
+            headerView.profileName.text = user?.name
+            headerView.worksCount.text = "\(user?.worksCount ?? 0)"
+            headerView.fansCount.text = "\(user?.fansCount ?? 0)"
+            headerView.followsCount.text = "\(user?.followsCount ?? 0)"
             return headerView
         } else {
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_FOOTER, for: indexPath) as! AccountFooterCollectionReusableView
@@ -200,7 +243,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
             let width = collectionView.bounds.width / CGFloat(3)
             return CGSize(width: width, height: width)
         } else {
-            return CGSize(width: collectionView.bounds.width, height: 255 + collectionView.bounds.width * 3 / 4)
+            return CGSize(width: collectionView.bounds.width, height: 156 + collectionView.bounds.width * 3 / 4)
         }
     }
 }

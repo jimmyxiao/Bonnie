@@ -34,6 +34,7 @@
 		163A5E251FA061F100FE70BD /* FollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */; };
 		163A5E271FA062D500FE70BD /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E261FA062D500FE70BD /* FollowButton.swift */; };
 		163DDF3E1FC5526D0052DF80 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */; };
+		163DDF401FC566F40052DF80 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163DDF3F1FC566F40052DF80 /* User.swift */; };
 		163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AA1F61663800945E04 /* AppDelegate.swift */; };
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
@@ -64,6 +65,8 @@
 		166889971FBC6802001CBFB3 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */; };
 		166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF411F860E7900274C6C /* SplashViewController.swift */; };
 		166C41241F90964F00A98385 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C41231F90964F00A98385 /* DataExtension.swift */; };
+		16726E2E1FC56D3100F34E0B /* CollectionAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16726E2D1FC56D3100F34E0B /* CollectionAllViewController.swift */; };
+		16726E301FC56D3B00F34E0B /* CollectionSortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16726E2F1FC56D3B00F34E0B /* CollectionSortViewController.swift */; };
 		16812ADA1F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */; };
 		16816AA71FAFF8DD00855104 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16816AA61FAFF8DD00855104 /* ShadowView.swift */; };
 		169490F61FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169490F51FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift */; };
@@ -112,6 +115,7 @@
 		163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowTableViewCell.swift; sourceTree = "<group>"; };
 		163A5E261FA062D500FE70BD /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
 		163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		163DDF3F1FC566F40052DF80 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		163F65A71F61663800945E04 /* BonnieDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BonnieDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		163F65AA1F61663800945E04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		163F65AF1F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -148,6 +152,8 @@
 		166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		166BDF411F860E7900274C6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		166C41231F90964F00A98385 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
+		16726E2D1FC56D3100F34E0B /* CollectionAllViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionAllViewController.swift; sourceTree = "<group>"; };
+		16726E2F1FC56D3B00F34E0B /* CollectionSortViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSortViewController.swift; sourceTree = "<group>"; };
 		16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleNavigationViewController.swift; sourceTree = "<group>"; };
 		16816AA61FAFF8DD00855104 /* ShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		169490F51FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -299,6 +305,8 @@
 				16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */,
 				16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */,
 				164ED2471F7B376700E8B910 /* CollectionViewController.swift */,
+				16726E2D1FC56D3100F34E0B /* CollectionAllViewController.swift */,
+				16726E2F1FC56D3B00F34E0B /* CollectionSortViewController.swift */,
 				165E1B5C1F9DE4920050A7BB /* PasswordViewController.swift */,
 				165E1B5E1F9DE49F0050A7BB /* LanguageViewController.swift */,
 				165E1B601F9DE4AD0050A7BB /* DescriptionViewController.swift */,
@@ -335,6 +343,7 @@
 				16D439671F66AC8200FF5878 /* Point.swift */,
 				165710FE1F6BAB63004A8DD8 /* Path.swift */,
 				16185C7E1F94A264008F0840 /* Work.swift */,
+				163DDF3F1FC566F40052DF80 /* User.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -546,6 +555,7 @@
 				1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */,
 				164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */,
 				16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */,
+				163DDF401FC566F40052DF80 /* User.swift in Sources */,
 				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
 				165E1B611F9DE4AD0050A7BB /* DescriptionViewController.swift in Sources */,
 				16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */,
@@ -571,6 +581,7 @@
 				165996DA1FB4429200AAE7B3 /* SaturationBrightnessView.swift in Sources */,
 				16A82D0E1FB1B564007D6128 /* RecommendViewController.swift in Sources */,
 				164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */,
+				16726E2E1FC56D3100F34E0B /* CollectionAllViewController.swift in Sources */,
 				16816AA71FAFF8DD00855104 /* ShadowView.swift in Sources */,
 				164ED2531F7BA45E00E8B910 /* ColorPickerViewController.swift in Sources */,
 				165E1B5B1F9DDFA80050A7BB /* SettingViewController.swift in Sources */,
@@ -582,6 +593,7 @@
 				16D439651F66A9B300FF5878 /* Logger.swift in Sources */,
 				163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */,
 				165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */,
+				16726E301FC56D3B00F34E0B /* CollectionSortViewController.swift in Sources */,
 				163A5E271FA062D500FE70BD /* FollowButton.swift in Sources */,
 				16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */,
 				164ED2511F7B517200E8B910 /* StatusBarBackgroundView.swift in Sources */,

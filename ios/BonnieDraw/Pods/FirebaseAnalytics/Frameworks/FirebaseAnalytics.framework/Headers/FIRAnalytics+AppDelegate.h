@@ -1,5 +1,8 @@
 #import <Foundation/Foundation.h>
+
 #import "FIRAnalytics.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Provides App Delegate handlers to be used in your App Delegate.
@@ -14,6 +17,7 @@
  * [UIApplicationDelegate application:didFinishLaunchingWithOptions:].
  */
 @interface FIRAnalytics (AppDelegate)
+
 /**
  * Handles events related to a URL session that are waiting to be processed.
  *
@@ -27,7 +31,7 @@
  *     updated and a new snapshot can be taken.
  */
 + (void)handleEventsForBackgroundURLSession:(NSString *)identifier
-                          completionHandler:(void (^)(void))completionHandler;
+                          completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
  * Handles the event when the app is launched by a URL.
@@ -53,3 +57,6 @@
 + (void)handleUserActivity:(id)userActivity;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

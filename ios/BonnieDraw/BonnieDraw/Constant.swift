@@ -109,7 +109,9 @@ struct Identifier {
     static let PARENT = "parentViewController"
     static let HOME = "homeViewController"
     static let FOLLOW = "followViewController"
-    static let NOTIFICATION = "notificationViewController"
+    static let NOTIFICATION = "notificationController"
+    static let COLLECTION_ALL = "collectionAllController"
+    static let COLLECTION_SORT = "collectionSortController"
 }
 
 struct Segue {

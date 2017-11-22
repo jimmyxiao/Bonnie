@@ -35,6 +35,10 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         }
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        dataRequest?.cancel()
+    }
+
     @objc private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
             presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
