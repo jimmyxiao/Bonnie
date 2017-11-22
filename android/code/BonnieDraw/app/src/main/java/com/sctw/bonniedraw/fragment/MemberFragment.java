@@ -152,6 +152,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                         mBtnFollow.setText("追蹤中");
                                     } else {
                                         mbFollow = false;
+                                        mBtnFollow.setText("追蹤");
                                     }
 
                                     mTvMemberWorks.setText(responseJSON.getString("worksNum"));
@@ -248,7 +249,16 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mLlFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Bundle bundle=new Bundle();
+                // 1=fans   2=follow
+                bundle.putInt("fn",2);
+                bundle.putInt("uid",miUserId);
+                FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
+                fansOrFollowFragment.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 

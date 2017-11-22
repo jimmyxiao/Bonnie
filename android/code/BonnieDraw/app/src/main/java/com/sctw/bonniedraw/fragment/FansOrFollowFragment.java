@@ -39,7 +39,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FansOrFollowFragment extends Fragment {
+public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapter.OnFansOfFollowClick {
     private ImageButton mImgBtnBack;
     private TextView mTvTitle;
     private RecyclerView mRv;
@@ -74,6 +74,7 @@ public class FansOrFollowFragment extends Fragment {
             mTvTitle.setText(R.string.following);
         }
         setOnClick();
+        getFansOrFollow();
     }
 
     private void setOnClick() {
@@ -135,7 +136,53 @@ public class FansOrFollowFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mAdapter = new FansOfFollowAdapter(getContext(), mList);
+        mAdapter = new FansOfFollowAdapter(getContext(), mList,this);
         mRv.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onFansOfFollowClick(final int position, final int fn, int uid) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.setFollow(prefs, fn, uid);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點成功或失敗
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapter.setFollow(position, false);
+                                            break;
+                                        case 1:
+                                            mAdapter.setFollow(position, true);
+                                            break;
+                                    }
+                                    mAdapter.notifyItemChanged(position);
+                                    System.out.println(responseJSON.toString());
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapter.notifyItemChanged(position);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
