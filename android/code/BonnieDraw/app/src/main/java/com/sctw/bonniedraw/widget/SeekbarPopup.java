@@ -32,7 +32,7 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
                 break;
             case R.id.imgBtn_paint_base_decrease:
                 if (progress > 0) progress--;
-                listener.onSizeAdd(progress);
+                listener.onSizeDecrease(progress);
                 mSeekbar.setProgress(progress);
                 break;
         }
@@ -48,12 +48,15 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
         void onSizeDecrease(int progress);
     }
 
+    public void changeProgress(int progress){
+        mSeekbar.setProgress(progress);
+    }
+
     public SeekbarPopup(Context context, OnSeekChange listener) {
         super(context, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.listener = listener;
         mSeekbar = (SeekBar) findViewById(R.id.seekbar_paint_base);
         mSeekbar.setOnSeekBarChangeListener(this);
-        mSeekbar.setProgress(30);
         ImageButton mBtnAdd = (ImageButton) findViewById(R.id.imgBtn_paint_base_add);
         ImageButton mBtnDecrease = (ImageButton) findViewById(R.id.imgBtn_paint_base_decrease);
         mBtnAdd.setOnClickListener(this);
@@ -104,7 +107,7 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
     }
+
 
 }

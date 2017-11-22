@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.bean.FansOfFollowBean;
@@ -36,15 +38,25 @@ public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapte
 
     @Override
     public void onBindViewHolder(final FansOfFollowAdapter.ViewHolder holder, int position) {
+            holder.mTvUserName.setText(data.get(position).getUserName());
 
+            if(data.get(position).isFollowing()){
+                holder.mBtnFollow.setText("追蹤中");
+            }else {
+                holder.mBtnFollow.setText("追蹤");
+            }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mCircleImg;
-
+        TextView mTvUserName;
+        Button mBtnFollow;
 
         ViewHolder(View v) {
             super(v);
+            mCircleImg=v.findViewById(R.id.circle_fof_user_img);
+            mTvUserName=v.findViewById(R.id.textView_fof_username);
+            mBtnFollow=v.findViewById(R.id.btn_fof_follow);
         }
     }
 

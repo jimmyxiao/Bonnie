@@ -108,7 +108,7 @@ public class SignUpFragment extends Fragment {
                 infoCheck(CHECK_PWD);
                 infoCheck(CHECK_REPWD);
 
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.public_commit),
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.commit),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -212,7 +212,7 @@ public class SignUpFragment extends Fragment {
                 break;
             case 2:
                 title = getString(R.string.signin_fail_title);
-                message = getString(R.string.signin_fail_email_used);
+                message = getString(R.string.signin_fail_email);
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -224,7 +224,7 @@ public class SignUpFragment extends Fragment {
                 break;
             case 3:
                 title = getString(R.string.signin_fail_title);
-                message = getString(R.string.signin_fail_date_error);
+                message = getString(R.string.signin_fail_error);
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {

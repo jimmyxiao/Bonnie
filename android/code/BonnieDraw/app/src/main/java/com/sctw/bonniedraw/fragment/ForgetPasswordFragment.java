@@ -107,7 +107,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                                 if (responseJSON.getInt("res") == 1) {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setMessage("請至您的電子信箱來獲得新密碼。");
-                                    builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
+                                    builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
@@ -117,7 +117,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                                 } else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setMessage("查無此帳號。");
-                                    builder.setPositiveButton(R.string.public_no, new DialogInterface.OnClickListener() {
+                                    builder.setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();

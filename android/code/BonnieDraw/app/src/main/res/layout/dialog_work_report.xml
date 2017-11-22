@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/Transparent"
-                    android:text="@string/public_cancel"
+                    android:text="@string/cancel"
                     android:textColor="@color/Blue" />
 
                 <Button
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/Transparent"
-                    android:text="@string/public_commit"
+                    android:text="@string/commit"
                     android:textColor="@color/Blue" />
 
             </LinearLayout>

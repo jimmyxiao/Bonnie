@@ -330,4 +330,24 @@ public class ConnectJson {
                 .build();
         return request;
     }
+
+    public static Request queryFansOrFollow(SharedPreferences prefs, int ui,int fn) {
+        //wt = 作品類別 , stn = 起始數 , rc = 筆數
+        JSONObject json = new JSONObject();
+        try {
+            json.put("ui", ui);
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("fn", fn);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        System.out.println(json.toString());
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_WORK_LIST)
+                .post(body)
+                .build();
+        return request;
+    }
 }

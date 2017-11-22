@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -58,6 +59,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     private Button mBtnFollow;
     private CircleImageView mCircleImg;
     private ImageButton mBtnBack, mBtnGrid, mBtnList, mBtnAdd, mBtnExtra;
+    private LinearLayout mLlFans, mLlFollow;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRv;
     private SharedPreferences prefs;
@@ -90,12 +92,14 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mTvMemberWorks = view.findViewById(R.id.textView_member_userworks);
         mTvMemberFans = view.findViewById(R.id.textView_member_fans);
         mTvMemberFollows = view.findViewById(R.id.textView_member_follows);
+        mLlFans=view.findViewById(R.id.ll_member_fans);
+        mLlFollow=view.findViewById(R.id.ll_member_follow);
         mBtnFollow = view.findViewById(R.id.btn_member_follow);
         mCircleImg = view.findViewById(R.id.circleImg_member_photo);
         mBtnBack = view.findViewById(R.id.imgBtn_member_back);
         mBtnGrid = view.findViewById(R.id.imgBtn_member_grid);
         mBtnList = view.findViewById(R.id.imgBtn_member_list);
-        mBtnAdd = view.findViewById(R.id.imgBtn_member_add);
+        mBtnAdd = view.findViewById(R.id.imgBtn_member_add_friend);
         mBtnExtra = view.findViewById(R.id.imgBtn_member_extra);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_member);
         mRv = view.findViewById(R.id.recyclerview_member);
@@ -241,6 +245,29 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     }
 
     private void setOnClickEvent() {
+        mLlFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mLlFans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                // 1=fans   2=follow
+                bundle.putInt("fn",1);
+                bundle.putInt("uid",miUserId);
+                FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
+                fansOrFollowFragment.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

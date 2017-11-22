@@ -34,7 +34,7 @@
             android:id="@+id/editText_signup_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/public_username"
+            android:hint="@string/username"
             android:inputType="textPersonName" />
     </android.support.design.widget.TextInputLayout>
 
@@ -52,7 +52,7 @@
             android:id="@+id/editText_signup_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/public_email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
@@ -72,7 +72,7 @@
             android:id="@+id/editText_signup_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/public_password"
+            android:hint="@string/user_password"
             android:inputType="textPassword"
             android:maxLength="15"
             app:passwordToggleTint="@color/colorPrimaryDark"
@@ -94,7 +94,7 @@
             android:id="@+id/editText_signup_repassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/public_check_password"
+            android:hint="@string/check_user_password"
             android:inputType="textPassword"
             android:maxLength="15"
             app:passwordToggleTint="@color/colorPrimaryDark"
@@ -109,7 +109,7 @@
         android:layout_alignStart="@+id/inputLayout_signup_repassword"
         android:layout_below="@+id/inputLayout_signup_repassword"
         android:background="@drawable/icon_login_email"
-        android:text="@string/public_register"
+        android:text="@string/register"
         android:textColor="@color/White" />
 
     <LinearLayout
@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/public_login"
+            android:text="@string/login"
             android:textColor="@color/Blue" />
     </LinearLayout>
 

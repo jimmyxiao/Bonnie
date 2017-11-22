@@ -214,7 +214,7 @@ public class UpdatePasswordFragment extends Fragment {
                 break;
             case ERROR_OLD_PASSWORD:
                 builder.setMessage(R.string.update_password_old_error);
-                builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -223,7 +223,7 @@ public class UpdatePasswordFragment extends Fragment {
                 break;
             case ERROR_CONNECT:
                 builder.setMessage(R.string.update_password_other_error);
-                builder.setPositiveButton(R.string.public_yes, new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();

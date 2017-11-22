@@ -157,13 +157,13 @@ public class MainActivity extends AppCompatActivity {
 
     void logout() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.public_commit),
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.commit),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         logoutPlatform();
                     }
                 });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.public_cancel),
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

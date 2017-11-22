@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="@color/Transparent"
-            android:text="@string/public_save"
+            android:text="@string/save"
             android:textColor="@color/White"
             android:textSize="16sp" />
 
@@ -145,7 +145,7 @@
             <Spinner
                 android:id="@+id/paint_save_work_privacytype"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:orientation="horizontal">
 

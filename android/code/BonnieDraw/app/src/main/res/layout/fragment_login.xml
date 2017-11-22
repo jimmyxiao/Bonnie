@@ -34,7 +34,7 @@
             android:id="@+id/editText_signup_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/public_email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
@@ -53,7 +53,7 @@
             android:id="@+id/editText_signup_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/public_password"
+            android:hint="@string/user_password"
             android:inputType="textPassword"
             android:maxLength="15"
             app:passwordToggleTint="@color/colorPrimaryDark"
@@ -80,7 +80,7 @@
         android:layout_below="@+id/btn_forget_password"
         android:layout_marginTop="20dp"
         android:background="@drawable/icon_login_email"
-        android:text="@string/public_login"
+        android:text="@string/login"
         android:textColor="@color/White" />
 
     <TextView
@@ -91,7 +91,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
-        android:text="@string/public_or" />
+        android:text="@string/or" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btn_fb_login_hide"
@@ -165,7 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/public_register"
+            android:text="@string/register"
             android:textColor="@color/Blue" />
     </LinearLayout>
 

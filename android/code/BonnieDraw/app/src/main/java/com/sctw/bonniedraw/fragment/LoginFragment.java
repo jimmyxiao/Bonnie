@@ -440,7 +440,7 @@ public class LoginFragment extends Fragment {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle(getString(R.string.login_fail_tittle));
         alertDialog.setMessage(getString(R.string.login_fail_msg));
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, (getString(R.string.public_commit)),
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, (getString(R.string.commit)),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (!prefs.getString(GlobalVariable.USER_FB_ID_STR, "null").isEmpty()) {
@@ -491,7 +491,7 @@ public class LoginFragment extends Fragment {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle(R.string.login_fail_tittle);
         alertDialog.setMessage("此平台所使用的電子信箱已註冊，請改用電子信箱或是別的帳戶來登入。");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.public_commit),
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.commit),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         logoutPlatform();

@@ -45,7 +45,7 @@
             app:srcCompat="@drawable/personal_ic_list" />
 
         <ImageButton
-            android:id="@+id/imgBtn_member_add"
+            android:id="@+id/imgBtn_member_add_friend"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -134,12 +134,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_works_count"
+                android:text="@string/works_count"
                 android:textAlignment="center" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_member_fans"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -157,12 +158,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_fans_count"
+                android:text="@string/fans_count"
                 android:textAlignment="center" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_member_follow"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -179,7 +181,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_follow_count"
+                android:text="@string/follow_count"
                 android:textAlignment="center" />
 
         </LinearLayout>

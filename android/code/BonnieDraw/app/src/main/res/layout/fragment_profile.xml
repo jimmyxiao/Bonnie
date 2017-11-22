@@ -141,7 +141,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_works_count"
+                android:text="@string/works_count"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -166,7 +166,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_fans_count"
+                android:text="@string/fans_count"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -190,7 +190,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_follow_count"
+                android:text="@string/follow_count"
                 android:textAlignment="center" />
 
         </LinearLayout>

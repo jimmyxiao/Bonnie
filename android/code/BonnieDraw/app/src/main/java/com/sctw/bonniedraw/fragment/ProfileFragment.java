@@ -75,6 +75,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private FragmentTransaction fragmentTransaction;
     private List<WorkInfoBean> workInfoBeanList;
     private boolean mbFist = true;
+    private int miUserId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,6 +88,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+        miUserId=Integer.valueOf(prefs.getString(GlobalVariable.API_UID,"null"));
         imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
         mSwipeLayoutProfile = view.findViewById(R.id.swipeLayout_profile);
         mLlFans = (LinearLayout) view.findViewById(R.id.ll_profile_fans);
@@ -120,6 +122,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                 Bundle bundle=new Bundle();
                 // 1=fans   2=follow
                 bundle.putInt("fn",1);
+                bundle.putInt("uid",miUserId);
                 FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -134,6 +137,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             public void onClick(View v) {
                 Bundle bundle=new Bundle();
                 bundle.putInt("fn",2);
+                bundle.putInt("uid",miUserId);
                 FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
