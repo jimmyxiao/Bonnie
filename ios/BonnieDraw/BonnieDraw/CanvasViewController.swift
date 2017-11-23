@@ -38,13 +38,13 @@ class CanvasViewController:
         canvas.delegate = self
         canvasAnimation.delegate = self
         penButton.layer.cornerRadius = view.bounds.width / 10
-        let size = CGSize(width: 28, height: 28)
+        let size = CGSize(width: 33, height: 33)
         let count = UserDefaults.standard.integer(forKey: Default.GRID)
         gridView.set(horizontalCount: count, verticalCount: count)
         UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
-        UIBezierPath(arcCenter: CGPoint(x: size.width / 2, y: size.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).fill()
+        UIColor.white.setStroke()
+        UIBezierPath(arcCenter: CGPoint(x: size.width / 2, y: size.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
-        sizeButton.tintColor = canvas.color
         UIGraphicsGetCurrentContext()?.clear(CGRect(origin: .zero, size: size))
         UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: 4).fill()
         colorButton.image = UIGraphicsGetImageFromCurrentImageContext()
@@ -141,7 +141,7 @@ class CanvasViewController:
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            controller.preferredContentSize = CGSize(width: 44, height: 176)
+            controller.preferredContentSize = CGSize(width: 60, height: 240)
         } else if let controller = segue.destination as? SizePickerViewController {
             controller.delegate = self
             controller.value = Float(canvas.size)
@@ -283,17 +283,16 @@ class CanvasViewController:
 
     func sizePicker(didSelect size: CGFloat) {
         canvas.size = size
-        let rect = CGSize(width: 28, height: 28)
+        let rect = CGSize(width: 33, height: 33)
         UIGraphicsBeginImageContextWithOptions(rect, false, UIScreen.main.scale)
-        UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).fill()
+        UIColor.white.setStroke()
+        UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
-        sizeButton.tintColor = canvas.color
         UIGraphicsEndImageContext()
     }
 
     func colorPicker(didSelect color: UIColor) {
         canvas.color = color
-        sizeButton.tintColor = color
         colorButton.tintColor = color
     }
 }

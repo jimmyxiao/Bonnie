@@ -12,8 +12,10 @@ class CanvasSettingTableViewController: UITableViewController {
     var delegate: CanvasSettingTableViewControllerDelegate?
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        dismiss(animated: true) {
-            self.delegate?.canvasSetting(didSelectRowAt: indexPath)
+        DispatchQueue.main.async {
+            self.dismiss(animated: true) {
+                self.delegate?.canvasSetting(didSelectRowAt: indexPath)
+            }
         }
     }
 }
