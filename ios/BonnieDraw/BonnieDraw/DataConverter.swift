@@ -31,7 +31,7 @@ class DataConverter: NSObject {
                                 alpha: CGFloat(bytes.removeFirst()) / byteMax),
                         action: Action(rawValue: bytes.removeFirst()) ?? .move,
                         size: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) * 2 / scale,
-                        type: Type(rawValue: bytes.removeFirst()) ?? .round,
+                        type: Type(rawValue: bytes.removeFirst()) ?? .pen,
                         duration: TimeInterval(Double(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / 1000)))
                 bytes.removeFirst()
                 bytes.removeFirst()

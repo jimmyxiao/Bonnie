@@ -14,7 +14,6 @@ let POINT_BUFFER_COUNT: UInt16 = 512
 let MAX_TIMESTAMP: TimeInterval = 0.4
 let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
-let ERASER_COLOR = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
 let SERVICE_DEVICE_TYPE = 2
 let TOKEN_LIFETIME: TimeInterval = Double.greatestFiniteMagnitude
 let UPDATE_INTERVAL: TimeInterval = 60.0
@@ -30,7 +29,12 @@ enum Action: UInt8 {
 }
 
 enum Type: UInt8 {
-    case round
+    case eraser
+    case crayon
+    case pencil
+    case pen
+    case airbrush
+    case marker
 }
 
 enum UserType: Int {

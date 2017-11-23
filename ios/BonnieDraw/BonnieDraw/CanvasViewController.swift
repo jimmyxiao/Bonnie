@@ -130,9 +130,11 @@ class CanvasViewController:
     }
 
     @IBAction func didSelectEraser(_ sender: Any) {
-        canvas.color = ERASER_COLOR
-        sizeButton.tintColor = ERASER_COLOR
-        colorButton.tintColor = ERASER_COLOR
+        if canvas.type == .eraser{
+            canvas.type = .pen
+        }else{
+            canvas.type = .eraser
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

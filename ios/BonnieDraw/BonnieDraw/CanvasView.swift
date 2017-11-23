@@ -12,18 +12,19 @@ class CanvasView: UIView {
     var delegate: CanvasViewDelegate?
     var size: CGFloat = 8
     var color = UIColor.black
+    var type = Type.pen
     var paths = [Path]()
     var redoPaths = [Path]()
     var persistentImage: UIImage?
     private var lastTimestamp: TimeInterval = -1
     private var url = try! FileManager.default.url(
-            for: .documentationDirectory,
-            in: .userDomainMask,
-            appropriateFor: nil,
-            create: true).appendingPathComponent("cache.bdw")
+        for: .documentationDirectory,
+        in: .userDomainMask,
+        appropriateFor: nil,
+        create: true).appendingPathComponent("cache.bdw")
     private var controlPoint = CGPoint.zero, currentPoint = CGPoint.zero
     private var writeHandle: FileHandle?
-
+    
     override func awakeFromNib() {
         do {
             let manager = FileManager.default
@@ -36,7 +37,7 @@ class CanvasView: UIView {
             Logger.d("\(#function): \(error.localizedDescription)")
         }
     }
-
+    
     func undo() {
         if !paths.isEmpty {
             redoPaths.append(paths.removeLast())
@@ -44,7 +45,7 @@ class CanvasView: UIView {
             setNeedsDisplay()
         }
     }
-
+    
     func redo() {
         if !redoPaths.isEmpty {
             paths.append(redoPaths.removeLast())
@@ -52,11 +53,13 @@ class CanvasView: UIView {
             setNeedsDisplay()
         }
     }
-
+    
     func thumbnailData() -> Data? {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
         persistentImage?.draw(in: bounds)
+        let context = UIGraphicsGetCurrentContext()
         for path in paths {
+            context?.setBlendMode(path.blendMode)
             path.color.setStroke()
             path.bezierPath.stroke()
         }
@@ -67,21 +70,24 @@ class CanvasView: UIView {
         UIGraphicsEndImageContext()
         return data
     }
-
+    
     override func draw(_ rect: CGRect) {
         persistentImage?.draw(in: bounds)
+        let context = UIGraphicsGetCurrentContext()
         for path in paths {
+            context?.setBlendMode(path.blendMode)
             path.color.setStroke()
             path.bezierPath.stroke()
         }
-        if color == ERASER_COLOR,
-           let point = paths.last?.points.last,
-           point.action == .move {
+        if paths.last?.blendMode == .clear,
+            let point = paths.last?.points.last,
+            point.action == .move {
+            context?.setBlendMode(.normal)
             UIColor.black.setStroke()
             UIBezierPath(arcCenter: point.position, radius: point.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
         }
     }
-
+    
     func reset() {
         writeHandle?.closeFile()
         paths.removeAll()
@@ -101,21 +107,21 @@ class CanvasView: UIView {
         setNeedsDisplay()
         lastTimestamp = -1
     }
-
+    
     func close() {
         writeHandle?.closeFile()
     }
-
+    
     func save(toUrl url: URL? = nil, completionHandler: ((URL?) -> Void)? = nil) {
         let bounds = self.bounds
         DispatchQueue.global().async {
             do {
                 let manager = FileManager.default
                 let url = try url ?? manager.url(
-                        for: .documentationDirectory,
-                        in: .userDomainMask,
-                        appropriateFor: nil,
-                        create: true).appendingPathComponent("draft.bdw")
+                    for: .documentationDirectory,
+                    in: .userDomainMask,
+                    appropriateFor: nil,
+                    create: true).appendingPathComponent("draft.bdw")
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
@@ -139,17 +145,17 @@ class CanvasView: UIView {
             }
         }
     }
-
+    
     func load(fromUrl url: URL? = nil, completionHandler: @escaping () -> Void) {
         let bounds = self.bounds
         DispatchQueue.global().async {
             do {
                 let manager = FileManager.default
                 let url = try url ?? manager.url(
-                        for: .documentationDirectory,
-                        in: .userDomainMask,
-                        appropriateFor: nil,
-                        create: true).appendingPathComponent("draft.bdw")
+                    for: .documentationDirectory,
+                    in: .userDomainMask,
+                    appropriateFor: nil,
+                    create: true).appendingPathComponent("draft.bdw")
                 if manager.fileExists(atPath: url.path) {
                     var isEndOfFile = false
                     let readHandle = try FileHandle(forReadingFrom: url)
@@ -164,9 +170,10 @@ class CanvasView: UIView {
                             path.lineCapStyle = .round
                             path.lineWidth = point.size
                             self.paths.append(
-                                    Path(bezierPath: path,
-                                            points: [point],
-                                            color: point.color))
+                                Path(blendMode: point.type == .eraser ? .clear : .normal,
+                                     bezierPath: path,
+                                     points: [point],
+                                     color: point.color))
                             while !points.isEmpty {
                                 point = points.removeFirst()
                                 self.currentPoint = point.position
@@ -184,9 +191,10 @@ class CanvasView: UIView {
                                     path.lineCapStyle = .round
                                     path.lineWidth = point.size
                                     self.paths.append(
-                                            Path(bezierPath: path,
-                                                    points: [point],
-                                                    color: point.color))
+                                        Path(blendMode: self.type == .eraser ? .clear : .normal,
+                                             bezierPath: path,
+                                             points: [point],
+                                             color: point.color))
                                 }
                                 if points.count < POINT_BUFFER_COUNT / 2 && !isEndOfFile {
                                     let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
@@ -210,7 +218,7 @@ class CanvasView: UIView {
             }
         }
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             if lastTimestamp < 0 {
@@ -225,20 +233,21 @@ class CanvasView: UIView {
                 path.lineWidth = size
                 let timestamp = touch.timestamp - lastTimestamp
                 paths.append(
-                        Path(bezierPath: path,
-                                points: [Point(length: LENGTH_SIZE,
+                    Path(blendMode: type == .eraser ? .clear : .normal,
+                         bezierPath: path,
+                         points: [Point(length: LENGTH_SIZE,
                                         function: .draw,
                                         position: currentPoint,
                                         color: color,
                                         action: .down,
                                         size: size,
-                                        type: .round,
+                                        type: type,
                                         duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp)],
-                                color: color))
+                         color: color))
             }
         }
     }
-
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
             var points = [CGPoint]()
@@ -252,14 +261,14 @@ class CanvasView: UIView {
                     paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
                     let timestamp = touch.timestamp - lastTimestamp
                     paths.last?.points.append(
-                            Point(length: LENGTH_SIZE,
-                                    function: .draw,
-                                    position: currentPoint,
-                                    color: color,
-                                    action: .move,
-                                    size: size,
-                                    type: .round,
-                                    duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
+                        Point(length: LENGTH_SIZE,
+                              function: .draw,
+                              position: currentPoint,
+                              color: color,
+                              action: .move,
+                              size: size,
+                              type: type,
+                              duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
                     lastTimestamp = touch.timestamp
                     controlPoint = currentPoint
                 }
@@ -267,7 +276,7 @@ class CanvasView: UIView {
             setNeedsDisplay(calculateRedrawRect(forPoints: points))
         }
     }
-
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
             var points = [CGPoint]()
@@ -282,27 +291,27 @@ class CanvasView: UIView {
                     if currentPoint != controlPoint {
                         paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
                         paths.last?.points.append(
-                                Point(length: LENGTH_SIZE,
-                                        function: .draw,
-                                        position: currentPoint,
-                                        color: color,
-                                        action: .up,
-                                        size: size,
-                                        type: .round,
-                                        duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
+                            Point(length: LENGTH_SIZE,
+                                  function: .draw,
+                                  position: currentPoint,
+                                  color: color,
+                                  action: .up,
+                                  size: size,
+                                  type: type,
+                                  duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
                         lastTimestamp = touch.timestamp
                         controlPoint = currentPoint
                     } else {
                         paths.last?.bezierPath.addLine(to: currentPoint)
                         paths.last?.points.append(
-                                Point(length: LENGTH_SIZE,
-                                        function: .draw,
-                                        position: currentPoint,
-                                        color: color,
-                                        action: .up,
-                                        size: size,
-                                        type: .round,
-                                        duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
+                            Point(length: LENGTH_SIZE,
+                                  function: .draw,
+                                  position: currentPoint,
+                                  color: color,
+                                  action: .up,
+                                  size: size,
+                                  type: type,
+                                  duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp))
                     }
                 }
             }
@@ -312,7 +321,7 @@ class CanvasView: UIView {
             delegate?.canvasPathsDidChange()
         }
     }
-
+    
     private func drawToPersistentImage(withBounds bounds: CGRect) {
         if paths.count > PATH_BUFFER_COUNT {
             var pointsToSave = [Point]()
@@ -331,7 +340,7 @@ class CanvasView: UIView {
             writeHandle?.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
         }
     }
-
+    
     private func calculateRedrawRect(forPoints points: [CGPoint]) -> CGRect {
         var minX: CGFloat = bounds.width
         var minY: CGFloat = bounds.height
@@ -345,8 +354,8 @@ class CanvasView: UIView {
         }
         let origin = CGPoint(x: minX - size, y: minY - size)
         return CGRect(
-                origin: CGPoint(x: minX - size, y: minY - size),
-                size: CGSize(width: maxX - origin.x + size, height: maxY - origin.y + size))
+            origin: CGPoint(x: minX - size, y: minY - size),
+            size: CGSize(width: maxX - origin.x + size, height: maxY - origin.y + size))
     }
 }
 
