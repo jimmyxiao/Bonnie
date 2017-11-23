@@ -8,29 +8,55 @@
 
 import UIKit
 
-class SizePickerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SizePickerViewController: UIViewController {
+    @IBOutlet weak var decrease: UIButton!
+    @IBOutlet weak var slider: UISlider!
+    @IBOutlet weak var increase: UIButton!
+    var value: Float = 1
     var delegate: SizePickerViewControllerDelegate?
-    let sizes: [CGFloat] = [4, 10, 16, 22, 28]
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sizes.count
+    override func viewDidLoad() {
+        slider.value = value
+        checkValue()
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Cell.SIZE_PICKER, for: indexPath) as! SizePickerTableViewCell
-        cell.radius = sizes[indexPath.row] / 2
-        return cell
+    @IBAction func decrease(_ sender: Any) {
+        let value = slider.value - 5
+        slider.setValue(value, animated: true)
+        delegate?.sizePicker(didSelect: CGFloat(slider.value))
+        checkValue()
     }
 
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        tableView.cellForRow(at: indexPath)?.alpha = 0.5
-        return indexPath
+    @IBAction func sliderValueChanged(_ sender: UISlider) {
+        delegate?.sizePicker(didSelect: CGFloat(sender.value))
+        checkValue()
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.sizePicker(didSelect: sizes[indexPath.row])
-        DispatchQueue.main.async {
-            self.dismiss(animated: true)
+    @IBAction func increase(_ sender: Any) {
+        let value = slider.value + 5
+        slider.setValue(value, animated: true)
+        delegate?.sizePicker(didSelect: CGFloat(slider.value))
+        checkValue()
+    }
+
+    private func checkValue() {
+        if slider.value >= slider.maximumValue {
+            if increase.isEnabled {
+                increase.isEnabled = false
+            }
+        } else {
+            if !increase.isEnabled {
+                increase.isEnabled = true
+            }
+        }
+        if slider.value <= slider.minimumValue {
+            if decrease.isEnabled {
+                decrease.isEnabled = false
+            }
+        } else {
+            if !decrease.isEnabled {
+                decrease.isEnabled = true
+            }
         }
     }
 }

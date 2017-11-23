@@ -16,6 +16,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAn
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var play: UIButton!
     var work: Work?
     private var downloadRequest: DownloadRequest?
@@ -37,6 +38,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAn
             navigationBar.items?.first?.titleView = titleView
         }
         profileName.text = work?.profileName
+        titleLabel.text = work?.title
     }
 
     override func viewDidAppear(_ animated: Bool) {
