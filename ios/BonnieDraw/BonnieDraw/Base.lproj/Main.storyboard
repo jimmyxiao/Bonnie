@@ -217,7 +217,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyz-PE-3Pi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="918.75" y="1526.9366197183099"/>
+            <point key="canvasLocation" x="904" y="1525"/>
         </scene>
         <!--Work View Controller-->
         <scene sceneID="nyB-2A-h4h">
@@ -433,7 +433,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-sx-Edr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="921.73913043478262" y="2320.5163043478265"/>
+            <point key="canvasLocation" x="904" y="2315"/>
         </scene>
         <!--Follow View Controller-->
         <scene sceneID="3iE-eI-gSs">
@@ -754,7 +754,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OQy-o9-POC" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="zjP-if-cn4" customClass="TabNavigationControllerDelegate" customModule="BonnieDraw" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="923" y="811"/>
+            <point key="canvasLocation" x="904" y="809"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="fYN-7y-jDq">

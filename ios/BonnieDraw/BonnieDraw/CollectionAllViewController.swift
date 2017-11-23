@@ -39,6 +39,14 @@ class CollectionAllViewController: UIViewController, UICollectionViewDataSource,
         dataRequest?.cancel()
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? WorkViewController,
+           let indexPath = collectionView.indexPathsForSelectedItems?.first {
+            controller.work = works[indexPath.row]
+            collectionView.deselectItem(at: indexPath, animated: true)
+        }
+    }
+
     @objc private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
             presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {

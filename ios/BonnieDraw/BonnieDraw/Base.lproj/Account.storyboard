@@ -1019,6 +1019,7 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="thumbnail" destination="haW-NI-Wcz" id="HW9-cv-acS"/>
+                                            <segue destination="ejn-eQ-DAk" kind="presentation" id="nU1-Ki-HK5"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -1531,6 +1532,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="Mjf-zA-TBs"/>
         <segue reference="DW1-2m-BM6"/>
-        <segue reference="JhG-Wq-Xxo"/>
+        <segue reference="nU1-Ki-HK5"/>
     </inferredMetricsTieBreakers>
 </document>
