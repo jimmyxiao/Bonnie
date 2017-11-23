@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */; };
-		16076EBC1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */; };
 		16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */; };
 		16109CCB1F96E96D000864DB /* AccountFooterCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16109CCA1F96E96D000864DB /* AccountFooterCollectionReusableView.swift */; };
 		16185C7D1F94A13F008F0840 /* WorkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16185C7C1F94A13F008F0840 /* WorkViewController.swift */; };
@@ -76,6 +75,8 @@
 		16A82D0E1FB1B564007D6128 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */; };
 		16A82D101FB1B56F007D6128 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */; };
 		16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */; };
+		16BE0F2C1FC67A1500B989CE /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2B1FC67A1500B989CE /* GridView.swift */; };
+		16BE0F2E1FC67D5700B989CE /* CanvasSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */; };
 		16C013CB1F9F2E3E00238463 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CA1F9F2E3E00238463 /* UserViewController.swift */; };
 		16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CC1F9F321100238463 /* FollowViewController.swift */; };
 		16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */; };
@@ -93,7 +94,6 @@
 /* Begin PBXFileReference section */
 		0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BonnieDraw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerViewController.swift; sourceTree = "<group>"; };
-		16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerTableViewCell.swift; sourceTree = "<group>"; };
 		16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		16109CCA1F96E96D000864DB /* AccountFooterCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountFooterCollectionReusableView.swift; sourceTree = "<group>"; };
 		16185C7C1F94A13F008F0840 /* WorkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +165,8 @@
 		16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		16BE0F2B1FC67A1500B989CE /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasSettingTableViewController.swift; sourceTree = "<group>"; };
 		16C013CA1F9F2E3E00238463 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		16C013CC1F9F321100238463 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
 		16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -197,7 +199,6 @@
 			children = (
 				16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */,
 				16366AE41F7A131200E5799B /* HomeTableViewCell.swift */,
-				16076EBB1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift */,
 				162AC4AA1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift */,
 				164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */,
 				163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */,
@@ -288,10 +289,11 @@
 				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
 				1664F4B61F74E5BB00809C32 /* ParentViewController.swift */,
 				163F65BE1F616C4F00945E04 /* CanvasViewController.swift */,
-				1664F4A21F74AB3000809C32 /* DrawerViewController.swift */,
-				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
+				16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */,
 				164ED2521F7BA45E00E8B910 /* ColorPickerViewController.swift */,
 				16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */,
+				1664F4A21F74AB3000809C32 /* DrawerViewController.swift */,
+				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
 				16332A221F7F3048007857E3 /* UploadViewController.swift */,
 				166BDF411F860E7900274C6C /* SplashViewController.swift */,
 				16185C7C1F94A13F008F0840 /* WorkViewController.swift */,
@@ -357,6 +359,7 @@
 		16FC10221F695C62008A6A92 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				16BE0F2B1FC67A1500B989CE /* GridView.swift */,
 				165996D91FB4429200AAE7B3 /* HueView.swift */,
 				165996D81FB4429200AAE7B3 /* SaturationBrightnessView.swift */,
 				16816AA61FAFF8DD00855104 /* ShadowView.swift */,
@@ -539,6 +542,7 @@
 			files = (
 				164F84641FC6620B00A8E770 /* CollectionNewViewController.swift in Sources */,
 				16369FFE1FB2A60300C7C8BC /* TabNavigationControllerDelegate.swift in Sources */,
+				16BE0F2E1FC67D5700B989CE /* CanvasSettingTableViewController.swift in Sources */,
 				16369FFC1FB2A43600C7C8BC /* TabNavigationControllerAnimator.swift in Sources */,
 				164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */,
 				163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */,
@@ -596,7 +600,6 @@
 				163DDF3E1FC5526D0052DF80 /* NotificationTableViewCell.swift in Sources */,
 				1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */,
 				169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */,
-				16076EBC1F7CA1EF009E1E49 /* SizePickerTableViewCell.swift in Sources */,
 				16D439651F66A9B300FF5878 /* Logger.swift in Sources */,
 				163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */,
 				165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */,
@@ -607,6 +610,7 @@
 				16C013CB1F9F2E3E00238463 /* UserViewController.swift in Sources */,
 				164F84661FC6643500A8E770 /* User.swift in Sources */,
 				163907051F6C0BE400E5717A /* BundleExtension.swift in Sources */,
+				16BE0F2C1FC67A1500B989CE /* GridView.swift in Sources */,
 				16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */,
 				16109CCB1F96E96D000864DB /* AccountFooterCollectionReusableView.swift in Sources */,
 			);

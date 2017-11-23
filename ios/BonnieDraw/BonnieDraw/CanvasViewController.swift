@@ -13,15 +13,18 @@ class CanvasViewController:
         UIPopoverPresentationControllerDelegate,
         CanvasViewDelegate,
         CanvasAnimationViewDelegate,
+        CanvasSettingTableViewControllerDelegate,
         SizePickerViewControllerDelegate,
         ColorPickerViewControllerDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var canvas: CanvasView!
     @IBOutlet weak var canvasAnimation: CanvasAnimationView!
+    @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var redoButton: UIBarButtonItem!
     @IBOutlet weak var playButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var settingButton: UIBarButtonItem!
     @IBOutlet weak var sizeButton: UIBarButtonItem!
     @IBOutlet weak var eraserButton: UIBarButtonItem!
     @IBOutlet weak var penButton: UIButton!
@@ -124,14 +127,26 @@ class CanvasViewController:
         }
     }
 
+    @IBAction func didSelectEraser(_ sender: Any) {
+        canvas.color = ERASER_COLOR
+        sizeButton.tintColor = ERASER_COLOR
+        colorButton.tintColor = ERASER_COLOR
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? SizePickerViewController {
+        if let controller = segue.destination as? CanvasSettingTableViewController {
+            controller.delegate = self
+            controller.popoverPresentationController?.delegate = self
+            controller.popoverPresentationController?.canOverlapSourceViewRect = true
+            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            controller.preferredContentSize = CGSize(width: 44, height: 176)
+        } else if let controller = segue.destination as? SizePickerViewController {
             controller.delegate = self
             controller.value = Float(canvas.size)
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            controller.preferredContentSize = CGSize(width: view.bounds.width, height: 76)
+            controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width / 2, height: 76)
         } else if let controller = segue.destination as? ColorPickerViewController {
             controller.delegate = self
             controller.color = canvas.color
@@ -192,6 +207,57 @@ class CanvasViewController:
         }
     }
 
+    func canvasSetting(didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            controller.popoverPresentationController?.barButtonItem = settingButton
+            let color = UIColor.gray
+            let noGridAction = UIAlertAction(title: "no_grid".localized, style: .default) {
+                action in
+                self.gridView.set(horizontalCount: 0, verticalCount: 0)
+            }
+            noGridAction.setValue(color, forKey: "titleTextColor")
+            controller.addAction(noGridAction)
+            let threeByThreeAction = UIAlertAction(title: "three_by_three_grid".localized, style: .default) {
+                action in
+                self.gridView.set(horizontalCount: 3, verticalCount: 3)
+            }
+            threeByThreeAction.setValue(color, forKey: "titleTextColor")
+            controller.addAction(threeByThreeAction)
+            let sixBySixAction = UIAlertAction(title: "six_by_six_grid".localized, style: .default) {
+                action in
+                self.gridView.set(horizontalCount: 6, verticalCount: 6)
+            }
+            sixBySixAction.setValue(color, forKey: "titleTextColor")
+            controller.addAction(sixBySixAction)
+            let tenByTenAction = UIAlertAction(title: "ten_by_ten_grid".localized, style: .default) {
+                action in
+                self.gridView.set(horizontalCount: 10, verticalCount: 10)
+            }
+            tenByTenAction.setValue(color, forKey: "titleTextColor")
+            controller.addAction(tenByTenAction)
+            let twentyByTwentyAction = UIAlertAction(title: "twenty_by_twenty_grid".localized, style: .default) {
+                action in
+                self.gridView.set(horizontalCount: 20, verticalCount: 20)
+            }
+            twentyByTwentyAction.setValue(color, forKey: "titleTextColor")
+            controller.addAction(twentyByTwentyAction)
+            let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
+            controller.addAction(cancelAction)
+            present(controller, animated: true)
+            break
+        case 1:
+            break
+        case 2:
+            break
+        case 3:
+            break
+        default:
+            break
+        }
+    }
+
     func sizePicker(didSelect size: CGFloat) {
         canvas.size = size
         let rect = CGSize(width: 28, height: 28)
@@ -200,12 +266,6 @@ class CanvasViewController:
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
         sizeButton.tintColor = canvas.color
         UIGraphicsEndImageContext()
-    }
-
-    @IBAction func didSelectEraser(_ sender: Any) {
-        canvas.color = ERASER_COLOR
-        sizeButton.tintColor = ERASER_COLOR
-        colorButton.tintColor = ERASER_COLOR
     }
 
     func colorPicker(didSelect color: UIColor) {

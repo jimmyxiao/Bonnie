@@ -76,6 +76,7 @@ struct Cell {
     static let FOLLOW = "followCell"
     static let USER = "userCell"
     static let NOTIFICATION = "notificationCell"
+    static let CANVAS_SETTING = "canvasSettingCell"
 }
 
 struct Service {
