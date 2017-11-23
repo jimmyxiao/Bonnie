@@ -200,7 +200,7 @@ public class PlayFragment extends Fragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "讀取錯誤");
+                ToastUtil.createToastWindow(getContext(), "讀取錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -397,8 +397,9 @@ public class PlayFragment extends Fragment {
                         }
                     });
                 } else if (miPointCount == 0) {
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_end));
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_end), PxDpConvert.getSystemHight(getContext()) / 4);
                 }
+                mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
             }
         });
 
@@ -406,7 +407,7 @@ public class PlayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mbPlaying) {
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_wait));
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_wait), PxDpConvert.getSystemHight(getContext()) / 4);
                 } else if (miPointCurrent > 0) {
                     mPaintView.onClickPrevious();
                     // 兩個UP差異點數 = 減少的點數 在移除最後第一個
@@ -420,8 +421,9 @@ public class PlayFragment extends Fragment {
                     miPointCurrent = miPointCurrent - count;
 
                 } else if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_frist));
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_frist), PxDpConvert.getSystemHight(getContext()) / 4);
                 }
+                mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
             }
         });
     }
@@ -443,12 +445,12 @@ public class PlayFragment extends Fragment {
             mBDWFileReader.readFromFile(mFileBDW);
             mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
             if (mPaintView.mListTagPoint.size() == 0) {
-                ToastUtil.createToastWindow(getContext(), "讀取錯誤");
+                ToastUtil.createToastWindow(getContext(), "讀取錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
                 return false;
             }
             return true;
         } else {
-            ToastUtil.createToastWindow(getContext(), "讀取錯誤");
+            ToastUtil.createToastWindow(getContext(), "讀取錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
             return false;
         }
     }
@@ -466,7 +468,7 @@ public class PlayFragment extends Fragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "讀取失敗");
+                ToastUtil.createToastWindow(getContext(), "讀取失敗", PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -501,7 +503,7 @@ public class PlayFragment extends Fragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "讀取失敗");
+                ToastUtil.createToastWindow(getContext(), "讀取失敗", PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override

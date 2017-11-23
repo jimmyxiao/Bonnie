@@ -201,7 +201,7 @@ public class PaintView extends View {
             }
             invalidate();
         } else {
-            ToastUtil.createToastWindow(getContext(), "復原次數到達上限");
+            ToastUtil.createToastWindow(getContext(), "復原次數到達上限",PxDpConvert.getSystemHight(getContext())/4);
         }
     }
 
@@ -226,7 +226,7 @@ public class PaintView extends View {
 
             invalidate();
         } else {
-            ToastUtil.createToastWindow(getContext(), "重作次數到達上限");
+            ToastUtil.createToastWindow(getContext(), "重作次數到達上限",PxDpConvert.getSystemHight(getContext())/4);
         }
     }
 
@@ -238,7 +238,7 @@ public class PaintView extends View {
             this.mMergedLayerCanvas.setBitmap(mMergedLayer);
             invalidate();
         } else {
-            ToastUtil.createToastWindow(getContext(), "復原次數到達上限");
+            ToastUtil.createToastWindow(getContext(), "復原次數到達上限",PxDpConvert.getSystemHight(getContext())/4);
         }
     }
 

@@ -24,6 +24,7 @@ import com.sctw.bonniedraw.fragment.LoginFragment;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ToastUtil;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
@@ -107,7 +108,12 @@ public class LoginActivity extends AppCompatActivity {
                 loginEamil();
                 break;
             case "null":
-                ToastUtil.createToastWindow(this,"登入資料異常");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.createToastWindow(getApplicationContext(),"登入資料異常", PxDpConvert.getSystemHight(getApplicationContext())/4);
+                    }
+                });
                 break;
             default:
                 loginThird();
@@ -126,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(LoginActivity.this,"連線失敗，請檢查網路狀態");
+                        ToastUtil.createToastWindow(LoginActivity.this,"連線失敗，請檢查網路狀態",PxDpConvert.getSystemHight(getApplicationContext())/4);
                     }
                 });
             }
@@ -153,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                ToastUtil.createToastWindow(LoginActivity.this, "登入失敗");
+                                ToastUtil.createToastWindow(LoginActivity.this, "登入失敗",PxDpConvert.getSystemHight(getApplicationContext())/4);
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -172,7 +178,12 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(LoginActivity.this,"登入失敗");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.createToastWindow(LoginActivity.this,"登入失敗",PxDpConvert.getSystemHight(getApplicationContext())/4);
+                    }
+                });
             }
 
             @Override
@@ -192,8 +203,13 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                ToastUtil.createToastWindow(LoginActivity.this, "登入失敗");
-                                transferLoginPage();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ToastUtil.createToastWindow(LoginActivity.this, "登入失敗",PxDpConvert.getSystemHight(getApplicationContext())/4);
+                                        transferLoginPage();
+                                    }
+                                });
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {

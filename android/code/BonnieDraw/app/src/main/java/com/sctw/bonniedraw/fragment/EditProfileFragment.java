@@ -140,7 +140,7 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "連線失敗");
+                ToastUtil.createToastWindow(getContext(), "連線失敗",PxDpConvert.getSystemHight(getContext())/4);
             }
 
             @Override
@@ -204,7 +204,7 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
                                         .apply(GlideAppModule.getUserOptions())
                                         .into(mImgViewPhoto);
                             } else {
-                                ToastUtil.createToastWindow(getContext(), "連線失敗");
+                                ToastUtil.createToastWindow(getContext(), "連線失敗",PxDpConvert.getSystemHight(getContext())/4);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -237,7 +237,7 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "更新失敗");
+                ToastUtil.createToastWindow(getContext(), "更新失敗",PxDpConvert.getSystemHight(getContext())/4);
             }
 
             @Override
@@ -251,10 +251,10 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
 
-                                ToastUtil.createToastWindow(getContext(), "更新成功");
+                                ToastUtil.createToastWindow(getContext(), "更新成功",PxDpConvert.getSystemHight(getContext())/4);
                                 getUserInfo();
                             } else {
-                                ToastUtil.createToastWindow(getContext(), "更新失敗");
+                                ToastUtil.createToastWindow(getContext(), "更新失敗",PxDpConvert.getSystemHight(getContext())/4);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

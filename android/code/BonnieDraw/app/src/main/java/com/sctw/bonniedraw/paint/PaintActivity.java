@@ -33,6 +33,7 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.utility.Thumbnail;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
@@ -228,7 +229,12 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(PaintActivity.this, "與伺服器連接失敗");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.createToastWindow(PaintActivity.this, "與伺服器連接失敗", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                    }
+                });
             }
 
             @Override
@@ -292,17 +298,26 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    JSONObject responseJSON = new JSONObject(response.body().string());
-                    if (responseJSON.getInt("res") == 1) {
-                        if (type == 1) {
-                            Log.d("上傳圖片", "成功");
-                        } else {
-                            Log.d("上傳BDW", "成功");
-                            ToastUtil.createToastIsCheck(PaintActivity.this, "發佈成功", true, 0);
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    if (type == 1) {
+                                        Log.d("上傳圖片", "成功");
+                                    } else {
+                                        Log.d("上傳BDW", "成功");
+                                        ToastUtil.createToastIsCheck(getApplicationContext(), "發佈成功", true, 0);
+                                    }
+                                } else {
+                                    ToastUtil.createToastIsCheck(getApplicationContext(), "發佈失敗", false, 0);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } else {
-                        ToastUtil.createToastIsCheck(PaintActivity.this, "發佈失敗", false, 0);
-                    }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -340,7 +355,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 int progress = mSeekbarOpacity.getProgress() + 1;
                 mSeekbarOpacity.setProgress(progress);
                 mPaintView.setDrawingAlpha(progress / 100f);
-                ToastUtil.createToastWindow(PaintActivity.this, progress + "%");
+                ToastUtil.createToastWindow(PaintActivity.this, progress + "%", 0);
             }
         });
 
@@ -350,7 +365,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 int progress = mSeekbarOpacity.getProgress() - 1;
                 mSeekbarOpacity.setProgress(progress);
                 mPaintView.setDrawingAlpha(progress / 100f);
-                ToastUtil.createToastWindow(PaintActivity.this, progress + "%");
+                ToastUtil.createToastWindow(PaintActivity.this, progress + "%", 0);
             }
         });
 
@@ -358,13 +373,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    ToastUtil.createToastWindow(PaintActivity.this, progress + "%");
+                    ToastUtil.createToastWindow(PaintActivity.this, progress + "%", 0);
                 }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                ToastUtil.createToastWindow(PaintActivity.this, seekBar.getProgress() + "%");
+                ToastUtil.createToastWindow(PaintActivity.this, seekBar.getProgress() + "%", 0);
             }
 
             @Override
@@ -455,7 +470,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         startActivity(intent);
                     }
                 } else {
-                    ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_need_draw));
+                    ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_need_draw), 0);
                 }
 
             }
@@ -485,7 +500,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                     @Override
                     public void onClick(View v) {
                         if (mPaintView.mFileBDW.delete() && mPaintView.mFilePNG.delete()) {
-                            ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_delete_sketch));
+                            ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_delete_sketch), 0);
                         }
                         mFrameLayoutFreePaint.removeAllViews();
                         Brush brush = mPaintView.getBrush();
@@ -747,7 +762,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
-                ToastUtil.createToastWindow(PaintActivity.this, "儲存成功，檔案位於Screenshots資料夾。");
+                ToastUtil.createToastWindow(PaintActivity.this, "儲存成功，檔案位於Screenshots資料夾。", PxDpConvert.getSystemHight(this) / 4);
                 mMenuPopup.dismiss();
             } catch (IOException e) {
                 e.printStackTrace();

@@ -45,6 +45,7 @@ import com.sctw.bonniedraw.activity.MainActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ToastUtil;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthToken;
@@ -128,7 +129,6 @@ public class LoginFragment extends Fragment {
         mInputLayoutEmail.setErrorEnabled(true);
         mInputEditTextEmail = (TextInputEditText) view.findViewById(R.id.editText_signup_email);
         mInputEditTextPassword = (TextInputEditText) view.findViewById(R.id.editText_signup_password);
-        mInputEditTextPassword.addTextChangedListener(checkPassword);
         mInputEditTextEmail.addTextChangedListener(checkEmail);
         facebookLinkAPI();
         twitterResult();
@@ -150,27 +150,6 @@ public class LoginFragment extends Fragment {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
     }
-
-    TextWatcher checkPassword = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (mInputEditTextPassword.getText().toString().isEmpty()) {
-                mInputLayoutPassword.setError(getString(R.string.login_need_password));
-            } else {
-                mInputLayoutPassword.setError(null);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
 
     TextWatcher checkEmail = new TextWatcher() {
         @Override
@@ -201,11 +180,10 @@ public class LoginFragment extends Fragment {
     private View.OnClickListener clickListenerEmail = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (emailCheck && !mInputEditTextPassword.getText().toString().isEmpty() && mInputEditTextPassword.getText().toString().length() >= 6) {
-                loginEamil();
+            if (emailCheck) {
+                checkEmail();
             } else {
                 mInputLayoutEmail.setError(getString(R.string.login_need_email));
-                mInputLayoutPassword.setError(getString(R.string.login_need_password));
             }
         }
     };
@@ -320,7 +298,7 @@ public class LoginFragment extends Fragment {
                                     Log.d("Check FB IMG URL", prefs.getString(GlobalVariable.USER_IMG_URL_STR, "null"));
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
-                                    ToastUtil.createToastWindow(getContext(),"發生錯誤");
+                                    ToastUtil.createToastWindow(getContext(), "發生錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
                                 }
                             }
                         });
@@ -364,7 +342,7 @@ public class LoginFragment extends Fragment {
                             .apply();
                     loginThird(GlobalVariable.API_LOGIN_CODE);
                 } catch (IOException e) {
-                    ToastUtil.createToastWindow(getContext(),"發生錯誤");
+                    ToastUtil.createToastWindow(getContext(), "發生錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
                     e.printStackTrace();
                 }
             }
@@ -373,8 +351,59 @@ public class LoginFragment extends Fragment {
         twitterLoginButton.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void loginEamil() {
+    private void checkEmail() {
         mBtnEmailLogin.setEnabled(false);
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
+        JSONObject json = new JSONObject();
+        try {
+            json.put("uc", mInputEditTextEmail.getText().toString());
+            json.put("up", mInputEditTextPassword.getText().toString());
+            json.put("ut", GlobalVariable.EMAIL_LOGIN);
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("fn", GlobalVariable.API_CHECK_EMAIL);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        System.out.println(json.toString());
+
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_LOGIN)
+                .post(body)
+                .build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(getActivity(), R.string.login_fail_tittle, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseStr = response.body().string();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject responseJSON = new JSONObject(responseStr);
+                            if (responseJSON.getInt("res") == 2) {
+                                //Successful
+                                loginEamil();
+                            } else {
+                                createLogSignin("此帳號尚未申請");
+                            }
+                            Log.d("RESTFUL API : ", responseJSON.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void loginEamil() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         JSONObject json = new JSONObject();
         try {
@@ -423,7 +452,7 @@ public class LoginFragment extends Fragment {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                createLogSignin();
+                                createLogSignin(getString(R.string.login_fail_msg));
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -436,10 +465,10 @@ public class LoginFragment extends Fragment {
     }
 
     //EMAIL登入失敗
-    public void createLogSignin() {
+    public void createLogSignin(String failString) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle(getString(R.string.login_fail_tittle));
-        alertDialog.setMessage(getString(R.string.login_fail_msg));
+        alertDialog.setMessage(failString);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, (getString(R.string.commit)),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -514,7 +543,7 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(),"連線失敗");
+                ToastUtil.createToastWindow(getContext(), "連線失敗", PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
