@@ -253,11 +253,27 @@ class CanvasViewController:
             let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
             controller.addAction(cancelAction)
             present(controller, animated: true)
-            break
         case 1:
             break
         case 2:
-            break
+            if let data = canvas.thumbnailData(),
+               let image = UIImage(data: data) {
+                checkPhotosPermission(successHandler: {
+                    let flashView = UIView(frame: self.canvas.frame)
+                    flashView.backgroundColor = .white
+                    self.view.addSubview(flashView)
+                    UIView.animate(
+                            withDuration: 1,
+                            animations: {
+                                flashView.alpha = 0
+                            },
+                            completion: {
+                                finished in
+                                flashView.removeFromSuperview()
+                            })
+                    AppDelegate.save(asset: image)
+                })
+            }
         case 3:
             break
         default:

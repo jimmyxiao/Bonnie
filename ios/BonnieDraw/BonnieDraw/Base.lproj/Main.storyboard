@@ -1377,14 +1377,14 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="新增作品" id="rOa-JY-zej">
+                                    <navigationItem title="分享作品" id="rOa-JY-zej">
                                         <barButtonItem key="leftBarButtonItem" image="top_bar_ic_back" id="jhA-Af-da0">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="onBackPressed:" destination="8Bo-Vq-vKL" id="sFX-W9-yZn"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="儲存" id="1vZ-MF-Tre">
+                                        <barButtonItem key="rightBarButtonItem" title="發佈" id="1vZ-MF-Tre">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="save:" destination="8Bo-Vq-vKL" id="USQ-N5-gGu"/>

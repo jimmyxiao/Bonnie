@@ -12,6 +12,7 @@ import Firebase
 import FacebookCore
 import TwitterKit
 import Reachability
+import Photos
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -75,6 +76,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     static func randomColor() -> String {
         return String(format: "%02x%02x%02x", arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+    }
+
+    private static func fetchAlbum() -> PHAssetCollection? {
+        if let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String {
+            let collections = PHAssetCollection.fetchTopLevelUserCollections(with: nil)
+            for index in 0..<collections.count {
+                let collection = collections.object(at: index)
+                if collection.localizedTitle == name, let collection = collection as? PHAssetCollection {
+                    return collection
+                }
+            }
+        }
+        return nil
+    }
+
+    static func save(asset: UIImage, date: Date? = nil) {
+        PHPhotoLibrary.shared().performChanges({
+            let createAsset = PHAssetChangeRequest.creationRequestForAsset(from: asset)
+            if let date = date {
+                createAsset.creationDate = date
+            }
+            if let alblum = fetchAlbum() {
+                let createAlbum = PHAssetCollectionChangeRequest(for: alblum)
+                createAlbum?.addAssets(NSArray(object: createAsset.placeholderForCreatedAsset as Any))
+            } else {
+                if let title = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String {
+                    let createAlbum = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: title)
+                    createAlbum.addAssets(NSArray(object: createAsset.placeholderForCreatedAsset as Any))
+                }
+            }
+        }) {
+            success, error in
+            if let error = error {
+                Logger.p("\(#function): \(error.localizedDescription)")
+            }
+        }
     }
 }
 
