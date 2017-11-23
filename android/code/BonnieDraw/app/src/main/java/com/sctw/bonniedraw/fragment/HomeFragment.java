@@ -37,7 +37,6 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.widget.MessageDialog;
-import com.sctw.bonniedraw.widget.PlayDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONArray;
@@ -70,7 +69,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
     private FragmentTransaction fragmentTransaction;
     private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
-    private int miWt = 4, miStn = 0, miRc = 100;
+    private int miWt = 1, miStn = 0, miRc = 100;
     private String mStrQuery;
 
     @Override
@@ -154,7 +153,7 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                miWt = 4;
+                miWt = 1;
                 miStn = 0;
                 miRc = 100;
                 getWorksList(true);
@@ -330,9 +329,9 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true,0);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false,0);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
@@ -427,8 +426,14 @@ public class HomeFragment extends Fragment implements WorkAdapterList.WorkListOn
 
     @Override
     public void onWorkImgClick(int wid) {
-        PlayDialog playDialog = PlayDialog.newInstance(wid);
-        playDialog.show(fragmentManager, "TAG");
+        Bundle bundle=new Bundle();
+        bundle.putInt("wid",wid);
+        PlayFragment playFragment=new PlayFragment();
+        playFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override

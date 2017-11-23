@@ -1,4 +1,4 @@
-package com.sctw.bonniedraw.widget;
+package com.sctw.bonniedraw.fragment;
 
 
 import android.content.DialogInterface;
@@ -6,16 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +36,8 @@ import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
+import com.sctw.bonniedraw.widget.MessageDialog;
+import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,10 +64,9 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
 
 /**
- * Created by Fatorin on 2017/11/7.
+ * A simple {@link Fragment} subclass.
  */
-
-public class PlayDialog extends DialogFragment {
+public class PlayFragment extends Fragment {
     private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvCreateTime, mTvUserFollow, mTvPlayTotal;
     private ProgressBar mProgressBar;
     private ImageView mImgViewWorkImage;
@@ -91,39 +89,13 @@ public class PlayDialog extends DialogFragment {
     private ArrayList<Integer> mListRecordInt;
     private boolean mbLike, mbCollection;
 
-    public static PlayDialog newInstance(int wid) {
-        PlayDialog f = new PlayDialog();
-        // Supply num input as an argument.
-        Bundle args = new Bundle();
-        args.putInt("wid", wid);
-        f.setArguments(args);
-        return f;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.FullScreenDialog);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         wid = getArguments().getInt("wid");
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        getDialog().setCanceledOnTouchOutside(true);
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        View rootView = inflater.inflate(R.layout.dialog_single_work, container, false);
-        //Do something
-        final Window window = getDialog().getWindow();
-        window.setBackgroundDrawableResource(R.color.Transparent);
-        window.getDecorView().setPadding(0, 0, 0, 0);
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.gravity = Gravity.BOTTOM;
-        wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        wlp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(wlp);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_play, container, false);
     }
 
     @Override
@@ -178,7 +150,7 @@ public class PlayDialog extends DialogFragment {
                 try {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
                     if (responseJSON.getInt("res") == 1) {
-                        dismiss();
+                        getActivity().onBackPressed();
                     }
                     Log.d("JSON RESPONE", responseJSON.toString());
                 } catch (JSONException e) {
@@ -744,9 +716,9 @@ public class PlayDialog extends DialogFragment {
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true,0);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false,0);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
@@ -759,23 +731,5 @@ public class PlayDialog extends DialogFragment {
                 }
             }
         });
-    }
-
-    @Override
-    public void onStop() {
-        mHandlerTimerPlay.removeCallbacks(rb_play);
-        mPaintView.release();
-        mPaintView.clear();
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 }

@@ -24,14 +24,13 @@ import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
+import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.widget.MessageDialog;
-import com.sctw.bonniedraw.widget.PlayDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -227,8 +226,14 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
-                PlayDialog playDialog = PlayDialog.newInstance(wid);
-                playDialog.show(fragmentManager, "TAG");
+                Bundle bundle=new Bundle();
+                bundle.putInt("wid",wid);
+                PlayFragment playFragment=new PlayFragment();
+                playFragment.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -505,8 +510,14 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     //覆寫interface事件
     @Override
     public void onWorkImgClick(int wid) {
-        PlayDialog playDialog = PlayDialog.newInstance(wid);
-        playDialog.show(fragmentManager, "TAG");
+        Bundle bundle=new Bundle();
+        bundle.putInt("wid",wid);
+        PlayFragment playFragment=new PlayFragment();
+        playFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override

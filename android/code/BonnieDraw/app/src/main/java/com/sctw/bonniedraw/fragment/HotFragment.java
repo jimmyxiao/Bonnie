@@ -31,13 +31,12 @@ import android.widget.Spinner;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
+import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.widget.MessageDialog;
-import com.sctw.bonniedraw.widget.PlayDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONArray;
@@ -94,7 +93,7 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_hot);
         mRvHot = (RecyclerView) view.findViewById(R.id.recyclerView_hot);
-        mProgressBar=(ProgressBar)view.findViewById(R.id.progressBar_hot);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_hot);
         fragmentManager = getFragmentManager();
         mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -394,10 +393,10 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(),"檢舉成功",true);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true, 0);
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    ToastUtil.createToastIsCheck(getContext(),"檢舉失敗，請再試一次",false);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
@@ -414,8 +413,14 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
 
     @Override
     public void onWorkImgClick(int wid) {
-        PlayDialog playDialog = PlayDialog.newInstance(wid);
-        playDialog.show(fragmentManager, "TAG");
+        Bundle bundle=new Bundle();
+        bundle.putInt("wid",wid);
+        PlayFragment playFragment=new PlayFragment();
+        playFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -464,7 +469,7 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
                 btnCommit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setReport(wid,spinner.getSelectedItemPosition() + 1,editText.getText().toString() );
+                        setReport(wid, spinner.getSelectedItemPosition() + 1, editText.getText().toString());
                         reportDialog.dismiss();
                     }
                 });

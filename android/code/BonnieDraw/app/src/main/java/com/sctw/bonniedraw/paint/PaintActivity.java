@@ -298,10 +298,10 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                             Log.d("上傳圖片", "成功");
                         } else {
                             Log.d("上傳BDW", "成功");
-                            ToastUtil.createToastIsCheck(PaintActivity.this, "發佈成功", true);
+                            ToastUtil.createToastIsCheck(PaintActivity.this, "發佈成功", true, 0);
                         }
                     } else {
-                        ToastUtil.createToastIsCheck(PaintActivity.this, "發佈失敗", false);
+                        ToastUtil.createToastIsCheck(PaintActivity.this, "發佈失敗", false, 0);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -664,9 +664,9 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     public void onBackMethod() {
         System.out.println(mPaintView.mFileBDW.exists());
-        if (mPaintView.mListTagPoint.size() != 0 && !mPaintView.mFileBDW.exists()) {
+        if (mPaintView.mListTagPoint.size() != 0 && mPaintView.mBDWReader.m_tagArray == null) {
             callSaveDialog(0);
-        } else if (mPaintView.mFileBDW.exists() && mPaintView.mBDWReader.m_tagArray != null) {
+        } else if (mPaintView.mFileBDW.exists() && mPaintView.mFileBDW.length() > 0) {
             if (mPaintView.mListTagPoint.size() != mPaintView.mBDWReader.m_tagArray.size()) {
                 //是否更新草稿??
                 callSaveDialog(1);

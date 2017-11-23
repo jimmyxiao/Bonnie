@@ -1,11 +1,16 @@
 package com.sctw.bonniedraw.fragment;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,32 +20,43 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment implements RequestListener<Drawable> {
     Button mBtnDone, mBtnCancel;
     TextView mTextViewChangePhoto;
     CircleImageView mImgViewPhoto;
@@ -64,14 +80,28 @@ public class EditProfileFragment extends Fragment {
         mBtnDone = view.findViewById(R.id.btn_edit_form_done);
         mTextViewChangePhoto = view.findViewById(R.id.textView_edit_user_photo);
         mImgViewPhoto = view.findViewById(R.id.imgView_edit_user_photo);
+        mImgViewPhoto.setDrawingCacheEnabled(true);
         mEditTextName = view.findViewById(R.id.editText_edit_name);
         mEditTextNickName = view.findViewById(R.id.editText_edit_user_nickname);
         mEditTextProfile = view.findViewById(R.id.editText_edit_profile);
         mEditTextEmail = view.findViewById(R.id.editText_edit_email);
         mEditPhone = view.findViewById(R.id.editText_edit_phone);
         mRadioGroupGender = view.findViewById(R.id.radioGroup_edit_gender);
+        setOnClick();
+        getUserInfo();
+    }
 
-        //連線抓資料 取代資料完成後覆蓋資料
+    void setOnClick() {
+        mTextViewChangePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "選擇圖片"), 1);
+            }
+        });
+
         mRadioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
@@ -88,8 +118,6 @@ public class EditProfileFragment extends Fragment {
                 }
             }
         });
-
-        getUserInfo();
         mBtnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,7 +140,7 @@ public class EditProfileFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(),"連線失敗");
+                ToastUtil.createToastWindow(getContext(), "連線失敗");
             }
 
             @Override
@@ -166,10 +194,10 @@ public class EditProfileFragment extends Fragment {
                                     }
                                 }
 
-                                String profileUrl="";
+                                String profileUrl = "";
                                 if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                     //URL profilePicUrl = new URL();
-                                    profileUrl=GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
+                                    profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                 }
                                 Glide.with(getContext())
                                         .load(profileUrl)
@@ -190,9 +218,9 @@ public class EditProfileFragment extends Fragment {
     void updateUserInfo() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
 
-        String gender="";
-        if (mIntGender != null) gender=String.valueOf(mIntGender);
-        JSONObject json=ConnectJson.updateUserInfoJson(
+        String gender = "";
+        if (mIntGender != null) gender = String.valueOf(mIntGender);
+        JSONObject json = ConnectJson.updateUserInfoJson(
                 prefs,
                 mEditTextName.getText().toString(),
                 mEditTextNickName.getText().toString(),
@@ -209,7 +237,7 @@ public class EditProfileFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(),"更新失敗");
+                ToastUtil.createToastWindow(getContext(), "更新失敗");
             }
 
             @Override
@@ -223,7 +251,7 @@ public class EditProfileFragment extends Fragment {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
 
-                                ToastUtil.createToastWindow(getContext(),"更新成功");
+                                ToastUtil.createToastWindow(getContext(), "更新成功");
                                 getUserInfo();
                             } else {
                                 ToastUtil.createToastWindow(getContext(), "更新失敗");
@@ -235,5 +263,77 @@ public class EditProfileFragment extends Fragment {
                 });
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_CANCELED) {
+            // action cancelled
+        }
+        if (resultCode == RESULT_OK) {
+            Uri selectedimg = data.getData();
+            Glide.with(getContext()).load(selectedimg).listener(this).into(mImgViewPhoto);
+        }
+    }
+
+    public void uploadFile() {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        MultipartBody.Builder bodyBuilder = new MultipartBody.Builder();
+        bodyBuilder.setType(MultipartBody.FORM)
+                .addFormDataPart("ui", prefs.getString(GlobalVariable.API_UID, "null"))
+                .addFormDataPart("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"))
+                .addFormDataPart("dt", GlobalVariable.LOGIN_PLATFORM)
+                .addFormDataPart("fn", "2")
+                .addFormDataPart("ftype", "1");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        mImgViewPhoto.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+        bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()));
+
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_WORK_UPLOAD)
+                .post(bodyBuilder.build())
+                .build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Upload File", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject responseJSON = null;
+                            responseJSON = new JSONObject(response.body().string());
+                            if (responseJSON.getInt("res") == 1) {
+                                Log.d("上傳圖片", "成功");
+                                ToastUtil.createToastIsCheck(getContext(), "大頭貼替換成功", true, PxDpConvert.getSystemHight(getActivity())/4);
+                            } else {
+                                ToastUtil.createToastIsCheck(getContext(), "大頭貼替換失敗", false, PxDpConvert.getSystemHight(getActivity())/4);
+                            }
+                            System.out.println(responseJSON.toString());
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+        return false;
+    }
+
+    @Override
+    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+        mImgViewPhoto.setImageDrawable(resource);
+        uploadFile();
+        return false;
     }
 }
