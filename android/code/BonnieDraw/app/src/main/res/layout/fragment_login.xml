@@ -78,7 +78,7 @@
         android:layout_alignEnd="@+id/btn_forget_password"
         android:layout_alignStart="@+id/inputLayout_signup_password"
         android:layout_below="@+id/btn_forget_password"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/icon_login_email"
         android:text="@string/login"
         android:textColor="@color/White" />
@@ -89,8 +89,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_email_login"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/or" />
 
     <com.facebook.login.widget.LoginButton
@@ -125,7 +125,7 @@
         android:layout_alignEnd="@+id/btn_email_login"
         android:layout_alignStart="@+id/btn_email_login"
         android:layout_below="@+id/btn_fb_login"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/icon_login_twitter"
         android:text="Twitter"
         android:textAllCaps="false"
@@ -139,7 +139,7 @@
         android:layout_alignEnd="@+id/btn_email_login"
         android:layout_alignStart="@+id/btn_email_login"
         android:layout_below="@+id/btn_twitter_login"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/icon_login_googleplus"
         android:text="Google+"
         android:textAllCaps="false"

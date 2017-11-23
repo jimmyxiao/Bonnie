@@ -66,7 +66,7 @@ public class SignUpFragment extends Fragment {
         mTextInputLayoutEmail = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_email);
         mTextInputLayoutPwd = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_password);
         mTextInputLayoutRePwd = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_repassword);
-        userName = (TextInputEditText) view.findViewById(R.id.editText_signup_repassword);
+        userName = (TextInputEditText) view.findViewById(R.id.editText_signup_name);
         userEmail = (TextInputEditText) view.findViewById(R.id.editText_signup_email);
         userPassword = (TextInputEditText) view.findViewById(R.id.editText_signup_password);
         userRePassword = (TextInputEditText) view.findViewById(R.id.editText_signup_repassword);

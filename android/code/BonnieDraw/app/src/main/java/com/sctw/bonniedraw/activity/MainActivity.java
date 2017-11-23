@@ -9,17 +9,19 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.adapter.SideBarAdapter;
+import com.sctw.bonniedraw.bean.SidebarBean;
 import com.sctw.bonniedraw.fragment.HomeFragment;
 import com.sctw.bonniedraw.fragment.HotFragment;
 import com.sctw.bonniedraw.fragment.NoticeFragment;
@@ -41,14 +45,17 @@ import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.twitter.sdk.android.core.TwitterCore;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SideBarAdapter.SideBarClickListener {
     DrawerLayout mDrawerLayout;
-    ImageButton mImgBtnBack, mImgBtnPaint;
+    ImageButton mImgBtnBack;
     BottomNavigationViewEx mBottomNavigationViewEx;
-    NavigationView mNavigationView;
-    View mHeaderView;
+    RelativeLayout mNavigationView;
+    RecyclerView mRv;
+    SideBarAdapter mAdapter;
     CircleImageView mImgHeaderPhoto;
     TextView mTextViewHeaderText;
     FragmentManager fragmentManager;
@@ -76,44 +83,34 @@ public class MainActivity extends AppCompatActivity {
         // findview by id
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_actitivy_drawlayout);
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        mNavigationView = (NavigationView) findViewById(R.id.sidebarView);
-        mHeaderView = mNavigationView.getHeaderView(0);
-        mImgHeaderPhoto = (CircleImageView) mHeaderView.findViewById(R.id.header_user_photo);
-        mTextViewHeaderText = (TextView) mHeaderView.findViewById(R.id.header_user_name);
-        mImgBtnBack = (ImageButton) mHeaderView.findViewById(R.id.header_btn_back);
-        mImgBtnPaint = (ImageButton) findViewById(R.id.imgBtn_paint_start);
+        mNavigationView = (RelativeLayout) findViewById(R.id.sidebarView);
+        mImgHeaderPhoto = (CircleImageView) mNavigationView.findViewById(R.id.header_user_photo);
+        mTextViewHeaderText = (TextView) mNavigationView.findViewById(R.id.header_user_name);
+        mImgBtnBack = (ImageButton) mNavigationView.findViewById(R.id.header_btn_back);
         mBottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomView_layout);
+        mRv = findViewById(R.id.recyclerView_sidebar);
+        mRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        ArrayList<SidebarBean> list = new ArrayList<>();
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "熱門畫作"));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "最新畫作"));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "我的畫作"));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別一"));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別二"));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別三"));
+        list.add(new SidebarBean(R.drawable.collect_ic_off, "我的收藏"));
+        list.add(new SidebarBean(R.drawable.menu_ic_account, "帳號設定"));
+        list.add(new SidebarBean(R.drawable.menu_ic_out, "登出"));
+        mAdapter = new SideBarAdapter(this, list, this);
+        mRv.setAdapter(mAdapter);
 
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.ic_btn_out:
-                        logout();
-                        break;
-                    case R.id.ic_btn_collection:
-                        break;
-                }
-                return true;
-            }
-        });
 
         mImgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mDrawerLayout.closeDrawers();
-            }
-        });
-
-        mImgBtnPaint.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent();
-                it.setClass(MainActivity.this, PaintActivity.class);
-                startActivity(it);
             }
         });
 
@@ -146,6 +143,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mBottomNavigationViewEx.setCurrentItem(0);
+    }
+
+    public void startPaint(View view) {
+        Intent it = new Intent();
+        it.setClass(MainActivity.this, PaintActivity.class);
+        startActivity(it);
     }
 
     void createProfileInfo() {
@@ -267,5 +270,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(int position) {
+        if (position == 8) {
+            logout();
+        }
     }
 }

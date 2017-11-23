@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/White">
 
     <ImageButton
         android:id="@+id/header_btn_back"
@@ -14,8 +15,8 @@
         android:padding="8dp"
         app:srcCompat="@drawable/ic_chevron_left_black_24dp" />
 
-
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:layout_below="@+id/header_btn_back"
@@ -26,9 +27,9 @@
             android:id="@+id/header_user_photo"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:layout_marginLeft="50dp"
             android:layout_gravity="center_vertical"
-            app:civ_border_color="#FF000000"/>
+            android:layout_marginLeft="50dp"
+            app:civ_border_color="#FF000000" />
 
         <TextView
             android:id="@+id/header_user_name"
@@ -39,7 +40,25 @@
             android:textColor="@color/White"
             android:textSize="18sp" />
 
-
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_sidebar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/textView_sidebar"
+        android:layout_below="@id/ll">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/textView_sidebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:padding="8dp"
+        android:text="@string/sourcecode_copyright"
+        android:textColor="@color/HintColor" />
 
 </RelativeLayout>

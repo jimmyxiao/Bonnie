@@ -31,6 +31,7 @@
             android:background="@color/Transparent"
             android:cropToPadding="false"
             android:elevation="9dp"
+            android:onClick="startPaint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -51,22 +52,11 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.design.widget.NavigationView
+    <include
         android:id="@+id/sidebarView"
+        layout="@layout/sidebar_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/sidebar_header_layout"
-        app:menu="@menu/sidebar_menu">
+        android:layout_gravity="start" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:lineSpacingExtra="8sp"
-            android:padding="16dp"
-            android:text="@string/sourcecode_copyright" />
-
-    </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

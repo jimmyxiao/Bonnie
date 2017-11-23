@@ -374,6 +374,10 @@ public class PlayFragment extends Fragment {
         if (mFileBDW.exists()) {
             mBDWFileReader.readFromFile(mFileBDW);
             mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
+            if (mPaintView.mListTagPoint.size() == 0) {
+                ToastUtil.createToastWindow(getContext(), "讀取錯誤");
+                return false;
+            }
             return true;
         } else {
             ToastUtil.createToastWindow(getContext(), "讀取錯誤");
@@ -716,9 +720,9 @@ public class PlayFragment extends Fragment {
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true,0);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true, 0);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false,0);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
