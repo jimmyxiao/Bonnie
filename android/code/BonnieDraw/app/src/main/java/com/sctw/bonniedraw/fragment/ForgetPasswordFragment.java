@@ -51,6 +51,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
     private FragmentManager fragmentManager;
     private boolean mbCheckEmail = false;
     private TextInputLayout mTextInputLayoutEmail;
+    private boolean mbFirstCheck=true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +73,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
         mTextViewEmail.addTextChangedListener(this);
     }
 
-    void updateProfileInfo() {
+    void getPassword() {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         Request request = ConnectJson.forgetPwd(mTextViewEmail.getText().toString());
         Call call = mOkHttpClient.newCall(request);
@@ -165,7 +166,13 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_get_password:
-                recaptcha(v);
+                if(mbFirstCheck){
+                    mbFirstCheck=false;
+                    getPassword();
+                }else {
+
+                    recaptcha(v);
+                }
                 break;
             case R.id.textView_singup_login:
                 FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -186,7 +193,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                         String userResponseToken = response.getTokenResult();
                         if (!userResponseToken.isEmpty()) {
                             if (mbCheckEmail) {
-                                updateProfileInfo();
+                                getPassword();
                             } else {
                                 checkEmail();
                             }

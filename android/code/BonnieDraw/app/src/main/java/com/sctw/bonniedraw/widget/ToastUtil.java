@@ -24,7 +24,7 @@ public class ToastUtil {
 
     private static Toast mToast;
 
-    public static void createToastWindow(Context context, String text) {
+    public static void createToastWindow(Context context, String text,int yOffset) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_toast_opacity, null);
         TextView tv = (TextView) view.findViewById(R.id.textView_opacity);
@@ -37,7 +37,7 @@ public class ToastUtil {
             mToast = new Toast(context);
         }
         mToast.setView(view);
-        mToast.setGravity(Gravity.CENTER, 0, 200);
+        mToast.setGravity(Gravity.CENTER, 0, yOffset);
         mToast.show();
     }
 

@@ -27,6 +27,7 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.bean.MsgBean;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -151,7 +152,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                                 }
                             });
                         } else {
-                            ToastUtil.createToastWindow(getContext(), "留言失敗，請再試一次");
+                            ToastUtil.createToastWindow(getContext(), "留言失敗，請再試一次", PxDpConvert.getSystemHight(getContext())/4);
                         }
 
                     }

@@ -22,6 +22,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONException;
@@ -163,7 +164,7 @@ public class SignUpFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(),getString(R.string.signin_fail_title));
+                ToastUtil.createToastWindow(getContext(),getString(R.string.signin_fail_title), PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override

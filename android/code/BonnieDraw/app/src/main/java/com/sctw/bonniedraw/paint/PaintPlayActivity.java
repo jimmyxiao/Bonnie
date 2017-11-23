@@ -140,12 +140,13 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this, "請按撥放鍵開始撥放");
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, "請按撥放鍵開始撥放", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                 } else if (miPointCount > 0) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_end));
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_end), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                 }
+                mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "%d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
             }
         });
 
@@ -153,7 +154,7 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mbPlaying) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_wait));
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_wait), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                 } else if (miPointCurrent > 0) {
                     mPaintView.onClickPrevious();
                     // 兩個UP差異點數 = 減少的點數 在移除最後第一個
@@ -170,8 +171,9 @@ public class PaintPlayActivity extends AppCompatActivity {
                     miPointCurrent = miPointCurrent - count;
 
                 } else if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_frist));
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_frist), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                 }
+                mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "%d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
             }
         });
 
