@@ -22,6 +22,7 @@ class CollectionViewController: ButtonBarPagerTabStripViewController {
     }
 
     @objc private func add(_ sender: Any) {
+        performSegue(withIdentifier: Segue.COLLECTION, sender: nil)
     }
 
     @objc private func onBackPressed(_ sender: Any) {

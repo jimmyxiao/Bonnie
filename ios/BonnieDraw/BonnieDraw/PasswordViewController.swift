@@ -91,7 +91,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                 view.endEditing(true)
                 loading.hide(false)
                 dataRequest = Alamofire.request(
-                        Service.standard(withPath: Service.FORGET_PASSWORD),
+                        Service.standard(withPath: Service.UPDATE_PASSWORD),
                         method: .post,
                         parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "oldPwd": currentSecurePassword, "newPwd": newSecurePassword],
                         encoding: JSONEncoding.default).validate().responseJSON {

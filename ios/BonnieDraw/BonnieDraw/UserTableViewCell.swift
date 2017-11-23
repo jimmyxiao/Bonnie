@@ -1,5 +1,5 @@
 //
-//  RecommendTableViewCell.swift
+//  UserTableViewCell.swift
 //  BonnieDraw
 //
 //  Created by Professor on 25/10/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RecommendTableViewCell: UITableViewCell {
+class UserTableViewCell: UITableViewCell {
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var status: UILabel!

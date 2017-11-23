@@ -45,6 +45,11 @@ enum FileType: Int {
     case bdw
 }
 
+enum FollowingType: Int {
+    case follow = 1
+    case fan
+}
+
 enum NotificationType: Int {
     case followed = 1
     case joined
@@ -69,7 +74,7 @@ struct Cell {
     static let ACCOUNT_LIST = "accountListCell"
     static let ACCOUNT_FOOTER = "accountFooterCell"
     static let FOLLOW = "followCell"
-    static let RECOMMEND = "recommendCell"
+    static let USER = "userCell"
     static let NOTIFICATION = "notificationCell"
 }
 
@@ -92,6 +97,7 @@ struct Service {
     static let REPORT = "/setTurnin"
     static let UPDATE_PASSWORD = "/updatePwd"
     static let LOAD_FILE = "/loadFile"
+    static let FOLLOWING_LIST = "/followingList"
 
     static func standard(withPath path: String) -> String {
         return "\(SCHEME)://\(HOST)\(BASE)\(path)"
@@ -125,6 +131,8 @@ struct Segue {
     static let UPLOAD = "uploadSegue"
     static let DEBUG = "debugSegue"
     static let RECOMMEND = "recommendSegue"
+    static let FAN = "fanSegue"
+    static let FOLLOW = "followSegue"
 }
 
 struct Default {

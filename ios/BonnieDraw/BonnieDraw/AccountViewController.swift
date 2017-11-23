@@ -20,12 +20,12 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
             collectionView.reloadSections([0])
         }
     }
-    var user: User?
+    var user: Profile?
     var works = [Work]()
     private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Account", style: .plain, target: self, action: #selector(didSelectAccount))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: self, action: #selector(didSelectAccount))
         navigationItem.leftBarButtonItem?.tintColor = .black
         navigationItem.rightBarButtonItems =
                 [UIBarButtonItem(image: UIImage(named: "personal_ic_shape"), style: .plain, target: self, action: #selector(didSelectSetting)),
@@ -83,6 +83,15 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
            let indexPath = collectionView.indexPathsForSelectedItems?.first {
             controller.work = works[indexPath.row]
             collectionView.deselectItem(at: indexPath, animated: true)
+        } else if let controller = segue.destination as? UserViewController {
+            switch segue.identifier {
+            case Segue.FAN?:
+                controller.type = .fan
+            case Segue.FOLLOW?:
+                controller.type = .follow
+            default:
+                break
+            }
         }
     }
 
@@ -121,7 +130,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                     }
                     return
                 }
-                self.user = User(
+                self.user = Profile(
                         type: UserType(rawValue: data["userType"] as? Int ?? -1),
                         code: data["userCode"] as? String,
                         name: data["userName"] as? String,
@@ -161,6 +170,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                                     isCollection: work["collection"] as? Bool,
                                     likes: work["likeCount"] as? Int))
                         }
+                        self.navigationItem.leftBarButtonItem?.title = self.user?.name
                         self.collectionView.reloadSections([0])
                         self.loadingLabel?.text = self.works.isEmpty ? "empty_data".localized : nil
                         self.indicator?.stopAnimating()
