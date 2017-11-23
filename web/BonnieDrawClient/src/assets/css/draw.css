@@ -231,3 +231,7 @@
 #secondary-section.vids-2-column.top20{
 	padding-top: 20px;
 }
+
+.vid-text li i{
+	font-size: 24px;
+}
