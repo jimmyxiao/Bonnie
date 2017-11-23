@@ -55,6 +55,8 @@
 "collection_tab_all" = "全部";
 "collection_tab_sort" = "收藏分類";
 "no_grid" = "無格線";
+"account_fan" = "粉絲";
+"account_follow" = "追蹤中";
 "three_by_three_grid" = "3 x 3 格線";
 "six_by_six_grid" = "6 x 6 格線";
 "ten_by_ten_grid" = "10 x 10 格線";

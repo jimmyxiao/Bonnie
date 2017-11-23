@@ -87,8 +87,10 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
             switch segue.identifier {
             case Segue.FAN?:
                 controller.type = .fan
+                controller.title = "account_fan".localized
             case Segue.FOLLOW?:
                 controller.type = .follow
+                controller.title = "account_follow".localized
             default:
                 break
             }
