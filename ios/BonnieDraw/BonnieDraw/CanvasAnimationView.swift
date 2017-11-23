@@ -27,7 +27,7 @@ class CanvasAnimationView: UIView {
             path.bezierPath.stroke()
         }
         if paths.last?.blendMode == .clear,
-            let point = paths.last?.points.last,
+           let point = paths.last?.points.last,
            point.action == .move {
             context?.setBlendMode(.normal)
             UIColor.black.setStroke()
@@ -64,8 +64,8 @@ class CanvasAnimationView: UIView {
                             path.lineCapStyle = .round
                             path.lineWidth = point.size
                             self.paths.append(
-                                Path(blendMode: point.type == .eraser ? .clear : .normal,
-                                     bezierPath: path,
+                                    Path(blendMode: point.type == .eraser ? .clear : .normal,
+                                            bezierPath: path,
                                             points: [point],
                                             color: point.color))
                             while !points.isEmpty {
@@ -85,8 +85,8 @@ class CanvasAnimationView: UIView {
                                     path.lineCapStyle = .round
                                     path.lineWidth = point.size
                                     self.paths.append(
-                                        Path(blendMode: point.type == .eraser ? .clear : .normal,
-                                             bezierPath: path,
+                                            Path(blendMode: point.type == .eraser ? .clear : .normal,
+                                                    bezierPath: path,
                                                     points: [point],
                                                     color: point.color))
                                 }
@@ -136,8 +136,8 @@ class CanvasAnimationView: UIView {
                         path.lineCapStyle = .round
                         path.lineWidth = point.size
                         paths.append(
-                            Path(blendMode: point.type == .eraser ? .clear : .normal,
-                                 bezierPath: path,
+                                Path(blendMode: point.type == .eraser ? .clear : .normal,
+                                        bezierPath: path,
                                         points: [point],
                                         color: point.color))
                         persistentImage = nil
@@ -194,8 +194,8 @@ class CanvasAnimationView: UIView {
                     path.lineCapStyle = .round
                     path.lineWidth = point.size
                     paths.append(
-                        Path(blendMode: point.type == .eraser ? .clear : .normal,
-                             bezierPath: path,
+                            Path(blendMode: point.type == .eraser ? .clear : .normal,
+                                    bezierPath: path,
                                     points: [point],
                                     color: point.color))
                     animate()
@@ -251,6 +251,5 @@ class CanvasAnimationView: UIView {
 
 protocol CanvasAnimationViewDelegate {
     func canvasAnimationDidFinishAnimation()
-
     func canvasAnimationFileParseError()
 }

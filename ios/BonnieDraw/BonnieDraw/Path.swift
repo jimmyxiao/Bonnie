@@ -9,7 +9,7 @@
 import UIKit
 
 class Path: NSObject {
-    let blendMode : CGBlendMode
+    let blendMode: CGBlendMode
     let bezierPath: UIBezierPath
     var points: [Point]
     let color: UIColor

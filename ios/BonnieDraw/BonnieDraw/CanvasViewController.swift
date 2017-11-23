@@ -130,9 +130,9 @@ class CanvasViewController:
     }
 
     @IBAction func didSelectEraser(_ sender: Any) {
-        if canvas.type == .eraser{
+        if canvas.type == .eraser {
             canvas.type = .pen
-        }else{
+        } else {
             canvas.type = .eraser
         }
     }
