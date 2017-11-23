@@ -39,6 +39,8 @@ class CanvasViewController:
         canvasAnimation.delegate = self
         penButton.layer.cornerRadius = view.bounds.width / 10
         let size = CGSize(width: 28, height: 28)
+        let count = UserDefaults.standard.integer(forKey: Default.GRID)
+        gridView.set(horizontalCount: count, verticalCount: count)
         UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
         UIBezierPath(arcCenter: CGPoint(x: size.width / 2, y: size.height / 2), radius: canvas.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).fill()
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
@@ -216,30 +218,35 @@ class CanvasViewController:
             let noGridAction = UIAlertAction(title: "no_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 0, verticalCount: 0)
+                UserDefaults.standard.set(0, forKey: Default.GRID)
             }
             noGridAction.setValue(color, forKey: "titleTextColor")
             controller.addAction(noGridAction)
             let threeByThreeAction = UIAlertAction(title: "three_by_three_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 3, verticalCount: 3)
+                UserDefaults.standard.set(3, forKey: Default.GRID)
             }
             threeByThreeAction.setValue(color, forKey: "titleTextColor")
             controller.addAction(threeByThreeAction)
             let sixBySixAction = UIAlertAction(title: "six_by_six_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 6, verticalCount: 6)
+                UserDefaults.standard.set(6, forKey: Default.GRID)
             }
             sixBySixAction.setValue(color, forKey: "titleTextColor")
             controller.addAction(sixBySixAction)
             let tenByTenAction = UIAlertAction(title: "ten_by_ten_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 10, verticalCount: 10)
+                UserDefaults.standard.set(10, forKey: Default.GRID)
             }
             tenByTenAction.setValue(color, forKey: "titleTextColor")
             controller.addAction(tenByTenAction)
             let twentyByTwentyAction = UIAlertAction(title: "twenty_by_twenty_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 20, verticalCount: 20)
+                UserDefaults.standard.set(20, forKey: Default.GRID)
             }
             twentyByTwentyAction.setValue(color, forKey: "titleTextColor")
             controller.addAction(twentyByTwentyAction)

@@ -137,6 +137,7 @@ struct Segue {
 }
 
 struct Default {
+    static let GRID = "grid"
     static let COLORS = "colors"
     static let TOKEN_TIMESTAMP = "tokenTimestamp"
     static let TOKEN = "token"
