@@ -28,14 +28,13 @@ import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
+import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
-import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.widget.MessageDialog;
-import com.sctw.bonniedraw.widget.PlayDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONArray;
@@ -308,8 +307,14 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
-                PlayDialog playDialog = PlayDialog.newInstance(wid);
-                playDialog.show(fragmentManager, "TAG");
+                Bundle bundle=new Bundle();
+                bundle.putInt("wid",wid);
+                PlayFragment playFragment=new PlayFragment();
+                playFragment.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -479,9 +484,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true,0);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false,0);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
@@ -498,8 +503,14 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     @Override
     public void onWorkImgClick(int wid) {
-        PlayDialog playDialog = PlayDialog.newInstance(wid);
-        playDialog.show(fragmentManager, "TAG");
+        Bundle bundle=new Bundle();
+        bundle.putInt("wid",wid);
+        PlayFragment playFragment=new PlayFragment();
+        playFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override

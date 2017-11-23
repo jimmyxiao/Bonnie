@@ -41,7 +41,7 @@ public class ToastUtil {
         mToast.show();
     }
 
-    public static void createToastIsCheck(Context context, String text, boolean isCheck) {
+    public static void createToastIsCheck(Context context, String text, boolean isCheck,int yOffset) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_toast_base, null);
         ImageView iv=(ImageView) view.findViewById(R.id.imgView_toast_base);
@@ -60,7 +60,7 @@ public class ToastUtil {
             mToast = new Toast(context);
         }
         mToast.setView(view);
-        mToast.setGravity(Gravity.CENTER, 0, 200);
+        mToast.setGravity(Gravity.CENTER, 0, yOffset);
         mToast.show();
     }
 
