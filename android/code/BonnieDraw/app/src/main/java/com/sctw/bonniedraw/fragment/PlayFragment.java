@@ -88,6 +88,7 @@ public class PlayFragment extends Fragment {
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
     private boolean mbLike, mbCollection;
+    private boolean mbStop = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -130,6 +131,63 @@ public class PlayFragment extends Fragment {
         setOnClick();
         mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
     }
+
+    private Runnable rb_play = new Runnable() {
+        public void run() {
+            boolean brun = true;
+            if (miPointCount > 0 && !mbStop) {
+                TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
+                switch (tagpoint.get_iAction() - 1) {
+                    case MotionEvent.ACTION_DOWN:
+                        mbPlaying = true;
+                        if (tagpoint.get_iBrush() != 0) {
+                            mPaintView.getBrush().setEraser(false);
+                            int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
+                            mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
+                        } else {
+                            mPaintView.getBrush().setEraser(true);
+                        }
+                        if (tagpoint.get_iColor() != 0) {
+                            mPaintView.setDrawingColor(tagpoint.get_iColor());
+                        }
+                        if (tagpoint.get_iSize() != 0) {
+                            mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth));
+                        }
+                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        //開始畫 記錄每一個時間點 即可模擬回去
+                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
+                        mListRecordInt.add(miPointCurrent + 1);
+                        mbPlaying = false;
+                        brun = false;
+                        break;
+                }
+                miPointCount--;
+                miPointCurrent++;
+                int progress = 100 * miPointCurrent / mPaintView.mListTagPoint.size();
+                mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", progress));
+                mProgressBar.setProgress(progress);
+
+                if (brun) {
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                } else {
+                    if (mbAutoPlay) {
+                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    }
+                }
+            } else {
+                mbAutoPlay = false;
+            }
+        }
+    };
 
     private void deleteWork() {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
@@ -308,7 +366,12 @@ public class PlayFragment extends Fragment {
                     mBtnPause.setVisibility(View.VISIBLE);
                 } else {
                     if (miPointCount > 0)
-                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                            }
+                        });
                     mbAutoPlay = true;
                 }
             }
@@ -327,7 +390,12 @@ public class PlayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (miPointCount > 0) {
-                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                        }
+                    });
                 } else if (miPointCount == 0) {
                     ToastUtil.createToastWindow(getContext(), getString(R.string.play_end));
                 }
@@ -384,63 +452,6 @@ public class PlayFragment extends Fragment {
             return false;
         }
     }
-
-    private Runnable rb_play = new Runnable() {
-        public void run() {
-            boolean brun = true;
-            if (miPointCount > 0) {
-                TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
-                switch (tagpoint.get_iAction() - 1) {
-                    case MotionEvent.ACTION_DOWN:
-                        mbPlaying = true;
-                        if (tagpoint.get_iBrush() != 0) {
-                            mPaintView.getBrush().setEraser(false);
-                            int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
-                            mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
-                        } else {
-                            mPaintView.getBrush().setEraser(true);
-                        }
-                        if (tagpoint.get_iColor() != 0) {
-                            mPaintView.setDrawingColor(tagpoint.get_iColor());
-                        }
-                        if (tagpoint.get_iSize() != 0) {
-                            mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth));
-                        }
-                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
-                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
-                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        //開始畫 記錄每一個時間點 即可模擬回去
-                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
-                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
-                        mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
-                        mListRecordInt.add(miPointCurrent + 1);
-                        mbPlaying = false;
-                        brun = false;
-                        break;
-                }
-                miPointCount--;
-                miPointCurrent++;
-                int progress = 100 * miPointCurrent / mPaintView.mListTagPoint.size();
-                mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", progress));
-                mProgressBar.setProgress(progress);
-
-                if (brun) {
-                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-                } else {
-                    if (mbAutoPlay) {
-                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-                    }
-                }
-            } else {
-                mbAutoPlay = false;
-            }
-        }
-    };
 
     private void getSingleWork(final boolean refresh) {
         JSONObject json = ConnectJson.querySingleWork(prefs, wid);
@@ -735,5 +746,12 @@ public class PlayFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onStop() {
+        mbStop = true;
+        mHandlerTimerPlay.removeCallbacks(rb_play);
+        super.onStop();
     }
 }

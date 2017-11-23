@@ -37,6 +37,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private int mCurrentBrushId = 3;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
+    private boolean mbStop = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private Runnable rb_play = new Runnable() {
         public void run() {
             boolean brun = true;
-            if (miPointCount > 0) {
+            if (miPointCount > 0 && !mbStop) {
                 TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
                 switch (tagpoint.get_iAction() - 1) {
                     case MotionEvent.ACTION_DOWN:
@@ -76,7 +77,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                             mPaintView.getBrush().setEraser(false);
                             int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                             mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
-                        }else {
+                        } else {
                             mPaintView.getBrush().setEraser(true);
                         }
                         if (tagpoint.get_iColor() != 0) {
@@ -139,11 +140,11 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this,"請按撥放鍵開始撥放");
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, "請按撥放鍵開始撥放");
                 } else if (miPointCount > 0) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this,getString(R.string.play_end));
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_end));
                 }
             }
         });
@@ -152,7 +153,7 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mbPlaying) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this,getString(R.string.play_wait));
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_wait));
                 } else if (miPointCurrent > 0) {
                     mPaintView.onClickPrevious();
                     // 兩個UP差異點數 = 減少的點數 在移除最後第一個
@@ -169,7 +170,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                     miPointCurrent = miPointCurrent - count;
 
                 } else if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this,getString(R.string.play_frist));
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_frist));
                 }
             }
         });
@@ -273,8 +274,11 @@ public class PaintPlayActivity extends AppCompatActivity {
         finish();
     }
 
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        mbStop = true;
+        mHandlerTimerPlay.removeCallbacks(rb_play);
+        super.onStop();
     }
 }

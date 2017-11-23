@@ -683,7 +683,6 @@ public class PaintView extends View {
 
     private void maskBrushWithAngle(Brush brush, float angle, float tipAlpha) {
         mDstInPaint.setAlpha((int) ((tipAlpha * tipAlpha) * 255.0f));
-
         Bitmap maskLayer = this.mMaskBitmap.length == 1 ? this.mMaskBitmap[0] : this.mMaskBitmap[this.mRandom.nextInt(this.mMaskBitmap.length)];
 
         if (angle != 0.0f) {
@@ -693,8 +692,6 @@ public class PaintView extends View {
         } else {
             mPathLayerCanvas.drawBitmap(maskLayer, (float) (-mMaskPadding), (float) (-mMaskPadding), mDstInPaint);
         }
-
-
     }
 
     private void destLineThread() {
