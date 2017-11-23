@@ -40,11 +40,11 @@
             <objects>
                 <viewController storyboardIdentifier="homeViewController" id="gud-V7-B39" customClass="HomeViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WQO-Jk-haa">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="435"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VNc-7M-hET">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="435"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="homeCell" rowHeight="350" id="YrB-Qi-F35" customClass="HomeTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
@@ -189,7 +189,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aaU-ra-y4I" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="435"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -235,7 +235,7 @@
                                 </constraints>
                             </view>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Da8-0O-Aac">
-                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="48"/>
                                 <items>
                                     <navigationItem id="0gP-fD-3ww">
                                         <barButtonItem key="leftBarButtonItem" image="back_icon" id="HW6-Mr-0Kl">
@@ -247,7 +247,7 @@
                                 </items>
                             </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="joQ-M3-DBe">
-                                <rect key="frame" x="0.0" y="64" width="320" height="435"/>
+                                <rect key="frame" x="0.0" y="68" width="320" height="431"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IMJ-jP-hJb">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="502"/>
@@ -380,10 +380,10 @@
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yDy-IQ-Hwa" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="320" height="435"/>
+                                <rect key="frame" x="0.0" y="68" width="320" height="431"/>
                                 <subviews>
                                     <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-Ni-VLM">
-                                        <rect key="frame" x="80" y="248.5" width="160" height="2"/>
+                                        <rect key="frame" x="80" y="246.5" width="160" height="2"/>
                                         <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -740,7 +740,7 @@
             <objects>
                 <navigationController id="mAV-B7-XIv" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="bSB-IG-Qbt">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="48"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="TpQ-b4-TZ1">
@@ -807,7 +807,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="svE-S6-Wl5">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="68" width="320" height="500"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="4" minY="0.0" maxX="4" maxY="0.0"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="yZj-UF-ufB">
@@ -905,7 +905,7 @@
                                 </connections>
                             </tableView>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVO-8w-2DJ">
-                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="48"/>
                                 <items>
                                     <navigationItem id="TWF-z9-aor">
                                         <barButtonItem key="rightBarButtonItem" image="back_icon" id="Bqj-eG-Fht">
@@ -949,7 +949,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fvm-aY-FcE">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="68" width="320" height="500"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="Puc-nG-ACf">
                                     <rect key="frame" x="0.0" y="72" width="320" height="44"/>
@@ -981,7 +981,7 @@
                                 </connections>
                             </tableView>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-wB-nm1">
-                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="48"/>
                                 <items>
                                     <navigationItem id="OhQ-dw-KZa">
                                         <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="Zhf-u3-pjY">
@@ -1225,7 +1225,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COB-Q5-ezI">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="68" width="320" height="500"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Nz-NY-y9d">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="389"/>
@@ -1371,7 +1371,7 @@
                                 </constraints>
                             </scrollView>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eit-de-Ltc">
-                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="48"/>
                                 <color key="barTintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1394,10 +1394,10 @@
                                 </items>
                             </navigationBar>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lWa-aL-roa" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="68" width="320" height="500"/>
                                 <subviews>
                                     <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CVF-IR-b7g">
-                                        <rect key="frame" x="80" y="283" width="160" height="2"/>
+                                        <rect key="frame" x="80" y="281" width="160" height="2"/>
                                         <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -1702,7 +1702,7 @@
         <scene sceneID="Pi7-a9-Q0I">
             <objects>
                 <tableViewController id="Fdz-V0-euB" customClass="CanvasSettingTableViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="W6P-q8-FKR">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" delaysContentTouches="NO" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="W6P-q8-FKR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

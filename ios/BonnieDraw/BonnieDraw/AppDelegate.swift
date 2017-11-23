@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private static func fetchAlbum() -> PHAssetCollection? {
-        if let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String {
+        if let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String {
             let collections = PHAssetCollection.fetchTopLevelUserCollections(with: nil)
             for index in 0..<collections.count {
                 let collection = collections.object(at: index)
@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let createAlbum = PHAssetCollectionChangeRequest(for: alblum)
                 createAlbum?.addAssets(NSArray(object: createAsset.placeholderForCreatedAsset as Any))
             } else {
-                if let title = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String {
+                if let title = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String {
                     let createAlbum = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: title)
                     createAlbum.addAssets(NSArray(object: createAsset.placeholderForCreatedAsset as Any))
                 }
