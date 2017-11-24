@@ -23,6 +23,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     var user: Profile?
     var works = [Work]()
     private let refreshControl = UIRefreshControl()
+    private let placeholderImage = UIImage(named: "photo-square")
 
     override func viewDidLoad() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: self, action: #selector(didSelectAccount))
@@ -242,7 +243,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
             cell.thumbnail.setImage(with: works[indexPath.row].thumbnail)
         } else if let cell = cell as? AccountListCollectionViewCell {
             let work = works[indexPath.row]
-            cell.profileImage.setImage(with: work.profileImage)
+            cell.profileImage.setImage(with: work.profileImage, placeholderImage: placeholderImage)
             cell.profileName.text = work.profileName
             cell.title.text = work.title
             cell.thumbnail?.setImage(with: work.thumbnail)

@@ -17,6 +17,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     private var timestamp: Date?
     private var notifications = [Notification]()
     private let dateFormatter = DateFormatter()
+    private let placeholderImage = UIImage(named: "photo-square")
 
     override func viewDidLoad() {
         tableView.refreshControl = refreshControl
@@ -119,7 +120,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let notification = notifications[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.NOTIFICATION, for: indexPath) as! NotificationTableViewCell
-        cell.profileImage.setImage(with: notification.profileImage)
+        cell.profileImage.setImage(with: notification.profileImage, placeholderImage: placeholderImage)
         cell.profileName.text = notification.profileName
         if let date = notification.date {
             cell.date.text = dateFormatter.string(from: date)

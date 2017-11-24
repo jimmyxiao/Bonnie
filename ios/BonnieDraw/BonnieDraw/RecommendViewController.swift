@@ -34,6 +34,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     private var backButton: UIBarButtonItem?
     private let searchBar = UISearchBar()
     private let refreshControl = UIRefreshControl()
+    private let placeholderImage = UIImage(named: "photo-square")
 
     override func viewDidLoad() {
         backButton = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
@@ -175,7 +176,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Cell.USER, for: indexPath) as? UserTableViewCell {
             let item = users[indexPath.row]
-            cell.thumbnail.setImage(with: item.imageUrl)
+            cell.thumbnail.setImage(with: item.imageUrl, placeholderImage: placeholderImage)
             cell.title.text = item.name
             cell.status.text = item.status
             cell.follow.isSelected = item.isFollowing

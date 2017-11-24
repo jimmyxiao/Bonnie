@@ -75,6 +75,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     private let searchBar = UISearchBar()
     private let titleView = Bundle.main.loadView(from: "TitleView")
     private let refreshControl = UIRefreshControl()
+    private let placeholderImage = UIImage(named: "photo-square")
 
     override func viewDidLoad() {
         menuButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
@@ -125,7 +126,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Cell.FOLLOW, for: indexPath) as? FollowTableViewCell {
             let item = tableViewWorks[indexPath.row]
-            cell.profileImage.setImage(with: item.profileImage)
+            cell.profileImage.setImage(with: item.profileImage, placeholderImage: placeholderImage)
             cell.profileName.text = item.profileName
             cell.thumbnail.setImage(with: item.thumbnail)
             cell.likes.text = "\(item.likes ?? 0)" + "likes".localized

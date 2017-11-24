@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-    <string>2017112402</string>
+    <string>2017112403</string>
 	<key>Configuration</key>
 	<string>$(CONFIGURATION)</string>
 	<key>FacebookAppID</key>
@@ -59,7 +59,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string></string>
+    <string>BonnieDraw 會把圖存進相簿裡</string>
 	<key>TwitterConsumerKey</key>
 	<string>HcXL8RV5wlnL1eM3OWSPcvN1N</string>
 	<key>TwitterConsumerSecret</key>
