@@ -29,6 +29,7 @@
                     <connections>
                         <segue destination="wJz-eU-OoF" kind="custom" identifier="drawerSegue" customClass="KYEmbedDrawerControllerSegue" customModule="KYDrawerController" id="RF9-yg-SDi"/>
                         <segue destination="gqZ-Hv-WuX" kind="custom" identifier="mainSegue" customClass="KYEmbedMainControllerSegue" customModule="KYDrawerController" id="O5z-gT-8Zc"/>
+                        <segue destination="6Ch-pY-4KF" kind="presentation" identifier="accountEditSegue" id="GJ8-2T-54z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -755,6 +756,14 @@
             </objects>
             <point key="canvasLocation" x="2604.375" y="1524.2957746478874"/>
         </scene>
+        <!--accountEditController-->
+        <scene sceneID="9SZ-oe-Mv1">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Account" referencedIdentifier="accountEditController" id="6Ch-pY-4KF" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="izW-FV-rgu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="22" y="808"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="pfH-Fr-T2O">
             <objects>
@@ -905,13 +914,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="045-JS-EyD">
-                                                    <rect key="frame" x="50" y="0.0" width="255" height="65.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="65.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="left_menu_icon_1" id="foZ-hA-Xfj">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="foZ-hA-Xfj">
                                                     <rect key="frame" x="15" y="22" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -1937,7 +1946,6 @@
         <image name="draw_pen_ic_1" width="25" height="47"/>
         <image name="drawplay_ic_play" width="25" height="32"/>
         <image name="grid_line_icon" width="28" height="26"/>
-        <image name="left_menu_icon_1" width="20" height="20"/>
         <image name="less_icon_on" width="32" height="32"/>
         <image name="loading_icon" width="89" height="89"/>
         <image name="photo-square" width="300" height="300"/>

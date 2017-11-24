@@ -1,9 +1,7 @@
-"menu_popular" = "熱門畫作";
-"menu_new" = "最新畫作";
-"menu_my" = "我的畫作";
-"menu_category1" = "類別一";
-"menu_category2" = "類別二";
-"menu_category3" = "類別三";
+"menu_popular_works" = "熱門畫作";
+"menu_new_works" = "最新畫作";
+"menu_my_works" = "我的畫作";
+"menu_my_collection" = "我的收藏";
 "menu_account" = "帳號設定";
 "menu_sign_out" = "登出";
 "alert_button_cancel" = "取消";

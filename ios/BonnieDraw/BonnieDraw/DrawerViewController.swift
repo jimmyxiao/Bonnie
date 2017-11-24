@@ -10,8 +10,8 @@ import UIKit
 import Alamofire
 
 class DrawerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    enum DrawerItem: Int {
-        case popularWork, newWork, myWork, category1, category2, category3, account, signOut
+    enum TagType: Int {
+        case popularWork, newWork, myWork, normal, myCollection, account, signOut
     }
 
     @IBOutlet weak var navigationBar: UINavigationBar!
@@ -20,6 +20,12 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     var delegate: DrawerViewControllerDelegate?
+    private let startingTags = [Tag(type: .popularWork, image: "menu_ic_hotDraw", title: "menu_popular_works".localized),
+                                Tag(type: .newWork, image: "menu_ic_newDraw", title: "menu_new_works".localized),
+                                Tag(type: .myWork, image: "menu_ic_myDraw", title: "menu_my_works".localized)]
+    private let endingTags = [Tag(type: .myCollection, image: "collect_ic_off", title: "menu_my_collection".localized),
+                              Tag(type: .account, image: "menu_ic_hotDraw", title: "menu_account".localized),
+                              Tag(type: .signOut, image: "menu_ic_out", title: "menu_sign_out".localized)]
     private let refreshControl = UIRefreshControl()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
@@ -86,9 +92,11 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
                     return
                 }
                 self.tags.removeAll()
+                self.tags.append(contentsOf: self.startingTags)
                 for tag in tagList {
-                    self.tags.append(Tag(title: tag["tagName"] as? String))
+                    self.tags.append(Tag(type: .normal, image: "left_menu_icon_1", title: tag["tagName"] as? String))
                 }
+                self.tags.append(contentsOf: self.endingTags)
                 self.tableView.reloadSections([0], with: .automatic)
                 if !self.loading.isHidden {
                     self.loading.hide(true)
@@ -123,15 +131,18 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.BASIC, for: indexPath)
+        cell.imageView?.image = UIImage(named: tags[indexPath.row].image)
         cell.textLabel?.text = tags[indexPath.row].title
-        if (indexPath.row + 1) % 3 != 0 {
+        if indexPath.row != 2 && indexPath.row != tags.count - 4 {
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, tableView.bounds.width)
         }
         return cell
     }
 
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.drawer(didSelectRowAt: indexPath)
+        let tag = tags[indexPath.row]
+        delegate?.drawer(didSelectType: tag.type, withTag: tag.title)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     @objc private func debug() {
@@ -143,6 +154,8 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     private struct Tag {
+        let type: TagType
+        let image: String
         let title: String?
     }
 }
@@ -150,5 +163,5 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
 protocol DrawerViewControllerDelegate {
     func drawerDidTapDismiss()
 
-    func drawer(didSelectRowAt indexPath: IndexPath)
+    func drawer(didSelectType type: DrawerViewController.TagType, withTag tag: String?)
 }

@@ -28,6 +28,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let likeImageSelected = UIImage(named: "work_ic_like_on")
     private let collectionImage = UIImage(named: "collect_ic_off")
     private let collectionImageSelected = UIImage(named: "collect_ic_on")
+    private var postData: [String: Any]?
 
     override func viewDidLoad() {
         menuButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
@@ -45,6 +46,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         tableView.refreshControl = refreshControl
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+        postData = ["ui": UserDefaults.standard.string(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128]
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -91,6 +93,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     internal func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        postData?["wt"] = 9
+        postData?["search"] = searchBar.text
+        downloadData()
         searchBar.resignFirstResponder()
     }
 
@@ -109,6 +114,25 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         emptyLabel.isHidden = !tableViewWorks.isEmpty
     }
 
+    func setTag(type: DrawerViewController.TagType, tag: String?) {
+        switch type {
+        case .popularWork:
+            postData?["wt"] = 2
+        case .newWork:
+            postData?["wt"] = 4
+        case .myWork:
+            postData?["wt"] = 5
+        case .normal:
+            postData?["wt"] = 8
+            postData?["tagName"] = tag
+        case .myCollection:
+            postData?["wt"] = 7
+        default:
+            return
+        }
+        downloadData()
+    }
+
     @objc private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
             presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
@@ -119,14 +143,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
-            return
-        }
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128],
+                parameters: postData,
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {

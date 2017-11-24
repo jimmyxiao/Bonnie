@@ -28,6 +28,9 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate {
         image.sd_setShowActivityIndicatorView(true)
         image.sd_setIndicatorStyle(.gray)
         phone.addInputAccessoryView()
+        if let url = UserDefaults.standard.url(forKey: Default.THIRD_PARTY_IMAGE) {
+            image.setImage(with: url)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

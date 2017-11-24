@@ -12,7 +12,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
     @IBOutlet weak var tabBar: UITabBar!
     var delegate: TabBarViewControllerDelegate?
     var itemHome: (item: UITabBarItem, viewController: UIViewController?)?
-    var itemCollection: (item: UITabBarItem, viewController: UIViewController?)?
+    var itemFollow: (item: UITabBarItem, viewController: UIViewController?)?
     var itemNotification: (item: UITabBarItem, viewController: UIViewController?)?
     var itemAccount: (item: UITabBarItem, viewController: UIViewController?)?
     var customNavigationController: UINavigationController?
@@ -27,12 +27,12 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
                 itemHome?.viewController = controller
                 controllers.append(controller)
             }
-        } else if item == itemCollection?.item {
-            if let controller = itemCollection?.viewController {
+        } else if item == itemFollow?.item {
+            if let controller = itemFollow?.viewController {
                 controllers.append(controller)
             } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.FOLLOW) as? FollowViewController {
                 controller.delegate = self
-                itemCollection?.viewController = controller
+                itemFollow?.viewController = controller
                 controllers.append(controller)
             }
         } else if item == itemNotification?.item {
@@ -65,7 +65,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
                         tabBar.selectedItem = items[i]
                         itemHome = (items[i], navigationController.viewControllers.first)
                     case 1:
-                        itemCollection = (items[i], nil)
+                        itemFollow = (items[i], nil)
                     case 3:
                         itemNotification = (items[i], nil)
                     case 4:

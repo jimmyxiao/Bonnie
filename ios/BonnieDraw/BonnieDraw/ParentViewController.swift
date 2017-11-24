@@ -28,59 +28,51 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
         setDrawerState(.closed, animated: true)
     }
 
-    func drawer(didSelectRowAt indexPath: IndexPath) {
-        if let item = DrawerViewController.DrawerItem(rawValue: indexPath.row) {
-            switch item {
-            case .popularWork:
-                break
-            case .newWork:
-                break
-            case .myWork:
-                break
-            case .category1:
-                break
-            case .category2:
-                break
-            case .category3:
-                break
-            case .account:
-                break
-            case .signOut:
-                presentConfirmationDialog(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
-                    success in
-                    if success {
-                        let defaults = UserDefaults.standard
-                        if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)) {
-                            switch type {
-                            case .facebook:
-                                LoginManager().logOut()
-                                break
-                            case .google:
-                                GIDSignIn.sharedInstance().signOut()
-                                break
-                            case .twitter:
-                                if let userId = Twitter.sharedInstance().sessionStore.session()?.userID {
-                                    Twitter.sharedInstance().sessionStore.logOutUserID(userId)
-                                }
-                                break
-                            default:
-                                break
+    func drawer(didSelectType type: DrawerViewController.TagType, withTag tag: String?) {
+        switch type {
+        case .account:
+            performSegue(withIdentifier: Segue.ACCOUNT_EDIT, sender: nil)
+        case .signOut:
+            presentConfirmationDialog(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
+                success in
+                if success {
+                    let defaults = UserDefaults.standard
+                    if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)) {
+                        switch type {
+                        case .facebook:
+                            LoginManager().logOut()
+                            break
+                        case .google:
+                            GIDSignIn.sharedInstance().signOut()
+                            break
+                        case .twitter:
+                            if let userId = Twitter.sharedInstance().sessionStore.session()?.userID {
+                                Twitter.sharedInstance().sessionStore.logOutUserID(userId)
                             }
+                            break
+                        default:
+                            break
                         }
-                        defaults.removeObject(forKey: Default.TOKEN)
-                        defaults.removeObject(forKey: Default.USER_ID)
-                        defaults.removeObject(forKey: Default.USER_TYPE)
-                        defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
-                        defaults.removeObject(forKey: Default.THIRD_PARTY_NAME)
-                        defaults.removeObject(forKey: Default.THIRD_PARTY_IMAGE)
-                        defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
-                        if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
-                            UIApplication.shared.replace(rootViewControllerWith: controller)
-                        }
+                    }
+                    defaults.removeObject(forKey: Default.TOKEN)
+                    defaults.removeObject(forKey: Default.USER_ID)
+                    defaults.removeObject(forKey: Default.USER_TYPE)
+                    defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
+                    defaults.removeObject(forKey: Default.THIRD_PARTY_NAME)
+                    defaults.removeObject(forKey: Default.THIRD_PARTY_IMAGE)
+                    defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
+                    if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
+                        UIApplication.shared.replace(rootViewControllerWith: controller)
                     }
                 }
             }
+        default:
+            if let tabBarController = mainViewController as? TabBarViewController,
+               let homeController = tabBarController.itemHome?.viewController as? HomeViewController {
+                homeController.setTag(type: type, tag: tag)
+            }
         }
+        setDrawerState(.closed, animated: true)
     }
 
     func tabBarDidTapMenu() {
