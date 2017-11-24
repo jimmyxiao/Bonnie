@@ -9,6 +9,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		$scope.playRead = false;
 		$scope.loading =false;
+		$scope.notfile = true;
+
 
 		$scope.funcol = false;
 		$scope.funcolStop = false;
@@ -172,14 +174,14 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		    var imgData=ctx_c.getImageData(0, 0, c.width, c.height);
 		    for (var i=0;i<imgData.data.length;i+=4)
 		    {
-		        //imgData.data[i]= r | imgData.data[i];
-		        //imgData.data[i+1]= g | imgData.data[i+1];
-		        //imgData.data[i+2]= b | imgData.data[i+2];
-		        //imgData.data[i+3]= imgData.data[i+3]*a;
+		        imgData.data[i]= r | imgData.data[i];
+		        imgData.data[i+1]= g | imgData.data[i+1];
+		        imgData.data[i+2]= b | imgData.data[i+2];
+		        imgData.data[i+3]= imgData.data[i+3];
 
-		        imgData.data[i]= r ;
-		        imgData.data[i+1]= g ;
-		        imgData.data[i+2]= b ;
+		        //imgData.data[i]= r ;
+		        //imgData.data[i+1]= g ;
+		        //imgData.data[i+2]= b ;
 		        //imgData.data[i+3]= imgData.data[i+3]*a;
 		    }
 		    ctx_c.putImageData(imgData,0,0);
@@ -253,7 +255,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 
 		imgarray[3] = new Image();
-		imgarray[3].src = 'assets/images/BrushImage/InkPen_brush_01_gb45.png';
+		imgarray[3].src = 'assets/images/BrushImage/InkPen_brush_01.png';
 		brush_Alpha[3] = 1;
 		brush_imgAlpha[3] = 1;
 		bursh_array[3] = '普通筆'
@@ -280,7 +282,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var imgBackNew = new Image();
 			imgBackNew.src = 'assets/images/BrushImage/crayon-texture1.png';
 
-		
+		var firstnum=0;
 
 		function loop(){
 			if(draw_number>=lines.length){
@@ -324,7 +326,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			cxt.beginPath();
 			var data = lines[draw_number];
 			var previewData =[];
-			
 			if(draw_number==0){
 				if(predata.length>21){
 					predata.shift();
@@ -341,8 +342,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 			if(data.action==1 || data.action==2){
 				if(data.action==1){
-					console.log('num:'+draw_number);
-					if(data.brush!=6){
+					if(data.brush==6){
 						can.style.backgroundColor = data.color.color_rgba;
 					}
 				}
@@ -380,17 +380,17 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					if(data.brush==1){
 						for (var distnum = 0; distnum < dist; distnum+=4) {
 
-								x = previewData.xPos + (Math.sin(angle) * distnum) - 25;
-								y = previewData.yPos + (Math.cos(angle) * distnum) - 25;
-								//cxt.globalAlpha=0.04;
-								var Crayonimg = changeCrayon(imgdata,x,y);
-								cxt.globalCompositeOperation='xor';
-								cxt.drawImage(Crayonimg, x, y, data.size, data.size);
-							}
+							x = previewData.xPos + (Math.sin(angle) * distnum) - 25;
+							y = previewData.yPos + (Math.cos(angle) * distnum) - 25;
+							//cxt.globalAlpha=0.04;
+							var Crayonimg = changeCrayon(imgdata,x,y);
+							cxt.globalCompositeOperation='xor';
+							cxt.drawImage(Crayonimg, x, y, data.size, data.size);
+						}
 					}else{
 						for (var distnum = 0; distnum < dist; distnum++) {
 							x = previewData.xPos + (Math.sin(angle) * distnum) ;
-								y = previewData.yPos + (Math.cos(angle) * distnum) ;
+							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							if(data.brush==0){
 								cxt.arc(x,y,data.size/2,0,2*Math.PI);
 								cxt.clearRect(x, y,data.size,data.size);
@@ -468,7 +468,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							lines[i].size = util.clone(tmpSize);
 							lines[i].brush = util.clone(tmpBrush);	
 						break;
-					}lines[i].brush=3;
+					}
 				}
 			}
 			console.log(lines);
@@ -486,14 +486,15 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			param.wid = wid;
 			worksService.getDrawingPlay(param,function(data, status, headers, config){		
 				$scope.lin = data.pointList;
-				console.log('data');
-				console.log(data.pointList);
 				if($scope.lin && $scope.lin.length>0){
 					angular.element(document.getElementById("jsonCanvas")).ready(function () {
 						can = document.getElementById("jsonCanvas");
 						cxt = can.getContext("2d");
         				playing();
     				});
+				}else{
+					console.log('notfile');
+					$scope.notfile = false;
 				}
 			})
 		}

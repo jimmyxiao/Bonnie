@@ -86,7 +86,7 @@
 	margin-top: 20px;
 	margin-left: 20px;
 	border-radius: 50%;
-	background-color: rgba(255, 255, 255, 0.1);
+	/*background-color: rgba(255, 255, 255, 0.1);*/
 }
 .pasue-stop-img i{
 	position: relative;
@@ -211,6 +211,13 @@
 	height: 120px;
 	-webkit-animation: spin 2s linear infinite;
 	animation: spin 2s linear infinite;
+}
+
+.loadingimg{
+	width: 500px;
+	height: 500px;
+	margin: 2px 0px;
+	margin-left: calc(50% - 250px);
 }
 
 @-webkit-keyframes spin {

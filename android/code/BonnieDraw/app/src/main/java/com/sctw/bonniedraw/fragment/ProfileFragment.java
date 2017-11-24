@@ -119,8 +119,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             @Override
             public void onClick(View v) {
                 Bundle bundle=new Bundle();
-                // 1=fans   2=follow
-                bundle.putInt("fn",1);
+                // 2=fans   1=follow
+                bundle.putInt("fn",2);
                 bundle.putInt("uid",miUserId);
                 FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
@@ -135,7 +135,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             @Override
             public void onClick(View v) {
                 Bundle bundle=new Bundle();
-                bundle.putInt("fn",2);
+                bundle.putInt("fn",1);
                 bundle.putInt("uid",miUserId);
                 FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
@@ -516,18 +516,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     @Override
     public void onWorkExtraClick(final int wid) {
         final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
-        Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
         Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
-        extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
-        extraShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("POSTION CLICK", "extraShare=" + wid);
-                extraDialog.dismiss();
-            }
-        });
 
         extraCopyLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -597,11 +588,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     public void onWorkMsgClick(int wid) {
         MessageDialog messageDialog = MessageDialog.newInstance(wid);
         messageDialog.show(fragmentManager, "TAG");
-    }
-
-    @Override
-    public void onWorkShareClick(int wid) {
-
     }
 
     @Override

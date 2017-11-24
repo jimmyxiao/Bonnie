@@ -59,6 +59,30 @@ public class ConnectJson {
         return request;
     }
 
+    //更新作品資料
+    public static Request updateWorksave(SharedPreferences prefs,int privacyType,String title,String description,int worksId) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("ac", 2);
+            json.put("privacyType",privacyType);
+            json.put("title",title);
+            json.put("description",description);
+            json.put("worksId",worksId);
+            Log.d("LOGIN JSON: ", json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_WORK_SAVE)
+                .post(body)
+                .build();
+        return request;
+    }
+
     //搜尋個人資料用
     public static Request queryUserInfoJson(SharedPreferences prefs) {
         JSONObject json = new JSONObject();
@@ -120,7 +144,7 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject querySingleWork(SharedPreferences prefs, int wid) {
+    public static Request querySingleWork(SharedPreferences prefs, int wid) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
@@ -130,7 +154,12 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_WORK_LIST)
+                .post(body)
+                .build();
+        return request;
     }
 
     public static Request queryListWorkAdvanced(SharedPreferences prefs, int wt, int stn, int rc, String input) {
@@ -244,7 +273,7 @@ public class ConnectJson {
         return request;
     }
 
-    public static Request setFollow(SharedPreferences prefs, int fn, int followId) {
+    public static Request setFollow(SharedPreferences prefs, int fn, int followingUserId) {
         JSONObject json = new JSONObject();
         // fn  1=讚  0=取消讚
         try {
@@ -252,7 +281,7 @@ public class ConnectJson {
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("fn", fn);
-            json.put("followId", followId);
+            json.put("followingUserId", followingUserId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

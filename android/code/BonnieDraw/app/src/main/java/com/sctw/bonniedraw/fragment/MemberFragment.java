@@ -523,17 +523,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     @Override
     public void onWorkExtraClick(final int wid) {
         final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
-        Button extraShare = extraDialog.findViewById(R.id.btn_extra_share);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
         Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
-        extraShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("POSTION CLICK", "extraShare=" + wid);
-                extraDialog.dismiss();
-            }
-        });
 
         extraCopyLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -581,11 +573,6 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     public void onWorkMsgClick(int wid) {
         MessageDialog messageDialog = MessageDialog.newInstance(wid);
         messageDialog.show(fragmentManager, "TAG");
-    }
-
-    @Override
-    public void onWorkShareClick(int wid) {
-
     }
 
     @Override

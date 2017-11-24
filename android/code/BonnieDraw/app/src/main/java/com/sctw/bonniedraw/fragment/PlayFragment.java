@@ -3,6 +3,7 @@ package com.sctw.bonniedraw.fragment;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,6 +34,7 @@ import com.sctw.bonniedraw.paint.PaintView;
 import com.sctw.bonniedraw.paint.TagPoint;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.ExtraUtil;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -82,13 +86,14 @@ public class PlayFragment extends Fragment {
     private PaintView mPaintView;
     private static int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 10;
     private boolean mbPlaying = false, mbAutoPlay = false;
-    private int miViewWidth;
+    private int miViewWidth, miPrivacyType;
     private File mFileBDW;
     private BDWFileReader mBDWFileReader;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
     private boolean mbLike, mbCollection;
     private boolean mbStop = false;
+    private String imgUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -223,17 +228,30 @@ public class PlayFragment extends Fragment {
     }
 
     private void setOnClick() {
+        mBtnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExtraUtil.Share(getContext().getApplicationContext(), mTvWorkName.getText().toString(), Uri.parse(imgUrl));
+            }
+        });
+
         mBtnExtra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_single_work_extra);
+                RelativeLayout Rl = dialog.findViewById(R.id.relativeLayout_works_extra);
                 LinearLayout llOwn = dialog.findViewById(R.id.ll_single_own);
                 LinearLayout llOther = dialog.findViewById(R.id.ll_single_other);
                 Button btnReportWork = dialog.findViewById(R.id.btn_extra_report);
                 Button btnDeleteWork = dialog.findViewById(R.id.btn_extra_delete);
-                Button btnEditWorkName = dialog.findViewById(R.id.btn_extra_edit_work);
-                Button btnEditDescription = dialog.findViewById(R.id.btn_extra_edit_description);
+                Button btnEditWork = dialog.findViewById(R.id.btn_extra_edit_work);
                 Button btnCancel = dialog.findViewById(R.id.btn_extra_cancel);
+                btnEditWork.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editWork();
+                    }
+                });
 
                 //刪除作品確認
                 btnDeleteWork.setOnClickListener(new View.OnClickListener() {
@@ -294,6 +312,13 @@ public class PlayFragment extends Fragment {
                 });
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Rl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
@@ -431,6 +456,49 @@ public class PlayFragment extends Fragment {
         });
     }
 
+    private void editWork() {
+        final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_work_edit);
+        final EditText workName = (EditText) dialog.findViewById(R.id.editText_work_edit_name);
+        final EditText workDescription = (EditText) dialog.findViewById(R.id.editText_work_edit_description);
+        Button saveWork = (Button) dialog.findViewById(R.id.btn_work_edit_save);
+        ImageButton saveCancel = (ImageButton) dialog.findViewById(R.id.btn_work_edit_back);
+        Spinner privacyTypes = (Spinner) dialog.findViewById(R.id.spinner_work_edit_privacytype);
+
+        ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.privacies, R.layout.item_spinner);
+        nAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+        privacyTypes.setAdapter(nAdapter);
+        //預設值
+        workName.setText(mTvWorkName.getText().toString());
+        workDescription.setText(mTvWorkDescription.getText().toString());
+        privacyTypes.setSelection(miPrivacyType - 1);
+        privacyTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                miPrivacyType = position + 1;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        saveWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateWorkInfo(miPrivacyType, workName.getText().toString(), workDescription.getText().toString(), wid);
+                dialog.dismiss();
+            }
+        });
+        saveCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     private void replayStart() {
         mFrameLayoutFreePaint.removeAllViews();
         mPaintView = new PaintView(getContext(), true);
@@ -458,16 +526,39 @@ public class PlayFragment extends Fragment {
         }
     }
 
-    private void getSingleWork(final boolean refresh) {
-        JSONObject json = ConnectJson.querySingleWork(prefs, wid);
-        Log.d("LOGIN JSON: ", json.toString());
-
+    private void updateWorkInfo(int privacyType, String title, String description, int worksId) {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_WORK_LIST)
-                .post(body)
-                .build();
+        Request request = ConnectJson.updateWorksave(prefs, privacyType, title, description, worksId);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ToastUtil.createToastWindow(getContext(), "讀取失敗", PxDpConvert.getSystemHight(getContext()) / 4);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //下載資料
+                                ToastUtil.createToastIsCheck(getContext(), "更新成功", true, 0);
+                                getSingleWork(true);
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void getSingleWork(final boolean refresh) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.querySingleWork(prefs, wid);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -484,7 +575,7 @@ public class PlayFragment extends Fragment {
                             public void run() {
                                 //下載資料
                                 try {
-                                    getWork(responseJSON.getJSONObject("work"), refresh);
+                                    setWorkView(responseJSON.getJSONObject("work"), refresh);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -533,7 +624,7 @@ public class PlayFragment extends Fragment {
         });
     }
 
-    private void getWork(JSONObject data, boolean refresh) {
+    private void setWorkView(JSONObject data, boolean refresh) {
         try {
             String profilePictureUrl = "";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN);
@@ -543,6 +634,7 @@ public class PlayFragment extends Fragment {
             mTvWorkDescription.setText(data.getString("description"));
             mTvGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getInt("likeCount")));
             mTvCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
+            miPrivacyType = data.getInt("privacyType");
             uid = data.getInt("userId");
             mbLike = data.getBoolean("like");
             mbCollection = data.getBoolean("collection");
@@ -557,9 +649,9 @@ public class PlayFragment extends Fragment {
             } else {
                 mBtnCollection.setPressed(false);
             }
-
+            imgUrl = GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath");
             Glide.with(getContext())
-                    .load(GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath"))
+                    .load(imgUrl)
                     .apply(GlideAppModule.getWorkOptions())
                     .thumbnail(Glide.with(getContext()).load(R.drawable.loading))
                     .into(mImgViewWorkImage);
