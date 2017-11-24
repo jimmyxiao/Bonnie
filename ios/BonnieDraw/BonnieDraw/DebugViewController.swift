@@ -8,9 +8,11 @@
 
 import UIKit
 import Crashlytics
+import FacebookLogin
+import TwitterKit
 
 class DebugViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    let items = ["Crash"]
+    let items = ["Sign out", "Crash"]
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
@@ -25,11 +27,40 @@ class DebugViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
+            let defaults = UserDefaults.standard
+            if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)) {
+                switch type {
+                case .facebook:
+                    LoginManager().logOut()
+                    break
+                case .google:
+                    GIDSignIn.sharedInstance().signOut()
+                    break
+                case .twitter:
+                    if let userId = Twitter.sharedInstance().sessionStore.session()?.userID {
+                        Twitter.sharedInstance().sessionStore.logOutUserID(userId)
+                    }
+                    break
+                default:
+                    break
+                }
+            }
+            defaults.removeObject(forKey: Default.TOKEN)
+            defaults.removeObject(forKey: Default.USER_ID)
+            defaults.removeObject(forKey: Default.USER_TYPE)
+            defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
+            defaults.removeObject(forKey: Default.THIRD_PARTY_NAME)
+            defaults.removeObject(forKey: Default.THIRD_PARTY_IMAGE)
+            defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
+            if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
+                UIApplication.shared.replace(rootViewControllerWith: controller)
+            }
+        case 1:
             Crashlytics.sharedInstance().crash()
         default:
             break
         }
-        tableView.deleteRows(at: [indexPath], with: .automatic)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     @IBAction func dismiss(_ sender: Any) {
