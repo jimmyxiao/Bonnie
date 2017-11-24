@@ -113,6 +113,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         loadingLabel?.text = "loading".localized
         indicator?.startAnimating()
+        dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.USER_INFO_QUERY),
                 method: .post,

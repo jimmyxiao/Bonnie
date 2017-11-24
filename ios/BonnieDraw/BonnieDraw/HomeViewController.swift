@@ -143,6 +143,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             return
         }
+        dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,

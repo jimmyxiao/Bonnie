@@ -40,6 +40,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         }
         profileName.text = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_NAME)
         tableView.refreshControl = refreshControl
+        downloadData()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -72,6 +73,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
               let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
+        dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.TAG_LIST),
                 method: .post,

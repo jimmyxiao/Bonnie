@@ -184,6 +184,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
               let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
+        dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
