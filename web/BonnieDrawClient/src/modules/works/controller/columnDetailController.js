@@ -342,6 +342,9 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			if(data.action==1 || data.action==2){
 				if(data.action==1){
 					console.log('num:'+draw_number);
+					if(data.brush!=6){
+						can.style.backgroundColor = data.color.color_rgba;
+					}
 				}
 				if(data.action==2){
 					if(predata.length>=21){
@@ -465,7 +468,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							lines[i].size = util.clone(tmpSize);
 							lines[i].brush = util.clone(tmpBrush);	
 						break;
-					}
+					}lines[i].brush=3;
 				}
 			}
 			console.log(lines);
@@ -537,7 +540,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.covert = function(description){
 			var arr = util.splitHashTag(description);
 			for(i=0;i<arr.length;i++){
-				description = description.replace(arr[i],'<a href="#/page-not-found">'+ arr[i] +'</a>');
+				description = description.replace(arr[i],'<a href="#/category-listing?type='+ util.covertTag(arr[i]) +'">'+ arr[i] +'</a>');
 			}
 			return description;
 		}
