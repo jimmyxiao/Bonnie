@@ -138,7 +138,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     }
 
     //產生預覽圖&上傳
-    private void savePictureEdit() {
+    private void publishWorkEdit() {
         //上傳要關掉格線
         mPaintView.setMiGridCol(0);
         mFullScreenDialog = new FullScreenDialog(this, R.layout.dialog_paint_save);
@@ -530,7 +530,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         findViewById(R.id.imgBtn_paint_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savePictureEdit();
+                publishWorkEdit();
             }
         });
 
@@ -743,7 +743,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 mMenuPopup.dismiss();
                 break;
             case MenuPopup.PAINT_SETTING_EXTRA:
-                Toast.makeText(this, "還沒實作額外按鈕", Toast.LENGTH_SHORT).show();
+                Log.d("當前顏色", Integer.toHexString(mPaintView.getDrawingColor()));
                 break;
         }
     }

@@ -2,6 +2,7 @@ package com.sctw.bonniedraw.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.bean.WorkInfoBean;
+import com.sctw.bonniedraw.utility.ExtraUtil;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.bean.WorkInfoBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,8 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         this.context = context;
         this.data = data;
         this.listener = listener;
-        SharedPreferences prefs=context.getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        ownUid=Integer.valueOf(prefs.getString(GlobalVariable.API_UID,""));
+        SharedPreferences prefs = context.getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+        ownUid = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, ""));
     }
 
     @Override
@@ -93,9 +95,9 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             holder.imgBtnCollection.setSelected(false);
         }
 
-        if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0){
+        if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
             holder.mTvFollow.setText("追蹤");
-        }else {
+        } else {
             holder.mTvFollow.setText("追蹤中");
         }
 
@@ -103,9 +105,9 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0){
+                if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
                     listener.onFollowClick(holder.getAdapterPosition(), 0, uid);
-                }else {
+                } else {
                     listener.onFollowClick(holder.getAdapterPosition(), 1, uid);
                 }
 
@@ -113,7 +115,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         });
 
         //是自己的就沒有設定追蹤選項
-        if(uid!=ownUid){
+        if (uid != ownUid) {
             holder.mTvFollow.setVisibility(View.VISIBLE);
         }
 
@@ -159,10 +161,14 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                 listener.onWorkMsgClick(wid);
             }
         });
+
+        final String parseURL = workImgUrl;
         holder.imgBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onWorkShareClick(wid);
+                String title = data.get(holder.getAdapterPosition()).getTitle();
+                Uri uri = Uri.parse(parseURL);
+                ExtraUtil.Share(context.getApplicationContext(), title, uri);
             }
         });
 
@@ -243,8 +249,6 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         void onWorkGoodClick(int position, boolean like, int wid);
 
         void onWorkMsgClick(int wid);
-
-        void onWorkShareClick(int wid);
 
         void onUserClick(int uid);
 

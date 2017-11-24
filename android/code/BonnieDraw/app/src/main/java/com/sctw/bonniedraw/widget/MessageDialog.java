@@ -165,13 +165,8 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
     }
 
     private void getMsgList() {
-        JSONObject json = ConnectJson.querySingleWork(prefs, miWid);
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_WORK_LIST)
-                .post(body)
-                .build();
+        Request request = ConnectJson.querySingleWork(prefs, miWid);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

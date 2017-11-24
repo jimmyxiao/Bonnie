@@ -50,14 +50,14 @@
     <string name="work_only_friend">只限朋友</string>
     <string name="save">儲存</string>
     <string name="report">檢舉</string>
-    <string name="public_copylink">複製連結</string>
-    <string name="public_share">分享</string>
+    <string name="copylink">複製連結</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="user_permission_fail">使用者拒絕權限 無法存取</string>
     <string name="update_successful">更新成功</string>
     <string name="connect_fail">連線失敗</string>
     <string name="clean">清除</string>
+    <string name="share">分享</string>
 
     <string name="profile_edit_profile">編輯個人檔案</string>
     <string name="works_count">作品數</string>
@@ -92,6 +92,7 @@
     <string name="paint_save_description_hint">新增作品說明 請輸入作品簡短說明，並再說明後加上「#」，例:#BonnieDraw</string>
     <string name="paint_save_privacytype">隱私權設定：</string>
     <string name="paint_save_title">新增作品</string>
+    <string name="work_edit_title">編輯作品</string>
     <string name="paint_save_need_name">請輸入檔名或按取消</string>
     <string name="paint_need_draw">請畫些東西吧！</string>
     <string name="paint_delete_sketch">刪除草稿</string>
