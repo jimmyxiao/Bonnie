@@ -129,10 +129,12 @@ class CanvasViewController:
         }
     }
 
-    @IBAction func didSelectEraser(_ sender: Any) {
+    @IBAction func didSelectEraser(_ sender: UIBarButtonItem) {
         if canvas.type == .eraser {
+            sender.tintColor = .white
             canvas.type = .pen
         } else {
+            sender.tintColor = .black
             canvas.type = .eraser
         }
     }
