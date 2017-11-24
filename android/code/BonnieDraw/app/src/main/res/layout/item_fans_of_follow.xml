@@ -18,28 +18,17 @@
 
 
     <TextView
-        android:id="@+id/textView_fof_user_id"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:gravity="center_vertical"
-        android:text="USERID IS HERE"
-        app:layout_constraintEnd_toStartOf="@+id/btn_fof_follow"
-        app:layout_constraintStart_toEndOf="@+id/circle_fof_user_img"
-        app:layout_constraintTop_toTopOf="@+id/circle_fof_user_img" />
-
-    <TextView
         android:id="@+id/textView_fof_username"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
         android:text="USER NAME"
         app:layout_constraintBottom_toBottomOf="@+id/circle_fof_user_img"
         app:layout_constraintEnd_toStartOf="@+id/btn_fof_follow"
-        app:layout_constraintStart_toEndOf="@+id/circle_fof_user_img" />
+        app:layout_constraintStart_toEndOf="@+id/circle_fof_user_img"
+        app:layout_constraintTop_toTopOf="@+id/circle_fof_user_img" />
 
 
     <Button

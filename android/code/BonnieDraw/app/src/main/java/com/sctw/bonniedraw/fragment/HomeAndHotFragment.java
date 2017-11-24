@@ -54,12 +54,11 @@ import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
-    private RecyclerView mRvHot;
+public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
+    private RecyclerView mRecyclerViewHome;
     private Toolbar mToolbar;
     private SearchView mSearchView;
     private SharedPreferences prefs;
@@ -69,15 +68,16 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
     private FragmentTransaction fragmentTransaction;
     private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
-    private int miWt = 2, miStn = 0, miRc = 100;
+    private int miWt, miStn = 0, miRc = 100;
+    private int interWt;
     private String mStrQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment\
         setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_hot, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -89,11 +89,13 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar_hot);
+        interWt = getArguments().getInt("page");
+        miWt = interWt;
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar_home);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_hot);
-        mRvHot = (RecyclerView) view.findViewById(R.id.recyclerView_hot);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_hot);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
+        mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_home);
         fragmentManager = getFragmentManager();
         mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -104,13 +106,17 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRvHot.setLayoutManager(layoutManager);
-        getWorksList();
+        mRecyclerViewHome.setLayoutManager(layoutManager);
+        getWorksList(false);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getWorksList();
+                if (miWt != 9) {
+                    getWorksList(false);
+                } else {
+                    getQueryWorksList(mStrQuery);
+                }
             }
         });
     }
@@ -149,20 +155,25 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                miWt = 2;
+                miWt = interWt;
                 miStn = 0;
                 miRc = 100;
-                getWorksList();
+                getWorksList(true);
                 return true;
             }
         });
     }
 
-    public void refreshWorks(JSONArray data) {
+    public void getWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
         mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this);
         mProgressBar.setVisibility(View.GONE);
-        mRvHot.setAdapter(mAdapter);
+        mRecyclerViewHome.setAdapter(mAdapter);
+    }
+
+    public void refreshWorks(JSONArray data) {
+        workInfoBeanList = WorkInfoBean.generateInfoList(data);
+        mAdapter.refreshData(workInfoBeanList);
     }
 
     public void setLike(final int position, final int fn, int wid) {
@@ -210,46 +221,10 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         });
     }
 
-    private void getQueryWorksList(String input) {
+    public void setFollow(final int position, final int fn, int followId) {
+        // fn = 1 設定追蹤, 0 取消追蹤
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.queryListWorkAdvanced(prefs, miWt, miStn, miRc, input);
-        okHttpClient.newCall(request).enqueue(new Callback() {
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    final JSONObject responseJSON = new JSONObject(response.body().string());
-                    if (responseJSON.getInt("res") == 1) {
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //下載資料
-                                    try {
-                                        refreshWorks(responseJSON.getJSONArray("workList"));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void getWorksList() {
-        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.queryListWork(prefs, 2, 0, 100);
+        Request request = ConnectJson.setFollow(prefs, fn, followId);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -260,22 +235,31 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
-                    if (responseJSON.getInt("res") == 1) {
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //下載資料
-                                    try {
-                                        refreshWorks(responseJSON.getJSONArray("workList"));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    //點成功或失敗
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapter.setFollow(position, 0);
+                                            break;
+                                        case 1:
+                                            mAdapter.setFollow(position, 1);
+                                            break;
                                     }
-                                    mSwipeRefreshLayout.setRefreshing(false);
+                                    mAdapter.notifyItemChanged(position);
+                                    System.out.println(responseJSON.toString());
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapter.notifyItemChanged(position);
                                 }
-                            });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -329,53 +313,7 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         });
     }
 
-    public void setFollow(final int position, final int fn, int followId) {
-        // fn = 1 點讚, 0 取消讚
-        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.setFollow(prefs, fn, followId);
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    final JSONObject responseJSON = new JSONObject(response.body().string());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                if (responseJSON.getInt("res") == 1) {
-                                    //點讚成功或刪除成功
-                                    switch (fn) {
-                                        case 0:
-                                            mAdapter.setFollow(position, 0);
-                                            break;
-                                        case 1:
-                                            mAdapter.setFollow(position, 1);
-                                            break;
-                                    }
-                                    mAdapter.notifyItemChanged(position);
-                                } else {
-                                    //點讚失敗或刪除失敗
-                                    mAdapter.notifyItemChanged(position);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     public void setReport(int workId, int turnInType, String description) {
-        // fn = 1 收藏, 0 取消收藏
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         Request request = ConnectJson.reportWork(prefs, workId, turnInType, description);
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -395,7 +333,6 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
                                 if (responseJSON.getInt("res") == 1) {
                                     ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true, 0);
                                 } else {
-                                    //點讚失敗或刪除失敗
                                     ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
                                 }
                                 System.out.println(responseJSON.toString());
@@ -411,11 +348,89 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         });
     }
 
+    public void getQueryWorksList(String input) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.queryListWorkAdvanced(prefs, miWt, miStn, miRc, input);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //下載資料
+                                    try {
+                                        getWorks(responseJSON.getJSONArray("workList"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void getWorksList(final boolean refresh) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.queryListWork(prefs, miWt, miStn, miRc);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //下載資料
+                                    try {
+                                        if (!refresh) {
+                                            getWorks(responseJSON.getJSONArray("workList"));
+                                        } else {
+                                            refreshWorks(responseJSON.getJSONArray("workList"));
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    mSwipeRefreshLayout.setRefreshing(false);
+                                }
+                            });
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     @Override
     public void onWorkImgClick(int wid) {
-        Bundle bundle=new Bundle();
-        bundle.putInt("wid",wid);
-        PlayFragment playFragment=new PlayFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("wid", wid);
+        PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
@@ -430,7 +445,6 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
         Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
-        extraDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
         extraShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -538,17 +552,11 @@ public class HotFragment extends Fragment implements WorkAdapterList.WorkListOnC
 
     @Override
     public void onFollowClick(int position, int isFollow, int uid) {
-        //Follow
+        //點FOLLOW   0代表沒有追蹤，點下去要追蹤
         if (isFollow == 0) {
             setFollow(position, 1, uid);
         } else {
             setFollow(position, 0, uid);
         }
-    }
-
-    @Override
-    public void onResume() {
-        getWorksList();
-        super.onResume();
     }
 }

@@ -20,6 +20,7 @@ import com.sctw.bonniedraw.bean.FansOfFollowBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.SimpleItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,17 +65,18 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         miFn = getArguments().getInt("fn");
         mImgBtnBack = view.findViewById(R.id.imgBtn_fof_back);
         mTvTitle = view.findViewById(R.id.textView_fof_title);
-        mRv=view.findViewById(R.id.recyclerView_fof);
-        linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        mRv = view.findViewById(R.id.recyclerView_fof);
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(linearLayoutManager);
-        //miFn  1=fans, 2= follow
-        if (miFn == 1) {
+        //miFn  2=fans, 1= follow
+        if (miFn == 2) {
             mTvTitle.setText(R.string.fans);
         } else {
             mTvTitle.setText(R.string.following);
         }
         setOnClick();
         getFansOrFollow();
+        mRv.addItemDecoration(new SimpleItemDecoration(getContext()));
     }
 
     private void setOnClick() {
@@ -136,7 +138,7 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mAdapter = new FansOfFollowAdapter(getContext(), mList,this);
+        mAdapter = new FansOfFollowAdapter(getContext(), mList, this);
         mRv.setAdapter(mAdapter);
     }
 

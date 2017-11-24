@@ -45,9 +45,9 @@
 
 .speennum{
 	position: relative;
-	top: -5px;
+	top: 12px;
 	left: 15px;
-	font-size: 52px;
+	font-size: 28px;
 	color: white;
 }
 
@@ -234,4 +234,8 @@
 
 .vid-text li i{
 	font-size: 24px;
+}
+
+.vid-text .description a{
+	color: #f26f45;
 }

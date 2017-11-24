@@ -16,6 +16,7 @@ import com.bonniedraw.file.BDWAnalysis;
 import com.bonniedraw.file.Point;
 import com.bonniedraw.util.HashTagUtil;
 import com.bonniedraw.util.LogUtils;
+import com.bonniedraw.util.StringUtils;
 import com.bonniedraw.util.TimerUtil;
 import com.bonniedraw.util.ValidateUtil;
 import com.bonniedraw.web_api.model.request.LeaveMsgRequestVO;
@@ -94,7 +95,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		works.setDeviceType(worksSaveRequestVO.getDt());
 		works.setPrivacyType(worksSaveRequestVO.getPrivacyType());
 		works.setTitle(worksSaveRequestVO.getTitle());
-		works.setDescription(worksSaveRequestVO.getDescription());
+		works.setDescription(StringUtils.convertToHalfWidth(worksSaveRequestVO.getDescription()));
 		works.setLanguageCode(worksSaveRequestVO.getLanguageCode());
 		works.setCountryCode(worksSaveRequestVO.getCountryCode());
 		works.setUpdatedBy(userId);

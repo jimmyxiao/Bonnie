@@ -35,8 +35,7 @@ import com.google.android.gms.common.api.Status;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.SideBarAdapter;
 import com.sctw.bonniedraw.bean.SidebarBean;
-import com.sctw.bonniedraw.fragment.HomeFragment;
-import com.sctw.bonniedraw.fragment.HotFragment;
+import com.sctw.bonniedraw.fragment.HomeAndHotFragment;
 import com.sctw.bonniedraw.fragment.NoticeFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
 import com.sctw.bonniedraw.paint.PaintActivity;
@@ -72,6 +71,16 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     }
 
     public void changeFragment(Fragment fragment) {
+        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+        fragmentTransaction.commit();
+    }
+
+    public void changeFragmentWithBundle(Fragment fragment,int num) {
+        Bundle bundle=new Bundle();
+        bundle.putInt("page",num);
+        fragment.setArguments(bundle);
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
@@ -125,10 +134,10 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.ic_btn_home:
-                        changeFragment(new HomeFragment());
+                        changeFragmentWithBundle(new HomeAndHotFragment(),1);
                         return true;
-                    case R.id.ic_btn_like:
-                        changeFragment(new HotFragment());
+                    case R.id.ic_btn_hot:
+                        changeFragmentWithBundle(new HomeAndHotFragment(),2);
                         return true;
                     case R.id.ic_btn_notice:
                         changeFragment(new NoticeFragment());

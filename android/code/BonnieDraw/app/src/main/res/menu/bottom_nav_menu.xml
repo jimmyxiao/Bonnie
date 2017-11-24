@@ -7,7 +7,7 @@
             android:title="Home" />
 
         <item
-            android:id="@+id/ic_btn_like"
+            android:id="@+id/ic_btn_hot"
             android:icon="@drawable/ic_selector_hot"
             android:title="Like" />
 

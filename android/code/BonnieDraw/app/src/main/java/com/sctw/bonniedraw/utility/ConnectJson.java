@@ -373,7 +373,7 @@ public class ConnectJson {
         System.out.println(json.toString());
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_WORK_LIST)
+                .url(GlobalVariable.API_LINK_FOLLOW_LIST_LINK)
                 .post(body)
                 .build();
         return request;

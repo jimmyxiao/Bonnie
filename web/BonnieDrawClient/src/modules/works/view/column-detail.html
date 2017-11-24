@@ -108,7 +108,7 @@
 										</div>
 										<div class="row">
 											<div class="col-md-12">
-												<div class="video-detail-text">
+												<div class="video-detail-text description">
 													<p ng-bind-html="covert(mainSection.description)"></p>
 												</div>
 											</div>
@@ -126,7 +126,7 @@
 														<a href="" ng-click="removeMsg(data)">
 															<i ng-if="data.userId == rg_gl.currentUser.ui" class="material-icons font-icon">clear</i>
 														</a>
-														<a class="_2g7d5 notranslate _95hvo" href="">{{data.userName}}</a>
+														<a class="_2g7d5 notranslate _95hvo" href="#/userfile/{{data.userId}}">{{data.userName}}</a>
 														<span><span>{{data.message}}</span></span>
 													</li>
 												</ul>
@@ -135,7 +135,7 @@
 														<a href="" ng-click="removeMsg(data)">
 															<i ng-if="data.userId == rg_gl.currentUser.ui" class="material-icons font-icon">clear</i>
 														</a>
-														<a class="_2g7d5 notranslate _95hvo" href="">{{data.userName}}</a>
+														<a class="_2g7d5 notranslate _95hvo" href="#/userfile/{{data.userId}}">{{data.userName}}</a>
 														<span><span>{{data.message}}</span></span>
 													</li>
 												</ul>

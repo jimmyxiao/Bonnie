@@ -255,8 +255,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             @Override
             public void onClick(View v) {
                 Bundle bundle=new Bundle();
-                // 1=fans   2=follow
-                bundle.putInt("fn",2);
+                // 2=fans   1=follow
+                bundle.putInt("fn",1);
                 bundle.putInt("uid",miUserId);
                 FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
@@ -272,7 +272,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             public void onClick(View v) {
                 Bundle bundle=new Bundle();
                 // 1=fans   2=follow
-                bundle.putInt("fn",1);
+                bundle.putInt("fn",2);
                 bundle.putInt("uid",miUserId);
                 FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
