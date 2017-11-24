@@ -12,7 +12,14 @@
 									<div class="drwa-play">
 			                           <!--  <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/88627743"></iframe> -->
 			                            <div class="loading" ng-hide="loading">
-			                            	<div class="loader"></div>
+			                            	<!--<div class="loader"></div>-->
+			                            	<img class="loadingimg"   src="assets/images/loading.gif">
+			                            	<!--<img class="loadingimg"   src="assets/images/no-file.jpg">-->
+			                            </div>
+
+			                            <div class="loading" ng-hide="notfile">
+			                            	<!--<div class="loader"></div>-->
+			                            	<img class="loadingimg"   src="assets/images/no-file.jpg">
 			                            </div>
 
 			                            <canvas id="jsonCanvas"  ng-click="pasue()" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()"  ng-show="canvasStop"></canvas>
