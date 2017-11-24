@@ -16,7 +16,7 @@ let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 let SERVICE_DEVICE_TYPE = 2
 let TOKEN_LIFETIME: TimeInterval = Double.greatestFiniteMagnitude
-let UPDATE_INTERVAL: TimeInterval = 60.0
+let UPDATE_INTERVAL: TimeInterval = 600
 
 enum Function: UInt16 {
     case draw = 0xa101
@@ -104,6 +104,7 @@ struct Service {
     static let UPDATE_PASSWORD = "/updatePwd"
     static let LOAD_FILE = "/loadFile"
     static let FOLLOWING_LIST = "/followingList"
+    static let TAG_LIST = "/tagList"
 
     static func standard(withPath path: String) -> String {
         return "\(SCHEME)://\(HOST)\(BASE)\(path)"

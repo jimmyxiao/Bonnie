@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class DrawerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     enum DrawerItem: Int {
@@ -14,17 +15,15 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var loading: LoadingIndicatorView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     var delegate: DrawerViewControllerDelegate?
-    private let items = [TableViewItem(image: "menu_ic_hotDraw", title: "menu_popular".localized),
-                         TableViewItem(image: "menu_ic_newDraw", title: "menu_new".localized),
-                         TableViewItem(image: "menu_ic_myDraw", title: "menu_my".localized),
-                         TableViewItem(image: "menu_ic_category_1", title: "menu_category1".localized),
-                         TableViewItem(image: "menu_ic_category_2", title: "menu_category2".localized),
-                         TableViewItem(image: "menu_ic_category_3", title: "menu_category3".localized),
-                         TableViewItem(image: "menu_ic_hotDraw", title: "menu_account".localized),
-                         TableViewItem(image: "menu_ic_out", title: "menu_sign_out".localized)]
+    private let refreshControl = UIRefreshControl()
+    private var dataRequest: DataRequest?
+    private var timestamp: Date?
+    private var tags = [Tag]()
 
     override func viewDidLoad() {
         if DEBUG {
@@ -34,24 +33,104 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
             profileImage.setImage(with: url)
         }
         profileName.text = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_NAME)
+        tableView.refreshControl = refreshControl
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+    override func viewDidAppear(_ animated: Bool) {
+        if tags.isEmpty {
+            downloadData()
+        } else if let timestamp = timestamp {
+            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+                downloadData()
+            }
+        } else {
+            downloadData()
+        }
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func viewWillDisappear(_ animated: Bool) {
+        dataRequest?.cancel()
+    }
+
+    @objc private func downloadData() {
+        guard AppDelegate.reachability.connection != .none else {
+            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+                success in
+                if success {
+                    self.downloadData()
+                }
+            }
+            return
+        }
+        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            return
+        }
+        dataRequest = Alamofire.request(
+                Service.standard(withPath: Service.TAG_LIST),
+                method: .post,
+                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                encoding: JSONEncoding.default).validate().responseJSON {
+            response in
+            switch response.result {
+            case .success:
+                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let tagList = data["tagList"] as? [[String: Any]] else {
+                    self.presentConfirmationDialog(
+                            title: "service_download_fail_title".localized,
+                            message: "app_network_unreachable_content".localized) {
+                        success in
+                        if success {
+                            self.downloadData()
+                        }
+                    }
+                    return
+                }
+                self.tags.removeAll()
+                for tag in tagList {
+                    self.tags.append(Tag(title: tag["tagName"] as? String))
+                }
+                self.tableView.reloadSections([0], with: .automatic)
+                if !self.loading.isHidden {
+                    self.loading.hide(true)
+                }
+                self.timestamp = Date()
+                self.refreshControl.endRefreshing()
+            case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
+                self.presentConfirmationDialog(
+                        title: "service_download_fail_title".localized,
+                        message: error.localizedDescription) {
+                    success in
+                    if success {
+                        self.downloadData()
+                    }
+                }
+            }
+        }
+    }
+
+    internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if refreshControl.isRefreshing {
+            downloadData()
+        }
+    }
+
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tags.count
+    }
+
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.BASIC, for: indexPath)
-        let item = items[indexPath.row]
-        cell.textLabel?.text = item.title
-        cell.imageView?.image = UIImage(named: item.image)
+        cell.textLabel?.text = tags[indexPath.row].title
         if (indexPath.row + 1) % 3 != 0 {
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, tableView.bounds.width)
         }
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.drawer(didSelectRowAt: indexPath)
     }
 
@@ -63,9 +142,8 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         delegate?.drawerDidTapDismiss()
     }
 
-    private struct TableViewItem {
-        let image: String
-        let title: String
+    private struct Tag {
+        let title: String?
     }
 }
 

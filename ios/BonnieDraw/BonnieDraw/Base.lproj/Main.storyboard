@@ -905,14 +905,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="045-JS-EyD">
-                                                    <rect key="frame" x="15" y="0.0" width="290" height="65.5"/>
+                                                    <rect key="frame" x="50" y="0.0" width="255" height="65.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="foZ-hA-Xfj">
-                                                    <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="left_menu_icon_1" id="foZ-hA-Xfj">
+                                                    <rect key="frame" x="15" y="22" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -924,6 +924,10 @@
                                     <outlet property="delegate" destination="wJz-eU-OoF" id="Wc2-6s-dbd"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o0j-sS-aDP" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                            </view>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVO-8w-2DJ">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <items>
@@ -940,8 +944,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="TVO-8w-2DJ" firstAttribute="top" secondItem="Qt1-u8-ioN" secondAttribute="top" constant="20" id="Cer-CA-b0O"/>
+                            <constraint firstItem="o0j-sS-aDP" firstAttribute="leading" secondItem="Q4e-7I-mh7" secondAttribute="leading" id="FUe-o8-4Uc"/>
                             <constraint firstItem="Q4e-7I-mh7" firstAttribute="bottom" secondItem="svE-S6-Wl5" secondAttribute="bottom" id="NG5-aN-h7w"/>
+                            <constraint firstItem="o0j-sS-aDP" firstAttribute="trailing" secondItem="Q4e-7I-mh7" secondAttribute="trailing" id="OBp-qx-96y"/>
+                            <constraint firstItem="o0j-sS-aDP" firstAttribute="bottom" secondItem="Q4e-7I-mh7" secondAttribute="bottom" id="cbg-gy-3ky"/>
                             <constraint firstItem="Q4e-7I-mh7" firstAttribute="trailing" secondItem="svE-S6-Wl5" secondAttribute="trailing" id="f1T-1x-A97"/>
+                            <constraint firstItem="o0j-sS-aDP" firstAttribute="top" secondItem="TVO-8w-2DJ" secondAttribute="bottom" id="gCb-PG-YSb"/>
                             <constraint firstItem="TVO-8w-2DJ" firstAttribute="leading" secondItem="Q4e-7I-mh7" secondAttribute="leading" id="ifB-mp-uk9"/>
                             <constraint firstItem="svE-S6-Wl5" firstAttribute="top" secondItem="TVO-8w-2DJ" secondAttribute="bottom" id="kz5-Pn-c9O"/>
                             <constraint firstItem="svE-S6-Wl5" firstAttribute="leading" secondItem="Q4e-7I-mh7" secondAttribute="leading" id="qMY-Ps-adF"/>
@@ -950,9 +958,11 @@
                         <viewLayoutGuide key="safeArea" id="Q4e-7I-mh7"/>
                     </view>
                     <connections>
+                        <outlet property="loading" destination="o0j-sS-aDP" id="1dj-eT-WDQ"/>
                         <outlet property="navigationBar" destination="TVO-8w-2DJ" id="yX5-BX-iDG"/>
                         <outlet property="profileImage" destination="qKm-xH-17o" id="kHJ-qW-5Lo"/>
                         <outlet property="profileName" destination="0lN-Eo-NHE" id="XRP-55-T1U"/>
+                        <outlet property="tableView" destination="svE-S6-Wl5" id="rXi-Do-mGu"/>
                         <segue destination="3ZD-a6-0Tg" kind="presentation" identifier="debugSegue" id="F1o-l4-g3a"/>
                     </connections>
                 </viewController>
@@ -1927,6 +1937,7 @@
         <image name="draw_pen_ic_1" width="25" height="47"/>
         <image name="drawplay_ic_play" width="25" height="32"/>
         <image name="grid_line_icon" width="28" height="26"/>
+        <image name="left_menu_icon_1" width="20" height="20"/>
         <image name="less_icon_on" width="32" height="32"/>
         <image name="loading_icon" width="89" height="89"/>
         <image name="photo-square" width="300" height="300"/>
