@@ -12,25 +12,20 @@ import TwitterKit
 
 class SettingViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
-
-    enum SettingItem: Int {
-        case profile, password, language, description, privacyPolicy, termOfUse, clearSearch, signOut
-    }
-
-    var settings = [Setting(title: "setting_edit_profile".localized, segueId: Segue.ACCOUNT_EDIT)]
+    var settings = [Setting(type: .profile, title: "setting_edit_profile".localized, segueId: Segue.ACCOUNT_EDIT)]
 
     override func viewDidLoad() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
         if let type = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)),
            type == .email {
-            settings.append(Setting(title: "setting_change_password".localized, segueId: Segue.PASSWORD))
+            settings.append(Setting(type: .password, title: "setting_change_password".localized, segueId: Segue.PASSWORD))
         }
-        settings.append(contentsOf: [Setting(title: "setting_language".localized, segueId: Segue.LANGUAGE),
-                                     Setting(title: "setting_description".localized, segueId: Segue.DESCRIPTION),
-                                     Setting(title: "setting_privacy_policy".localized, segueId: Segue.WEB),
-                                     Setting(title: "setting_term_of_use".localized, segueId: Segue.WEB),
-                                     Setting(title: "setting_clear_search".localized, segueId: nil),
-                                     Setting(title: "setting_sign_out".localized, segueId: nil)])
+        settings.append(contentsOf: [Setting(type: .language, title: "setting_language".localized, segueId: Segue.LANGUAGE),
+                                     Setting(type: .description, title: "setting_description".localized, segueId: Segue.DESCRIPTION),
+                                     Setting(type: .privacyPolicy, title: "setting_privacy_policy".localized, segueId: Segue.WEB),
+                                     Setting(type: .termOfUse, title: "setting_term_of_use".localized, segueId: Segue.WEB),
+                                     Setting(type: .clearSearch, title: "setting_clear_search".localized, segueId: nil),
+                                     Setting(type: .signOut, title: "setting_sign_out".localized, segueId: nil)])
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -47,7 +42,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.BASIC, for: indexPath)
         cell.textLabel?.text = settings[indexPath.row].title
-        if let item = SettingItem(rawValue: indexPath.row) {
+        if let item = SettingType(rawValue: indexPath.row) {
             if item == .clearSearch || item == .signOut {
                 cell.accessoryType = .none
             } else {
@@ -58,10 +53,11 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let segueId = settings[indexPath.row].segueId {
+        let setting = settings[indexPath.row]
+        if let segueId = setting.segueId {
             performSegue(withIdentifier: segueId, sender: nil)
-        } else if let item = SettingItem(rawValue: indexPath.row) {
-            if item == .clearSearch {
+        } else {
+            if setting.type == .clearSearch {
             } else {
                 presentConfirmationDialog(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
                     success in
@@ -101,7 +97,12 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
         }
     }
 
+    enum SettingType: Int {
+        case profile, password, language, description, privacyPolicy, termOfUse, clearSearch, signOut
+    }
+
     struct Setting {
+        let type: SettingType
         let title: String
         let segueId: String?
     }

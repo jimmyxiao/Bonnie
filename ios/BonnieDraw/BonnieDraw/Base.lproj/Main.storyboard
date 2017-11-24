@@ -293,9 +293,24 @@
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyN-mC-Mya" customClass="CanvasAnimationView" customModule="BonnieDraw" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hHV-lQ-Dfn" customClass="GridView" customModule="BonnieDraw" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="76" width="320" height="320"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="gridColor">
+                                                        <color key="value" white="0.66666666669999997" alpha="0.5" colorSpace="calibratedWhite"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="horizontalCount">
+                                                        <integer key="value" value="0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="verticalCount">
+                                                        <integer key="value" value="0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyN-mC-Mya" customClass="CanvasAnimationView" customModule="BonnieDraw" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="76" width="320" height="320"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="PyN-mC-Mya" secondAttribute="height" multiplier="1:1" id="cSh-Rv-EVy"/>
                                                 </constraints>
@@ -355,6 +370,7 @@
                                             <constraint firstItem="7Sq-yt-thS" firstAttribute="centerY" secondItem="7nx-iV-rmL" secondAttribute="centerY" id="041-6H-cI1"/>
                                             <constraint firstItem="7nx-iV-rmL" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" constant="16" id="0bj-st-pEU"/>
                                             <constraint firstItem="7nx-iV-rmL" firstAttribute="top" secondItem="fLh-xA-yIh" secondAttribute="bottom" constant="8" id="2AB-Mc-y9n"/>
+                                            <constraint firstItem="hHV-lQ-Dfn" firstAttribute="bottom" secondItem="PyN-mC-Mya" secondAttribute="bottom" id="Dg6-mc-kwa"/>
                                             <constraint firstAttribute="bottom" secondItem="7nx-iV-rmL" secondAttribute="bottom" constant="8" id="EcO-ld-JpV"/>
                                             <constraint firstItem="PX3-xH-H4M" firstAttribute="top" secondItem="IMJ-jP-hJb" secondAttribute="top" constant="16" id="GXU-ST-6Br"/>
                                             <constraint firstItem="PyN-mC-Mya" firstAttribute="top" secondItem="Cka-qb-CIQ" secondAttribute="bottom" constant="8" id="HQs-D7-UGb"/>
@@ -364,9 +380,12 @@
                                             <constraint firstItem="Cka-qb-CIQ" firstAttribute="top" secondItem="PX3-xH-H4M" secondAttribute="bottom" constant="8" id="VVj-Zh-3dv"/>
                                             <constraint firstItem="PX3-xH-H4M" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" constant="16" id="c46-3b-dKO"/>
                                             <constraint firstAttribute="trailing" secondItem="PyN-mC-Mya" secondAttribute="trailing" id="gdy-j6-DPt"/>
+                                            <constraint firstItem="hHV-lQ-Dfn" firstAttribute="trailing" secondItem="PyN-mC-Mya" secondAttribute="trailing" id="iDv-7o-gia"/>
                                             <constraint firstAttribute="trailing" secondItem="fLh-xA-yIh" secondAttribute="trailing" constant="16" id="kK4-b9-O5e"/>
                                             <constraint firstAttribute="trailing" secondItem="7Sq-yt-thS" secondAttribute="trailing" constant="16" id="kQr-Un-y0l"/>
+                                            <constraint firstItem="hHV-lQ-Dfn" firstAttribute="top" secondItem="PyN-mC-Mya" secondAttribute="top" id="pMo-QK-TbA"/>
                                             <constraint firstAttribute="trailing" secondItem="PX3-xH-H4M" secondAttribute="trailing" constant="16" id="pde-RI-V4r"/>
+                                            <constraint firstItem="hHV-lQ-Dfn" firstAttribute="leading" secondItem="PyN-mC-Mya" secondAttribute="leading" id="tIc-s3-59X"/>
                                             <constraint firstAttribute="trailing" secondItem="Cka-qb-CIQ" secondAttribute="trailing" constant="16" id="vZM-fI-o9u"/>
                                             <constraint firstItem="fLh-xA-yIh" firstAttribute="top" secondItem="PyN-mC-Mya" secondAttribute="bottom" constant="8" id="vxB-5a-E5O"/>
                                         </constraints>
@@ -422,6 +441,7 @@
                     </view>
                     <connections>
                         <outlet property="canvasAnimation" destination="PyN-mC-Mya" id="GHA-eG-dUC"/>
+                        <outlet property="gridView" destination="hHV-lQ-Dfn" id="1Xs-F8-f8j"/>
                         <outlet property="loading" destination="yDy-IQ-Hwa" id="Z6b-UP-RHk"/>
                         <outlet property="navigationBar" destination="Da8-0O-Aac" id="cdg-rG-Dnq"/>
                         <outlet property="play" destination="d1X-Ye-EXO" id="klJ-UF-H7h"/>
@@ -1149,8 +1169,8 @@
                                 </constraints>
                                 <state key="normal" image="draw_pen_ic_1"/>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WG3-dn-J7K" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WG3-dn-J7K" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -1203,6 +1223,9 @@
                         <outlet property="sizeButton" destination="XiT-fu-6ft" id="ayC-JG-uUD"/>
                         <outlet property="undoButton" destination="1pr-Ri-9zI" id="fbn-In-Jej"/>
                         <segue destination="8Bo-Vq-vKL" kind="show" identifier="uploadSegue" id="c3I-NQ-Eg5"/>
+                        <segue destination="IqP-P3-lOq" kind="popoverPresentation" identifier="backgroundColorSegue" popoverAnchorBarButtonItem="jrL-nT-MNJ" id="asg-sP-sZf">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qhx-cz-5i5" sceneMemberID="firstResponder"/>
@@ -1536,15 +1559,18 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="dmT-2D-Hpg">
                                 <rect key="frame" x="16" y="76" width="288" height="44"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nL4-Lq-MPF">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iw7-6P-28G">
                                         <rect key="frame" x="0.0" y="0.0" width="85.5" height="44"/>
-                                        <color key="backgroundColor" red="1" green="0.0" blue="0.016666666666666607" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
-                                    </view>
+                                        <connections>
+                                            <action selector="didSelectColorView:" destination="IqP-P3-lOq" eventType="touchUpInside" id="ckO-VC-F8L"/>
+                                        </connections>
+                                    </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0IE-gx-ubk">
                                         <rect key="frame" x="101.5" y="0.0" width="85" height="44"/>
                                         <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -1686,7 +1712,7 @@
                     <value key="contentSizeForViewInPopover" type="size" width="0.0" height="0.0"/>
                     <connections>
                         <outlet property="collectionView" destination="ONR-Qj-ejV" id="xEf-Cg-VDC"/>
-                        <outlet property="colorView" destination="nL4-Lq-MPF" id="20a-Km-5TX"/>
+                        <outlet property="colorView" destination="Iw7-6P-28G" id="iuG-xM-gvT"/>
                         <outlet property="hexField" destination="0IE-gx-ubk" id="zxr-7l-Y89"/>
                         <outlet property="hueView" destination="7wi-NU-M5K" id="7bR-Un-ohW"/>
                         <outlet property="saturationBrightnessView" destination="kAR-J1-5JD" id="ct6-i1-T48"/>
@@ -1919,4 +1945,7 @@
         <image name="work_ic_message" width="22" height="22"/>
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="asg-sP-sZf"/>
+    </inferredMetricsTieBreakers>
 </document>

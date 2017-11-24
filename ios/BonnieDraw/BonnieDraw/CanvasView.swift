@@ -15,6 +15,7 @@ class CanvasView: UIView {
     var type = Type.pen
     var paths = [Path]()
     var redoPaths = [Path]()
+    var persistentBackgroundColor: UIColor?
     var persistentImage: UIImage?
     private var lastTimestamp: TimeInterval = -1
     private var url = try! FileManager.default.url(
@@ -56,8 +57,18 @@ class CanvasView: UIView {
 
     func thumbnailData() -> Data? {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
-        persistentImage?.draw(in: bounds)
         let context = UIGraphicsGetCurrentContext()
+        var backgroundColor: UIColor? = nil
+        for path in paths {
+            if path.points.first?.type == .background {
+                backgroundColor = path.color
+            }
+        }
+        if let backgroundColor = backgroundColor {
+            backgroundColor.setFill()
+            context?.fill(bounds)
+        }
+        persistentImage?.draw(in: bounds)
         for path in paths {
             context?.setBlendMode(path.blendMode)
             path.color.setStroke()
@@ -74,11 +85,17 @@ class CanvasView: UIView {
     override func draw(_ rect: CGRect) {
         persistentImage?.draw(in: bounds)
         let context = UIGraphicsGetCurrentContext()
+        var backgroundColor: UIColor? = nil
         for path in paths {
-            context?.setBlendMode(path.blendMode)
-            path.color.setStroke()
-            path.bezierPath.stroke()
+            if path.points.first?.type != .background {
+                context?.setBlendMode(path.blendMode)
+                path.color.setStroke()
+                path.bezierPath.stroke()
+            } else {
+                backgroundColor = path.color
+            }
         }
+        delegate?.canvas(changeBackgroundColor: backgroundColor ?? persistentBackgroundColor ?? .white)
         if paths.last?.blendMode == .clear,
            let point = paths.last?.points.last,
            point.action == .move {
@@ -92,6 +109,7 @@ class CanvasView: UIView {
         writeHandle?.closeFile()
         paths.removeAll()
         redoPaths.removeAll()
+        persistentBackgroundColor = nil
         persistentImage = nil
         delegate?.canvasPathsDidChange()
         do {
@@ -330,9 +348,13 @@ class CanvasView: UIView {
             let context = UIGraphicsGetCurrentContext()
             while paths.count > PATH_BUFFER_COUNT {
                 let path = paths.removeFirst()
-                context?.setBlendMode(path.blendMode)
-                path.color.setStroke()
-                path.bezierPath.stroke()
+                if path.points.first?.type != .background {
+                    context?.setBlendMode(path.blendMode)
+                    path.color.setStroke()
+                    path.bezierPath.stroke()
+                } else {
+                    persistentBackgroundColor = path.color
+                }
                 for point in path.points {
                     pointsToSave.append(point)
                 }
@@ -359,8 +381,25 @@ class CanvasView: UIView {
                 origin: CGPoint(x: minX - size, y: minY - size),
                 size: CGSize(width: maxX - origin.x + size, height: maxY - origin.y + size))
     }
+
+    func set(backgroundColor color: UIColor) {
+        paths.append(Path(blendMode: .normal, bezierPath: UIBezierPath(), points: [Point(
+                length: LENGTH_SIZE,
+                function: .draw,
+                position: .zero,
+                color: color,
+                action: .down,
+                size: 0,
+                type: .background,
+                duration: 0)], color: color))
+        drawToPersistentImage(withBounds: bounds)
+        redoPaths.removeAll()
+        delegate?.canvasPathsDidChange()
+    }
 }
 
 protocol CanvasViewDelegate {
     func canvasPathsDidChange()
+
+    func canvas(changeBackgroundColor color: UIColor)
 }

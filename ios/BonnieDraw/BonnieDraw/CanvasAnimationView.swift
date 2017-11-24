@@ -11,7 +11,8 @@ import UIKit
 class CanvasAnimationView: UIView {
     var delegate: CanvasAnimationViewDelegate?
     var url: URL?
-    var persistentImage: UIImage?
+    private var persistentBackgroundColor: UIColor?
+    private var persistentImage: UIImage?
     private var readHandle: FileHandle?
     private var controlPoint = CGPoint.zero, currentPoint = CGPoint.zero
     private var paths = [Path]()
@@ -21,11 +22,17 @@ class CanvasAnimationView: UIView {
     override func draw(_ rect: CGRect) {
         persistentImage?.draw(in: bounds)
         let context = UIGraphicsGetCurrentContext()
+        var backgroundColor: UIColor? = nil
         for path in paths {
-            context?.setBlendMode(path.blendMode)
-            path.color.setStroke()
-            path.bezierPath.stroke()
+            if path.points.first?.type != .background {
+                context?.setBlendMode(path.blendMode)
+                path.color.setStroke()
+                path.bezierPath.stroke()
+            } else {
+                backgroundColor = path.color
+            }
         }
+        delegate?.canvasAnimation(changeBackgroundColor: backgroundColor ?? persistentBackgroundColor ?? .white)
         if paths.last?.blendMode == .clear,
            let point = paths.last?.points.last,
            point.action == .move {
@@ -140,6 +147,7 @@ class CanvasAnimationView: UIView {
                                         bezierPath: path,
                                         points: [point],
                                         color: point.color))
+                        persistentBackgroundColor = nil
                         persistentImage = nil
                         setNeedsDisplay()
                     }
@@ -156,14 +164,6 @@ class CanvasAnimationView: UIView {
 
     func pause() {
         timer?.invalidate()
-    }
-
-    func stop() {
-        timer?.invalidate()
-        paths.removeAll()
-        cachePoints.removeAll()
-        persistentImage = nil
-        setNeedsDisplay()
     }
 
     private func animate() {
@@ -210,6 +210,10 @@ class CanvasAnimationView: UIView {
                     self.readHandle = nil
                 }
             }
+        } else {
+            DispatchQueue.main.async {
+                self.setNeedsDisplay()
+            }
         }
     }
 
@@ -220,8 +224,12 @@ class CanvasAnimationView: UIView {
             persistentImage?.draw(in: bounds)
             while paths.count > PATH_BUFFER_COUNT {
                 let path = paths.removeFirst()
-                path.color.setStroke()
-                path.bezierPath.stroke()
+                if path.points.first?.type != .background {
+                    path.color.setStroke()
+                    path.bezierPath.stroke()
+                } else {
+                    persistentBackgroundColor = path.color
+                }
                 for point in path.points {
                     pointsToSave.append(point)
                 }
@@ -251,5 +259,8 @@ class CanvasAnimationView: UIView {
 
 protocol CanvasAnimationViewDelegate {
     func canvasAnimationDidFinishAnimation()
+
     func canvasAnimationFileParseError()
+
+    func canvasAnimation(changeBackgroundColor color: UIColor)
 }

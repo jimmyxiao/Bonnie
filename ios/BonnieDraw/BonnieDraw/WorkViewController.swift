@@ -11,6 +11,7 @@ import Alamofire
 
 class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAnimationViewDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
+    @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var canvasAnimation: CanvasAnimationView!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var navigationBar: UINavigationBar!
@@ -47,7 +48,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAn
 
     override func viewWillDisappear(_ animated: Bool) {
         downloadRequest?.cancel()
-        canvasAnimation.stop()
+        canvasAnimation.pause()
     }
 
     private func downloadData() {
@@ -106,5 +107,9 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, CanvasAn
             action in
             super.onBackPressed(self)
         }
+    }
+
+    internal func canvasAnimation(changeBackgroundColor color: UIColor) {
+        gridView.backgroundColor = color
     }
 }

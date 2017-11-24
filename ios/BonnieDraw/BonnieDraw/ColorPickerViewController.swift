@@ -9,7 +9,12 @@
 import UIKit
 
 class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegate, SaturationBrightnessViewDelegate, HueViewDelegate {
-    @IBOutlet weak var colorView: UIView!
+    enum ColorType {
+        case canvas
+        case background
+    }
+
+    @IBOutlet weak var colorView: UIButton!
     @IBOutlet weak var hexField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var saturationBrightnessView: SaturationBrightnessView!
@@ -17,7 +22,8 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var stackViewTop: NSLayoutConstraint!
     var delegate: ColorPickerViewControllerDelegate?
-    var color: UIColor?
+    var type: ColorType?
+    var color = UIColor.black
     private var colors = UserDefaults.standard.colors(forKey: Default.COLORS) ?? [UIColor]()
     private var isEditingMode = false
     private let colorExpression = try! NSRegularExpression(pattern: "[A-Fa-f0-9]+", options: .caseInsensitive)
@@ -26,26 +32,36 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         saveButton.layer.borderColor = UIColor.white.cgColor
         saturationBrightnessView.delegate = self
         hueView.delegate = self
-        if let color = color {
-            colorView.backgroundColor = color
-            hexField.text = color.toHex()
-            saturationBrightnessView.set(color: color)
-            hueView.set(color: color)
+        colorView.backgroundColor = color
+        hexField.text = color.toHex()
+        saturationBrightnessView.set(color: color)
+        hueView.set(color: color)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        if type == .background {
+            delegate?.colorPicker(didSelect: color, type: type)
         }
     }
 
     internal func saturationBrightness(didSelectColor color: UIColor) {
+        self.color = color
         colorView.backgroundColor = color
         hexField.text = color.toHex()
-        delegate?.colorPicker(didSelect: color)
+        if type == .canvas {
+            delegate?.colorPicker(didSelect: color, type: type)
+        }
     }
 
     internal func hue(didSelectHue hue: CGFloat) {
         let color = UIColor(hue: hue, saturation: saturationBrightnessView.saturation, brightness: saturationBrightnessView.brightness, alpha: 1)
+        self.color = color
         colorView.backgroundColor = color
         hexField.text = color.toHex()
         saturationBrightnessView.set(hue: hue)
-        delegate?.colorPicker(didSelect: color)
+        if type == .canvas {
+            delegate?.colorPicker(didSelect: color, type: type)
+        }
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -85,7 +101,10 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
             colors.remove(at: indexPath.row)
             collectionView.deleteItems(at: [indexPath])
         } else if let color = collectionView.cellForItem(at: indexPath)?.backgroundColor {
-            delegate?.colorPicker(didSelect: color)
+            self.color = color
+            if type == .canvas {
+                delegate?.colorPicker(didSelect: color, type: type)
+            }
             dismiss(animated: true)
         }
     }
@@ -116,8 +135,18 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         isEditingMode = !isEditingMode
         collectionView.reloadSections([0])
     }
+
+    @IBAction func didSelectColorView(_ sender: UIButton) {
+        if let color = sender.backgroundColor {
+            self.color = color
+            if type == .canvas {
+                delegate?.colorPicker(didSelect: color, type: type)
+            }
+            dismiss(animated: true)
+        }
+    }
 }
 
 protocol ColorPickerViewControllerDelegate {
-    func colorPicker(didSelect color: UIColor)
+    func colorPicker(didSelect color: UIColor, type: ColorPickerViewController.ColorType?)
 }

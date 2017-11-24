@@ -153,7 +153,13 @@ class CanvasViewController:
             controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width / 2, height: 76)
         } else if let controller = segue.destination as? ColorPickerViewController {
             controller.delegate = self
-            controller.color = canvas.color
+            if segue.identifier == Segue.BACKGROUND_COLOR {
+                controller.type = .background
+                controller.color = gridView.backgroundColor ?? .white
+            } else {
+                controller.type = .canvas
+                controller.color = canvas.color
+            }
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -166,7 +172,7 @@ class CanvasViewController:
     }
 
     override func onBackPressed(_ sender: Any) {
-        canvasAnimation.stop()
+        canvasAnimation.pause()
         canvas.save()
         canvas.close()
         super.onBackPressed(sender)
@@ -190,6 +196,10 @@ class CanvasViewController:
         }
     }
 
+    internal func canvas(changeBackgroundColor color: UIColor) {
+        gridView.backgroundColor = color
+    }
+
     internal func canvasAnimationDidFinishAnimation() {
         undoButton.isEnabled = true
         redoButton.isEnabled = !canvas.redoPaths.isEmpty
@@ -209,6 +219,10 @@ class CanvasViewController:
             action in
             super.onBackPressed(self)
         }
+    }
+
+    internal func canvasAnimation(changeBackgroundColor color: UIColor) {
+        gridView.backgroundColor = color
     }
 
     func canvasSetting(didSelectRowAt indexPath: IndexPath) {
@@ -256,7 +270,7 @@ class CanvasViewController:
             controller.addAction(cancelAction)
             present(controller, animated: true)
         case 1:
-            break
+            performSegue(withIdentifier: Segue.BACKGROUND_COLOR, sender: nil)
         case 2:
             if let data = canvas.thumbnailData(),
                let image = UIImage(data: data) {
@@ -293,8 +307,13 @@ class CanvasViewController:
         UIGraphicsEndImageContext()
     }
 
-    func colorPicker(didSelect color: UIColor) {
-        canvas.color = color
-        colorButton.tintColor = color
+    func colorPicker(didSelect color: UIColor, type: ColorPickerViewController.ColorType?) {
+        if type == .canvas {
+            canvas.color = color
+            colorButton.tintColor = color
+        } else {
+            canvas.set(backgroundColor: color)
+            gridView.backgroundColor = color
+        }
     }
 }
