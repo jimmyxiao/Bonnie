@@ -104,6 +104,7 @@ class CanvasViewController:
             undoButton.isEnabled = false
             redoButton.isEnabled = false
             saveButton.isEnabled = false
+            settingButton.isEnabled = false
             sizeButton.isEnabled = false
             eraserButton.isEnabled = false
             resetButton.isEnabled = false
@@ -207,6 +208,7 @@ class CanvasViewController:
         redoButton.isEnabled = !canvas.redoPaths.isEmpty
         playButton.isEnabled = true
         saveButton.isEnabled = true
+        settingButton.isEnabled = true
         sizeButton.isEnabled = true
         eraserButton.isEnabled = true
         resetButton.isEnabled = true
