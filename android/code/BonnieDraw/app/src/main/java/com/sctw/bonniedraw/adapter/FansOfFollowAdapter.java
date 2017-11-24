@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.bean.FansOfFollowBean;
+import com.sctw.bonniedraw.utility.GlideAppModule;
+import com.sctw.bonniedraw.utility.GlobalVariable;
 
 import java.util.ArrayList;
 
@@ -50,6 +53,11 @@ public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapte
         } else {
             holder.mBtnFollow.setText("追蹤");
         }
+        String imgUrl = "";
+        if (!data.get(holder.getAdapterPosition()).getProfilePicture().equals("null")) {
+            imgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(holder.getAdapterPosition()).getProfilePicture();
+        }
+        Glide.with(context).load(imgUrl).apply(GlideAppModule.getUserOptions()).into(holder.mCircleImg);
 
         holder.mBtnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
