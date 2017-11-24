@@ -17,6 +17,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.notification.service.NotiMsgService;
@@ -93,6 +93,7 @@ import com.bonniedraw.works.model.Works;
 import com.bonniedraw.works.service.WorksServiceAPI;
 
 @Controller
+@EnableAsync
 @RequestMapping(value="/BDService")
 public class ApiController {
 	
@@ -133,7 +134,9 @@ public class ApiController {
 		int ut = loginRequestVO.getUt();
 		int dt = loginRequestVO.getDt();
 		Integer gender = loginRequestVO.getGender();
-		if(ValidateUtil.isNotBlank(loginRequestVO.getUc()) 
+		if(dt!=3 && (ValidateUtil.isBlank(loginRequestVO.getToken()) || ValidateUtil.isBlank(loginRequestVO.getDeviceId())) ){
+			msg = "FCM Token or Device ID can't empty";
+		}else if(ValidateUtil.isNotBlank(loginRequestVO.getUc()) 
 				&& (fn>=1 && fn<=3)
 				&& (ut>=1 && ut<=4) 
 				&& (dt>=1 && dt<=3)
@@ -754,6 +757,37 @@ public class ApiController {
 		}
 		return null;
 	}
+	
+//	@RequestMapping(value="/drawingPlayTest" , produces="application/json")
+//	public ResponseEntity<StreamingResponseBody> getDrawingPlay(HttpServletRequest request,HttpServletResponse resp, @RequestBody DrawingPlayRequestVO drawingPlayRequestVO) throws IOException {
+//		DrawingPlayResponseVO respResult = new DrawingPlayResponseVO();
+//		String msg = "";
+//		if(isLogin(drawingPlayRequestVO)){
+//			respResult.setPointList(worksServiceAPI.getDrawingPlay(drawingPlayRequestVO.getWid(), drawingPlayRequestVO.getUi()));
+//			respResult.setRes(1);
+//		}else{
+//			msg = "帳號未登入"; 
+//		}
+//		respResult.setMsg(msg);
+//		
+//		StreamingResponseBody responseBody = new StreamingResponseBody() {
+//            @Override
+//            public void writeTo (OutputStream out) throws IOException {
+//            	for (int i = 0; i < 1000; i++) {
+//                    out.write((Integer.toString(i) + " - ").getBytes());
+//                    out.flush();
+//                    try {
+//                        Thread.sleep(5);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }
+//        };
+//        
+//        return new ResponseEntity(responseBody, HttpStatus.OK);
+//	}
 	
 	@RequestMapping(value="/drawingPlay" , produces="application/json")
 	public @ResponseBody DrawingPlayResponseVO getDrawingPlay(HttpServletRequest request,HttpServletResponse resp, @RequestBody DrawingPlayRequestVO drawingPlayRequestVO) {

@@ -85,6 +85,8 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		loginVO.setLoginResult(1);
 		loginVO.setSessionId(0);
 		loginVO.setDeviceIp(ipAddress);
+		loginVO.setToken(loginRequestVO.getToken());
+		loginVO.setDeviceId(loginRequestVO.getDeviceId());
 		switch (loginRequestVO.getDt()) {
 		case 1:
 			loginVO.setDeviceInfo("Android");

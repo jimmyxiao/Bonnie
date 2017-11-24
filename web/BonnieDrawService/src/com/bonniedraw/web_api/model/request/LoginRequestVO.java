@@ -15,6 +15,8 @@ public class LoginRequestVO {
 	private String mask;
 	private String languageCode;
 	private String countryCode;
+	private String token;
+	private String deviceId;
 	
 	public String getUc() {
 		return uc;
@@ -126,6 +128,22 @@ public class LoginRequestVO {
 
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
 	}
 	
 }

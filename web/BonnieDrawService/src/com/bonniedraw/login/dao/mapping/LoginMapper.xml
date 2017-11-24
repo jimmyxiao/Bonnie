@@ -13,10 +13,12 @@
     <result column="SESSION_ID" jdbcType="INTEGER" property="sessionId" />
     <result column="LANGUAGE_CODE" jdbcType="VARCHAR" property="languageCode" />
     <result column="COUNTRY_CODE" jdbcType="VARCHAR" property="countryCode" />
+    <result column="TOKEN" jdbcType="VARCHAR" property="token" />
+    <result column="DEVICE_ID" jdbcType="VARCHAR" property="deviceId" />
   </resultMap>
   <sql id="Base_Column_List">
     LOGIN_ID, USER_ID, LOGIN_TOKEN, DEVICE_IP, DEVICE_INFO, SERVICE_KEY, IS_CURRENT, 
-    LOGIN_RESULT, SESSION_ID, LANGUAGE_CODE, COUNTRY_CODE
+    LOGIN_RESULT, SESSION_ID, LANGUAGE_CODE, COUNTRY_CODE, TOKEN, DEVICE_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -32,11 +34,13 @@
     insert into login (LOGIN_ID, USER_ID, LOGIN_TOKEN, 
       DEVICE_IP, DEVICE_INFO, SERVICE_KEY, 
       IS_CURRENT, LOGIN_RESULT, SESSION_ID, 
-      LANGUAGE_CODE, COUNTRY_CODE)
+      LANGUAGE_CODE, COUNTRY_CODE, TOKEN, 
+      DEVICE_ID)
     values (#{loginId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{loginToken,jdbcType=VARCHAR}, 
       #{deviceIp,jdbcType=VARCHAR}, #{deviceInfo,jdbcType=VARCHAR}, #{serviceKey,jdbcType=VARCHAR}, 
       #{isCurrent,jdbcType=INTEGER}, #{loginResult,jdbcType=INTEGER}, #{sessionId,jdbcType=INTEGER}, 
-      #{languageCode,jdbcType=VARCHAR}, #{countryCode,jdbcType=VARCHAR})
+      #{languageCode,jdbcType=VARCHAR}, #{countryCode,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
+      #{deviceId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bonniedraw.login.model.Login">
     insert into login
@@ -74,6 +78,12 @@
       <if test="countryCode != null">
         COUNTRY_CODE,
       </if>
+      <if test="token != null">
+        TOKEN,
+      </if>
+      <if test="deviceId != null">
+        DEVICE_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="loginId != null">
@@ -108,6 +118,12 @@
       </if>
       <if test="countryCode != null">
         #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -144,6 +160,12 @@
       <if test="countryCode != null">
         COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR},
       </if>
+      <if test="token != null">
+        TOKEN = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        DEVICE_ID = #{deviceId,jdbcType=VARCHAR},
+      </if>
     </set>
     where LOGIN_ID = #{loginId,jdbcType=INTEGER}
   </update>
@@ -158,7 +180,9 @@
       LOGIN_RESULT = #{loginResult,jdbcType=INTEGER},
       SESSION_ID = #{sessionId,jdbcType=INTEGER},
       LANGUAGE_CODE = #{languageCode,jdbcType=VARCHAR},
-      COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR}
+      COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR},
+      TOKEN = #{token,jdbcType=VARCHAR},
+      DEVICE_ID = #{deviceId,jdbcType=VARCHAR}
     where LOGIN_ID = #{loginId,jdbcType=INTEGER}
   </update>
   
@@ -167,6 +191,7 @@
 	    set IS_CURRENT = 2
 	    where USER_ID = #{userId,jdbcType=INTEGER}
 	    and DEVICE_INFO = #{deviceInfo,jdbcType=VARCHAR}
+	    and DEVICE_ID = #{deviceId,jdbcType=VARCHAR}
 	    and IS_CURRENT = 1
 	</update>
 	
@@ -176,6 +201,13 @@
 	    from login
 	    where LOGIN_TOKEN = #{loginToken,jdbcType=VARCHAR}
 	    and DEVICE_INFO = #{deviceInfo,jdbcType=VARCHAR}
+	    and IS_CURRENT = 1
+	</select>
+	
+	<select id="selectTokenByUserIdAndCurrentIsTrue" parameterType="java.lang.Integer" resultType="java.lang.String">
+	    select TOKEN
+	    from login
+	    where USER_ID = #{userId,jdbcType=INTEGER}
 	    and IS_CURRENT = 1
 	</select>
   

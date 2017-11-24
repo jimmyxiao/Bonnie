@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bonniedraw.base.service.BaseService;
 import com.bonniedraw.file.BDWAnalysis;
 import com.bonniedraw.file.Point;
+import com.bonniedraw.user.dao.UserInfoMapper;
 import com.bonniedraw.util.HashTagUtil;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.StringUtils;
@@ -82,6 +83,9 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	
 	@Autowired
 	TagInfoMapper tagInfoMapper;
+	
+	@Autowired
+	UserInfoMapper userInfoMapper;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -448,7 +452,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		following.setUserId(setFollowingRequestVO.getUi());
 		following.setFollowingUserId(setFollowingRequestVO.getFollowingUserId());
 		try {
-			if(followingMapper.selectByPrimaryKey(setFollowingRequestVO.getFollowingUserId()) ==null ){
+			if(userInfoMapper.selectByPrimaryKey(setFollowingRequestVO.getFollowingUserId()) ==null ){
 				return -2;
 			}
 			

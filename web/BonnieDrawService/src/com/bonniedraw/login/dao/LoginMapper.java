@@ -1,5 +1,8 @@
 package com.bonniedraw.login.dao;
 
+
+import java.util.List;
+
 import com.bonniedraw.login.model.Login;
 
 public interface LoginMapper {
@@ -18,4 +21,6 @@ public interface LoginMapper {
     int updateCurrentIsFalse(Login record);
     
     Login inspectLogin(Login record);
+    
+    List<String> selectTokenByUserIdAndCurrentIsTrue(Integer userId);
 }

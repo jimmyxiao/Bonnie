@@ -22,6 +22,10 @@ public class Login {
     private String languageCode;
 
     private String countryCode;
+    
+    private String token;
+
+    private String deviceId;
 
     public Integer getLoginId() {
         return loginId;
@@ -111,4 +115,20 @@ public class Login {
 		this.countryCode = countryCode;
 	}
 
+	public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token == null ? null : token.trim();
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId == null ? null : deviceId.trim();
+    }
+	
 }

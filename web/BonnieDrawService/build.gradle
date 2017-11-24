@@ -23,7 +23,7 @@ dependencies {
   	compile group: 'javax.inject', name: 'javax.inject', version: '1'
   	compile group: 'javax.mail', name: 'mail', version: '1.4.7'
 	compile group: 'org.aspectj', name: 'aspectjrt', version: '1.8.5'
-	compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
+	compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.10.RELEASE'
   	compile group: 'org.springframework', name: 'spring-messaging', version: '4.1.6.RELEASE'
   	compile group: 'org.springframework', name: 'spring-context-support', version: '4.1.6.RELEASE'
   	compile 'org.springframework.data:spring-data-oracle:1.1.0.RELEASE'
