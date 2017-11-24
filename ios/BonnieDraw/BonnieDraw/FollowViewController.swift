@@ -192,7 +192,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             response in
             switch response.result {
             case .success:
-                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
+                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workList = data["workList"] as? [[String: Any]] else {
                     self.presentConfirmationDialog(
                             title: "service_download_fail_title".localized,
                             message: "app_network_unreachable_content".localized) {
@@ -203,7 +203,19 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                     }
                     return
                 }
-//                    self.items.removeAll()
+                self.works.removeAll()
+                for work in workList {
+                    self.works.append(Work(
+                            id: work["worksId"] as? Int,
+                            profileImage: URL(string: Service.filePath(withSubPath: work["profilePicture"] as? String)),
+                            profileName: work["userName"] as? String,
+                            thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
+                            file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
+                            title: work["title"] as? String,
+                            isLike: work["like"] as? Bool,
+                            isCollection: work["collection"] as? Bool,
+                            likes: work["likeCount"] as? Int))
+                }
                 self.tableViewWorks = self.works
                 self.tableView.reloadSections([0], with: .automatic)
                 self.emptyLabel.isHidden = !self.tableViewWorks.isEmpty
