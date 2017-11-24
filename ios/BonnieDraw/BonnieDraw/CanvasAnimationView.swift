@@ -42,7 +42,7 @@ class CanvasAnimationView: UIView {
         }
         if !cachePoints.isEmpty {
             animate()
-        } else if timer != nil {
+        } else if !paths.isEmpty {
             delegate?.canvasAnimationDidFinishAnimation()
         }
     }
