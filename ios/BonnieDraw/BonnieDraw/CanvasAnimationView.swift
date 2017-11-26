@@ -149,7 +149,6 @@ class CanvasAnimationView: UIView {
         let point = cachePoints.removeFirst()
         if bounds.contains(point.position) {
             if point.action == .down {
-                Logger.d("point.action == .down \(point.duration)")
                 let path = UIBezierPath()
                 path.lineJoinStyle = .round
                 path.lineCapStyle = .round
@@ -161,7 +160,6 @@ class CanvasAnimationView: UIView {
                                 points: [point],
                                 color: point.color))
             } else if let previous = paths.last?.points.last?.position {
-                Logger.d("point.action != .down \(point.duration)")
                 let deltaX = abs(point.position.x - previous.x)
                 let deltaY = abs(point.position.y - previous.y)
                 if sqrt(deltaX * deltaX + deltaY * deltaY) < point.size / 2 {
