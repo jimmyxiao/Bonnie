@@ -269,11 +269,11 @@ class CanvasView: UIView {
             for touch in coalescedTouches {
                 let point = touch.location(in: self)
                 let previous = touch.previousLocation(in: self)
+                points.append(point)
                 if bounds.contains(point) && point != previous {
                     let deltaX = abs(point.x - previous.x)
                     let deltaY = abs(point.y - previous.y)
                     let timestamp = touch.timestamp - lastTimestamp
-                    points.append(point)
                     if sqrt(deltaX * deltaX + deltaY * deltaY) < size / 2 {
                         paths.last?.bezierPath.addLine(to: point)
                     } else {
@@ -304,11 +304,11 @@ class CanvasView: UIView {
             for touch in coalescedTouches {
                 let point = touch.location(in: self)
                 let previous = touch.previousLocation(in: self)
+                points.append(point)
                 if bounds.contains(point) {
                     let deltaX = abs(point.x - previous.x)
                     let deltaY = abs(point.y - previous.y)
                     let timestamp = touch.timestamp - lastTimestamp
-                    points.append(point)
                     if sqrt(deltaX * deltaX + deltaY * deltaY) < size / 2 {
                         paths.last?.bezierPath.addLine(to: point)
                     } else {
