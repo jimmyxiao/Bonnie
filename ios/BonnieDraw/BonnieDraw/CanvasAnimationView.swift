@@ -172,6 +172,7 @@ class CanvasAnimationView: UIView {
                     self.drawToPersistentImage(withBounds: bounds)
                 }
             }
+            timer?.invalidate()
             timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
                 timer in
                 self.setNeedsDisplay()
