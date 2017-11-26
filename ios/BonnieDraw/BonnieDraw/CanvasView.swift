@@ -262,14 +262,9 @@ class CanvasView: UIView {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
-            var points = [CGPoint]()
-            if let lastPoint = paths.last?.bezierPath.currentPoint {
-                points.append(lastPoint)
-            }
             for touch in coalescedTouches {
                 let point = touch.location(in: self)
                 let previous = touch.previousLocation(in: self)
-                points.append(point)
                 if bounds.contains(point) && point != previous {
                     let deltaX = abs(point.x - previous.x)
                     let deltaY = abs(point.y - previous.y)
@@ -291,20 +286,15 @@ class CanvasView: UIView {
                     lastTimestamp = touch.timestamp
                 }
             }
-            setNeedsDisplay(calculateRedrawRect(forPoints: points))
+            setNeedsDisplay()
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let mainTouch = touches.first, let coalescedTouches = event?.coalescedTouches(for: mainTouch) {
-            var points = [CGPoint]()
-            if let lastPoint = paths.last?.bezierPath.currentPoint {
-                points.append(lastPoint)
-            }
             for touch in coalescedTouches {
                 let point = touch.location(in: self)
                 let previous = touch.previousLocation(in: self)
-                points.append(point)
                 if bounds.contains(point) {
                     let deltaX = abs(point.x - previous.x)
                     let deltaY = abs(point.y - previous.y)
@@ -326,7 +316,7 @@ class CanvasView: UIView {
                     lastTimestamp = touch.timestamp
                 }
             }
-            setNeedsDisplay(calculateRedrawRect(forPoints: points))
+            setNeedsDisplay()
             drawToPersistentImage(withBounds: bounds)
             redoPaths.removeAll()
             delegate?.canvasPathsDidChange()
