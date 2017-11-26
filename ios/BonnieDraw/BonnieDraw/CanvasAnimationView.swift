@@ -14,7 +14,6 @@ class CanvasAnimationView: UIView {
     private var persistentBackgroundColor: UIColor?
     private var persistentImage: UIImage?
     private var readHandle: FileHandle?
-    private var controlPoint = CGPoint.zero, currentPoint = CGPoint.zero
     private var paths = [Path]()
     private var cachePoints = [Point]()
     private var timer: Timer?
@@ -47,7 +46,7 @@ class CanvasAnimationView: UIView {
         }
     }
 
-    func load(completionHandler: (() -> Void)? = nil) {
+    func load(completionHandler: @escaping () -> Void) {
         let bounds = self.bounds
         DispatchQueue.global().async {
             do {
@@ -61,51 +60,46 @@ class CanvasAnimationView: UIView {
                     var isEndOfFile = false
                     let readHandle = try FileHandle(forReadingFrom: url)
                     var points = DataConverter.parse(dataToPoints: readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)), withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height))
-                    if !points.isEmpty {
-                        var point = points.removeFirst()
-                        if bounds.contains(point.position) {
-                            self.currentPoint = point.position
-                            self.controlPoint = self.currentPoint
-                            let path = UIBezierPath()
-                            path.move(to: self.currentPoint)
-                            path.lineCapStyle = .round
-                            path.lineWidth = point.size
-                            self.paths.append(
-                                    Path(blendMode: point.type == .eraser ? .clear : .normal,
-                                            bezierPath: path,
-                                            points: [point],
-                                            color: point.color))
-                            while !points.isEmpty {
-                                point = points.removeFirst()
-                                self.currentPoint = point.position
-                                if point.action != .down {
-                                    self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (self.currentPoint.x + self.controlPoint.x) / 2, y: (self.currentPoint.y + self.controlPoint.y) / 2), controlPoint: self.controlPoint)
-                                    self.paths.last?.points.append(point)
-                                    if point.action == .up {
-                                        self.drawToPersistentImage(withBounds: bounds)
-                                    }
-                                    self.controlPoint = self.currentPoint
+                    var previousPoint = CGPoint(x: -1, y: -1)
+                    var currentPoint = previousPoint
+                    while !points.isEmpty {
+                        let point = points.removeFirst()
+                        currentPoint = point.position
+                        if bounds.contains(currentPoint) {
+                            if point.action == .down {
+                                let path = UIBezierPath()
+                                path.lineJoinStyle = .round
+                                path.lineCapStyle = .round
+                                path.lineWidth = point.size
+                                path.move(to: currentPoint)
+                                path.addLine(to: currentPoint)
+                                self.paths.append(
+                                        Path(blendMode: point.type == .eraser ? .clear : .normal,
+                                                bezierPath: path,
+                                                points: [point],
+                                                color: point.color))
+                            } else {
+                                let deltaX = abs(currentPoint.x - previousPoint.x)
+                                let deltaY = abs(currentPoint.y - previousPoint.y)
+                                if sqrt(deltaX * deltaX + deltaY * deltaY) < point.size / 2 {
+                                    self.paths.last?.bezierPath.addLine(to: currentPoint)
                                 } else {
-                                    self.controlPoint = self.currentPoint
-                                    let path = UIBezierPath()
-                                    path.move(to: self.currentPoint)
-                                    path.lineCapStyle = .round
-                                    path.lineWidth = point.size
-                                    self.paths.append(
-                                            Path(blendMode: point.type == .eraser ? .clear : .normal,
-                                                    bezierPath: path,
-                                                    points: [point],
-                                                    color: point.color))
+                                    self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + previousPoint.x) / 2, y: (currentPoint.y + previousPoint.y) / 2), controlPoint: previousPoint)
                                 }
-                                if points.count < POINT_BUFFER_COUNT / 2 && !isEndOfFile {
-                                    let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
-                                    let data = readHandle.readData(ofLength: maxByteCount)
-                                    points.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
-                                    if data.count < maxByteCount {
-                                        readHandle.closeFile()
-                                        isEndOfFile = true
-                                    }
+                                self.paths.last?.points.append(point)
+                                if point.action == .up {
+                                    self.drawToPersistentImage(withBounds: bounds)
                                 }
+                            }
+                            previousPoint = currentPoint
+                        }
+                        if points.count < POINT_BUFFER_COUNT / 2 && !isEndOfFile {
+                            let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
+                            let data = readHandle.readData(ofLength: maxByteCount)
+                            points.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
+                            if data.count < maxByteCount {
+                                readHandle.closeFile()
+                                isEndOfFile = true
                             }
                         }
                     }
@@ -115,13 +109,15 @@ class CanvasAnimationView: UIView {
             }
             DispatchQueue.main.async {
                 self.setNeedsDisplay()
-                completionHandler?()
+                completionHandler()
             }
         }
     }
 
     func play() {
         if cachePoints.isEmpty {
+            persistentBackgroundColor = nil
+            persistentImage = nil
             paths.removeAll()
             do {
                 timer?.invalidate()
@@ -134,32 +130,15 @@ class CanvasAnimationView: UIView {
                     self.readHandle = readHandle
                 }
                 if !cachePoints.isEmpty {
-                    let point = cachePoints.removeFirst()
-                    currentPoint = point.position
-                    controlPoint = currentPoint
-                    if bounds.contains(currentPoint) {
-                        let path = UIBezierPath()
-                        path.move(to: currentPoint)
-                        path.lineCapStyle = .round
-                        path.lineWidth = point.size
-                        paths.append(
-                                Path(blendMode: point.type == .eraser ? .clear : .normal,
-                                        bezierPath: path,
-                                        points: [point],
-                                        color: point.color))
-                        persistentBackgroundColor = nil
-                        persistentImage = nil
-                        setNeedsDisplay()
-                    }
+                    animate()
                 } else {
                     delegate?.canvasAnimationFileParseError()
                 }
             } catch {
                 Logger.d("\(#function): \(error.localizedDescription)")
             }
-        } else {
-            setNeedsDisplay()
         }
+        setNeedsDisplay()
     }
 
     func pause() {
@@ -167,52 +146,46 @@ class CanvasAnimationView: UIView {
     }
 
     private func animate() {
-        if !cachePoints.isEmpty {
-            let point = cachePoints.removeFirst()
-            if bounds.contains(point.position) {
-                currentPoint = point.position
-                if point.action != .down {
-                    var points = [CGPoint]()
-                    if let lastPoint = paths.last?.bezierPath.currentPoint {
-                        points.append(lastPoint)
-                    }
-                    points.append(point.position)
-                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + controlPoint.x) / 2, y: (currentPoint.y + controlPoint.y) / 2), controlPoint: controlPoint)
-                    paths.last?.points.append(point)
-                    if point.action == .up {
-                        drawToPersistentImage(withBounds: bounds)
-                    }
-                    timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
-                        timer in
-                        self.setNeedsDisplay(self.calculateRedrawRect(forPoints: points, withSize: point.size))
-                    }
-                    controlPoint = currentPoint
+        let point = cachePoints.removeFirst()
+        if bounds.contains(point.position) {
+            if point.action == .down {
+                Logger.d("point.action == .down \(point.duration)")
+                let path = UIBezierPath()
+                path.lineJoinStyle = .round
+                path.lineCapStyle = .round
+                path.lineWidth = point.size
+                path.move(to: point.position)
+                self.paths.append(
+                        Path(blendMode: point.type == .eraser ? .clear : .normal,
+                                bezierPath: path,
+                                points: [point],
+                                color: point.color))
+            } else if let previous = paths.last?.points.last?.position {
+                Logger.d("point.action != .down \(point.duration)")
+                let deltaX = abs(point.position.x - previous.x)
+                let deltaY = abs(point.position.y - previous.y)
+                if sqrt(deltaX * deltaX + deltaY * deltaY) < point.size / 2 {
+                    self.paths.last?.bezierPath.addLine(to: point.position)
                 } else {
-                    controlPoint = currentPoint
-                    let path = UIBezierPath()
-                    path.move(to: currentPoint)
-                    path.lineCapStyle = .round
-                    path.lineWidth = point.size
-                    paths.append(
-                            Path(blendMode: point.type == .eraser ? .clear : .normal,
-                                    bezierPath: path,
-                                    points: [point],
-                                    color: point.color))
-                    animate()
+                    self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.position.x + previous.x) / 2, y: (point.position.y + previous.y) / 2), controlPoint: previous)
+                }
+                self.paths.last?.points.append(point)
+                if point.action == .up {
+                    self.drawToPersistentImage(withBounds: bounds)
                 }
             }
-            if let readHandle = readHandle, cachePoints.count < POINT_BUFFER_COUNT / 2 {
-                let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
-                let data = readHandle.readData(ofLength: maxByteCount)
-                cachePoints.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
-                if data.count < maxByteCount {
-                    readHandle.closeFile()
-                    self.readHandle = nil
-                }
-            }
-        } else {
-            DispatchQueue.main.async {
+            timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
+                timer in
                 self.setNeedsDisplay()
+            }
+        }
+        if let readHandle = readHandle, cachePoints.count < POINT_BUFFER_COUNT / 2 {
+            let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
+            let data = readHandle.readData(ofLength: maxByteCount)
+            cachePoints.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
+            if data.count < maxByteCount {
+                readHandle.closeFile()
+                self.readHandle = nil
             }
         }
     }
@@ -222,9 +195,11 @@ class CanvasAnimationView: UIView {
             var pointsToSave = [Point]()
             UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
             persistentImage?.draw(in: bounds)
+            let context = UIGraphicsGetCurrentContext()
             while paths.count > PATH_BUFFER_COUNT {
                 let path = paths.removeFirst()
                 if path.points.first?.type != .background {
+                    context?.setBlendMode(path.blendMode)
                     path.color.setStroke()
                     path.bezierPath.stroke()
                 } else {
@@ -259,8 +234,6 @@ class CanvasAnimationView: UIView {
 
 protocol CanvasAnimationViewDelegate {
     func canvasAnimationDidFinishAnimation()
-
     func canvasAnimationFileParseError()
-
     func canvasAnimation(changeBackgroundColor color: UIColor)
 }
