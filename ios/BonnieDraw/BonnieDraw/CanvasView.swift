@@ -274,13 +274,10 @@ class CanvasView: UIView {
                     let deltaY = abs(point.y - previous.y)
                     let timestamp = touch.timestamp - lastTimestamp
                     points.append(point)
-                    print("CGPoint(x:\(point.x), y:\(point.y)),")
                     if sqrt(deltaX * deltaX + deltaY * deltaY) < size / 2 {
                         paths.last?.bezierPath.addLine(to: point)
-                        print("addLine")
                     } else {
                         paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.x + previous.x) / 2, y: (point.y + previous.y) / 2), controlPoint: previous)
-                        print("addQuadCurve")
                     }
                     paths.last?.points.append(
                             Point(length: LENGTH_SIZE,
@@ -312,13 +309,10 @@ class CanvasView: UIView {
                     let deltaY = abs(point.y - previous.y)
                     let timestamp = touch.timestamp - lastTimestamp
                     points.append(point)
-                    print("CGPoint(x:\(point.x), y:\(point.y)),")
                     if sqrt(deltaX * deltaX + deltaY * deltaY) < size / 2 {
                         paths.last?.bezierPath.addLine(to: point)
-                        print("addLine")
                     } else {
                         paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.x + previous.x) / 2, y: (point.y + previous.y) / 2), controlPoint: previous)
-                        print("addQuadCurve")
                     }
                     paths.last?.points.append(
                             Point(length: LENGTH_SIZE,
