@@ -79,9 +79,7 @@ class CanvasAnimationView: UIView {
                                                 points: [point],
                                                 color: point.color))
                             } else {
-                                let deltaX = abs(currentPoint.x - previousPoint.x)
-                                let deltaY = abs(currentPoint.y - previousPoint.y)
-                                if sqrt(deltaX * deltaX + deltaY * deltaY) < point.size / 2 {
+                                if hypot(currentPoint.x - previousPoint.x, currentPoint.y - previousPoint.y) < point.size / 3 {
                                     self.paths.last?.bezierPath.addLine(to: currentPoint)
                                 } else {
                                     self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + previousPoint.x) / 2, y: (currentPoint.y + previousPoint.y) / 2), controlPoint: previousPoint)
@@ -160,9 +158,7 @@ class CanvasAnimationView: UIView {
                                 points: [point],
                                 color: point.color))
             } else if let previous = paths.last?.points.last?.position {
-                let deltaX = abs(point.position.x - previous.x)
-                let deltaY = abs(point.position.y - previous.y)
-                if sqrt(deltaX * deltaX + deltaY * deltaY) < point.size / 2 {
+                if hypot(point.position.x - previous.x, point.position.y - previous.y) < point.size / 3 {
                     self.paths.last?.bezierPath.addLine(to: point.position)
                 } else {
                     self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.position.x + previous.x) / 2, y: (point.position.y + previous.y) / 2), controlPoint: previous)
@@ -233,6 +229,8 @@ class CanvasAnimationView: UIView {
 
 protocol CanvasAnimationViewDelegate {
     func canvasAnimationDidFinishAnimation()
+
     func canvasAnimationFileParseError()
+
     func canvasAnimation(changeBackgroundColor color: UIColor)
 }

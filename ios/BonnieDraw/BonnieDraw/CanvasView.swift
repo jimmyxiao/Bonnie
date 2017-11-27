@@ -196,9 +196,7 @@ class CanvasView: UIView {
                                                 points: [point],
                                                 color: point.color))
                             } else {
-                                let deltaX = abs(currentPoint.x - previousPoint.x)
-                                let deltaY = abs(currentPoint.y - previousPoint.y)
-                                if sqrt(deltaX * deltaX + deltaY * deltaY) < point.size / 2 {
+                                if hypot(currentPoint.x - previousPoint.x, currentPoint.y - previousPoint.y) < point.size / 3 {
                                     self.paths.last?.bezierPath.addLine(to: currentPoint)
                                 } else {
                                     self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (currentPoint.x + previousPoint.x) / 2, y: (currentPoint.y + previousPoint.y) / 2), controlPoint: previousPoint)
@@ -266,10 +264,8 @@ class CanvasView: UIView {
                 let point = touch.location(in: self)
                 let previous = touch.previousLocation(in: self)
                 if bounds.contains(point) && point != previous {
-                    let deltaX = abs(point.x - previous.x)
-                    let deltaY = abs(point.y - previous.y)
                     let timestamp = touch.timestamp - lastTimestamp
-                    if sqrt(deltaX * deltaX + deltaY * deltaY) < size / 2 {
+                    if hypot(point.x - previous.x, point.y - previous.y) < size / 3 {
                         paths.last?.bezierPath.addLine(to: point)
                     } else {
                         paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.x + previous.x) / 2, y: (point.y + previous.y) / 2), controlPoint: previous)
@@ -296,10 +292,8 @@ class CanvasView: UIView {
                 let point = touch.location(in: self)
                 let previous = touch.previousLocation(in: self)
                 if bounds.contains(point) {
-                    let deltaX = abs(point.x - previous.x)
-                    let deltaY = abs(point.y - previous.y)
                     let timestamp = touch.timestamp - lastTimestamp
-                    if sqrt(deltaX * deltaX + deltaY * deltaY) < size / 2 {
+                    if hypot(point.x - previous.x, point.y - previous.y) < size / 3 {
                         paths.last?.bezierPath.addLine(to: point)
                     } else {
                         paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.x + previous.x) / 2, y: (point.y + previous.y) / 2), controlPoint: previous)
@@ -383,5 +377,6 @@ class CanvasView: UIView {
 
 protocol CanvasViewDelegate {
     func canvasPathsDidChange()
+
     func canvas(changeBackgroundColor color: UIColor)
 }
