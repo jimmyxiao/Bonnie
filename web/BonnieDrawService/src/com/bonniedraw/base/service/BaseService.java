@@ -68,14 +68,14 @@ public class BaseService extends PushNotificationsServiceImpl{
 			
 			List<String> registerTokens = loginMapper.selectTokenByUserIdAndCurrentIsTrue(userId);
 			if(ValidateUtil.isNotEmptyAndSize(registerTokens)){
-				pushNotificationMsg(notiMsgType, userId, worksId, registerTokens);
+				pushNotificationMsg(notiMsgType, userId, userIdFollow, worksId, registerTokens);
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "insertNotificationMsg has error : " + e);
 		}
 	}
 	
-	private boolean pushNotificationMsg(int notiMsgType, int userId, Integer worksId, List<String> registerTokens){
+	private boolean pushNotificationMsg(int notiMsgType, int userId, int userIdFollow, Integer worksId, List<String> registerTokens){
 		try {
 			UserInfo userInfo = userInfoMapper.selectByPrimaryKey(userId);
 			if(userInfo!=null){							
@@ -89,7 +89,10 @@ public class BaseService extends PushNotificationsServiceImpl{
 				
 				notiMsgInfo = notiMsgInfoMapper.selectByPrimaryKey(notiMsgInfo);
 				if(notiMsgInfo!=null && notiMsgInfo.getMessage1()!=null){
-					notiMsgInfo.setMessage1(notiMsgInfo.getMessage1().replace("xxx", userInfo.getUserName()));
+					UserInfo followUserInfo = userInfoMapper.selectByPrimaryKey(userId);
+					if(followUserInfo!=null){
+						notiMsgInfo.setMessage1(notiMsgInfo.getMessage1().replace("xxx", followUserInfo.getUserName() ));
+					}
 					if(notiMsgInfo.getMessage1().indexOf("www")!=-1){
 						if(worksId!=null){
 							Works works = worksMapper.selectByPrimaryKey(worksId);
@@ -118,26 +121,35 @@ public class BaseService extends PushNotificationsServiceImpl{
 						break;
 					}
 					ObjectMapper mapper = new ObjectMapper();
-					JsonNode body = mapper.createObjectNode();
-					JsonNode notification = mapper.createObjectNode();
-					((ObjectNode)notification).put("title", notiBody);
-					((ObjectNode)notification).put("body", notiMsgInfo.getMessage1());
-//					JsonNode data = mapper.createObjectNode();
-//					((ObjectNode)data).put("Key-1", "JSA Data 1");
-//					((ObjectNode)data).put("Key-2", "JSA Data 2");
-//					((ObjectNode) body).put("to", TOPIC + userInfo.getUserId());
-					((ObjectNode) body).put("priority", "high");
-					((ObjectNode) body).set("notification", notification);
-//					((ObjectNode) body).set("data", data);
-				
-					((ObjectNode) body).putArray("to").addAll(mapper.valueToTree(registerTokens));
+					JsonNode body = mapper.createObjectNode();			
+//					((ObjectNode) body).put("operation", "create");
+					((ObjectNode) body).put("operation", "remove");
+					String groupName = String.valueOf(userId) + "_" + userInfo.getUserCode();
+					((ObjectNode) body).put("notification_key_name", groupName);
+					((ObjectNode) body).putArray("registration_ids").addAll(mapper.valueToTree(registerTokens));				
 					String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(body);
-					HttpEntity<String> request = new HttpEntity<>(jsonString);
-					CompletableFuture<String> pushNotification = send(request);
-					CompletableFuture.allOf(pushNotification).join();
-					String firebaseResponse = pushNotification.get();
-					if(firebaseResponse!=null){
-//						return true;
+					HttpEntity<String> creatrGroupRequest = new HttpEntity<>(jsonString);
+					
+					String notificationKey = createGroup(creatrGroupRequest, groupName);
+					if(notificationKey!=null){
+						JsonNode notification = mapper.createObjectNode();
+						JsonNode sendBody = mapper.createObjectNode();		
+						((ObjectNode)notification).put("title", notiBody);
+						((ObjectNode)notification).put("body", notiMsgInfo.getMessage1());
+						((ObjectNode) sendBody).put("priority", "high");
+						((ObjectNode) sendBody).set("notification", notification);	
+						((ObjectNode) sendBody).put("to", notificationKey);
+//						JsonNode data = mapper.createObjectNode();
+//						((ObjectNode)data).put("Key-1", "JSA Data 1");
+//						((ObjectNode)data).put("Key-2", "JSA Data 2");
+//						((ObjectNode) body).put("to", TOPIC + userInfo.getUserId());
+//						((ObjectNode) body).set("data", data);
+						jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(sendBody);
+						HttpEntity<String> request = new HttpEntity<>(jsonString);
+						CompletableFuture<String> pushNotification = send(request);
+						CompletableFuture.allOf(pushNotification).join();
+						String firebaseResponse = pushNotification.get();
+						if(firebaseResponse!=null){}
 					}
 				}
 			}
