@@ -188,7 +188,7 @@ class CanvasAnimationView: UIView {
     private func drawToPersistentImage(withBounds bounds: CGRect) {
         if paths.count > PATH_BUFFER_COUNT {
             var pointsToSave = [Point]()
-            UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+            UIGraphicsBeginImageContextWithOptions(bounds.size, false, contentScaleFactor)
             persistentImage?.draw(in: bounds)
             let context = UIGraphicsGetCurrentContext()
             while paths.count > PATH_BUFFER_COUNT {
@@ -229,8 +229,6 @@ class CanvasAnimationView: UIView {
 
 protocol CanvasAnimationViewDelegate {
     func canvasAnimationDidFinishAnimation()
-
     func canvasAnimationFileParseError()
-
     func canvasAnimation(changeBackgroundColor color: UIColor)
 }

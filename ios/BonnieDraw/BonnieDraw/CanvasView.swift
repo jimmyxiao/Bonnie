@@ -55,7 +55,7 @@ class CanvasView: UIView {
     }
 
     func thumbnailData() -> Data? {
-        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, contentScaleFactor)
         let context = UIGraphicsGetCurrentContext()
         var backgroundColor = persistentBackgroundColor
         for path in paths {
@@ -320,7 +320,7 @@ class CanvasView: UIView {
     private func drawToPersistentImage(withBounds bounds: CGRect) {
         if paths.count > PATH_BUFFER_COUNT {
             var pointsToSave = [Point]()
-            UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+            UIGraphicsBeginImageContextWithOptions(bounds.size, false, contentScaleFactor)
             persistentImage?.draw(in: bounds)
             let context = UIGraphicsGetCurrentContext()
             while paths.count > PATH_BUFFER_COUNT {
@@ -377,6 +377,5 @@ class CanvasView: UIView {
 
 protocol CanvasViewDelegate {
     func canvasPathsDidChange()
-
     func canvas(changeBackgroundColor color: UIColor)
 }

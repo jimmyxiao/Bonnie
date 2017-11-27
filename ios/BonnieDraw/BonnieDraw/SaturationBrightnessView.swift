@@ -51,7 +51,7 @@ class SaturationBrightnessView: UIView {
             }
         }
         if image == nil {
-            UIGraphicsBeginImageContextWithOptions(CGSize(width: touchBounds.size.width, height: touchBounds.size.height), false, UIScreen.main.scale)
+            UIGraphicsBeginImageContextWithOptions(CGSize(width: touchBounds.size.width, height: touchBounds.size.height), false, contentScaleFactor)
             if let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(),
                     colors: [UIColor(hue: hue, saturation: 1, brightness: 1, alpha: 1).cgColor, UIColor.white.cgColor] as CFArray,
                     locations: nil) {
