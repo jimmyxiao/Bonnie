@@ -25,6 +25,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/shape_border_extra"
                 android:orientation="vertical">
+
                 <Button
                     android:id="@+id/btn_extra_report"
                     android:layout_width="match_parent"
@@ -47,8 +48,8 @@
                 android:id="@+id/ll_single_own"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@id/ll_single_other"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/shape_border_extra"
                 android:orientation="vertical">
 

@@ -42,9 +42,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/DivColor"/>
+        android:background="@color/DivColor" />
 
     <LinearLayout
+        android:id="@+id/linearLayout_add_collection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
@@ -56,12 +57,11 @@
             android:text="名稱" />
 
         <EditText
+            android:id="@+id/editText_add_collection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="收藏分類名稱"
             android:textSize="14sp" />
-
     </LinearLayout>
-
 
 </LinearLayout>

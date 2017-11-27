@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    tools:context="com.sctw.bonniedraw.fragment.CollectionAllFragment">
+    tools:context="com.sctw.bonniedraw.collection.CollectionAllFragment">
 
     <TextView
         android:layout_width="wrap_content"

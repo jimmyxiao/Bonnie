@@ -1,4 +1,4 @@
-package com.sctw.bonniedraw.fragment;
+package com.sctw.bonniedraw.collection;
 
 
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.CollectionAdapter;
-import com.sctw.bonniedraw.widget.CollectionDialog;
 
 import java.util.ArrayList;
 import java.util.List;

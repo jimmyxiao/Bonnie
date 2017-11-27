@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -81,7 +82,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private SeekbarPopup mSeekbarPopup;
     private ColorPopup mColorPopup;
     private boolean mbColorSwitch = false;
-
+    private boolean mbHint = false;
     private int mCurrentBrushId = 3; //default brush
 
     @Override
@@ -90,6 +91,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         setContentView(R.layout.activity_paint);
         mPrefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         //set View
+        mbHint = mPrefs.getBoolean("zoomhint", false);
         mLinearLayoutPaintSelect = findViewById(R.id.linearLayout_paint_select);
         mBtnZoom = (ImageButton) findViewById(R.id.btn_paint_zoom);
         mBtnChangePaint = (ImageButton) findViewById(R.id.imgBtn_paint_change);
@@ -437,12 +439,24 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 if (!mPaintView.mbZoomMode) {
                     mPaintView.mbZoomMode = true;
                     mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_down_icon));
-                    playStateBtn();
-
+                    ControlStateBtn();
+                    if (!mbHint) {
+                        mbHint = true;
+                        mPrefs.edit().putBoolean("zoomhint", true).apply();
+                        final FullScreenDialog dialog = new FullScreenDialog(PaintActivity.this, R.layout.item_hint_zoom);
+                        ConstraintLayout layout = dialog.findViewById(R.id.ll_hint_zoom);
+                        layout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+                    }
                 } else {
                     mPaintView.mbZoomMode = false;
                     mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_up_icon));
-                    playStateBtn();
+                    ControlStateBtn();
                 }
             }
         });
@@ -628,7 +642,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
     }
 
-    public void playStateBtn() {
+    public void ControlStateBtn() {
         mBtnRedo.setClickable(!mPaintView.mbZoomMode);
         mBtnUndo.setClickable(!mPaintView.mbZoomMode);
         mBtnSize.setClickable(!mPaintView.mbZoomMode);

@@ -67,6 +67,12 @@ public class NoticeFragment extends Fragment {
         noticeInfoList = new ArrayList<>();
         mSwipeLayout = view.findViewById(R.id.swipeLayout_notice);
         mFrameLayout=view.findViewById(R.id.frameLayout_notice);
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNoticeList();
+            }
+        });
         getNoticeList();
     }
 

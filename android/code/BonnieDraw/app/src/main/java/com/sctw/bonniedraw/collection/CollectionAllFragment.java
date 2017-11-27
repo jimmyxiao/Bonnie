@@ -1,4 +1,4 @@
-package com.sctw.bonniedraw.fragment;
+package com.sctw.bonniedraw.collection;
 
 
 import android.os.Bundle;
