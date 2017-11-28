@@ -26,7 +26,7 @@ import java.util.Locale;
 import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
 
 public class PaintPlayActivity extends AppCompatActivity {
-    private static final String SKETCH_FILE_BDW = "/backup.bdw";
+    private static final String BACKUP_FILE_BDW = "/backup.bdw";
     private Handler mHandlerTimerPlay = new Handler();
     private TextView mTextViewPlayProgress;
     private ImageButton mBtnBack, mBtnAutoPlay, mBtnNext, mBtnPrevious, mBtnGrid, mImgBtnReplay, mBtnPause, mBtnZoom;
@@ -41,6 +41,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private ArrayList<Integer> mListRecordInt;
     private boolean mbStop = false, mbHint = false;
     private SharedPreferences mPrefs;
+    private File mFileBDW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         mBtnZoom = findViewById(R.id.btn_paint_zoom);
         mImgBtnReplay = findViewById(R.id.imgBtn_replay);
         miViewWidth = mPaintView.getMiWidth();
-        File mFileBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
+        mFileBDW = new File(getFilesDir().getPath() + BACKUP_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         if (mFileBDW.exists()) mBDWFileReader.readFromFile(mFileBDW);
         Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
@@ -327,5 +328,11 @@ public class PaintPlayActivity extends AppCompatActivity {
         mbStop = true;
         mHandlerTimerPlay.removeCallbacks(rb_play);
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mFileBDW.delete();
+        super.onDestroy();
     }
 }

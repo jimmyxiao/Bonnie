@@ -143,6 +143,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private void publishWorkEdit() {
         //上傳要關掉格線
         mPaintView.setMiGridCol(0);
+        mPaintView.saveTempBdw();
         mFullScreenDialog = new FullScreenDialog(this, R.layout.dialog_paint_save);
         final EditText workName = (EditText) mFullScreenDialog.findViewById(R.id.paint_save_work_name);
         final EditText workDescription = (EditText) mFullScreenDialog.findViewById(R.id.paint_save_work_description);
@@ -660,6 +661,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         switch (num) {
             case 0:
                 builder.setMessage(R.string.paint_sketch_save_title);
+                mPaintView.mFileBDW.delete();
+                mPaintView.mFilePNG.delete();
                 break;
             case 1:
                 builder.setMessage(R.string.paint_sketch_save_add_title);
