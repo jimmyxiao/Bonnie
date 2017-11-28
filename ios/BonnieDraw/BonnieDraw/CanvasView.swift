@@ -96,9 +96,9 @@ class CanvasView: UIView {
         while !cachePaths.isEmpty {
             let path = cachePaths.removeFirst()
             if path.points.first?.type != .background {
-                                context?.setBlendMode(path.blendMode)
-                                path.color.setStroke()
-                                path.bezierPath.stroke()
+                context?.setBlendMode(path.blendMode)
+                path.color.setStroke()
+                path.bezierPath.stroke()
             } else {
                 cacheBackgroundColor = path.color
             }
@@ -257,16 +257,16 @@ class CanvasView: UIView {
                 path.lineWidth = size
                 path.move(to: point)
                 let newPath = Path(blendMode: type == .eraser ? .clear : .normal,
-                                   bezierPath: path,
-                                   points: [Point(length: LENGTH_SIZE,
-                                                  function: .draw,
-                                                  position: point,
-                                                  color: color,
-                                                  action: .down,
-                                                  size: size,
-                                                  type: type,
-                                                  duration: 1.0 / 60.0)],
-                                   color: color)
+                        bezierPath: path,
+                        points: [Point(length: LENGTH_SIZE,
+                                function: .draw,
+                                position: point,
+                                color: color,
+                                action: .down,
+                                size: size,
+                                type: type,
+                                duration: 1.0 / 60.0)],
+                        color: color)
                 paths.append(newPath)
                 cachePaths.append(newPath)
             }
@@ -281,17 +281,17 @@ class CanvasView: UIView {
                 if bounds.contains(point) && point != previous {
                     let timestamp = touch.timestamp - lastTimestamp
                     if cachePaths.isEmpty,
-                        let startPosition = paths.last?.bezierPath.currentPoint,
-                        let startPoint = paths.last?.points.last{
+                       let startPosition = paths.last?.bezierPath.currentPoint,
+                       let startPoint = paths.last?.points.last {
                         let path = UIBezierPath()
                         path.lineJoinStyle = .round
                         path.lineCapStyle = .round
                         path.lineWidth = size
                         path.move(to: startPosition)
                         cachePaths.append(Path(blendMode: type == .eraser ? .clear : .normal,
-                                               bezierPath: path,
-                                               points: [startPoint],
-                                               color: color))
+                                bezierPath: path,
+                                points: [startPoint],
+                                color: color))
                     }
                     if hypot(point.x - previous.x, point.y - previous.y) < size / 3 {
                         paths.last?.bezierPath.addLine(to: point)
@@ -301,13 +301,13 @@ class CanvasView: UIView {
                         cachePaths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.x + previous.x) / 2, y: (point.y + previous.y) / 2), controlPoint: previous)
                     }
                     let newPoint = Point(length: LENGTH_SIZE,
-                                         function: .draw,
-                                         position: point,
-                                         color: color,
-                                         action: .move,
-                                         size: size,
-                                         type: type,
-                                         duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp)
+                            function: .draw,
+                            position: point,
+                            color: color,
+                            action: .move,
+                            size: size,
+                            type: type,
+                            duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp)
                     paths.last?.points.append(newPoint)
                     cachePaths.last?.points.append(newPoint)
                     lastTimestamp = touch.timestamp
@@ -325,17 +325,17 @@ class CanvasView: UIView {
                 if bounds.contains(point) {
                     let timestamp = touch.timestamp - lastTimestamp
                     if cachePaths.isEmpty,
-                        let startPosition = paths.last?.bezierPath.currentPoint,
-                        let startPoint = paths.last?.points.last{
+                       let startPosition = paths.last?.bezierPath.currentPoint,
+                       let startPoint = paths.last?.points.last {
                         let path = UIBezierPath()
                         path.lineJoinStyle = .round
                         path.lineCapStyle = .round
                         path.lineWidth = size
                         path.move(to: startPosition)
                         cachePaths.append(Path(blendMode: type == .eraser ? .clear : .normal,
-                                               bezierPath: path,
-                                               points: [startPoint],
-                                               color: color))
+                                bezierPath: path,
+                                points: [startPoint],
+                                color: color))
                     }
                     if hypot(point.x - previous.x, point.y - previous.y) < size / 3 {
                         paths.last?.bezierPath.addLine(to: point)
@@ -345,13 +345,13 @@ class CanvasView: UIView {
                         cachePaths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.x + previous.x) / 2, y: (point.y + previous.y) / 2), controlPoint: previous)
                     }
                     let newPoint = Point(length: LENGTH_SIZE,
-                                         function: .draw,
-                                         position: point,
-                                         color: color,
-                                         action: .up,
-                                         size: size,
-                                         type: type,
-                                         duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp)
+                            function: .draw,
+                            position: point,
+                            color: color,
+                            action: .up,
+                            size: size,
+                            type: type,
+                            duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp)
                     paths.last?.points.append(newPoint)
                     cachePaths.last?.points.append(newPoint)
                     lastTimestamp = touch.timestamp
