@@ -60,17 +60,17 @@ public class ConnectJson {
     }
 
     //更新作品資料
-    public static Request updateWorksave(SharedPreferences prefs,int privacyType,String title,String description,int worksId) {
+    public static Request updateWorksave(SharedPreferences prefs, int privacyType, String title, String description, int worksId) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("ac", 2);
-            json.put("privacyType",privacyType);
-            json.put("title",title);
-            json.put("description",description);
-            json.put("worksId",worksId);
+            json.put("privacyType", privacyType);
+            json.put("title", title);
+            json.put("description", description);
+            json.put("worksId", worksId);
             Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -307,7 +307,7 @@ public class ConnectJson {
         return json;
     }
 
-    public static JSONObject leaveMsg(SharedPreferences prefs, int wid, String msg) {
+    public static Request leaveMsg(SharedPreferences prefs, int wid, String msg) {
         JSONObject json = new JSONObject();
         try {
             //fn 1= add , 0= delete
@@ -320,22 +320,34 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_LEAVE_MESSAGE)
+                .post(body)
+                .build();
+        return request;
     }
 
-    public static JSONObject deleteLeaveMsg(SharedPreferences prefs, int wid, int msgId) {
+    public static Request deleteLeaveMsg(SharedPreferences prefs, int wid, int msgId) {
         JSONObject json = new JSONObject();
         try {
             //fn 1= add , 0= delete
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("fn", 0);
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("worksId", wid);
             json.put("msgId", msgId);
+            System.out.println("DELETE MSG JSON=" + json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_LEAVE_MESSAGE)
+                .post(body)
+                .build();
+        return request;
     }
 
     public static Request forgetPwd(String email) {
@@ -399,7 +411,6 @@ public class ConnectJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        System.out.println(json.toString());
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_FOLLOW_LIST_LINK)

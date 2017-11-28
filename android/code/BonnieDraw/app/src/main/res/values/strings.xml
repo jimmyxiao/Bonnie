@@ -137,4 +137,5 @@
     <string name="search_hint">搜尋作品 or 作者</string>
     <string name="fans">粉絲</string>
     <string name="following">追蹤中</string>
+    <string name="delete">刪除</string>
 </resources>

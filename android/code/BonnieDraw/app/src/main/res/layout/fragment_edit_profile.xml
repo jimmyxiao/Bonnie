@@ -94,7 +94,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7"
+                    android:hint="上限為 50 個字"
                     android:inputType="textPersonName"
+                    android:maxLength="50"
+                    android:maxLines="1"
                     android:text="" />
             </LinearLayout>
 
@@ -117,7 +120,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7"
+                    android:hint="上限為 50 個字"
                     android:inputType="textPersonName"
+                    android:maxLength="50"
+                    android:maxLines="1"
                     android:text="" />
             </LinearLayout>
 

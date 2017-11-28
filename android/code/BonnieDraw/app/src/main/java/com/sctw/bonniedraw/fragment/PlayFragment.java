@@ -418,16 +418,11 @@ public class PlayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (miPointCount > 0) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-                        }
-                    });
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
                     ToastUtil.createToastWindow(getContext(), getString(R.string.play_end), PxDpConvert.getSystemHight(getContext()) / 4);
                 }
-                mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+                int progess = 100 * miPointCurrent / mPaintView.mListTagPoint.size();
             }
         });
 
@@ -451,7 +446,9 @@ public class PlayFragment extends Fragment {
                 } else if (miPointCurrent == 0) {
                     ToastUtil.createToastWindow(getContext(), getString(R.string.play_frist), PxDpConvert.getSystemHight(getContext()) / 4);
                 }
-                mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+                int progess = 100 * miPointCurrent / mPaintView.mListTagPoint.size();
+                mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", progess));
+                mProgressBar.setProgress(progess);
             }
         });
     }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,16 +17,19 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.MsgAdapter;
-import com.sctw.bonniedraw.utility.ConnectJson;
-import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.bean.MsgBean;
+import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
+import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 
@@ -38,10 +42,8 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -58,6 +60,8 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
     SharedPreferences prefs;
     ArrayList<MsgBean> msgBeanArrayList;
     FrameLayout mFrameLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    MsgAdapter mAdapter;
     int miWid;
 
     public static MessageDialog newInstance(int wid) {
@@ -105,6 +109,13 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
         mBtnBack.setOnClickListener(this);
         mTtextPublish.setOnClickListener(this);
         mFrameLayout = view.findViewById(R.id.frameLayout_message_empty);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_message);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getMsgList();
+            }
+        });
         mRv = view.findViewById(R.id.recyclerview_message);
         LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(lm);
@@ -118,20 +129,16 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                 this.dismiss();
                 break;
             case R.id.textView_publish_msg:
-                onPublishMsg();
+                if (!mEidtMsg.getText().toString().isEmpty()) {
+                    onPublishMsg();
+                }
                 break;
         }
     }
 
     private void publishMsg() {
-        JSONObject json = ConnectJson.leaveMsg(prefs, miWid, mEidtMsg.getText().toString());
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        System.out.println(json.toString());
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_LEAVE_MESSAGE)
-                .post(body)
-                .build();
+        Request request = ConnectJson.leaveMsg(prefs, miWid, mEidtMsg.getText().toString());
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -152,7 +159,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                                 }
                             });
                         } else {
-                            ToastUtil.createToastWindow(getContext(), "留言失敗，請再試一次", PxDpConvert.getSystemHight(getContext())/4);
+                            ToastUtil.createToastWindow(getContext(), "留言失敗，請再試一次", PxDpConvert.getSystemHight(getContext()) / 4);
                         }
 
                     }
@@ -207,6 +214,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
     }
 
     private void refreshWorks(JSONArray data) {
+        mSwipeRefreshLayout.setRefreshing(false);
         msgBeanArrayList = new ArrayList<>();
         try {
             for (int x = 0; x < data.length(); x++) {
@@ -222,8 +230,8 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
             e.printStackTrace();
         }
 
-        MsgAdapter adapter = new MsgAdapter(getContext(), msgBeanArrayList, this);
-        mRv.setAdapter(adapter);
+        mAdapter = new MsgAdapter(getContext(), msgBeanArrayList, this);
+        mRv.setAdapter(mAdapter);
         mRv.setVisibility(View.VISIBLE);
     }
 
@@ -235,12 +243,60 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
     }
 
     @Override
-    public void onClickLike(int wid) {
-        Log.d("TAG MSG DIALOG LIKE", "Get position" + wid);
+    public void onClickExtra(final int position, final int msgId) {
+        final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_message_extra);
+        RelativeLayout layout = dialog.findViewById(R.id.relativeLayout_msg_extra);
+        Button btnCancel = dialog.findViewById(R.id.btn_extra_msg_cancel);
+        Button btnDelete = dialog.findViewById(R.id.btn_extra_msg_delete);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setMsgDelete(position, miWid, msgId);
+            }
+        });
+        dialog.show();
     }
 
-    @Override
-    public void onClickPublish(int wid) {
-        Log.d("TAG MSG DIALOG PUBLISH", "Get position" + wid);
+    private void setMsgDelete(final int position, int wid, int msgId) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.deleteLeaveMsg(prefs, wid, msgId);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToastUtil.createToastIsCheck(getContext(), "刪除成功", true, 0);
+                                    mAdapter.deleteMsg(position);
+                                }
+                            });
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
