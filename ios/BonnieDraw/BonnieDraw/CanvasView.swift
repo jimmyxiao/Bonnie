@@ -307,7 +307,7 @@ class CanvasView: UIView {
                             action: .move,
                             size: size,
                             type: type,
-                            duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp)
+                            duration: timestamp)
                     paths.last?.points.append(newPoint)
                     cachePaths.last?.points.append(newPoint)
                     lastTimestamp = touch.timestamp
@@ -351,7 +351,7 @@ class CanvasView: UIView {
                             action: .up,
                             size: size,
                             type: type,
-                            duration: timestamp > MAX_TIMESTAMP ? MAX_TIMESTAMP : timestamp)
+                            duration: timestamp)
                     paths.last?.points.append(newPoint)
                     cachePaths.last?.points.append(newPoint)
                     lastTimestamp = touch.timestamp
