@@ -107,6 +107,8 @@ class CanvasAnimationView: UIView {
                             }
                         }
                     }
+                    self.cacheImage = self.persistentImage
+                    self.cachePaths = self.paths
                 }
             } catch {
                 Logger.d("\(#function): \(error.localizedDescription)")
