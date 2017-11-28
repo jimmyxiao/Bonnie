@@ -560,6 +560,7 @@ public class LoginFragment extends Fragment {
                                 prefs.edit()
                                         .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
+                                        .putString(GlobalVariable.USER_NAME_STR, responseJSON.getJSONObject("userInfo").getString("userName"))
                                         .putString(GlobalVariable.USER_IMG_URL_STR, responseJSON.getJSONObject("userInfo").getString("profilePicture"))
                                         .apply();
                                 transferMainPage();

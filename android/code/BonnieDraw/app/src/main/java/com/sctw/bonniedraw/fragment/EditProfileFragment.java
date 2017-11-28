@@ -154,6 +154,7 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
                                 //Successful
+                                prefs.edit().putString(GlobalVariable.USER_NAME_STR, responseJSON.getString("userName")).apply();
                                 mEditTextName.setText(responseJSON.getString("userName"));
 
                                 if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
@@ -250,7 +251,6 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-
                                 ToastUtil.createToastWindow(getContext(), "更新成功",PxDpConvert.getSystemHight(getContext())/4);
                                 getUserInfo();
                             } else {

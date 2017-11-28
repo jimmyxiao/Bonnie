@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        createProfileInfo();
     }
 
     public void changeFragment(Fragment fragment) {
@@ -77,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         fragmentTransaction.commit();
     }
 
-    public void changeFragmentWithBundle(Fragment fragment,int num) {
-        Bundle bundle=new Bundle();
-        bundle.putInt("page",num);
+    public void changeFragmentWithBundle(Fragment fragment, int num) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("page", num);
         fragment.setArguments(bundle);
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -113,6 +112,27 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mRv.setAdapter(mAdapter);
 
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                createProfileInfo();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -134,10 +154,10 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.ic_btn_home:
-                        changeFragmentWithBundle(new HomeAndHotFragment(),1);
+                        changeFragmentWithBundle(new HomeAndHotFragment(), 1);
                         return true;
                     case R.id.ic_btn_hot:
-                        changeFragmentWithBundle(new HomeAndHotFragment(),2);
+                        changeFragmentWithBundle(new HomeAndHotFragment(), 2);
                         return true;
                     case R.id.ic_btn_notice:
                         changeFragment(new NoticeFragment());
@@ -163,8 +183,13 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     void createProfileInfo() {
         String userName = prefs.getString(GlobalVariable.USER_NAME_STR, "Null");
         mTextViewHeaderText.setText(userName);
-        String url = GlobalVariable.API_LINK_GET_FILE + prefs.getString(GlobalVariable.USER_IMG_URL_STR, "");
-        Glide.with(this).load(url).apply(GlideAppModule.getUserOptions()).into(mImgHeaderPhoto);
+        String path;
+        if (prefs.getString(GlobalVariable.USER_IMG_URL_STR, "").equals("null")) {
+            path = "";
+        } else {
+            path = GlobalVariable.API_LINK_GET_FILE + prefs.getString(GlobalVariable.USER_IMG_URL_STR, "");
+        }
+        Glide.with(this).load(path).apply(GlideAppModule.getUserOptions()).into(mImgHeaderPhoto);
     }
 
     void logout() {

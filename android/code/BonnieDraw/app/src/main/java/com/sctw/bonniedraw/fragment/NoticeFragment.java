@@ -66,7 +66,7 @@ public class NoticeFragment extends Fragment {
         mRv.setLayoutManager(lm);
         noticeInfoList = new ArrayList<>();
         mSwipeLayout = view.findViewById(R.id.swipeLayout_notice);
-        mFrameLayout=view.findViewById(R.id.frameLayout_notice);
+        mFrameLayout = view.findViewById(R.id.frameLayout_notice);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -103,7 +103,6 @@ public class NoticeFragment extends Fragment {
                                 public void run() {
                                     //下載資料
                                     try {
-                                        mFrameLayout.setVisibility(View.GONE);
                                         refreshNoice(responseJSON.getJSONArray("notiMsgList"));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -122,27 +121,30 @@ public class NoticeFragment extends Fragment {
     }
 
     private void refreshNoice(JSONArray data) {
-        try {
-            for (int x = 0; x < data.length(); x++) {
-                NoticeInfoBean bean = new NoticeInfoBean();
-                bean.setNotMsgId(data.getJSONObject(x).getInt("notiMsgId"));
-                bean.setMsg(data.getJSONObject(x).getString("message"));
-                bean.setNotiMsgType(data.getJSONObject(x).getInt("notiMsgType"));
-                bean.setUserIdFollow(data.getJSONObject(x).getInt("userIdFollow"));
-                bean.setUserNameFollow(data.getJSONObject(x).getString("userNameFollow"));
-                bean.setProfilePicture(data.getJSONObject(x).getString("profilePicture"));
-                bean.setWorkId(data.getJSONObject(x).getInt("worksId"));
-                bean.setWorkMsg(data.getJSONObject(x).getString("worksMsg"));
-                bean.setTitle(data.getJSONObject(x).getString("title"));
-                bean.setImagePath(data.getJSONObject(x).getString("imagePath"));
-                bean.setWorkMsgId(data.getJSONObject(x).getString("worksMsgId"));
-                bean.setCreationDate(data.getJSONObject(x).getString("creationDate"));
-                noticeInfoList.add(bean);
+        if (data.length() != 0) {
+            try {
+                mFrameLayout.setVisibility(View.GONE);
+                for (int x = 0; x < data.length(); x++) {
+                    NoticeInfoBean bean = new NoticeInfoBean();
+                    bean.setNotMsgId(data.getJSONObject(x).getInt("notiMsgId"));
+                    bean.setMsg(data.getJSONObject(x).getString("message"));
+                    bean.setNotiMsgType(data.getJSONObject(x).getInt("notiMsgType"));
+                    bean.setUserIdFollow(data.getJSONObject(x).getInt("userIdFollow"));
+                    bean.setUserNameFollow(data.getJSONObject(x).getString("userNameFollow"));
+                    bean.setProfilePicture(data.getJSONObject(x).getString("profilePicture"));
+                    bean.setWorkId(data.getJSONObject(x).getInt("worksId"));
+                    bean.setWorkMsg(data.getJSONObject(x).getString("worksMsg"));
+                    bean.setTitle(data.getJSONObject(x).getString("title"));
+                    bean.setImagePath(data.getJSONObject(x).getString("imagePath"));
+                    bean.setWorkMsgId(data.getJSONObject(x).getString("worksMsgId"));
+                    bean.setCreationDate(data.getJSONObject(x).getString("creationDate"));
+                    noticeInfoList.add(bean);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-        mAdapter = new NoticeAdapter(getContext(),noticeInfoList);
+        mAdapter = new NoticeAdapter(getContext(), noticeInfoList);
         mRv.setAdapter(mAdapter);
     }
 }
