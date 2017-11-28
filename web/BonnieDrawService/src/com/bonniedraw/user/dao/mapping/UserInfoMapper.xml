@@ -525,8 +525,10 @@
   	<select id="queryUserByIds" parameterType="java.util.Map" resultMap="UserInfoResponseModule">
     	select ui.user_id, ui.user_name, ui.profile_picture,
     	(case when user_id = tmp.following_user_id then true else false end) as isFollowing
-		from user_info ui,
+		from user_info ui
+		left join
 		(select following_user_id from following where user_id = #{userId,jdbcType=INTEGER} ) tmp
+		on ui.user_id = tmp.following_user_id
 		where user_id in 
 		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
 			#{item}

@@ -7,8 +7,7 @@
 					<div class="_1eg8c">
 						<!-- <div class="_l8yre _5g4e2 col-md-4 col-sm-6 col-xs-10 col-xs-offset-2"> -->
 						<div class="_l8yre _5g4e2x col-md-4 col-sm-6 col-xs-10 col-xs-offset-2">
-							<img class="_fya1f" ng-if="user.profilePicture!=null && user.profilePicture!=''" ng-src="{{imageLoadUrl}}{{user.profilePicture}}">
-							<img class="_fya1f" ng-if="user.profilePicture==null || user.profilePicture==''" src="assets/images/avatar/photo-round@3x.png">
+							<img class="_fya1f" ng-src="{{imageLoadUrl}}{{user.profilePicture}}" on-error-src="assets/images/avatar/photo-round@3x.png">
 						</div>
 						<div class="col-md-8 col-sm-6 col-xs-10 col-xs-offset-1">
 							<!--<h1 class="_9dz61">{{user.userCode}}</h1>-->
@@ -21,25 +20,25 @@
 				</div>
 				<div class="row">
 					<div class="vid-container file-box">
-						<a class="usercolor" href="" ng-click="queryMyWorks('w')">
+						<a class="usercolor" href="" ng-click="switchTab('w')">
 							<div class="col-md-3 col-sm-3 col-xs-3 file-text-line">
 								<p class="file-text">{{user.worksNum}}</p>
 								<p class="file-num">作品數</p>
 							</div>
 						</a>
-						<a class="usercolor" href="" ng-click="fansWorks('fa')">
+						<a class="usercolor" href="" ng-click="switchTab('fa')">
 							<div class="col-md-3 col-sm-3 col-xs-3 file-text-line">
 								<p class="file-text">{{user.fansNum}}</p>
 								<p class="file-num">粉絲數</p>
 							</div>
 						</a>
-						<a class="usercolor" href="" ng-click="followWorks('fo')">
+						<a class="usercolor" href="" ng-click="switchTab('fo')">
 							<div class="col-md-3 col-sm-3 col-xs-3 file-text-line">
 								<p class="file-text">{{user.followNum}}</p>
 								<p class="file-num">正在追蹤</p>
 							</div>
 						</a>
-						<a class="usercolor" href=""  ng-click="queryCollectionWorks('c')">
+						<a class="usercolor" href=""  ng-click="switchTab('c')">
 							<div class="col-md-3 col-sm-3 col-xs-3 ">
 								<p class="file-text">0</p>
 								<p class="file-num">收藏畫作</p>
@@ -49,7 +48,7 @@
 				</div>
 				<div class="row">
 					<div class="vid-container">
-						<div ng-show="workclick"; class="col-md-3 col-sm-3 col-xs-6" ng-repeat="data in dataList track by $index">
+						<div ng-if="usernav == 'w' || usernav == 'c'" class="col-md-3 col-sm-3 col-xs-6" ng-repeat="data in dataList track by $index">
 							<div class="latest-vid-img-container">		
 								<div class="vid-img">
 									<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
@@ -74,22 +73,20 @@
 							</div>
 						</div>-->
 
-						<div ng-show="!workclick"; class="col-md-3 col-sm-3 col-xs-6 fanfollow" ng-repeat="data in dataList track by $index">
+						<div ng-if="usernav == 'fa' || usernav == 'fo'" class="col-md-3 col-sm-3 col-xs-6 fanfollow" ng-repeat="data in dataList track by $index">
 							<div class="latest-vid-img-container fanfollowback">
 								<a ng-href="#/column-detail?id={{data.worksId}}">		
 									<div class="vid-img col-md-4 col-sm-4 col-xs-6 col-xs-offset-2">
-										<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
+										<img class="img-responsive" ng-src="{{imageLoadUrl}}{{data.profilePicture}}" on-error-src="assets/images/avatar/photo-round@3x.png" alt="image">
 									</div>
 								</a>
 								<div class="foll-r col-md-4 col-sm-4 col-xs-6 col-xs-offset-1">
 									<a href="#/userfile/{{data.userId}}">
 										<p class="file-num">{{data.userName}}</p>
 									</a>
-									<div class="foll-but" ng-if="data.like">
-										<button class="btn btn-snd-black">追蹤</button>
-									</div>
-									<div class="foll-but" ng-if="!data.like">
-										<button class="btn btn-snd-black">正在追蹤</button>
+									<div class="foll-but">
+										<button ng-if="!data.following" class="btn btn-snd-black" ng-click="clickFollow(data)">追蹤</button>
+										<button ng-if="data.following" class="btn btn-snd-black" ng-click="clickFollow(data)">取消追蹤</button>
 									</div>
 								</div>
 							</div>
