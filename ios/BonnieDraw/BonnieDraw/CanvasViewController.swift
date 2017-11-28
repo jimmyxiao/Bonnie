@@ -15,6 +15,7 @@ class CanvasViewController:
         CanvasAnimationViewDelegate,
         CanvasSettingTableViewControllerDelegate,
         SizePickerViewControllerDelegate,
+        BrushPickerViewControllerDelegate,
         ColorPickerViewControllerDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var canvas: CanvasView!
@@ -30,6 +31,7 @@ class CanvasViewController:
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var resetButton: UIBarButtonItem!
     @IBOutlet weak var colorButton: UIBarButtonItem!
+    private var lastPenType: Type?
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -131,11 +133,13 @@ class CanvasViewController:
     }
 
     @IBAction func didSelectEraser(_ sender: UIBarButtonItem) {
-        if canvas.type == .eraser {
+        if let lastPenType = lastPenType {
             sender.tintColor = .white
-            canvas.type = .pen
+            canvas.type = lastPenType
+            self.lastPenType = nil
         } else {
             sender.tintColor = .black
+            lastPenType = canvas.type
             canvas.type = .eraser
         }
     }
@@ -154,6 +158,13 @@ class CanvasViewController:
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width / 2, height: 76)
+        } else if let controller = segue.destination as? BrushPickerViewController {
+            controller.delegate = self
+            controller.value = Float(canvas.opacity)
+            controller.popoverPresentationController?.delegate = self
+            controller.popoverPresentationController?.canOverlapSourceViewRect = true
+            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width / 2, height: 208)
         } else if let controller = segue.destination as? ColorPickerViewController {
             controller.delegate = self
             if segue.identifier == Segue.BACKGROUND_COLOR {
@@ -229,7 +240,7 @@ class CanvasViewController:
         gridView.backgroundColor = color
     }
 
-    func canvasSetting(didSelectRowAt indexPath: IndexPath) {
+    internal func canvasSetting(didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
             let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -301,7 +312,7 @@ class CanvasViewController:
         }
     }
 
-    func sizePicker(didSelect size: CGFloat) {
+    internal func sizePicker(didSelect size: CGFloat) {
         canvas.size = size
         let rect = CGSize(width: 33, height: 33)
         UIGraphicsBeginImageContextWithOptions(rect, false, UIScreen.main.scale)
@@ -311,7 +322,31 @@ class CanvasViewController:
         UIGraphicsEndImageContext()
     }
 
-    func colorPicker(didSelect color: UIColor, type: ColorPickerViewController.ColorType?) {
+    internal func brushPicker(didSelect type: Type) {
+        canvas.type = type
+        var image: UIImage? = nil
+        switch type {
+        case .crayon:
+            image = UIImage(named: "draw_pen_ic_3")
+        case .pencil:
+            image = UIImage(named: "draw_pen_ic_2")
+        case .pen:
+            image = UIImage(named: "draw_pen_ic_1")
+        case .airbrush:
+            image = UIImage(named: "draw_pen_ic_5")
+        case .marker:
+            image = UIImage(named: "draw_pen_ic_4")
+        default:
+            return
+        }
+        penButton.setImage(image, for: .normal)
+    }
+
+    internal func brushPicker(didSelect alpha: CGFloat) {
+        canvas.opacity = 1 - alpha
+    }
+
+    internal func colorPicker(didSelect color: UIColor, type: ColorPickerViewController.ColorType?) {
         if type == .canvas {
             canvas.color = color
             colorButton.tintColor = color

@@ -12,11 +12,28 @@ class CanvasView: UIView {
     var delegate: CanvasViewDelegate?
     var size: CGFloat = 8
     var color = UIColor.black
-    var type = Type.pen
+    var opacity: CGFloat = 1
+    var type = Type.pen {
+        didSet {
+            switch type {
+            case .crayon:
+                brushImage = UIImage(named: "Crayon")
+            case .pencil:
+                brushImage = UIImage(named: "Pencil")
+            case .airbrush:
+                brushImage = UIImage(named: "Airbrush")
+            case .marker:
+                brushImage = UIImage(named: "Marker")
+            default:
+                brushImage = nil
+            }
+        }
+    }
     var paths = [Path]()
     var redoPaths = [Path]()
     var persistentBackgroundColor: UIColor?
     var persistentImage: UIImage?
+    private var brushImage: UIImage?
     private var cacheBackgroundColor: UIColor?
     private var cacheImage: UIImage?
     private var cachePaths = [Path]()
@@ -97,8 +114,14 @@ class CanvasView: UIView {
             let path = cachePaths.removeFirst()
             if path.points.first?.type != .background {
                 context?.setBlendMode(path.blendMode)
-                path.color.setStroke()
-                path.bezierPath.stroke()
+                if let brushImage = brushImage {
+                    for point in path.points {
+                        brushImage.draw(in: CGRect(x: point.position.x - point.size / 2, y: point.position.y - point.size / 2, width: point.size, height: point.size))
+                    }
+                } else {
+                    path.color.setStroke()
+                    path.bezierPath.stroke()
+                }
             } else {
                 cacheBackgroundColor = path.color
             }

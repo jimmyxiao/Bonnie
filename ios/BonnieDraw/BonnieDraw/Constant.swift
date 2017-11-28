@@ -81,6 +81,7 @@ struct Cell {
     static let USER = "userCell"
     static let NOTIFICATION = "notificationCell"
     static let CANVAS_SETTING = "canvasSettingCell"
+    static let BRUSH_PICKER = "brushPickerCell"
 }
 
 struct Service {
