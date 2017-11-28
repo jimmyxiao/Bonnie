@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mRv.setAdapter(mAdapter);
 
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        createProfileInfo();
         mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {

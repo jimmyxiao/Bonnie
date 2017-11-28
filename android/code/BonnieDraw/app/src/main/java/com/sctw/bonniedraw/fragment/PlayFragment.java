@@ -626,7 +626,6 @@ public class PlayFragment extends Fragment {
 
     private void setWorkView(JSONObject data, boolean refresh) {
         try {
-            String profilePictureUrl = "";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN);
             Date date = new Date(Long.valueOf(data.getString("updateDate")));
             mTvUserName.setText(data.getString("userName"));
@@ -649,14 +648,20 @@ public class PlayFragment extends Fragment {
             } else {
                 mBtnCollection.setPressed(false);
             }
+
             imgUrl = GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath");
             Glide.with(getContext())
                     .load(imgUrl)
                     .apply(GlideAppModule.getWorkOptions())
                     .thumbnail(Glide.with(getContext()).load(R.drawable.loading))
                     .into(mImgViewWorkImage);
+
+            String profilePictureUrl = "";
+            if (!data.getString("profilePicture").equals("null")) {
+                profilePictureUrl = GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture");
+            }
             Glide.with(getContext())
-                    .load(GlobalVariable.API_LINK_GET_FILE + data.getString("profilePicture"))
+                    .load(profilePictureUrl)
                     .apply(GlideAppModule.getUserOptions())
                     .into(mCircleImgUserPhoto);
             bdwPath = data.getString("bdwPath");

@@ -913,6 +913,7 @@ public class PaintView extends View {
             PaintView.this.destLineThread();
             //**add TagPoint
             onTouchUpTagPoint();
+            if(mBitmapList.size()>10) mBitmapList.remove(0);
             mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
         }
     }

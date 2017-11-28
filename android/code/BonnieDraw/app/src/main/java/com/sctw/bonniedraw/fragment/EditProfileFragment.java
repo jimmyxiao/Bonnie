@@ -140,7 +140,7 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "連線失敗",PxDpConvert.getSystemHight(getContext())/4);
+                ToastUtil.createToastWindow(getContext(), "連線失敗", PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -197,15 +197,15 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
 
                                 String profileUrl = "";
                                 if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                    //URL profilePicUrl = new URL();
                                     profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
+                                    prefs.edit().putString(GlobalVariable.USER_IMG_URL_STR, responseJSON.getString("profilePicture")).apply();
                                 }
                                 Glide.with(getContext())
                                         .load(profileUrl)
                                         .apply(GlideAppModule.getUserOptions())
                                         .into(mImgViewPhoto);
                             } else {
-                                ToastUtil.createToastWindow(getContext(), "連線失敗",PxDpConvert.getSystemHight(getContext())/4);
+                                ToastUtil.createToastWindow(getContext(), "連線失敗", PxDpConvert.getSystemHight(getContext()) / 4);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -238,7 +238,7 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "更新失敗",PxDpConvert.getSystemHight(getContext())/4);
+                ToastUtil.createToastWindow(getContext(), "更新失敗", PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -251,10 +251,10 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                ToastUtil.createToastWindow(getContext(), "更新成功",PxDpConvert.getSystemHight(getContext())/4);
-                                getUserInfo();
+                                ToastUtil.createToastWindow(getContext(), "更新成功", PxDpConvert.getSystemHight(getContext()) / 4);
+                                getActivity().onBackPressed();
                             } else {
-                                ToastUtil.createToastWindow(getContext(), "更新失敗",PxDpConvert.getSystemHight(getContext())/4);
+                                ToastUtil.createToastWindow(getContext(), "更新失敗", PxDpConvert.getSystemHight(getContext()) / 4);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -311,9 +311,9 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
                             responseJSON = new JSONObject(response.body().string());
                             if (responseJSON.getInt("res") == 1) {
                                 Log.d("上傳圖片", "成功");
-                                ToastUtil.createToastIsCheck(getContext(), "大頭貼替換成功", true, PxDpConvert.getSystemHight(getActivity())/4);
+                                ToastUtil.createToastIsCheck(getContext(), "大頭貼替換成功", true, PxDpConvert.getSystemHight(getActivity()) / 4);
                             } else {
-                                ToastUtil.createToastIsCheck(getContext(), "大頭貼替換失敗", false, PxDpConvert.getSystemHight(getActivity())/4);
+                                ToastUtil.createToastIsCheck(getContext(), "大頭貼替換失敗", false, PxDpConvert.getSystemHight(getActivity()) / 4);
                             }
                             System.out.println(responseJSON.toString());
                         } catch (IOException | JSONException e) {

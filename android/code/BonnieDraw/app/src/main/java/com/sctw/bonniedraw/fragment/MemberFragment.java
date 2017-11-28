@@ -255,6 +255,13 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     }
 
     private void setOnClickEvent() {
+        mBtnExtra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FullScreenDialog dialog=new FullScreenDialog(getContext(),R.layout.dialog_member_extra);
+            }
+        });
+
         mLlFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
