@@ -11,27 +11,33 @@ import UIKit
 class CanvasAnimationView: UIView {
     var delegate: CanvasAnimationViewDelegate?
     var url: URL?
+    private var paths = [Path]()
+    private var animatePoints = [Point]()
     private var persistentBackgroundColor: UIColor?
     private var persistentImage: UIImage?
+    private var cacheBackgroundColor: UIColor?
+    private var cacheImage: UIImage?
+    private var cachePaths = [Path]()
     private var readHandle: FileHandle?
-    private var paths = [Path]()
-    private var cachePoints = [Point]()
     private var timer: Timer?
 
     override func draw(_ rect: CGRect) {
-        persistentImage?.draw(in: bounds)
         let context = UIGraphicsGetCurrentContext()
-        var backgroundColor: UIColor? = nil
-        for path in paths {
+        cacheImage?.draw(in: rect)
+        while !cachePaths.isEmpty {
+            let path = cachePaths.removeFirst()
             if path.points.first?.type != .background {
                 context?.setBlendMode(path.blendMode)
                 path.color.setStroke()
                 path.bezierPath.stroke()
             } else {
-                backgroundColor = path.color
+                cacheBackgroundColor = path.color
             }
         }
-        delegate?.canvasAnimation(changeBackgroundColor: backgroundColor ?? persistentBackgroundColor ?? .white)
+        if let cgImage = context?.makeImage() {
+            cacheImage = UIImage(cgImage: cgImage)
+        }
+        delegate?.canvasAnimation(changeBackgroundColor: cacheBackgroundColor ?? persistentBackgroundColor ?? .white)
         if paths.last?.blendMode == .clear,
            let point = paths.last?.points.last,
            point.action == .move {
@@ -39,7 +45,7 @@ class CanvasAnimationView: UIView {
             UIColor.black.setStroke()
             UIBezierPath(arcCenter: point.position, radius: point.size / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
         }
-        if !cachePoints.isEmpty {
+        if !animatePoints.isEmpty {
             animate()
         } else if !paths.isEmpty {
             delegate?.canvasAnimationDidFinishAnimation()
@@ -113,21 +119,24 @@ class CanvasAnimationView: UIView {
     }
 
     func play() {
-        if cachePoints.isEmpty {
+        if animatePoints.isEmpty {
             persistentBackgroundColor = nil
             persistentImage = nil
+            cacheBackgroundColor = nil
+            cacheImage = nil
+            cachePaths.removeAll()
             paths.removeAll()
             do {
                 timer?.invalidate()
                 if let url = url {
                     let readHandle = try FileHandle(forReadingFrom: url)
-                    cachePoints.append(
+                    animatePoints.append(
                             contentsOf: DataConverter.parse(
                                     dataToPoints: readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)),
                                     withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
                     self.readHandle = readHandle
                 }
-                if !cachePoints.isEmpty {
+                if !animatePoints.isEmpty {
                     animate()
                 } else {
                     delegate?.canvasAnimationFileParseError()
@@ -144,7 +153,7 @@ class CanvasAnimationView: UIView {
     }
 
     private func animate() {
-        let point = cachePoints.removeFirst()
+        let point = animatePoints.removeFirst()
         if bounds.contains(point.position) {
             if point.action == .down {
                 let path = UIBezierPath()
@@ -152,20 +161,37 @@ class CanvasAnimationView: UIView {
                 path.lineCapStyle = .round
                 path.lineWidth = point.size
                 path.move(to: point.position)
-                self.paths.append(
-                        Path(blendMode: point.type == .eraser ? .clear : .normal,
-                                bezierPath: path,
-                                points: [point],
-                                color: point.color))
+                let newPath = Path(blendMode: point.type == .eraser ? .clear : .normal,
+                        bezierPath: path,
+                        points: [point],
+                        color: point.color)
+                paths.append(newPath)
+                cachePaths.append(newPath)
             } else if let previous = paths.last?.points.last?.position {
-                if hypot(point.position.x - previous.x, point.position.y - previous.y) < point.size / 3 {
-                    self.paths.last?.bezierPath.addLine(to: point.position)
-                } else {
-                    self.paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.position.x + previous.x) / 2, y: (point.position.y + previous.y) / 2), controlPoint: previous)
+                if cachePaths.isEmpty,
+                   let startPosition = paths.last?.bezierPath.currentPoint,
+                   let startPoint = paths.last?.points.last {
+                    let path = UIBezierPath()
+                    path.lineJoinStyle = .round
+                    path.lineCapStyle = .round
+                    path.lineWidth = point.size
+                    path.move(to: startPosition)
+                    cachePaths.append(Path(blendMode: point.type == .eraser ? .clear : .normal,
+                            bezierPath: path,
+                            points: [startPoint],
+                            color: point.color))
                 }
-                self.paths.last?.points.append(point)
+                if hypot(point.position.x - previous.x, point.position.y - previous.y) < point.size / 3 {
+                    paths.last?.bezierPath.addLine(to: point.position)
+                    cachePaths.last?.bezierPath.addLine(to: point.position)
+                } else {
+                    paths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.position.x + previous.x) / 2, y: (point.position.y + previous.y) / 2), controlPoint: previous)
+                    cachePaths.last?.bezierPath.addQuadCurve(to: CGPoint(x: (point.position.x + previous.x) / 2, y: (point.position.y + previous.y) / 2), controlPoint: previous)
+                }
+                paths.last?.points.append(point)
+                cachePaths.last?.points.append(point)
                 if point.action == .up {
-                    self.drawToPersistentImage(withBounds: bounds)
+                    drawToPersistentImage(withBounds: bounds)
                 }
             }
             timer?.invalidate()
@@ -174,10 +200,10 @@ class CanvasAnimationView: UIView {
                 self.setNeedsDisplay()
             }
         }
-        if let readHandle = readHandle, cachePoints.count < POINT_BUFFER_COUNT / 2 {
+        if let readHandle = readHandle, animatePoints.count < POINT_BUFFER_COUNT / 2 {
             let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
             let data = readHandle.readData(ofLength: maxByteCount)
-            cachePoints.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
+            animatePoints.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
             if data.count < maxByteCount {
                 readHandle.closeFile()
                 self.readHandle = nil
