@@ -48,6 +48,7 @@ dependencies {
     compile group: 'org.apache.xmlgraphics', name: 'batik-codec', version: '1.7'
     compile 'org.bouncycastle:bcprov-jdk15on:1.47'    
     compile 'ch.qos.logback:logback-classic:1.1.2'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
 }
 
 eclipse {
