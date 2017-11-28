@@ -1,7 +1,9 @@
 package com.sctw.bonniedraw.paint;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
+import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
@@ -26,24 +29,24 @@ public class PaintPlayActivity extends AppCompatActivity {
     private static final String SKETCH_FILE_BDW = "/backup.bdw";
     private Handler mHandlerTimerPlay = new Handler();
     private TextView mTextViewPlayProgress;
-    private ImageButton mBtnBack, mBtnAutoPlay, mBtnNext, mBtnPrevious, mBtnGrid, mImgBtnReplay, mBtnPause;
+    private ImageButton mBtnBack, mBtnAutoPlay, mBtnNext, mBtnPrevious, mBtnGrid, mImgBtnReplay, mBtnPause, mBtnZoom;
     private int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 10;
     private FrameLayout mFrameLayoutFreePaint;
     private PaintView mPaintView;
     private int miViewWidth;
     private boolean mbPlaying = false, mbAutoPlay = false;
-    private File mFileBDW;
     private BDWFileReader mBDWFileReader;
     private int mCurrentBrushId = 3;
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
-    private boolean mbStop = false;
+    private boolean mbStop = false, mbHint = false;
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paint_play);
-
+        mPrefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         mPaintView = new PaintView(this, true);
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
@@ -55,9 +58,10 @@ public class PaintPlayActivity extends AppCompatActivity {
         mBtnGrid = findViewById(R.id.imgBtn_paint_grid);
         mBtnBack = findViewById(R.id.imgBtn_paint_back);
         mBtnPause = findViewById(R.id.imgBtn_pause);
+        mBtnZoom = findViewById(R.id.btn_paint_zoom);
         mImgBtnReplay = findViewById(R.id.imgBtn_replay);
         miViewWidth = mPaintView.getMiWidth();
-        mFileBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
+        File mFileBDW = new File(getFilesDir().getPath() + SKETCH_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         if (mFileBDW.exists()) mBDWFileReader.readFromFile(mFileBDW);
         Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
@@ -125,6 +129,44 @@ public class PaintPlayActivity extends AppCompatActivity {
     };
 
     void setImgBtnOnClick() {
+        mBtnZoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!mPaintView.mbZoomMode) {
+                    mPaintView.mbZoomMode = true;
+                    mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_down_icon));
+                    if (!mbHint) {
+                        mbHint = true;
+                        mPrefs.edit().putBoolean("zoomhint", true).apply();
+                        final FullScreenDialog dialog = new FullScreenDialog(PaintPlayActivity.this, R.layout.item_hint_zoom);
+                        ConstraintLayout layout = dialog.findViewById(R.id.ll_hint_zoom);
+                        layout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+                    }
+                } else {
+                    mPaintView.mbZoomMode = false;
+                    mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_up_icon));
+                }
+            }
+        });
+
+        mBtnZoom.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                //myView.layout(0, 0, myView.getWidth(), myView.getHeight());
+                mPaintView.setTranslationX(0);
+                mPaintView.setTranslationY(0);
+                mPaintView.setScaleX(1);
+                mPaintView.setScaleY(1);
+                return true;
+            }
+        });
+
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

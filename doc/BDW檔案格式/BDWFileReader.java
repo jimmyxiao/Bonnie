@@ -66,7 +66,7 @@ public class BDWFileReader {
         byte[] buf = new byte[4];
         try
         {
-                        int iPosX = 0;
+            int iPosX = 0;
             int iPosY = 0;
             int iColor = 0;
             int iAction = 0;

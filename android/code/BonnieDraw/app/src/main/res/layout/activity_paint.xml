@@ -314,7 +314,7 @@
         android:id="@+id/btn_paint_zoom"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:background="@color/Transparent"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"

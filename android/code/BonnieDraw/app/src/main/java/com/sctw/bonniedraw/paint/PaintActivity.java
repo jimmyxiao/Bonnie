@@ -693,7 +693,9 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     public void onBackMethod() {
         System.out.println(mPaintView.mFileBDW.exists());
-        if (mPaintView.mListTagPoint.size() != 0 && mPaintView.mBDWReader.m_tagArray == null) {
+        if (mPaintView.mListTagPoint.isEmpty()) {
+            finish();
+        } else if (mPaintView.mListTagPoint.size() != 0 && mPaintView.mBDWReader.m_tagArray == null) {
             callSaveDialog(0);
         } else if (mPaintView.mFileBDW.exists() && mPaintView.mFileBDW.length() > 0) {
             if (mPaintView.mListTagPoint.size() != mPaintView.mBDWReader.m_tagArray.size()) {
