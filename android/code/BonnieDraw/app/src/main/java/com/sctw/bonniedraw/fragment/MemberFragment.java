@@ -15,9 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +34,7 @@ import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.widget.MessageDialog;
+import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -507,6 +511,41 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         });
     }
 
+    public void setReport(int workId, int turnInType, String description) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.reportWork(prefs, workId, turnInType, description);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true, 0);
+                                } else {
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
+                                }
+                                System.out.println(responseJSON.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     //覆寫interface事件
     @Override
     public void onWorkImgClick(int wid) {
@@ -538,8 +577,30 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         extraReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("POSTION CLICK", "extraReport" + wid);
                 extraDialog.dismiss();
+                final FullScreenDialog reportDialog = new FullScreenDialog(getContext(), R.layout.dialog_work_report);
+                final Spinner spinner = reportDialog.findViewById(R.id.spinner_report);
+                final EditText editText = reportDialog.findViewById(R.id.editText_report);
+                Button btnCancel = reportDialog.findViewById(R.id.btn_report_cancel);
+                Button btnCommit = reportDialog.findViewById(R.id.btn_report_commit);
+                ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
+                        getContext(), R.array.report, android.R.layout.simple_spinner_item);
+                nAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+                spinner.setAdapter(nAdapter);
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        reportDialog.dismiss();
+                    }
+                });
+                btnCommit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setReport(wid, spinner.getSelectedItemPosition() + 1, editText.getText().toString());
+                        reportDialog.dismiss();
+                    }
+                });
+                reportDialog.show();
             }
         });
 

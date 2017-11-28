@@ -79,4 +79,13 @@ public class TagPoint {
     public void set_iReserved(int iReserved) {
         this.iReserved = iReserved;
     }
+
+    @Override
+    public String toString() {
+        return "TagPoint{" +
+                "iPosX=" + iPosX +
+                ", iPosY=" + iPosY +
+                ", iAction=" + iAction +
+                '}';
+    }
 }

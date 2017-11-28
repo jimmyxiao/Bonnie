@@ -201,7 +201,7 @@ public class PaintView extends View {
             }
             invalidate();
         } else {
-            ToastUtil.createToastWindow(getContext(), "復原次數到達上限",PxDpConvert.getSystemHight(getContext())/4);
+            ToastUtil.createToastWindow(getContext(), "復原次數到達上限", PxDpConvert.getSystemHight(getContext()) / 4);
         }
     }
 
@@ -226,7 +226,7 @@ public class PaintView extends View {
 
             invalidate();
         } else {
-            ToastUtil.createToastWindow(getContext(), "重作次數到達上限",PxDpConvert.getSystemHight(getContext())/4);
+            ToastUtil.createToastWindow(getContext(), "重作次數到達上限", PxDpConvert.getSystemHight(getContext()) / 4);
         }
     }
 
@@ -238,7 +238,7 @@ public class PaintView extends View {
             this.mMergedLayerCanvas.setBitmap(mMergedLayer);
             invalidate();
         } else {
-            ToastUtil.createToastWindow(getContext(), "復原次數到達上限",PxDpConvert.getSystemHight(getContext())/4);
+            ToastUtil.createToastWindow(getContext(), "復原次數到達上限", PxDpConvert.getSystemHight(getContext()) / 4);
         }
     }
 
@@ -983,12 +983,16 @@ public class PaintView extends View {
     }
 
     private void onTouchMoveTagPoint(float x, float y, float t) {
-        TagPoint tagpoint = new TagPoint();
-        tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
-        tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
-        tagpoint.set_iTime((int) t);
-        tagpoint.set_iAction(MotionEvent.ACTION_MOVE + 1);
-        mListTagPoint.add(tagpoint);
+        if (y < this.getHeight() && y >= 0) {
+            TagPoint tagpoint = new TagPoint();
+            tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
+            tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
+            tagpoint.set_iTime((int) t);
+            tagpoint.set_iAction(MotionEvent.ACTION_MOVE + 1);
+            mListTagPoint.add(tagpoint);
+        }else {
+            System.out.println("Overlay");
+        }
     }
 
     private void onTouchUpTagPoint() {
