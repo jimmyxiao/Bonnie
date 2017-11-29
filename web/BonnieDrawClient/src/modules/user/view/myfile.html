@@ -7,7 +7,7 @@
 					<div class="_1eg8c">
 						<!-- <div class="_l8yre _5g4e2 col-md-4 col-sm-6 col-xs-10 col-xs-offset-2"> -->
 						<div class="_l8yre _5g4e2x col-md-4 col-sm-6 col-xs-10 col-xs-offset-2">
-							<img class="_fya1f" ng-src="{{imageLoadUrl}}{{user.profilePicture}}" on-error-src="assets/images/avatar/photo-round@3x.png">
+							<img class="_fya1f" ng-src="{{imageLoadUrl}}{{rg_gl.currentUser.userInfo.profilePicture}}" on-error-src="assets/images/avatar/photo-round@3x.png">
 						</div>
 						<div class="col-md-8 col-sm-6 col-xs-10 col-xs-offset-1">
 							<!--<h1 class="_9dz61">{{user.userCode}}</h1>-->
@@ -40,7 +40,7 @@
 						</a>
 						<a class="usercolor" href=""  ng-click="switchTab('c')">
 							<div class="col-md-3 col-sm-3 col-xs-3 ">
-								<p class="file-text">0</p>
+								<p class="file-text">{{user.collectionNum}}</p>
 								<p class="file-num">收藏畫作</p>
 							</div>
 						</a>
