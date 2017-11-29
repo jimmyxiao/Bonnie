@@ -103,15 +103,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkLoginInfo(SharedPreferences prefs) {
-        switch (prefs.getString(GlobalVariable.USER_PLATFORM_STR, "null")) {
+        switch (prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0)) {
             case GlobalVariable.EMAIL_LOGIN:
                 loginEamil();
                 break;
-            case "null":
+            case 0:
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(getApplicationContext(),"登入資料異常", PxDpConvert.getSystemHight(getApplicationContext())/4);
+                        ToastUtil.createToastWindow(getApplicationContext(), "登入資料異常", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
                 break;
@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(LoginActivity.this,"連線失敗，請檢查網路狀態",PxDpConvert.getSystemHight(getApplicationContext())/4);
+                        ToastUtil.createToastWindow(LoginActivity.this, "連線失敗，請檢查網路狀態", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
             }
@@ -149,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (responseJSON.getInt("res") == 1) {
                                 //Successful
                                 prefs.edit()
-                                        .putString(GlobalVariable.USER_PLATFORM_STR, "1")
+                                        .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.EMAIL_LOGIN)
                                         .putString(GlobalVariable.USER_TOKEN_STR, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.USER_NAME_STR, responseJSON.getJSONObject("userInfo").getString("userName"))
                                         .putString(GlobalVariable.USER_EMAIL_STR, responseJSON.getJSONObject("userInfo").getString("email"))
@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                ToastUtil.createToastWindow(LoginActivity.this, "登入失敗",PxDpConvert.getSystemHight(getApplicationContext())/4);
+                                ToastUtil.createToastWindow(LoginActivity.this, "登入失敗", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(LoginActivity.this,"登入失敗",PxDpConvert.getSystemHight(getApplicationContext())/4);
+                        ToastUtil.createToastWindow(LoginActivity.this, "登入失敗", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
             }
@@ -207,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ToastUtil.createToastWindow(LoginActivity.this, "登入失敗",PxDpConvert.getSystemHight(getApplicationContext())/4);
+                                        ToastUtil.createToastWindow(LoginActivity.this, "登入失敗", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                                         transferLoginPage();
                                     }
                                 });

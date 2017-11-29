@@ -143,6 +143,10 @@ public class Brush {
         return (this.size - this.minSize) / (this.maxSize - this.minSize);
     }
 
+    public int getSize(){
+        return (int)this.size;
+    }
+
     public float getSizeFromScaledSize(float scaledSize) {
         return this.minSize + (this.maxSize - this.minSize) * scaledSize;
     }
@@ -161,7 +165,29 @@ public class Brush {
         return true;
     }
 
-    public void setEraser(boolean set){
-        isEraser=set;
+    public boolean setSize(int size) {
+        int temp=size;
+        if (temp < minSize) {
+            temp = (int) minSize;
+        } else if (temp > maxSize) {
+            temp = (int) maxSize;
+        }
+        if (this.size == temp){
+            return false;
+        }
+        this.size = temp;
+        return true;
+    }
+
+    public float getMinSize() {
+        return this.minSize;
+    }
+
+    public float getMaxSize() {
+        return this.maxSize;
+    }
+
+    public void setEraser(boolean set) {
+        isEraser = set;
     }
 }

@@ -29,14 +29,6 @@ public class PxDpConvert {
         return (int) dot * GlobalPx / displayWidth;
     }
 
-    public static int getWidthSize(Context c) {
-        WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size.x;
-    }
-
     public static int getSystemHight(Context c){
         WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();

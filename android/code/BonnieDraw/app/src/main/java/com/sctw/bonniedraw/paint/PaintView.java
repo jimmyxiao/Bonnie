@@ -61,7 +61,6 @@ public class PaintView extends View {
     //********  Brush  ******************
 
     private static final float STROKE_WIDTH = 20.0f;
-    public static final float STROKE_SACLE_VALUE = 27.0F;
 
     private Brush mBrush;
     private int mColor;
@@ -480,6 +479,16 @@ public class PaintView extends View {
         if (mBrush.setScaledSize(scaledSize)) {
             setBrush(mBrush);
         }
+    }
+
+    public void setDrawingSize(int size){
+        if(mBrush.setSize(size)){
+            setBrush(mBrush);
+        }
+    }
+
+    public int getDrawingSize() {
+        return mBrush.getSize();
     }
 
     public void setDrawingAlpha(float alpha) {
@@ -908,12 +917,12 @@ public class PaintView extends View {
         }
 
         @Override
-        protected void onTouchUp() {
+        protected void onTouchUp(float x, float y) {
             //Log.d("PaintView", "onTouchUp");
             PaintView.this.destLineThread();
             //**add TagPoint
-            onTouchUpTagPoint();
-            if(mBitmapList.size()>10) mBitmapList.remove(0);
+            onTouchUpTagPoint(x, y);
+            if (mBitmapList.size() > 10) mBitmapList.remove(0);
             mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
         }
     }
@@ -952,7 +961,6 @@ public class PaintView extends View {
                     tipSpeedAlpha = 1.0f;
                 }
                 if (this.mLastDrawDistance > 0.0f) {
-
                     //Log.d("PaintView", "onTouchMove " + px + ", " + py);
                     PaintView.this.addSpot(px, py, tipSpeedScale, tipSpeedAlpha);
                 }
@@ -962,7 +970,7 @@ public class PaintView extends View {
         }
 
         @Override
-        protected void onTouchUp() {
+        protected void onTouchUp(float x, float y) {
             //Log.d("PaintView", "onTouchUp");
             PaintView.this.destLineThread();
             mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
@@ -973,9 +981,10 @@ public class PaintView extends View {
         TagPoint tagpoint = new TagPoint();
         tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
         tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
-        tagpoint.set_iSize(PxDpConvert.displayToFormat(getDrawingScaledSize() * STROKE_SACLE_VALUE, miWidth));
+        tagpoint.set_iSize(PxDpConvert.displayToFormat(getDrawingSize(), miWidth));
         tagpoint.set_iBrush(miPaintNum);
         tagpoint.set_iColor(mColor);
+        tagpoint.set_iReserved((int) (getDrawingAlpha() * 100));
         if (mBrush.isEraser) {
             tagpoint.set_iBrush(0);
         }
@@ -984,20 +993,18 @@ public class PaintView extends View {
     }
 
     private void onTouchMoveTagPoint(float x, float y, float t) {
-        if (y < this.getHeight() && y >= 0) {
-            TagPoint tagpoint = new TagPoint();
-            tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
-            tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
-            tagpoint.set_iTime((int) t);
-            tagpoint.set_iAction(MotionEvent.ACTION_MOVE + 1);
-            mListTagPoint.add(tagpoint);
-        }else {
-            System.out.println("Overlay");
-        }
+        TagPoint tagpoint = new TagPoint();
+        tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
+        tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
+        tagpoint.set_iTime((int) t);
+        tagpoint.set_iAction(MotionEvent.ACTION_MOVE + 1);
+        mListTagPoint.add(tagpoint);
     }
 
-    private void onTouchUpTagPoint() {
+    private void onTouchUpTagPoint(float x, float y) {
         TagPoint tagpoint = new TagPoint();
+        tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
+        tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
         tagpoint.set_iAction(MotionEvent.ACTION_UP + 1);
         mListTagPoint.add(tagpoint);
         mListTempPoint.add(mListTagPoint.size());

@@ -20,18 +20,20 @@ import razerdp.basepopup.BasePopupWindow;
 public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
     private OnSeekChange listener;
     private SeekBar mSeekbar;
+    private int miMaxSize;
+    private int miMinSize;
 
     @Override
     public void onClick(View v) {
         int progress = mSeekbar.getProgress();
         switch (v.getId()) {
             case R.id.imgBtn_paint_base_add:
-                if (progress < 100) progress++;
+                if (progress < miMaxSize) progress++;
                 listener.onSizeAdd(progress);
                 mSeekbar.setProgress(progress);
                 break;
             case R.id.imgBtn_paint_base_decrease:
-                if (progress > 0) progress--;
+                if (progress > miMinSize) progress--;
                 listener.onSizeDecrease(progress);
                 mSeekbar.setProgress(progress);
                 break;
@@ -41,20 +43,25 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
     public interface OnSeekChange {
         void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser);
 
-        void onStartTrackingTouch(SeekBar seekBar);
-
         void onSizeAdd(int progress);
 
         void onSizeDecrease(int progress);
+
+        void onSetSize(int progress);
     }
 
-    public void changeProgress(int progress){
+    public void changeProgress(int progress, int max, int min) {
         mSeekbar.setProgress(progress);
+        mSeekbar.setMax(max);
+        this.miMaxSize = max;
+        this.miMinSize = min;
     }
 
-    public SeekbarPopup(Context context, OnSeekChange listener) {
+    public SeekbarPopup(Context context, OnSeekChange listener, int max, int min) {
         super(context, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.listener = listener;
+        this.miMaxSize = max;
+        this.miMinSize = min;
         mSeekbar = (SeekBar) findViewById(R.id.seekbar_paint_base);
         mSeekbar.setOnSeekBarChangeListener(this);
         ImageButton mBtnAdd = (ImageButton) findViewById(R.id.imgBtn_paint_base_add);
@@ -97,12 +104,17 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        listener.onProgressChanged(seekBar, progress, fromUser);
+        if (progress >= miMinSize) {
+            seekBar.setProgress(progress);
+            listener.onProgressChanged(seekBar, progress, fromUser);
+        } else {
+            seekBar.setProgress(miMinSize);
+            listener.onSetSize(seekBar.getProgress());
+        }
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        listener.onStartTrackingTouch(seekBar);
     }
 
     @Override

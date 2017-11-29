@@ -65,7 +65,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -157,7 +156,10 @@ public class PlayFragment extends Fragment {
                                 mPaintView.setDrawingColor(tagpoint.get_iColor());
                             }
                             if (tagpoint.get_iSize() != 0) {
-                                mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth));
+                                mPaintView.setDrawingSize((int)PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
+                            }
+                            if(tagpoint.get_iReserved()!=0){
+                                mPaintView.setDrawingAlpha(tagpoint.get_iReserved()/100.0f);
                             }
                             mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
                             mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
@@ -224,7 +226,6 @@ public class PlayFragment extends Fragment {
                 }
             }
         });
-
     }
 
     private void setOnClick() {

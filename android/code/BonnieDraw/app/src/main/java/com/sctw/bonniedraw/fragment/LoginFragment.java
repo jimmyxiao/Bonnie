@@ -219,12 +219,14 @@ public class LoginFragment extends Fragment {
                         String name = userResult.data.name;
                         String email = userResult.data.email;
                         String photoUrl = userResult.data.profileImageUrl.replace("_normal", "_bigger");
+                        String id = userResult.data.idStr;
                         prefs.edit()
-                                .putString(GlobalVariable.USER_PLATFORM_STR, "4")
+                                .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_TWITTER)
                                 .putString(GlobalVariable.USER_TOKEN_STR, token)
                                 .putString(GlobalVariable.USER_NAME_STR, name)
                                 .putString(GlobalVariable.USER_EMAIL_STR, email)
                                 .putString(GlobalVariable.USER_IMG_URL_STR, photoUrl)
+                                .putString(GlobalVariable.USER_FB_TWITTER_ID_STR, id)
                                 .apply();
                         loginThird(GlobalVariable.API_LOGIN_CODE);
                     }
@@ -286,16 +288,14 @@ public class LoginFragment extends Fragment {
                                 try {
                                     profilePicUrl = new URL(object.getJSONObject("picture").getJSONObject("data").getString("url"));
                                     prefs.edit()
-                                            .putString(GlobalVariable.USER_PLATFORM_STR, "2")
+                                            .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_FACEBOOK)
                                             .putString(GlobalVariable.USER_TOKEN_STR, accessToken.toString())
                                             .putString(GlobalVariable.USER_NAME_STR, object.getString("name"))
                                             .putString(GlobalVariable.USER_EMAIL_STR, object.getString("email"))
                                             .putString(GlobalVariable.USER_IMG_URL_STR, profilePicUrl.toString())
-                                            .putString(GlobalVariable.USER_FB_ID_STR, object.getString("id"))
+                                            .putString(GlobalVariable.USER_FB_TWITTER_ID_STR, object.getString("id"))
                                             .apply();
                                     loginThird(GlobalVariable.API_LOGIN_CODE);
-                                    Log.d("Check FB", prefs.getString(GlobalVariable.USER_FB_ID_STR, "null"));
-                                    Log.d("Check FB IMG URL", prefs.getString(GlobalVariable.USER_IMG_URL_STR, "null"));
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
                                     ToastUtil.createToastWindow(getContext(), "發生錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
@@ -334,7 +334,7 @@ public class LoginFragment extends Fragment {
                 try {
                     profilePicUrl = new URL(acct.getPhotoUrl().toString());
                     prefs.edit()
-                            .putString(GlobalVariable.USER_PLATFORM_STR, "3")
+                            .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_GOOGLE)
                             .putString(GlobalVariable.USER_TOKEN_STR, acct.getIdToken())
                             .putString(GlobalVariable.USER_NAME_STR, acct.getDisplayName())
                             .putString(GlobalVariable.USER_EMAIL_STR, acct.getEmail())
@@ -441,7 +441,7 @@ public class LoginFragment extends Fragment {
                             if (responseJSON.getInt("res") == 1) {
                                 //Successful
                                 prefs.edit()
-                                        .putString(GlobalVariable.USER_PLATFORM_STR, "1")
+                                        .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.EMAIL_LOGIN)
                                         .putString("emailLoginPwd", mInputEditTextPassword.getText().toString())
                                         .putString(GlobalVariable.USER_TOKEN_STR, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.USER_NAME_STR, responseJSON.getJSONObject("userInfo").getString("userName"))
@@ -472,7 +472,7 @@ public class LoginFragment extends Fragment {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, (getString(R.string.commit)),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if (!prefs.getString(GlobalVariable.USER_FB_ID_STR, "null").isEmpty()) {
+                        if (!prefs.getString(GlobalVariable.USER_FB_TWITTER_ID_STR, "null").isEmpty()) {
                             LoginManager.getInstance().logOut();
                         }
                         prefs.edit().clear().apply();
@@ -487,17 +487,15 @@ public class LoginFragment extends Fragment {
 
     //登入失敗自己登出第三方平台
     public void logoutPlatform() {
-        switch (prefs.getString(GlobalVariable.USER_PLATFORM_STR, "null")) {
-            case "0":
-                break;
-            case "1":
+        switch (prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0)) {
+            case GlobalVariable.EMAIL_LOGIN:
                 prefs.edit().clear().apply();
                 break;
-            case "2":
+            case GlobalVariable.THIRD_LOGIN_FACEBOOK:
                 LoginManager.getInstance().logOut();
                 prefs.edit().clear().apply();
                 break;
-            case "3":
+            case GlobalVariable.THIRD_LOGIN_GOOGLE:
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
@@ -505,11 +503,11 @@ public class LoginFragment extends Fragment {
                     }
                 });
                 break;
-            case "4":
+            case GlobalVariable.THIRD_LOGIN_TWITTER:
                 TwitterCore.getInstance().getSessionManager().clearActiveSession();
                 prefs.edit().clear().apply();
                 break;
-            case "null":
+            case 0:
                 Toast.makeText(getActivity(), "has error", Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -534,6 +532,7 @@ public class LoginFragment extends Fragment {
     private void loginThird(int select) {
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         JSONObject json = loginJSONFormat(select);
+        System.out.println(json.toString());
         RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
                 .url(GlobalVariable.API_LINK_LOGIN)
@@ -582,15 +581,16 @@ public class LoginFragment extends Fragment {
         JSONObject json = new JSONObject();
         try {
             // 1登入 2註冊 3檢查EMAIL
-            if (prefs.getString(GlobalVariable.USER_PLATFORM_STR, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
-                json.put("uc", prefs.getString(GlobalVariable.USER_FB_ID_STR, ""));
+            int platform = prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0);
+            if (platform == GlobalVariable.THIRD_LOGIN_FACEBOOK || platform == GlobalVariable.THIRD_LOGIN_TWITTER) {
+                json.put("uc", prefs.getString(GlobalVariable.USER_FB_TWITTER_ID_STR, ""));
             } else {
                 json.put("uc", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
             }
 
             switch (style) {
                 case GlobalVariable.API_LOGIN_CODE:
-                    json.put("ut", prefs.getString(GlobalVariable.USER_PLATFORM_STR, ""));
+                    json.put("ut", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
                     json.put("un", prefs.getString(GlobalVariable.USER_NAME_STR, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
@@ -598,16 +598,15 @@ public class LoginFragment extends Fragment {
                     json.put("thirdPictureUrl", prefs.getString(GlobalVariable.USER_IMG_URL_STR, ""));
                     break;
                 case GlobalVariable.API_REGISTER_CODE:
-                    json.put("ut", prefs.getString(GlobalVariable.USER_PLATFORM_STR, ""));
+                    json.put("ut", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
                     json.put("un", prefs.getString(GlobalVariable.USER_NAME_STR, ""));
-                    json.put("ut", prefs.getString(GlobalVariable.USER_PLATFORM_STR, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_REGISTER);
                     json.put("thirdEmail", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
                     json.put("thirdPictureUrl", prefs.getString(GlobalVariable.USER_IMG_URL_STR, ""));
                     break;
                 case GlobalVariable.API_CHECK_EMAIL_CODE:
-                    json.put("ut", prefs.getString(GlobalVariable.USER_PLATFORM_STR, ""));
+                    json.put("ut", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_CHECK_EMAIL);
                     json.put("thirdEmail", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));

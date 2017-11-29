@@ -23,8 +23,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static com.sctw.bonniedraw.paint.PaintView.STROKE_SACLE_VALUE;
-
 public class PaintPlayActivity extends AppCompatActivity {
     private static final String BACKUP_FILE_BDW = "/backup.bdw";
     private Handler mHandlerTimerPlay = new Handler();
@@ -90,7 +88,10 @@ public class PaintPlayActivity extends AppCompatActivity {
                                 mPaintView.setDrawingColor(tagpoint.get_iColor());
                             }
                             if (tagpoint.get_iSize() != 0) {
-                                mPaintView.setDrawingScaledSize(PxDpConvert.formatToDisplay(tagpoint.get_iSize() / STROKE_SACLE_VALUE, miViewWidth));
+                                mPaintView.setDrawingSize((int)PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
+                            }
+                            if(tagpoint.get_iReserved()!=0){
+                                mPaintView.setDrawingAlpha(tagpoint.get_iReserved()/100.0f);
                             }
                             mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
                             mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
@@ -103,6 +104,8 @@ public class PaintPlayActivity extends AppCompatActivity {
                             mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
                             break;
                         case MotionEvent.ACTION_UP:
+                            mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                            mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
                             mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
                             mListRecordInt.add(miPointCurrent + 1);
                             mbPlaying = false;

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:background="@color/White">
 
     <ImageButton
@@ -23,7 +24,8 @@
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:background="#F26F45"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:touchscreenBlocksFocus="false">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/header_user_photo"

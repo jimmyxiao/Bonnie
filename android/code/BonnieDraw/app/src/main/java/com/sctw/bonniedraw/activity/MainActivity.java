@@ -213,17 +213,15 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     }
 
     public void logoutPlatform() {
-        switch (prefs.getString(GlobalVariable.USER_PLATFORM_STR, "null")) {
-            case "0":
-                break;
-            case "1":
+        switch (prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0)) {
+            case GlobalVariable.EMAIL_LOGIN:
                 cleanValue();
                 break;
-            case "2":
+            case GlobalVariable.THIRD_LOGIN_FACEBOOK:
                 LoginManager.getInstance().logOut();
                 cleanValue();
                 break;
-            case "3":
+            case GlobalVariable.THIRD_LOGIN_GOOGLE:
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
@@ -231,11 +229,11 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                     }
                 });
                 break;
-            case "4":
+            case GlobalVariable.THIRD_LOGIN_TWITTER:
                 TwitterCore.getInstance().getSessionManager().clearActiveSession();
                 cleanValue();
                 break;
-            case "null":
+            case 0:
                 Toast.makeText(this, "has error", Toast.LENGTH_SHORT).show();
                 break;
         }

@@ -26,12 +26,13 @@ public class ConnectJson {
         try {
             switch (type) {
                 case 3:
-                    if (prefs.getString(GlobalVariable.USER_PLATFORM_STR, "").equals(GlobalVariable.THIRD_LOGIN_FACEBOOK)) {
-                        json.put("uc", prefs.getString(GlobalVariable.USER_FB_ID_STR, ""));
+                    int platform = prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0);
+                    if (platform == GlobalVariable.THIRD_LOGIN_FACEBOOK || platform == GlobalVariable.THIRD_LOGIN_TWITTER) {
+                        json.put("uc", prefs.getString(GlobalVariable.USER_FB_TWITTER_ID_STR, ""));
                     } else {
                         json.put("uc", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
                     }
-                    json.put("ut", prefs.getString(GlobalVariable.USER_PLATFORM_STR, ""));
+                    json.put("ut", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
                     json.put("un", prefs.getString(GlobalVariable.USER_NAME_STR, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
@@ -130,7 +131,7 @@ public class ConnectJson {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("userType", prefs.getString(GlobalVariable.USER_PLATFORM_STR, "null"));
+            json.put("userType", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
             json.put("userCode", prefs.getString(GlobalVariable.USER_EMAIL_STR, "null"));
             json.put("userName", userName);
             json.put("nickName", nickName);

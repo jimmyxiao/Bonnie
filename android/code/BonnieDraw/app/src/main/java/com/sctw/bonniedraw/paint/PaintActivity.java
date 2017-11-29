@@ -116,8 +116,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         //********Init Brush*******
         mSeekbarOpacity.setProgress(100);
         mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
-        mPaintView.setDrawingScaledSize(30 / 100.f);
-        mSeekbarPopup = new SeekbarPopup(this, this);
+        mSeekbarPopup = new SeekbarPopup(this, this, (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
         mPaintView.setDrawingAlpha(100 / 100.0f);
         defaultColor();
         mPaintView.onCheckSketch();
@@ -413,7 +412,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnErase.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                mSeekbarPopup.changeProgress((int) (mPaintView.getDrawingScaledSize() * 100));
+                mSeekbarPopup.changeProgress((int) (mPaintView.getDrawingSize()), (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
                 mSeekbarPopup.showPopupWindow(v);
                 return false;
             }
@@ -422,7 +421,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnSize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSeekbarPopup.changeProgress((int) (mPaintView.getDrawingScaledSize() * 100));
+                mSeekbarPopup.changeProgress((int) (mPaintView.getDrawingSize()), (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
                 mSeekbarPopup.showPopupWindow(v);
             }
         });
@@ -545,7 +544,11 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         findViewById(R.id.imgBtn_paint_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                publishWorkEdit();
+                if (mPaintView.mListTagPoint.size() > 0) {
+                    publishWorkEdit();
+                } else {
+                    ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_need_draw), 0);
+                }
             }
         });
 
@@ -762,6 +765,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 mMenuPopup.dismiss();
                 break;
             case MenuPopup.PAINT_SETTING_EXTRA:
+                Log.d("當前顏色 int =", String.valueOf(mPaintView.getDrawingColor()));
                 Log.d("當前顏色", Integer.toHexString(mPaintView.getDrawingColor()));
                 break;
         }
@@ -789,30 +793,30 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         }
     }
 
-
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
-            mPaintView.setDrawingScaledSize(progress / 100.f);
-            ToastUtil.createToastWindowSize(this, mPaintView.getBrush().getSizeFromScaledSize(progress / 100.0f));
+            mPaintView.setDrawingSize(progress);
+            ToastUtil.createToastWindowSize(this, mPaintView.getDrawingSize());
         }
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        ToastUtil.createToastWindowSize(this, mPaintView.getBrush().getSizeFromScaledSize(seekBar.getProgress() / 100.0f));
-    }
-
-    @Override
     public void onSizeAdd(int progress) {
-        mPaintView.setDrawingScaledSize(progress / 100.f);
-        ToastUtil.createToastWindowSize(this, mPaintView.getBrush().getSizeFromScaledSize(progress / 100.0f));
+        mPaintView.setDrawingSize(progress);
+        ToastUtil.createToastWindowSize(this, mPaintView.getDrawingSize());
     }
 
     @Override
     public void onSizeDecrease(int progress) {
-        mPaintView.setDrawingScaledSize(progress / 100.f);
-        ToastUtil.createToastWindowSize(this, mPaintView.getBrush().getSizeFromScaledSize(progress / 100.0f));
+        mPaintView.setDrawingSize(progress);
+        ToastUtil.createToastWindowSize(this, mPaintView.getDrawingSize());
+    }
+
+    @Override
+    public void onSetSize(int progress) {
+        mPaintView.setDrawingSize(progress);
+        ToastUtil.createToastWindowSize(this, mPaintView.getDrawingSize());
     }
 
     private void openGridScreen() {

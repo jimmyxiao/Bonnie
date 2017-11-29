@@ -21,7 +21,8 @@ public abstract class TouchResampler {
         }
         i -= 3;
         addToPath(xyt[i], xyt[i + 1], (long) xyt[i + 2], false);
-        endPath();
+        //Empty var x,y
+        endPath(0,0);
     }
 
     public boolean getXYVAtDistance(float distance, float[] xyv) {
@@ -41,7 +42,7 @@ public abstract class TouchResampler {
             case MotionEvent.ACTION_UP:
                 //Log.d("TouchResampler", "ACTION_UP");
                 addToPath(x, y, t, false);
-                endPath();
+                endPath(x,y);
                 break;
             case MotionEvent.ACTION_MOVE:
                 //Log.d("TouchResampler", "ACTION_MOVE");
@@ -61,7 +62,7 @@ public abstract class TouchResampler {
 
     protected abstract void onTouchMove(float f, float f2, float f3);
 
-    protected abstract void onTouchUp();
+    protected abstract void onTouchUp(float f,float f2);
 
     protected void startPath(float x, float y, long t) {
         onTouchDown(x, y);
@@ -71,8 +72,8 @@ public abstract class TouchResampler {
         onTouchMove(x, y, (float) t);
     }
 
-    protected void endPath() {
-        onTouchUp();
+    protected void endPath(float x,float y) {
+        onTouchUp(x,y);
     }
 
 
