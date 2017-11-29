@@ -481,8 +481,8 @@ public class PaintView extends View {
         }
     }
 
-    public void setDrawingSize(int size){
-        if(mBrush.setSize(size)){
+    public void setDrawingSize(int size) {
+        if (mBrush.setSize(size)) {
             setBrush(mBrush);
         }
     }

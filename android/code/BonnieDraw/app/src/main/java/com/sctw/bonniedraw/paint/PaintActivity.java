@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
@@ -35,7 +34,6 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
-import com.sctw.bonniedraw.utility.Thumbnail;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
 import com.sctw.bonniedraw.widget.SeekbarPopup;
@@ -150,22 +148,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         Button saveWork = (Button) mFullScreenDialog.findViewById(R.id.btn_save_paint_save);
         ImageButton saveCancel = (ImageButton) mFullScreenDialog.findViewById(R.id.btn_save_paint_back);
         Spinner privacyTypes = (Spinner) mFullScreenDialog.findViewById(R.id.paint_save_work_privacytype);
-        File pngfile = null;
-        try {
-            File vPath = new File(getFilesDir() + "/bonniedraw");
-            if (!vPath.exists()) vPath.mkdirs();
-            pngfile = new File(vPath + "thumbnail.png");
-            FileOutputStream fos = new FileOutputStream(pngfile);
-            mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
-            workPreview.setImageBitmap(Thumbnail.getBitmap(getApplicationContext(), Uri.fromFile(pngfile)));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (pngfile != null && pngfile.exists()) pngfile.delete();
-        }
-
+        Bitmap temp = mPaintView.getDrawingCache(true);
+        workPreview.setImageBitmap(temp);
         //設定公開權限與預設值
         ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
                 this, R.array.privacies, R.layout.item_spinner);
@@ -216,7 +200,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 mFullScreenDialog.dismiss();
             }
         });
-        mFullScreenDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
         mFullScreenDialog.show();
     }
 
