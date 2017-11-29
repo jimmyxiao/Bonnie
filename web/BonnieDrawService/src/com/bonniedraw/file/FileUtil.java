@@ -17,13 +17,14 @@ import com.bonniedraw.util.SercurityUtil;
 public class FileUtil {
 	
 	public static Map<String, Object> copyURLToFile(String url, String path){
-		if(url.indexOf("?") != -1){
-			url = url.split("\\?")[0].toString();
-		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("status", false);
 		result.put("path", null);
-		String extension = url.substring(url.lastIndexOf("."));
+		String urlFilePath = url;
+		if(url.indexOf("?") != -1) {
+			urlFilePath = urlFilePath.split("\\?")[0].toString();
+		}
+		String extension = urlFilePath.substring(urlFilePath.lastIndexOf("."));
 		String newFileName = SercurityUtil.getUUID() + extension;
 		String rootPath = System.getProperty("catalina.home");
 		String childrenPath = "/files/" + path;
