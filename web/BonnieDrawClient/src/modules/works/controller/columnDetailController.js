@@ -104,8 +104,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
                 }else{
                 	console.log('not last');
                 	$scope.islast = false;
-                	$scope.funcol = false;
-					$scope.funcolStop = true;
+                	//$scope.funcol = false;
+					//$scope.funcolStop = true;
                 }
 			}
 		}
