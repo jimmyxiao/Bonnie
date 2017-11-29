@@ -17,7 +17,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.canvasStop = false;
 
 		$scope.fastarr = ['100','70','40','10','0.2','0.5'];//s~q
-		$scope.fasti =0;
+		$scope.fasti = 0;
+		$scope.fastiPow = Math.pow(2,$scope.fasti);
 		$scope.fastnum = 100;
 
 		var paused= false;
@@ -133,12 +134,14 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				switch(tag) {
 					case "forward":
 						if(($scope.fastarr.length-1)>$scope.fasti){
-							$scope.fasti++;							
+							$scope.fasti++;	
+							$scope.fastiPow = Math.pow(2,$scope.fasti);						
 						}
 						break;
 					case "rewind":
 						if($scope.fasti>0){
-							$scope.fasti--;							
+							$scope.fasti--;
+							$scope.fastiPow = Math.pow(2,$scope.fasti);							
 						}
 						break;
 				}
@@ -174,15 +177,15 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		    var imgData=ctx_c.getImageData(0, 0, c.width, c.height);
 		    for (var i=0;i<imgData.data.length;i+=4)
 		    {
-		        imgData.data[i]= r | imgData.data[i];
-		        imgData.data[i+1]= g | imgData.data[i+1];
-		        imgData.data[i+2]= b | imgData.data[i+2];
-		        imgData.data[i+3]= imgData.data[i+3];
+		        //imgData.data[i]= b | imgData.data[i];
+		        //imgData.data[i+1]= g | imgData.data[i+1];
+		        //imgData.data[i+2]= r | imgData.data[i+2];
+		        //imgData.data[i+3]= imgData.data[i+3];
 
-		        //imgData.data[i]= r ;
-		        //imgData.data[i+1]= g ;
-		        //imgData.data[i+2]= b ;
-		        //imgData.data[i+3]= imgData.data[i+3]*a;
+		        imgData.data[i]= r ;
+		        imgData.data[i+1]= g ;
+		        imgData.data[i+2]= b ;
+		        imgData.data[i+3]= imgData.data[i+3];//*a;
 		    }
 		    ctx_c.putImageData(imgData,0,0);
 		    return c;
@@ -264,7 +267,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		imgarray[4] = new Image();
 		imgarray[4].src = 'assets/images/BrushImage/FeltPen_brush_45_c.png';
-		brush_Alpha[4] = 0.04;
+		brush_Alpha[4] = 0.4;
 		brush_imgAlpha[4] = 1;
 		bursh_array[4] = '麥克筆'
 		brush_Composite[4] ='source-over';
@@ -429,11 +432,10 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			var tmpColor = 0;
 			var tmpSize = 0;
 			var tmpBrush = 0;		
-
 			for(i=0;i<lines.length; i++){
 				lines[i].xPos = Math.floor(lines[i].xPos / 65536 * canvas_width);
-				lines[i].yPos = Math.floor(lines[i].yPos / 65536 * canvas_height);
-				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_height)*2;
+				lines[i].yPos = Math.floor(lines[i].yPos / 65536 * canvas_width);
+				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width)*2;
 				if(lines[i].action){
 					switch(lines[i].action){
 						case 1:
@@ -481,17 +483,21 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			}
 		}
 
+
 		$scope.drawingPlay = function(){
 			var param = util.getInitalScope();
 			param.wid = wid;
 			worksService.getDrawingPlay(param,function(data, status, headers, config){		
 				$scope.lin = data.pointList;
+				console.log($scope.lin);
+				
 				if($scope.lin && $scope.lin.length>0){
 					angular.element(document.getElementById("jsonCanvas")).ready(function () {
 						can = document.getElementById("jsonCanvas");
 						cxt = can.getContext("2d");
         				playing();
     				});
+    				console.log('file');
 				}else{
 					console.log('notfile');
 					$scope.notfile = false;
@@ -499,7 +505,6 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			})
 		}
 		$scope.drawingPlay();
-
 
 		$scope.textareaModel ={
 			text:'',
