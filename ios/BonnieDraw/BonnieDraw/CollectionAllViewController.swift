@@ -95,6 +95,7 @@ class CollectionAllViewController: UIViewController, UICollectionViewDataSource,
                             likes: work["likeCount"] as? Int))
                 }
                 self.collectionView.reloadSections([0])
+                self.collectionView.isHidden = self.works.isEmpty
                 self.emptyLabel.isHidden = !self.works.isEmpty
                 if !self.loading.isHidden {
                     self.loading.hide(true)
