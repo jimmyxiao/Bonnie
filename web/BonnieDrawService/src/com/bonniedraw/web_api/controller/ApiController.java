@@ -242,6 +242,7 @@ public class ApiController {
 				break;
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -333,6 +334,7 @@ public class ApiController {
 				msg="資料異常";
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -381,6 +383,7 @@ public class ApiController {
 				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -406,6 +409,7 @@ public class ApiController {
 				msg = "無第三方登入平台";
 			}		
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -434,6 +438,7 @@ public class ApiController {
 				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -514,6 +519,7 @@ public class ApiController {
 					}
 				}
 			}else{
+				respResult.setRes(0);
 				msg = "帳號未登入"; 
 			}
 			respResult.setMsg(msg);
@@ -539,6 +545,7 @@ public class ApiController {
 				msg = "異常";
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -564,6 +571,7 @@ public class ApiController {
 				msg="資料異常";
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -590,6 +598,7 @@ public class ApiController {
 				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -619,6 +628,7 @@ public class ApiController {
 				msg = messageSource.getMessage("api_data_error",null,request.getLocale());
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -716,6 +726,7 @@ public class ApiController {
 						}
 					}
 				}else{
+					respResult.setRes(0);
 					msg = "帳號未登入"; 
 				}
 			}else{
@@ -800,6 +811,7 @@ public class ApiController {
 			respResult.setPointList(worksServiceAPI.getDrawingPlay(drawingPlayRequestVO.getWid(), drawingPlayRequestVO.getUi()));
 			respResult.setRes(1);
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -816,6 +828,7 @@ public class ApiController {
 			respResult.setCategoryList(categoryList);
 			respResult.setRes(1);
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -836,6 +849,7 @@ public class ApiController {
 				msg = "資料異常";
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -871,6 +885,7 @@ public class ApiController {
 				msg = "資料異常";
 			}
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -887,6 +902,7 @@ public class ApiController {
 				respResult.setTagList(tagList);
 				respResult.setRes(1);
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
@@ -903,6 +919,7 @@ public class ApiController {
 				respResult.setRes(1);
 				respResult.setNotiMsgList(notiMsgList);
 		}else{
+			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
 		respResult.setMsg(msg);
