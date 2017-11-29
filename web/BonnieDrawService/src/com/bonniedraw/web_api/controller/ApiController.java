@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.notification.service.NotiMsgService;
@@ -326,6 +327,7 @@ public class ApiController {
 					respResult.setWorksNum(userCounter.getWorksNum());
 					respResult.setFansNum(userCounter.getFansNum());
 					respResult.setFollowNum(userCounter.getFollowNum());
+					respResult.setCollectionNum(userCounter.getCollectionNum());
 				}
 			}else{
 				msg="資料異常";
@@ -438,6 +440,7 @@ public class ApiController {
 		return respResult;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/worksList" , produces="application/json")
 	public @ResponseBody WorkListResponseVO worksList(HttpServletRequest request,HttpServletResponse resp,@RequestBody WorkListRequestVO workListRequestVO) {
 		WorkListResponseVO respResult = new WorkListResponseVO();
@@ -839,6 +842,7 @@ public class ApiController {
 		return respResult;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/followingList" , produces="application/json")
 	public @ResponseBody FollowingListResponseVO getFollowingList(HttpServletRequest request,HttpServletResponse resp, @RequestBody FollowingListRequestVO followingListRequestVO) {
 		FollowingListResponseVO respResult = new FollowingListResponseVO();

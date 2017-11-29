@@ -23,6 +23,7 @@ public class UserInfoQueryResponseVO extends ApiResponseVO {
 	private Integer worksNum;
 	private Integer fansNum;
 	private Integer followNum;
+	private Integer collectionNum;
 	private boolean isFollow;
 
 	public int getUserType() {
@@ -167,6 +168,14 @@ public class UserInfoQueryResponseVO extends ApiResponseVO {
 
 	public void setFollowNum(Integer followNum) {
 		this.followNum = followNum;
+	}
+	
+	public Integer getCollectionNum() {
+		return collectionNum;
+	}
+
+	public void setCollectionNum(Integer collectionNum) {
+		this.collectionNum = collectionNum;
 	}
 
 	public boolean isFollow() {

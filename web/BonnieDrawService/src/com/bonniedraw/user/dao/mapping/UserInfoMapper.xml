@@ -483,7 +483,10 @@
 			(select count(FOLLOWING_ID) as fansNum from FOLLOWING where FOLLOWING_USER_ID = #{userId,jdbcType=INTEGER} ) fan,
 			(select count(FOLLOWING_ID) as followNum from FOLLOWING fl 
 				RIGHT JOIN user_info ui on fl.FOLLOWING_USER_ID = ui.USER_ID 
-					where fl.USER_ID = #{userId,jdbcType=INTEGER} ) fol
+					where fl.USER_ID = #{userId,jdbcType=INTEGER} ) fol,
+			(select count(wc.WORKS_COLLECTION_ID) as collectionNum from WORKS_COLLECTION wc
+				right join WORKS wk on wk.WORKS_ID = wc.WORKS_ID
+					where wc.COLLECTION_TYPE = 1 and wc.USER_ID = #{userId,jdbcType=INTEGER} and wk.status = 1) col
 		)
   	</select>
   	

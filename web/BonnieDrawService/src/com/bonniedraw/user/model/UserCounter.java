@@ -4,6 +4,7 @@ public class UserCounter {
 	private Integer worksNum;
 	private Integer fansNum;
 	private Integer followNum;
+	private Integer collectionNum;
 
 	public Integer getWorksNum() {
 		return worksNum;
@@ -27,6 +28,14 @@ public class UserCounter {
 
 	public void setFollowNum(Integer followNum) {
 		this.followNum = followNum;
+	}
+
+	public Integer getCollectionNum() {
+		return collectionNum;
+	}
+
+	public void setCollectionNum(Integer collectionNum) {
+		this.collectionNum = collectionNum;
 	}
 
 }
