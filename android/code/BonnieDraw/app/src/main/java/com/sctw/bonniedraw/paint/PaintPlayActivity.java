@@ -81,6 +81,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                                 mPaintView.getBrush().setEraser(false);
                                 int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                                 mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
+                                System.out.println("筆代號 = " + paintId);
                             } else {
                                 mPaintView.getBrush().setEraser(true);
                             }
@@ -88,10 +89,10 @@ public class PaintPlayActivity extends AppCompatActivity {
                                 mPaintView.setDrawingColor(tagpoint.get_iColor());
                             }
                             if (tagpoint.get_iSize() != 0) {
-                                mPaintView.setDrawingSize((int)PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
+                                mPaintView.setDrawingSize((int) PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
                             }
-                            if(tagpoint.get_iReserved()!=0){
-                                mPaintView.setDrawingAlpha(tagpoint.get_iReserved()/100.0f);
+                            if (tagpoint.get_iReserved() != 0) {
+                                mPaintView.setDrawingAlpha(tagpoint.get_iReserved() / 100.0f);
                             }
                             mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
                             mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);

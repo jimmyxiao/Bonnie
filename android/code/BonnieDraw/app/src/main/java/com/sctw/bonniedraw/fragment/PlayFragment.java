@@ -149,6 +149,7 @@ public class PlayFragment extends Fragment {
                                 mPaintView.getBrush().setEraser(false);
                                 int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                                 mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
+                                System.out.println("筆代號 = " + paintId);
                             } else {
                                 mPaintView.getBrush().setEraser(true);
                             }
