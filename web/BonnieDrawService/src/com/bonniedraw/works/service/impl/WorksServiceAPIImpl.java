@@ -197,6 +197,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		worksTagMapper.insertWorksTagList(insertList);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void compareWorksTag(ArrayList<String> sharpTagList, int wid) throws Exception {
 		List<WorksTag> existWorksTags = worksTagMapper.selectByWorksId(wid);
 		if(ValidateUtil.isNotEmptyAndSize(existWorksTags) && ValidateUtil.isNotEmptyAndSize(sharpTagList)){	//比對是否有不同的Tag
@@ -498,8 +499,11 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	}
 	
 	@Override
-	public List<Point> getDrawingPlay(int wid, int userId) {
+	public Map<String, Object> getDrawingPlay(int wid, int userId, int stn, int rc) {
 		List<Point> pointList = new ArrayList<Point>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("res", 2);
+		resultMap.put("pointList", pointList);
 		Works works = worksMapper.selectByPrimaryKey(wid);
 		if(works!=null){
 			if(works.getUserId() == userId || (works.getStatus()==1 && works.getPrivacyType()==1 && ValidateUtil.isNotBlank(works.getBdwPath())) ){
@@ -507,16 +511,24 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				String rootPath = System.getProperty("catalina.home");
 				String filePath = rootPath + path;
 				File file = new File(filePath);
+				int fileLength = (int) (long) file.length();
 				try{
 					if(file.exists()){
-						pointList = BDWAnalysis.decrypt(file);
+						int endLoffset = stn + rc;
+						pointList = BDWAnalysis.decrypt(file, stn, endLoffset);
+						if(fileLength<=endLoffset){
+							resultMap.put("res", 4);
+						}else{
+							resultMap.put("res", 1);
+						}
+						resultMap.put("pointList", pointList);
 					}
 				}catch(Exception e){
 					LogUtils.fileConteollerError(filePath + " loadFile has error : 輸出發生異常 =>" +e);
 				}
 			}
 		}
-		return pointList;
+		return resultMap;
 	}
 
 	private void getAllChildern(List<CategoryInfoResponse> categoryList){

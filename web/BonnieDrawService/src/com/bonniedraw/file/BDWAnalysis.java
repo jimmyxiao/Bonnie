@@ -6,33 +6,42 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bonniedraw.util.LogUtils;
+
 public class BDWAnalysis {
 	
 	public static final int BDWTAG_PAINT_INFO = 0xA101;
 	
-	public static List<Point> decrypt(File file) throws Exception {
-		List<Point> pointList = new ArrayList<Point>();;
+	public static List<Point> decrypt(File file, int startLoffset, int endLoffset) throws Exception {
+		List<Point> pointList = new ArrayList<Point>();
 		RandomAccessFile bdwFile = new RandomAccessFile(file, "r");
 		byte[] buf = new byte[4];
-		long loffset = 0;
-		
-		while( (bdwFile.read(buf, 0, 2)) > 0 ){
-            int length = FileDataFormat.buf2ToInt(buf, 0, true);
-            if(length==0) break;
-            loffset = loffset + length;
-            bdwFile.read(buf, 0, 2);
-            int tag = FileDataFormat.buf2ToInt(buf, 0, true);
+		try {
+			long loffset = startLoffset;
+			bdwFile.seek(loffset);
+			while ( (loffset<=endLoffset) && (bdwFile.read(buf, 0, 2)) > 0) {
+				int length = FileDataFormat.buf2ToInt(buf, 0, true);
+				if (length == 0)
+					break;
+				loffset = loffset + length;
+				bdwFile.read(buf, 0, 2);
+				int tag = FileDataFormat.buf2ToInt(buf, 0, true);
 
-            switch(tag){
-                case BDWTAG_PAINT_INFO:
-                    Point point = readPointInfo(bdwFile, length, tag);
-                    if(point !=null){
-                    	pointList.add(point);
-                    }
-                    break;
-            }
-            bdwFile.seek(loffset);
-        }
+				switch (tag) {
+				case BDWTAG_PAINT_INFO:
+					Point point = readPointInfo(bdwFile, length, tag);
+					if (point != null) {
+						pointList.add(point);
+					}
+					break;
+				}
+				bdwFile.seek(loffset);
+			}
+		} catch (Exception e) {
+			LogUtils.fileConteollerError("BDWAnalysis decrypt has error : " + e);
+		} finally{
+			bdwFile.close();
+		}
 		return pointList;
 	}
 	

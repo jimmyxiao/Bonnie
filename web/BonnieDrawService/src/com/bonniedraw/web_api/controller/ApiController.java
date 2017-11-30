@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
+import com.bonniedraw.file.Point;
 import com.bonniedraw.notification.service.NotiMsgService;
 import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.DictionaryService;
@@ -803,13 +804,19 @@ public class ApiController {
 //        return new ResponseEntity(responseBody, HttpStatus.OK);
 //	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/drawingPlay" , produces="application/json")
 	public @ResponseBody DrawingPlayResponseVO getDrawingPlay(HttpServletRequest request,HttpServletResponse resp, @RequestBody DrawingPlayRequestVO drawingPlayRequestVO) {
 		DrawingPlayResponseVO respResult = new DrawingPlayResponseVO();
 		String msg = "";
 		if(isLogin(drawingPlayRequestVO)){
-			respResult.setPointList(worksServiceAPI.getDrawingPlay(drawingPlayRequestVO.getWid(), drawingPlayRequestVO.getUi()));
-			respResult.setRes(1);
+			Integer stn = drawingPlayRequestVO.getStn();
+			Integer rc = drawingPlayRequestVO.getRc();
+			if(stn!=null && stn>=0 && rc !=null && rc>=100){
+				Map<String, Object> resultMap = worksServiceAPI.getDrawingPlay(drawingPlayRequestVO.getWid(), drawingPlayRequestVO.getUi(), stn, rc);
+				respResult.setPointList((List<Point>) resultMap.get("pointList"));
+				respResult.setRes((int) resultMap.get("res"));
+			}
 		}else{
 			respResult.setRes(0);
 			msg = "帳號未登入"; 
