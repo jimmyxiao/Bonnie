@@ -16,6 +16,14 @@
 		162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1664F4A81F74AD9200809C32 /* Localizable.strings */; };
 		162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65AE1F61663900945E04 /* Main.storyboard */; };
 		162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B31F61663900945E04 /* LaunchScreen.storyboard */; };
+		16303BA61FD147A400C42783 /* JotUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16303BA71FD147A400C42783 /* JotUI.framework */; };
+		16303BA91FD1494E00C42783 /* Brush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16303BA81FD1494E00C42783 /* Brush.swift */; };
+		16303BB01FD14D0E00C42783 /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 16303BAA1FD14D0C00C42783 /* quad.vsh */; };
+		16303BB11FD14D0E00C42783 /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 16303BAB1FD14D0D00C42783 /* colorlesspoint.vsh */; };
+		16303BB21FD14D0E00C42783 /* quad.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 16303BAC1FD14D0D00C42783 /* quad.fsh */; };
+		16303BB31FD14D0E00C42783 /* stencil.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 16303BAD1FD14D0D00C42783 /* stencil.fsh */; };
+		16303BB41FD14D0E00C42783 /* point.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 16303BAE1FD14D0D00C42783 /* point.fsh */; };
+		16303BB51FD14D0E00C42783 /* coloredpoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 16303BAF1FD14D0D00C42783 /* coloredpoint.vsh */; };
 		16332A231F7F3048007857E3 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16332A221F7F3048007857E3 /* UploadViewController.swift */; };
 		1633C0651F9ED4410039E7F6 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1633C0641F9ED4400039E7F6 /* WebViewController.swift */; };
 		16353D481FCDA57200482807 /* BrushPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16353D471FCDA57200482807 /* BrushPickerCollectionViewCell.swift */; };
@@ -101,6 +109,14 @@
 		16185C7C1F94A13F008F0840 /* WorkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkViewController.swift; sourceTree = "<group>"; };
 		16185C7E1F94A264008F0840 /* Work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Work.swift; sourceTree = "<group>"; };
 		162AC4AA1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountGridCollectionViewCell.swift; sourceTree = "<group>"; };
+		16303BA71FD147A400C42783 /* JotUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JotUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16303BA81FD1494E00C42783 /* Brush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Brush.swift; sourceTree = "<group>"; };
+		16303BAA1FD14D0C00C42783 /* quad.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = quad.vsh; path = ../JotUI/quad.vsh; sourceTree = "<group>"; };
+		16303BAB1FD14D0D00C42783 /* colorlesspoint.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = colorlesspoint.vsh; path = ../JotUI/colorlesspoint.vsh; sourceTree = "<group>"; };
+		16303BAC1FD14D0D00C42783 /* quad.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = quad.fsh; path = ../JotUI/quad.fsh; sourceTree = "<group>"; };
+		16303BAD1FD14D0D00C42783 /* stencil.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = stencil.fsh; path = ../JotUI/stencil.fsh; sourceTree = "<group>"; };
+		16303BAE1FD14D0D00C42783 /* point.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = point.fsh; path = ../JotUI/point.fsh; sourceTree = "<group>"; };
+		16303BAF1FD14D0D00C42783 /* coloredpoint.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = coloredpoint.vsh; path = ../JotUI/coloredpoint.vsh; sourceTree = "<group>"; };
 		16332A221F7F3048007857E3 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		1633C0641F9ED4400039E7F6 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		16353D471FCDA57200482807 /* BrushPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrushPickerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -191,6 +207,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16303BA61FD147A400C42783 /* JotUI.framework in Frameworks */,
 				C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,6 +215,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16303BB61FD14D1B00C42783 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				16303BAF1FD14D0D00C42783 /* coloredpoint.vsh */,
+				16303BAB1FD14D0D00C42783 /* colorlesspoint.vsh */,
+				16303BAE1FD14D0D00C42783 /* point.fsh */,
+				16303BAC1FD14D0D00C42783 /* quad.fsh */,
+				16303BAA1FD14D0C00C42783 /* quad.vsh */,
+				16303BAD1FD14D0D00C42783 /* stencil.fsh */,
+			);
+			name = ThirdParty;
+			sourceTree = "<group>";
+		};
 		16366AE31F7A130400E5799B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				163784621FB13EE600D70261 /* BonnieDraw.entitlements */,
+				16303BB61FD14D1B00C42783 /* ThirdParty */,
 				16366AE31F7A130400E5799B /* Cell */,
 				16FC10221F695C62008A6A92 /* View */,
 				16D439661F66AC6800FF5878 /* Model */,
@@ -353,6 +384,7 @@
 		16D439661F66AC6800FF5878 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				16303BA81FD1494E00C42783 /* Brush.swift */,
 				16D439671F66AC8200FF5878 /* Point.swift */,
 				165710FE1F6BAB63004A8DD8 /* Path.swift */,
 				16185C7E1F94A264008F0840 /* Work.swift */,
@@ -384,6 +416,7 @@
 		5855718FD158A460A32D8B77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16303BA71FD147A400C42783 /* JotUI.framework */,
 				0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */,
 			);
 			name = Frameworks;
@@ -467,14 +500,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */,
+				16303BB01FD14D0E00C42783 /* quad.vsh in Resources */,
+				16303BB11FD14D0E00C42783 /* colorlesspoint.vsh in Resources */,
+				16303BB21FD14D0E00C42783 /* quad.fsh in Resources */,
+				16303BB31FD14D0E00C42783 /* stencil.fsh in Resources */,
+				16303BB41FD14D0E00C42783 /* point.fsh in Resources */,
+				16303BB51FD14D0E00C42783 /* coloredpoint.vsh in Resources */,
 				16D08F261FB16A34001D167C /* GoogleService-Info.plist in Resources */,
+				162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */,
 				162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */,
 				162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */,
+				16D08F241FB169AD001D167C /* Account.storyboard in Resources */,
 				1664F4B51F74E3F100809C32 /* Login.storyboard in Resources */,
 				163907001F6C0A4E00E5717A /* TitleView.xib in Resources */,
 				163F65B21F61663900945E04 /* Assets.xcassets in Resources */,
-				16D08F241FB169AD001D167C /* Account.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,6 +595,7 @@
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
 				16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
+				16303BA91FD1494E00C42783 /* Brush.swift in Sources */,
 				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				166889971FBC6802001CBFB3 /* UserDefaultsExtension.swift in Sources */,
@@ -709,6 +749,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -759,6 +800,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;

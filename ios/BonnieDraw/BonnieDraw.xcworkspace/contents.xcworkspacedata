@@ -5,6 +5,9 @@
       location = "group:BonnieDraw.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:JotUI.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
