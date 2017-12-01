@@ -404,7 +404,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			param.wid = wid;
 			param.stn = stream.stn;
 			param.rc = stream.rc;
-			worksService.getDrawingPlay(param,function(data, status, headers, config){		
+			worksService.getDrawingPlayStreamSimulation(param,function(data, status, headers, config){		
 				var list = data.pointList;
 				stream.res = data.res;
 				if(list && list.length>0){

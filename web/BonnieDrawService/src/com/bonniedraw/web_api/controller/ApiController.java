@@ -805,8 +805,8 @@ public class ApiController {
 //	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="/drawingPlay" , produces="application/json")
-	public @ResponseBody DrawingPlayResponseVO getDrawingPlay(HttpServletRequest request,HttpServletResponse resp, @RequestBody DrawingPlayRequestVO drawingPlayRequestVO) {
+	@RequestMapping(value="/drawingPlayStreamSimulation" , produces="application/json")
+	public @ResponseBody DrawingPlayResponseVO getDrawingPlayStreamSimulation(HttpServletRequest request,HttpServletResponse resp, @RequestBody DrawingPlayRequestVO drawingPlayRequestVO) {
 		DrawingPlayResponseVO respResult = new DrawingPlayResponseVO();
 		String msg = "";
 		if(isLogin(drawingPlayRequestVO)){
@@ -817,6 +817,23 @@ public class ApiController {
 				respResult.setPointList((List<Point>) resultMap.get("pointList"));
 				respResult.setRes((int) resultMap.get("res"));
 			}
+		}else{
+			respResult.setRes(0);
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/drawingPlay" , produces="application/json")
+	public @ResponseBody DrawingPlayResponseVO getDrawingPlay(HttpServletRequest request,HttpServletResponse resp, @RequestBody DrawingPlayRequestVO drawingPlayRequestVO) {
+		DrawingPlayResponseVO respResult = new DrawingPlayResponseVO();
+		String msg = "";
+		if(isLogin(drawingPlayRequestVO)){
+				Map<String, Object> resultMap = worksServiceAPI.getDrawingPlay(drawingPlayRequestVO.getWid(), drawingPlayRequestVO.getUi(), 0, 0);
+				respResult.setPointList((List<Point>) resultMap.get("pointList"));
+				respResult.setRes((int) resultMap.get("res"));
 		}else{
 			respResult.setRes(0);
 			msg = "帳號未登入"; 

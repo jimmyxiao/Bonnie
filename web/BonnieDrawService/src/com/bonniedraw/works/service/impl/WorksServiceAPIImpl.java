@@ -511,15 +511,20 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				String rootPath = System.getProperty("catalina.home");
 				String filePath = rootPath + path;
 				File file = new File(filePath);
-				int fileLength = (int) (long) file.length();
 				try{
 					if(file.exists()){
-						int endLoffset = stn + rc;
-						pointList = BDWAnalysis.decrypt(file, stn, endLoffset);
-						if(fileLength<=endLoffset){
-							resultMap.put("res", 4);
-						}else{
+						if(stn ==0 && rc ==0){
+							pointList = BDWAnalysis.decryptFull(file);
 							resultMap.put("res", 1);
+						}else{
+							int endLoffset = stn + rc;
+							pointList = BDWAnalysis.decryptPart(file, stn, endLoffset);
+							int fileLength = (int) (long) file.length();
+							if(fileLength<=endLoffset){
+								resultMap.put("res", 4);
+							}else{
+								resultMap.put("res", 1);
+							}
 						}
 						resultMap.put("pointList", pointList);
 					}
