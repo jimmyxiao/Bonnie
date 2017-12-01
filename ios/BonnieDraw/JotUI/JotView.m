@@ -468,9 +468,6 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
 
             dispatch_semaphore_wait(sema2, DISPATCH_TIME_FOREVER);
 
-            dispatch_release(sema1);
-            dispatch_release(sema2);
-
             // done saving JotView
             exportFinishBlock(ink, thumb, immutableState);
 

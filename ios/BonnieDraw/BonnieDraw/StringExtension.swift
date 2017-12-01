@@ -20,7 +20,7 @@ extension String {
 
     func isValidEmail() -> Bool {
         let expression = try? NSRegularExpression(pattern: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}", options: .caseInsensitive)
-        return expression?.firstMatch(in: self, options: [], range: NSMakeRange(0, characters.count)) != nil
+        return expression?.firstMatch(in: self, options: [], range: NSMakeRange(0, count)) != nil
     }
 
     func fromBase64() -> String? {
