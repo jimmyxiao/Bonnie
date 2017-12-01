@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.fragment;
 
 
+import android.app.NotificationManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,9 +17,9 @@ import android.widget.FrameLayout;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.NoticeAdapter;
+import com.sctw.bonniedraw.bean.NoticeInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
-import com.sctw.bonniedraw.bean.NoticeInfoBean;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 
 import org.json.JSONArray;
@@ -49,6 +50,7 @@ public class NoticeFragment extends Fragment {
     ArrayList<NoticeInfoBean> noticeInfoList;
     SwipeRefreshLayout mSwipeLayout;
     FrameLayout mFrameLayout;
+    NotificationManager mNotificationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +66,6 @@ public class NoticeFragment extends Fragment {
         mRv = view.findViewById(R.id.recyclerView_notice);
         LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(lm);
-        noticeInfoList = new ArrayList<>();
         mSwipeLayout = view.findViewById(R.id.swipeLayout_notice);
         mFrameLayout = view.findViewById(R.id.frameLayout_notice);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -121,6 +122,7 @@ public class NoticeFragment extends Fragment {
     }
 
     private void refreshNoice(JSONArray data) {
+        noticeInfoList = new ArrayList<>();
         if (data.length() != 0) {
             try {
                 mFrameLayout.setVisibility(View.GONE);

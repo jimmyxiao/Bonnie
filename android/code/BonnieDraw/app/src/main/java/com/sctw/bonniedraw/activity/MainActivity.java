@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,14 +73,14 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         init();
     }
 
-    public void changeFragment(Fragment fragment) {
+    private void changeFragment(Fragment fragment) {
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
         fragmentTransaction.commit();
     }
 
-    public void changeFragmentWithBundle(Fragment fragment, int num) {
+    private void changeFragmentWithBundle(Fragment fragment, int num) {
         Bundle bundle = new Bundle();
         bundle.putInt("page", num);
         fragment.setArguments(bundle);
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     }
 
     //init Btn,Toolbar,BottomNav
-    void init() {
+    private void init() {
         // findview by id
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_actitivy_drawlayout);
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
@@ -188,13 +189,13 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mBottomNavigationViewEx.setCurrentItem(0);
     }
 
-    public void startPaint(View view) {
+    private void startPaint(View view) {
         Intent it = new Intent();
         it.setClass(MainActivity.this, PaintActivity.class);
         startActivity(it);
     }
 
-    void createProfileInfo() {
+    private void createProfileInfo() {
         String userName = prefs.getString(GlobalVariable.USER_NAME_STR, "Null");
         mTextViewHeaderText.setText(userName);
         String path;
@@ -206,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         Glide.with(this).load(path).apply(GlideAppModule.getUserOptions()).into(mImgHeaderPhoto);
     }
 
-    void logout() {
+    private void logout() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.commit),
                 new DialogInterface.OnClickListener() {
@@ -225,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         alertDialog.show();
     }
 
-    public void logoutPlatform() {
+    private void logoutPlatform() {
         switch (prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0)) {
             case GlobalVariable.EMAIL_LOGIN:
                 cleanValue();
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         }
     }
 
-    public void cleanValue() {
+    private void cleanValue() {
         prefs.edit().clear().apply();
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
@@ -296,6 +297,11 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         mGoogleApiClient.connect();
+        //接收推播
+        Intent intent = getIntent();
+        String msg = intent.getStringExtra("msg");
+        if (msg!=null)
+            Log.d("FCM", "msg:"+msg);
     }
 
     @Override

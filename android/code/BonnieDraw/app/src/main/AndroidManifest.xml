@@ -22,9 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.MainActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -33,6 +35,7 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -45,6 +48,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".paint.PaintActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -61,7 +65,15 @@
                 <data android:pathPattern=".*\\.bdw" />
             </intent-filter>
         </activity>
+
         <activity android:name=".paint.PaintPlayActivity" />
+
+        <service android:name=".utility.NotificationService" />
+        <service android:name=".utility.NotificaitonMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
