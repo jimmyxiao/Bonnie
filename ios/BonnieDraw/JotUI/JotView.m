@@ -114,12 +114,12 @@ static JotGLContext* mainThreadContext;
 /**
  * The GL view is stored in the nib file. When it's unarchived it's sent -initWithCoder:
  */
-- (id)initWithCoder:(NSCoder*)coder {
-    if ((self = [super initWithCoder:coder])) {
-        return [self finishInit];
-    }
-    return self;
-}
+//- (id)initWithCoder:(NSCoder*)coder {
+//    if ((self = [super initWithCoder:coder])) {
+//        return [self finishInit];
+//    }
+//    return self;
+//}
 
 /**
  * initialize a new view for the given frame

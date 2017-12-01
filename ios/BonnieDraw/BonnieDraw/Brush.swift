@@ -10,8 +10,7 @@ struct Brush {
     static let MAX_VELOCITY: CGFloat = 3000
     var defaultMinSize: CGFloat, defaultMaxSize: CGFloat, minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
     var color = UIColor.black
-    var isRotationSupported = false
-    var shouldUseVelocity = false
+    var isRotationSupported = false, isForceSupported = false, isVelocitySupported = false
     var velocity: CGFloat = 0
     var lastPoint = CGPoint.zero
     var lastTimestamp = Date()
@@ -44,35 +43,20 @@ struct Brush {
     }
 
     func color(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) -> UIColor {
-        if shouldUseVelocity {
-            var segmentAlpha = (velocity - 1);
-            if segmentAlpha > 0 {
-                segmentAlpha = 0
-            }
-            segmentAlpha = minAlpha + abs(segmentAlpha) * (maxAlpha - minAlpha)
-            return color.withAlphaComponent(segmentAlpha)
+        if isVelocitySupported {
+            return color.withAlphaComponent(minAlpha + (1 - velocity) * (maxAlpha - minAlpha))
+        } else if isForceSupported {
+            return color.withAlphaComponent(minAlpha + (maxAlpha - minAlpha) * touch.force)
         } else {
-            var segmentAlpha = minAlpha + (maxAlpha - minAlpha) * touch.force
-            if segmentAlpha < minAlpha {
-                segmentAlpha = minAlpha
-            }
-            return color.withAlphaComponent(segmentAlpha)
+            return color
         }
     }
 
     func width(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) -> CGFloat {
-        if shouldUseVelocity {
-            var width = velocity - 1
-            if width > 0 {
-                width = 0
-            }
-            width = minSize + abs(width) * (maxSize - minSize)
-            if width < 1 {
-                width = 1
-            }
-            return width
-        } else {
-            var width = (maxSize + minSize) / 2.0
+        if isVelocitySupported {
+            return minSize + (1 - velocity) * (maxSize - minSize)
+        } else if isForceSupported {
+            var width = (maxSize + minSize) / 2
             width *= coalescedTouch.force
             if width < minSize {
                 width = minSize
@@ -80,7 +64,9 @@ struct Brush {
             if width > maxSize {
                 width = maxSize
             }
-            return width;
+            return width
+        } else {
+            return minSize
         }
     }
 
@@ -93,19 +79,23 @@ struct Brush {
     }
 
     mutating func willBeginStroke(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) {
-        velocity = 1
-        lastTimestamp = Date()
+        if isVelocitySupported {
+            velocity = 1
+            lastTimestamp = Date()
+        }
     }
 
     mutating func willMoveStroke(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) {
-        let duration = lastTimestamp.timeIntervalSince(Date())
-        if duration > 0.01 {
-            let velocity = self.velocity(forTouch: touch)
-            if velocity != 0 {
-                self.velocity = velocity
+        if isVelocitySupported {
+            let duration = lastTimestamp.timeIntervalSince(Date())
+            if duration > 0.01 {
+                let velocity = self.velocity(forTouch: touch)
+                if velocity != 0 {
+                    self.velocity = velocity
+                }
+                lastTimestamp = Date()
+                lastPoint = touch.location(in: nil)
             }
-            lastTimestamp = Date()
-            lastPoint = touch.location(in: nil)
         }
     }
 }

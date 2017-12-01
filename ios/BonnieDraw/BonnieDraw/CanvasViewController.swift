@@ -56,6 +56,7 @@ class CanvasViewController:
         UIBezierPath(arcCenter: CGPoint(x: size.width / 2, y: size.height / 2), radius: brush.minSize / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsGetCurrentContext()?.clear(CGRect(origin: .zero, size: size))
+        brush.color.setFill()
         UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: 4).fill()
         colorButton.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -63,6 +64,7 @@ class CanvasViewController:
 
     override func viewDidAppear(_ animated: Bool) {
         if canvas.isHidden {
+            canvas.finishInit()
             let stateProxy = JotViewStateProxy(delegate: self)
             stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())
             canvas.loadState(stateProxy)
@@ -82,10 +84,12 @@ class CanvasViewController:
 
     @IBAction func undo(_ sender: Any) {
         canvas.undo()
+        checkCanvasStatus()
     }
 
     @IBAction func redo(_ sender: Any) {
         canvas.redo()
+        checkCanvasStatus()
     }
 
     @IBAction func reset(_ sender: Any) {
@@ -93,6 +97,7 @@ class CanvasViewController:
             success in
             if success {
                 self.canvas.clear(true)
+                self.checkCanvasStatus()
             }
         }
     }
@@ -194,7 +199,14 @@ class CanvasViewController:
         super.onBackPressed(sender)
     }
 
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+    private func checkCanvasStatus() {
+        redoButton.isEnabled = canvas.canRedo()
+        undoButton.isEnabled = canvas.canUndo()
+        playButton.isEnabled = canvas.canUndo()
+        resetButton.isEnabled = canvas.canUndo()
+    }
+
+    internal func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
     }
 
@@ -386,16 +398,25 @@ class CanvasViewController:
     }
 
     internal func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
+        let location = touch.location(in: canvas)
+        Logger.d("\(#function)  location: (\(location.x),\(location.y) phase: \(touch.phase)")
         return true
     }
 
     internal func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        let location = touch.location(in: canvas)
+        Logger.d("\(#function)  location: (\(location.x),\(location.y) phase: \(touch.phase)")
     }
 
     internal func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
+        let location = touch.location(in: canvas)
+        Logger.d("\(#function)  location: (\(location.x),\(location.y) phase: \(touch.phase)")
     }
 
     internal func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        checkCanvasStatus()
+        let location = touch.location(in: canvas)
+        Logger.d("\(#function)  location: (\(location.x),\(location.y) phase: \(touch.phase)")
     }
 
     internal func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {

@@ -35,7 +35,7 @@
 @property(readonly) CGSize pagePtSize;
 @property(readonly) CGFloat scale;
 
-
+- (id)finishInit;
 // erase the screen
 - (IBAction)clear:(BOOL)shouldPresent;
 

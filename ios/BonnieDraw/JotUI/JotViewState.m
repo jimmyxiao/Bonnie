@@ -21,7 +21,7 @@
 #import "NSMutableArray+RemoveSingle.h"
 #import "JotDiskAssetManager.h"
 
-#define kJotDefaultUndoLimit 10
+#define kJotDefaultUndoLimit 20
 
 //
 // private intializer for the immutable state
