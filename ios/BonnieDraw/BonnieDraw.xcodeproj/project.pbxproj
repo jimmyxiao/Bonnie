@@ -33,7 +33,6 @@
 		16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16366AE61F7A39EC00E5799B /* ImageViewExtension.swift */; };
 		16369FFC1FB2A43600C7C8BC /* TabNavigationControllerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16369FFB1FB2A43600C7C8BC /* TabNavigationControllerAnimator.swift */; };
 		16369FFE1FB2A60300C7C8BC /* TabNavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16369FFD1FB2A60300C7C8BC /* TabNavigationControllerDelegate.swift */; };
-		16386DD41FABFC1000DFE2E5 /* CanvasAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16386DD31FABFC1000DFE2E5 /* CanvasAnimationView.swift */; };
 		16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16386DD51FAC019A00DFE2E5 /* DataConverter.swift */; };
 		163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163906FD1F6C083300E5717A /* SignInViewController.swift */; };
 		163907001F6C0A4E00E5717A /* TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 163906FF1F6C0A4E00E5717A /* TitleView.xib */; };
@@ -84,6 +83,9 @@
 		169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169C71CA1F66AFEF00B5D786 /* Constant.swift */; };
 		16A82D0E1FB1B564007D6128 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */; };
 		16A82D101FB1B56F007D6128 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */; };
+		16AD967F1FD3E6370084151D /* TouchExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD967E1FD3E6370084151D /* TouchExtension.swift */; };
+		16AD96821FD3EFB40084151D /* CanvasAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD96801FD3EFB40084151D /* CanvasAnimationView.swift */; };
+		16AD96831FD3EFB40084151D /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD96811FD3EFB40084151D /* CanvasView.swift */; };
 		16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */; };
 		16BE0F2C1FC67A1500B989CE /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2B1FC67A1500B989CE /* GridView.swift */; };
 		16BE0F2E1FC67D5700B989CE /* CanvasSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */; };
@@ -96,7 +98,6 @@
 		16D08F261FB16A34001D167C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16D08F251FB16A34001D167C /* GoogleService-Info.plist */; };
 		16D439651F66A9B300FF5878 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439641F66A9B300FF5878 /* Logger.swift */; };
 		16D439681F66AC8200FF5878 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439671F66AC8200FF5878 /* Point.swift */; };
-		16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FC10201F695C58008A6A92 /* CanvasView.swift */; };
 		16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FC10231F6963B3008A6A92 /* ViewExtension.swift */; };
 		C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */; };
 /* End PBXBuildFile section */
@@ -127,7 +128,6 @@
 		16369FFB1FB2A43600C7C8BC /* TabNavigationControllerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabNavigationControllerAnimator.swift; sourceTree = "<group>"; };
 		16369FFD1FB2A60300C7C8BC /* TabNavigationControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabNavigationControllerDelegate.swift; sourceTree = "<group>"; };
 		163784621FB13EE600D70261 /* BonnieDraw.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BonnieDraw.entitlements; sourceTree = "<group>"; };
-		16386DD31FABFC1000DFE2E5 /* CanvasAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasAnimationView.swift; sourceTree = "<group>"; };
 		16386DD51FAC019A00DFE2E5 /* DataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverter.swift; sourceTree = "<group>"; };
 		163906FD1F6C083300E5717A /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		163906FF1F6C0A4E00E5717A /* TitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TitleView.xib; path = Base.lproj/TitleView.xib; sourceTree = "<group>"; };
@@ -184,6 +184,9 @@
 		169C71CA1F66AFEF00B5D786 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		16AD967E1FD3E6370084151D /* TouchExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchExtension.swift; sourceTree = "<group>"; };
+		16AD96801FD3EFB40084151D /* CanvasAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasAnimationView.swift; sourceTree = "<group>"; };
+		16AD96811FD3EFB40084151D /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		16BE0F2B1FC67A1500B989CE /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasSettingTableViewController.swift; sourceTree = "<group>"; };
@@ -196,7 +199,6 @@
 		16D08F251FB16A34001D167C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16D439641F66A9B300FF5878 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		16D439671F66AC8200FF5878 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
-		16FC10201F695C58008A6A92 /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		16FC10231F6963B3008A6A92 /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.release.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.release.xcconfig"; sourceTree = "<group>"; };
 		F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.debug.xcconfig"; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				16369FFB1FB2A43600C7C8BC /* TabNavigationControllerAnimator.swift */,
 				16369FFD1FB2A60300C7C8BC /* TabNavigationControllerDelegate.swift */,
 				166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */,
+				16AD967E1FD3E6370084151D /* TouchExtension.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -397,14 +400,14 @@
 		16FC10221F695C62008A6A92 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				16AD96801FD3EFB40084151D /* CanvasAnimationView.swift */,
+				16AD96811FD3EFB40084151D /* CanvasView.swift */,
 				16BE0F2B1FC67A1500B989CE /* GridView.swift */,
 				165996D91FB4429200AAE7B3 /* HueView.swift */,
 				165996D81FB4429200AAE7B3 /* SaturationBrightnessView.swift */,
 				16816AA61FAFF8DD00855104 /* ShadowView.swift */,
 				164ED2501F7B517200E8B910 /* StatusBarBackgroundView.swift */,
 				165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */,
-				16FC10201F695C58008A6A92 /* CanvasView.swift */,
-				16386DD31FABFC1000DFE2E5 /* CanvasAnimationView.swift */,
 				16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */,
 				16109CCA1F96E96D000864DB /* AccountFooterCollectionReusableView.swift */,
 				163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */,
@@ -593,9 +596,11 @@
 				163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */,
 				163A5E251FA061F100FE70BD /* FollowTableViewCell.swift in Sources */,
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
+				16AD96831FD3EFB40084151D /* CanvasView.swift in Sources */,
 				16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
 				16303BA91FD1494E00C42783 /* Brush.swift in Sources */,
+				16AD96821FD3EFB40084151D /* CanvasAnimationView.swift in Sources */,
 				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				166889971FBC6802001CBFB3 /* UserDefaultsExtension.swift in Sources */,
@@ -604,7 +609,6 @@
 				16185C7F1F94A264008F0840 /* Work.swift in Sources */,
 				16D08F1F1FB14D84001D167C /* DebugViewController.swift in Sources */,
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
-				16386DD41FABFC1000DFE2E5 /* CanvasAnimationView.swift in Sources */,
 				16332A231F7F3048007857E3 /* UploadViewController.swift in Sources */,
 				1633C0651F9ED4410039E7F6 /* WebViewController.swift in Sources */,
 				1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */,
@@ -614,7 +618,6 @@
 				164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */,
 				16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */,
 				163DDF401FC566F40052DF80 /* Profile.swift in Sources */,
-				16FC10211F695C58008A6A92 /* CanvasView.swift in Sources */,
 				165E1B611F9DE4AD0050A7BB /* DescriptionViewController.swift in Sources */,
 				16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */,
 				165E1B5F1F9DE49F0050A7BB /* LanguageViewController.swift in Sources */,
@@ -643,6 +646,7 @@
 				16816AA71FAFF8DD00855104 /* ShadowView.swift in Sources */,
 				164ED2531F7BA45E00E8B910 /* ColorPickerViewController.swift in Sources */,
 				165E1B5B1F9DDFA80050A7BB /* SettingViewController.swift in Sources */,
+				16AD967F1FD3E6370084151D /* TouchExtension.swift in Sources */,
 				16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */,
 				163DDF3E1FC5526D0052DF80 /* NotificationTableViewCell.swift in Sources */,
 				1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */,

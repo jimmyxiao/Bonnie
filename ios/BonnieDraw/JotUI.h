@@ -48,6 +48,7 @@
 #import <JotUI/JotBrushTexture.h>
 #import <JotUI/JotDefaultBrushTexture.h>
 #import <JotUI/JotHighlighterBrushTexture.h>
+#import <JotUI/JotSharedBrushTexture.h>
 
 typedef struct {
     GLfloat x;

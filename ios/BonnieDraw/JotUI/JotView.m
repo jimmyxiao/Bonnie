@@ -1446,6 +1446,9 @@ static int undoCounter;
                                  withStepWidth:[self.delegate stepWidthForStroke]];
             }
         }
+        if (!isMultiTouchSupported) {
+            break;
+        }
     }
     [JotGLContext validateEmptyContextStack];
 }
@@ -1526,6 +1529,9 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                                      withStepWidth:[self.delegate stepWidthForStroke]];
                 }
             }
+            if (!isMultiTouchSupported) {
+                break;
+            }
         }
 
         [currentStroke unlock];
@@ -1588,6 +1594,9 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                 [self.delegate didEndStrokeWithCoalescedTouch:touch fromTouch:touch];
             }
         }
+        if (!isMultiTouchSupported) {
+            break;
+        }
     }
     [JotGLContext validateEmptyContextStack];
 }
@@ -1604,6 +1613,9 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
             if ([[JotStrokeManager sharedInstance] cancelStrokeForTouch:touch]) {
                 state.currentStroke = nil;
             }
+        }
+        if (!isMultiTouchSupported) {
+            break;
         }
     }
     // we need to erase the current stroke from the screen, so

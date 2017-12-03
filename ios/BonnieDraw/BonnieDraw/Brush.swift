@@ -5,7 +5,7 @@
 //  Created by Professor on 01/12/2017.
 //  Copyright © 2017 Agrowood. All rights reserved.
 //
-struct Brush {
+class Brush: JotBrushTexture {
     static let MIN_VELOCITY: CGFloat = 20
     static let MAX_VELOCITY: CGFloat = 3000
     var defaultMinSize: CGFloat, defaultMaxSize: CGFloat, minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
@@ -14,14 +14,35 @@ struct Brush {
     var velocity: CGFloat = 0
     var lastPoint = CGPoint.zero
     var lastTimestamp = Date()
+    private var imageName: String?
+    var type: Type {
+        didSet {
+            switch type {
+            case .crayon:
+                imageName = "Crayon"
+            case .pencil:
+                imageName = "Pencil"
+            case .pen:
+                imageName = nil
+            case .airbrush:
+                imageName = "Airbrush"
+            case .marker:
+                imageName = "Marker"
+            default:
+                return
+            }
+        }
+    }
 
-    init(minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat) {
+    init(withBrushType type: Type, minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat) {
+        self.type = type
         defaultMinSize = minSize
         defaultMaxSize = maxSize
         self.minSize = minSize
         self.maxSize = maxSize
         self.minAlpha = minAlpha
         self.maxAlpha = maxAlpha
+        super.init()
     }
 
     private func velocity(forTouch touch: UITouch) -> CGFloat {
@@ -42,50 +63,65 @@ struct Brush {
         return 2
     }
 
-    func color(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) -> UIColor {
-        if isVelocitySupported {
-            return color.withAlphaComponent(minAlpha + (1 - velocity) * (maxAlpha - minAlpha))
-        } else if isForceSupported {
-            return color.withAlphaComponent(minAlpha + (maxAlpha - minAlpha) * touch.force)
+    func color(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) -> UIColor? {
+        if type != .eraser {
+            if isVelocitySupported {
+                return color.withAlphaComponent(minAlpha + (1 - velocity) * (maxAlpha - minAlpha))
+            } else if isForceSupported {
+                return color.withAlphaComponent(minAlpha + (maxAlpha - minAlpha) * touch.force)
+            } else {
+                return color.withAlphaComponent(maxAlpha)
+            }
         } else {
-            return color
+            return nil
         }
     }
 
     func width(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) -> CGFloat {
-        if isVelocitySupported {
-            return minSize + (1 - velocity) * (maxSize - minSize)
-        } else if isForceSupported {
-            var width = (maxSize + minSize) / 2
-            width *= coalescedTouch.force
-            if width < minSize {
-                width = minSize
+        if type != .eraser {
+            if isVelocitySupported {
+                return minSize + (1 - velocity) * (maxSize - minSize)
+            } else if isForceSupported {
+                var width = (maxSize + minSize) / 2
+                width *= coalescedTouch.force
+                if width < minSize {
+                    width = minSize
+                }
+                if width > maxSize {
+                    width = maxSize
+                }
+                return width
+            } else {
+                return minSize
             }
-            if width > maxSize {
-                width = maxSize
-            }
-            return width
         } else {
-            return minSize
+            if isVelocitySupported {
+                return maxSize + (1 - velocity) * (minSize - maxSize)
+            } else if isForceSupported {
+                let width = minSize + (maxSize - minSize) * coalescedTouch.force
+                return max(minSize, min(maxSize, width))
+            } else {
+                return minSize
+            }
         }
     }
 
     func texture() -> JotBrushTexture {
-        return JotDefaultBrushTexture.sharedInstance()
+        return brushTexture()
     }
 
     func smoothness(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) -> CGFloat {
-        return 0.75
+        return 0.5
     }
 
-    mutating func willBeginStroke(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) {
+    func willBeginStroke(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) {
         if isVelocitySupported {
             velocity = 1
             lastTimestamp = Date()
         }
     }
 
-    mutating func willMoveStroke(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) {
+    func willMoveStroke(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) {
         if isVelocitySupported {
             let duration = lastTimestamp.timeIntervalSince(Date())
             if duration > 0.01 {
@@ -97,5 +133,35 @@ struct Brush {
                 lastPoint = touch.location(in: nil)
             }
         }
+    }
+
+    private func brushTexture() -> JotBrushTexture {
+        if type != .eraser {
+            if let context = JotGLContext.current() as? JotGLContext {
+                if let texture = context.contextProperties[imageName] as? JotSharedBrushTexture {
+                    return texture
+                } else if let imageName = imageName, let texture = JotSharedBrushTexture(image: UIImage(named: imageName)) {
+                    context.contextProperties[imageName] = texture
+                    return texture
+                } else {
+                    return JotDefaultBrushTexture.sharedInstance()
+                }
+            }
+            return self
+        } else {
+            return JotDefaultBrushTexture.sharedInstance()
+        }
+    }
+
+    override func bind() -> Bool {
+        return brushTexture().bind()
+    }
+
+    override func unbind() {
+        return brushTexture().unbind()
+    }
+
+    required init!(from dictionary: [AnyHashable: Any]!) {
+        fatalError("init(from:) has not been implemented")
     }
 }

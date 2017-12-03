@@ -32,8 +32,17 @@ class CanvasViewController:
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var resetButton: UIBarButtonItem!
     @IBOutlet weak var colorButton: UIBarButtonItem!
-    private var brush = Brush(minSize: 6, maxSize: 12, minAlpha: 0.9, maxAlpha: 0.9)
+    private var brush = Brush(withBrushType: .pen, minSize: 6, maxSize: 12, minAlpha: 0.6, maxAlpha: 0.8)
     private var lastPenType: Type?
+    private var lastTimestamp: TimeInterval = -1
+    private var paths = [Path]()
+    private var redoPaths = [Path]()
+    private var writeHandle: FileHandle?
+    private var url = try! FileManager.default.url(
+            for: .documentationDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("cache.bdw")
     var jotViewStateInkPath: String! {
         return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("ink.png")
     }
@@ -45,6 +54,7 @@ class CanvasViewController:
     }
 
     override func viewDidLoad() {
+        brush.isForceSupported = true
         canvas.delegate = self
         canvasAnimation.delegate = self
         penButton.layer.cornerRadius = view.bounds.width / 10
@@ -52,14 +62,24 @@ class CanvasViewController:
         let count = UserDefaults.standard.integer(forKey: Default.GRID)
         gridView.set(horizontalCount: count, verticalCount: count)
         UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
-        UIColor.white.setStroke()
         UIBezierPath(arcCenter: CGPoint(x: size.width / 2, y: size.height / 2), radius: brush.minSize / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
+        sizeButton.tintColor = UIColor.white
         UIGraphicsGetCurrentContext()?.clear(CGRect(origin: .zero, size: size))
-        brush.color.setFill()
         UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: 4).fill()
         colorButton.image = UIGraphicsGetImageFromCurrentImageContext()
+        colorButton.tintColor = brush.color
         UIGraphicsEndImageContext()
+        do {
+            let manager = FileManager.default
+            if manager.fileExists(atPath: url.path) {
+                try manager.removeItem(at: url)
+            }
+            manager.createFile(atPath: url.path, contents: nil, attributes: nil)
+            writeHandle = try FileHandle(forWritingTo: url)
+        } catch {
+            Logger.d("\(#function): \(error.localizedDescription)")
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -85,11 +105,13 @@ class CanvasViewController:
     @IBAction func undo(_ sender: Any) {
         canvas.undo()
         checkCanvasStatus()
+        redoPaths.append(paths.removeLast())
     }
 
     @IBAction func redo(_ sender: Any) {
         canvas.redo()
         checkCanvasStatus()
+        paths.append(redoPaths.removeLast())
     }
 
     @IBAction func reset(_ sender: Any) {
@@ -98,6 +120,20 @@ class CanvasViewController:
             if success {
                 self.canvas.clear(true)
                 self.checkCanvasStatus()
+                self.writeHandle?.closeFile()
+                self.paths.removeAll()
+                self.redoPaths.removeAll()
+                do {
+                    let manager = FileManager.default
+                    if manager.fileExists(atPath: self.url.path) {
+                        try manager.removeItem(at: self.url)
+                    }
+                    manager.createFile(atPath: self.url.path, contents: nil, attributes: nil)
+                    self.writeHandle = try FileHandle(forWritingTo: self.url)
+                } catch {
+                    Logger.d("\(#function): \(error.localizedDescription)")
+                }
+                self.lastTimestamp = -1
             }
         }
     }
@@ -140,15 +176,15 @@ class CanvasViewController:
     }
 
     @IBAction func didSelectEraser(_ sender: UIBarButtonItem) {
-//        if let lastPenType = lastPenType {
-//            sender.tintColor = .white
-//            canvas.type = lastPenType
-//            self.lastPenType = nil
-//        } else {
-//            sender.tintColor = .black
-//            lastPenType = canvas.type
-//            canvas.type = .eraser
-//        }
+        if let lastPenType = lastPenType {
+            sender.tintColor = .white
+            brush.type = lastPenType
+            self.lastPenType = nil
+        } else {
+            sender.tintColor = .black
+            lastPenType = brush.type
+            brush.type = .eraser
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -326,37 +362,38 @@ class CanvasViewController:
 
     internal func sizePicker(didSelect size: CGFloat) {
         brush.minSize = size
-        brush.maxSize = size * 2
+        brush.maxSize = size * 1.5
         let rect = CGSize(width: 33, height: 33)
         UIGraphicsBeginImageContextWithOptions(rect, false, UIScreen.main.scale)
-        UIColor.white.setStroke()
         UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: brush.minSize / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
         sizeButton.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
     }
 
     internal func brushPicker(didSelect type: Type) {
-//        canvas.type = type
-//        var image: UIImage? = nil
-//        switch type {
-//        case .crayon:
-//            image = UIImage(named: "draw_pen_ic_3")
-//        case .pencil:
-//            image = UIImage(named: "draw_pen_ic_2")
-//        case .pen:
-//            image = UIImage(named: "draw_pen_ic_1")
-//        case .airbrush:
-//            image = UIImage(named: "draw_pen_ic_5")
-//        case .marker:
-//            image = UIImage(named: "draw_pen_ic_4")
-//        default:
-//            return
-//        }
-//        penButton.setImage(image, for: .normal)
+        brush.type = type
+        var image: UIImage? = nil
+        switch type {
+        case .crayon:
+            image = UIImage(named: "draw_pen_ic_3")
+        case .pencil:
+            image = UIImage(named: "draw_pen_ic_2")
+        case .pen:
+            image = UIImage(named: "draw_pen_ic_1")
+        case .airbrush:
+            image = UIImage(named: "draw_pen_ic_5")
+        case .marker:
+            image = UIImage(named: "draw_pen_ic_4")
+        default:
+            return
+        }
+        penButton.setImage(image, for: .normal)
     }
 
     internal func brushPicker(didSelect alpha: CGFloat) {
-//        canvas.opacity = 1 - alpha
+        Logger.d("\(#function): \(alpha)")
+        brush.minAlpha = alpha - 0.2
+        brush.maxAlpha = alpha
     }
 
     internal func colorPicker(didSelect color: UIColor, type: ColorPickerViewController.ColorType?) {
@@ -398,19 +435,50 @@ class CanvasViewController:
     }
 
     internal func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
-        let location = touch.location(in: canvas)
-        Logger.d("\(#function)  location: (\(location.x),\(location.y) phase: \(touch.phase)")
+        if let action = coalescedTouch.getAction() {
+            lastTimestamp = coalescedTouch.timestamp
+            paths.append(Path(points: [Point(length: LENGTH_SIZE,
+                    function: .draw,
+                    position: coalescedTouch.location(in: canvas),
+                    color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
+                    action: action,
+                    size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
+                    type: brush.type,
+                    duration: 1.0 / 60.0)]))
+        }
         return true
     }
 
     internal func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
-        let location = touch.location(in: canvas)
-        Logger.d("\(#function)  location: (\(location.x),\(location.y) phase: \(touch.phase)")
+        if let action = coalescedTouch.getAction() {
+            let timestamp = coalescedTouch.timestamp - lastTimestamp
+            paths.last?.points.append(Point(length: LENGTH_SIZE,
+                    function: .draw,
+                    position: coalescedTouch.location(in: canvas),
+                    color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
+                    action: action,
+                    size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
+                    type: brush.type,
+                    duration: timestamp))
+            lastTimestamp = timestamp
+        }
     }
 
     internal func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
-        let location = touch.location(in: canvas)
-        Logger.d("\(#function)  location: (\(location.x),\(location.y) phase: \(touch.phase)")
+        if let action = coalescedTouch.getAction() {
+            let timestamp = coalescedTouch.timestamp - lastTimestamp
+            paths.last?.points.append(Point(length: LENGTH_SIZE,
+                    function: .draw,
+                    position: coalescedTouch.location(in: canvas),
+                    color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
+                    action: action,
+                    size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
+                    type: brush.type,
+                    duration: timestamp))
+            lastTimestamp = timestamp
+            redoPaths.removeAll()
+            saveToDisk()
+        }
     }
 
     internal func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
@@ -434,5 +502,18 @@ class CanvasViewController:
     }
 
     internal func didUnloadState(_ state: JotViewStateProxy!) {
+    }
+
+    private func saveToDisk() {
+        var pointsToSave = [Point]()
+        while paths.count > canvas.state.undoLimit {
+            let path = paths.removeFirst()
+            for point in path.points {
+                pointsToSave.append(point)
+            }
+        }
+        if !pointsToSave.isEmpty {
+            writeHandle?.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+        }
     }
 }
