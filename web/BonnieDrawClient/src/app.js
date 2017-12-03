@@ -268,6 +268,23 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        	templateUrl: 'modules/share/view/footer.html'
 	        }
       	}
+  	}).state('columnDetailStreamSimulation', {
+      	url: '/column-detail-StreamSimulation?id',
+      	views: {
+      		"loader":{
+      			templateUrl: 'modules/share/view/loader.html'
+      		},
+        	"layout": {
+	            templateUrl: 'modules/works/view/column-detail.html',
+	            controller:'columnDetailControllerStreamSimulation'
+	        },
+	        "headerMenu@columnDetail":{
+	        	templateUrl: 'modules/share/view/header-menu.html'
+	        },
+	        "footer@columnDetail":{
+	        	templateUrl: 'modules/share/view/footer.html'
+	        }
+      	}
   	}).state('column', {
       	url: '/column',
       	views: {

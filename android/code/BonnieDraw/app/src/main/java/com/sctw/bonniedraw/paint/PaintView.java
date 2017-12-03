@@ -60,7 +60,7 @@ public class PaintView extends View {
 
     //********  Brush  ******************
 
-    private static final float STROKE_WIDTH = 20.0f;
+    //private static final float STROKE_WIDTH = 20.0f;
 
     private Brush mBrush;
     private int mColor;
@@ -333,10 +333,10 @@ public class PaintView extends View {
         mDstOutPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
         mNormalPaint.setAntiAlias(true);
-        mNormalPaint.setColor(Color.BLACK);
-        mNormalPaint.setStyle(Paint.Style.STROKE);
-        mNormalPaint.setStrokeJoin(Paint.Join.ROUND);
-        mNormalPaint.setStrokeWidth(STROKE_WIDTH);
+        //mNormalPaint.setColor(Color.BLACK);
+        //mNormalPaint.setStyle(Paint.Style.STROKE);
+        //mNormalPaint.setStrokeJoin(Paint.Join.ROUND);
+        //mNormalPaint.setStrokeWidth(STROKE_WIDTH);
 
         mDrawingLayerCanvas = new Canvas();
         mPathLayerCanvas = new Canvas();

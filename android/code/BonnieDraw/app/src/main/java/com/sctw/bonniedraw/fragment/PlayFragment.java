@@ -149,6 +149,7 @@ public class PlayFragment extends Fragment {
                                 mPaintView.getBrush().setEraser(false);
                                 int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                                 mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
+                                System.out.println("筆代號 = " + paintId);
                             } else {
                                 mPaintView.getBrush().setEraser(true);
                             }
@@ -250,6 +251,7 @@ public class PlayFragment extends Fragment {
                 btnEditWork.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.dismiss();
                         editWork();
                     }
                 });
@@ -258,6 +260,7 @@ public class PlayFragment extends Fragment {
                 btnDeleteWork.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.dismiss();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage("確認要刪除這個作品嗎?");
                         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
