@@ -60,9 +60,9 @@ static JotStrokeManager* _instance = nil;
  *
  * this method will return the stroke for the given touch
  */
-- (JotStroke*)getStrokeForTouchHash:(UITouch*)touch {
+- (JotStroke*)getStrokeForHash:(NSUInteger*)hash {
     for (int i = 0; i < kMaxSimultaneousTouchesAllowedToTrack; i++) {
-        if (strokeCache[i].touchHash == touch.hash) {
+        if (strokeCache[i].touchHash == hash) {
             return strokeCache[i].stroke;
         }
     }
@@ -78,13 +78,13 @@ static JotStrokeManager* _instance = nil;
     }
 }
 
-- (JotStroke*)makeStrokeForTouchHash:(UITouch*)touch andTexture:(JotBrushTexture*)texture andBufferManager:(JotBufferManager*)bufferManager {
-    JotStroke* ret = [self getStrokeForTouchHash:touch];
+- (JotStroke*)makeStrokeForHash:(NSUInteger*)hash andTexture:(JotBrushTexture*)texture andBufferManager:(JotBufferManager*)bufferManager {
+    JotStroke* ret = [self getStrokeForHash:hash];
     if (!ret) {
         ret = [[JotStroke alloc] initWithTexture:texture andBufferManager:bufferManager];
         for (int i = 0; i < kMaxSimultaneousTouchesAllowedToTrack; i++) {
             if (strokeCache[i].touchHash == 0) {
-                strokeCache[i].touchHash = touch.hash;
+                strokeCache[i].touchHash = hash;
                 strokeCache[i].stroke = ret;
                 return ret;
             }
@@ -122,9 +122,9 @@ static JotStrokeManager* _instance = nil;
     return NO;
 }
 
-- (void)removeStrokeForTouch:(UITouch*)touch {
+- (void)removeStrokeForHash:(NSUInteger*)hash {
     for (int i = 0; i < kMaxSimultaneousTouchesAllowedToTrack; i++) {
-        if (strokeCache[i].touchHash == touch.hash) {
+        if (strokeCache[i].touchHash == hash) {
             strokeCache[i].touchHash = 0;
             [strokeCache[i].stroke autorelease];
             strokeCache[i].stroke = nil;

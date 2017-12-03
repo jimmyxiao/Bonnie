@@ -1430,7 +1430,7 @@ static int undoCounter;
             if ([self.delegate willBeginStrokeWithCoalescedTouch:touch fromTouch:touch]) {
                 NSAssert([self.delegate textureForStroke] != nil, @"somehow got nil texture");
 
-                JotStroke* newStroke = [[JotStrokeManager sharedInstance] makeStrokeForTouchHash:touch andTexture:[self.delegate textureForStroke] andBufferManager:state.bufferManager];
+                JotStroke* newStroke = [[JotStrokeManager sharedInstance] makeStrokeForHash:touch.hash andTexture:[self.delegate textureForStroke] andBufferManager:state.bufferManager];
                 newStroke.delegate = self;
                 state.currentStroke = newStroke;
                 // find the stroke that we're modifying, and then add an element and render it
@@ -1472,7 +1472,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
         }
 
 
-        JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForTouchHash:touch];
+        JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:touch.hash];
         [currentStroke lock];
 
         for (UITouch* coalescedTouch in coalesced) {
@@ -1548,7 +1548,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
         if (![coalesced count]) {
             coalesced = @[touch];
         }
-        JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForTouchHash:touch];
+        JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:touch.hash];
         BOOL shortStrokeEnding = [currentStroke.segments count] <= 1;
 
         [self.delegate willEndStrokeWithCoalescedTouch:touch fromTouch:touch shortStrokeEnding:shortStrokeEnding];
@@ -1587,7 +1587,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 
                 [state finishCurrentStroke];
 
-                [[JotStrokeManager sharedInstance] removeStrokeForTouch:touch];
+                [[JotStrokeManager sharedInstance] removeStrokeForHash:touch.hash];
 
                 [currentStroke unlock];
 
@@ -2030,5 +2030,95 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     [inkTextureLock unlock];
 }
 
+- (void)animateBegan:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
+    if (!state)
+        return;
+    
+    @autoreleasepool {
+        NSAssert([self.delegate textureForStroke] != nil, @"somehow got nil texture");
+        
+        JotStroke* newStroke = [[JotStrokeManager sharedInstance] makeStrokeForHash:0 andTexture:[self.delegate textureForStroke] andBufferManager:state.bufferManager];
+        newStroke.delegate = self;
+        state.currentStroke = newStroke;
+        [self addLineToAndRenderStroke:newStroke
+                               toPoint:point
+                               toWidth:width
+                               toColor:color
+                         andSmoothness:smoothness
+                         withStepWidth:stepWidth];
+    }
+    [JotGLContext validateEmptyContextStack];
+}
+
+- (void)animateMoved:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
+    if (!state)
+        return;
+    JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:0];
+    [currentStroke lock];
+    @autoreleasepool {
+        CGPoint glPreciseLocInView = point;
+        glPreciseLocInView.y = self.bounds.size.height - glPreciseLocInView.y;
+        
+        BOOL shouldSkipSegment = NO;
+        
+        if ([self.delegate supportsRotation] && [[currentStroke segments] count] < 10) {
+            CGFloat len = [[[currentStroke segments] jotReduce:^id(AbstractBezierPathElement* ele, NSUInteger index, id accum) {
+                return @([ele lengthOfElement] + [accum floatValue]);
+            }] floatValue];
+            
+            CGPoint start = [[[currentStroke segments] firstObject] startPoint];
+            CGPoint end = glPreciseLocInView;
+            CGPoint diff = CGPointMake(end.x - start.x, end.y - start.y);
+            CGFloat rot = atan2(diff.y, diff.x);
+            
+            if ([[currentStroke segments] count] == 1 && distanceBetween2(start, end) < 7) {
+                // if the rotation is off by at least 10 degrees, then updated the rotation on the stroke
+                // otherwise let the previous rotation stand
+                [[currentStroke segments] enumerateObjectsUsingBlock:^(AbstractBezierPathElement* _Nonnull obj, NSUInteger idx, BOOL* _Nonnull stop) {
+                    obj.rotation = rot;
+                }];
+                shouldSkipSegment = YES;
+            }
+        }
+        
+        if (currentStroke && !shouldSkipSegment) {
+            [self addLineToAndRenderStroke:currentStroke
+                                   toPoint:point
+                                   toWidth:width
+                                   toColor:color
+                             andSmoothness:smoothness
+                             withStepWidth:stepWidth];
+        }
+    }
+    
+    [currentStroke unlock];
+    [JotGLContext validateEmptyContextStack];
+}
+
+- (void)animateEnded:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
+    if (!state)
+        return;
+    JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:0];
+    BOOL shortStrokeEnding = [currentStroke.segments count] <= 1;
+    if (currentStroke) {
+        @autoreleasepool {
+            [currentStroke lock];
+            while (![self addLineToAndRenderStroke:currentStroke
+                                           toPoint:point
+                                           toWidth:width
+                                           toColor:color
+                                     andSmoothness:smoothness
+                                     withStepWidth:stepWidth]) {
+            }
+            if ([currentStroke.segments count] == 1 && [[currentStroke.segments firstObject] isKindOfClass:[MoveToPathElement class]]) {
+                [currentStroke empty];
+            }
+            [state finishCurrentStroke];
+            [[JotStrokeManager sharedInstance] removeStrokeForHash:0];
+            [currentStroke unlock];
+        }
+    }
+    [JotGLContext validateEmptyContextStack];
+}
 
 @end

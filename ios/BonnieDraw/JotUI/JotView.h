@@ -95,6 +95,9 @@
 
 - (JotGLTexture*)generateTexture;
 - (void)drawBackingTexture:(JotGLTexture*)texture atP1:(CGPoint)p1 andP2:(CGPoint)p2 andP3:(CGPoint)p3 andP4:(CGPoint)p4 clippingPath:(UIBezierPath*)clipPath andClippingSize:(CGSize)clipSize withTextureSize:(CGSize)textureSize;
+- (void)animateBegan:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth;
+- (void)animateMoved:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth;
+- (void)animateEnded:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth;
 
 #pragma mark - debug
 - (void)drawLongLine;

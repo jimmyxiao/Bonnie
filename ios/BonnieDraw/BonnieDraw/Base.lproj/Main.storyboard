@@ -1128,10 +1128,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ubG-28-KVf" customClass="CanvasAnimationView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="124" width="320" height="320"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                             <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufQ-sW-bDW" customClass="JotView">
                                 <rect key="frame" x="0.0" y="124" width="320" height="320"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1208,11 +1204,8 @@
                             <constraint firstItem="WG3-dn-J7K" firstAttribute="trailing" secondItem="aBz-HM-cIA" secondAttribute="trailing" id="BaB-jR-V3d"/>
                             <constraint firstItem="HxG-Gi-tk1" firstAttribute="leading" secondItem="aBz-HM-cIA" secondAttribute="leading" id="Efj-le-FIL"/>
                             <constraint firstItem="ufQ-sW-bDW" firstAttribute="centerY" secondItem="s8T-WP-DKJ" secondAttribute="centerY" id="FiT-WG-Ats"/>
-                            <constraint firstItem="ubG-28-KVf" firstAttribute="trailing" secondItem="ufQ-sW-bDW" secondAttribute="trailing" id="GdL-uu-IkL"/>
-                            <constraint firstItem="ubG-28-KVf" firstAttribute="top" secondItem="ufQ-sW-bDW" secondAttribute="top" id="Hdf-7o-8yc"/>
                             <constraint firstItem="Fuo-iQ-nwF" firstAttribute="top" secondItem="s8T-WP-DKJ" secondAttribute="top" id="LRa-bO-c6F"/>
                             <constraint firstItem="WG3-dn-J7K" firstAttribute="bottom" secondItem="aBz-HM-cIA" secondAttribute="bottom" id="Mer-lP-BcN"/>
-                            <constraint firstItem="ubG-28-KVf" firstAttribute="leading" secondItem="ufQ-sW-bDW" secondAttribute="leading" id="NLv-Ci-lu2"/>
                             <constraint firstItem="xqN-j4-y2T" firstAttribute="centerX" secondItem="s8T-WP-DKJ" secondAttribute="centerX" id="T02-Nb-z3b"/>
                             <constraint firstItem="aBz-HM-cIA" firstAttribute="trailing" secondItem="ufQ-sW-bDW" secondAttribute="trailing" id="XX9-cp-FDE"/>
                             <constraint firstItem="HxG-Gi-tk1" firstAttribute="bottom" secondItem="aBz-HM-cIA" secondAttribute="bottom" id="Zes-ac-cRX"/>
@@ -1224,7 +1217,6 @@
                             <constraint firstItem="HXk-gE-ZeF" firstAttribute="trailing" secondItem="aBz-HM-cIA" secondAttribute="trailing" id="iE5-lC-k3g"/>
                             <constraint firstItem="WG3-dn-J7K" firstAttribute="top" secondItem="s8T-WP-DKJ" secondAttribute="top" id="lNR-20-fbh"/>
                             <constraint firstItem="GSc-jB-1YC" firstAttribute="trailing" secondItem="ufQ-sW-bDW" secondAttribute="trailing" id="nRp-bF-016"/>
-                            <constraint firstItem="ubG-28-KVf" firstAttribute="bottom" secondItem="ufQ-sW-bDW" secondAttribute="bottom" id="pbv-sN-YqU"/>
                             <constraint firstAttribute="trailing" secondItem="Fuo-iQ-nwF" secondAttribute="trailing" id="sod-rQ-i04"/>
                             <constraint firstItem="HXk-gE-ZeF" firstAttribute="leading" secondItem="aBz-HM-cIA" secondAttribute="leading" id="srH-rB-nak"/>
                             <constraint firstItem="WG3-dn-J7K" firstAttribute="leading" secondItem="aBz-HM-cIA" secondAttribute="leading" id="v3I-XX-n1K"/>
@@ -1236,7 +1228,6 @@
                     <navigationItem key="navigationItem" id="uYa-EF-a8X"/>
                     <connections>
                         <outlet property="canvas" destination="ufQ-sW-bDW" id="WR5-4Z-b7J"/>
-                        <outlet property="canvasAnimation" destination="ubG-28-KVf" id="25J-Di-MTv"/>
                         <outlet property="colorButton" destination="da0-nx-vfp" id="lCF-DU-zhm"/>
                         <outlet property="eraserButton" destination="mCl-AI-Uj6" id="PGU-5q-eyL"/>
                         <outlet property="gridView" destination="GSc-jB-1YC" id="wTL-fW-J4h"/>

@@ -18,13 +18,13 @@
  * return a stroke for the input touch only
  * if it already exists, otherwise nil
  */
-- (JotStroke*)getStrokeForTouchHash:(UITouch*)touch;
+- (JotStroke*)getStrokeForHash:(NSUInteger*)hash;
 
 /**
  * return a new or existing stroke for the
  * input touch
  */
-- (JotStroke*)makeStrokeForTouchHash:(UITouch*)touch andTexture:(JotBrushTexture*)texture andBufferManager:(JotBufferManager*)bufferManager;
+- (JotStroke*)makeStrokeForHash:(NSUInteger*)hash andTexture:(JotBrushTexture*)texture andBufferManager:(JotBufferManager*)bufferManager;
 
 
 /**
@@ -48,7 +48,7 @@
 /**
  * remove a stroke from being tracked
  */
-- (void)removeStrokeForTouch:(UITouch*)touch;
+- (void)removeStrokeForHash:(NSUInteger*)hash;
 
 
 /**

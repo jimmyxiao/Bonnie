@@ -13,14 +13,12 @@ class CanvasViewController:
         UIPopoverPresentationControllerDelegate,
         JotViewDelegate,
         JotViewStateProxyDelegate,
-        CanvasAnimationViewDelegate,
         CanvasSettingTableViewControllerDelegate,
         SizePickerViewControllerDelegate,
         BrushPickerViewControllerDelegate,
         ColorPickerViewControllerDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var canvas: JotView!
-    @IBOutlet weak var canvasAnimation: CanvasAnimationView!
     @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var redoButton: UIBarButtonItem!
@@ -34,10 +32,12 @@ class CanvasViewController:
     @IBOutlet weak var colorButton: UIBarButtonItem!
     private var brush = Brush(withBrushType: .pen, minSize: 6, maxSize: 12, minAlpha: 0.6, maxAlpha: 0.8)
     private var lastPenType: Type?
-    private var lastTimestamp: TimeInterval = -1
     private var paths = [Path]()
     private var redoPaths = [Path]()
     private var writeHandle: FileHandle?
+    private var animatePoints = [Point]()
+    private var animationHandle: FileHandle?
+    private var timer: Timer?
     private var url = try! FileManager.default.url(
             for: .documentationDirectory,
             in: .userDomainMask,
@@ -56,7 +56,6 @@ class CanvasViewController:
     override func viewDidLoad() {
         brush.isForceSupported = true
         canvas.delegate = self
-        canvasAnimation.delegate = self
         penButton.layer.cornerRadius = view.bounds.width / 10
         let size = CGSize(width: 33, height: 33)
         let count = UserDefaults.standard.integer(forKey: Default.GRID)
@@ -99,7 +98,7 @@ class CanvasViewController:
     }
 
     @objc func applicationDidEnterBackground(notification: Notification) {
-//        canvas.save()
+        //        canvas.save()
     }
 
     @IBAction func undo(_ sender: Any) {
@@ -133,46 +132,67 @@ class CanvasViewController:
                 } catch {
                     Logger.d("\(#function): \(error.localizedDescription)")
                 }
-                self.lastTimestamp = -1
             }
         }
     }
 
     @IBAction func play(_ sender: UIBarButtonItem) {
-//        do {
-//            let url = try FileManager.default.url(
-//                    for: .documentationDirectory,
-//                    in: .userDomainMask,
-//                    appropriateFor: nil,
-//                    create: true).appendingPathComponent("animation.bdw")
-//            sender.isEnabled = false
-//            undoButton.isEnabled = false
-//            redoButton.isEnabled = false
-//            saveButton.isEnabled = false
-//            settingButton.isEnabled = false
-//            sizeButton.isEnabled = false
-//            eraserButton.isEnabled = false
-//            resetButton.isEnabled = false
-//            colorButton.isEnabled = false
-//            canvas.isUserInteractionEnabled = false
-//            canvas.save(toUrl: url) {
-//                url in
-//                self.canvasAnimation.url = url
-//                self.canvasAnimation.play()
-//                self.canvasAnimation.isHidden = false
-//                self.canvas.isHidden = true
-//            }
-//        } catch {
-//            Logger.d("\(#function): \(error.localizedDescription)")
-//        }
+        do {
+            canvas.clear(true)
+            let manager = FileManager.default
+            let url = try manager.url(
+                    for: .documentationDirectory,
+                    in: .userDomainMask,
+                    appropriateFor: nil,
+                    create: true).appendingPathComponent("animation.bdw")
+            sender.isEnabled = false
+            undoButton.isEnabled = false
+            redoButton.isEnabled = false
+            saveButton.isEnabled = false
+            settingButton.isEnabled = false
+            sizeButton.isEnabled = false
+            eraserButton.isEnabled = false
+            resetButton.isEnabled = false
+            colorButton.isEnabled = false
+            canvas.isUserInteractionEnabled = false
+            if manager.fileExists(atPath: url.path) {
+                try manager.removeItem(at: url)
+            }
+            try manager.copyItem(at: self.url, to: url)
+            var pointsToSave = [Point]()
+            for path in paths {
+                for point in path.points {
+                    pointsToSave.append(point)
+                }
+            }
+            let animationHandle = try FileHandle(forUpdating: url)
+            if !pointsToSave.isEmpty {
+                animationHandle.seekToEndOfFile()
+                animationHandle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+            }
+            animationHandle.seek(toFileOffset: 0)
+            animatePoints.removeAll()
+            timer?.invalidate()
+            animatePoints.append(
+                    contentsOf: DataConverter.parse(
+                            dataToPoints: animationHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)),
+                            withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+            if !animatePoints.isEmpty {
+                lastPenType = brush.type
+                animate()
+            }
+            self.animationHandle = animationHandle
+        } catch {
+            Logger.d("\(#function): \(error.localizedDescription)")
+        }
     }
 
     @IBAction func upload(_ sender: Any) {
-//        loading.hide(false)
-//        canvas.save() {
-//            url in
-//            self.performSegue(withIdentifier: Segue.UPLOAD, sender: url)
-//        }
+        //        loading.hide(false)
+        //        canvas.save() {
+        //            url in
+        //            self.performSegue(withIdentifier: Segue.UPLOAD, sender: url)
+        //        }
     }
 
     @IBAction func didSelectEraser(_ sender: UIBarButtonItem) {
@@ -223,22 +243,16 @@ class CanvasViewController:
             controller.preferredContentSize = CGSize(width: UIScreen.main.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.9 : 0.45), height: 204)
         } else if let url = sender as? URL,
                   let controller = segue.destination as? UploadViewController {
-//            controller.workThumbnailData = canvas.thumbnailData()
-//            controller.workFileUrl = url
+            //            controller.workThumbnailData = canvas.thumbnailData()
+            //            controller.workFileUrl = url
         }
-    }
-
-    override func onBackPressed(_ sender: Any) {
-        canvasAnimation.pause()
-//        canvas.save()
-//        canvas.close()
-        super.onBackPressed(sender)
     }
 
     private func checkCanvasStatus() {
         redoButton.isEnabled = canvas.canRedo()
         undoButton.isEnabled = canvas.canUndo()
         playButton.isEnabled = canvas.canUndo()
+        saveButton.isEnabled = canvas.canUndo()
         resetButton.isEnabled = canvas.canUndo()
     }
 
@@ -246,48 +260,16 @@ class CanvasViewController:
         return .none
     }
 
-//    internal func canvasPathsDidChange() {
-//        undoButton.isEnabled = !canvas.paths.isEmpty
-//        redoButton.isEnabled = !canvas.redoPaths.isEmpty
-//        playButton.isEnabled = !canvas.paths.isEmpty
-//        if !playButton.isEnabled {
-//            playButton.isEnabled = canvas.persistentImage != nil
-//        }
-//        saveButton.isEnabled = playButton.isEnabled
-//        resetButton.isEnabled = !canvas.paths.isEmpty
-//        if !resetButton.isEnabled {
-//            resetButton.isEnabled = canvas.persistentImage != nil
+//    internal func canvasAnimationFileParseError() {
+//        presentDialog(title: "canvas_data_parse_error_title".localized, message: "canvas_data_parse_error_content".localized) {
+//            action in
+//            super.onBackPressed(self)
 //        }
 //    }
-//    internal func canvas(changeBackgroundColor color: UIColor) {
+//
+//    internal func canvasAnimation(changeBackgroundColor color: UIColor) {
 //        gridView.backgroundColor = color
 //    }
-    internal func canvasAnimationDidFinishAnimation() {
-//        undoButton.isEnabled = true
-//        redoButton.isEnabled = !canvas.redoPaths.isEmpty
-//        playButton.isEnabled = true
-//        saveButton.isEnabled = true
-//        settingButton.isEnabled = true
-//        sizeButton.isEnabled = true
-//        eraserButton.isEnabled = true
-//        resetButton.isEnabled = true
-//        colorButton.isEnabled = true
-//        canvas.isHidden = false
-//        canvas.isUserInteractionEnabled = true
-//        canvasAnimation.isHidden = true
-    }
-
-    internal func canvasAnimationFileParseError() {
-        presentDialog(title: "canvas_data_parse_error_title".localized, message: "canvas_data_parse_error_content".localized) {
-            action in
-            super.onBackPressed(self)
-        }
-    }
-
-    internal func canvasAnimation(changeBackgroundColor color: UIColor) {
-        gridView.backgroundColor = color
-    }
-
     internal func canvasSetting(didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
@@ -335,24 +317,24 @@ class CanvasViewController:
         case 1:
             performSegue(withIdentifier: Segue.BACKGROUND_COLOR, sender: nil)
         case 2: break
-//            if let data = canvas.thumbnailData(),
-//               let image = UIImage(data: data) {
-//                checkPhotosPermission(successHandler: {
-//                    let flashView = UIView(frame: self.canvas.frame)
-//                    flashView.backgroundColor = .white
-//                    self.view.addSubview(flashView)
-//                    UIView.animate(
-//                            withDuration: 1,
-//                            animations: {
-//                                flashView.alpha = 0
-//                            },
-//                            completion: {
-//                                finished in
-//                                flashView.removeFromSuperview()
-//                            })
-//                    AppDelegate.save(asset: image)
-//                })
-//            }
+                //            if let data = canvas.thumbnailData(),
+                //               let image = UIImage(data: data) {
+                //                checkPhotosPermission(successHandler: {
+                //                    let flashView = UIView(frame: self.canvas.frame)
+                //                    flashView.backgroundColor = .white
+                //                    self.view.addSubview(flashView)
+                //                    UIView.animate(
+                //                            withDuration: 1,
+                //                            animations: {
+                //                                flashView.alpha = 0
+                //                            },
+                //                            completion: {
+                //                                finished in
+                //                                flashView.removeFromSuperview()
+                //                            })
+                //                    AppDelegate.save(asset: image)
+                //                })
+                //            }
         case 3:
             break
         default:
@@ -391,7 +373,6 @@ class CanvasViewController:
     }
 
     internal func brushPicker(didSelect alpha: CGFloat) {
-        Logger.d("\(#function): \(alpha)")
         brush.minAlpha = alpha - 0.2
         brush.maxAlpha = alpha
     }
@@ -401,8 +382,8 @@ class CanvasViewController:
             brush.color = color
             colorButton.tintColor = color
         } else {
-//            canvas.set(backgroundColor: color)
-//            gridView.backgroundColor = color
+            //            canvas.set(backgroundColor: color)
+            //            gridView.backgroundColor = color
         }
     }
 
@@ -436,7 +417,6 @@ class CanvasViewController:
 
     internal func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
         if let action = coalescedTouch.getAction() {
-            lastTimestamp = coalescedTouch.timestamp
             paths.append(Path(points: [Point(length: LENGTH_SIZE,
                     function: .draw,
                     position: coalescedTouch.location(in: canvas),
@@ -451,7 +431,6 @@ class CanvasViewController:
 
     internal func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
         if let action = coalescedTouch.getAction() {
-            let timestamp = coalescedTouch.timestamp - lastTimestamp
             paths.last?.points.append(Point(length: LENGTH_SIZE,
                     function: .draw,
                     position: coalescedTouch.location(in: canvas),
@@ -459,14 +438,12 @@ class CanvasViewController:
                     action: action,
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
-                    duration: timestamp))
-            lastTimestamp = timestamp
+                    duration: 1.0 / 60.0))
         }
     }
 
     internal func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
         if let action = coalescedTouch.getAction() {
-            let timestamp = coalescedTouch.timestamp - lastTimestamp
             paths.last?.points.append(Point(length: LENGTH_SIZE,
                     function: .draw,
                     position: coalescedTouch.location(in: canvas),
@@ -474,17 +451,14 @@ class CanvasViewController:
                     action: action,
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
-                    duration: timestamp))
-            lastTimestamp = timestamp
-            redoPaths.removeAll()
-            saveToDisk()
+                    duration: 1.0 / 60.0))
         }
     }
 
     internal func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
         checkCanvasStatus()
-        let location = touch.location(in: canvas)
-        Logger.d("\(#function)  location: (\(location.x),\(location.y) phase: \(touch.phase)")
+        saveToDisk()
+        redoPaths.removeAll()
     }
 
     internal func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
@@ -514,6 +488,46 @@ class CanvasViewController:
         }
         if !pointsToSave.isEmpty {
             writeHandle?.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+        }
+    }
+
+    private func animate() {
+        if !animatePoints.isEmpty {
+            let point = animatePoints.removeFirst()
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
+                timer in
+                switch point.action {
+                case .move:
+                    self.canvas.animateMoved(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                case .up:
+                    self.canvas.animateEnded(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                case .down:
+                    self.brush.type = point.type
+                    self.canvas.animateBegan(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                }
+                self.animate()
+            }
+            if let animationHandle = animationHandle, animatePoints.count < POINT_BUFFER_COUNT / 2 {
+                let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
+                let data = animationHandle.readData(ofLength: maxByteCount)
+                animatePoints.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+                if data.count < maxByteCount {
+                    animationHandle.closeFile()
+                    self.animationHandle = nil
+                }
+            }
+        } else {
+            if let lastPenType = lastPenType {
+                brush.type = lastPenType
+                self.lastPenType = nil
+            }
+            checkCanvasStatus()
+            settingButton.isEnabled = true
+            sizeButton.isEnabled = true
+            eraserButton.isEnabled = true
+            colorButton.isEnabled = true
+            canvas.isUserInteractionEnabled = true
         }
     }
 }
