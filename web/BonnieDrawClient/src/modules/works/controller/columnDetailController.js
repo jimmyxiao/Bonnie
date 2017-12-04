@@ -222,8 +222,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var iarray = [];
 		var can = null;
 		var cxt = null;
-		var canvas_width = 1000;
-		var canvas_height = 1000;
+		var canvas_width = 500;//1000;
+		var canvas_height = 500;//1000;
 
 		var brush_Alpha = [];
 		var brush_imgAlpha = [];
@@ -243,7 +243,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		imgarray[1] = new Image();
 		imgarray[1].src = 'assets/images/BrushImage/Creyon_brush_18.png';
-		brush_Alpha[1] = 1;
+		brush_Alpha[1] = 0.9;
 		brush_imgAlpha[1] = 1;
 		bursh_array[1] = '蠟筆';
 		brush_Composite[1] ='source-over';
@@ -251,8 +251,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		imgarray[2] = new Image();
 		imgarray[2].src = 'assets/images/BrushImage/SoftPencil_brush_04.png';
-		brush_Alpha[2] = 1;
-		brush_imgAlpha[2] = 0.045;
+		brush_Alpha[2] = 0.02//0.05;
+		brush_imgAlpha[2] = 1;
 		bursh_array[2] = '鉛筆'
 		brush_Composite[2] ='source-over';
 
@@ -267,16 +267,16 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		imgarray[4] = new Image();
 		imgarray[4].src = 'assets/images/BrushImage/FeltPen_brush_45_c.png';
-		brush_Alpha[4] = 0.4;
+		brush_Alpha[4] = 0.02;//0.4
 		brush_imgAlpha[4] = 1;
 		bursh_array[4] = '麥克筆'
 		brush_Composite[4] ='source-over';
 
 
 		imgarray[5] = new Image();
-		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05.png';
-		brush_Alpha[5] = 0.034;
-		brush_imgAlpha[5] = 0.8;
+		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05-1.png';
+		brush_Alpha[5] = 0.08//0.034;
+		brush_imgAlpha[5] = 1;
 		bursh_array[5] = '噴槍'
 		brush_Composite[5] ='source-over';
 
@@ -291,6 +291,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			if(draw_number>=lines.length){
 				predata = [];
 				var imgendData=cxt.getImageData(0, 0,canvas_width, canvas_height);
+				//can.style.backgroundColor = "#ffffff";
 		    	cxt.clearRect(0, 0, canvas_width, canvas_height);
 		    	cxt.putImageData(imgendData,0,0);
 		    	draw_number=0;
@@ -333,6 +334,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				if(predata.length>21){
 					predata.shift();
 				}
+				can.style.backgroundColor = "#ffffff";
 				cxt.clearRect(0, 0, canvas_width, canvas_height);
 				var pindata = cxt.getImageData(0, 0,canvas_width, canvas_height);
 				predata.push(pindata);
@@ -387,7 +389,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							y = previewData.yPos + (Math.cos(angle) * distnum) - 25;
 							//cxt.globalAlpha=0.04;
 							var Crayonimg = changeCrayon(imgdata,x,y);
-							cxt.globalCompositeOperation='xor';
+							//cxt.globalCompositeOperation='xor';
 							cxt.drawImage(Crayonimg, x, y, data.size, data.size);
 						}
 					}else{
@@ -396,7 +398,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							if(data.brush==0){
 								cxt.arc(x,y,data.size/2,0,2*Math.PI);
-								cxt.clearRect(x, y,data.size,data.size);
+								cxt.clearRect(x, y,data.size/2,data.size/2);
 							}else{
 								//cxt.globalAlpha=0.04;
 								cxt.drawImage(imgdata, x, y, data.size, data.size);

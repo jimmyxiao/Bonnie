@@ -189,14 +189,14 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		imgarray[2].src = 'assets/images/BrushImage/SoftPencil_brush_04.png';
 		imgarray[3].src = 'assets/images/BrushImage/InkPen_brush_01.png';
 		imgarray[4].src = 'assets/images/BrushImage/FeltPen_brush_45_c.png';
-		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05.png';
+		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05-1.png';
 		
 		var brush_Alpha = [
-			0, 1, 1, 1, 0.4, 0.034
+			0, 0.9, 0.02, 1, 0.02, 0.08//0, 1, 1, 1, 0.4, 0.034
 		];
 		
 		var brush_imgAlpha = [
-			1, 1, 1, 1, 1, 0.8
+			1, 1, 1, 1, 1, 1
 		];
 		
 		var bursh_array = [
@@ -234,6 +234,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 
 					predata = [];
 					var imgendData = cxt.getImageData(0, 0, canvas_width, canvas_height);
+					
 			    	cxt.clearRect(0, 0, canvas_width, canvas_height);
 			    	cxt.putImageData(imgendData, 0, 0);
 			    	$scope.isnext = false;
@@ -264,6 +265,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					predata.shift();
 				}
 				if(stream.stn == 0){
+					can.style.backgroundColor = "#ffffff";
 					cxt.clearRect(0, 0, canvas_width, canvas_height);
 				}
 				predata.push(cxt.getImageData(0, 0, canvas_width, canvas_height));
@@ -301,7 +303,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 							x = previewData.xPos + (Math.sin(angle) * distnum) - 25;
 							y = previewData.yPos + (Math.cos(angle) * distnum) - 25;
 							var Crayonimg = changeCrayon(imgdata,x,y);
-							cxt.globalCompositeOperation = 'xor';
+							//cxt.globalCompositeOperation = 'xor';
 							cxt.drawImage(Crayonimg, x, y, data.size, data.size);
 						}
 					}else{
@@ -310,7 +312,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							if(brush == 0){
 								cxt.arc(x,y,data.size/2,0,2*Math.PI);
-								cxt.clearRect(x, y,data.size,data.size);
+								cxt.clearRect(x, y,data.size/2,data.size/2);
 							}else{
 								cxt.drawImage(imgdata, x, y, data.size, data.size);
 							}
@@ -364,7 +366,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 						color_b: b,
 						color_rgba: 'rgba('+r+','+g+','+b+','+a+')'
 					};
-					setDotInfo(lines[i].color, lines[i].size, 4);	// tmpBrush = lines[i].brush;
+					setDotInfo(lines[i].color, lines[i].size, lines[i].brush);	// tmpBrush = lines[i].brush;
 					lines[i].time = 0;
 					break;
 				
@@ -379,7 +381,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 				case 3:
 					lines[i].color = util.clone(dotInfo.tmpColor);
 					lines[i].size = util.clone(dotInfo.tmpSize);
-					lines[i].brush = 4;	// lines[i].brush = util.clone(tmpBrush);
+					lines[i].brush = util.clone(dotInfo.tmpBrush);	// lines[i].brush = 4;
 					break;
 				}
 			}
