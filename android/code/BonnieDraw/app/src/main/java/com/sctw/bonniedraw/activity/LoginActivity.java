@@ -19,6 +19,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.fragment.LoginFragment;
 import com.sctw.bonniedraw.utility.ConnectJson;
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+        updateFCM();
         mLinearLayout = findViewById(R.id.frameLayout_login_frist);
         AlphaAnimation mAlphaAnimation = new AlphaAnimation(0, 1);
         mAlphaAnimation.setDuration(2000);
@@ -87,6 +89,13 @@ public class LoginActivity extends AppCompatActivity {
                 startAndCheck();
             }
         }
+    }
+
+    private void updateFCM() {
+        prefs.edit()
+                .putString(GlobalVariable.USER_FCM_TOKEN_STR, FirebaseInstanceId.getInstance().getToken())
+                .putString(GlobalVariable.USER_DEVICE_ID_STR, FirebaseInstanceId.getInstance().getId())
+                .apply();
     }
 
     void init() {

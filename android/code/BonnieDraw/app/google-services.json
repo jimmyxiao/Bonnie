@@ -44,15 +44,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
+              "client_id": "579888826124-d2h3vojsiun49794g3cghi65iaiv8tgl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
               "client_id": "579888826124-j33ha9056gdu5i9v8n164r3k9rm63qtn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.sctw.bonniedraw"
               }
-            },
-            {
-              "client_id": "579888826124-d2h3vojsiun49794g3cghi65iaiv8tgl.apps.googleusercontent.com",
-              "client_type": 3
             }
           ]
         },

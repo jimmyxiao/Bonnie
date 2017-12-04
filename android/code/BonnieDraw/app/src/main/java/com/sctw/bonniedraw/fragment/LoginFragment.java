@@ -412,6 +412,8 @@ public class LoginFragment extends Fragment {
             json.put("ut", GlobalVariable.EMAIL_LOGIN);
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("fn", GlobalVariable.API_LOGIN);
+            json.put("token", prefs.getString(GlobalVariable.USER_FCM_TOKEN_STR, ""));
+            json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -442,7 +444,7 @@ public class LoginFragment extends Fragment {
                                 //Successful
                                 prefs.edit()
                                         .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.EMAIL_LOGIN)
-                                        .putString("emailLoginPwd", mInputEditTextPassword.getText().toString())
+                                        .putString(GlobalVariable.USER_PWD_STR, mInputEditTextPassword.getText().toString())
                                         .putString(GlobalVariable.USER_TOKEN_STR, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.USER_NAME_STR, responseJSON.getJSONObject("userInfo").getString("userName"))
                                         .putString(GlobalVariable.USER_EMAIL_STR, responseJSON.getJSONObject("userInfo").getString("email"))
@@ -596,6 +598,8 @@ public class LoginFragment extends Fragment {
                     json.put("fn", GlobalVariable.API_LOGIN);
                     json.put("thirdEmail", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
                     json.put("thirdPictureUrl", prefs.getString(GlobalVariable.USER_IMG_URL_STR, ""));
+                    json.put("token", prefs.getString(GlobalVariable.USER_FCM_TOKEN_STR, ""));
+                    json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
                     break;
                 case GlobalVariable.API_REGISTER_CODE:
                     json.put("ut", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));

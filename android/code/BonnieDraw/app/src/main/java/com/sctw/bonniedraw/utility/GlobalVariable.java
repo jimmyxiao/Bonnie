@@ -8,10 +8,13 @@ public class GlobalVariable {
 
     public static final String USER_PLATFORM_STR = "userPlatform";
     public static final String USER_FB_TWITTER_ID_STR = "userFbId";
+    public static final String USER_PWD_STR = "userPwd";
     public static final String USER_TOKEN_STR = "userToken";
     public static final String USER_NAME_STR = "userName";
     public static final String USER_EMAIL_STR = "userEmail";
     public static final String USER_IMG_URL_STR = "userImgUrl";
+    public static final String USER_FCM_TOKEN_STR = "userFcmToken";
+    public static final String USER_DEVICE_ID_STR = "userDeviceId";
     public static final String MEMBER_PREFS = "userInfo";
 
     public static final String LOGIN_PLATFORM = "1";

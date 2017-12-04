@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     //init Btn,Toolbar,BottomNav
     private void init() {
         // findview by id
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_actitivy_drawlayout);
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_actitivy_drawlayout);
         mNavigationView = (RelativeLayout) findViewById(R.id.sidebarView);
         mImgHeaderPhoto = (CircleImageView) mNavigationView.findViewById(R.id.header_user_photo);
         mTextViewHeaderText = (TextView) mNavigationView.findViewById(R.id.header_user_name);

@@ -7,8 +7,8 @@ android {
         applicationId "com.sctw.bonniedraw"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.140"
+        versionCode 4
+        versionName "1.124"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -56,12 +56,12 @@ dependencies {
     compile 'com.github.razerdp:BasePopup:1.8.5.1'
     compile 'com.github.bumptech.glide:glide:4.3.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
-    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
-        transitive = true
-    }
     compile 'com.google.firebase:firebase-core:11.6.2'
     compile 'com.google.android.gms:play-services-safetynet:11.6.2'
     compile 'com.google.firebase:firebase-messaging:11.6.2'
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true
+    }
     testCompile 'junit:junit:4.12'
 }
 

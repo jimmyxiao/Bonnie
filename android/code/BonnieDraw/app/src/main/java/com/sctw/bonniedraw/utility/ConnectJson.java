@@ -38,13 +38,17 @@ public class ConnectJson {
                     json.put("fn", GlobalVariable.API_LOGIN);
                     json.put("thirdEmail", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
                     json.put("thirdPictureUrl", prefs.getString(GlobalVariable.USER_IMG_URL_STR, ""));
+                    json.put("token",prefs.getString(GlobalVariable.USER_FCM_TOKEN_STR, ""));
+                    json.put("deviceId",prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
                     break;
                 case 1:
                     json.put("uc", prefs.getString(GlobalVariable.USER_EMAIL_STR, "null"));
-                    json.put("up", prefs.getString("emailLoginPwd", "null"));
+                    json.put("up", prefs.getString(GlobalVariable.USER_PWD_STR, "null"));
                     json.put("ut", GlobalVariable.EMAIL_LOGIN);
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
+                    json.put("token",prefs.getString(GlobalVariable.USER_FCM_TOKEN_STR, ""));
+                    json.put("deviceId",prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
                     break;
             }
             Log.d("JSON DATA", json.toString());
