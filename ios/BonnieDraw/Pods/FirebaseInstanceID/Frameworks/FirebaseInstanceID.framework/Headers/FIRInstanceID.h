@@ -15,8 +15,9 @@
  *
  *  The scope to be used when fetching/deleting a token for Firebase Messaging.
  */
-FOUNDATION_EXPORT NSString *__nonnull const kFIRInstanceIDScopeFirebaseMessaging
-        FIR_SWIFT_NAME(InstanceIDScopeFirebaseMessaging);
+FOUNDATION_EXPORT NSString * __nonnull const kFIRInstanceIDScopeFirebaseMessaging
+    FIR_SWIFT_NAME(InstanceIDScopeFirebaseMessaging);
+
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 /**
  *  Called when the system determines that tokens need to be refreshed.
@@ -27,7 +28,7 @@ FOUNDATION_EXPORT NSString *__nonnull const kFIRInstanceIDScopeFirebaseMessaging
  *  to control the rate of token updates on application servers.
  */
 FOUNDATION_EXPORT const NSNotificationName __nonnull kFIRInstanceIDTokenRefreshNotification
-        FIR_SWIFT_NAME(InstanceIDTokenRefresh);
+    FIR_SWIFT_NAME(InstanceIDTokenRefresh);
 #else
 /**
  *  Called when the system determines that tokens need to be refreshed.
@@ -53,8 +54,8 @@ FOUNDATION_EXPORT NSString * __nonnull const kFIRInstanceIDTokenRefreshNotificat
  *               failed. See the error codes below for a more detailed
  *               description.
  */
-typedef void(^FIRInstanceIDTokenHandler)(NSString *__nullable token, NSError *__nullable error)
-        FIR_SWIFT_NAME(InstanceIDTokenHandler);
+typedef void(^FIRInstanceIDTokenHandler)( NSString * __nullable token, NSError * __nullable error)
+    FIR_SWIFT_NAME(InstanceIDTokenHandler);
 
 
 /**
@@ -66,8 +67,8 @@ typedef void(^FIRInstanceIDTokenHandler)(NSString *__nullable token, NSError *__
  *  @param error The error describing why deleting the token failed.
  *               See the error codes below for a more detailed description.
  */
-typedef void(^FIRInstanceIDDeleteTokenHandler)(NSError *__nullable error)
-        FIR_SWIFT_NAME(InstanceIDDeleteTokenHandler);
+typedef void(^FIRInstanceIDDeleteTokenHandler)(NSError * __nullable error)
+    FIR_SWIFT_NAME(InstanceIDDeleteTokenHandler);
 
 /**
  *  @related FIRInstanceID
@@ -79,8 +80,8 @@ typedef void(^FIRInstanceIDDeleteTokenHandler)(NSError *__nullable error)
  *                  while creating an identity.
  *  @param error    The error if fetching the identity fails else nil.
  */
-typedef void(^FIRInstanceIDHandler)(NSString *__nullable identity, NSError *__nullable error)
-        FIR_SWIFT_NAME(InstanceIDHandler);
+typedef void(^FIRInstanceIDHandler)(NSString * __nullable identity, NSError * __nullable error)
+    FIR_SWIFT_NAME(InstanceIDHandler);
 
 /**
  *  @related FIRInstanceID
@@ -91,30 +92,36 @@ typedef void(^FIRInstanceIDHandler)(NSString *__nullable identity, NSError *__nu
  *  @param error The error if deleting the identity and all the tokens associated with
  *               it fails else nil.
  */
-typedef void(^FIRInstanceIDDeleteHandler)(NSError *__nullable error)
-        FIR_SWIFT_NAME(InstanceIDDeleteHandler);
+typedef void(^FIRInstanceIDDeleteHandler)(NSError * __nullable error)
+    FIR_SWIFT_NAME(InstanceIDDeleteHandler);
 
 /**
- * @enum FIRInstanceIDError
+ * Public errors produced by InstanceID.
  */
 typedef NS_ENUM(NSUInteger, FIRInstanceIDError) {
-    // Http related errors.
+  // Http related errors.
 
-    /// Unknown error.
-            FIRInstanceIDErrorUnknown = 0,
-    /// Auth Error -- GCM couldn't validate request from this client.
-            FIRInstanceIDErrorAuthentication = 1,
-    /// NoAccess -- InstanceID service cannot be accessed.
-            FIRInstanceIDErrorNoAccess = 2,
-    /// Timeout -- Request to InstanceID backend timed out.
-            FIRInstanceIDErrorTimeout = 3,
-    /// Network -- No network available to reach the servers.
-            FIRInstanceIDErrorNetwork = 4,
-    /// OperationInProgress -- Another similar operation in progress,
-    /// bailing this one.
-            FIRInstanceIDErrorOperationInProgress = 5,
-    /// InvalidRequest -- Some parameters of the request were invalid.
-            FIRInstanceIDErrorInvalidRequest = 7,
+  /// Unknown error.
+  FIRInstanceIDErrorUnknown = 0,
+
+  /// Auth Error -- GCM couldn't validate request from this client.
+  FIRInstanceIDErrorAuthentication = 1,
+
+  /// NoAccess -- InstanceID service cannot be accessed.
+  FIRInstanceIDErrorNoAccess = 2,
+
+  /// Timeout -- Request to InstanceID backend timed out.
+  FIRInstanceIDErrorTimeout = 3,
+
+  /// Network -- No network available to reach the servers.
+  FIRInstanceIDErrorNetwork = 4,
+
+  /// OperationInProgress -- Another similar operation in progress,
+  /// bailing this one.
+  FIRInstanceIDErrorOperationInProgress = 5,
+
+  /// InvalidRequest -- Some parameters of the request were invalid.
+  FIRInstanceIDErrorInvalidRequest = 7,
 } FIR_SWIFT_NAME(InstanceIDError);
 
 /**
@@ -123,12 +130,12 @@ typedef NS_ENUM(NSUInteger, FIRInstanceIDError) {
  *  is from the provisioning profile.
  */
 typedef NS_ENUM(NSInteger, FIRInstanceIDAPNSTokenType) {
-    /// Unknown token type.
-            FIRInstanceIDAPNSTokenTypeUnknown,
-    /// Sandbox token type.
-            FIRInstanceIDAPNSTokenTypeSandbox,
-    /// Production token type.
-            FIRInstanceIDAPNSTokenTypeProd,
+  /// Unknown token type.
+  FIRInstanceIDAPNSTokenTypeUnknown,
+  /// Sandbox token type.
+  FIRInstanceIDAPNSTokenTypeSandbox,
+  /// Production token type.
+  FIRInstanceIDAPNSTokenTypeProd,
 } FIR_SWIFT_NAME(InstanceIDAPNSTokenType)
     __deprecated_enum_msg("Use FIRMessaging's APNSToken property instead.");
 
@@ -149,6 +156,7 @@ typedef NS_ENUM(NSInteger, FIRInstanceIDAPNSTokenType) {
  */
 FIR_SWIFT_NAME(InstanceID)
 @interface FIRInstanceID : NSObject
+
 /**
  *  FIRInstanceID.
  *
@@ -173,7 +181,7 @@ FIR_SWIFT_NAME(InstanceID)
  */
 - (void)setAPNSToken:(nonnull NSData *)token
                 type:(FIRInstanceIDAPNSTokenType)type
-__deprecated_msg("Use FIRMessaging's APNSToken property instead.");
+      __deprecated_msg("Use FIRMessaging's APNSToken property instead.");
 
 #pragma mark - Tokens
 
@@ -246,8 +254,8 @@ __deprecated_msg("Use FIRMessaging's APNSToken property instead.");
  *                          else error is nil.
  */
 - (void)deleteTokenWithAuthorizedEntity:(nonnull NSString *)authorizedEntity
-        scope:(nonnull NSString *)scope
-      handler:(nonnull FIRInstanceIDDeleteTokenHandler)handler;
+                                  scope:(nonnull NSString *)scope
+                                handler:(nonnull FIRInstanceIDDeleteTokenHandler)handler;
 
 #pragma mark - Identity
 
@@ -263,12 +271,16 @@ __deprecated_msg("Use FIRMessaging's APNSToken property instead.");
  *                 application instance.
  */
 - (void)getIDWithHandler:(nonnull FIRInstanceIDHandler)handler
-FIR_SWIFT_NAME(getID(handler:));
+    FIR_SWIFT_NAME(getID(handler:));
 
 /**
  *  Resets Instance ID and revokes all tokens.
+ *
+ *  This method also triggers a request to fetch a new Instance ID and Firebase Messaging scope
+ *  token. Please listen to kFIRInstanceIDTokenRefreshNotification when the new ID and token are
+ *  ready.
  */
 - (void)deleteIDWithHandler:(nonnull FIRInstanceIDDeleteHandler)handler
-FIR_SWIFT_NAME(deleteID(handler:));
+    FIR_SWIFT_NAME(deleteID(handler:));
 
 @end

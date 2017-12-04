@@ -1,7 +1,19 @@
-//
-//  TWTRGenericKeychainItem.h
-//  TwitterCore
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -20,25 +32,25 @@ extern NSString *const TWTRGenericKeychainItemErrorDomain;
  * The name of the service corresponding with kSecAttrService.
  * If this value is specified the genericValue and accessGroup values are ignored.
  */
-@property(nonatomic, copy, readonly, nullable) NSString *service;
+@property (nonatomic, copy, readonly, nullable) NSString *service;
 
 /**
  * The name of the account corresponding with kSecAttrAccount.
  * If this value is specified the genericValue and accessGroup values are ignored.
  */
-@property(nonatomic, copy, readonly, nullable) NSString *account;
+@property (nonatomic, copy, readonly, nullable) NSString *account;
 
 /**
  * A generic value corresponding with kSecAttrGeneric.
  */
-@property(nonatomic, copy, readonly, nullable) NSString *genericValue;
+@property (nonatomic, copy, readonly, nullable) NSString *genericValue;
 
 /**
  * The access group corresponding with kSecAttrAccessGroup.
  * This value is not used in equality checks.
  * Note: This value is ignored in the simulator.
  */
-@property(nonatomic, copy, readonly, nullable) NSString *accessGroup;
+@property (nonatomic, copy, readonly, nullable) NSString *accessGroup;
 
 /**
  * A query that will return all the items in the keychain.
@@ -84,12 +96,12 @@ extern NSString *const TWTRGenericKeychainItemErrorDomain;
  * A value which specifies the item's service attribute. This
  * value represents the service associated with this item.
  */
-@property(nonatomic, copy, readonly) NSString *service;
+@property (nonatomic, copy, readonly) NSString *service;
 
 /**
  * A value which represents the items account name.
  */
-@property(nonatomic, copy, readonly) NSString *account;
+@property (nonatomic, copy, readonly) NSString *account;
 
 /**
  * The item that is intended to be kept secret. This may be
@@ -98,18 +110,18 @@ extern NSString *const TWTRGenericKeychainItemErrorDomain;
  * @warning If this data is too large it will fail to save. The size
  * should be smaller than ~2mb but can change from device to device.
  */
-@property(nonatomic, copy, readonly) NSData *secret;
+@property (nonatomic, copy, readonly) NSData *secret;
 
 /**
  * An optional value that can be set on the item.
  */
-@property(nonatomic, copy, readonly, nullable) NSString *genericValue;
+@property (nonatomic, copy, readonly, nullable) NSString *genericValue;
 
 /**
  * Returns the date that the item was last saved to the store. This value
  * is nil until the item is actually saved.
  */
-@property(nonatomic, copy, readonly, nullable) NSDate *lastSavedDate;
+@property (nonatomic, copy, readonly, nullable) NSDate *lastSavedDate;
 
 /**
  * An optional value that can be used to specify the items accesss group.
@@ -124,7 +136,7 @@ extern NSString *const TWTRGenericKeychainItemErrorDomain;
  * is because the security framework will fill it with the default value which
  * is not specified.
  */
-@property(nonatomic, copy, readonly, nullable) NSString *accessGroup;
+@property (nonatomic, copy, readonly, nullable) NSString *accessGroup;
 
 /**
  * Fetches all of the stored items for the given query.

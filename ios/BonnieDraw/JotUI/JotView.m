@@ -2033,7 +2033,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     [inkTextureLock unlock];
 }
 
-- (void)animateBegan:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
+- (void)drawBegan:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
     if (!state)
         return;
     
@@ -2053,7 +2053,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     [JotGLContext validateEmptyContextStack];
 }
 
-- (void)animateMoved:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
+- (void)drawMoved:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
     if (!state)
         return;
     JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:0];
@@ -2098,7 +2098,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     [JotGLContext validateEmptyContextStack];
 }
 
-- (void)animateEnded:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
+- (void)drawEnded:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
     if (!state)
         return;
     JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:0];

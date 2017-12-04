@@ -35,15 +35,20 @@ class CanvasViewController:
     private var paths = [Path]()
     private var redoPaths = [Path]()
     private var writeHandle: FileHandle?
-    private var animatePoints = [Point]()
-    private var animationHandle: FileHandle?
+    private var drawPoints = [Point]()
+    private var readHandle: FileHandle?
     private var timer: Timer?
     private var persistentBackgroundColor: UIColor?
-    private var url = try! FileManager.default.url(
+    private var cacheUrl = try! FileManager.default.url(
             for: .documentationDirectory,
             in: .userDomainMask,
             appropriateFor: nil,
             create: true).appendingPathComponent("cache.bdw")
+    private var draftUrl = try! FileManager.default.url(
+            for: .documentationDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("draft.bdw")
     var jotViewStateInkPath: String! {
         return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("ink.png")
     }
@@ -72,11 +77,11 @@ class CanvasViewController:
         UIGraphicsEndImageContext()
         do {
             let manager = FileManager.default
-            if manager.fileExists(atPath: url.path) {
-                try manager.removeItem(at: url)
+            if manager.fileExists(atPath: cacheUrl.path) {
+                try manager.removeItem(at: cacheUrl)
             }
-            manager.createFile(atPath: url.path, contents: nil, attributes: nil)
-            writeHandle = try FileHandle(forWritingTo: url)
+            manager.createFile(atPath: cacheUrl.path, contents: nil, attributes: nil)
+            writeHandle = try FileHandle(forWritingTo: cacheUrl)
         } catch {
             Logger.d("\(#function): \(error.localizedDescription)")
         }
@@ -87,7 +92,6 @@ class CanvasViewController:
             canvas.finishInit()
             let stateProxy = JotViewStateProxy(delegate: self)
             stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())
-            canvas.loadState(stateProxy)
         } else {
             loading.hide(true)
         }
@@ -99,7 +103,12 @@ class CanvasViewController:
     }
 
     @objc func applicationDidEnterBackground(notification: Notification) {
-        //        canvas.save()
+        saveToDraft()
+    }
+
+    override func onBackPressed(_ sender: Any) {
+        saveToDraft()
+        super.onBackPressed(sender)
     }
 
     @IBAction func undo(_ sender: Any) {
@@ -145,11 +154,11 @@ class CanvasViewController:
                 self.checkCanvasStatus()
                 do {
                     let manager = FileManager.default
-                    if manager.fileExists(atPath: self.url.path) {
-                        try manager.removeItem(at: self.url)
+                    if manager.fileExists(atPath: self.cacheUrl.path) {
+                        try manager.removeItem(at: self.cacheUrl)
                     }
-                    manager.createFile(atPath: self.url.path, contents: nil, attributes: nil)
-                    self.writeHandle = try FileHandle(forWritingTo: self.url)
+                    manager.createFile(atPath: self.cacheUrl.path, contents: nil, attributes: nil)
+                    self.writeHandle = try FileHandle(forWritingTo: self.cacheUrl)
                 } catch {
                     Logger.d("\(#function): \(error.localizedDescription)")
                 }
@@ -159,14 +168,9 @@ class CanvasViewController:
 
     @IBAction func play(_ sender: UIBarButtonItem) {
         do {
+            saveToDraft()
             gridView.backgroundColor = .white
             canvas.clear(true)
-            let manager = FileManager.default
-            let url = try manager.url(
-                    for: .documentationDirectory,
-                    in: .userDomainMask,
-                    appropriateFor: nil,
-                    create: true).appendingPathComponent("animation.bdw")
             sender.isEnabled = false
             undoButton.isEnabled = false
             redoButton.isEnabled = false
@@ -177,33 +181,20 @@ class CanvasViewController:
             resetButton.isEnabled = false
             colorButton.isEnabled = false
             canvas.isUserInteractionEnabled = false
-            if manager.fileExists(atPath: url.path) {
-                try manager.removeItem(at: url)
-            }
-            try manager.copyItem(at: self.url, to: url)
-            var pointsToSave = [Point]()
-            for path in paths {
-                for point in path.points {
-                    pointsToSave.append(point)
-                }
-            }
-            let animationHandle = try FileHandle(forUpdating: url)
-            if !pointsToSave.isEmpty {
-                animationHandle.seekToEndOfFile()
-                animationHandle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
-            }
-            animationHandle.seek(toFileOffset: 0)
-            animatePoints.removeAll()
+            paths.removeAll()
+            drawPoints.removeAll()
             timer?.invalidate()
-            animatePoints.append(
+            let readHandle = try FileHandle(forReadingFrom: draftUrl)
+            drawPoints.append(
                     contentsOf: DataConverter.parse(
-                            dataToPoints: animationHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)),
+                            dataToPoints:
+                            readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)),
                             withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
-            if !animatePoints.isEmpty {
+            if !drawPoints.isEmpty {
+                self.readHandle = readHandle
                 lastPenType = brush.type
-                animate()
+                draw(instantly: false)
             }
-            self.animationHandle = animationHandle
         } catch {
             Logger.d("\(#function): \(error.localizedDescription)")
         }
@@ -213,48 +204,23 @@ class CanvasViewController:
         loading.hide(false)
         let bounds = canvas.bounds
         let color = gridView.backgroundColor ?? .white
-        do {
-            let manager = FileManager.default
-            let url = try manager.url(
-                    for: .documentationDirectory,
-                    in: .userDomainMask,
-                    appropriateFor: nil,
-                    create: true).appendingPathComponent("upload.bdw")
-            if manager.fileExists(atPath: url.path) {
-                try manager.removeItem(at: url)
-            }
-            try manager.copyItem(at: self.url, to: url)
-            var pointsToSave = [Point]()
-            for path in paths {
-                for point in path.points {
-                    pointsToSave.append(point)
-                }
-            }
-            let handle = try FileHandle(forUpdating: url)
-            if !pointsToSave.isEmpty {
-                handle.seekToEndOfFile()
-                handle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
-            }
-            handle.closeFile()
-            canvas.exportToImage(
-                    onComplete: {
-                        image in
-                        DispatchQueue.main.async {
-                            UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
-                            color.setFill()
-                            UIBezierPath(rect: bounds).fill()
-                            image?.draw(in: bounds)
-                            let image = UIGraphicsGetImageFromCurrentImageContext()
-                            UIGraphicsEndImageContext()
-                            if let image = image {
-                                self.performSegue(withIdentifier: Segue.UPLOAD, sender: (image, url))
-                            }
+        saveToDraft()
+        canvas.exportToImage(
+                onComplete: {
+                    image in
+                    DispatchQueue.main.async {
+                        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+                        color.setFill()
+                        UIBezierPath(rect: bounds).fill()
+                        image?.draw(in: bounds)
+                        let image = UIGraphicsGetImageFromCurrentImageContext()
+                        UIGraphicsEndImageContext()
+                        if let image = image {
+                            self.performSegue(withIdentifier: Segue.UPLOAD, sender: image)
                         }
-                    },
-                    withScale: UIScreen.main.scale)
-        } catch let error {
-            Logger.d("\(#function): \(error.localizedDescription)")
-        }
+                    }
+                },
+                withScale: UIScreen.main.scale)
     }
 
     @IBAction func didSelectEraser(_ sender: UIBarButtonItem) {
@@ -303,10 +269,10 @@ class CanvasViewController:
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             controller.preferredContentSize = CGSize(width: UIScreen.main.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.9 : 0.45), height: 204)
-        } else if let data = sender as? (image: UIImage, url: URL),
+        } else if let image = sender as? UIImage,
                   let controller = segue.destination as? UploadViewController {
-            controller.workThumbnail = data.image
-            controller.workFileUrl = data.url
+            controller.workThumbnail = image
+            controller.workFileUrl = draftUrl
         }
     }
 
@@ -458,7 +424,7 @@ class CanvasViewController:
                     duration: ANIMATION_TIMER)]))
             gridView.backgroundColor = color
             redoPaths.removeAll()
-            saveToDisk()
+            saveToCache()
             checkCanvasStatus()
         }
     }
@@ -533,7 +499,7 @@ class CanvasViewController:
 
     internal func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
         redoPaths.removeAll()
-        saveToDisk()
+        saveToCache()
         checkCanvasStatus()
     }
 
@@ -544,6 +510,22 @@ class CanvasViewController:
     }
 
     internal func didLoadState(_ state: JotViewStateProxy!) {
+        canvas.loadState(state)
+        do {
+            let readHandle = try FileHandle(forReadingFrom: draftUrl)
+            drawPoints.append(
+                    contentsOf: DataConverter.parse(
+                            dataToPoints:
+                            readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)),
+                            withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+            if !drawPoints.isEmpty {
+                self.readHandle = readHandle
+                lastPenType = brush.type
+                draw(instantly: true)
+            }
+        } catch let error {
+            Logger.d("\(#function): \(error.localizedDescription)")
+        }
         loading.hide(true)
         canvas.isHidden = false
         UIView.animate(withDuration: 0.4) {
@@ -554,7 +536,7 @@ class CanvasViewController:
     internal func didUnloadState(_ state: JotViewStateProxy!) {
     }
 
-    private func saveToDisk() {
+    private func saveToCache() {
         var pointsToSave = [Point]()
         while paths.count > canvas.state.undoLimit {
             let path = paths.removeFirst()
@@ -570,35 +552,72 @@ class CanvasViewController:
         }
     }
 
-    private func animate() {
-        if !animatePoints.isEmpty {
-            let point = animatePoints.removeFirst()
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
-                timer in
+    private func saveToDraft() {
+        do {
+            let manager = FileManager.default
+            if manager.fileExists(atPath: draftUrl.path) {
+                try manager.removeItem(at: draftUrl)
+            }
+            try manager.copyItem(at: self.cacheUrl, to: draftUrl)
+            var pointsToSave = [Point]()
+            for path in paths {
+                for point in path.points {
+                    pointsToSave.append(point)
+                }
+            }
+            let handle = try FileHandle(forWritingTo: draftUrl)
+            if !pointsToSave.isEmpty {
+                handle.seekToEndOfFile()
+                handle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+            }
+            handle.closeFile()
+        } catch {
+            Logger.d("\(#function): \(error.localizedDescription)")
+        }
+    }
+
+    private func draw(instantly: Bool) {
+        if !drawPoints.isEmpty {
+            let point = drawPoints.removeFirst()
+            let handler: (Bool) -> Void = {
+                instantly in
                 switch point.action {
                 case .move:
-                    self.canvas.animateMoved(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                    self.paths.last?.points.append(point)
+                    self.canvas.drawMoved(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
                 case .up:
-                    self.canvas.animateEnded(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                    self.paths.last?.points.append(point)
+                    self.canvas.drawEnded(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                    self.saveToCache()
                 case .down:
+                    self.paths.append(Path(points: [point]))
                     if point.type != .background {
                         self.brush.type = point.type
-                        self.canvas.animateBegan(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                        self.canvas.drawBegan(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
                     } else {
                         self.gridView.backgroundColor = point.color
+                        self.saveToCache()
                     }
                 }
-                self.animate()
-            }
-            if let animationHandle = animationHandle, animatePoints.count < POINT_BUFFER_COUNT / 2 {
-                let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
-                let data = animationHandle.readData(ofLength: maxByteCount)
-                animatePoints.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
-                if data.count < maxByteCount {
-                    animationHandle.closeFile()
-                    self.animationHandle = nil
+                if let readHandle = self.readHandle, self.drawPoints.count < POINT_BUFFER_COUNT / 2 {
+                    let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
+                    let data = readHandle.readData(ofLength: maxByteCount)
+                    self.drawPoints.append(contentsOf: DataConverter.parse(dataToPoints: data, withScale: (CGFloat(UInt16.max) + 1) / min(self.canvas.bounds.width, self.canvas.bounds.height)))
+                    if data.count < maxByteCount {
+                        readHandle.closeFile()
+                        self.readHandle = nil
+                    }
                 }
+                self.draw(instantly: instantly)
+            }
+            if !instantly {
+                timer?.invalidate()
+                timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
+                    timer in
+                    handler(false)
+                }
+            } else {
+                handler(true)
             }
         } else {
             if let lastPenType = lastPenType {

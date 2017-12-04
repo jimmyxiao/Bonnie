@@ -1,8 +1,19 @@
-//
-//  TWTRTweetView.h
-//
-//  Copyright (c) 2015 Twitter. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import <UIKit/UIKit.h>
 #import "TWTRTweetViewDelegate.h"
@@ -19,12 +30,12 @@ typedef NS_ENUM(NSUInteger, TWTRTweetViewStyle) {
     /**
      *  A full-size Tweet view. Displays images if present.
      */
-            TWTRTweetViewStyleRegular,
+    TWTRTweetViewStyleRegular,
 
     /**
      *  A small Tweet view, primarily designed to be used in table views.
      */
-            TWTRTweetViewStyleCompact
+    TWTRTweetViewStyleCompact
 };
 
 /**
@@ -35,12 +46,12 @@ typedef NS_ENUM(NSUInteger, TWTRTweetViewTheme) {
     /**
      *  Official light theme.
      */
-            TWTRTweetViewThemeLight,
+    TWTRTweetViewThemeLight,
 
     /**
      *  Official dark theme.
      */
-            TWTRTweetViewThemeDark,
+    TWTRTweetViewThemeDark,
 };
 
 /**
@@ -99,33 +110,34 @@ typedef NS_ENUM(NSUInteger, TWTRTweetViewTheme) {
 /**
  *  The Tweet being displayed.
  */
-@property(nonatomic, readonly) TWTRTweet *tweet;
+@property (nonatomic, readonly) TWTRTweet *tweet;
 
 /**
  *  Background color of the Tweet view and all text labels (fullname, username, Tweet text, timestamp).
  */
-@property(nonatomic) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Color of Tweet text and full name.
  */
-@property(nonatomic) UIColor *primaryTextColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIColor *primaryTextColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Color of links in Tweet text.
  */
-@property(nonatomic) UIColor *linkTextColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIColor *linkTextColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Set whether the border should be shown.
  *  Defaults to YES.
  */
-@property(nonatomic) BOOL showBorder UI_APPEARANCE_SELECTOR;
+@property (nonatomic) BOOL showBorder UI_APPEARANCE_SELECTOR;
+
 /**
  * Set whether or not videos playing inline should be muted.
  * Defaults to NO.
  */
-@property(nonatomic) BOOL shouldPlayVideoMuted;
+@property (nonatomic) BOOL shouldPlayVideoMuted;
 
 /**
  *  Set whether the action buttons (Favorite, Share) should be shown. When toggled,
@@ -134,30 +146,30 @@ typedef NS_ENUM(NSUInteger, TWTRTweetViewTheme) {
  *
  *  Defaults to NO.
  */
-@property(nonatomic) BOOL showActionButtons;
+@property (nonatomic) BOOL showActionButtons;
 
 /**
  *  Setting the theme of the Tweet view will change the color properties accordingly.
  *
  *  Set to `TWTRTweetViewThemeLight` by default.
  */
-@property(nonatomic) TWTRTweetViewTheme theme;
+@property (nonatomic) TWTRTweetViewTheme theme;
 
 /**
  *  The style of the Tweet. i.e. `TWTRTweetViewStyleRegular` or `TWTRTweetViewStyleCompact`.
  */
-@property(nonatomic, readonly) TWTRTweetViewStyle style;
+@property (nonatomic, readonly) TWTRTweetViewStyle style;
 
 /**
  *  Optional delegate to receive notifications when certain actions happen
  */
-@property(nonatomic, weak) IBOutlet id <TWTRTweetViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<TWTRTweetViewDelegate> delegate;
 
 /**
  *  Optional property to set a UIViewController from which to present various new UI
  *  e.g. when presenting a Share sheet, presenting a login view controller for actions, etc
  */
-@property(nonatomic, weak) UIViewController *presenterViewController;
+@property (nonatomic, weak) UIViewController *presenterViewController;
 
 /**
  *  Convenience initializer to configure a compact style Tweet view.

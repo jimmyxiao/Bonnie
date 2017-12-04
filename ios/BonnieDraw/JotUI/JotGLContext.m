@@ -297,6 +297,7 @@ typedef enum UndfBOOL {
     @autoreleasepool {
         JotGLContext* currentContext = (JotGLContext*)[JotGLContext currentContext];
         if (!currentContext) {
+            return;
             @throw [NSException exceptionWithName:@"OpenGLException" reason:@"cannot run block without GL Context" userInfo:nil];
         } else if (![currentContext isKindOfClass:[JotGLContext class]]) {
             @throw [NSException exceptionWithName:@"OpenGLException" reason:@"currentContext must be a JotGLContext" userInfo:nil];

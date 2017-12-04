@@ -1,10 +1,19 @@
-//
-//  TWTRUserSessionVerifier.h
-//  TwitterKit
-//
-//  Created by Kang Chen on 1/23/15.
-//  Copyright (c) 2015 Twitter. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 @class TWTRUserSessionVerifier;
 
@@ -14,10 +23,8 @@
 
 @end
 
-FOUNDATION_EXPORT NSTimeInterval
-const TWTRUserSessionVerifierIntervalDaily;
-FOUNDATION_EXPORT NSTimeInterval
-const TWTRUserSessionVerifierDefaultDelay;
+FOUNDATION_EXTERN NSTimeInterval const TWTRUserSessionVerifierIntervalDaily;
+FOUNDATION_EXTERN NSTimeInterval const TWTRUserSessionVerifierDefaultDelay;
 
 /**
  *  Manages verifying stored user sessions on a daily basis. This class depends on the Kit lifecycle
@@ -30,9 +37,8 @@ const TWTRUserSessionVerifierDefaultDelay;
  *  will not retry if the network call fails for whatever reason.
  */
 @interface TWTRUserSessionVerifier : NSObject
-- (instancetype)init
 
-__unavailable;
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
  *  Initializes a verifier for the current consumer application.
@@ -43,9 +49,7 @@ __unavailable;
  *                            during the previous and current interval boundaries or we cannot not tell when
  *                            the last call was made. The latter will be de-dup on the backend.
  */
-- (instancetype)initWithDelegate:(id <TWTRUserSessionVerifierDelegate>)delegate maxDesiredInterval:(NSTimeInterval)maxDesiredInterval __attribute__((nonnull(1)))
-
-NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDelegate:(id<TWTRUserSessionVerifierDelegate>)delegate maxDesiredInterval:(NSTimeInterval)maxDesiredInterval __attribute__((nonnull(1)))NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Makes a verify call immediately (delayed slightly to minimize app startup impact) and then

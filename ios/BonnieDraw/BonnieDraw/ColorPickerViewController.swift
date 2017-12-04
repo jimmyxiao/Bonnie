@@ -100,6 +100,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         if isEditingMode {
             colors.remove(at: indexPath.row)
             collectionView.deleteItems(at: [indexPath])
+            UserDefaults.standard.set(colors: colors, forKey: Default.COLORS)
         } else if let color = collectionView.cellForItem(at: indexPath)?.backgroundColor {
             self.color = color
             if type == .canvas {

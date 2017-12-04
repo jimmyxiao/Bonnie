@@ -1,10 +1,19 @@
-//
-//  TWTRSessionRefreshStrategy.h
-//  TwitterCore
-//
-//  Created by Kang Chen on 6/24/15.
-//  Copyright (c) 2015 Twitter Inc. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 @class TWTRAuthConfig;
 @protocol TWTRAPIServiceConfig;
@@ -59,7 +68,7 @@ typedef void (^TWTRSessionRefreshCompletion)(id _Nullable refreshedSession, NSEr
  *  @param URLSession URL session to make the authentication request with
  *  @param completion Completion block to call when done refreshing the session or it fails.
  */
-- (void)refreshSession:(id <TWTRBaseSession>)session URLSession:(NSURLSession *)URLSession completion:(TWTRSessionRefreshCompletion)completion;
+- (void)refreshSession:(id<TWTRBaseSession>)session URLSession:(NSURLSession *)URLSession completion:(TWTRSessionRefreshCompletion)completion;
 
 @end
 
@@ -67,6 +76,7 @@ typedef void (^TWTRSessionRefreshCompletion)(id _Nullable refreshedSession, NSEr
  Concrete implementation of a strategy for handling expiration and refresh of guest sessions.
  */
 @interface TWTRGuestSessionRefreshStrategy : NSObject <TWTRSessionRefreshStrategy>
+
 /**
  *  Initializes a new guest refresh strategy.
  *
@@ -75,11 +85,8 @@ typedef void (^TWTRSessionRefreshCompletion)(id _Nullable refreshedSession, NSEr
  *
  *  @return Initialized strategy that can refresh guest sessions of the given application
  */
-- (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig APIServiceConfig:(id <TWTRAPIServiceConfig>)APIServiceConfig;
-
-- (instancetype)init
-
-__unavailable;
+- (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig APIServiceConfig:(id<TWTRAPIServiceConfig>)APIServiceConfig;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 

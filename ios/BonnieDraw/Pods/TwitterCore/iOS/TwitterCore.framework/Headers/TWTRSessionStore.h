@@ -1,9 +1,19 @@
-//
-//  TWTRSessionStore.h
-//  TwitterCore
-//
-//  Copyright (c) 2015 Twitter Inc. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 @class TWTRAuthConfig;
 @class TWTRGuestSession;
@@ -68,7 +78,7 @@ typedef void (^TWTRSessionStoreRefreshCompletion)(id _Nullable refreshedSession,
  *  @param session The saved session
  *  @param error   Error that will be non nil if the save request fails.
  */
-typedef void (^TWTRSessionStoreSaveCompletion)(id <TWTRAuthSession> _Nullable session, NSError *_Nullable error);
+typedef void (^TWTRSessionStoreSaveCompletion)(id<TWTRAuthSession> _Nullable session, NSError *_Nullable error);
 
 /**
  *  Completion block called when fetching all stored user sessions completes or fails.
@@ -82,7 +92,7 @@ typedef void (^TWTRSessionStoreBatchFetchCompletion)(NSArray *sessions);
  *
  *  @param session The deleted session or nil if none was found for the user.
  */
-typedef void (^TWTRSessionStoreDeleteCompletion)(id <TWTRAuthSession> _Nullable session);
+typedef void (^TWTRSessionStoreDeleteCompletion)(id<TWTRAuthSession> _Nullable session);
 
 /**
  *  Protocol for session store that manages user sessions.
@@ -95,7 +105,7 @@ typedef void (^TWTRSessionStoreDeleteCompletion)(id <TWTRAuthSession> _Nullable 
  *  @param session    The user session to save
  *  @param completion Completion block to call when the save request succeeds or fails
  */
-- (void)saveSession:(id <TWTRAuthSession>)session completion:(TWTRSessionStoreSaveCompletion)completion;
+- (void)saveSession:(id<TWTRAuthSession>)session completion:(TWTRSessionStoreSaveCompletion)completion;
 
 /**
  *  Fetches the user session for for the given auth tokens and saves it to the store after validations.
@@ -111,7 +121,7 @@ typedef void (^TWTRSessionStoreDeleteCompletion)(id <TWTRAuthSession> _Nullable 
  *
  *  @param userID   The user ID to fetch session for.
  */
-- (nullable id <TWTRAuthSession>)sessionForUserID:(NSString *)userID;
+- (nullable id<TWTRAuthSession>)sessionForUserID:(NSString *)userID;
 
 /**
  *  Retrieve all logged in user sessions in ascending order of last saved date
@@ -120,6 +130,11 @@ typedef void (^TWTRSessionStoreDeleteCompletion)(id <TWTRAuthSession> _Nullable 
  */
 - (NSArray *)existingUserSessions;
 
+/**
+ *  Returns YES if there are existing user sessions.
+ *
+ *  @note This is a blocking call.
+ */
 - (BOOL)hasLoggedInUsers;
 
 /**
@@ -127,7 +142,7 @@ typedef void (^TWTRSessionStoreDeleteCompletion)(id <TWTRAuthSession> _Nullable 
  *
  *  @return The last logged in user session.
  */
-- (nullable id <TWTRAuthSession>)session;
+- (nullable id<TWTRAuthSession>)session;
 
 /**
  *  Deletes the local Twitter user session from this app. This will not remove the system Twitter account nor make a network request to invalidate the session.
@@ -152,6 +167,7 @@ typedef void (^TWTRSessionGuestLogInCompletion)(TWTRGuestSession *_Nullable gues
  *  Protocol for session stores that can manage guest sessions.
  */
 @protocol TWTRGuestSessionStore <NSObject>
+
 /**
  *  Log in as a guest user and return the guest session. This can be used when the user is not a Twitter user.
  *
@@ -169,10 +185,11 @@ typedef void (^TWTRSessionGuestLogInCompletion)(TWTRGuestSession *_Nullable gues
  *  Convenience composite protocol of a store that handles user, guest, and refreshable sessions.
  */
 @protocol TWTRSessionStore <TWTRUserSessionStore, TWTRGuestSessionStore, TWTRSessionRefreshingStore>
+
 /**
  *  Returns the store's auth config.
  */
-@property(nonatomic, readonly) TWTRAuthConfig *authConfig;
+@property (nonatomic, readonly) TWTRAuthConfig *authConfig;
 
 @end
 
@@ -186,9 +203,8 @@ typedef void (^TWTRSessionGuestLogInCompletion)(TWTRGuestSession *_Nullable gues
  *  will simply choose the latest version in the case of conflicts.
  */
 @interface TWTRSessionStore : NSObject <TWTRSessionStore>
-- (instancetype)init
 
-NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
  * Provides a mechanism for reloading the session store. This method will force the session store
@@ -209,6 +225,20 @@ NS_UNAVAILABLE;
  */
 - (void)reloadSessionStore;
 
+/**
+ *  Sets a local string which can be used to verify the auth token using
+ *  isValidOauthToken:
+ */
+- (void)saveOauthToken:(NSString *)token;
+
+/**
+ *  If saveOauthToken is called then this will compare the set to the token passed by the token parameter.
+ *  This is used to verify the token generated from the oauth/request_token request after a URL has been passed
+ *  back from web authenticatoin.
+ *
+ *  Returns YES is the token string matches the internal OAuth token.
+ */
+- (BOOL)isValidOauthToken:(NSString *)token;
 @end
 
 NS_ASSUME_NONNULL_END

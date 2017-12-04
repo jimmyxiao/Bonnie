@@ -1,10 +1,19 @@
-//
-//  TFSScribe.h
-//  TFSScribe
-//
-//  Created by Tanner Oakes on 10/10/14.
-//  Copyright (c) 2014 Twitter. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -27,16 +36,16 @@ typedef NS_ENUM(NSUInteger, TFSScribeServiceRequestDisposition) {
     /**
      *  Indicates that the outgoing events were handled successfully.
      */
-            TFSScribeServiceRequestDispositionSuccess,
+    TFSScribeServiceRequestDispositionSuccess,
     /**
      *  Indicates that handling failed due to a client side problem, such as a network
      *  timeout or the request being cancelled.
      */
-            TFSScribeServiceRequestDispositionClientError,
+    TFSScribeServiceRequestDispositionClientError,
     /**
      *  Indicates that handling failed due to the server rejecting the sent data.
      */
-            TFSScribeServiceRequestDispositionServerError,
+    TFSScribeServiceRequestDispositionServerError,
 };
 
 /**
@@ -72,10 +81,11 @@ typedef NS_ENUM(NSUInteger, TFSScribeServiceRequestDisposition) {
 
 @end
 
-typedef void (^TFSScribeRequestBatchedImpressionEventBlock)(id <TFSScribeEventParameters> scribeEventParameters);
+typedef void (^TFSScribeRequestBatchedImpressionEventBlock)(id<TFSScribeEventParameters> scribeEventParameters);
 typedef void (^TFSScribeRequestCompletionBlock)(TFSScribeServiceRequestDisposition disposition);
 
 @protocol TFSScribeRequestHandler <NSObject>
+
 /**
  *  TFSScribe will call this method once it has prepared all of the outgoing events.
  *  This method will be called on a background queue.
@@ -87,6 +97,7 @@ typedef void (^TFSScribeRequestCompletionBlock)(TFSScribeServiceRequestDispositi
 - (void)handleScribeOutgoingEvents:(NSString *)outgoingEvents userID:(NSString *)userID completionHandler:(TFSScribeRequestCompletionBlock)completionHandler;
 
 @optional
+
 /**
  *  When flushing a user ID, this method will be called with an array of impressions
  *  for you to batch. After the method is executed, the impressions will be deleted
@@ -101,7 +112,8 @@ typedef void (^TFSScribeRequestCompletionBlock)(TFSScribeServiceRequestDispositi
 @end
 
 @interface TFSScribe : NSObject
-@property(nonatomic, weak) id <TFSScribeErrorDelegate> errorDelegate;
+
+@property (nonatomic, weak) id<TFSScribeErrorDelegate> errorDelegate;
 
 + (BOOL)isDebugEnabled;
 + (void)setDebugEnabled:(BOOL)enabled;
@@ -162,7 +174,7 @@ typedef void (^TFSScribeRequestCompletionBlock)(TFSScribeServiceRequestDispositi
  *  @param userID         User ID to flush events for. Must not be nil.
  *  @param requestHandler Once the events have been prepared, the request handler will be called to handle the events. Must not be nil.
  */
-- (void)flushUserID:(NSString *)userID requestHandler:(id <TFSScribeRequestHandler>)requestHandler;
+- (void)flushUserID:(NSString *)userID requestHandler:(id<TFSScribeRequestHandler>)requestHandler;
 
 /**
  *  Flush all events for the given userID.
@@ -171,7 +183,7 @@ typedef void (^TFSScribeRequestCompletionBlock)(TFSScribeServiceRequestDispositi
  *  @param token          A token to be included with notification userInfo dictionaries.
  *  @param requestHandler Once the events have been prepared, the request handler will be called to handle the events. Must not be nil.
  */
-- (void)flushUserID:(NSString *)userID token:(NSString *)token requestHandler:(id <TFSScribeRequestHandler>)requestHandler;
+- (void)flushUserID:(NSString *)userID token:(NSString *)token requestHandler:(id<TFSScribeRequestHandler>)requestHandler;
 
 /**
  *  Delete all events for the given userID. Events for user ID of 0 (anonymous user) will not be deleted.
@@ -181,7 +193,7 @@ typedef void (^TFSScribeRequestCompletionBlock)(TFSScribeServiceRequestDispositi
 /**
  *  Schedule an event to be added to scribe.
  */
-- (void)enqueueEvent:(id <TFSScribeEventParameters>)eventParameters;
+- (void)enqueueEvent:(id<TFSScribeEventParameters>)eventParameters;
 
 /**
  *  Schedule an impression to be added to scribe.

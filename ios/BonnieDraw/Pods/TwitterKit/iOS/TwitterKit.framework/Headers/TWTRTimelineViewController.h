@@ -1,9 +1,19 @@
-//
-//  TWTRTimelineViewController.h
-//  TwitterKit
-//
-//  Copyright (c) 2015 Twitter. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import <UIKit/UIKit.h>
 @protocol TWTRTimelineDataSource;
@@ -39,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
   The source of `TWTRTweet` objects for this `TWTRTimelineViewController`.
   May be set to update the Tweets being shown by this table view. Must be set on the main thread.
  */
-@property(nonatomic, copy) id <TWTRTimelineDataSource> dataSource;
+@property (nonatomic, copy) id<TWTRTimelineDataSource> dataSource;
 
 /**
  *  The configuration of MoPub ads to show in the timeline. You must
@@ -47,22 +57,22 @@ NS_ASSUME_NONNULL_BEGIN
  *  for ads to be injected.
  *  @note Changing this will force a reload of the timeline. You can only set this once. Must be set on the main thread.
  */
-@property(nonatomic, nullable) TWTRMoPubAdConfiguration *adConfiguration;
+@property (nonatomic, nullable) TWTRMoPubAdConfiguration *adConfiguration;
 
 /**
  *  Whether action buttons (Like, Share) should be shown on the `TWTRTweetTableViewCell`s inside the tableview.
  */
-@property(nonatomic) BOOL showTweetActions;
+@property (nonatomic) BOOL showTweetActions;
 
 /**
  * If set, this value will be passed to all TWTRTweetView instances in the timeline.
  */
-@property(nonatomic, weak) id <TWTRTweetViewDelegate> tweetViewDelegate;
+@property (nonatomic, weak) id<TWTRTweetViewDelegate> tweetViewDelegate;
 
 /**
  *  The object that acts as the delegate for the timeline.
  */
-@property(nonatomic, weak) id <TWTRTimelineDelegate> timelineDelegate;
+@property (nonatomic, weak) id<TWTRTimelineDelegate> timelineDelegate;
 
 /**
  Initializes a timeline view controller. Does not start loading tweets until
@@ -74,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return A fully initialized `TWTRTimelineViewController` or nil if the data source is missing.
  */
-- (instancetype)initWithDataSource:(nullable id <TWTRTimelineDataSource>)dataSource;
+- (instancetype)initWithDataSource:(nullable id<TWTRTimelineDataSource>)dataSource;
 
 /**
  *  Initializes a timeline view controller with an optional ad configuration. Does not start loading Tweets until `viewWillAppear:` is called.
@@ -85,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A fully initialized `TWTRTimelineViewController`. Tweets will not be loaded if the data source is nil.
  */
-- (instancetype)initWithDataSource:(nullable id <TWTRTimelineDataSource>)dataSource adConfiguration:(nullable TWTRMoPubAdConfiguration *)adConfiguration;
+- (instancetype)initWithDataSource:(nullable id<TWTRTimelineDataSource>)dataSource adConfiguration:(nullable TWTRMoPubAdConfiguration *)adConfiguration;
 
 - (instancetype)initWithStyle:(UITableViewStyle)style NS_UNAVAILABLE;
 

@@ -1,9 +1,19 @@
-//
-//  TWTRUserTimelineDataSource.h
-//  TwitterKit
-//
-//  Copyright (c) 2015 Twitter. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import <Foundation/Foundation.h>
 #import <TwitterKit/TWTRTimelineDataSource.h>
@@ -22,36 +32,36 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The screen name of the User whose Tweets are being shown. Either the `screenName` or the `userID` are required.
  */
-@property(nonatomic, copy, readonly) NSString *screenName;
+@property (nonatomic, copy, readonly) NSString *screenName;
 
 /**
  *  The userID of the User whose Tweets are being shown. Either the `screenName` or the `userID` are required.
  */
-@property(nonatomic, copy, readonly) NSString *userID;
+@property (nonatomic, copy, readonly) NSString *userID;
 
 /**
  *  The number of Tweets to request in each query to the Twitter Timeline API when fetching the next batch of Tweets. Will request 30 Tweets by default. Setting this value to 0 will use the server default.
  */
-@property(nonatomic, readonly) NSUInteger maxTweetsPerRequest;
+@property (nonatomic, readonly) NSUInteger maxTweetsPerRequest;
 
 /**
  *  Whether to request replies in the set of Tweets from the server.
  *
  *  Defaults to NO.
  */
-@property(nonatomic, readonly) BOOL includeReplies;
+@property (nonatomic, readonly) BOOL includeReplies;
 
 /**
  *  Whether to request retweets in the set of Tweets from the server.
  *
  *  Defaults to YES.
  */
-@property(nonatomic, readonly) BOOL includeRetweets;
+@property (nonatomic, readonly) BOOL includeRetweets;
 
 /*
  *  A filtering object that hides certain tweets.
  */
-@property(nonatomic, copy, nullable) TWTRTimelineFilter *timelineFilter;
+@property (nonatomic, copy, nullable) TWTRTimelineFilter *timelineFilter;
 
 /**
  *  Convenience initializer. Uses default values for `maxTweetsPerRequest`, `includeReplies` and `includeRetweets`.

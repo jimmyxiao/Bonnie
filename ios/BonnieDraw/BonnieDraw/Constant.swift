@@ -148,6 +148,8 @@ struct Default {
     static let COLORS = "colors"
     static let TOKEN_TIMESTAMP = "tokenTimestamp"
     static let TOKEN = "token"
+    static let REMOTE_TOKEN = "remoteToken"
+    static let NOTIFICATION_ENABLED = "notificationEnabled"
     static let USER_ID = "userId"
     static let EMAIL = "email"
     static let PASSWORD = "password"
@@ -160,4 +162,8 @@ struct Default {
 
 struct Url {
     static let PRIVACY_POLICY = "https"
+}
+
+struct NotificationName {
+    static let REMOTE_TOKEN = "remoteToken"
 }
