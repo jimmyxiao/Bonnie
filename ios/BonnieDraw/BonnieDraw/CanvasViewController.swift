@@ -586,16 +586,28 @@ class CanvasViewController:
                 switch point.action {
                 case .move:
                     self.paths.last?.points.append(point)
-                    self.canvas.drawMoved(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                    self.canvas.drawMoved(point.position,
+                            width: point.size,
+                            color: point.type != .eraser ? point.color : nil,
+                            smoothness: self.brush.smoothness,
+                            stepWidth: self.brush.stepWidth)
                 case .up:
                     self.paths.last?.points.append(point)
-                    self.canvas.drawEnded(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                    self.canvas.drawEnded(point.position,
+                            width: point.size,
+                            color: point.type != .eraser ? point.color : nil,
+                            smoothness: self.brush.smoothness,
+                            stepWidth: self.brush.stepWidth)
                     self.saveToCache()
                 case .down:
                     self.paths.append(Path(points: [point]))
                     if point.type != .background {
                         self.brush.type = point.type
-                        self.canvas.drawBegan(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                        self.canvas.drawBegan(point.position,
+                                width: point.size,
+                                color: point.type != .eraser ? point.color : nil,
+                                smoothness: self.brush.smoothness,
+                                stepWidth: self.brush.stepWidth)
                     } else {
                         self.gridView.backgroundColor = point.color
                         self.saveToCache()

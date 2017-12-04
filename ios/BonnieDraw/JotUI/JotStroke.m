@@ -85,9 +85,9 @@
     if ([segments count]) {
         if ((element.color && ![(AbstractBezierPathElement*)[segments lastObject] color]) ||
             (!element.color && [(AbstractBezierPathElement*)[segments lastObject] color])) {
-            NSAssert((element.color && [(AbstractBezierPathElement*)[segments lastObject] color]) ||
-                         (!element.color && ![(AbstractBezierPathElement*)[segments lastObject] color]),
-                     @"color (or lack thereof) must match previous segment");
+//            NSAssert((element.color && [(AbstractBezierPathElement*)[segments lastObject] color]) ||
+//                         (!element.color && ![(AbstractBezierPathElement*)[segments lastObject] color]),
+//                     @"color (or lack thereof) must match previous segment");
         }
     }
     @synchronized(segments) {

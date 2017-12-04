@@ -8,13 +8,15 @@
 class Brush: JotBrushTexture {
     static let MIN_VELOCITY: CGFloat = 20
     static let MAX_VELOCITY: CGFloat = 3000
-    var defaultMinSize: CGFloat, defaultMaxSize: CGFloat, minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
+    private var velocity: CGFloat = 0
+    private var lastPoint = CGPoint.zero
+    private var lastTimestamp = Date()
+    private var imageName: String?
+    var minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
     var color = UIColor.black
     var isRotationSupported = false, isForceSupported = false, isVelocitySupported = false
-    var velocity: CGFloat = 0
-    var lastPoint = CGPoint.zero
-    var lastTimestamp = Date()
-    private var imageName: String?
+    var stepWidth: CGFloat = 1
+    var smoothness: CGFloat = 0.5
     var type: Type {
         didSet {
             switch type {
@@ -36,8 +38,6 @@ class Brush: JotBrushTexture {
 
     init(withBrushType type: Type, minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat) {
         self.type = type
-        defaultMinSize = minSize
-        defaultMaxSize = maxSize
         self.minSize = minSize
         self.maxSize = maxSize
         self.minAlpha = minAlpha
@@ -60,7 +60,7 @@ class Brush: JotBrushTexture {
     }
 
     func stepWidthForStroke() -> CGFloat {
-        return 2
+        return stepWidth
     }
 
     func color(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) -> UIColor? {
@@ -111,7 +111,7 @@ class Brush: JotBrushTexture {
     }
 
     func smoothness(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) -> CGFloat {
-        return 0.5
+        return smoothness
     }
 
     func willBeginStroke(forCoalescedTouch coalescedTouch: UITouch, fromTouch touch: UITouch) {

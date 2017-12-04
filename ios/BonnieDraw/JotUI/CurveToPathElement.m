@@ -209,7 +209,7 @@ const CGPoint JotCGNotFoundPoint = {-10000000.2, -999999.6};
         if (self.color) {
             [self.color getRGBAComponents:colorComponents];
 
-            NSAssert(colorComponents[3] / (self.width / kDivideStepBy) > 0, @"color can't be negative");
+//            NSAssert(colorComponents[3] / (self.width / kDivideStepBy) > 0, @"color can't be negative");
 
             CGFloat stepWidth = self.width * scaleOfVertexBuffer;
             if (stepWidth < kAbsoluteMinWidth)
@@ -443,7 +443,7 @@ static CGFloat screenHeight;
     });
 
 
-    NSAssert(!(vertex.Size < 1 || vertex.Size > 360), @"valid vertex size");
+//    NSAssert(!(vertex.Size < 1 || vertex.Size > 360), @"valid vertex size");
 }
 
 - (void)loadDataIntoVBOIfNeeded {

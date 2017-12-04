@@ -225,13 +225,25 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 instantly in
                 switch point.action {
                 case .move:
-                    self.canvas.drawMoved(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                    self.canvas.drawMoved(point.position,
+                            width: point.size,
+                            color: point.type != .eraser ? point.color : nil,
+                            smoothness: self.brush.smoothness,
+                            stepWidth: self.brush.stepWidth)
                 case .up:
-                    self.canvas.drawEnded(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                    self.canvas.drawEnded(point.position,
+                            width: point.size,
+                            color: point.type != .eraser ? point.color : nil,
+                            smoothness: self.brush.smoothness,
+                            stepWidth: self.brush.stepWidth)
                 case .down:
                     if point.type != .background {
                         self.brush.type = point.type
-                        self.canvas.drawBegan(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                        self.canvas.drawBegan(point.position,
+                                width: point.size,
+                                color: point.type != .eraser ? point.color : nil,
+                                smoothness: self.brush.smoothness,
+                                stepWidth: self.brush.stepWidth)
                     } else {
                         self.gridView.backgroundColor = point.color
                     }
