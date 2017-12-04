@@ -53,7 +53,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements SideBarAdapter.SideBarClickListener {
     DrawerLayout mDrawerLayout;
-    ImageButton mImgBtnBack;
+    ImageButton mImgBtnBack, mImgBtnPaint;
     TextView mTvVersion, mTvDownload;
     BottomNavigationViewEx mBottomNavigationViewEx;
     RelativeLayout mNavigationView;
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_actitivy_drawlayout);
         mNavigationView = (RelativeLayout) findViewById(R.id.sidebarView);
+        mImgBtnPaint = (ImageButton) findViewById(R.id.imgBtn_paint_start);
         mImgHeaderPhoto = (CircleImageView) mNavigationView.findViewById(R.id.header_user_photo);
         mTextViewHeaderText = (TextView) mNavigationView.findViewById(R.id.header_user_name);
         mImgBtnBack = (ImageButton) mNavigationView.findViewById(R.id.header_btn_back);
@@ -158,6 +159,13 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             }
         });
 
+        mImgBtnPaint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startPaint();
+            }
+        });
+
         mBottomNavigationViewEx.enableShiftingMode(false);
         mBottomNavigationViewEx.enableItemShiftingMode(false);
         mBottomNavigationViewEx.setTextVisibility(false);
@@ -189,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mBottomNavigationViewEx.setCurrentItem(0);
     }
 
-    private void startPaint(View view) {
+    private void startPaint() {
         Intent it = new Intent();
         it.setClass(MainActivity.this, PaintActivity.class);
         startActivity(it);
@@ -300,8 +308,8 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         //接收推播
         Intent intent = getIntent();
         String msg = intent.getStringExtra("msg");
-        if (msg!=null)
-            Log.d("FCM", "msg:"+msg);
+        if (msg != null)
+            Log.d("FCM", "msg:" + msg);
     }
 
     @Override

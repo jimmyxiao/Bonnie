@@ -28,7 +28,8 @@ public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapte
     private OnFansOfFollowClick listener;
 
     public interface OnFansOfFollowClick {
-        void onFansOfFollowClick(int position, int fn, int uid);
+        void onFansOfFollowOnClickFollow(int position, int fn, int uid);
+        void onFansOfFollowOnClickUser(int uid);
     }
 
     public FansOfFollowAdapter(Context context, ArrayList<FansOfFollowBean> data, OnFansOfFollowClick listener) {
@@ -64,10 +65,26 @@ public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapte
             public void onClick(View v) {
                 int uid = data.get(holder.getAdapterPosition()).getUserId();
                 if (data.get(holder.getAdapterPosition()).isFollowing()) {
-                    listener.onFansOfFollowClick(holder.getAdapterPosition(), 0, uid);
+                    listener.onFansOfFollowOnClickFollow(holder.getAdapterPosition(), 0, uid);
                 } else {
-                    listener.onFansOfFollowClick(holder.getAdapterPosition(), 1, uid);
+                    listener.onFansOfFollowOnClickFollow(holder.getAdapterPosition(), 1, uid);
                 }
+            }
+        });
+
+        holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int uid = data.get(holder.getAdapterPosition()).getUserId();
+                listener.onFansOfFollowOnClickUser(uid);
+            }
+        });
+
+        holder.mCircleImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int uid = data.get(holder.getAdapterPosition()).getUserId();
+                listener.onFansOfFollowOnClickUser(uid);
             }
         });
     }

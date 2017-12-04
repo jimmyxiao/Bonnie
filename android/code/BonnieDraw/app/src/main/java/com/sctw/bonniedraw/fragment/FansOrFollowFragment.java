@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -143,7 +145,7 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
     }
 
     @Override
-    public void onFansOfFollowClick(final int position, final int fn, int uid) {
+    public void onFansOfFollowOnClickFollow(final int position, final int fn, int uid) {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         Request request = ConnectJson.setFollow(prefs, fn, uid);
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -186,5 +188,18 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
                 }
             }
         });
+    }
+
+    @Override
+    public void onFansOfFollowOnClickUser(int uid) {
+        MemberFragment memberFragment = new MemberFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("userId", uid);
+        memberFragment.setArguments(bundle);
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameLayout_actitivy, memberFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }
