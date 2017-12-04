@@ -220,7 +220,7 @@
             </objects>
             <point key="canvasLocation" x="904" y="1525"/>
         </scene>
-        <!--Work View Controller-->
+        <!--Delegate-->
         <scene sceneID="nyB-2A-h4h">
             <objects>
                 <viewController storyboardIdentifier="workViewController" id="wJn-NR-0b0" customClass="WorkViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
@@ -309,12 +309,15 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
-                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyN-mC-Mya" customClass="CanvasAnimationView" customModule="BonnieDraw" customModuleProvider="target">
+                                            <view hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyN-mC-Mya" customClass="JotView">
                                                 <rect key="frame" x="0.0" y="76" width="320" height="320"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="PyN-mC-Mya" secondAttribute="height" multiplier="1:1" id="cSh-Rv-EVy"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outlet property="delegate" destination="wJn-NR-0b0" id="EC3-F5-X5A"/>
+                                                </connections>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLh-xA-yIh">
                                                 <rect key="frame" x="16" y="404" width="288" height="44"/>
@@ -441,7 +444,7 @@
                         <viewLayoutGuide key="safeArea" id="cnW-vs-K24"/>
                     </view>
                     <connections>
-                        <outlet property="canvasAnimation" destination="PyN-mC-Mya" id="GHA-eG-dUC"/>
+                        <outlet property="canvas" destination="PyN-mC-Mya" id="4bJ-gc-H2d"/>
                         <outlet property="gridView" destination="hHV-lQ-Dfn" id="1Xs-F8-f8j"/>
                         <outlet property="loading" destination="yDy-IQ-Hwa" id="Z6b-UP-RHk"/>
                         <outlet property="navigationBar" destination="Da8-0O-Aac" id="cdg-rG-Dnq"/>
@@ -1128,7 +1131,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufQ-sW-bDW" customClass="JotView">
+                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufQ-sW-bDW" customClass="JotView">
                                 <rect key="frame" x="0.0" y="124" width="320" height="320"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>

@@ -84,8 +84,6 @@
 		16A82D0E1FB1B564007D6128 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */; };
 		16A82D101FB1B56F007D6128 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */; };
 		16AD967F1FD3E6370084151D /* TouchExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD967E1FD3E6370084151D /* TouchExtension.swift */; };
-		16AD96821FD3EFB40084151D /* CanvasAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD96801FD3EFB40084151D /* CanvasAnimationView.swift */; };
-		16AD96831FD3EFB40084151D /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD96811FD3EFB40084151D /* CanvasView.swift */; };
 		16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */; };
 		16BE0F2C1FC67A1500B989CE /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2B1FC67A1500B989CE /* GridView.swift */; };
 		16BE0F2E1FC67D5700B989CE /* CanvasSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */; };
@@ -185,8 +183,6 @@
 		16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		16AD967E1FD3E6370084151D /* TouchExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchExtension.swift; sourceTree = "<group>"; };
-		16AD96801FD3EFB40084151D /* CanvasAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasAnimationView.swift; sourceTree = "<group>"; };
-		16AD96811FD3EFB40084151D /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		16BE0F2B1FC67A1500B989CE /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasSettingTableViewController.swift; sourceTree = "<group>"; };
@@ -400,8 +396,6 @@
 		16FC10221F695C62008A6A92 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				16AD96801FD3EFB40084151D /* CanvasAnimationView.swift */,
-				16AD96811FD3EFB40084151D /* CanvasView.swift */,
 				16BE0F2B1FC67A1500B989CE /* GridView.swift */,
 				165996D91FB4429200AAE7B3 /* HueView.swift */,
 				165996D81FB4429200AAE7B3 /* SaturationBrightnessView.swift */,
@@ -596,11 +590,9 @@
 				163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */,
 				163A5E251FA061F100FE70BD /* FollowTableViewCell.swift in Sources */,
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
-				16AD96831FD3EFB40084151D /* CanvasView.swift in Sources */,
 				16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
 				16303BA91FD1494E00C42783 /* Brush.swift in Sources */,
-				16AD96821FD3EFB40084151D /* CanvasAnimationView.swift in Sources */,
 				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				166889971FBC6802001CBFB3 /* UserDefaultsExtension.swift in Sources */,

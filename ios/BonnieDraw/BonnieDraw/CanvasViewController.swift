@@ -99,10 +99,12 @@ class CanvasViewController:
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        timer?.invalidate()
         NotificationCenter.default.removeObserver(self)
     }
 
     @objc func applicationDidEnterBackground(notification: Notification) {
+        timer?.invalidate()
         saveToDraft()
     }
 
