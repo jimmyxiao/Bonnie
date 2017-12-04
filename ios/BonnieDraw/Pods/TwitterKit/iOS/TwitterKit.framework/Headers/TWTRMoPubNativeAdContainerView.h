@@ -1,9 +1,19 @@
-//
-//  TWTRMoPubNativeAdContainerView.h
-//  TwitterKit
-//
-//  Copyright © 2016 Twitter. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import <UIKit/UIKit.h>
 
@@ -16,11 +26,11 @@ typedef NS_ENUM(NSUInteger, TWTRNativeAdTheme) {
     /**
      *  Official light theme.
      */
-            TWTRNativeAdThemeLight,
+    TWTRNativeAdThemeLight,
     /**
      *  Official dark theme.
      */
-            TWTRNativeAdThemeDark
+    TWTRNativeAdThemeDark
 };
 
 /**
@@ -49,27 +59,27 @@ typedef NS_ENUM(NSUInteger, TWTRNativeAdTheme) {
  *  be overridden by setting your custom colors for the available view
  *  properties. Default is `TWTRNativeAdThemeLight`.
  */
-@property(nonatomic) TWTRNativeAdTheme theme UI_APPEARANCE_SELECTOR;
+@property (nonatomic) TWTRNativeAdTheme theme UI_APPEARANCE_SELECTOR;
 
 /**
  *  Background color of this ad container view. Defaults to #F5F8FA.
  */
-@property(nonatomic) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Background color of the ad within the container. Defaults to #FFFFFF.
  */
-@property(nonatomic) UIColor *adBackgroundColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIColor *adBackgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Primary text color used within the ad cell including the underlying ad. Defaults to #292F33.
  */
-@property(nonatomic) UIColor *primaryTextColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIColor *primaryTextColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Background color of buttons. Defaults to #174791.
  */
-@property(nonatomic) UIColor *buttonBackgroundColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIColor *buttonBackgroundColor UI_APPEARANCE_SELECTOR;
 
 @end
 

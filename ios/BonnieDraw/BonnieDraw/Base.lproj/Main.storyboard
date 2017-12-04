@@ -220,7 +220,7 @@
             </objects>
             <point key="canvasLocation" x="904" y="1525"/>
         </scene>
-        <!--Work View Controller-->
+        <!--Delegate-->
         <scene sceneID="nyB-2A-h4h">
             <objects>
                 <viewController storyboardIdentifier="workViewController" id="wJn-NR-0b0" customClass="WorkViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
@@ -309,12 +309,15 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
-                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyN-mC-Mya" customClass="CanvasAnimationView" customModule="BonnieDraw" customModuleProvider="target">
+                                            <view hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyN-mC-Mya" customClass="JotView">
                                                 <rect key="frame" x="0.0" y="76" width="320" height="320"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="PyN-mC-Mya" secondAttribute="height" multiplier="1:1" id="cSh-Rv-EVy"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outlet property="delegate" destination="wJn-NR-0b0" id="EC3-F5-X5A"/>
+                                                </connections>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLh-xA-yIh">
                                                 <rect key="frame" x="16" y="404" width="288" height="44"/>
@@ -441,7 +444,7 @@
                         <viewLayoutGuide key="safeArea" id="cnW-vs-K24"/>
                     </view>
                     <connections>
-                        <outlet property="canvasAnimation" destination="PyN-mC-Mya" id="GHA-eG-dUC"/>
+                        <outlet property="canvas" destination="PyN-mC-Mya" id="4bJ-gc-H2d"/>
                         <outlet property="gridView" destination="hHV-lQ-Dfn" id="1Xs-F8-f8j"/>
                         <outlet property="loading" destination="yDy-IQ-Hwa" id="Z6b-UP-RHk"/>
                         <outlet property="navigationBar" destination="Da8-0O-Aac" id="cdg-rG-Dnq"/>
@@ -1049,7 +1052,7 @@
             </objects>
             <point key="canvasLocation" x="1763" y="-674"/>
         </scene>
-        <!--Canvas View Controller-->
+        <!--Delegate-->
         <scene sceneID="xzp-l9-xOe">
             <objects>
                 <viewController id="uhE-RV-zqK" customClass="CanvasViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
@@ -1128,16 +1131,15 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ubG-28-KVf" customClass="CanvasAnimationView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="124" width="320" height="320"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufQ-sW-bDW" customClass="CanvasView" customModule="BonnieDraw" customModuleProvider="target">
+                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufQ-sW-bDW" customClass="JotView">
                                 <rect key="frame" x="0.0" y="124" width="320" height="320"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ufQ-sW-bDW" secondAttribute="height" multiplier="1:1" id="wK7-P7-xCL"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="uhE-RV-zqK" id="QV1-D1-nyl"/>
+                                </connections>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HxG-Gi-tk1">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
@@ -1193,8 +1195,8 @@
                                     </segue>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WG3-dn-J7K" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WG3-dn-J7K" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="568" width="320" height="0.0"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -1205,11 +1207,8 @@
                             <constraint firstItem="WG3-dn-J7K" firstAttribute="trailing" secondItem="aBz-HM-cIA" secondAttribute="trailing" id="BaB-jR-V3d"/>
                             <constraint firstItem="HxG-Gi-tk1" firstAttribute="leading" secondItem="aBz-HM-cIA" secondAttribute="leading" id="Efj-le-FIL"/>
                             <constraint firstItem="ufQ-sW-bDW" firstAttribute="centerY" secondItem="s8T-WP-DKJ" secondAttribute="centerY" id="FiT-WG-Ats"/>
-                            <constraint firstItem="ubG-28-KVf" firstAttribute="trailing" secondItem="ufQ-sW-bDW" secondAttribute="trailing" id="GdL-uu-IkL"/>
-                            <constraint firstItem="ubG-28-KVf" firstAttribute="top" secondItem="ufQ-sW-bDW" secondAttribute="top" id="Hdf-7o-8yc"/>
                             <constraint firstItem="Fuo-iQ-nwF" firstAttribute="top" secondItem="s8T-WP-DKJ" secondAttribute="top" id="LRa-bO-c6F"/>
                             <constraint firstItem="WG3-dn-J7K" firstAttribute="bottom" secondItem="aBz-HM-cIA" secondAttribute="bottom" id="Mer-lP-BcN"/>
-                            <constraint firstItem="ubG-28-KVf" firstAttribute="leading" secondItem="ufQ-sW-bDW" secondAttribute="leading" id="NLv-Ci-lu2"/>
                             <constraint firstItem="xqN-j4-y2T" firstAttribute="centerX" secondItem="s8T-WP-DKJ" secondAttribute="centerX" id="T02-Nb-z3b"/>
                             <constraint firstItem="aBz-HM-cIA" firstAttribute="trailing" secondItem="ufQ-sW-bDW" secondAttribute="trailing" id="XX9-cp-FDE"/>
                             <constraint firstItem="HxG-Gi-tk1" firstAttribute="bottom" secondItem="aBz-HM-cIA" secondAttribute="bottom" id="Zes-ac-cRX"/>
@@ -1221,7 +1220,6 @@
                             <constraint firstItem="HXk-gE-ZeF" firstAttribute="trailing" secondItem="aBz-HM-cIA" secondAttribute="trailing" id="iE5-lC-k3g"/>
                             <constraint firstItem="WG3-dn-J7K" firstAttribute="top" secondItem="s8T-WP-DKJ" secondAttribute="top" id="lNR-20-fbh"/>
                             <constraint firstItem="GSc-jB-1YC" firstAttribute="trailing" secondItem="ufQ-sW-bDW" secondAttribute="trailing" id="nRp-bF-016"/>
-                            <constraint firstItem="ubG-28-KVf" firstAttribute="bottom" secondItem="ufQ-sW-bDW" secondAttribute="bottom" id="pbv-sN-YqU"/>
                             <constraint firstAttribute="trailing" secondItem="Fuo-iQ-nwF" secondAttribute="trailing" id="sod-rQ-i04"/>
                             <constraint firstItem="HXk-gE-ZeF" firstAttribute="leading" secondItem="aBz-HM-cIA" secondAttribute="leading" id="srH-rB-nak"/>
                             <constraint firstItem="WG3-dn-J7K" firstAttribute="leading" secondItem="aBz-HM-cIA" secondAttribute="leading" id="v3I-XX-n1K"/>
@@ -1233,7 +1231,6 @@
                     <navigationItem key="navigationItem" id="uYa-EF-a8X"/>
                     <connections>
                         <outlet property="canvas" destination="ufQ-sW-bDW" id="WR5-4Z-b7J"/>
-                        <outlet property="canvasAnimation" destination="ubG-28-KVf" id="25J-Di-MTv"/>
                         <outlet property="colorButton" destination="da0-nx-vfp" id="lCF-DU-zhm"/>
                         <outlet property="eraserButton" destination="mCl-AI-Uj6" id="PGU-5q-eyL"/>
                         <outlet property="gridView" destination="GSc-jB-1YC" id="wTL-fW-J4h"/>
@@ -1890,7 +1887,7 @@
                                                     <action selector="decrease:" destination="fXZ-Oj-GRn" eventType="touchUpInside" id="lNu-0a-iIC"/>
                                                 </connections>
                                             </button>
-                                            <slider opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sxB-nZ-egy">
+                                            <slider opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.80000000000000004" minValue="0.20000000000000001" maxValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="sxB-nZ-egy">
                                                 <rect key="frame" x="120" y="0.0" width="130" height="33"/>
                                                 <color key="minimumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="thumbTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

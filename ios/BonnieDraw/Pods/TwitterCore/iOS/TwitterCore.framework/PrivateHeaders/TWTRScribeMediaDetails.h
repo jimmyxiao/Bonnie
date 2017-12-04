@@ -1,10 +1,19 @@
-//
-//  TWTRScribeMediaDetails.h
-//  TwitterCore
-//
-//  Created by Kang Chen on 11/18/15.
-//  Copyright © 2015 Twitter Inc. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import <Foundation/Foundation.h>
 #import "TWTRScribeSerializable.h"
@@ -18,25 +27,26 @@ typedef NS_ENUM(NSUInteger, TWTRScribeMediaType) {
     /**
      *  Consumer video uploaded to Twitter.
      */
-            TWTRScribeMediaTypeConsumerVideo = 1,
+    TWTRScribeMediaTypeConsumerVideo = 1,
     /**
      *  Amplify videos.
      */
-            TWTRScribeMediaTypeProfessionalVideo = 2,
+    TWTRScribeMediaTypeProfessionalVideo = 2,
     /**
      *  Gif as a video.
      */
-            TWTRScribeMediaTypeGIF = 3,
+    TWTRScribeMediaTypeGIF = 3,
     /**
      *  Vine as a video.
      */
-            TWTRScribeMediaTypeVine = 4
+    TWTRScribeMediaTypeVine = 4
 };
 
 @interface TWTRScribeMediaDetails : NSObject <TWTRScribeSerializable>
-@property(nonatomic, readonly, copy) NSString *publisherID;
-@property(nonatomic, readonly, copy) NSString *contentID;
-@property(nonatomic, readonly) TWTRScribeMediaType mediaType;
+
+@property (nonatomic, readonly, copy) NSString *publisherID;
+@property (nonatomic, readonly, copy) NSString *contentID;
+@property (nonatomic, readonly) TWTRScribeMediaType mediaType;
 
 - (instancetype)init NS_UNAVAILABLE;
 /**

@@ -11,6 +11,7 @@ import FacebookCore
 import FacebookLogin
 import TwitterKit
 import Alamofire
+import DeviceKit
 
 class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
@@ -18,6 +19,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var google: UIButton!
     private var dataRequest: DataRequest?
+    private var completionHandler: ((String?) -> Void)?
 
     override func viewDidLoad() {
         if DEBUG {
@@ -33,6 +35,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
+        NotificationCenter.default.removeObserver(self)
     }
 
     @IBAction func signIn(_ sender: Any) {
@@ -148,7 +151,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                        let imageUrlString = data["url"] as? String {
                                         imageUrl = URL(string: imageUrlString)
                                     }
-                                    self.signInThirdParty(withUserType: .facebook, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
+                                    self.completionHandler = {
+                                        token in
+                                        self.signInThirdParty(withRemoteToken: token, type: .facebook, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
+                                    }
+                                    self.registerForRemoteNotification()
                                 case .failed(let error):
                                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                                     fallthrough
@@ -192,7 +199,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     } else {
                         TWTRAPIClient.withCurrentUser().loadUser(withID: session!.userID) {
                             user, error in
-                            self.signInThirdParty(withUserType: .twitter, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: URL(string: user?.profileImageLargeURL ?? ""))
+                            self.completionHandler = {
+                                token in
+                                self.signInThirdParty(withRemoteToken: token, type: .twitter, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: URL(string: user?.profileImageLargeURL ?? ""))
+                            }
+                            self.registerForRemoteNotification()
                         }
                     }
                 }
@@ -210,7 +221,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             loading.hide(true)
             presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
         } else {
-            signInThirdParty(withUserType: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128))
+            self.completionHandler = {
+                token in
+                self.signInThirdParty(withRemoteToken: token, type: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128))
+            }
+            self.registerForRemoteNotification()
         }
     }
 
@@ -224,8 +239,41 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
     }
 
-    private func signInThirdParty(withUserType type: UserType, userId id: String, name: String, email: String, imageUrl: URL?) {
+    private func registerForRemoteNotification() {
+        checkNotificationPermission(
+                successHandler: {
+                    if !Device().isSimulator {
+                        NotificationCenter.default.addObserver(self, selector: #selector(self.didRegisterForRemoteNotifications), name: Notification.Name(rawValue: NotificationName.REMOTE_TOKEN), object: nil)
+                        UIApplication.shared.registerForRemoteNotifications()
+                    } else {
+                        self.completionHandler?(nil)
+                    }
+                },
+                failHandler: {
+                    self.completionHandler?(nil)
+                })
+    }
+
+    @objc private func didRegisterForRemoteNotifications(notification: Notification) {
+        NotificationCenter.default.removeObserver(self)
+        completionHandler?(notification.object as? String)
+    }
+
+    private func signInThirdParty(withRemoteToken token: String?, type: UserType, userId id: String, name: String, email: String, imageUrl: URL?) {
         var postData: [String: Any] = ["uc": id, "un": name, "ut": type.rawValue, "dt": SERVICE_DEVICE_TYPE, "fn": 1, "thirdEmail": email]
+        let locale = Locale.current
+        if let languageCode = locale.languageCode {
+            postData["languageCode"] = languageCode
+        }
+        if let regionCode = locale.regionCode {
+            postData["countryCode"] = regionCode
+        }
+        if let deviceId = UIDevice.current.identifierForVendor?.uuidString {
+            postData["deviceId"] = deviceId
+        }
+        if let token = token {
+            postData["token"] = token
+        }
         if let imageUrl = imageUrl {
             postData["thirdPictureUrl"] = imageUrl.absoluteString
         }

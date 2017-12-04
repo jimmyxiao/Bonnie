@@ -15,65 +15,75 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "FIRCoreSwiftNameSupport.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * This class provides constant fields of Google APIs.
  */
-FIR_SWIFT_NAME(FirebaseOptions)
+NS_SWIFT_NAME(FirebaseOptions)
 @interface FIROptions : NSObject <NSCopying>
+
 /**
  * Returns the default options.
  */
-+ (nullable FIROptions *)defaultOptions FIR_SWIFT_NAME(defaultOptions());
++ (nullable FIROptions *)defaultOptions NS_SWIFT_NAME(defaultOptions());
 
 /**
  * An iOS API key used for authenticating requests from your app, e.g.
  * @"AIzaSyDdVgKwhZl0sTTTLZ7iTmt1r3N2cJLnaDk", used to identify your app to Google servers.
  */
-@property(nonatomic, copy, nullable) NSString *APIKey FIR_SWIFT_NAME(apiKey);
+@property(nonatomic, copy, nullable) NSString *APIKey NS_SWIFT_NAME(apiKey);
+
 /**
  * The bundle ID for the application. Defaults to `[[NSBundle mainBundle] bundleID]` when not set
  * manually or in a plist.
  */
 @property(nonatomic, copy) NSString *bundleID;
+
 /**
  * The OAuth2 client ID for iOS application used to authenticate Google users, for example
  * @"12345.apps.googleusercontent.com", used for signing in with Google.
  */
 @property(nonatomic, copy, nullable) NSString *clientID;
+
 /**
  * The tracking ID for Google Analytics, e.g. @"UA-12345678-1", used to configure Google Analytics.
  */
 @property(nonatomic, copy, nullable) NSString *trackingID;
+
 /**
  * The Project Number from the Google Developer's console, for example @"012345678901", used to
  * configure Google Cloud Messaging.
  */
-@property(nonatomic, copy) NSString *GCMSenderID FIR_SWIFT_NAME(gcmSenderID);
+@property(nonatomic, copy) NSString *GCMSenderID NS_SWIFT_NAME(gcmSenderID);
+
 /**
  * The Project ID from the Firebase console, for example @"abc-xyz-123".
  */
 @property(nonatomic, copy, nullable) NSString *projectID;
+
 /**
  * The Android client ID used in Google AppInvite when an iOS app has its Android version, for
  * example @"12345.apps.googleusercontent.com".
  */
 @property(nonatomic, copy, nullable) NSString *androidClientID;
+
 /**
  * The Google App ID that is used to uniquely identify an instance of an app.
  */
 @property(nonatomic, copy) NSString *googleAppID;
+
 /**
  * The database root URL, e.g. @"http://abc-xyz-123.firebaseio.com".
  */
 @property(nonatomic, copy, nullable) NSString *databaseURL;
+
 /**
  * The URL scheme used to set up Durable Deep Link service.
  */
 @property(nonatomic, copy, nullable) NSString *deepLinkURLScheme;
+
 /**
  * The Google Cloud Storage bucket name, e.g. @"abc-xyz-123.storage.firebase.com".
  */
@@ -93,10 +103,10 @@ FIR_SWIFT_NAME(FirebaseOptions)
                         databaseURL:(NSString *)databaseURL
                       storageBucket:(NSString *)storageBucket
                   deepLinkURLScheme:(NSString *)deepLinkURLScheme
-DEPRECATED_MSG_ATTRIBUTE(
+    DEPRECATED_MSG_ATTRIBUTE(
         "Use `-[[FIROptions alloc] initWithGoogleAppID:GCMSenderID:]` "
-                "(`FirebaseOptions(googleAppID:gcmSenderID:)` in Swift)` and property "
-                "setters instead.");
+        "(`FirebaseOptions(googleAppID:gcmSenderID:)` in Swift)` and property "
+        "setters instead.");
 
 /**
  * Initializes a customized instance of FIROptions from the file at the given plist file path.
@@ -115,7 +125,7 @@ DEPRECATED_MSG_ATTRIBUTE(
 // clang-format off
 - (instancetype)initWithGoogleAppID:(NSString *)googleAppID
                         GCMSenderID:(NSString *)GCMSenderID
-FIR_SWIFT_NAME(init(googleAppID:gcmSenderID:));
+    NS_SWIFT_NAME(init(googleAppID:gcmSenderID:));
 // clang-format on
 
 @end

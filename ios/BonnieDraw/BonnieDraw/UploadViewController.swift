@@ -18,7 +18,7 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
     @IBOutlet weak var workDescription: UITextView!
     @IBOutlet weak var accessLabel: UILabel!
     let dropDown = DropDown()
-    var workThumbnailData: Data?
+    var workThumbnail: UIImage?
     var workFileUrl: URL?
     private var viewOriginY: CGFloat = 0
     private var keyboardOnScreen = false
@@ -42,9 +42,7 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
             self.accessLabel.text = text
             self.accessControl = self.dropDownItems[index]
         }
-        if let workThumbnailData = workThumbnailData {
-            thumbnail.image = UIImage(data: workThumbnailData)
-        }
+        thumbnail.image = workThumbnail
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -98,7 +96,7 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
-        guard let workThumbnailData = workThumbnailData, let workFileUrl = workFileUrl else {
+        guard let workThumbnail = workThumbnail, let workThumbnailData = UIImageJPEGRepresentation(workThumbnail, 1), let workFileUrl = workFileUrl else {
             return
         }
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""

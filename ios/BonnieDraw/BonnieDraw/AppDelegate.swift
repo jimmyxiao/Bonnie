@@ -13,6 +13,7 @@ import FacebookCore
 import TwitterKit
 import Reachability
 import Photos
+import FirebaseDatabase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -45,6 +46,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 >= TOKEN_LIFETIME,
            let controller = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() {
             UIApplication.shared.replace(rootViewControllerWith: controller)
+        }
+    }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.map {
+            String(format: "%02.2hhx", $0)
+        }.joined()
+        UserDefaults.standard.set(token, forKey: Default.TOKEN)
+        UserDefaults.standard.set(true, forKey: Default.NOTIFICATION_ENABLED)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationName.REMOTE_TOKEN), object: token)
+        if DEBUG {
+            let deviceName = UIDevice.current.name
+            let reference = Database.database().reference()
+            reference.child("tokens").observeSingleEvent(of: .value, with: {
+                snapshot in
+                if snapshot.exists() {
+                    if var tokens = snapshot.value as? [String: Any] {
+                        tokens[deviceName] = ["FCMToken": Messaging.messaging().fcmToken, "APNSToken": token]
+                        snapshot.ref.setValue(tokens)
+                    }
+                } else {
+                    snapshot.ref.setValue(["FCMToken": Messaging.messaging().fcmToken, "APNSToken": token])
+                }
+            })
         }
     }
 

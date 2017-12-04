@@ -37,10 +37,11 @@
  to interact with in the wild. How ace is that?!
  */
 @interface TWTRGCOAuth : NSObject {
-@private
+   @private
     NSString *signatureSecret;
     NSDictionary *OAuthParameters;
 }
+
 /*
  Set the user agent to be used for all requests.
  */

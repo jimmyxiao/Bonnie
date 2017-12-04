@@ -1,9 +1,19 @@
-//
-//  TWTRGuestSession.h
-//  TwitterKit
-//
-//  Copyright (c) 2015 Twitter. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import <Foundation/Foundation.h>
 #import <TwitterCore/TWTRAuthSession.h>
@@ -28,12 +38,12 @@ typedef void (^TWTRGuestLogInCompletion)(TWTRGuestSession *_Nullable guestSessio
 /**
  *  The bearer access token for guest auth.
  */
-@property(nonatomic, copy, readonly) NSString *accessToken;
+@property (nonatomic, copy, readonly) NSString *accessToken;
 
 /**
  *  The guest access token.
  */
-@property(nonatomic, copy, readonly) NSString *guestToken;
+@property (nonatomic, copy, readonly) NSString *guestToken;
 
 /**
  *  This property can be used to make a best guess about whether the token will
@@ -45,7 +55,7 @@ typedef void (^TWTRGuestLogInCompletion)(TWTRGuestSession *_Nullable guestSessio
  *  In most situations you should make a request with the token and see if the API
  *  accepts the token or not.
  */
-@property(nonatomic, readonly) BOOL probablyNeedsRefreshing;
+@property (nonatomic, readonly) BOOL probablyNeedsRefreshing;
 
 /**
  *  Returns an `TWTRGuestSession` object initialized by copying the values from the dictionary or nil if the dictionary is missing.

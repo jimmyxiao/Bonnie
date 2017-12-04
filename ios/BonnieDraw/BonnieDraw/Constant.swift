@@ -9,13 +9,13 @@
 import UIKit
 
 let DEBUG = Bundle.main.infoDictionary?["Configuration"] as? String == "Debug"
-let PATH_BUFFER_COUNT: UInt16 = 20
 let POINT_BUFFER_COUNT: UInt16 = 512
 let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 let SERVICE_DEVICE_TYPE = 2
 let TOKEN_LIFETIME: TimeInterval = Double.greatestFiniteMagnitude
 let UPDATE_INTERVAL: TimeInterval = 600
+let ANIMATION_TIMER: TimeInterval = 1.0 / 60.0
 
 enum Function: UInt16 {
     case draw = 0xa101
@@ -148,6 +148,8 @@ struct Default {
     static let COLORS = "colors"
     static let TOKEN_TIMESTAMP = "tokenTimestamp"
     static let TOKEN = "token"
+    static let REMOTE_TOKEN = "remoteToken"
+    static let NOTIFICATION_ENABLED = "notificationEnabled"
     static let USER_ID = "userId"
     static let EMAIL = "email"
     static let PASSWORD = "password"
@@ -160,4 +162,8 @@ struct Default {
 
 struct Url {
     static let PRIVACY_POLICY = "https"
+}
+
+struct NotificationName {
+    static let REMOTE_TOKEN = "remoteToken"
 }

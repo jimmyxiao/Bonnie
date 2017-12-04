@@ -1,9 +1,19 @@
-//
-//  TWTRSearchTimelineDataSource.h
-//  TwitterKit
-//
-//  Copyright (c) 2015 Twitter. All rights reserved.
-//
+/*
+ * Copyright (C) 2017 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import <Foundation/Foundation.h>
 #import <TwitterKit/TWTRTimelineDataSource.h>
@@ -41,45 +51,45 @@ Data source representing a Search Timeline. Provides TWTRTweet objects to a TWTR
 /**
  *  The search query. This matches what you would type into https://twitter.com/search
  */
-@property(nonatomic, copy, readonly) NSString *searchQuery;
+@property (nonatomic, copy, readonly) NSString *searchQuery;
 
 /**
  *  Restricts tweets returned to a given language, specified by its ISO 639-1 code (for example: en, es). Language detection is best-effort. The server defaults to returning Tweets in all languages.
  *
  *  @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
  */
-@property(nonatomic, copy, readonly, nullable) NSString *languageCode;
+@property (nonatomic, copy, readonly, nullable) NSString *languageCode;
 
 /**
  *  The number of Tweets to request in each network request for more Tweets. By default requests 30 tweets. If set to `0` the parameter will not be set on the request and the Twitter API will use the default size for the endpoint.
  */
-@property(nonatomic, readonly) NSUInteger maxTweetsPerRequest;
+@property (nonatomic, readonly) NSUInteger maxTweetsPerRequest;
 
 /**
  *  The geocode details to narrow search results. The format is "latitude,longitude,radius" e.g. "37.781157,-122.398720,1mi"
  *
  *  @see https://dev.twitter.com/rest/public/search
  */
-@property(nonatomic, copy, nullable) NSString *geocodeSpecifier;
+@property (nonatomic, copy, nullable) NSString *geocodeSpecifier;
 
 /**
  *  Filter out sensitive (containing nudity or violence) tweets.
  *
  *  Defaults to YES.
  */
-@property(nonatomic) BOOL filterSensitiveTweets;
+@property (nonatomic) BOOL filterSensitiveTweets;
 
 /*
  *  A filtering object that hides certain tweets.
  */
-@property(nonatomic, copy, nullable) TWTRTimelineFilter *timelineFilter;
+@property (nonatomic, copy, nullable) TWTRTimelineFilter *timelineFilter;
 
 /*
  *  Specifies search result type to be recent or popular Tweets, or a mix of both.
  *
  *  @param resultType possible options are recent, popular, or mixed.
  */
-@property(nonatomic, copy, nullable) NSString *resultType;
+@property (nonatomic, copy, nullable) NSString *resultType;
 
 /**
  *  Convenience initializer. Uses default values for `languageCode` and `maxTweetsPerRequest`.
