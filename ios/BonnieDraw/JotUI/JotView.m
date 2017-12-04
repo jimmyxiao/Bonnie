@@ -1486,55 +1486,57 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                 if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
                     preciseLocInView = [coalescedTouch preciseLocationInView:self];
                 }
-                // Convert touch point from UIView referential to OpenGL one (upside-down flip)
-                CGPoint glPreciseLocInView = preciseLocInView;
-                glPreciseLocInView.y = self.bounds.size.height - glPreciseLocInView.y;
-
-                [self.delegate willMoveStrokeWithCoalescedTouch:coalescedTouch fromTouch:touch];
-
-                BOOL shouldSkipSegment = NO;
-
-                if ([self.delegate supportsRotation] && [[currentStroke segments] count] < 10) {
-                    CGFloat len = [[[currentStroke segments] jotReduce:^id(AbstractBezierPathElement* ele, NSUInteger index, id accum) {
-                        return @([ele lengthOfElement] + [accum floatValue]);
-                    }] floatValue];
-
-                    CGPoint start = [[[currentStroke segments] firstObject] startPoint];
-                    CGPoint end = glPreciseLocInView;
-                    CGPoint diff = CGPointMake(end.x - start.x, end.y - start.y);
-                    CGFloat rot = atan2(diff.y, diff.x);
-
-                    if ([[currentStroke segments] count] == 1 && distanceBetween2(start, end) < 7) {
-                        // if the rotation is off by at least 10 degrees, then updated the rotation on the stroke
-                        // otherwise let the previous rotation stand
-                        [[currentStroke segments] enumerateObjectsUsingBlock:^(AbstractBezierPathElement* _Nonnull obj, NSUInteger idx, BOOL* _Nonnull stop) {
-                            obj.rotation = rot;
-                        }];
-                        shouldSkipSegment = YES;
+                if (CGRectContainsPoint(self.bounds, preciseLocInView)) {
+                    
+                    [self.delegate willMoveStrokeWithCoalescedTouch:coalescedTouch fromTouch:touch];
+                    // Convert touch point from UIView referential to OpenGL one (upside-down flip)
+                    CGPoint glPreciseLocInView = preciseLocInView;
+                    glPreciseLocInView.y = self.bounds.size.height - glPreciseLocInView.y;
+                    
+                    BOOL shouldSkipSegment = NO;
+                    
+                    if ([self.delegate supportsRotation] && [[currentStroke segments] count] < 10) {
+                        CGFloat len = [[[currentStroke segments] jotReduce:^id(AbstractBezierPathElement* ele, NSUInteger index, id accum) {
+                            return @([ele lengthOfElement] + [accum floatValue]);
+                        }] floatValue];
+                        
+                        CGPoint start = [[[currentStroke segments] firstObject] startPoint];
+                        CGPoint end = glPreciseLocInView;
+                        CGPoint diff = CGPointMake(end.x - start.x, end.y - start.y);
+                        CGFloat rot = atan2(diff.y, diff.x);
+                        
+                        if ([[currentStroke segments] count] == 1 && distanceBetween2(start, end) < 7) {
+                            // if the rotation is off by at least 10 degrees, then updated the rotation on the stroke
+                            // otherwise let the previous rotation stand
+                            [[currentStroke segments] enumerateObjectsUsingBlock:^(AbstractBezierPathElement* _Nonnull obj, NSUInteger idx, BOOL* _Nonnull stop) {
+                                obj.rotation = rot;
+                            }];
+                            shouldSkipSegment = YES;
+                        }
+                    }
+                    
+                    if (currentStroke && !shouldSkipSegment) {
+                        CGPoint preciseLocInView = [coalescedTouch locationInView:self];
+                        if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
+                            preciseLocInView = [coalescedTouch preciseLocationInView:self];
+                        }
+                        
+                        // find the stroke that we're modifying, and then add an element and render it
+                        [self addLineToAndRenderStroke:currentStroke
+                                               toPoint:preciseLocInView
+                                               toWidth:[self.delegate widthForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                               toColor:[self.delegate colorForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                         andSmoothness:[self.delegate smoothnessForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                         withStepWidth:[self.delegate stepWidthForStroke]];
                     }
                 }
-
-                if (currentStroke && !shouldSkipSegment) {
-                    CGPoint preciseLocInView = [coalescedTouch locationInView:self];
-                    if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
-                        preciseLocInView = [coalescedTouch preciseLocationInView:self];
-                    }
-
-                    // find the stroke that we're modifying, and then add an element and render it
-                    [self addLineToAndRenderStroke:currentStroke
-                                           toPoint:preciseLocInView
-                                           toWidth:[self.delegate widthForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                           toColor:[self.delegate colorForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                     andSmoothness:[self.delegate smoothnessForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                     withStepWidth:[self.delegate stepWidthForStroke]];
-                }
-            }
-            if (!isMultiTouchSupported) {
-                break;
             }
         }
 
         [currentStroke unlock];
+        if (!isMultiTouchSupported) {
+            break;
+        }
     }
     [JotGLContext validateEmptyContextStack];
 }
@@ -1551,7 +1553,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
         JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:touch.hash];
         BOOL shortStrokeEnding = [currentStroke.segments count] <= 1;
 
-        [self.delegate willEndStrokeWithCoalescedTouch:touch fromTouch:touch shortStrokeEnding:shortStrokeEnding];
         if (currentStroke) {
             @autoreleasepool {
                 [currentStroke lock];
@@ -1564,24 +1565,26 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                     if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
                         preciseLocInView = [coalescedTouch preciseLocationInView:self];
                     }
-
-                    // the while loop ensures we get at least a dot from the touch
-                    while (![self addLineToAndRenderStroke:currentStroke
-                                                   toPoint:preciseLocInView
-                                                   toWidth:[self.delegate widthForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                                   toColor:[self.delegate colorForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                             andSmoothness:[self.delegate smoothnessForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                             withStepWidth:[self.delegate stepWidthForStroke]]) {
-                        // noop, the [addLineToAndRenderStroke:] will return YES after enough segments have been added
-                        // to ensure at least 1 point will render.
-                    }
-
-                    // this stroke is now finished, so add it to our completed strokes stack
-                    // and remove it from the current strokes, and reset our undo state if any
-                    if ([currentStroke.segments count] == 1 && [[currentStroke.segments firstObject] isKindOfClass:[MoveToPathElement class]]) {
-                        // this happen if the entire stroke lands inside of scraps, and nothing makes it to the bottom page
-                        // just save an empty stroke to the stack
-                        [currentStroke empty];
+                    if (CGRectContainsPoint(self.bounds, preciseLocInView)) {
+                        [self.delegate willEndStrokeWithCoalescedTouch:coalescedTouch fromTouch:touch shortStrokeEnding:shortStrokeEnding];
+                        // the while loop ensures we get at least a dot from the touch
+                        while (![self addLineToAndRenderStroke:currentStroke
+                                                       toPoint:preciseLocInView
+                                                       toWidth:[self.delegate widthForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                                       toColor:[self.delegate colorForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                                 andSmoothness:[self.delegate smoothnessForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                                 withStepWidth:[self.delegate stepWidthForStroke]]) {
+                            // noop, the [addLineToAndRenderStroke:] will return YES after enough segments have been added
+                            // to ensure at least 1 point will render.
+                        }
+                        
+                        // this stroke is now finished, so add it to our completed strokes stack
+                        // and remove it from the current strokes, and reset our undo state if any
+                        if ([currentStroke.segments count] == 1 && [[currentStroke.segments firstObject] isKindOfClass:[MoveToPathElement class]]) {
+                            // this happen if the entire stroke lands inside of scraps, and nothing makes it to the bottom page
+                            // just save an empty stroke to the stack
+                            [currentStroke empty];
+                        }
                     }
                 }
 

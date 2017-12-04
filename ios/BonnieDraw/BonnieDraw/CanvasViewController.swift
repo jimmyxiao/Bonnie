@@ -38,6 +38,7 @@ class CanvasViewController:
     private var animatePoints = [Point]()
     private var animationHandle: FileHandle?
     private var timer: Timer?
+    private var persistentBackgroundColor: UIColor?
     private var url = try! FileManager.default.url(
             for: .documentationDirectory,
             in: .userDomainMask,
@@ -102,26 +103,46 @@ class CanvasViewController:
     }
 
     @IBAction func undo(_ sender: Any) {
-        canvas.undo()
+        let path = paths.removeLast()
+        redoPaths.append(path)
+        if path.points.first?.type == .background {
+            var backgroundColor: UIColor? = nil
+            for path in paths {
+                for point in path.points {
+                    if point.type == .background {
+                        backgroundColor = point.color
+                    }
+                }
+            }
+            gridView.backgroundColor = backgroundColor ?? persistentBackgroundColor ?? .white
+        } else {
+            canvas.undo()
+        }
         checkCanvasStatus()
-        redoPaths.append(paths.removeLast())
     }
 
     @IBAction func redo(_ sender: Any) {
-        canvas.redo()
+        let path = redoPaths.removeLast()
+        paths.append(path)
+        if path.points.first?.type == .background {
+            gridView.backgroundColor = path.points.first?.color ?? .white
+        } else {
+            canvas.redo()
+        }
         checkCanvasStatus()
-        paths.append(redoPaths.removeLast())
     }
 
     @IBAction func reset(_ sender: Any) {
         presentConfirmationDialog(title: "alert_reset_title".localized, message: "alert_reset_content".localized) {
             success in
             if success {
+                self.persistentBackgroundColor = nil
+                self.gridView.backgroundColor = .white
                 self.canvas.clear(true)
-                self.checkCanvasStatus()
-                self.writeHandle?.closeFile()
                 self.paths.removeAll()
                 self.redoPaths.removeAll()
+                self.writeHandle?.closeFile()
+                self.checkCanvasStatus()
                 do {
                     let manager = FileManager.default
                     if manager.fileExists(atPath: self.url.path) {
@@ -138,6 +159,7 @@ class CanvasViewController:
 
     @IBAction func play(_ sender: UIBarButtonItem) {
         do {
+            gridView.backgroundColor = .white
             canvas.clear(true)
             let manager = FileManager.default
             let url = try manager.url(
@@ -188,11 +210,51 @@ class CanvasViewController:
     }
 
     @IBAction func upload(_ sender: Any) {
-        //        loading.hide(false)
-        //        canvas.save() {
-        //            url in
-        //            self.performSegue(withIdentifier: Segue.UPLOAD, sender: url)
-        //        }
+        loading.hide(false)
+        let bounds = canvas.bounds
+        let color = gridView.backgroundColor ?? .white
+        do {
+            let manager = FileManager.default
+            let url = try manager.url(
+                    for: .documentationDirectory,
+                    in: .userDomainMask,
+                    appropriateFor: nil,
+                    create: true).appendingPathComponent("upload.bdw")
+            if manager.fileExists(atPath: url.path) {
+                try manager.removeItem(at: url)
+            }
+            try manager.copyItem(at: self.url, to: url)
+            var pointsToSave = [Point]()
+            for path in paths {
+                for point in path.points {
+                    pointsToSave.append(point)
+                }
+            }
+            let handle = try FileHandle(forUpdating: url)
+            if !pointsToSave.isEmpty {
+                handle.seekToEndOfFile()
+                handle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+            }
+            handle.closeFile()
+            canvas.exportToImage(
+                    onComplete: {
+                        image in
+                        DispatchQueue.main.async {
+                            UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+                            color.setFill()
+                            UIBezierPath(rect: bounds).fill()
+                            image?.draw(in: bounds)
+                            let image = UIGraphicsGetImageFromCurrentImageContext()
+                            UIGraphicsEndImageContext()
+                            if let image = image {
+                                self.performSegue(withIdentifier: Segue.UPLOAD, sender: (image, url))
+                            }
+                        }
+                    },
+                    withScale: UIScreen.main.scale)
+        } catch let error {
+            Logger.d("\(#function): \(error.localizedDescription)")
+        }
     }
 
     @IBAction func didSelectEraser(_ sender: UIBarButtonItem) {
@@ -241,35 +303,25 @@ class CanvasViewController:
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             controller.preferredContentSize = CGSize(width: UIScreen.main.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.9 : 0.45), height: 204)
-        } else if let url = sender as? URL,
+        } else if let data = sender as? (image: UIImage, url: URL),
                   let controller = segue.destination as? UploadViewController {
-            //            controller.workThumbnailData = canvas.thumbnailData()
-            //            controller.workFileUrl = url
+            controller.workThumbnail = data.image
+            controller.workFileUrl = data.url
         }
     }
 
     private func checkCanvasStatus() {
-        redoButton.isEnabled = canvas.canRedo()
-        undoButton.isEnabled = canvas.canUndo()
-        playButton.isEnabled = canvas.canUndo()
-        saveButton.isEnabled = canvas.canUndo()
-        resetButton.isEnabled = canvas.canUndo()
+        undoButton.isEnabled = !paths.isEmpty
+        redoButton.isEnabled = !redoPaths.isEmpty
+        playButton.isEnabled = !paths.isEmpty
+        saveButton.isEnabled = !paths.isEmpty
+        resetButton.isEnabled = !paths.isEmpty
     }
 
     internal func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
     }
 
-//    internal func canvasAnimationFileParseError() {
-//        presentDialog(title: "canvas_data_parse_error_title".localized, message: "canvas_data_parse_error_content".localized) {
-//            action in
-//            super.onBackPressed(self)
-//        }
-//    }
-//
-//    internal func canvasAnimation(changeBackgroundColor color: UIColor) {
-//        gridView.backgroundColor = color
-//    }
     internal func canvasSetting(didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
@@ -316,25 +368,39 @@ class CanvasViewController:
             present(controller, animated: true)
         case 1:
             performSegue(withIdentifier: Segue.BACKGROUND_COLOR, sender: nil)
-        case 2: break
-                //            if let data = canvas.thumbnailData(),
-                //               let image = UIImage(data: data) {
-                //                checkPhotosPermission(successHandler: {
-                //                    let flashView = UIView(frame: self.canvas.frame)
-                //                    flashView.backgroundColor = .white
-                //                    self.view.addSubview(flashView)
-                //                    UIView.animate(
-                //                            withDuration: 1,
-                //                            animations: {
-                //                                flashView.alpha = 0
-                //                            },
-                //                            completion: {
-                //                                finished in
-                //                                flashView.removeFromSuperview()
-                //                            })
-                //                    AppDelegate.save(asset: image)
-                //                })
-                //            }
+        case 2:
+            checkPhotosPermission(successHandler: {
+                let bounds = self.canvas.bounds
+                let color = self.gridView.backgroundColor ?? .white
+                self.canvas.exportToImage(
+                        onComplete: {
+                            image in
+                            DispatchQueue.main.async {
+                                UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+                                color.setFill()
+                                UIBezierPath(rect: bounds).fill()
+                                image?.draw(in: bounds)
+                                let image = UIGraphicsGetImageFromCurrentImageContext()
+                                UIGraphicsEndImageContext()
+                                if let image = image {
+                                    AppDelegate.save(asset: image)
+                                }
+                            }
+                        },
+                        withScale: UIScreen.main.scale)
+                let flashView = UIView(frame: self.canvas.frame)
+                flashView.backgroundColor = .white
+                self.view.addSubview(flashView)
+                UIView.animate(
+                        withDuration: 1,
+                        animations: {
+                            flashView.alpha = 0
+                        },
+                        completion: {
+                            finished in
+                            flashView.removeFromSuperview()
+                        })
+            })
         case 3:
             break
         default:
@@ -382,8 +448,18 @@ class CanvasViewController:
             brush.color = color
             colorButton.tintColor = color
         } else {
-            //            canvas.set(backgroundColor: color)
-            //            gridView.backgroundColor = color
+            paths.append(Path(points: [Point(length: LENGTH_SIZE,
+                    function: .draw,
+                    position: .zero,
+                    color: color,
+                    action: .down,
+                    size: 0,
+                    type: .background,
+                    duration: ANIMATION_TIMER)]))
+            gridView.backgroundColor = color
+            redoPaths.removeAll()
+            saveToDisk()
+            checkCanvasStatus()
         }
     }
 
@@ -424,7 +500,7 @@ class CanvasViewController:
                     action: action,
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
-                    duration: 1.0 / 60.0)]))
+                    duration: ANIMATION_TIMER)]))
         }
         return true
     }
@@ -438,7 +514,7 @@ class CanvasViewController:
                     action: action,
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
-                    duration: 1.0 / 60.0))
+                    duration: ANIMATION_TIMER))
         }
     }
 
@@ -451,14 +527,14 @@ class CanvasViewController:
                     action: action,
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
-                    duration: 1.0 / 60.0))
+                    duration: ANIMATION_TIMER))
         }
     }
 
     internal func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
-        checkCanvasStatus()
-        saveToDisk()
         redoPaths.removeAll()
+        saveToDisk()
+        checkCanvasStatus()
     }
 
     internal func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
@@ -484,6 +560,9 @@ class CanvasViewController:
             let path = paths.removeFirst()
             for point in path.points {
                 pointsToSave.append(point)
+                if point.type == .background {
+                    persistentBackgroundColor = point.color
+                }
             }
         }
         if !pointsToSave.isEmpty {
@@ -503,8 +582,12 @@ class CanvasViewController:
                 case .up:
                     self.canvas.animateEnded(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
                 case .down:
-                    self.brush.type = point.type
-                    self.canvas.animateBegan(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                    if point.type != .background {
+                        self.brush.type = point.type
+                        self.canvas.animateBegan(point.position, width: point.size, color: point.type != .eraser ? point.color : nil, smoothness: 0.5, stepWidth: 2)
+                    } else {
+                        self.gridView.backgroundColor = point.color
+                    }
                 }
                 self.animate()
             }

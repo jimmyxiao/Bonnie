@@ -9,13 +9,13 @@
 import UIKit
 
 let DEBUG = Bundle.main.infoDictionary?["Configuration"] as? String == "Debug"
-let PATH_BUFFER_COUNT: UInt16 = 20
 let POINT_BUFFER_COUNT: UInt16 = 512
 let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 let SERVICE_DEVICE_TYPE = 2
 let TOKEN_LIFETIME: TimeInterval = Double.greatestFiniteMagnitude
 let UPDATE_INTERVAL: TimeInterval = 600
+let ANIMATION_TIMER: TimeInterval = 1.0 / 60.0
 
 enum Function: UInt16 {
     case draw = 0xa101
