@@ -24,7 +24,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
                                 Tag(type: .newWork, image: "menu_ic_newDraw", title: "menu_new_works".localized),
                                 Tag(type: .myWork, image: "menu_ic_myDraw", title: "menu_my_works".localized)]
     private let endingTags = [Tag(type: .myCollection, image: "collect_ic_off", title: "menu_my_collection".localized),
-                              Tag(type: .account, image: "menu_ic_hotDraw", title: "menu_account".localized),
+                              Tag(type: .account, image: "menu_ic_account", title: "menu_account".localized),
                               Tag(type: .signOut, image: "menu_ic_out", title: "menu_sign_out".localized)]
     private let refreshControl = UIRefreshControl()
     private var dataRequest: DataRequest?
