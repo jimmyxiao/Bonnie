@@ -267,7 +267,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		imgarray[4] = new Image();
 		imgarray[4].src = 'assets/images/BrushImage/FeltPen_brush_45_c.png';
-		brush_Alpha[4] = 0.02;//0.4
+		brush_Alpha[4] = 0.03;//0.4
 		brush_imgAlpha[4] = 1;
 		bursh_array[4] = '麥克筆'
 		brush_Composite[4] ='source-over';
@@ -275,7 +275,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		imgarray[5] = new Image();
 		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05-1.png';
-		brush_Alpha[5] = 0.08//0.034;
+		brush_Alpha[5] = 0.02//0.034;
 		brush_imgAlpha[5] = 1;
 		bursh_array[5] = '噴槍'
 		brush_Composite[5] ='source-over';

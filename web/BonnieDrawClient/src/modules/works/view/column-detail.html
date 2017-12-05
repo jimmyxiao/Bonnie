@@ -102,13 +102,17 @@
 											<div class="_1eg8c">
 												<div class="_l8yre _5g4e2 col-md-4 col-sm-4 col-xs-4">
 													<!-- <button class="_1frkc" title="更換大頭貼照"> -->
-													<img class="_fya1f" ng-if="mainSection.profilePicture!=null && mainSection.profilePicture!=''" ng-src="{{imageLoadUrl}}{{mainSection.profilePicture}}">	
-													<img class="_fya1f" ng-if="mainSection.profilePicture==null || mainSection.profilePicture==''" src="assets/images/avatar/photo-round@3x.png">
+													<a href="#/userfile/{{mainSection.userId}}" rel="author">
+														<img class="_fya1f" ng-if="mainSection.profilePicture!=null && mainSection.profilePicture!=''" ng-src="{{imageLoadUrl}}{{mainSection.profilePicture}}">	
+														<img class="_fya1f" ng-if="mainSection.profilePicture==null || mainSection.profilePicture==''" src="assets/images/avatar/photo-round@3x.png">
+													</a>
 													<!-- </button> -->
 												</div>
 											</div>
 											<div class="col-md-8 col-sm-8 col-xs-4">
-												<h1 class="_9dz61">{{mainSection.userName}}</h1>
+												<a href="#/userfile/{{mainSection.userId}}" rel="author">
+													<h1 class="_9dz61">{{mainSection.userName}}</h1>
+												</a>
 												<p><i class="fa fa-calendar date-text"></i>{{mainSection.updateDate | date:"yyyy-MM-dd"}}</p>
 											</div>
 
