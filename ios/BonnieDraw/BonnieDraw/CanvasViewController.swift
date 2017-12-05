@@ -644,7 +644,7 @@ class CanvasViewController:
             }
             if !instantly {
                 timer?.invalidate()
-                timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
+                timer = Timer.scheduledTimer(withTimeInterval: ANIMATION_TIMER, repeats: false) {
                     timer in
                     handler(false)
                 }

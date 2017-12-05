@@ -121,6 +121,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         if sender.isSelected {
             timer?.invalidate()
             sender.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+            sender.isSelected = false
         } else {
             if drawPoints.isEmpty {
                 gridView.backgroundColor = .white
@@ -143,8 +144,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 draw(instantly: false)
             }
             sender.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
+            sender.isSelected = true
         }
-        sender.isSelected = !sender.isSelected
     }
 
     internal func canvasAnimationDidFinishAnimation() {
@@ -261,13 +262,16 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             }
             if !instantly {
                 timer?.invalidate()
-                timer = Timer.scheduledTimer(withTimeInterval: point.duration, repeats: false) {
+                timer = Timer.scheduledTimer(withTimeInterval: ANIMATION_TIMER, repeats: false) {
                     timer in
                     handler(false)
                 }
             } else {
                 handler(true)
             }
+        } else {
+            play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+            play.isSelected = false
         }
     }
 }

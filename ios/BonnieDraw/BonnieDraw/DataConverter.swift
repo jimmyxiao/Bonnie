@@ -24,10 +24,10 @@ class DataConverter: NSObject {
                         position: CGPoint(
                                 x: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / scale,
                                 y: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / scale),
-                        color: color(green: CGFloat(bytes.removeFirst()) / byteMax,
-                                blue: CGFloat(bytes.removeFirst()) / byteMax,
-                                alpha: CGFloat(bytes.removeFirst()) / byteMax,
-                                red: CGFloat(bytes.removeFirst()) / byteMax),
+                        color: color(blue: CGFloat(bytes.removeFirst()) / byteMax,
+                                green: CGFloat(bytes.removeFirst()) / byteMax,
+                                red: CGFloat(bytes.removeFirst()) / byteMax,
+                                alpha: CGFloat(bytes.removeFirst()) / byteMax),
                         action: Action(rawValue: bytes.removeFirst()) ?? .move,
                         size: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) * 2 / scale,
                         type: Type(rawValue: bytes.removeFirst()) ?? .pen,
@@ -55,10 +55,10 @@ class DataConverter: NSObject {
                 bytes.append(UInt8(scaledY & 0x00ff))
                 bytes.append(UInt8(scaledY >> 8))
                 let ciColor = CIColor(color: point.color)
-                bytes.append(UInt8(ciColor.green * byteMax))
                 bytes.append(UInt8(ciColor.blue * byteMax))
-                bytes.append(UInt8(ciColor.alpha * byteMax))
+                bytes.append(UInt8(ciColor.green * byteMax))
                 bytes.append(UInt8(ciColor.red * byteMax))
+                bytes.append(UInt8(ciColor.alpha * byteMax))
                 bytes.append(point.action.rawValue)
                 let scaledSize = UInt16(CGFloat(point.size / 2) * scale)
                 bytes.append(UInt8(scaledSize & 0x00ff))
@@ -74,7 +74,7 @@ class DataConverter: NSObject {
         return Data(bytes: bytes)
     }
 
-    private static func color(green: CGFloat, blue: CGFloat, alpha: CGFloat, red: CGFloat) -> UIColor {
+    private static func color(blue: CGFloat, green: CGFloat, red: CGFloat, alpha: CGFloat) -> UIColor {
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
