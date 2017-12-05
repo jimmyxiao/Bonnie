@@ -311,7 +311,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
                             defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
                             if let urlString = data["profilePicture"] as? String {
-                                defaults.set(URL(string: urlString), forKey: Default.THIRD_PARTY_IMAGE)
+                                defaults.set(URL(string: Service.filePath(withSubPath: urlString)), forKey: Default.THIRD_PARTY_IMAGE)
                             } else {
                                 defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
                             }
