@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     }
 
     private void logoutPlatform() {
-        switch (prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0)) {
+        switch (prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0)) {
             case GlobalVariable.EMAIL_LOGIN:
                 cleanValue();
                 break;

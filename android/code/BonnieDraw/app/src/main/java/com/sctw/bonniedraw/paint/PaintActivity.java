@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.colorpick.ColorBean;
+import com.sctw.bonniedraw.utility.BDWFileWriter;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -748,9 +749,24 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 mMenuPopup.dismiss();
                 break;
             case MenuPopup.PAINT_SETTING_EXTRA:
-                Log.d("當前顏色 int =", String.valueOf(mPaintView.getDrawingColor()));
-                Log.d("當前顏色", Integer.toHexString(mPaintView.getDrawingColor()));
+                saveBdw();
                 break;
+        }
+    }
+
+    public void saveBdw() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.TAIWAN);
+        Date curDate = new Date(System.currentTimeMillis());
+        String filename = formatter.format(curDate);
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File vPath = new File(Environment.getExternalStorageDirectory() + "/Screenshots");
+            if (!vPath.exists()) vPath.mkdirs();
+            File bdwfile = new File(Environment.getExternalStorageDirectory() + "/Screenshots/" + "BDW" + filename + ".bdw");
+            BDWFileWriter writer = new BDWFileWriter();
+            if (writer.WriteToFile(mPaintView.mListTagPoint, bdwfile.getAbsolutePath())) {
+                ToastUtil.createToastWindow(PaintActivity.this, "BDW儲存成功，檔案位於Screenshots資料夾。", PxDpConvert.getSystemHight(this) / 4);
+            }
+            mMenuPopup.dismiss();
         }
     }
 

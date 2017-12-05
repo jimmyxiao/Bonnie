@@ -93,8 +93,8 @@
         <item name="lineTaperFadeLength">0</item>
         <item name="lineTaperStartLength">0</item>
         <item name="maskImageArray0">@drawable/brush_01_gb45</item>
-        <item name="maxSize">23.153503dip</item>
-        <item name="minSize">1.3062134dip</item>
+        <item name="maxSize">160px</item>
+        <item name="minSize">1px</item>
         <item name="name">@string/brush_Pen</item>
         <item name="size">5.7261353dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
@@ -201,8 +201,8 @@
         <item name="lineTaperFadeLength">0</item>
         <item name="lineTaperStartLength">0</item>
         <item name="maskImageArray0">@drawable/brush_04</item>
-        <item name="maxSize">25.20633dip</item>
-        <item name="minSize">3.7460022dip</item>
+        <item name="maxSize">160px</item>
+        <item name="minSize">1px</item>
         <item name="name">@string/brush_SoftPencil</item>
         <item name="size">4.634918dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
@@ -379,8 +379,8 @@
         <item name="lineTaperFadeLength">0</item>
         <item name="lineTaperStartLength">0</item>
         <item name="maskImageArray0">@drawable/brush_05</item>
-        <item name="maxSize">120.0dip</item>
-        <item name="minSize">10.536987dip</item>
+        <item name="maxSize">160px</item>
+        <item name="minSize">1px</item>
         <item name="name">@string/brush_AirBrush</item>
         <item name="size">32.83017dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
@@ -451,8 +451,8 @@
         <item name="lineTaperFadeLength">0</item>
         <item name="lineTaperStartLength">0</item>
         <item name="maskImageArray0">@drawable/brush_45</item>
-        <item name="maxSize">62.41269dip</item>
-        <item name="minSize">13.523804dip</item>
+        <item name="maxSize">160px</item>
+        <item name="minSize">1px</item>
         <item name="name">@string/brush_FeltPen</item>
         <item name="size">28.761902dip</item>
         <item name="smudgingPatchAlpha">0.0</item>
@@ -633,8 +633,8 @@
         <item name="lineTaperFadeLength">0</item>
         <item name="lineTaperStartLength">0</item>
         <item name="maskImageArray0">@drawable/brush_18</item>
-        <item name="maxSize">36.313477dip</item>
-        <item name="minSize">6.357025dip</item>
+        <item name="maxSize">160px</item>
+        <item name="minSize">1px</item>
         <item name="name">@string/brush_Creyon</item>
         <item name="size">10.885315dip</item>
         <item name="smudgingPatchAlpha">0.9861718</item>

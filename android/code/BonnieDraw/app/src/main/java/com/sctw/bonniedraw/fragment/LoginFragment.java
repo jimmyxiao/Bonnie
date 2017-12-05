@@ -221,7 +221,7 @@ public class LoginFragment extends Fragment {
                         String photoUrl = userResult.data.profileImageUrl.replace("_normal", "_bigger");
                         String id = userResult.data.idStr;
                         prefs.edit()
-                                .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_TWITTER)
+                                .putInt(GlobalVariable.USER_THIRD_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_TWITTER)
                                 .putString(GlobalVariable.USER_TOKEN_STR, token)
                                 .putString(GlobalVariable.USER_NAME_STR, name)
                                 .putString(GlobalVariable.USER_EMAIL_STR, email)
@@ -288,7 +288,7 @@ public class LoginFragment extends Fragment {
                                 try {
                                     profilePicUrl = new URL(object.getJSONObject("picture").getJSONObject("data").getString("url"));
                                     prefs.edit()
-                                            .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_FACEBOOK)
+                                            .putInt(GlobalVariable.USER_THIRD_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_FACEBOOK)
                                             .putString(GlobalVariable.USER_TOKEN_STR, accessToken.toString())
                                             .putString(GlobalVariable.USER_NAME_STR, object.getString("name"))
                                             .putString(GlobalVariable.USER_EMAIL_STR, object.getString("email"))
@@ -334,7 +334,7 @@ public class LoginFragment extends Fragment {
                 try {
                     profilePicUrl = new URL(acct.getPhotoUrl().toString());
                     prefs.edit()
-                            .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_GOOGLE)
+                            .putInt(GlobalVariable.USER_THIRD_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_GOOGLE)
                             .putString(GlobalVariable.USER_TOKEN_STR, acct.getIdToken())
                             .putString(GlobalVariable.USER_NAME_STR, acct.getDisplayName())
                             .putString(GlobalVariable.USER_EMAIL_STR, acct.getEmail())
@@ -443,7 +443,7 @@ public class LoginFragment extends Fragment {
                             if (responseJSON.getInt("res") == 1) {
                                 //Successful
                                 prefs.edit()
-                                        .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.EMAIL_LOGIN)
+                                        .putInt(GlobalVariable.USER_THIRD_PLATFORM_STR, GlobalVariable.EMAIL_LOGIN)
                                         .putString(GlobalVariable.USER_PWD_STR, mInputEditTextPassword.getText().toString())
                                         .putString(GlobalVariable.USER_TOKEN_STR, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.USER_NAME_STR, responseJSON.getJSONObject("userInfo").getString("userName"))
@@ -489,7 +489,7 @@ public class LoginFragment extends Fragment {
 
     //登入失敗自己登出第三方平台
     public void logoutPlatform() {
-        switch (prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0)) {
+        switch (prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0)) {
             case GlobalVariable.EMAIL_LOGIN:
                 prefs.edit().clear().apply();
                 break;
@@ -583,7 +583,7 @@ public class LoginFragment extends Fragment {
         JSONObject json = new JSONObject();
         try {
             // 1登入 2註冊 3檢查EMAIL
-            int platform = prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0);
+            int platform = prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0);
             if (platform == GlobalVariable.THIRD_LOGIN_FACEBOOK || platform == GlobalVariable.THIRD_LOGIN_TWITTER) {
                 json.put("uc", prefs.getString(GlobalVariable.USER_FB_TWITTER_ID_STR, ""));
             } else {
@@ -592,7 +592,7 @@ public class LoginFragment extends Fragment {
 
             switch (style) {
                 case GlobalVariable.API_LOGIN_CODE:
-                    json.put("ut", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
+                    json.put("ut", prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0));
                     json.put("un", prefs.getString(GlobalVariable.USER_NAME_STR, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
@@ -602,7 +602,7 @@ public class LoginFragment extends Fragment {
                     json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
                     break;
                 case GlobalVariable.API_REGISTER_CODE:
-                    json.put("ut", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
+                    json.put("ut", prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0));
                     json.put("un", prefs.getString(GlobalVariable.USER_NAME_STR, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_REGISTER);
@@ -610,7 +610,7 @@ public class LoginFragment extends Fragment {
                     json.put("thirdPictureUrl", prefs.getString(GlobalVariable.USER_IMG_URL_STR, ""));
                     break;
                 case GlobalVariable.API_CHECK_EMAIL_CODE:
-                    json.put("ut", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
+                    json.put("ut", prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_CHECK_EMAIL);
                     json.put("thirdEmail", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));

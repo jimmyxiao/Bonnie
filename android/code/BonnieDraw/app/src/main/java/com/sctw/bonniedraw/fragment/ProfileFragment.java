@@ -61,7 +61,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class ProfileFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
     private CircleImageView imgPhoto;
     private TextView mTextViewUserName, mTextViewUserId, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
-    private ImageButton mImgBtnBookmark, mImgBtnSetting, mImgBtnGrid, mImgBtnList;
+    private ImageButton mImgBtnBookmark, mImgBtnSetting, mImgBtnGrid, mImgBtnList, mImgBtnFriends;
     private Button mBtnEdit;
     private SwipeRefreshLayout mSwipeLayoutProfile;
     private RecyclerView mRecyclerViewProfile;
@@ -88,7 +88,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        miUserId=Integer.valueOf(prefs.getString(GlobalVariable.API_UID,"null"));
+        miUserId = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, "null"));
         imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
         mSwipeLayoutProfile = view.findViewById(R.id.swipeLayout_profile);
         mLlFans = (LinearLayout) view.findViewById(R.id.ll_profile_fans);
@@ -103,6 +103,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mImgBtnSetting = (ImageButton) view.findViewById(R.id.imgBtn_profile_setting);
         mImgBtnGrid = (ImageButton) view.findViewById(R.id.imgBtn_profile_grid);
         mImgBtnList = (ImageButton) view.findViewById(R.id.imgBtn_profile_list);
+        mImgBtnFriends = (ImageButton) view.findViewById(R.id.imgBtn_profile_friends);
         mBtnEdit = view.findViewById(R.id.btn_profile_edit);
         mRecyclerViewProfile = (RecyclerView) view.findViewById(R.id.recyclerview_profile);
         updateProfileInfo();
@@ -116,14 +117,24 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     }
 
     private void setOnClick() {
+        mImgBtnFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout_actitivy, new FriendsFragment());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
         mLlFans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 // 2=fans   1=follow
-                bundle.putInt("fn",2);
-                bundle.putInt("uid",miUserId);
-                FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
+                bundle.putInt("fn", 2);
+                bundle.putInt("uid", miUserId);
+                FansOrFollowFragment fansOrFollowFragment = new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
@@ -135,10 +146,10 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mLlFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle=new Bundle();
-                bundle.putInt("fn",1);
-                bundle.putInt("uid",miUserId);
-                FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("fn", 1);
+                bundle.putInt("uid", miUserId);
+                FansOrFollowFragment fansOrFollowFragment = new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
@@ -308,9 +319,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
-                Bundle bundle=new Bundle();
-                bundle.putInt("wid",wid);
-                PlayFragment playFragment=new PlayFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("wid", wid);
+                PlayFragment playFragment = new PlayFragment();
                 playFragment.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
@@ -485,9 +496,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true,0);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true, 0);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false,0);
+                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
@@ -504,9 +515,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     @Override
     public void onWorkImgClick(int wid) {
-        Bundle bundle=new Bundle();
-        bundle.putInt("wid",wid);
-        PlayFragment playFragment=new PlayFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("wid", wid);
+        PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);

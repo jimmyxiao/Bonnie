@@ -49,7 +49,7 @@
             app:srcCompat="@drawable/collect_ic_off" />
 
         <ImageButton
-            android:id="@+id/imgBtn_profile_add"
+            android:id="@+id/imgBtn_profile_friends"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

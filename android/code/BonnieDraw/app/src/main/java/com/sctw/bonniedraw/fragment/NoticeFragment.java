@@ -1,11 +1,12 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.app.NotificationManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,14 +44,15 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NoticeFragment extends Fragment {
+public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeClickListener {
     SharedPreferences prefs;
     RecyclerView mRv;
     NoticeAdapter mAdapter;
     ArrayList<NoticeInfoBean> noticeInfoList;
     SwipeRefreshLayout mSwipeLayout;
     FrameLayout mFrameLayout;
-    NotificationManager mNotificationManager;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +68,7 @@ public class NoticeFragment extends Fragment {
         mRv = view.findViewById(R.id.recyclerView_notice);
         LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(lm);
+        fragmentManager=getFragmentManager();
         mSwipeLayout = view.findViewById(R.id.swipeLayout_notice);
         mFrameLayout = view.findViewById(R.id.frameLayout_notice);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -146,7 +149,33 @@ public class NoticeFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        mAdapter = new NoticeAdapter(getContext(), noticeInfoList);
+        mAdapter = new NoticeAdapter(getContext(), this, noticeInfoList);
         mRv.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onWorkImgClick(int wid) {
+        System.out.println("onWorkImgClick = " + wid);
+        Bundle bundle = new Bundle();
+        bundle.putInt("wid", wid);
+        PlayFragment playFragment = new PlayFragment();
+        playFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onUserImgClick(int uid) {
+        System.out.println("onUserImgClick = " + uid);
+        MemberFragment memberFragment = new MemberFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("userId", uid);
+        memberFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

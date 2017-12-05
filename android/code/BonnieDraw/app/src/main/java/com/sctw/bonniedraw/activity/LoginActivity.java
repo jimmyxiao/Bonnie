@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkLoginInfo(SharedPreferences prefs) {
-        switch (prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0)) {
+        switch (prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0)) {
             case GlobalVariable.EMAIL_LOGIN:
                 loginEamil();
                 break;
@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (responseJSON.getInt("res") == 1) {
                                 //Successful
                                 prefs.edit()
-                                        .putInt(GlobalVariable.USER_PLATFORM_STR, GlobalVariable.EMAIL_LOGIN)
+                                        .putInt(GlobalVariable.USER_THIRD_PLATFORM_STR, GlobalVariable.EMAIL_LOGIN)
                                         .putString(GlobalVariable.USER_TOKEN_STR, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.USER_NAME_STR, responseJSON.getJSONObject("userInfo").getString("userName"))
                                         .putString(GlobalVariable.USER_EMAIL_STR, responseJSON.getJSONObject("userInfo").getString("email"))

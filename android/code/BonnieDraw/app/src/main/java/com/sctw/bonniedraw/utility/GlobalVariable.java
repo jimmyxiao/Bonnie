@@ -6,7 +6,7 @@ package com.sctw.bonniedraw.utility;
 
 public class GlobalVariable {
 
-    public static final String USER_PLATFORM_STR = "userPlatform";
+    public static final String USER_THIRD_PLATFORM_STR = "userPlatform";
     public static final String USER_FB_TWITTER_ID_STR = "userFbId";
     public static final String USER_PWD_STR = "userPwd";
     public static final String USER_TOKEN_STR = "userToken";

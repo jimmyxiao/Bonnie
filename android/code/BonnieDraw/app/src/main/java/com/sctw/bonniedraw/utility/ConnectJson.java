@@ -3,6 +3,7 @@ package com.sctw.bonniedraw.utility;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,13 +27,13 @@ public class ConnectJson {
         try {
             switch (type) {
                 case 3:
-                    int platform = prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0);
+                    int platform = prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0);
                     if (platform == GlobalVariable.THIRD_LOGIN_FACEBOOK || platform == GlobalVariable.THIRD_LOGIN_TWITTER) {
                         json.put("uc", prefs.getString(GlobalVariable.USER_FB_TWITTER_ID_STR, ""));
                     } else {
                         json.put("uc", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
                     }
-                    json.put("ut", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
+                    json.put("ut", prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0));
                     json.put("un", prefs.getString(GlobalVariable.USER_NAME_STR, ""));
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
@@ -135,7 +136,7 @@ public class ConnectJson {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("userType", prefs.getInt(GlobalVariable.USER_PLATFORM_STR, 0));
+            json.put("userType", prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0));
             json.put("userCode", prefs.getString(GlobalVariable.USER_EMAIL_STR, "null"));
             json.put("userName", userName);
             json.put("nickName", nickName);
@@ -413,6 +414,27 @@ public class ConnectJson {
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("fn", fn);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_FOLLOW_LIST_LINK)
+                .post(body)
+                .build();
+        return request;
+    }
+
+    public static Request queryFriends(SharedPreferences prefs, JSONArray uidList) {
+        //wt = 作品類別 , stn = 起始數 , rc = 筆數
+        JSONObject json = new JSONObject();
+        try {
+            json.put("ui", prefs.getString(GlobalVariable.API_UID,""));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("thirdPlatform", prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR,0));
+            json.put("uidList", uidList);
+            System.out.println(json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

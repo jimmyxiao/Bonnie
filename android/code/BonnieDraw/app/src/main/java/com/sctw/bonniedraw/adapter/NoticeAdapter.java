@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +26,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder> {
     private List<NoticeInfoBean> data;
     private Context context;
+    private OnNoticeClickListener listener;
 
-    public NoticeAdapter(Context context, List<NoticeInfoBean> data) {
+    public NoticeAdapter(Context context, OnNoticeClickListener listener, List<NoticeInfoBean> data) {
         this.context = context;
+        this.listener = listener;
         this.data = data;
     }
 
@@ -54,15 +57,45 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
         holder.mTvMsg.setText(selectType(data.get(holder.getAdapterPosition()).getWorkMsg(), data.get(holder.getAdapterPosition()).getNotiMsgType()));
         Glide.with(context).load(workImgUrl).into(holder.mIvWork);
         Glide.with(context).load(userImgUrl).apply(GlideAppModule.getUserOptions()).into(holder.circleImageView);
+
+        holder.mTvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onUserImgClick(data.get(holder.getAdapterPosition()).getUserIdFollow());
+            }
+        });
+
+        holder.circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onUserImgClick(data.get(holder.getAdapterPosition()).getUserIdFollow());
+            }
+        });
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onWorkImgClick(data.get(holder.getAdapterPosition()).getWorkId());
+            }
+        });
+
+        holder.mIvWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onWorkImgClick(data.get(holder.getAdapterPosition()).getWorkId());
+            }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        ConstraintLayout layout;
         CircleImageView circleImageView;
         TextView mTvName, mTvTime, mTvMsg;
         ImageView mIvWork;
 
         ViewHolder(View v) {
             super(v);
+            layout=v.findViewById(R.id.constraintLayout_notice);
             circleImageView = v.findViewById(R.id.circle_notice_user_img);
             mTvName = v.findViewById(R.id.textView_notice_name);
             mTvTime = v.findViewById(R.id.textView_notice_time);

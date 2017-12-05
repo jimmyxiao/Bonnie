@@ -996,7 +996,10 @@ public class PaintView extends View {
         TagPoint tagpoint = new TagPoint();
         tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
         tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
+        tagpoint.set_iSize(PxDpConvert.displayToFormat(getDrawingSize(), miWidth));
+        tagpoint.set_iBrush(miPaintNum);
         tagpoint.set_iTime((int) t);
+        tagpoint.set_iColor(mColor);
         tagpoint.set_iAction(MotionEvent.ACTION_MOVE + 1);
         mListTagPoint.add(tagpoint);
     }
