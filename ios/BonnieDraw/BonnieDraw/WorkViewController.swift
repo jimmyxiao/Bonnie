@@ -13,6 +13,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var canvas: JotView!
+    @IBOutlet weak var thumbnail: UIImageView?
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var profileImage: UIImageView!
@@ -38,6 +39,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     private var downloadRequest: DownloadRequest?
 
     override func viewDidLoad() {
+        thumbnail?.sd_setShowActivityIndicatorView(true)
+        thumbnail?.sd_setIndicatorStyle(.gray)
         if navigationBar.items?.first?.titleView == nil {
             let titleView = Bundle.main.loadView(from: "TitleView")
             titleView?.backgroundColor = .clear
@@ -109,7 +112,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                                 withScale: (CGFloat(UInt16.max) + 1) / min(self.canvas.bounds.width, self.canvas.bounds.height)))
                 if !self.drawPoints.isEmpty {
                     self.readHandle = readHandle
-                    self.draw(instantly: false)
+                    self.thumbnail?.setImage(with: self.work?.thumbnail)
                 }
             } catch let error {
                 Logger.d("\(#function): \(error.localizedDescription)")
@@ -123,6 +126,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     }
 
     @IBAction func play(_ sender: UIButton) {
+        thumbnail?.removeFromSuperview()
         if sender.isSelected {
             timer?.invalidate()
             sender.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
