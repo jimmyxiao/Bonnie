@@ -12,6 +12,7 @@ class Brush: JotBrushTexture {
     private var lastPoint = CGPoint.zero
     private var lastTimestamp = Date()
     private var imageName: String?
+    var image: UIImage?
     var minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
     var color = UIColor.black
     var isRotationSupported = false, isForceSupported = false, isVelocitySupported = false
@@ -32,6 +33,9 @@ class Brush: JotBrushTexture {
                 imageName = "Marker"
             default:
                 return
+            }
+            if image != nil {
+                image = nil
             }
         }
     }
@@ -138,13 +142,22 @@ class Brush: JotBrushTexture {
     private func brushTexture() -> JotBrushTexture {
         if type != .eraser {
             if let context = JotGLContext.current() as? JotGLContext {
-                if let texture = context.contextProperties[imageName] as? JotSharedBrushTexture {
-                    return texture
-                } else if let imageName = imageName, let texture = JotSharedBrushTexture(image: UIImage(named: imageName)) {
-                    context.contextProperties[imageName] = texture
-                    return texture
+                if let image = image {
+                    if let texture = JotSharedBrushTexture(image: image) {
+                        context.contextProperties[""] = texture
+                        return texture
+                    } else {
+                        return JotDefaultBrushTexture.sharedInstance()
+                    }
                 } else {
-                    return JotDefaultBrushTexture.sharedInstance()
+                    if let texture = context.contextProperties[imageName] as? JotSharedBrushTexture {
+                        return texture
+                    } else if let imageName = imageName, let texture = JotSharedBrushTexture(image: UIImage(named: imageName)) {
+                        context.contextProperties[imageName] = texture
+                        return texture
+                    } else {
+                        return JotDefaultBrushTexture.sharedInstance()
+                    }
                 }
             }
             return self

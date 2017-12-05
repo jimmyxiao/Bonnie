@@ -71,12 +71,20 @@
             // Allocate  memory needed for the bitmap context
             // calloc will zero out all the memory, so we don't have to
             // manually clear it w/ core graphics
-            GLubyte* brushData = (GLubyte*)calloc(width * height * 4, sizeof(GLubyte));
+            size_t bpc = CGImageGetBitsPerComponent(brushCGImage);
+            size_t bpp = CGImageGetBitsPerPixel(brushCGImage);
+            GLubyte* brushData = (GLubyte*)calloc(width * height * bpp / bpc, sizeof(GLubyte));
             if (!brushData) {
                 @throw [NSException exceptionWithName:@"Memory Exception" reason:@"can't malloc" userInfo:nil];
             }
             // Use  the bitmatp creation function provided by the Core Graphics framework.
-            CGContextRef brushContext = CGBitmapContextCreate(brushData, width, height, 8, width * 4, CGImageGetColorSpace(brushCGImage), (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+            CGContextRef brushContext = CGBitmapContextCreate(brushData,
+                                                              width,
+                                                              height,
+                                                              bpc,
+                                                              CGImageGetBytesPerRow(brushCGImage),
+                                                              CGImageGetColorSpace(brushCGImage),
+                                                              (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
             if (!brushContext) {
                 @throw [NSException exceptionWithName:@"CGContext Exception" reason:@"can't create new context" userInfo:nil];
             }

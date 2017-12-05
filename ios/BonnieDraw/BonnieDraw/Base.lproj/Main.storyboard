@@ -1765,7 +1765,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grid_line_icon" translatesAutoresizingMaskIntoConstraints="NO" id="sAj-XU-FIO">
-                                                    <rect key="frame" x="130.5" y="0.0" width="60" height="60"/>
+                                                    <rect key="frame" x="130" y="0.0" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="sAj-XU-FIO" secondAttribute="height" multiplier="1:1" id="hZ1-jd-uar"/>
                                                     </constraints>
@@ -1787,7 +1787,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="color_icon" translatesAutoresizingMaskIntoConstraints="NO" id="6WP-GM-Rl5">
-                                                    <rect key="frame" x="130.5" y="0.0" width="60" height="60"/>
+                                                    <rect key="frame" x="130" y="0.0" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="6WP-GM-Rl5" secondAttribute="height" multiplier="1:1" id="8jm-nH-Tqx"/>
                                                     </constraints>
@@ -1809,7 +1809,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="save_icon" translatesAutoresizingMaskIntoConstraints="NO" id="xuE-3t-Waw">
-                                                    <rect key="frame" x="130.5" y="0.0" width="60" height="60"/>
+                                                    <rect key="frame" x="130" y="0.0" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="xuE-3t-Waw" secondAttribute="height" multiplier="1:1" id="AFd-Le-88i"/>
                                                     </constraints>
@@ -1831,7 +1831,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="system_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Opf-6a-4hb">
-                                                    <rect key="frame" x="130.5" y="0.0" width="60" height="60"/>
+                                                    <rect key="frame" x="130" y="0.0" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Opf-6a-4hb" secondAttribute="height" multiplier="1:1" id="2wf-b0-fau"/>
                                                     </constraints>
@@ -1841,6 +1841,28 @@
                                                 <constraint firstAttribute="bottom" secondItem="Opf-6a-4hb" secondAttribute="bottom" id="62u-Vc-LdJ"/>
                                                 <constraint firstItem="Opf-6a-4hb" firstAttribute="top" secondItem="5cx-nl-TCX" secondAttribute="top" id="HGb-by-aQa"/>
                                                 <constraint firstItem="Opf-6a-4hb" firstAttribute="centerX" secondItem="5cx-nl-TCX" secondAttribute="centerX" id="jTX-lA-YVx"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="sVm-mL-xf7">
+                                        <rect key="frame" x="0.0" y="240" width="320" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sVm-mL-xf7" id="uaD-Q6-FIn">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_android_white" translatesAutoresizingMaskIntoConstraints="NO" id="2bp-m4-CH3">
+                                                    <rect key="frame" x="130" y="0.0" width="60" height="60"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="2bp-m4-CH3" secondAttribute="height" multiplier="1:1" id="s8v-NM-61g"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="2bp-m4-CH3" secondAttribute="bottom" id="Q1Z-lL-GhK"/>
+                                                <constraint firstItem="2bp-m4-CH3" firstAttribute="centerX" secondItem="uaD-Q6-FIn" secondAttribute="centerX" id="SpA-4g-yH0"/>
+                                                <constraint firstItem="2bp-m4-CH3" firstAttribute="top" secondItem="uaD-Q6-FIn" secondAttribute="top" id="n7s-uU-7ll"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1867,10 +1889,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="FJ6-sk-JpX">
-                                <rect key="frame" x="0.0" y="196" width="320" height="176"/>
+                                <rect key="frame" x="0.0" y="173" width="320" height="222"/>
                                 <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="WJd-E8-GJm">
+                                        <rect key="frame" x="16" y="0.0" width="288" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="點間距" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dsa-Er-Czt">
+                                                <rect key="frame" x="0.0" y="0.0" width="37" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <slider opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="KDM-cN-Z6r">
+                                                <rect key="frame" x="43" y="0.0" width="247" height="31"/>
+                                                <color key="minimumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="thumbTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <connections>
+                                                    <action selector="alphaSliderValueChanged:" destination="fXZ-Oj-GRn" eventType="valueChanged" id="hyn-Nr-vAO"/>
+                                                    <action selector="sliderValueChanged:" destination="szF-cK-l8c" eventType="valueChanged" id="nx4-ZX-Sdy"/>
+                                                    <action selector="stepWidthSliderValueChanged:" destination="fXZ-Oj-GRn" eventType="valueChanged" id="koN-Rq-Ot4"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Qeo-8u-Xu9">
-                                        <rect key="frame" x="16" y="0.0" width="288" height="32"/>
+                                        <rect key="frame" x="16" y="46" width="288" height="32"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="比刷不透明度" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JYz-Vo-DbA">
                                                 <rect key="frame" x="0.0" y="0.0" width="74" height="32"/>
@@ -1892,8 +1935,8 @@
                                                 <color key="minimumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="thumbTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
+                                                    <action selector="alphaSliderValueChanged:" destination="fXZ-Oj-GRn" eventType="valueChanged" id="t0c-wy-ElN"/>
                                                     <action selector="sliderValueChanged:" destination="szF-cK-l8c" eventType="valueChanged" id="pYs-kY-9DM"/>
-                                                    <action selector="sliderValueChanged:" destination="fXZ-Oj-GRn" eventType="valueChanged" id="t0c-wy-ElN"/>
                                                 </connections>
                                             </slider>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnp-lg-DpL">
@@ -1908,7 +1951,7 @@
                                         </subviews>
                                     </stackView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cKe-Og-VIa">
-                                        <rect key="frame" x="0.0" y="48" width="320" height="128"/>
+                                        <rect key="frame" x="0.0" y="94" width="320" height="128"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="128" id="gWg-vY-d7E"/>
@@ -1948,7 +1991,9 @@
                                     </collectionView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="WJd-E8-GJm" firstAttribute="leading" secondItem="FJ6-sk-JpX" secondAttribute="leading" constant="16" id="BVw-1C-YHA"/>
                                     <constraint firstItem="Qeo-8u-Xu9" firstAttribute="leading" secondItem="FJ6-sk-JpX" secondAttribute="leading" constant="16" id="Rv6-MG-WOi"/>
+                                    <constraint firstAttribute="trailing" secondItem="WJd-E8-GJm" secondAttribute="trailing" constant="16" id="cEd-Cd-rbf"/>
                                     <constraint firstItem="cKe-Og-VIa" firstAttribute="leading" secondItem="FJ6-sk-JpX" secondAttribute="leading" id="cuS-YR-db4"/>
                                     <constraint firstAttribute="trailing" secondItem="Qeo-8u-Xu9" secondAttribute="trailing" constant="16" id="xE0-AG-la9"/>
                                     <constraint firstAttribute="trailing" secondItem="cKe-Og-VIa" secondAttribute="trailing" id="yNo-rk-sUd"/>
@@ -1964,9 +2009,10 @@
                         <viewLayoutGuide key="safeArea" id="wo6-jQ-pR2"/>
                     </view>
                     <connections>
+                        <outlet property="alphaSlider" destination="sxB-nZ-egy" id="S5e-uc-BJA"/>
                         <outlet property="decrease" destination="Wtf-JB-pow" id="Vmu-QQ-Fp0"/>
                         <outlet property="increase" destination="jnp-lg-DpL" id="kg0-hS-FeY"/>
-                        <outlet property="slider" destination="sxB-nZ-egy" id="S5e-uc-BJA"/>
+                        <outlet property="stepWidthSlider" destination="KDM-cN-Z6r" id="VYV-jj-vZ4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ih6-NW-Og8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2064,6 +2110,7 @@
         <image name="draw_pen_ic_1" width="11" height="51"/>
         <image name="drawplay_ic_play" width="25" height="32"/>
         <image name="grid_line_icon" width="28" height="26"/>
+        <image name="ic_android_white" width="24" height="24"/>
         <image name="less_icon_off" width="32" height="32"/>
         <image name="less_icon_on" width="32" height="32"/>
         <image name="loading_icon" width="89" height="89"/>

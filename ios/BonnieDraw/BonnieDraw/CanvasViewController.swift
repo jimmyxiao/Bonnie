@@ -16,7 +16,9 @@ class CanvasViewController:
         CanvasSettingTableViewControllerDelegate,
         SizePickerViewControllerDelegate,
         BrushPickerViewControllerDelegate,
-        ColorPickerViewControllerDelegate {
+        ColorPickerViewControllerDelegate,
+        UIImagePickerControllerDelegate,
+        UINavigationControllerDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var canvas: JotView!
     @IBOutlet weak var gridView: GridView!
@@ -243,7 +245,7 @@ class CanvasViewController:
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            controller.preferredContentSize = CGSize(width: 60, height: 240)
+            controller.preferredContentSize = CGSize(width: 60, height: DEBUG ? 300 : 240)
         } else if let controller = segue.destination as? SizePickerViewController {
             controller.delegate = self
             controller.value = Float(brush.minSize)
@@ -253,11 +255,12 @@ class CanvasViewController:
             controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width / 2, height: 76)
         } else if let controller = segue.destination as? BrushPickerViewController {
             controller.delegate = self
-            controller.value = Float(brush.maxAlpha)
+            controller.stepWidth = Float(brush.stepWidth)
+            controller.alpha = Float(brush.maxAlpha)
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width / 2, height: 208)
+            controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width / 4, height: DEBUG ? 256 : 208)
         } else if let controller = segue.destination as? ColorPickerViewController {
             controller.delegate = self
             if segue.identifier == Segue.BACKGROUND_COLOR {
@@ -372,7 +375,18 @@ class CanvasViewController:
         case 3:
             break
         default:
-            break
+            let controller = UIImagePickerController()
+            controller.delegate = self
+            controller.sourceType = .photoLibrary
+            present(controller, animated: true)
+        }
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            brush.image = image
+            penButton.setImage(UIImage(named: "ic_android_white"), for: .normal)
+            picker.dismiss(animated: true)
         }
     }
 
@@ -386,7 +400,16 @@ class CanvasViewController:
         UIGraphicsEndImageContext()
     }
 
-    internal func brushPicker(didSelect type: Type) {
+    internal func brushPicker(didSelectStepWidth stepWidth: CGFloat) {
+        brush.stepWidth = stepWidth
+    }
+
+    internal func brushPicker(didSelectAlpha alpha: CGFloat) {
+        brush.minAlpha = alpha - 0.2
+        brush.maxAlpha = alpha
+    }
+
+    internal func brushPicker(didSelectType type: Type) {
         brush.type = type
         var image: UIImage? = nil
         switch type {
@@ -404,11 +427,6 @@ class CanvasViewController:
             return
         }
         penButton.setImage(image, for: .normal)
-    }
-
-    internal func brushPicker(didSelect alpha: CGFloat) {
-        brush.minAlpha = alpha - 0.2
-        brush.maxAlpha = alpha
     }
 
     internal func colorPicker(didSelect color: UIColor, type: ColorPickerViewController.ColorType?) {
