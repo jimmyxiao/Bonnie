@@ -96,7 +96,7 @@
         <item name="maxSize">160px</item>
         <item name="minSize">1px</item>
         <item name="name">@string/brush_Pen</item>
-        <item name="size">5.7261353dip</item>
+        <item name="size">2.7261353dip</item>
         <item name="smudgingPatchAlpha">0.9</item>
         <item name="spacing">0.24895397</item>
         <item name="spread">0.0</item>

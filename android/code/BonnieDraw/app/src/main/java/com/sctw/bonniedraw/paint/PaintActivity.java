@@ -729,8 +729,10 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     //*******Brush **********
 
     private void setBrush(int brushID) {
+        int tempSize=mPaintView.getBrush().getSize();
         Brush brush = Brushes.get(getApplicationContext())[brushID];
         mPaintView.setBrush(brush);
+        mPaintView.setDrawingSize(tempSize);
     }
 
     //設定選單

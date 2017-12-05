@@ -18,6 +18,10 @@ public class NotificaitonMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.d("FCM", "onMessageReceived:" + remoteMessage.getFrom());
+        if (remoteMessage.getNotification() != null) {
+            Log.d("FCM", "Message Notification Body: " + remoteMessage.getNotification().getBody());
+        }
+        sendNotification(remoteMessage.getFrom());
     }
 
     private void sendNotification(String body) {
