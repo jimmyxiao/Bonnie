@@ -192,7 +192,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05-1.png';
 		
 		var brush_Alpha = [
-			0, 0.9, 0.02, 1, 0.02, 0.08//0, 1, 1, 1, 0.4, 0.034
+			0, 0.4, 0.02, 1, 0.03, 0.02//0, 1, 1, 1, 0.4, 0.034|0, 0.9, 0.02, 1, 0.02, 0.08
 		];
 		
 		var brush_imgAlpha = [
@@ -300,8 +300,8 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					var angle = angleBetween(previewData, data);
 					if(brush == 1){
 						for (var distnum = 0; distnum < dist; distnum+=4) {
-							x = previewData.xPos + (Math.sin(angle) * distnum) - 25;
-							y = previewData.yPos + (Math.cos(angle) * distnum) - 25;
+							x = previewData.xPos + (Math.sin(angle) * distnum) ;
+							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							var Crayonimg = changeCrayon(imgdata,x,y);
 							//cxt.globalCompositeOperation = 'xor';
 							cxt.drawImage(Crayonimg, x, y, data.size, data.size);
@@ -351,7 +351,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			for(i=0;i<lines.length; i++){
 				lines[i].xPos = Math.floor(lines[i].xPos / 65536 * canvas_width);
 				lines[i].yPos = Math.floor(lines[i].yPos / 65536 * canvas_width);
-				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width)*2;
+				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width);
 				switch(lines[i].action){
 				case 1:
 					var bigint = parseInt(lines[i].color, 16);
@@ -368,6 +368,8 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					};
 					setDotInfo(lines[i].color, lines[i].size, lines[i].brush);	// tmpBrush = lines[i].brush;
 					lines[i].time = 0;
+					lines[i].xPos -= lines[i].size/2;
+					lines[i].yPos -= lines[i].size/2;
 					break;
 				
 				case 2:
@@ -382,6 +384,8 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					lines[i].color = util.clone(dotInfo.tmpColor);
 					lines[i].size = util.clone(dotInfo.tmpSize);
 					lines[i].brush = util.clone(dotInfo.tmpBrush);	// lines[i].brush = 4;
+					lines[i].xPos -= util.clone(dotInfo.tmpSize)/2;
+					lines[i].yPos -= util.clone(dotInfo.tmpSize)/2;
 					break;
 				}
 			}
