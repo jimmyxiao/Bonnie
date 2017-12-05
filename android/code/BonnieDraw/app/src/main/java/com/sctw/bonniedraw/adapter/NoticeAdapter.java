@@ -48,6 +48,8 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
         String userImgUrl = "";
         if (!data.get(position).getImagePath().equals("null")) {
             workImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath();
+        } else {
+            holder.mIvWork.setVisibility(View.INVISIBLE);
         }
         if (!data.get(position).getProfilePicture().equals("null")) {
             userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getProfilePicture();
@@ -72,19 +74,28 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
             }
         });
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onWorkImgClick(data.get(holder.getAdapterPosition()).getWorkId());
-            }
-        });
+        if (data.get(holder.getAdapterPosition()).getWorkId() != 0) {
+            holder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onWorkImgClick(data.get(holder.getAdapterPosition()).getWorkId());
+                }
+            });
 
-        holder.mIvWork.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onWorkImgClick(data.get(holder.getAdapterPosition()).getWorkId());
-            }
-        });
+            holder.mIvWork.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onWorkImgClick(data.get(holder.getAdapterPosition()).getWorkId());
+                }
+            });
+        } else {
+            holder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onUserImgClick(data.get(holder.getAdapterPosition()).getUserIdFollow());
+                }
+            });
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -95,7 +106,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
 
         ViewHolder(View v) {
             super(v);
-            layout=v.findViewById(R.id.constraintLayout_notice);
+            layout = v.findViewById(R.id.constraintLayout_notice);
             circleImageView = v.findViewById(R.id.circle_notice_user_img);
             mTvName = v.findViewById(R.id.textView_notice_name);
             mTvTime = v.findViewById(R.id.textView_notice_time);

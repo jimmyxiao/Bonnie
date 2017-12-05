@@ -68,7 +68,7 @@ public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeCl
         mRv = view.findViewById(R.id.recyclerView_notice);
         LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(lm);
-        fragmentManager=getFragmentManager();
+        fragmentManager = getFragmentManager();
         mSwipeLayout = view.findViewById(R.id.swipeLayout_notice);
         mFrameLayout = view.findViewById(R.id.frameLayout_notice);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -137,7 +137,11 @@ public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeCl
                     bean.setUserIdFollow(data.getJSONObject(x).getInt("userIdFollow"));
                     bean.setUserNameFollow(data.getJSONObject(x).getString("userNameFollow"));
                     bean.setProfilePicture(data.getJSONObject(x).getString("profilePicture"));
-                    bean.setWorkId(data.getJSONObject(x).getInt("worksId"));
+                    if (data.getJSONObject(x).getString("worksId").equals("null")) {
+                        bean.setWorkId(0);
+                    }else {
+                        bean.setWorkId(data.getJSONObject(x).getInt("worksId"));
+                    }
                     bean.setWorkMsg(data.getJSONObject(x).getString("worksMsg"));
                     bean.setTitle(data.getJSONObject(x).getString("title"));
                     bean.setImagePath(data.getJSONObject(x).getString("imagePath"));
