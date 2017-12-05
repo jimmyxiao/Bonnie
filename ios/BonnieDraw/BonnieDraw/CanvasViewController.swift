@@ -110,15 +110,11 @@ class CanvasViewController:
 
     @objc func applicationDidEnterBackground(notification: Notification) {
         timer?.invalidate()
-        if drawPoints.isEmpty {
-            saveToDraft()
-        }
+        saveToDraft()
     }
 
     override func onBackPressed(_ sender: Any) {
-        if drawPoints.isEmpty {
-            saveToDraft()
-        }
+        saveToDraft()
         super.onBackPressed(sender)
     }
 
@@ -581,27 +577,30 @@ class CanvasViewController:
     }
 
     private func saveToDraft() {
-        do {
-            let manager = FileManager.default
-            if manager.fileExists(atPath: draftUrl.path) {
-                try manager.removeItem(at: draftUrl)
-            }
-            try manager.copyItem(at: self.cacheUrl, to: draftUrl)
-            var pointsToSave = [Point]()
-            for path in paths {
-                for point in path.points {
-                    pointsToSave.append(point)
+        if drawPoints.isEmpty {
+            do {
+                let manager = FileManager.default
+                if manager.fileExists(atPath: draftUrl.path) {
+                    try manager.removeItem(at: draftUrl)
                 }
+                try manager.copyItem(at: self.cacheUrl, to: draftUrl)
+                var pointsToSave = [Point]()
+                for path in paths {
+                    for point in path.points {
+                        pointsToSave.append(point)
+                    }
+                }
+                let handle = try FileHandle(forWritingTo: draftUrl)
+                if !pointsToSave.isEmpty {
+                    handle.seekToEndOfFile()
+                    handle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+                }
+                handle.closeFile()
+            } catch {
+                Logger.d("\(#function): \(error.localizedDescription)")
             }
-            let handle = try FileHandle(forWritingTo: draftUrl)
-            if !pointsToSave.isEmpty {
-                handle.seekToEndOfFile()
-                handle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
-            }
-            handle.closeFile()
-        } catch {
-            Logger.d("\(#function): \(error.localizedDescription)")
         }
+        canvas.exportImage(to: <#T##String!#>, andThumbnailTo: <#T##String!#>, andStateTo: <#T##String!#>, withThumbnailScale: <#T##CGFloat#>, onComplete: <#T##((UIImage?, UIImage?, JotViewImmutableState?) -> Void)!##((UIImage?, UIImage?, JotViewImmutableState?) -> Void)!##(UIImage?, UIImage?, JotViewImmutableState?) -> Void#>)
     }
 
     private func draw(instantly: Bool) {
