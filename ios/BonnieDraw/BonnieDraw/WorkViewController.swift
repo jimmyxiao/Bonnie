@@ -60,12 +60,17 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     override func viewWillDisappear(_ animated: Bool) {
         timer?.invalidate()
+        if !drawPoints.isEmpty {
+            canvas.drawCancelled()
+        }
         downloadRequest?.cancel()
         NotificationCenter.default.removeObserver(self)
     }
 
     @objc func applicationDidEnterBackground(notification: Notification) {
         timer?.invalidate()
+        play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+        play.isSelected = false
     }
 
     private func downloadData() {
@@ -104,7 +109,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                                 withScale: (CGFloat(UInt16.max) + 1) / min(self.canvas.bounds.width, self.canvas.bounds.height)))
                 if !self.drawPoints.isEmpty {
                     self.readHandle = readHandle
-                    self.draw(instantly: true)
+                    self.draw(instantly: false)
                 }
             } catch let error {
                 Logger.d("\(#function): \(error.localizedDescription)")

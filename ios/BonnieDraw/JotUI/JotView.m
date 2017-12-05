@@ -1613,7 +1613,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
         @autoreleasepool {
             // If appropriate, add code necessary to save the state of the application.
             // This application is not saving state.
-            if ([[JotStrokeManager sharedInstance] cancelStrokeForTouch:touch]) {
+            if ([[JotStrokeManager sharedInstance] cancelStrokeForHash:touch.hash]) {
                 state.currentStroke = nil;
             }
         }
@@ -2124,4 +2124,16 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     [JotGLContext validateEmptyContextStack];
 }
 
+- (void)drawCancelled {
+    CheckMainThread;
+    if (!state)
+        return;
+    @autoreleasepool {
+        if ([[JotStrokeManager sharedInstance] cancelStrokeForHash:0]) {
+            state.currentStroke = nil;
+        }
+    }
+    [self renderAllStrokesToContext:context inFramebuffer:viewFramebuffer andPresentBuffer:YES inRect:CGRectZero];
+    [JotGLContext validateEmptyContextStack];
+}
 @end

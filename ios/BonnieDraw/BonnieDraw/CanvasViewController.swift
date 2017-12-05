@@ -29,7 +29,7 @@ class CanvasViewController:
     @IBOutlet weak var settingButton: UIBarButtonItem!
     @IBOutlet weak var sizeButton: UIBarButtonItem!
     @IBOutlet weak var eraserButton: UIBarButtonItem!
-    @IBOutlet weak var penButton: UIButton!
+    @IBOutlet weak var brushButton: UIButton!
     @IBOutlet weak var resetButton: UIBarButtonItem!
     @IBOutlet weak var colorButton: UIBarButtonItem!
     private var brush = Brush(withBrushType: .pen, minSize: 6, maxSize: 12, minAlpha: 0.6, maxAlpha: 0.8)
@@ -64,7 +64,7 @@ class CanvasViewController:
     override func viewDidLoad() {
         brush.isForceSupported = true
         canvas.delegate = self
-        penButton.layer.cornerRadius = view.bounds.width / 10
+        brushButton.layer.cornerRadius = view.bounds.width / 10
         let size = CGSize(width: 33, height: 33)
         let count = UserDefaults.standard.integer(forKey: Default.GRID)
         gridView.set(horizontalCount: count, verticalCount: count)
@@ -102,16 +102,23 @@ class CanvasViewController:
 
     override func viewWillDisappear(_ animated: Bool) {
         timer?.invalidate()
+        if !drawPoints.isEmpty {
+            canvas.drawCancelled()
+        }
         NotificationCenter.default.removeObserver(self)
     }
 
     @objc func applicationDidEnterBackground(notification: Notification) {
         timer?.invalidate()
-        saveToDraft()
+        if drawPoints.isEmpty {
+            saveToDraft()
+        }
     }
 
     override func onBackPressed(_ sender: Any) {
-        saveToDraft()
+        if drawPoints.isEmpty {
+            saveToDraft()
+        }
         super.onBackPressed(sender)
     }
 
@@ -182,6 +189,7 @@ class CanvasViewController:
             settingButton.isEnabled = false
             sizeButton.isEnabled = false
             eraserButton.isEnabled = false
+            brushButton.isEnabled = false
             resetButton.isEnabled = false
             colorButton.isEnabled = false
             canvas.isUserInteractionEnabled = false
@@ -385,7 +393,7 @@ class CanvasViewController:
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             brush.image = image
-            penButton.setImage(UIImage(named: "ic_android_white"), for: .normal)
+            brushButton.setImage(UIImage(named: "ic_android_white"), for: .normal)
             picker.dismiss(animated: true)
         }
     }
@@ -426,7 +434,7 @@ class CanvasViewController:
         default:
             return
         }
-        penButton.setImage(image, for: .normal)
+        brushButton.setImage(image, for: .normal)
     }
 
     internal func colorPicker(didSelect color: UIColor, type: ColorPickerViewController.ColorType?) {
@@ -541,7 +549,7 @@ class CanvasViewController:
             if !drawPoints.isEmpty {
                 self.readHandle = readHandle
                 lastPenType = brush.type
-                draw(instantly: true)
+                draw(instantly: false)
             }
         } catch let error {
             Logger.d("\(#function): \(error.localizedDescription)")
@@ -660,6 +668,7 @@ class CanvasViewController:
             settingButton.isEnabled = true
             sizeButton.isEnabled = true
             eraserButton.isEnabled = true
+            brushButton.isEnabled = true
             colorButton.isEnabled = true
             canvas.isUserInteractionEnabled = true
         }

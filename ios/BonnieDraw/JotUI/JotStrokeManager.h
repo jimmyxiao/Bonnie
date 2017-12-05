@@ -37,7 +37,7 @@
  * returns true if a stroke exists and has
  * been cancelled
  */
-- (BOOL)cancelStrokeForTouch:(UITouch*)touch;
+- (BOOL)cancelStrokeForHash:(NSUInteger*)hash;
 
 /**
  * cancels a stroke

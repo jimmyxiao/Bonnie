@@ -93,12 +93,12 @@ static JotStrokeManager* _instance = nil;
     return ret;
 }
 
-- (BOOL)cancelStrokeForTouch:(UITouch*)touch {
+- (BOOL)cancelStrokeForHash:(NSUInteger*)hash {
     //
     // TODO: how do we notify the view that uses the stroke
     // that it should be cancelled?
     for (int i = 0; i < kMaxSimultaneousTouchesAllowedToTrack; i++) {
-        if (strokeCache[i].touchHash == touch.hash) {
+        if (strokeCache[i].touchHash == hash) {
             strokeCache[i].touchHash = 0;
             [strokeCache[i].stroke cancel];
             [strokeCache[i].stroke autorelease];

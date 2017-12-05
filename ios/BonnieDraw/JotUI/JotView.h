@@ -98,6 +98,7 @@
 - (void)drawBegan:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth;
 - (void)drawMoved:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth;
 - (void)drawEnded:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth;
+- (void)drawCancelled;
 
 #pragma mark - debug
 - (void)drawLongLine;

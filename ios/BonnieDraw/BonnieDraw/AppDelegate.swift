@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         snapshot.ref.setValue(tokens)
                     }
                 } else {
-                    snapshot.ref.setValue(["FCMToken": Messaging.messaging().fcmToken, "APNSToken": token])
+                    snapshot.ref.setValue([deviceName: ["FCMToken": Messaging.messaging().fcmToken, "APNSToken": token]])
                 }
             })
         }
