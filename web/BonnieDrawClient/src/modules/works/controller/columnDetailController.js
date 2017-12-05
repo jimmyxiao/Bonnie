@@ -243,7 +243,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		imgarray[1] = new Image();
 		imgarray[1].src = 'assets/images/BrushImage/Creyon_brush_18.png';
-		brush_Alpha[1] = 0.9;
+		brush_Alpha[1] = 0.4;
 		brush_imgAlpha[1] = 1;
 		bursh_array[1] = '蠟筆';
 		brush_Composite[1] ='source-over';
@@ -385,8 +385,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					if(data.brush==1){
 						for (var distnum = 0; distnum < dist; distnum+=4) {
 
-							x = previewData.xPos + (Math.sin(angle) * distnum) - 25;
-							y = previewData.yPos + (Math.cos(angle) * distnum) - 25;
+							x = previewData.xPos + (Math.sin(angle) * distnum) ;
+							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							//cxt.globalAlpha=0.04;
 							var Crayonimg = changeCrayon(imgdata,x,y);
 							//cxt.globalCompositeOperation='xor';
@@ -437,7 +437,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			for(i=0;i<lines.length; i++){
 				lines[i].xPos = Math.floor(lines[i].xPos / 65536 * canvas_width);
 				lines[i].yPos = Math.floor(lines[i].yPos / 65536 * canvas_width);
-				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width)*2;
+				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width);
 				if(lines[i].action){
 					switch(lines[i].action){
 						case 1:
@@ -457,7 +457,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							tmpColor = lines[i].color;
 							tmpSize = lines[i].size;
 							tmpBrush = lines[i].brush;
-							lines[i].time = 0;
+							lines[i].xPos -= tmpSize/2;
+							lines[i].yPos -= tmpSize/2;
 						break;
 						case 2:
 							lines[i].color = util.clone(tmpColor);
@@ -470,7 +471,9 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 						case 3:
 							lines[i].color = util.clone(tmpColor);
 							lines[i].size = util.clone(tmpSize);
-							lines[i].brush = util.clone(tmpBrush);	
+							lines[i].brush = util.clone(tmpBrush);
+							lines[i].xPos -= util.clone(tmpSize)/2;
+							lines[i].yPos -= util.clone(tmpSize)/2;
 						break;
 					}
 				}
