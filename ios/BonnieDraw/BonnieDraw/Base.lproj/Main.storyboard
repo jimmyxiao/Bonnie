@@ -251,7 +251,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="435"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IMJ-jP-hJb">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="502"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="520"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="PX3-xH-H4M">
                                                 <rect key="frame" x="16" y="16" width="288" height="44"/>
@@ -328,23 +328,8 @@
                                                     <outlet property="delegate" destination="wJn-NR-0b0" id="EC3-F5-X5A"/>
                                                 </connections>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLh-xA-yIh">
-                                                <rect key="frame" x="16" y="404" width="288" height="44"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d1X-Ye-EXO">
-                                                        <rect key="frame" x="0.0" y="0.0" width="288" height="44"/>
-                                                        <state key="normal" image="drawplay_ic_play"/>
-                                                        <connections>
-                                                            <action selector="play:" destination="wJn-NR-0b0" eventType="touchUpInside" id="m8l-6f-rVy"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="44" id="0o9-WN-z6m"/>
-                                                </constraints>
-                                            </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7nx-iV-rmL">
-                                                <rect key="frame" x="16" y="456" width="112" height="38"/>
+                                                <rect key="frame" x="16" y="474" width="112" height="38"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpe-ET-Y35">
                                                         <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
@@ -373,34 +358,61 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Sq-yt-thS">
-                                                <rect key="frame" x="271" y="456" width="33" height="38"/>
+                                                <rect key="frame" x="271" y="474" width="33" height="38"/>
                                                 <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                 <state key="normal" image="collect_ic_off"/>
                                             </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1hW-UI-a2o">
+                                                <rect key="frame" x="28.5" y="404" width="263" height="62"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XgX-1G-MTl">
+                                                        <rect key="frame" x="0.0" y="0.0" width="42" height="62"/>
+                                                        <state key="normal" image="drawplay_ic_down_on"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKs-KV-iox">
+                                                        <rect key="frame" x="50" y="0.0" width="42" height="62"/>
+                                                        <state key="normal" image="drawplay_ic_prev_on"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugb-3u-Zzs">
+                                                        <rect key="frame" x="100" y="0.0" width="63" height="62"/>
+                                                        <state key="normal" image="drawplay_ic_play"/>
+                                                        <connections>
+                                                            <action selector="play:" destination="wJn-NR-0b0" eventType="touchUpInside" id="4wA-gT-aV1"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcu-ob-Xqy">
+                                                        <rect key="frame" x="171" y="0.0" width="42" height="62"/>
+                                                        <state key="normal" image="drawplay_ic_next_on"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJd-B2-4j8">
+                                                        <rect key="frame" x="221" y="0.0" width="42" height="62"/>
+                                                        <state key="normal" image="drawplay_ic_doble_on"/>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="7Sq-yt-thS" firstAttribute="centerY" secondItem="7nx-iV-rmL" secondAttribute="centerY" id="041-6H-cI1"/>
                                             <constraint firstItem="7nx-iV-rmL" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" constant="16" id="0bj-st-pEU"/>
-                                            <constraint firstItem="7nx-iV-rmL" firstAttribute="top" secondItem="fLh-xA-yIh" secondAttribute="bottom" constant="8" id="2AB-Mc-y9n"/>
+                                            <constraint firstItem="1hW-UI-a2o" firstAttribute="centerX" secondItem="IMJ-jP-hJb" secondAttribute="centerX" id="0rk-Mu-kNY"/>
                                             <constraint firstItem="hHV-lQ-Dfn" firstAttribute="bottom" secondItem="PyN-mC-Mya" secondAttribute="bottom" id="Dg6-mc-kwa"/>
                                             <constraint firstAttribute="bottom" secondItem="7nx-iV-rmL" secondAttribute="bottom" constant="8" id="EcO-ld-JpV"/>
                                             <constraint firstItem="PX3-xH-H4M" firstAttribute="top" secondItem="IMJ-jP-hJb" secondAttribute="top" constant="16" id="GXU-ST-6Br"/>
                                             <constraint firstItem="PyN-mC-Mya" firstAttribute="top" secondItem="Cka-qb-CIQ" secondAttribute="bottom" constant="8" id="HQs-D7-UGb"/>
-                                            <constraint firstItem="fLh-xA-yIh" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" constant="16" id="HeM-N3-iTT"/>
                                             <constraint firstItem="PyN-mC-Mya" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" id="JV1-0T-gU3"/>
                                             <constraint firstItem="Cka-qb-CIQ" firstAttribute="leading" secondItem="Vsk-8R-8p8" secondAttribute="leading" id="Ms6-iF-ASe"/>
                                             <constraint firstItem="Cka-qb-CIQ" firstAttribute="top" secondItem="PX3-xH-H4M" secondAttribute="bottom" constant="8" id="VVj-Zh-3dv"/>
                                             <constraint firstItem="PX3-xH-H4M" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" constant="16" id="c46-3b-dKO"/>
+                                            <constraint firstItem="1hW-UI-a2o" firstAttribute="top" secondItem="PyN-mC-Mya" secondAttribute="bottom" constant="8" id="fqN-Kq-bAZ"/>
                                             <constraint firstAttribute="trailing" secondItem="PyN-mC-Mya" secondAttribute="trailing" id="gdy-j6-DPt"/>
                                             <constraint firstItem="hHV-lQ-Dfn" firstAttribute="trailing" secondItem="PyN-mC-Mya" secondAttribute="trailing" id="iDv-7o-gia"/>
-                                            <constraint firstAttribute="trailing" secondItem="fLh-xA-yIh" secondAttribute="trailing" constant="16" id="kK4-b9-O5e"/>
                                             <constraint firstAttribute="trailing" secondItem="7Sq-yt-thS" secondAttribute="trailing" constant="16" id="kQr-Un-y0l"/>
                                             <constraint firstItem="hHV-lQ-Dfn" firstAttribute="top" secondItem="PyN-mC-Mya" secondAttribute="top" id="pMo-QK-TbA"/>
                                             <constraint firstAttribute="trailing" secondItem="PX3-xH-H4M" secondAttribute="trailing" constant="16" id="pde-RI-V4r"/>
                                             <constraint firstItem="hHV-lQ-Dfn" firstAttribute="leading" secondItem="PyN-mC-Mya" secondAttribute="leading" id="tIc-s3-59X"/>
                                             <constraint firstAttribute="trailing" secondItem="Cka-qb-CIQ" secondAttribute="trailing" constant="16" id="vZM-fI-o9u"/>
-                                            <constraint firstItem="fLh-xA-yIh" firstAttribute="top" secondItem="PyN-mC-Mya" secondAttribute="bottom" constant="8" id="vxB-5a-E5O"/>
+                                            <constraint firstItem="7nx-iV-rmL" firstAttribute="top" secondItem="1hW-UI-a2o" secondAttribute="bottom" constant="8" id="wVI-Lm-gQC"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -457,7 +469,7 @@
                         <outlet property="gridView" destination="hHV-lQ-Dfn" id="1Xs-F8-f8j"/>
                         <outlet property="loading" destination="yDy-IQ-Hwa" id="Z6b-UP-RHk"/>
                         <outlet property="navigationBar" destination="Da8-0O-Aac" id="cdg-rG-Dnq"/>
-                        <outlet property="play" destination="d1X-Ye-EXO" id="klJ-UF-H7h"/>
+                        <outlet property="play" destination="ugb-3u-Zzs" id="T0g-Ap-PhB"/>
                         <outlet property="profileImage" destination="CSx-wS-p4o" id="SBC-2u-GXl"/>
                         <outlet property="profileName" destination="Vsk-8R-8p8" id="ue4-i8-Btc"/>
                         <outlet property="progressBar" destination="yxQ-Ni-VLM" id="Yl8-Ky-lmu"/>
@@ -467,7 +479,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-sx-Edr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="904" y="2315"/>
+            <point key="canvasLocation" x="903.75" y="2314.9647887323945"/>
         </scene>
         <!--Follow View Controller-->
         <scene sceneID="3iE-eI-gSs">
@@ -1154,7 +1166,11 @@
         <image name="bottom_bar_ic_notice" width="25" height="25"/>
         <image name="bottom_bar_ic_user" width="22" height="25"/>
         <image name="collect_ic_off" width="17" height="22"/>
-        <image name="drawplay_ic_play" width="25" height="32"/>
+        <image name="drawplay_ic_doble_on" width="42" height="42"/>
+        <image name="drawplay_ic_down_on" width="42" height="42"/>
+        <image name="drawplay_ic_next_on" width="42" height="42"/>
+        <image name="drawplay_ic_play" width="63" height="62"/>
+        <image name="drawplay_ic_prev_on" width="42" height="42"/>
         <image name="loading_icon" width="89" height="89"/>
         <image name="photo-square" width="300" height="300"/>
         <image name="share_icon" width="20" height="22"/>
