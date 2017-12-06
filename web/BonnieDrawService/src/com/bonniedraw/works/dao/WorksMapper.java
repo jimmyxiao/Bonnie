@@ -34,6 +34,12 @@ public interface WorksMapper {
     
     List<WorksResponse> queryOtherUserWorks(Map<String, Object> paramMap);
     
+    List<WorksResponse> queryCollectionWorks(Map<String, Object> paramMap);
+    
+    List<WorksResponse> queryRelatedTagWorks(Map<String, Object> paramMap);
+    
+    List<WorksResponse> querySearchWorks(Map<String, Object> paramMap);
+    
     int seletMaxPagination(Integer rc);
     
     int seletMaxPaginationBindUser(Map<String, Object> pagerMap);

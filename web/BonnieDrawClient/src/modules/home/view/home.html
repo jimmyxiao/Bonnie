@@ -147,19 +147,19 @@
 						</div>-->
 					</div>
 
- 					<div class="col-md-3 col-sm-4"  ng-show="secondarySectionArr_userLike!=null">
+ 					<div class="col-md-3 col-sm-4" ng-show="secondarySectionArr_userLike!=null">
 						<div class="sidebar">
 							<div class="sidebar-vid most-liked">
 								<h1 class="sidebar-heading">{{'HOME.USER_LIKE' | translate}}</h1>
 								<div class="media" ng-repeat="data in secondarySectionArr_userLike track by $index">
 									<div class="media-left">
-										<img ng-src="{{data.img}}" alt="not found">
+										<img ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
 									</div>
 									<div class="media-body">
 										<h1><a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a></h1>
 										<p>
-											<span><i class="fa fa-comment"></i>{{data.comment}}</span>
-											<span><i class="fa fa-eye"></i>{{data.view}}</span>
+											<span><i class="fa fa-comment"></i>{{data.msgCount}}</span>
+											<span><i class="fa fa-heart-o"></i>{{data.likeCount}}</span>
 										</p>
 									</div>
 								</div>
@@ -184,8 +184,8 @@
 							<div class="tags">
 								<h1 class="sidebar-heading">{{'HOME.KEYWORD' | translate}}</h1>
 								<ul class="list-inline list-unstyled">
-									<li ng-repeat="keyword in secondarySectionArr_keyword track by $index">
-										<a href="#/category-listing?type={{covertTag(keyword)}}">{{keyword}}</a>
+									<li ng-repeat="data in secondarySectionArr_keyword track by $index">
+										<a href="#/category-listing?type={{covertTag(data.tagName)}}">{{data.tagName}}</a>
 									</li>
 								</ul>
 							</div>

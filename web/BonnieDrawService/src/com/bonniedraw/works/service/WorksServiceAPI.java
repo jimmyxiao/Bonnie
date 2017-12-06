@@ -46,6 +46,8 @@ public interface WorksServiceAPI {
 	
 	public List<TagInfo> getTagList(String tagName);
 	
+	public Map<String, Object> getKeywordAndWorks(int userId);
+	
 	public Works getWorksMeta(Integer id);
 	
 }
