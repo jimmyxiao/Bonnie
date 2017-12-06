@@ -20,8 +20,9 @@
 								</span>
 			            	</div>
 			            	<a ng-href="#/column-detail?id={{secondarySectionArr_popular_first.worksId}}">
-			                	<img class="img-responsive hidden-sm hidden-xs" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb">
-			                	<img class="img-responsive hidden-md hidden-lg" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb">
+			                	<!-- <img class="img-responsive hidden-sm hidden-xs" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb">
+			                	<img class="img-responsive hidden-md hidden-lg" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb"> -->
+			                	<img class="img-responsive firstimg" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
 			                	<span class="play-icon">
 			                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">		                	
 			                	</span>			                			                
