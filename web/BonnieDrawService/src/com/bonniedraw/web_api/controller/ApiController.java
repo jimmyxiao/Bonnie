@@ -73,6 +73,7 @@ import com.bonniedraw.web_api.model.response.FileUploadResponseVO;
 import com.bonniedraw.web_api.model.response.FollowingListResponseVO;
 import com.bonniedraw.web_api.model.response.ForgetPwdResponseVO;
 import com.bonniedraw.web_api.model.response.FriendResponseVO;
+import com.bonniedraw.web_api.model.response.HomeRightBarResponseVO;
 import com.bonniedraw.web_api.model.response.LeaveMsgResponseVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
 import com.bonniedraw.web_api.model.response.NotiMsgResponseVO;
@@ -136,7 +137,9 @@ public class ApiController {
 		int ut = loginRequestVO.getUt();
 		int dt = loginRequestVO.getDt();
 		Integer gender = loginRequestVO.getGender();
-		if(dt!=3 && (ValidateUtil.isBlank(loginRequestVO.getToken()) || ValidateUtil.isBlank(loginRequestVO.getDeviceId())) ){
+		if(dt!=3 && (
+//				ValidateUtil.isBlank(loginRequestVO.getToken()) || 
+				ValidateUtil.isBlank(loginRequestVO.getDeviceId())) ){
 			msg = "FCM Token or Device ID can't empty";
 		}else if(ValidateUtil.isNotBlank(loginRequestVO.getUc()) 
 				&& (fn>=1 && fn<=3)
@@ -925,6 +928,23 @@ public class ApiController {
 				List<TagInfo> tagList = worksServiceAPI.getTagList(null);
 				respResult.setTagList(tagList);
 				respResult.setRes(1);
+		}else{
+			respResult.setRes(0);
+			msg = "帳號未登入"; 
+		}
+		respResult.setMsg(msg);
+		return respResult;
+	}
+	
+	@RequestMapping(value="/homeRightBar" , produces="application/json")
+	public @ResponseBody HomeRightBarResponseVO getKeywordAndWorks(HttpServletRequest request,HttpServletResponse resp, @RequestBody ApiRequestVO apiRequestVO) {
+		HomeRightBarResponseVO respResult = new HomeRightBarResponseVO();
+		respResult.setRes(2);
+		String msg = "";
+		if(isLogin(apiRequestVO)){
+				Map<String, Object> resultMap = worksServiceAPI.getKeywordAndWorks(apiRequestVO.getUi());
+				respResult.setRes(1);
+				respResult.setDataMap(resultMap);
 		}else{
 			respResult.setRes(0);
 			msg = "帳號未登入"; 

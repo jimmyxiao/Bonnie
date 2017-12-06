@@ -40,6 +40,15 @@ class Brush: JotBrushTexture {
         }
     }
 
+    override init() {
+        self.type = .pen
+        self.minSize = 6
+        self.maxSize = 12
+        self.minAlpha = 0.6
+        self.maxAlpha = 0.8
+        super.init()
+    }
+
     init(withBrushType type: Type, minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat) {
         self.type = type
         self.minSize = minSize

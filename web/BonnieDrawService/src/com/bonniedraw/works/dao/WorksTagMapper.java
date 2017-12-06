@@ -39,4 +39,8 @@ public interface WorksTagMapper {
     
     List<WorksResponse> queryTagWorkList(List<WorksTag> worksTagList);
     
+    List<WorksTag> getKeyword(int userId);
+    
+    List<WorksResponse> queryKeywordWorkList(List<WorksTag> worksTagList);
+    
 }

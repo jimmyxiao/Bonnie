@@ -2,6 +2,9 @@
 	background-color: #ee4b16;
 }
 
+.img-responsivefirstimg{
+	margin: auto;
+}
 .usercolor, .fanfollow a{
 	color: #333333;
 	text-decoration:none;

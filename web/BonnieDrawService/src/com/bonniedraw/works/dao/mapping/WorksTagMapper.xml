@@ -167,6 +167,8 @@
 	    <result column="LANGUAGE_CODE" jdbcType="VARCHAR" property="languageCode" />
 	    <result column="COUNTRY_CODE" jdbcType="VARCHAR" property="countryCode" />
 	    <result column="STATUS" jdbcType="INTEGER" property="status" />
+	    <result column="MSG_COUNT" jdbcType="INTEGER" property="msgCount" />
+    	<result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
   	</resultMap>
 	<select id="queryTagWorkList" parameterType="java.util.List" resultMap="WorksResponseModule">
 		select 
@@ -179,6 +181,45 @@
 	    <foreach collection="list" item="element" index="index" open="(" separator=","  close=")">
 	    	#{element.worksId}
 	    </foreach>
+	</select>
+	
+	<select id="getKeyword" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    	select TAG_NAME from ( 
+			select TAG_NAME, count(wt.TAG_NAME) as counter from 
+			works_tag wt left join works_collection wc on wt.WORKS_ID = wc.WORKS_ID
+			where 1=1
+			and wc.COLLECTION_TYPE = 1
+			and wc.USER_ID = #{ userId, jdbcType=INTEGER}
+			group by wt.TAG_NAME
+			order by counter desc
+			limit 5
+		) x
+  	</select>
+  	
+  	<select id="queryKeywordWorkList" parameterType="java.util.List" resultMap="WorksResponseModule">
+		select  
+	 	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+	 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+	 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, 
+	    ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT,
+	    ifnull(wm.MSG_COUNT,0) as MSG_COUNT
+	    from works wk 
+	    right join (select * from works_tag where tag_name in  
+	     	<foreach collection="list" item="element" index="index" open="(" separator=","  close=")">
+	    		#{element.tagName}
+	    	</foreach>
+	     ) wt on wt.works_id = wk.works_id
+	    left join user_info ur on ur.USER_ID = wk.USER_ID
+	    left join 
+	    (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
+	    left join
+    	(select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
+		where 1=1 
+	    and wk.PRIVACY_TYPE = 1
+	    and wk.STATUS = 1
+	    group by wk.WORKS_ID
+	    order by LIKE_COUNT desc, MSG_COUNT desc 
+	    LIMIT 6
 	</select>
   
 </mapper>

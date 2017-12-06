@@ -68,6 +68,24 @@ enum AccessControl: Int {
     case privateAccess
 }
 
+struct FileUrl {
+    static let CACHE = try! FileManager.default.url(
+            for: .documentationDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("cache.bdw")
+    static let DRAFT = try! FileManager.default.url(
+            for: .documentationDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("draft.bdw")
+    static let RESULT = try! FileManager.default.url(
+            for: .documentationDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("result.bdw")
+}
+
 struct Cell {
     static let BASIC = "basicCell"
     static let HOME = "homeCell"
@@ -135,6 +153,7 @@ struct Segue {
     static let DESCRIPTION = "descriptionSegue"
     static let WEB = "webSegue"
     static let COLLECTION = "collectionSegue"
+    static let ANIMATION = "animationSegue"
     static let UPLOAD = "uploadSegue"
     static let DEBUG = "debugSegue"
     static let RECOMMEND = "recommendSegue"

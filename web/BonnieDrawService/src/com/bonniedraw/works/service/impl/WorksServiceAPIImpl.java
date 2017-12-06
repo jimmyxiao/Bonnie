@@ -284,6 +284,21 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				worksResponseList = worksMapper.queryOtherUserWorks(paramMap);
 			}
 			break;
+		case 7:
+			worksResponseList = worksMapper.queryCollectionWorks(paramMap);
+			break;
+		case 8:
+			if(ValidateUtil.isNotBlank(workListRequestVO.getTagName())){
+				paramMap.put("tagName", workListRequestVO.getTagName());
+				worksResponseList = worksMapper.queryRelatedTagWorks(paramMap);
+			}
+			break;
+		case 9:
+			if(ValidateUtil.isNotBlank(workListRequestVO.getSearch())){
+				paramMap.put("search", workListRequestVO.getSearch());
+				worksResponseList = worksMapper.querySearchWorks(paramMap);
+			}
+			break;
 		}
 		return worksResponseList;
 	}
@@ -611,6 +626,18 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	public List<TagInfo> getTagList(String tagName) {
 		List<TagInfo> tagList = tagInfoMapper.getTagList(tagName);
 		return tagList;
+	}
+	
+	@Override
+	public Map<String, Object> getKeywordAndWorks(int userId) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<WorksTag> keywordList = worksTagMapper.getKeyword(userId);
+		if(ValidateUtil.isNotEmptyAndSize(keywordList)){
+			List<WorksResponse> worksList = worksTagMapper.queryKeywordWorkList(keywordList);
+			result.put("keyword", keywordList);
+			result.put("works", worksList);
+		}
+		return result;
 	}
 
 	@Override

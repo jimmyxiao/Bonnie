@@ -283,9 +283,15 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                                 message: data["msg"] as? String)
                     } else {
                         sender.isSelected = !sender.isSelected
-                        self.tableViewWorks[indexPath.row].isLike = sender.isSelected
+                        var work = self.tableViewWorks[indexPath.row]
+                        work.isLike = sender.isSelected
+                        if let likes = work.likes {
+                            work.likes = likes + (sender.isSelected ? 1 : -1)
+                        }
+                        self.tableViewWorks[indexPath.row] = work
                         if let cell = self.tableView.cellForRow(at: indexPath) as? HomeTableViewCell {
                             cell.likeButton.setImage(sender.isSelected ? self.likeImageSelected : self.likeImage, for: .normal)
+                            cell.likes.text = "\(work.likes ?? 0)" + "likes".localized
                         }
                     }
                 case .failure(let error):

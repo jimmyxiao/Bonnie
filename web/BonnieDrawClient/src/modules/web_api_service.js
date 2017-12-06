@@ -153,6 +153,9 @@ app.factory('AuthenticationService',['Base64','$http', '$cookieStore', '$rootSco
         },
         setTurnin: function(params,callback){
             return baseHttp.service('setTurnin' ,params,callback);
+        },
+        getHomeRightBar: function(params,callback){
+            return baseHttp.service('homeRightBar' ,params,callback);
         }
     }
 }).factory('userService', function(baseHttp) {
