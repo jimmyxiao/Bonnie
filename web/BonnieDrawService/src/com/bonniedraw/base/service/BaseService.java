@@ -142,6 +142,7 @@ public class BaseService extends PushNotificationsServiceImpl{
 							String  jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(sendBody);
 							HttpEntity<String> request = new HttpEntity<>(jsonString);
 							try {
+								LogUtils.info(getClass(), "start send notification message ==> " +  registerId);
 								CompletableFuture<String> pushNotification = send(request);
 								CompletableFuture.allOf(pushNotification).join();
 								String firebaseResponse = pushNotification.get();
