@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,7 +28,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     private static final String BACKUP_FILE_BDW = "/backup.bdw";
     private Handler mHandlerTimerPlay = new Handler();
     private TextView mTextViewPlayProgress;
-    private ImageButton mBtnBack, mBtnAutoPlay, mBtnNext, mBtnPrevious, mBtnGrid, mImgBtnReplay, mBtnPause, mBtnZoom;
+    private ImageButton mBtnBack, mBtnAutoPlay, mBtnNext, mBtnPrevious, mImgBtnReplay, mBtnPause, mBtnZoom;
     private int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 10;
     private FrameLayout mFrameLayoutFreePaint;
     private PaintView mPaintView;
@@ -54,7 +55,6 @@ public class PaintPlayActivity extends AppCompatActivity {
         mBtnAutoPlay = findViewById(R.id.imgBtn_autoplay);
         mBtnNext = findViewById(R.id.imgBtn_next);
         mBtnPrevious = findViewById(R.id.imgBtn_previous);
-        mBtnGrid = findViewById(R.id.imgBtn_paint_grid);
         mBtnBack = findViewById(R.id.imgBtn_paint_back);
         mBtnPause = findViewById(R.id.imgBtn_pause);
         mBtnZoom = findViewById(R.id.btn_paint_zoom);
@@ -126,6 +126,8 @@ public class PaintPlayActivity extends AppCompatActivity {
                     }
                 } else {
                     mbAutoPlay = false;
+                    mBtnPause.setVisibility(View.GONE);
+                    mBtnAutoPlay.setVisibility(View.VISIBLE);
                     mImgBtnReplay.setVisibility(View.VISIBLE);
                 }
             }
@@ -139,7 +141,7 @@ public class PaintPlayActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!mPaintView.mbZoomMode) {
                     mPaintView.mbZoomMode = true;
-                    mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_down_icon));
+                    mBtnZoom.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.zoom_down_icon));
                     if (!mbHint) {
                         mbHint = true;
                         mPrefs.edit().putBoolean("zoomhint", true).apply();
@@ -155,7 +157,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                     }
                 } else {
                     mPaintView.mbZoomMode = false;
-                    mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_up_icon));
+                    mBtnZoom.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.zoom_up_icon));
                 }
             }
         });
@@ -182,6 +184,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         mBtnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBtnAutoPlay.setVisibility(View.VISIBLE);
                 mbAutoPlay = false;
             }
         });
@@ -231,93 +234,31 @@ public class PaintPlayActivity extends AppCompatActivity {
         Button.OnClickListener autoPlayAndReplay = new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFrameLayoutFreePaint.removeAllViews();
-                mPaintView = new PaintView(PaintPlayActivity.this, true);
-                mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
-                mFrameLayoutFreePaint.addView(mPaintView);
-                mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
-                miPointCount = mPaintView.mListTagPoint.size();
-                miPointCurrent = 0;
-                if (miPointCount > 0)
-                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-                mImgBtnReplay.setVisibility(View.INVISIBLE);
-                mbAutoPlay = true;
-                mListRecordInt.clear();
+                if (miPointCount == 0) {
+                    mFrameLayoutFreePaint.removeAllViews();
+                    mPaintView = new PaintView(PaintPlayActivity.this, true);
+                    mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
+                    mFrameLayoutFreePaint.addView(mPaintView);
+                    mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
+                    miPointCount = mPaintView.mListTagPoint.size();
+                    miPointCurrent = 0;
+                    if (miPointCount > 0)
+                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    mImgBtnReplay.setVisibility(View.INVISIBLE);
+                    mbAutoPlay = true;
+                    mListRecordInt.clear();
+                    mBtnPause.setVisibility(View.VISIBLE);
+                    mBtnAutoPlay.setVisibility(View.GONE);
+                } else {
+                    if (miPointCount > 0)
+                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                }
             }
         };
 
 
         mBtnAutoPlay.setOnClickListener(autoPlayAndReplay);
         mImgBtnReplay.setOnClickListener(autoPlayAndReplay);
-
-        mBtnGrid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final FullScreenDialog gridDialog = new FullScreenDialog(PaintPlayActivity.this, R.layout.dialog_paint_grid);
-                Button gridNone = gridDialog.findViewById(R.id.paint_grid_none);
-                Button grid3 = gridDialog.findViewById(R.id.paint_grid_3);
-                Button grid6 = gridDialog.findViewById(R.id.paint_grid_6);
-                Button grid10 = gridDialog.findViewById(R.id.paint_grid_10);
-                Button grid20 = gridDialog.findViewById(R.id.paint_grid_20);
-                Button gridCacel = gridDialog.findViewById(R.id.paint_grid_cancel);
-                gridDialog.getWindow().getAttributes().windowAnimations = R.style.FullScreenDialogAnim;
-                gridNone.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPaintView.setMiGridCol(0);
-                        gridDialog.dismiss();
-                    }
-                });
-
-                grid3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPaintView.setMiGridCol(3);
-                        gridDialog.dismiss();
-                    }
-                });
-
-                grid6.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPaintView.setMiGridCol(6);
-                        gridDialog.dismiss();
-                    }
-                });
-
-                grid10.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPaintView.setMiGridCol(10);
-                        gridDialog.dismiss();
-                    }
-                });
-
-                grid20.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPaintView.setMiGridCol(20);
-                        gridDialog.dismiss();
-                    }
-                });
-
-                gridCacel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        gridDialog.dismiss();
-                    }
-                });
-
-                gridDialog.findViewById(R.id.relativeLayout_works_extra).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        gridDialog.dismiss();
-                    }
-                });
-
-                gridDialog.show();
-            }
-        });
     }
 
     @Override

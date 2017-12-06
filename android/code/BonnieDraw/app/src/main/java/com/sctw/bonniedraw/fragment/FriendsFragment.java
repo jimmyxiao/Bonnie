@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.FansOfFollowAdapter;
 import com.sctw.bonniedraw.bean.FansOfFollowBean;
@@ -42,18 +50,16 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnFansOfFollowClick {
+public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnFansOfFollowClick, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private ImageButton mImgBtnBack;
     private RecyclerView mRv;
     private LinearLayoutManager linearLayoutManager;
     private SharedPreferences prefs;
     private FansOfFollowAdapter mAdapter;
     private ArrayList<FansOfFollowBean> mList;
-
-    public FriendsFragment() {
-        // Required empty public constructor
-    }
-
+    private JSONArray mFriendsArray;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private TextView mTvHint;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,8 +76,11 @@ public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnF
         mRv = view.findViewById(R.id.recyclerView_friend);
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(linearLayoutManager);
+        mTvHint=(TextView) view.findViewById(R.id.imgBtn_profile_friends);
+
+        int type = prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0);
+        getFriendsListThird(type);
         setOnClick();
-        getFriend();
         mRv.addItemDecoration(new SimpleItemDecoration(getContext()));
     }
 
@@ -84,10 +93,50 @@ public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnF
         });
     }
 
-    public void getFriend() {
-        JSONArray array = new JSONArray();
+    private void getFriendsListThird(int type) {
+
+        switch (type) {
+            case GlobalVariable.THIRD_LOGIN_FACEBOOK:
+                //FB的好友列表
+                getFacebookFriends();
+                break;
+            case GlobalVariable.THIRD_LOGIN_GOOGLE:
+                //getGoogleFriends();
+                break;
+            case GlobalVariable.THIRD_LOGIN_TWITTER:
+                break;
+            default:
+                //沒有社群帳號連結
+                break;
+        }
+    }
+
+    private void getFacebookFriends() {
+        String userId = prefs.getString(GlobalVariable.USER_THIRD_ID_STR, "");
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/" + userId + "/friends",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        /* handle the result */
+                        System.out.println("RES:" + response.toString());
+                    }
+                }
+        ).executeAsync();
+    }
+
+    private void getGoogleFriends() {
+    }
+
+    private void getTwitterFriends() {
+
+    }
+
+    private void getSuggestFriend() {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.queryFriends(prefs, array);
+        Request request = ConnectJson.queryFriends(prefs, mFriendsArray);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -196,5 +245,20 @@ public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnF
         ft.replace(R.id.frameLayout_actitivy, memberFragment);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
     }
 }

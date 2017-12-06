@@ -7,7 +7,7 @@ package com.sctw.bonniedraw.utility;
 public class GlobalVariable {
 
     public static final String USER_THIRD_PLATFORM_STR = "userPlatform";
-    public static final String USER_FB_TWITTER_ID_STR = "userFbId";
+    public static final String USER_THIRD_ID_STR = "userFbId";
     public static final String USER_PWD_STR = "userPwd";
     public static final String USER_TOKEN_STR = "userToken";
     public static final String USER_NAME_STR = "userName";
@@ -49,4 +49,5 @@ public class GlobalVariable {
     public static final String API_LINK_NOTICE_MESSAGE = "https://www.bonniedraw.com/bonniedraw_service/BDService/notiMsg";
     public static final String API_LINK_REPOT_WORK = "https://www.bonniedraw.com/bonniedraw_service/BDService//setTurnin";
     public static final String API_LINK_FOLLOW_LIST_LINK = "https://www.bonniedraw.com/bonniedraw_service/BDService/followingList";
+    public static final String API_LINK_FRIENDS_LINK = "https://www.bonniedraw.com/bonniedraw_service/BDService/friendsList";
 }
