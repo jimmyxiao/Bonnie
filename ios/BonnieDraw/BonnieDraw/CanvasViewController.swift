@@ -383,6 +383,7 @@ class CanvasViewController:
             return
         }
         brushButton.setImage(image, for: .normal)
+        eraserButton.tintColor = .white
     }
 
     internal func colorPicker(didSelect color: UIColor, type: ColorPickerViewController.ColorType?) {
