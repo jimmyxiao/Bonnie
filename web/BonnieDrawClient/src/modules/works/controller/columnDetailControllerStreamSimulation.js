@@ -176,8 +176,8 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		var lines = [];
 		var predata = [];
 		var iarray = [];
-		var can = null;
-		var cxt = null;
+		var can;
+		var cxt;
 		var canvas_width = 1000;
 		var canvas_height = 1000;
 		var imgdata;

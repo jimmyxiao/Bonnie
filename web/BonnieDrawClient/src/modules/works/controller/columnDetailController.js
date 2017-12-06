@@ -220,8 +220,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var lines = [];
 		var predata = [];
 		var iarray = [];
-		var can = null;
-		var cxt = null;
+		var can ;
+		var cxt ;
 		var canvas_width = 500;//1000;
 		var canvas_height = 500;//1000;
 
