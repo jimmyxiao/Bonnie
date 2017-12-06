@@ -116,6 +116,7 @@ public class PaintView extends View {
     private OnTouchHandler mPlayDrawingHandler;
     private ArrayList<Bitmap> mBitmapList;
     private ArrayList<Bitmap> mBitmapUndoList;
+    private Bitmap mSketchLayer;
     private Bitmap mBackgroundLayer;
 
     public PaintView(Context c) {
@@ -244,7 +245,7 @@ public class PaintView extends View {
     public void onCheckSketch() {
         if (mFileBDW.exists() && mFilePNG.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(mFilePNG.getAbsolutePath()).copy(Bitmap.Config.ARGB_8888, true);
-            mBackgroundLayer = bitmap;
+            mSketchLayer = bitmap;
             this.mMergedLayer = Bitmap.createBitmap(bitmap);
             this.mMergedLayerCanvas.setBitmap(mMergedLayer);
             mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
@@ -581,8 +582,8 @@ public class PaintView extends View {
     private void drawToCanvas(Canvas canvas, Rect rect) {
         //底色
         canvas.drawColor(mBackgroundLayerColor, PorterDuff.Mode.SRC);
-        if (mBackgroundLayer != null) {
-            canvas.drawBitmap(mBackgroundLayer, 0.0f, 0.0f, this.mSrcPaint);
+        if (mSketchLayer != null) {
+            canvas.drawBitmap(mSketchLayer, 0.0f, 0.0f, this.mSrcPaint);
         }
 
         if (miGridCol != 0) {
@@ -593,12 +594,21 @@ public class PaintView extends View {
         }
 
         if (rect == null) {
-            canvas.saveLayer(null, null
-            );
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                canvas.saveLayer(null, null);
+            } else {
+                canvas.saveLayer(null, null, Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
+            }
         } else {
-            canvas.saveLayer((float) (rect.left - 1), (float) (this.mOnDrawCanvasRect.top - 1),
-                    (float) (this.mOnDrawCanvasRect.right + 1), (float) (this.mOnDrawCanvasRect.bottom + 1),
-                    null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                canvas.saveLayer((float) (rect.left - 1), (float) (this.mOnDrawCanvasRect.top - 1),
+                        (float) (this.mOnDrawCanvasRect.right + 1), (float) (this.mOnDrawCanvasRect.bottom + 1),
+                        null);
+            } else {
+                canvas.saveLayer((float) (rect.left - 1), (float) (this.mOnDrawCanvasRect.top - 1),
+                        (float) (this.mOnDrawCanvasRect.right + 1), (float) (this.mOnDrawCanvasRect.bottom + 1),
+                        null, Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
+            }
         }
 
         if (mBrush.useSingleLayerStroke) {

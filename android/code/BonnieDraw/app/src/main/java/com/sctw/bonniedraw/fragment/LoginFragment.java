@@ -226,7 +226,7 @@ public class LoginFragment extends Fragment {
                                 .putString(GlobalVariable.USER_NAME_STR, name)
                                 .putString(GlobalVariable.USER_EMAIL_STR, email)
                                 .putString(GlobalVariable.USER_IMG_URL_STR, photoUrl)
-                                .putString(GlobalVariable.USER_FB_TWITTER_ID_STR, id)
+                                .putString(GlobalVariable.USER_THIRD_ID_STR, id)
                                 .apply();
                         loginThird(GlobalVariable.API_LOGIN_CODE);
                     }
@@ -293,7 +293,7 @@ public class LoginFragment extends Fragment {
                                             .putString(GlobalVariable.USER_NAME_STR, object.getString("name"))
                                             .putString(GlobalVariable.USER_EMAIL_STR, object.getString("email"))
                                             .putString(GlobalVariable.USER_IMG_URL_STR, profilePicUrl.toString())
-                                            .putString(GlobalVariable.USER_FB_TWITTER_ID_STR, object.getString("id"))
+                                            .putString(GlobalVariable.USER_THIRD_ID_STR, object.getString("id"))
                                             .apply();
                                     loginThird(GlobalVariable.API_LOGIN_CODE);
                                 } catch (IOException | JSONException e) {
@@ -334,6 +334,7 @@ public class LoginFragment extends Fragment {
                 try {
                     profilePicUrl = new URL(acct.getPhotoUrl().toString());
                     prefs.edit()
+                            .putString(GlobalVariable.USER_THIRD_ID_STR, acct.getId())
                             .putInt(GlobalVariable.USER_THIRD_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_GOOGLE)
                             .putString(GlobalVariable.USER_TOKEN_STR, acct.getIdToken())
                             .putString(GlobalVariable.USER_NAME_STR, acct.getDisplayName())
@@ -474,7 +475,7 @@ public class LoginFragment extends Fragment {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, (getString(R.string.commit)),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if (!prefs.getString(GlobalVariable.USER_FB_TWITTER_ID_STR, "null").isEmpty()) {
+                        if (!prefs.getString(GlobalVariable.USER_THIRD_ID_STR, "null").isEmpty()) {
                             LoginManager.getInstance().logOut();
                         }
                         prefs.edit().clear().apply();
@@ -584,8 +585,8 @@ public class LoginFragment extends Fragment {
         try {
             // 1登入 2註冊 3檢查EMAIL
             int platform = prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0);
-            if (platform == GlobalVariable.THIRD_LOGIN_FACEBOOK || platform == GlobalVariable.THIRD_LOGIN_TWITTER) {
-                json.put("uc", prefs.getString(GlobalVariable.USER_FB_TWITTER_ID_STR, ""));
+            if (platform != GlobalVariable.EMAIL_LOGIN) {
+                json.put("uc", prefs.getString(GlobalVariable.USER_THIRD_ID_STR, ""));
             } else {
                 json.put("uc", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
             }

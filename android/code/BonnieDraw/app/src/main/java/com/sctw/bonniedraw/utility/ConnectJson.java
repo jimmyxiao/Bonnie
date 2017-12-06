@@ -28,8 +28,8 @@ public class ConnectJson {
             switch (type) {
                 case 3:
                     int platform = prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0);
-                    if (platform == GlobalVariable.THIRD_LOGIN_FACEBOOK || platform == GlobalVariable.THIRD_LOGIN_TWITTER) {
-                        json.put("uc", prefs.getString(GlobalVariable.USER_FB_TWITTER_ID_STR, ""));
+                    if (platform != GlobalVariable.EMAIL_LOGIN) {
+                        json.put("uc", prefs.getString(GlobalVariable.USER_THIRD_ID_STR, ""));
                     } else {
                         json.put("uc", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
                     }
@@ -440,7 +440,7 @@ public class ConnectJson {
         }
         RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_FOLLOW_LIST_LINK)
+                .url(GlobalVariable.API_LINK_FRIENDS_LINK)
                 .post(body)
                 .build();
         return request;

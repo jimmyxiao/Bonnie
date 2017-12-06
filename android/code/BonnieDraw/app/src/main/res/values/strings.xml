@@ -140,7 +140,4 @@
     <string name="following">追蹤中</string>
     <string name="delete">刪除</string>
     <string name="download_html">https://drive.google.com/open?id=0BywnwT8B3NHJVHRrTU83ak9UTEE</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

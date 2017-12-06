@@ -44,11 +44,29 @@
         android:layout_below="@id/ll"
         android:background="@color/background_dim_overlay" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_friend"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ll">
 
-    </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/textView_friends_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/HintColor"
+            android:text="沒有推薦的好友名單"/>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeLayout_friend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_friend"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
+
 </RelativeLayout>
