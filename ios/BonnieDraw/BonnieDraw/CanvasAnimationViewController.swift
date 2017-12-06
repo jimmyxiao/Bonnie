@@ -12,14 +12,9 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
     @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var canvas: JotView!
     @IBOutlet weak var thumbnail: UIImageView?
-    @IBOutlet weak var play: UIBarButtonItem!
+    @IBOutlet weak var play: UIButton!
     var workThumbnail: UIImage?
     var workFileUrl: URL?
-    private var isPlaying = false {
-        didSet {
-            play.image = isPlaying ? UIImage(named: "drawplay_ic_timeout") : UIImage(named: "drawplay_ic_play")
-        }
-    }
     private var brush = Brush(withBrushType: .pen, minSize: 6, maxSize: 12, minAlpha: 0.6, maxAlpha: 0.8)
     private var drawPoints = [Point]()
     private var readHandle: FileHandle?
@@ -50,15 +45,17 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
     @objc func applicationDidEnterBackground(notification: Notification) {
         UIApplication.shared.isIdleTimerDisabled = false
         timer?.invalidate()
-        isPlaying = false
+        play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+        play.isSelected = false
     }
 
-    @IBAction func play(_ sender: UIBarButtonItem) {
+    @IBAction func play(_ sender: UIButton) {
         thumbnail?.removeFromSuperview()
-        if isPlaying {
+        if sender.isSelected {
             UIApplication.shared.isIdleTimerDisabled = false
             timer?.invalidate()
-            isPlaying = false
+            sender.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+            sender.isSelected = false
         } else {
             if drawPoints.isEmpty {
                 guard let workFileUrl = workFileUrl else {
@@ -83,7 +80,8 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             } else {
                 draw(instantly: false)
             }
-            isPlaying = true
+            sender.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
+            sender.isSelected = true
             UIApplication.shared.isIdleTimerDisabled = true
         }
     }
@@ -193,7 +191,8 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
                 handler(true)
             }
         } else {
-            isPlaying = false
+            play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+            play.isSelected = false
         }
     }
 }

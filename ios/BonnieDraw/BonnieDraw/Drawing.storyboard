@@ -989,33 +989,25 @@
                                     <outlet property="delegate" destination="mfc-of-Eyd" id="b1B-yx-yEe"/>
                                 </connections>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxZ-nd-zvs">
-                                <rect key="frame" x="0.0" y="559" width="375" height="44"/>
-                                <items>
-                                    <barButtonItem title="Backward" id="rsM-Eh-z2h"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="aQx-PD-oiP"/>
-                                    <barButtonItem image="drawplay_ic_play" id="U6n-du-bc2">
-                                        <connections>
-                                            <action selector="play:" destination="mfc-of-Eyd" id="tb9-tZ-cwZ"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="wGf-Wv-4lq"/>
-                                    <barButtonItem title="Forward" id="XcP-gf-RJb"/>
-                                </items>
-                                <color key="barTintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
-                            </toolbar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ee7-p1-59l">
+                                <rect key="frame" x="166.5" y="505" width="41" height="48"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                <state key="normal" image="drawplay_ic_play"/>
+                                <connections>
+                                    <action selector="play:" destination="mfc-of-Eyd" eventType="touchUpInside" id="IGq-nd-M0H"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="zxZ-nd-zvs" firstAttribute="trailing" secondItem="OuC-O3-tvW" secondAttribute="trailing" id="38Z-uT-twE"/>
                             <constraint firstItem="O9D-4B-sXA" firstAttribute="top" secondItem="Q0S-Et-Ve8" secondAttribute="top" id="4S1-IX-aa0"/>
                             <constraint firstItem="Q0S-Et-Ve8" firstAttribute="leading" secondItem="OuC-O3-tvW" secondAttribute="leading" id="77E-3C-L9F"/>
                             <constraint firstItem="Q0S-Et-Ve8" firstAttribute="trailing" secondItem="OuC-O3-tvW" secondAttribute="trailing" id="FNx-xO-v1p"/>
                             <constraint firstItem="Q0S-Et-Ve8" firstAttribute="centerY" secondItem="IdJ-MC-6rZ" secondAttribute="centerY" id="Oc4-vv-TjR"/>
                             <constraint firstItem="O9D-4B-sXA" firstAttribute="trailing" secondItem="Q0S-Et-Ve8" secondAttribute="trailing" id="Qxa-2s-mWB"/>
                             <constraint firstItem="Q0S-Et-Ve8" firstAttribute="width" secondItem="Q0S-Et-Ve8" secondAttribute="height" multiplier="1:1" id="fS4-XV-HFh"/>
-                            <constraint firstItem="zxZ-nd-zvs" firstAttribute="bottom" secondItem="OuC-O3-tvW" secondAttribute="bottom" id="ga2-tV-yC0"/>
-                            <constraint firstItem="zxZ-nd-zvs" firstAttribute="leading" secondItem="OuC-O3-tvW" secondAttribute="leading" id="pmI-CW-ypI"/>
+                            <constraint firstItem="ee7-p1-59l" firstAttribute="centerX" secondItem="IdJ-MC-6rZ" secondAttribute="centerX" id="fnA-Cx-a22"/>
+                            <constraint firstItem="ee7-p1-59l" firstAttribute="top" secondItem="O9D-4B-sXA" secondAttribute="bottom" constant="16" id="ouw-YO-TI9"/>
                             <constraint firstItem="O9D-4B-sXA" firstAttribute="bottom" secondItem="Q0S-Et-Ve8" secondAttribute="bottom" id="psj-gQ-8Ye"/>
                             <constraint firstItem="O9D-4B-sXA" firstAttribute="leading" secondItem="Q0S-Et-Ve8" secondAttribute="leading" id="soR-kB-Lvg"/>
                         </constraints>
@@ -1032,7 +1024,7 @@
                     <connections>
                         <outlet property="canvas" destination="Q0S-Et-Ve8" id="T0U-oM-tt2"/>
                         <outlet property="gridView" destination="O9D-4B-sXA" id="Z7U-fA-80P"/>
-                        <outlet property="play" destination="U6n-du-bc2" id="cvp-pL-rD2"/>
+                        <outlet property="play" destination="ee7-p1-59l" id="eOn-Jm-CKm"/>
                         <outlet property="thumbnail" destination="bW2-Ls-snD" id="wCH-nu-uFk"/>
                     </connections>
                 </viewController>
