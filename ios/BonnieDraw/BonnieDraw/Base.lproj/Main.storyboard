@@ -368,10 +368,15 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XgX-1G-MTl">
                                                         <rect key="frame" x="0.0" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_down_on"/>
+                                                        <state key="disabled" image="drawplay_ic_down_off"/>
+                                                        <connections>
+                                                            <action selector="decreasePlaybackSpeed:" destination="wJn-NR-0b0" eventType="touchUpInside" id="X3N-vC-8rr"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKs-KV-iox">
                                                         <rect key="frame" x="50" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_prev_on"/>
+                                                        <state key="disabled" image="drawplay_ic_prev_off"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugb-3u-Zzs">
                                                         <rect key="frame" x="100" y="0.0" width="63" height="62"/>
@@ -383,10 +388,15 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcu-ob-Xqy">
                                                         <rect key="frame" x="171" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_next_on"/>
+                                                        <state key="disabled" image="drawplay_ic_next_off"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJd-B2-4j8">
                                                         <rect key="frame" x="221" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_doble_on"/>
+                                                        <state key="disabled" image="drawplay_ic_doble_off"/>
+                                                        <connections>
+                                                            <action selector="increasePlaybackSpeed:" destination="wJn-NR-0b0" eventType="touchUpInside" id="VUJ-fL-i2W"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -466,7 +476,9 @@
                     </view>
                     <connections>
                         <outlet property="canvas" destination="PyN-mC-Mya" id="4bJ-gc-H2d"/>
+                        <outlet property="decreaseSpeed" destination="XgX-1G-MTl" id="VmO-jN-Dd4"/>
                         <outlet property="gridView" destination="hHV-lQ-Dfn" id="1Xs-F8-f8j"/>
+                        <outlet property="increaseSpeed" destination="VJd-B2-4j8" id="aPR-wP-EBc"/>
                         <outlet property="loading" destination="yDy-IQ-Hwa" id="Z6b-UP-RHk"/>
                         <outlet property="navigationBar" destination="Da8-0O-Aac" id="cdg-rG-Dnq"/>
                         <outlet property="play" destination="ugb-3u-Zzs" id="T0g-Ap-PhB"/>
@@ -1166,10 +1178,14 @@
         <image name="bottom_bar_ic_notice" width="25" height="25"/>
         <image name="bottom_bar_ic_user" width="22" height="25"/>
         <image name="collect_ic_off" width="17" height="22"/>
+        <image name="drawplay_ic_doble_off" width="42" height="42"/>
         <image name="drawplay_ic_doble_on" width="42" height="42"/>
+        <image name="drawplay_ic_down_off" width="42" height="42"/>
         <image name="drawplay_ic_down_on" width="42" height="42"/>
+        <image name="drawplay_ic_next_off" width="42" height="42"/>
         <image name="drawplay_ic_next_on" width="42" height="42"/>
         <image name="drawplay_ic_play" width="63" height="62"/>
+        <image name="drawplay_ic_prev_off" width="42" height="42"/>
         <image name="drawplay_ic_prev_on" width="42" height="42"/>
         <image name="loading_icon" width="89" height="89"/>
         <image name="photo-square" width="300" height="300"/>

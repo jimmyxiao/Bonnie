@@ -201,7 +201,7 @@
         <!--分享作品-->
         <scene sceneID="mcS-0V-MS1">
             <objects>
-                <viewController id="WrP-vG-tzf" customClass="UploadViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="分享作品" id="WrP-vG-tzf" customClass="UploadViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="c3i-hn-evM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -387,7 +387,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ENM-CZ-rfJ"/>
                     </view>
-                    <navigationItem key="navigationItem" title="分享作品" id="Beq-EQ-LwZ">
+                    <navigationItem key="navigationItem" id="Beq-EQ-LwZ">
                         <barButtonItem key="leftBarButtonItem" image="top_bar_ic_back" id="LsH-Jj-zP8">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -995,10 +995,15 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1k-f3-97e">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="62"/>
                                         <state key="normal" image="drawplay_ic_down_on"/>
+                                        <state key="disabled" image="drawplay_ic_down_off"/>
+                                        <connections>
+                                            <action selector="decreasePlaybackSpeed:" destination="mfc-of-Eyd" eventType="touchUpInside" id="6TP-Bj-Bhe"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o8L-q8-4Lu">
                                         <rect key="frame" x="50" y="0.0" width="42" height="62"/>
                                         <state key="normal" image="drawplay_ic_prev_on"/>
+                                        <state key="disabled" image="drawplay_ic_prev_off"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ee7-p1-59l">
                                         <rect key="frame" x="100" y="0.0" width="63" height="62"/>
@@ -1010,10 +1015,15 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avP-hH-Ph8">
                                         <rect key="frame" x="171" y="0.0" width="42" height="62"/>
                                         <state key="normal" image="drawplay_ic_next_on"/>
+                                        <state key="disabled" image="drawplay_ic_next_off"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBK-ni-wdv">
                                         <rect key="frame" x="221" y="0.0" width="42" height="62"/>
                                         <state key="normal" image="drawplay_ic_doble_on"/>
+                                        <state key="disabled" image="drawplay_ic_doble_off"/>
+                                        <connections>
+                                            <action selector="increasePlaybackSpeed:" destination="mfc-of-Eyd" eventType="touchUpInside" id="RHO-Fx-xak"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -1043,7 +1053,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="canvas" destination="Q0S-Et-Ve8" id="T0U-oM-tt2"/>
+                        <outlet property="decreaseSpeed" destination="u1k-f3-97e" id="9XH-30-bxN"/>
                         <outlet property="gridView" destination="O9D-4B-sXA" id="Z7U-fA-80P"/>
+                        <outlet property="increaseSpeed" destination="oBK-ni-wdv" id="rLl-2V-sdZ"/>
                         <outlet property="play" destination="ee7-p1-59l" id="eOn-Jm-CKm"/>
                         <outlet property="thumbnail" destination="bW2-Ls-snD" id="wCH-nu-uFk"/>
                     </connections>
@@ -1059,10 +1071,14 @@
         <image name="draw_ic_erase" width="27" height="35"/>
         <image name="draw_ic_new" width="26" height="33"/>
         <image name="draw_pen_ic_1" width="11" height="51"/>
+        <image name="drawplay_ic_doble_off" width="42" height="42"/>
         <image name="drawplay_ic_doble_on" width="42" height="42"/>
+        <image name="drawplay_ic_down_off" width="42" height="42"/>
         <image name="drawplay_ic_down_on" width="42" height="42"/>
+        <image name="drawplay_ic_next_off" width="42" height="42"/>
         <image name="drawplay_ic_next_on" width="42" height="42"/>
         <image name="drawplay_ic_play" width="63" height="62"/>
+        <image name="drawplay_ic_prev_off" width="42" height="42"/>
         <image name="drawplay_ic_prev_on" width="42" height="42"/>
         <image name="grid_line_icon" width="28" height="26"/>
         <image name="ic_android_white" width="24" height="24"/>

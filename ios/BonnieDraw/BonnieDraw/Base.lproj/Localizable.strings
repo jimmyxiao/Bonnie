@@ -59,3 +59,4 @@
 "six_by_six_grid" = "6 x 6 格線";
 "ten_by_ten_grid" = "10 x 10 格線";
 "twenty_by_twenty_grid" = "20 x 20 格線";
+"canvas_animation_title" = "播放速度";

@@ -20,10 +20,13 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var play: UIButton!
+    @IBOutlet weak var decreaseSpeed: UIButton!
+    @IBOutlet weak var increaseSpeed: UIButton!
     private var brush = Brush()
     private var drawPoints = [Point]()
     private var readHandle: FileHandle?
     private var timer: Timer?
+    private var animationSpeed = 1.0
     var jotViewStateInkPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/ink.png")
     var jotViewStatePlistPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/state.plist")
     var work: Work?
@@ -139,6 +142,16 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         }
     }
 
+    @IBAction func decreasePlaybackSpeed(_ sender: Any) {
+        animationSpeed *= 2
+        checkSpeedButtons()
+    }
+
+    @IBAction func increasePlaybackSpeed(_ sender: Any) {
+        animationSpeed /= 2
+        checkSpeedButtons()
+    }
+
     internal func textureForStroke() -> JotBrushTexture! {
         return brush.texture()
     }
@@ -237,7 +250,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             }
             if !instantly {
                 timer?.invalidate()
-                timer = Timer.scheduledTimer(withTimeInterval: ANIMATION_TIMER, repeats: false) {
+                timer = Timer.scheduledTimer(withTimeInterval: ANIMATION_TIMER * animationSpeed, repeats: false) {
                     timer in
                     handler(false)
                 }
@@ -247,6 +260,20 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         } else {
             play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
             play.isSelected = false
+        }
+    }
+
+    private func checkSpeedButtons() {
+        title = "\("canvas_animation_title".localized) x\(1 / animationSpeed)"
+        if animationSpeed >= 4 {
+            decreaseSpeed.isEnabled = false
+            increaseSpeed.isEnabled = true
+        } else if animationSpeed <= 0.25 {
+            decreaseSpeed.isEnabled = true
+            increaseSpeed.isEnabled = false
+        } else {
+            decreaseSpeed.isEnabled = true
+            increaseSpeed.isEnabled = true
         }
     }
 }

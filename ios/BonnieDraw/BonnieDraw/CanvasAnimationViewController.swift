@@ -13,17 +13,21 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
     @IBOutlet weak var canvas: JotView!
     @IBOutlet weak var thumbnail: UIImageView?
     @IBOutlet weak var play: UIButton!
+    @IBOutlet weak var decreaseSpeed: UIButton!
+    @IBOutlet weak var increaseSpeed: UIButton!
     var workThumbnail: UIImage?
     var workFileUrl: URL?
     private var brush = Brush(withBrushType: .pen, minSize: 6, maxSize: 12, minAlpha: 0.6, maxAlpha: 0.8)
     private var drawPoints = [Point]()
     private var readHandle: FileHandle?
     private var timer: Timer?
+    private var animationSpeed = 1.0
     var jotViewStateInkPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/ink.png")
     var jotViewStatePlistPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/state.plist")
 
     override func viewDidLoad() {
         thumbnail?.image = workThumbnail
+        title = "\("canvas_animation_title".localized) x1.0"
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -86,6 +90,16 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             sender.isSelected = true
             UIApplication.shared.isIdleTimerDisabled = true
         }
+    }
+
+    @IBAction func decreasePlaybackSpeed(_ sender: Any) {
+        animationSpeed *= 2
+        checkSpeedButtons()
+    }
+
+    @IBAction func increasePlaybackSpeed(_ sender: Any) {
+        animationSpeed /= 2
+        checkSpeedButtons()
     }
 
     internal func textureForStroke() -> JotBrushTexture! {
@@ -185,7 +199,7 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             }
             if !instantly {
                 timer?.invalidate()
-                timer = Timer.scheduledTimer(withTimeInterval: ANIMATION_TIMER, repeats: false) {
+                timer = Timer.scheduledTimer(withTimeInterval: ANIMATION_TIMER * animationSpeed, repeats: false) {
                     timer in
                     handler(false)
                 }
@@ -195,6 +209,20 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
         } else {
             play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
             play.isSelected = false
+        }
+    }
+
+    private func checkSpeedButtons() {
+        title = "\("canvas_animation_title".localized) x\(1 / animationSpeed)"
+        if animationSpeed >= 4 {
+            decreaseSpeed.isEnabled = false
+            increaseSpeed.isEnabled = true
+        } else if animationSpeed <= 0.25 {
+            decreaseSpeed.isEnabled = true
+            increaseSpeed.isEnabled = false
+        } else {
+            decreaseSpeed.isEnabled = true
+            increaseSpeed.isEnabled = true
         }
     }
 }
