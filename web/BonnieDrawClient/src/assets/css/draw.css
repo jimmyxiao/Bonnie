@@ -246,3 +246,7 @@
 .vid-text .description a{
 	color: #f26f45;
 }
+
+.container-full{
+	width: 100%;
+}

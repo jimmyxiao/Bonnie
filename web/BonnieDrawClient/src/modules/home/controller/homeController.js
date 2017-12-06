@@ -136,7 +136,7 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 		// 	}
 		// ]
 
-		 $scope.secondarySectionArr_userLike = [
+		$scope.secondarySectionArr_userLike = [
 		 	{
 		 		img:'../bonniedraw_service/BDService/loadFile/files/19/png/029c10c3aa424da19b02aeb0f1eedb6c.png',
 		 		title:'なおしま',
