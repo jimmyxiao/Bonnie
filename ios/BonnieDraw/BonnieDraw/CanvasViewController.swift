@@ -61,7 +61,7 @@ class CanvasViewController:
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if canvas.isHidden {
+        if canvas.state == nil {
             canvas.finishInit()
             let stateProxy = JotViewStateProxy(delegate: self)
             stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())

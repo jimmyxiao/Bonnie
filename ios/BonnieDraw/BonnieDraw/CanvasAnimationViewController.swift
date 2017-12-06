@@ -24,12 +24,14 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
 
     override func viewDidLoad() {
         thumbnail?.image = workThumbnail
-        canvas.finishInit()
-        let stateProxy = JotViewStateProxy(delegate: self)
-        stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        if canvas.state == nil {
+            canvas.finishInit()
+            let stateProxy = JotViewStateProxy(delegate: self)
+            stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: .UIApplicationDidEnterBackground, object: nil)
     }
 
