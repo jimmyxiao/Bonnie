@@ -51,6 +51,9 @@
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
 		16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */; };
+		1649F2701FD7A09200B90A1E /* CanvasAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */; };
+		1649F2721FD7A0E000B90A1E /* Drawing.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1649F2711FD7A0E000B90A1E /* Drawing.storyboard */; };
+		1649F2741FD7A43A00B90A1E /* LightStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1649F2731FD7A43A00B90A1E /* LightStatusBarViewController.swift */; };
 		164AEC241FC69CCF00542354 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AEC231FC69CCE00542354 /* ViewControllerExtension.swift */; };
 		164CA76C1F99E24C007F9374 /* AccountListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */; };
 		164ED2481F7B376700E8B910 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164ED2471F7B376700E8B910 /* CollectionViewController.swift */; };
@@ -152,6 +155,9 @@
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
+		1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasAnimationViewController.swift; sourceTree = "<group>"; };
+		1649F2711FD7A0E000B90A1E /* Drawing.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Drawing.storyboard; sourceTree = "<group>"; };
+		1649F2731FD7A43A00B90A1E /* LightStatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStatusBarViewController.swift; sourceTree = "<group>"; };
 		164AEC231FC69CCE00542354 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListCollectionViewCell.swift; sourceTree = "<group>"; };
 		164ED2471F7B376700E8B910 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
@@ -298,6 +304,7 @@
 				163906FF1F6C0A4E00E5717A /* TitleView.xib */,
 				1664F4B41F74E3F100809C32 /* Login.storyboard */,
 				163F65AE1F61663900945E04 /* Main.storyboard */,
+				1649F2711FD7A0E000B90A1E /* Drawing.storyboard */,
 				16D08F221FB169AC001D167C /* Account.storyboard */,
 				163F65B31F61663900945E04 /* LaunchScreen.storyboard */,
 				163F65B11F61663900945E04 /* Assets.xcassets */,
@@ -310,6 +317,7 @@
 			children = (
 				16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */,
 				16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */,
+				1649F2731FD7A43A00B90A1E /* LightStatusBarViewController.swift */,
 				1664F4B81F74ED7700809C32 /* Login */,
 				1664F4B91F74ED8C00809C32 /* Main */,
 				16C013C91F9F2D0900238463 /* Account */,
@@ -335,6 +343,7 @@
 				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
 				1664F4B61F74E5BB00809C32 /* ParentViewController.swift */,
 				163F65BE1F616C4F00945E04 /* CanvasViewController.swift */,
+				1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */,
 				16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */,
 				164ED2521F7BA45E00E8B910 /* ColorPickerViewController.swift */,
 				16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */,
@@ -526,6 +535,7 @@
 				16D08F241FB169AD001D167C /* Account.storyboard in Resources */,
 				1664F4B51F74E3F100809C32 /* Login.storyboard in Resources */,
 				163907001F6C0A4E00E5717A /* TitleView.xib in Resources */,
+				1649F2721FD7A0E000B90A1E /* Drawing.storyboard in Resources */,
 				163F65B21F61663900945E04 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -611,6 +621,7 @@
 				16303BA91FD1494E00C42783 /* Brush.swift in Sources */,
 				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
+				1649F2741FD7A43A00B90A1E /* LightStatusBarViewController.swift in Sources */,
 				166889971FBC6802001CBFB3 /* UserDefaultsExtension.swift in Sources */,
 				16353D481FCDA57200482807 /* BrushPickerCollectionViewCell.swift in Sources */,
 				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,
@@ -667,6 +678,7 @@
 				16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */,
 				16353D4A1FCDA61C00482807 /* BrushPickerViewController.swift in Sources */,
 				164ED2511F7B517200E8B910 /* StatusBarBackgroundView.swift in Sources */,
+				1649F2701FD7A09200B90A1E /* CanvasAnimationViewController.swift in Sources */,
 				16C013CB1F9F2E3E00238463 /* UserViewController.swift in Sources */,
 				164F84661FC6643500A8E770 /* User.swift in Sources */,
 				163907051F6C0BE400E5717A /* BundleExtension.swift in Sources */,

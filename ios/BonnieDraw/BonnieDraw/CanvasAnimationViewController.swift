@@ -1,54 +1,40 @@
 //
-//  WorkViewController.swift
+//  CanvasAnimationViewController.swift
 //  BonnieDraw
 //
-//  Created by Professor on 16/10/2017.
+//  Created by Professor on 06/12/2017.
 //  Copyright © 2017 Professor. All rights reserved.
 //
 
 import UIKit
-import Alamofire
 
-class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewDelegate, JotViewStateProxyDelegate {
-    @IBOutlet weak var loading: LoadingIndicatorView!
+class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, JotViewStateProxyDelegate {
     @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var canvas: JotView!
     @IBOutlet weak var thumbnail: UIImageView?
-    @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var profileName: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var play: UIButton!
-    private var brush = Brush()
+    @IBOutlet weak var play: UIBarButtonItem!
+    var workThumbnail: UIImage?
+    var workFileUrl: URL?
+    private var isPlaying = false {
+        didSet {
+            play.image = isPlaying ? UIImage(named: "drawplay_ic_timeout") : UIImage(named: "drawplay_ic_play")
+        }
+    }
+    private var brush = Brush(withBrushType: .pen, minSize: 6, maxSize: 12, minAlpha: 0.6, maxAlpha: 0.8)
     private var drawPoints = [Point]()
     private var readHandle: FileHandle?
     private var timer: Timer?
     var jotViewStateInkPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/ink.png")
     var jotViewStatePlistPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/state.plist")
-    var work: Work?
-    private var downloadRequest: DownloadRequest?
 
     override func viewDidLoad() {
-        thumbnail?.sd_setShowActivityIndicatorView(true)
-        thumbnail?.sd_setIndicatorStyle(.gray)
-        if navigationBar.items?.first?.titleView == nil {
-            let titleView = Bundle.main.loadView(from: "TitleView")
-            titleView?.backgroundColor = .clear
-            navigationBar.items?.first?.titleView = titleView
-        }
-        profileName.text = work?.profileName
-        titleLabel.text = work?.title
+        thumbnail?.image = workThumbnail
+        canvas.finishInit()
+        let stateProxy = JotViewStateProxy(delegate: self)
+        stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if canvas.isHidden {
-            canvas.finishInit()
-            let stateProxy = JotViewStateProxy(delegate: self)
-            stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())
-        } else {
-            loading.hide(true)
-        }
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: .UIApplicationDidEnterBackground, object: nil)
     }
 
@@ -58,66 +44,30 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         if !drawPoints.isEmpty {
             canvas.drawCancelled()
         }
-        downloadRequest?.cancel()
         NotificationCenter.default.removeObserver(self)
     }
 
     @objc func applicationDidEnterBackground(notification: Notification) {
         UIApplication.shared.isIdleTimerDisabled = false
         timer?.invalidate()
-        play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
-        play.isSelected = false
+        isPlaying = false
     }
 
-    private func downloadData() {
-        guard let fileUrl = work?.file else {
-            return
-        }
-        progressBar.progress = 0
-        loading.hide(false)
-        downloadRequest = Alamofire.download(fileUrl) {
-            _, _ in
-            return (FileUrl.RESULT, [.removePreviousFile, .createIntermediateDirectories])
-        }.downloadProgress() {
-            progress in
-            self.progressBar.setProgress(Float(progress.fractionCompleted) * 0.9, animated: true)
-        }.response(queue: DispatchQueue.main) {
-            response in
-            guard response.error == nil else {
-                self.presentConfirmationDialog(
-                        title: "service_download_fail_title".localized,
-                        message: "app_network_unreachable_content".localized) {
-                    success in
-                    if success {
-                        self.downloadData()
-                    } else {
-                        self.dismiss(animated: true)
-                    }
-                }
-                return
-            }
-            self.thumbnail?.setImage(with: self.work?.thumbnail)
-            self.loading.hide(true)
-            self.canvas.isHidden = false
-            UIView.animate(withDuration: 0.4) {
-                self.canvas.alpha = 1
-            }
-        }
-    }
-
-    @IBAction func play(_ sender: UIButton) {
+    @IBAction func play(_ sender: UIBarButtonItem) {
         thumbnail?.removeFromSuperview()
-        if sender.isSelected {
+        if isPlaying {
             UIApplication.shared.isIdleTimerDisabled = false
             timer?.invalidate()
-            sender.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
-            sender.isSelected = false
+            isPlaying = false
         } else {
             if drawPoints.isEmpty {
+                guard let workFileUrl = workFileUrl else {
+                    return
+                }
                 gridView.backgroundColor = .white
                 canvas.clear(true)
                 do {
-                    let readHandle = try FileHandle(forReadingFrom: FileUrl.RESULT)
+                    let readHandle = try FileHandle(forReadingFrom: workFileUrl)
                     drawPoints.append(
                             contentsOf: DataConverter.parse(
                                     dataToPoints:
@@ -133,8 +83,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             } else {
                 draw(instantly: false)
             }
-            sender.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
-            sender.isSelected = true
+            isPlaying = true
             UIApplication.shared.isIdleTimerDisabled = true
         }
     }
@@ -188,7 +137,6 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     internal func didLoadState(_ state: JotViewStateProxy!) {
         canvas.loadState(state)
-        downloadData()
     }
 
     internal func didUnloadState(_ state: JotViewStateProxy!) {
@@ -245,8 +193,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 handler(true)
             }
         } else {
-            play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
-            play.isSelected = false
+            isPlaying = false
         }
     }
 }

@@ -17,5 +17,5 @@ struct Work {
     let title: String?
     var isLike: Bool?
     var isCollection: Bool?
-    let likes: Int?
+    var likes: Int?
 }
