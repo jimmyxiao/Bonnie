@@ -132,6 +132,7 @@ class CanvasViewController:
                     }
                     if manager.fileExists(atPath: FileUrl.DRAFT.path) {
                         try manager.removeItem(at: FileUrl.DRAFT)
+                        UserDefaults.standard.removeObject(forKey: Default.DRAFT_BACKGROUND_COLOR)
                     }
                     manager.createFile(atPath: FileUrl.CACHE.path, contents: nil, attributes: nil)
                     self.writeHandle = try FileHandle(forWritingTo: FileUrl.CACHE)
@@ -433,42 +434,41 @@ class CanvasViewController:
     }
 
     internal func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
-        if let action = coalescedTouch.getAction() {
-            paths.append(Path(points: [Point(length: LENGTH_SIZE,
-                    function: .draw,
-                    position: coalescedTouch.location(in: canvas),
-                    color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
-                    action: action,
-                    size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
-                    type: brush.type,
-                    duration: ANIMATION_TIMER)]))
-        }
+        paths.append(Path(points: [Point(length: LENGTH_SIZE,
+                function: .draw,
+                position: coalescedTouch.location(in: canvas),
+                color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
+                action: .down,
+                size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
+                type: brush.type,
+                duration: ANIMATION_TIMER)]))
         return true
     }
 
     internal func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
-        if let action = coalescedTouch.getAction() {
-            paths.last?.points.append(Point(length: LENGTH_SIZE,
-                    function: .draw,
-                    position: coalescedTouch.location(in: canvas),
-                    color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
-                    action: action,
-                    size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
-                    type: brush.type,
-                    duration: ANIMATION_TIMER))
-        }
+        paths.last?.points.append(Point(length: LENGTH_SIZE,
+                function: .draw,
+                position: coalescedTouch.location(in: canvas),
+                color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
+                action: .move,
+                size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
+                type: brush.type,
+                duration: ANIMATION_TIMER))
     }
 
     internal func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
-        if let action = coalescedTouch.getAction() {
+        let position = coalescedTouch.location(in: canvas)
+        if canvas.bounds.contains(position) {
             paths.last?.points.append(Point(length: LENGTH_SIZE,
                     function: .draw,
-                    position: coalescedTouch.location(in: canvas),
+                    position: position,
                     color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
-                    action: action,
+                    action: .up,
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
                     duration: ANIMATION_TIMER))
+        } else {
+            paths.last?.points.last?.action = .up
         }
     }
 
@@ -505,6 +505,7 @@ class CanvasViewController:
                 }
             }
             DispatchQueue.main.async {
+                self.gridView.backgroundColor = UserDefaults.standard.color(forKey: Default.DRAFT_BACKGROUND_COLOR) ?? .white
                 self.canvas.loadState(state)
                 self.canvas.isHidden = false
                 self.loading.hide(true)
@@ -541,6 +542,7 @@ class CanvasViewController:
                 self.canvas.exportImage(to: self.jotViewStateInkPath, andThumbnailTo: self.jotViewStateThumbnailPath, andStateTo: self.jotViewStatePlistPath, withThumbnailScale: UIScreen.main.scale) {
                     ink, thumbnail, state in
                     completionHandler?(thumbnail)
+                    UserDefaults.standard.set(color: self.gridView.backgroundColor, forKey: Default.DRAFT_BACKGROUND_COLOR)
                 }
             }
         }

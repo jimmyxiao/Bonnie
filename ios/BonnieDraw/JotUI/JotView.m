@@ -83,6 +83,8 @@ dispatch_queue_t importExportStateQueue;
     NSLock* imageTextureLock;
 
     CADisplayLink* displayLink;
+    
+    BOOL isOutOfBounds;
 }
 
 @end
@@ -1451,6 +1453,7 @@ static int undoCounter;
         }
     }
     [JotGLContext validateEmptyContextStack];
+    isOutOfBounds = NO;
 }
 
 /**
@@ -1462,7 +1465,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 
 
 - (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
-    if (!state)
+    if (!state || isOutOfBounds)
         return;
 
     for (UITouch* touch in touches) {
@@ -1529,11 +1532,26 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                                          andSmoothness:[self.delegate smoothnessForCoalescedTouch:coalescedTouch fromTouch:touch]
                                          withStepWidth:[self.delegate stepWidthForStroke]];
                     }
+                }else{
+                    
+                    isOutOfBounds = YES;
+                    
+                    [state finishCurrentStroke];
+                    
+                    [[JotStrokeManager sharedInstance] removeStrokeForHash:touch.hash];
+                    
+                    [self.delegate willEndStrokeWithCoalescedTouch:touch fromTouch:touch shortStrokeEnding:YES];
+                    
+                    break;
                 }
             }
         }
 
         [currentStroke unlock];
+        
+        if (isOutOfBounds) {
+            [self.delegate didEndStrokeWithCoalescedTouch:touch fromTouch:touch];
+        }
         if (!isMultiTouchSupported) {
             break;
         }
@@ -1542,9 +1560,9 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 }
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
-    if (!state)
+    if (!state || isOutOfBounds)
         return;
-
+    
     for (UITouch* touch in touches) {
         NSArray<UITouch*>* coalesced = [event coalescedTouchesForTouch:touch];
         if (![coalesced count]) {
@@ -1552,48 +1570,47 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
         }
         JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:touch.hash];
         BOOL shortStrokeEnding = [currentStroke.segments count] <= 1;
-
+        
+        [self.delegate willEndStrokeWithCoalescedTouch:touch fromTouch:touch shortStrokeEnding:shortStrokeEnding];
         if (currentStroke) {
             @autoreleasepool {
                 [currentStroke lock];
-
+                
                 // now line to the end of the stroke
                 for (UITouch* coalescedTouch in coalesced) {
                     // now line to the end of the stroke
-
+                    
                     CGPoint preciseLocInView = [coalescedTouch locationInView:self];
                     if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
                         preciseLocInView = [coalescedTouch preciseLocationInView:self];
                     }
-                    if (CGRectContainsPoint(self.bounds, preciseLocInView)) {
-                        [self.delegate willEndStrokeWithCoalescedTouch:coalescedTouch fromTouch:touch shortStrokeEnding:shortStrokeEnding];
-                        // the while loop ensures we get at least a dot from the touch
-                        while (![self addLineToAndRenderStroke:currentStroke
-                                                       toPoint:preciseLocInView
-                                                       toWidth:[self.delegate widthForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                                       toColor:[self.delegate colorForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                                 andSmoothness:[self.delegate smoothnessForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                                 withStepWidth:[self.delegate stepWidthForStroke]]) {
-                            // noop, the [addLineToAndRenderStroke:] will return YES after enough segments have been added
-                            // to ensure at least 1 point will render.
-                        }
-                        
-                        // this stroke is now finished, so add it to our completed strokes stack
-                        // and remove it from the current strokes, and reset our undo state if any
-                        if ([currentStroke.segments count] == 1 && [[currentStroke.segments firstObject] isKindOfClass:[MoveToPathElement class]]) {
-                            // this happen if the entire stroke lands inside of scraps, and nothing makes it to the bottom page
-                            // just save an empty stroke to the stack
-                            [currentStroke empty];
-                        }
+                    
+                    // the while loop ensures we get at least a dot from the touch
+                    while (![self addLineToAndRenderStroke:currentStroke
+                                                   toPoint:preciseLocInView
+                                                   toWidth:[self.delegate widthForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                                   toColor:[self.delegate colorForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                             andSmoothness:[self.delegate smoothnessForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                             withStepWidth:[self.delegate stepWidthForStroke]]) {
+                        // noop, the [addLineToAndRenderStroke:] will return YES after enough segments have been added
+                        // to ensure at least 1 point will render.
+                    }
+                    
+                    // this stroke is now finished, so add it to our completed strokes stack
+                    // and remove it from the current strokes, and reset our undo state if any
+                    if ([currentStroke.segments count] == 1 && [[currentStroke.segments firstObject] isKindOfClass:[MoveToPathElement class]]) {
+                        // this happen if the entire stroke lands inside of scraps, and nothing makes it to the bottom page
+                        // just save an empty stroke to the stack
+                        [currentStroke empty];
                     }
                 }
-
+                
                 [state finishCurrentStroke];
-
+                
                 [[JotStrokeManager sharedInstance] removeStrokeForHash:touch.hash];
-
+                
                 [currentStroke unlock];
-
+                
                 [self.delegate didEndStrokeWithCoalescedTouch:touch fromTouch:touch];
             }
         }

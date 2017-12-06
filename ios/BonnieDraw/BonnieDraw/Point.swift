@@ -13,7 +13,7 @@ class Point: NSObject {
     let function: Function
     let position: CGPoint
     let color: UIColor
-    let action: Action
+    var action: Action
     let size: CGFloat
     let type: Type
     let duration: TimeInterval

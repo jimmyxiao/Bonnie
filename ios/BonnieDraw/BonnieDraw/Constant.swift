@@ -163,6 +163,7 @@ struct Segue {
 }
 
 struct Default {
+    static let DRAFT_BACKGROUND_COLOR = "draftBackgroundColor"
     static let GRID = "grid"
     static let COLORS = "colors"
     static let TOKEN_TIMESTAMP = "tokenTimestamp"
