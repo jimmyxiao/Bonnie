@@ -44,6 +44,7 @@
             app:srcCompat="@drawable/top_bar_ic_back" />
 
         <TextView
+            android:id="@+id/textView_paint_play_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
@@ -68,20 +69,19 @@
         android:layout_height="wrap_content"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:padding="8dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout_activity_paint">
 
-        <TextView
-            android:id="@+id/paint_play_progress"
+        <ImageButton
+            android:id="@+id/imgBtn_goback"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="0/100%"
-            android:textAlignment="center" />
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/ic_drawplay_goback_selector" />
 
 
         <ImageButton
@@ -118,14 +118,25 @@
             app:srcCompat="@drawable/ic_drawplay_next_selector" />
 
         <ImageButton
-            android:id="@+id/btn_paint_zoom"
+            android:id="@+id/imgBtn_fast"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/zoom_up_icon" />
+            app:srcCompat="@drawable/ic_drawplay_fast_selector" />
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_paint_zoom"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="4dp"
+        android:layout_weight="1"
+        android:background="@color/Transparent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout_paint_control"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout_paint_control"
+        app:srcCompat="@drawable/zoom_up_icon" />
 
 
 </android.support.constraint.ConstraintLayout>

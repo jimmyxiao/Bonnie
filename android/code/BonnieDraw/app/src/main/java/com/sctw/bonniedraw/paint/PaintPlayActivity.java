@@ -51,7 +51,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
         mListRecordInt = new ArrayList<>();
-        mTextViewPlayProgress = findViewById(R.id.paint_play_progress);
+        mTextViewPlayProgress = findViewById(R.id.textView_paint_play_title);
         mBtnAutoPlay = findViewById(R.id.imgBtn_autoplay);
         mBtnNext = findViewById(R.id.imgBtn_next);
         mBtnPrevious = findViewById(R.id.imgBtn_previous);
@@ -115,7 +115,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                     }
                     miPointCount--;
                     miPointCurrent++;
-                    mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "%d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+                    mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "撥放進度: %d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
 
                     if (brun) {
                         mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
@@ -199,7 +199,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 } else if (miPointCount == 0) {
                     ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_end), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                 }
-                mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "%d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+                mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "撥放進度: %d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
             }
         });
 
@@ -226,7 +226,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 } else if (miPointCurrent == 0) {
                     ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_frist), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                 }
-                mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "%d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+                mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "撥放進度: %d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
             }
         });
 
