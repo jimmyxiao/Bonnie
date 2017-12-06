@@ -13,6 +13,8 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
     @IBOutlet weak var canvas: JotView!
     @IBOutlet weak var thumbnail: UIImageView?
     @IBOutlet weak var play: UIButton!
+    @IBOutlet weak var previousStep: UIButton!
+    @IBOutlet weak var nextStep: UIButton!
     @IBOutlet weak var decreaseSpeed: UIButton!
     @IBOutlet weak var increaseSpeed: UIButton!
     var workThumbnail: UIImage?
@@ -53,6 +55,8 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
         timer?.invalidate()
         play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
         play.isSelected = false
+        previousStep.isEnabled = true
+        nextStep.isEnabled = true
     }
 
     @IBAction func play(_ sender: UIButton) {
@@ -62,6 +66,8 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             timer?.invalidate()
             sender.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
             sender.isSelected = false
+            previousStep.isEnabled = true
+            nextStep.isEnabled = true
         } else {
             if drawPoints.isEmpty {
                 guard let workFileUrl = workFileUrl else {
@@ -88,16 +94,24 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             }
             sender.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
             sender.isSelected = true
+            previousStep.isEnabled = false
+            nextStep.isEnabled = false
             UIApplication.shared.isIdleTimerDisabled = true
         }
     }
 
-    @IBAction func decreasePlaybackSpeed(_ sender: Any) {
+    @IBAction func previousStep(_ sender: Any) {
+    }
+
+    @IBAction func nextStep(_ sender: Any) {
+    }
+
+    @IBAction func decreaseSpeed(_ sender: Any) {
         animationSpeed *= 2
         checkSpeedButtons()
     }
 
-    @IBAction func increasePlaybackSpeed(_ sender: Any) {
+    @IBAction func increaseSpeed(_ sender: Any) {
         animationSpeed /= 2
         checkSpeedButtons()
     }
@@ -209,6 +223,8 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
         } else {
             play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
             play.isSelected = false
+            previousStep.isEnabled = true
+            nextStep.isEnabled = true
         }
     }
 

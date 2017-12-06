@@ -370,13 +370,16 @@
                                                         <state key="normal" image="drawplay_ic_down_on"/>
                                                         <state key="disabled" image="drawplay_ic_down_off"/>
                                                         <connections>
-                                                            <action selector="decreasePlaybackSpeed:" destination="wJn-NR-0b0" eventType="touchUpInside" id="X3N-vC-8rr"/>
+                                                            <action selector="decreaseSpeed:" destination="wJn-NR-0b0" eventType="touchUpInside" id="8Sc-Xl-aYQ"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKs-KV-iox">
                                                         <rect key="frame" x="50" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_prev_on"/>
                                                         <state key="disabled" image="drawplay_ic_prev_off"/>
+                                                        <connections>
+                                                            <action selector="previousStep:" destination="wJn-NR-0b0" eventType="touchUpInside" id="v2h-4H-gty"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugb-3u-Zzs">
                                                         <rect key="frame" x="100" y="0.0" width="63" height="62"/>
@@ -389,13 +392,16 @@
                                                         <rect key="frame" x="171" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_next_on"/>
                                                         <state key="disabled" image="drawplay_ic_next_off"/>
+                                                        <connections>
+                                                            <action selector="nextStep:" destination="wJn-NR-0b0" eventType="touchUpInside" id="G5A-vd-1KI"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJd-B2-4j8">
                                                         <rect key="frame" x="221" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_doble_on"/>
                                                         <state key="disabled" image="drawplay_ic_doble_off"/>
                                                         <connections>
-                                                            <action selector="increasePlaybackSpeed:" destination="wJn-NR-0b0" eventType="touchUpInside" id="VUJ-fL-i2W"/>
+                                                            <action selector="increaseSpeed:" destination="wJn-NR-0b0" eventType="touchUpInside" id="VUJ-fL-i2W"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -481,7 +487,9 @@
                         <outlet property="increaseSpeed" destination="VJd-B2-4j8" id="aPR-wP-EBc"/>
                         <outlet property="loading" destination="yDy-IQ-Hwa" id="Z6b-UP-RHk"/>
                         <outlet property="navigationBar" destination="Da8-0O-Aac" id="cdg-rG-Dnq"/>
+                        <outlet property="nextStep" destination="hcu-ob-Xqy" id="UXz-fC-YKH"/>
                         <outlet property="play" destination="ugb-3u-Zzs" id="T0g-Ap-PhB"/>
+                        <outlet property="previousStep" destination="dKs-KV-iox" id="2IA-GC-GMZ"/>
                         <outlet property="profileImage" destination="CSx-wS-p4o" id="SBC-2u-GXl"/>
                         <outlet property="profileName" destination="Vsk-8R-8p8" id="ue4-i8-Btc"/>
                         <outlet property="progressBar" destination="yxQ-Ni-VLM" id="Yl8-Ky-lmu"/>

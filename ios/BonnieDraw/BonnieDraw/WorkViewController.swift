@@ -20,6 +20,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var play: UIButton!
+    @IBOutlet weak var previousStep: UIButton!
+    @IBOutlet weak var nextStep: UIButton!
     @IBOutlet weak var decreaseSpeed: UIButton!
     @IBOutlet weak var increaseSpeed: UIButton!
     private var brush = Brush()
@@ -70,6 +72,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         timer?.invalidate()
         play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
         play.isSelected = false
+        previousStep.isEnabled = true
+        nextStep.isEnabled = true
     }
 
     private func downloadData() {
@@ -115,6 +119,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             timer?.invalidate()
             sender.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
             sender.isSelected = false
+            previousStep.isEnabled = true
+            nextStep.isEnabled = true
         } else {
             if drawPoints.isEmpty {
                 gridView.backgroundColor = .white
@@ -138,16 +144,24 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             }
             sender.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
             sender.isSelected = true
+            previousStep.isEnabled = false
+            nextStep.isEnabled = false
             UIApplication.shared.isIdleTimerDisabled = true
         }
     }
 
-    @IBAction func decreasePlaybackSpeed(_ sender: Any) {
+    @IBAction func previousStep(_ sender: Any) {
+    }
+
+    @IBAction func nextStep(_ sender: Any) {
+    }
+
+    @IBAction func decreaseSpeed(_ sender: Any) {
         animationSpeed *= 2
         checkSpeedButtons()
     }
 
-    @IBAction func increasePlaybackSpeed(_ sender: Any) {
+    @IBAction func increaseSpeed(_ sender: Any) {
         animationSpeed /= 2
         checkSpeedButtons()
     }
@@ -260,6 +274,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         } else {
             play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
             play.isSelected = false
+            previousStep.isEnabled = true
+            nextStep.isEnabled = true
         }
     }
 
