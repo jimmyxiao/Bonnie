@@ -206,6 +206,7 @@ class CanvasViewController:
             controller.delegate = self
             controller.stepWidth = Float(brush.stepWidth)
             controller.alpha = Float(brush.maxAlpha)
+            controller.type = brush.type
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
