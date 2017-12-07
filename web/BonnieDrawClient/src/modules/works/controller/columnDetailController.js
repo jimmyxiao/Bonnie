@@ -406,7 +406,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 						}
 					}
 				}else{
-					can.style.backgroundColor = data.color.color_rgba;
+					//can.style.backgroundColor = data.color.color_rgba;
 				}
 		}
 			
@@ -442,7 +442,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					switch(lines[i].action){
 						case 1:
 							var bigint = parseInt(lines[i].color, 16);
-							var a = (((bigint >> 24) & 255)/255).toFixed(2);
+							var A = (((bigint >> 24) & 255)/255).toFixed(2);
+							var a = (bigint >> 24) & 255;
 							var r = (bigint >> 16) & 255;
 							var g = (bigint >> 8) & 255;
 							var b = bigint & 255;
