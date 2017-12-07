@@ -224,6 +224,7 @@
                     <connections>
                         <outlet property="emptyLabel" destination="ZcB-TW-sA6" id="vqN-EA-kri"/>
                         <outlet property="loading" destination="aaU-ra-y4I" id="tsj-BI-FJi"/>
+                        <outlet property="menuButton" destination="dCA-X5-4qK" id="VuU-B0-i3D"/>
                         <outlet property="tableView" destination="VNc-7M-hET" id="AE5-BG-8E1"/>
                     </connections>
                 </viewController>
@@ -251,6 +252,7 @@
                                 <items>
                                     <navigationItem id="0gP-fD-3ww">
                                         <barButtonItem key="leftBarButtonItem" image="back_icon" id="HW6-Mr-0Kl">
+                                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="onBackPressed:" destination="wJn-NR-0b0" id="Qkv-X4-JnW"/>
                                             </connections>
@@ -684,6 +686,7 @@
                     <connections>
                         <outlet property="emptyLabel" destination="pct-gg-31m" id="8VG-ie-NJi"/>
                         <outlet property="loading" destination="wLe-FF-rWl" id="IAV-6r-jhh"/>
+                        <outlet property="menuButton" destination="nDo-Jv-il1" id="B7H-Pv-KnE"/>
                         <outlet property="tableView" destination="m2f-lW-bPO" id="wyG-kx-tF2"/>
                     </connections>
                 </viewController>
@@ -839,6 +842,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="bSB-IG-Qbt">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="TpQ-b4-TZ1">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1010,6 +1014,7 @@
                                 <items>
                                     <navigationItem id="TWF-z9-aor">
                                         <barButtonItem key="rightBarButtonItem" image="back_icon" id="Bqj-eG-Fht">
+                                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="dismiss:" destination="wJz-eU-OoF" id="rA2-9t-ShX"/>
                                             </connections>

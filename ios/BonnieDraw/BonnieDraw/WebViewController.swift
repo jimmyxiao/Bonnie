@@ -23,8 +23,6 @@ class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDel
         webView.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)
         container.addAndFill(subView: webView)
         indicator.startAnimating()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: indicator)
         self.webView = webView
         url = URL(string: "https://www.google.com/")
     }

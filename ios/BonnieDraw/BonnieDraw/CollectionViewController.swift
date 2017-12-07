@@ -11,8 +11,6 @@ import XLPagerTabStrip
 
 class CollectionViewController: ButtonBarPagerTabStripViewController {
     override func viewDidLoad() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Add_icon"), style: .plain, target: self, action: #selector(add))
         settings.style.selectedBarBackgroundColor = UIColor.getAccentColor()
         settings.style.selectedBarHeight = 1
         settings.style.buttonBarItemBackgroundColor = .clear
@@ -21,11 +19,7 @@ class CollectionViewController: ButtonBarPagerTabStripViewController {
         super.viewDidLoad()
     }
 
-    @objc private func add(_ sender: Any) {
-        performSegue(withIdentifier: Segue.COLLECTION, sender: nil)
-    }
-
-    @objc private func onBackPressed(_ sender: Any) {
+    @IBAction func onBackPressed(_ sender: Any) {
         if let navigationController = navigationController {
             if navigationController.popViewController(animated: true) == nil {
                 navigationController.dismiss(animated: true)
@@ -33,6 +27,10 @@ class CollectionViewController: ButtonBarPagerTabStripViewController {
         } else {
             dismiss(animated: true)
         }
+    }
+
+    @IBAction func add(_ sender: Any) {
+        performSegue(withIdentifier: Segue.COLLECTION, sender: nil)
     }
 
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {

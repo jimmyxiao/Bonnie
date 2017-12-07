@@ -9,7 +9,4 @@
 import UIKit
 
 class LanguageViewController: BackButtonViewController {
-    override func viewDidLoad() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
-    }
 }

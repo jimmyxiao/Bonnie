@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 
 class RecommendViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+    @IBOutlet var backButton: UIBarButtonItem!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -31,15 +32,11 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     private var tableViewUsers = [User]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
-    private var backButton: UIBarButtonItem?
     private let searchBar = UISearchBar()
     private let refreshControl = UIRefreshControl()
     private let placeholderImage = UIImage(named: "photo-square")
 
     override func viewDidLoad() {
-        backButton = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
-        navigationItem.leftBarButtonItem = backButton
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "title_bar_ic_search"), style: .plain, target: self, action: #selector(search))
         navigationItem.hidesBackButton = true
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
@@ -70,7 +67,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         dataRequest?.cancel()
     }
 
-    @objc internal func search() {
+    @IBAction func search(_ sender: Any) {
         if navigationItem.titleView != searchBar {
             navigationItem.setLeftBarButton(nil, animated: true)
             navigationItem.titleView = searchBar

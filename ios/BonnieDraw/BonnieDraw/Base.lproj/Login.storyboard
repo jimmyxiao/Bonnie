@@ -18,6 +18,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mRz-nJ-KFp">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="OHz-qF-2GS" kind="relationship" relationship="rootViewController" id="rDR-hs-OGe"/>
@@ -480,6 +481,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YG2-y8-H3p"/>
                     </view>
+                    <navigationItem key="navigationItem" id="LRE-51-b2H">
+                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="LJ9-9L-cC4">
+                            <connections>
+                                <action selector="onBackPressed:" destination="0CD-P2-SAx" id="Poa-g4-4PF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="email" destination="gzE-Be-Usa" id="qMc-Zl-eDm"/>
                         <outlet property="loading" destination="LFB-6M-3nV" id="4hC-Fe-jjh"/>
@@ -619,6 +627,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FRD-3r-EHr"/>
                     </view>
+                    <navigationItem key="navigationItem" id="ldg-2p-cc0">
+                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="OL2-9e-xIu">
+                            <connections>
+                                <action selector="onBackPressed:" destination="pOY-DV-MXh" id="lpM-Vv-aZC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="email" destination="eGj-dE-lgG" id="2XL-ro-kiz"/>
                         <outlet property="loading" destination="JFN-Ob-rpd" id="O69-jM-AyO"/>
@@ -629,6 +644,9 @@
             <point key="canvasLocation" x="980.625" y="-730.9859154929577"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="back_icon" width="14" height="26"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="4WA-1n-7BP"/>
     </inferredMetricsTieBreakers>

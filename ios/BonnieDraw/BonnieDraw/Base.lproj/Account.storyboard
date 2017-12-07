@@ -923,6 +923,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="THa-Dx-8gI"/>
                     </view>
+                    <navigationItem key="navigationItem" id="NE6-OV-OwK">
+                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="YUi-1D-szh">
+                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onBackPressed:" destination="bTs-G1-KZ1" id="6Mg-kQ-NOI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="BKq-Yz-Dlx" id="AiR-v7-tze"/>
                         <segue destination="mlI-Uy-vuT" kind="presentation" identifier="accountEditSegue" id="6mJ-Bl-V9p"/>
@@ -1007,6 +1015,20 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TXB-HI-L1I"/>
                     </view>
+                    <navigationItem key="navigationItem" id="3vl-rV-gia">
+                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="NaZ-fk-xFy">
+                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onBackPressed:" destination="Eow-xk-Bae" id="Ut6-Gs-aPR"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="Add_icon" id="XWk-VD-jnl">
+                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="add:" destination="Eow-xk-Bae" id="3Li-7P-T8T"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="buttonBarView" destination="TgV-0I-lXc" id="49l-Oj-FHp"/>
                         <outlet property="containerView" destination="A7p-0w-ZkX" id="K7H-oQ-uYm"/>
@@ -1359,7 +1381,21 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rHE-uD-7PN"/>
                     </view>
+                    <navigationItem key="navigationItem" id="QEi-LM-x6v">
+                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="948-uk-qH8">
+                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onBackPressed:" destination="yes-be-jNb" id="IEE-Wi-Ezv"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="title_bar_ic_search" id="KlF-eN-77b">
+                            <connections>
+                                <action selector="search:" destination="yes-be-jNb" id="Ayz-gv-x6y"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="backButton" destination="948-uk-qH8" id="85H-ek-uoP"/>
                         <outlet property="emptyLabel" destination="vpZ-kg-sjp" id="DVl-ae-MKg"/>
                         <outlet property="loading" destination="Gp4-fZ-Uff" id="Y0p-vS-CZs"/>
                         <outlet property="tableView" destination="qmu-0J-B6b" id="vqR-Tb-EUV"/>
@@ -1391,6 +1427,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bxq-hT-yPL"/>
                     </view>
+                    <navigationItem key="navigationItem" id="i7S-8T-IYF">
+                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="6ud-17-6dR">
+                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onBackPressed:" destination="Rfj-zd-bPl" id="dU5-Kd-6eB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kk3-S1-HUr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1418,6 +1462,30 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tVg-TY-Qqv"/>
                     </view>
+                    <navigationItem key="navigationItem" id="ZYE-1c-TZF">
+                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="ZEO-aW-Eoc">
+                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onBackPressed:" destination="Pph-uX-wOV" id="bk0-kX-nWf"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="3Nd-EH-RRU">
+                            <view key="customView" contentMode="scaleToFill" id="wU5-hq-d8A">
+                                <rect key="frame" x="227.5" y="5.5" width="83" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="m88-Sh-9ju">
+                                        <rect key="frame" x="32" y="6.5" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="m88-Sh-9ju" firstAttribute="centerX" secondItem="wU5-hq-d8A" secondAttribute="centerX" id="OEa-Aw-Cba"/>
+                                    <constraint firstItem="m88-Sh-9ju" firstAttribute="centerY" secondItem="wU5-hq-d8A" secondAttribute="centerY" id="j6b-GB-Thg"/>
+                                </constraints>
+                            </view>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="container" destination="2yz-do-ZFD" id="kec-6W-Tj3"/>
                     </connections>
@@ -1546,7 +1614,21 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bVz-0d-6h8"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Mwo-Lx-c8C">
+                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="Fdw-B1-PBB">
+                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onBackPressed:" destination="XQV-AK-LI5" id="4e3-Qv-mTV"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="title_bar_ic_search" id="R04-i2-2OF">
+                            <connections>
+                                <action selector="search:" destination="XQV-AK-LI5" id="gKy-n6-J1r"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="backButton" destination="Fdw-B1-PBB" id="BQc-9S-b1S"/>
                         <outlet property="emptyLabel" destination="tuN-qQ-hqy" id="Cvf-4d-3U4"/>
                         <outlet property="loading" destination="l4Q-Pp-icc" id="ROV-5q-z0q"/>
                         <outlet property="tableView" destination="hBf-4y-d2J" id="gEv-V7-pCE"/>
@@ -1558,6 +1640,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Add_icon" width="24" height="24"/>
+        <image name="back_icon" width="14" height="26"/>
         <image name="collect_ic_off" width="17" height="22"/>
         <image name="no_class_icon" width="96" height="96"/>
         <image name="personal_ic_list" width="20" height="15"/>
@@ -1566,13 +1650,14 @@
         <image name="photo-square" width="300" height="300"/>
         <image name="recommend_icon" width="24" height="21"/>
         <image name="share_icon" width="20" height="22"/>
+        <image name="title_bar_ic_search" width="22" height="22"/>
         <image name="work_ic_like" width="22" height="19"/>
         <image name="work_ic_message" width="22" height="22"/>
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Mjf-zA-TBs"/>
-        <segue reference="DW1-2m-BM6"/>
-        <segue reference="r42-p5-bz4"/>
+        <segue reference="6mJ-Bl-V9p"/>
+        <segue reference="nU1-Ki-HK5"/>
     </inferredMetricsTieBreakers>
 </document>

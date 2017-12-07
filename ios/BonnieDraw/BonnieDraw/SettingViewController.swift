@@ -15,7 +15,6 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
     var settings = [Setting(type: .profile, title: "setting_edit_profile".localized, segueId: Segue.ACCOUNT_EDIT)]
 
     override func viewDidLoad() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(onBackPressed))
         if let type = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)),
            type == .email {
             settings.append(Setting(type: .password, title: "setting_change_password".localized, segueId: Segue.PASSWORD))

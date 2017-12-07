@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 
 class FollowViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+    @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -71,7 +72,6 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     private var tableViewWorks = [Work]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
-    private var menuButton: UIBarButtonItem?
     private let searchBar = UISearchBar()
     private let titleView = Bundle.main.loadView(from: "TitleView")
     private let refreshControl = UIRefreshControl()
@@ -79,7 +79,6 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
 
     override func viewDidLoad() {
         navigationItem.titleView = titleView
-        menuButton = navigationItem.leftBarButtonItem
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
         searchBar.returnKeyType = .done
