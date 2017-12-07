@@ -96,7 +96,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         return UICollectionViewCell()
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isEditingMode {
             colors.remove(at: indexPath.row)
             collectionView.deleteItems(at: [indexPath])
@@ -107,6 +107,30 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
                 delegate?.colorPicker(didSelect: color, type: type)
             }
             dismiss(animated: true)
+        }
+    }
+
+    internal func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    internal func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        colors.insert(colors.remove(at: sourceIndexPath.row), at: destinationIndexPath.row)
+        UserDefaults.standard.set(colors: colors, forKey: Default.COLORS)
+    }
+
+    @IBAction func collectionReorderGesture(_ sender: UIGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            if let indexPath = collectionView.indexPathForItem(at: sender.location(in: collectionView)) {
+                collectionView.beginInteractiveMovementForItem(at: indexPath)
+            }
+        case .changed:
+            collectionView.updateInteractiveMovementTargetPosition(sender.location(in: collectionView))
+        case .ended:
+            collectionView.endInteractiveMovement()
+        default:
+            collectionView.cancelInteractiveMovement()
         }
     }
 

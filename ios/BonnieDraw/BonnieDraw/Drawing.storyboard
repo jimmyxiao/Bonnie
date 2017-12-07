@@ -596,6 +596,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PR8-Qp-NxJ">
                                 <rect key="frame" x="0.0" y="424" width="320" height="128"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="AhM-b1-E4e"/>
                                 </constraints>
@@ -635,6 +636,7 @@
                                 <connections>
                                     <outlet property="dataSource" destination="TMN-0X-9sU" id="MRH-HF-abp"/>
                                     <outlet property="delegate" destination="TMN-0X-9sU" id="Luj-1p-1pv"/>
+                                    <outletCollection property="gestureRecognizers" destination="bu7-fy-JR1" appends="YES" id="67B-72-Q3j"/>
                                 </connections>
                             </collectionView>
                         </subviews>
@@ -670,6 +672,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1uP-v4-kK6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="bu7-fy-JR1">
+                    <connections>
+                        <action selector="collectionReorderGesture:" destination="TMN-0X-9sU" id="dot-VO-cIn"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2604.375" y="807.04225352112678"/>
         </scene>
