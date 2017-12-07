@@ -488,23 +488,25 @@ class CanvasViewController:
 
     internal func didLoadState(_ state: JotViewStateProxy!) {
         DispatchQueue.global().async {
-            if FileManager.default.fileExists(atPath: FileUrl.DRAFT.path) {
-                do {
-                    let manager = FileManager.default
-                    if manager.fileExists(atPath: FileUrl.CACHE.path) {
-                        try manager.removeItem(at: FileUrl.CACHE)
-                    }
+            do {
+                let manager = FileManager.default
+                if manager.fileExists(atPath: FileUrl.CACHE.path) {
+                    try manager.removeItem(at: FileUrl.CACHE)
+                }
+                if FileManager.default.fileExists(atPath: FileUrl.DRAFT.path) {
                     try manager.copyItem(at: FileUrl.DRAFT, to: FileUrl.CACHE)
                     self.writeHandle = try FileHandle(forWritingTo: FileUrl.CACHE)
                     self.writeHandle?.seekToEndOfFile()
-                } catch {
-                    Logger.d("\(#function): \(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        self.playButton.isEnabled = true
+                        self.uploadButton.isEnabled = true
+                        self.resetButton.isEnabled = true
+                    }
+                } else {
+                    manager.createFile(atPath: FileUrl.CACHE.path, contents: nil, attributes: nil)
                 }
-                DispatchQueue.main.async {
-                    self.playButton.isEnabled = true
-                    self.uploadButton.isEnabled = true
-                    self.resetButton.isEnabled = true
-                }
+            } catch {
+                Logger.d("\(#function): \(error.localizedDescription)")
             }
             DispatchQueue.main.async {
                 self.gridView.backgroundColor = UserDefaults.standard.color(forKey: Default.DRAFT_BACKGROUND_COLOR) ?? .white
