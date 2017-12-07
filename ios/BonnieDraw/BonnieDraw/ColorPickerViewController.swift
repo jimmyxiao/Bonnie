@@ -24,7 +24,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
     var delegate: ColorPickerViewControllerDelegate?
     var type: ColorType?
     var color = UIColor.black
-    private var colors = UserDefaults.standard.colors(forKey: Default.COLORS) ?? [UIColor]()
+    private var colors = UserDefaults.standard.colors(forKey: Default.COLORS) ?? UIColor.getDefaultColors()
     private var isEditingMode = false
     private let colorExpression = try! NSRegularExpression(pattern: "[A-Fa-f0-9]+", options: .caseInsensitive)
 

@@ -26,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Twitter.sharedInstance().start(
                 withConsumerKey: Bundle.main.infoDictionary?["TwitterConsumerKey"] as! String,
                 consumerSecret: Bundle.main.infoDictionary?["TwitterConsumerSecret"] as! String)
+        if UserDefaults.standard.object(forKey: Default.COLORS) == nil {
+            UserDefaults.standard.set(colors: UIColor.getDefaultColors(), forKey: Default.COLORS)
+        }
         return true
     }
 

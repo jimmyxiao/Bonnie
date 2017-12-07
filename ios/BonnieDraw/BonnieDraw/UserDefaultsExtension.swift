@@ -30,7 +30,7 @@ extension UserDefaults {
     }
 
     func set(colors: [UIColor]?, forKey key: String) {
-        if let colors = colors, !colors.isEmpty {
+        if let colors = colors {
             var datas = [Data]()
             for color in colors {
                 datas.append(NSKeyedArchiver.archivedData(withRootObject: color))
