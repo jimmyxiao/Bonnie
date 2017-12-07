@@ -209,7 +209,18 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aJS-6k-yw9"/>
                     </view>
-                    <navigationItem key="navigationItem" id="p3R-ce-SHu"/>
+                    <navigationItem key="navigationItem" id="p3R-ce-SHu">
+                        <barButtonItem key="leftBarButtonItem" image="title_bar_menu" id="dCA-X5-4qK">
+                            <connections>
+                                <action selector="didTapMenu:" destination="gud-V7-B39" id="JK4-Yy-vkv"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="title_bar_ic_search" id="yjd-QZ-Qb9">
+                            <connections>
+                                <action selector="search:" destination="gud-V7-B39" id="HMC-uc-Zy1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="emptyLabel" destination="ZcB-TW-sA6" id="vqN-EA-kri"/>
                         <outlet property="loading" destination="aaU-ra-y4I" id="tsj-BI-FJi"/>
@@ -658,6 +669,18 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uiQ-gv-BXj"/>
                     </view>
+                    <navigationItem key="navigationItem" id="2W2-9A-r2f">
+                        <barButtonItem key="leftBarButtonItem" image="title_bar_menu" id="nDo-Jv-il1">
+                            <connections>
+                                <action selector="didTapMenu:" destination="YPx-0H-Cfd" id="vh9-iv-D2W"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="title_bar_ic_search" id="aRs-Ba-eDo">
+                            <connections>
+                                <action selector="search:" destination="YPx-0H-Cfd" id="Xy1-Oh-o53"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="emptyLabel" destination="pct-gg-31m" id="8VG-ie-NJi"/>
                         <outlet property="loading" destination="wLe-FF-rWl" id="IAV-6r-jhh"/>
@@ -1198,6 +1221,8 @@
         <image name="loading_icon" width="89" height="89"/>
         <image name="photo-square" width="300" height="300"/>
         <image name="share_icon" width="20" height="22"/>
+        <image name="title_bar_ic_search" width="22" height="22"/>
+        <image name="title_bar_menu" width="16" height="14"/>
         <image name="work_ic_like" width="22" height="19"/>
         <image name="work_ic_message" width="22" height="22"/>
         <image name="works_ic_more" width="22" height="6"/>

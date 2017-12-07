@@ -31,10 +31,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var postData: [String: Any]?
 
     override func viewDidLoad() {
-        menuButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
-        navigationItem.leftBarButtonItem = menuButton
         navigationItem.titleView = titleView
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "title_bar_ic_search"), style: .plain, target: self, action: #selector(search))
+        menuButton = navigationItem.leftBarButtonItem
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
         searchBar.returnKeyType = .done
@@ -75,7 +73,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    @objc internal func search() {
+    @IBAction func search(_ sender: Any) {
         if navigationItem.titleView == titleView {
             delegate?.home(enableMenuGesture: false)
             navigationItem.setLeftBarButton(nil, animated: true)
@@ -373,7 +371,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    @objc private func didTapMenu() {
+    @IBAction func didTapMenu(_ sender: Any) {
         delegate?.homeDidTapMenu()
     }
 }

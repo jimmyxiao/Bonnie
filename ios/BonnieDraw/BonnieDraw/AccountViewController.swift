@@ -26,14 +26,6 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     private let placeholderImage = UIImage(named: "photo-square")
 
     override func viewDidLoad() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: self, action: #selector(didSelectAccount))
-        navigationItem.leftBarButtonItem?.tintColor = .black
-        navigationItem.rightBarButtonItems =
-                [UIBarButtonItem(image: UIImage(named: "personal_ic_shape"), style: .plain, target: self, action: #selector(didSelectSetting)),
-                 UIBarButtonItem(image: UIImage(named: "recommend_icon"), style: .plain, target: self, action: #selector(didSelectRecommend)),
-                 UIBarButtonItem(image: UIImage(named: "collect_ic_off"), style: .plain, target: self, action: #selector(didSelectColllection)),
-                 UIBarButtonItem(image: UIImage(named: "personal_ic_list"), style: .plain, target: self, action: #selector(didSelectListLayout)),
-                 UIBarButtonItem(image: UIImage(named: "personal_ic_rectangle"), style: .plain, target: self, action: #selector(didSelectGridLayout))]
         collectionView.refreshControl = refreshControl
     }
 
@@ -51,32 +43,32 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         dataRequest?.cancel()
     }
 
-    @objc func didSelectAccount() {
+    @IBAction func didSelectAccount(_ sender: Any) {
         collectionView.setContentOffset(.zero, animated: true)
     }
 
-    @objc func didSelectGridLayout() {
-        if cellId != Cell.ACCOUNT_GRID {
-            cellId = Cell.ACCOUNT_GRID
-        }
+    @IBAction func didSelectSetting(_ sender: Any) {
+        performSegue(withIdentifier: Segue.SETTING, sender: nil)
     }
 
-    @objc func didSelectListLayout() {
+    @IBAction func didSelectRecommend(_ sender: Any) {
+        performSegue(withIdentifier: Segue.RECOMMEND, sender: nil)
+    }
+
+    @IBAction func didSelectColllection(_ sender: Any) {
+        performSegue(withIdentifier: Segue.COLLECTION, sender: nil)
+    }
+
+    @IBAction func didSelectListLayout(_ sender: Any) {
         if cellId != Cell.ACCOUNT_LIST {
             cellId = Cell.ACCOUNT_LIST
         }
     }
 
-    @objc func didSelectSetting() {
-        performSegue(withIdentifier: Segue.SETTING, sender: nil)
-    }
-
-    @objc func didSelectColllection() {
-        performSegue(withIdentifier: Segue.COLLECTION, sender: nil)
-    }
-
-    @objc func didSelectRecommend() {
-        performSegue(withIdentifier: Segue.RECOMMEND, sender: nil)
+    @IBAction func didSelectGridLayout(_ sender: Any) {
+        if cellId != Cell.ACCOUNT_GRID {
+            cellId = Cell.ACCOUNT_GRID
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

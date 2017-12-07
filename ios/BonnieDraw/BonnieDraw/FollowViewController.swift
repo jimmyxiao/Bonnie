@@ -78,10 +78,8 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     private let placeholderImage = UIImage(named: "photo-square")
 
     override func viewDidLoad() {
-        menuButton = UIBarButtonItem(image: UIImage(named: "title_bar_menu"), style: .plain, target: self, action: #selector(didTapMenu))
-        navigationItem.leftBarButtonItem = menuButton
         navigationItem.titleView = titleView
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "title_bar_ic_search"), style: .plain, target: self, action: #selector(search))
+        menuButton = navigationItem.leftBarButtonItem
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
         searchBar.returnKeyType = .done
@@ -135,7 +133,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         return UITableViewCell()
     }
 
-    @objc internal func search() {
+    @IBAction func search(_ sender: Any) {
         if navigationItem.titleView == titleView {
             delegate?.follow(enableMenuGesture: false)
             navigationItem.setLeftBarButton(nil, animated: true)
@@ -242,7 +240,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    @objc private func didTapMenu() {
+    @IBAction func didTapMenu(_ sender: Any) {
         delegate?.followDidTapMenu()
     }
 }

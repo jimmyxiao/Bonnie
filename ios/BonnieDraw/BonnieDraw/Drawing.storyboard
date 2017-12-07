@@ -50,7 +50,6 @@
                                 <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <items>
                                     <barButtonItem image="works_ic_more" id="Acs-9Q-imy">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <segue destination="H5o-Gk-z39" kind="popoverPresentation" popoverAnchorBarButtonItem="Acs-9Q-imy" id="vZt-iq-b1X">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
@@ -59,25 +58,20 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="530-Jw-uLv"/>
                                     <barButtonItem image="draw_ic_erase" id="5mv-yO-WfU">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="didSelectEraser:" destination="UtV-qG-lnq" id="HGe-ET-7P5"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Ggf-s8-UVX"/>
-                                    <barButtonItem enabled="NO" image="works_ic_more" id="ej2-if-WXq">
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </barButtonItem>
+                                    <barButtonItem enabled="NO" image="works_ic_more" id="ej2-if-WXq"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="T5z-TB-aEs"/>
                                     <barButtonItem enabled="NO" image="draw_ic_new" id="4it-9k-rj4">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="reset:" destination="UtV-qG-lnq" id="y72-6F-WO6"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="TAY-cZ-14A"/>
                                     <barButtonItem image="works_ic_more" id="izk-bQ-i33">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <segue destination="TMN-0X-9sU" kind="popoverPresentation" popoverAnchorBarButtonItem="izk-bQ-i33" id="Bnz-DZ-HzK">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
@@ -130,19 +124,16 @@
                     <navigationItem key="navigationItem" id="IG2-FN-L4w">
                         <leftBarButtonItems>
                             <barButtonItem image="top_bar_ic_back" id="Rj3-dB-99r">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="onBackPressed:" destination="UtV-qG-lnq" id="RVr-8j-eAR"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem enabled="NO" image="top_bar_ic_Forward" id="AlP-0d-zc9">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="undo:" destination="UtV-qG-lnq" id="R0f-U0-upp"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem enabled="NO" image="top_bar_ic_Backward" id="zwV-mO-m6y">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="redo:" destination="UtV-qG-lnq" id="6VO-T9-m3R"/>
                                 </connections>
@@ -150,7 +141,6 @@
                         </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem image="top_bar_ic_Description" id="oZS-le-Rg4">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="gfV-fO-s2t" kind="popoverPresentation" popoverAnchorBarButtonItem="oZS-le-Rg4" id="brp-IH-fls">
                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
@@ -158,13 +148,11 @@
                                 </connections>
                             </barButtonItem>
                             <barButtonItem enabled="NO" image="top_bar_ic_share" id="Ie1-Ie-uab">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="wrap:" destination="UtV-qG-lnq" id="6sU-Hr-Rd8"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem enabled="NO" image="top_bar_ic_play" id="Rwp-dJ-XXi">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="wrap:" destination="UtV-qG-lnq" id="AVZ-3D-vv4"/>
                                 </connections>
@@ -389,13 +377,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="Beq-EQ-LwZ">
                         <barButtonItem key="leftBarButtonItem" image="top_bar_ic_back" id="LsH-Jj-zP8">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="onBackPressed:" destination="WrP-vG-tzf" id="XAC-Yo-AfD"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="發佈" id="85a-p9-JUC">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="save:" destination="WrP-vG-tzf" id="03I-1f-ztB"/>
                             </connections>
@@ -432,7 +418,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fR4-jb-gKz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1764" y="36"/>
+            <point key="canvasLocation" x="1779" y="36"/>
         </scene>
         <!--Size Picker View Controller-->
         <scene sceneID="d0G-LU-1KU">
@@ -1058,7 +1044,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="nxf-zI-3mZ">
                         <barButtonItem key="leftBarButtonItem" image="top_bar_ic_back" id="HJW-Su-ffU">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="onBackPressed:" destination="mfc-of-Eyd" id="60H-El-yKx"/>
                             </connections>

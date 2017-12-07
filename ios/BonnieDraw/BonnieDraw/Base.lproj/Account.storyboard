@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="baU-bA-93J">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="baU-bA-93J">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -824,6 +825,41 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HyT-Zh-NqQ"/>
                     </view>
+                    <navigationItem key="navigationItem" id="qb8-Ud-Xt3">
+                        <barButtonItem key="leftBarButtonItem" id="ncP-CI-ZBK">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="didSelectAccount:" destination="baU-bA-93J" id="UUL-ua-GG4"/>
+                            </connections>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="personal_ic_shape" id="Ije-Qa-z1M">
+                                <connections>
+                                    <action selector="didSelectSetting:" destination="baU-bA-93J" id="9Me-aD-ATG"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="recommend_icon" id="QDa-m9-QsS">
+                                <connections>
+                                    <action selector="didSelectRecommend:" destination="baU-bA-93J" id="ENw-qN-ncH"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="collect_ic_off" id="WyP-sF-Lq0">
+                                <connections>
+                                    <action selector="didSelectColllection:" destination="baU-bA-93J" id="zX2-4Q-LrT"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="personal_ic_list" id="skK-iM-k57">
+                                <connections>
+                                    <action selector="didSelectListLayout:" destination="baU-bA-93J" id="dsB-TH-fEt"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="personal_ic_rectangle" id="VFV-V5-cDj">
+                                <connections>
+                                    <action selector="didSelectGridLayout:" destination="baU-bA-93J" id="UVB-je-3No"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Aar-v7-sZc" id="Ulx-c9-xJE"/>
                         <segue destination="bTs-G1-KZ1" kind="show" identifier="settingSegue" id="iFu-0J-Ux5">
@@ -1522,8 +1558,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="collect_ic_off" width="17" height="22"/>
         <image name="no_class_icon" width="96" height="96"/>
+        <image name="personal_ic_list" width="20" height="15"/>
+        <image name="personal_ic_rectangle" width="18" height="18"/>
+        <image name="personal_ic_shape" width="18" height="18"/>
         <image name="photo-square" width="300" height="300"/>
+        <image name="recommend_icon" width="24" height="21"/>
         <image name="share_icon" width="20" height="22"/>
         <image name="work_ic_like" width="22" height="19"/>
         <image name="work_ic_message" width="22" height="22"/>
@@ -1532,6 +1573,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="Mjf-zA-TBs"/>
         <segue reference="DW1-2m-BM6"/>
-        <segue reference="nU1-Ki-HK5"/>
+        <segue reference="r42-p5-bz4"/>
     </inferredMetricsTieBreakers>
 </document>
