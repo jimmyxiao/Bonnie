@@ -115,6 +115,7 @@ class CanvasViewController:
     }
 
     @IBAction func reset(_ sender: Any) {
+        presentedViewController?.dismiss(animated: true)
         presentConfirmationDialog(title: "alert_reset_title".localized, message: "alert_reset_content".localized) {
             success in
             if success {
@@ -189,6 +190,7 @@ class CanvasViewController:
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        presentedViewController?.dismiss(animated: true)
         if let controller = segue.destination as? CanvasSettingTableViewController {
             controller.delegate = self
             controller.popoverPresentationController?.delegate = self
