@@ -103,6 +103,8 @@
 		16D08F261FB16A34001D167C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16D08F251FB16A34001D167C /* GoogleService-Info.plist */; };
 		16D439651F66A9B300FF5878 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439641F66A9B300FF5878 /* Logger.swift */; };
 		16D439681F66AC8200FF5878 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439671F66AC8200FF5878 /* Point.swift */; };
+		16E539701FD965D800799E4D /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5396F1FD965D800799E4D /* CommentViewController.swift */; };
+		16E539721FD9698000799E4D /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E539711FD9698000799E4D /* CommentTableViewCell.swift */; };
 		16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FC10231F6963B3008A6A92 /* ViewExtension.swift */; };
 		C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */; };
 /* End PBXBuildFile section */
@@ -209,6 +211,8 @@
 		16D08F251FB16A34001D167C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16D439641F66A9B300FF5878 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		16D439671F66AC8200FF5878 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		16E5396F1FD965D800799E4D /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
+		16E539711FD9698000799E4D /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		16FC10231F6963B3008A6A92 /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.release.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.release.xcconfig"; sourceTree = "<group>"; };
 		F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.debug.xcconfig"; sourceTree = "<group>"; };
@@ -251,6 +255,7 @@
 				169490F51FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift */,
 				163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */,
 				16353D471FCDA57200482807 /* BrushPickerCollectionViewCell.swift */,
+				16E539711FD9698000799E4D /* CommentTableViewCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -355,6 +360,7 @@
 				16C013CC1F9F321100238463 /* FollowViewController.swift */,
 				16D08F1E1FB14D84001D167C /* DebugViewController.swift */,
 				16353D491FCDA61C00482807 /* BrushPickerViewController.swift */,
+				16E5396F1FD965D800799E4D /* CommentViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -616,6 +622,7 @@
 				163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */,
 				163A5E251FA061F100FE70BD /* FollowTableViewCell.swift in Sources */,
 				16D439681F66AC8200FF5878 /* Point.swift in Sources */,
+				16E539721FD9698000799E4D /* CommentTableViewCell.swift in Sources */,
 				16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
 				16303BA91FD1494E00C42783 /* Brush.swift in Sources */,
@@ -634,6 +641,7 @@
 				16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */,
 				1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */,
 				164AEC241FC69CCF00542354 /* ViewControllerExtension.swift in Sources */,
+				16E539701FD965D800799E4D /* CommentViewController.swift in Sources */,
 				164ED24F1F7B414500E8B910 /* TableViewExtension.swift in Sources */,
 				16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */,
 				163DDF401FC566F40052DF80 /* Profile.swift in Sources */,

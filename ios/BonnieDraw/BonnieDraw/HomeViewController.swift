@@ -232,7 +232,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 cell.collectButton.setImage(collectionImage, for: .normal)
             }
         }
-        cell.likes.text = "\(work.likes ?? 0)" + "likes".localized
+        cell.likes.text = work.likes ?? 0 > 0 ? "\(work.likes ?? 0)" + "likes".localized : "first_like".localized
         return cell
     }
 
@@ -305,7 +305,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @IBAction func comment(_ sender: UIButton) {
         if let indexPath = tableView.indexPath(forView: sender) {
-            Logger.d("\(#function) \(indexPath.row)")
+            performSegue(withIdentifier: Segue.COMMENT, sender: indexPath)
         }
     }
 
@@ -377,6 +377,5 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
-
     func home(enableMenuGesture enable: Bool)
 }

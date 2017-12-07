@@ -166,6 +166,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         checkSpeedButtons()
     }
 
+    @IBAction func like(_ sender: Any) {
+    }
+
+    @IBAction func share(_ sender: Any) {
+    }
+
+    @IBOutlet weak var collect: UIButton!
+
     internal func textureForStroke() -> JotBrushTexture! {
         return brush.texture()
     }

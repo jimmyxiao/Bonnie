@@ -29,13 +29,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N9o-NL-nWi" customClass="StatusBarBackgroundView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="EKS-X0-GHf"/>
-                                </constraints>
-                            </view>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gjy-hC-gkm">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
@@ -267,14 +260,12 @@
                         <constraints>
                             <constraint firstItem="xAt-Lj-Yxs" firstAttribute="bottom" secondItem="A9d-zf-IP5" secondAttribute="bottom" id="3uP-Bz-MuM"/>
                             <constraint firstItem="xAt-Lj-Yxs" firstAttribute="top" secondItem="Gjy-hC-gkm" secondAttribute="bottom" id="9Vm-hO-KMa"/>
+                            <constraint firstItem="Gjy-hC-gkm" firstAttribute="top" secondItem="A9d-zf-IP5" secondAttribute="top" id="Emh-5S-ufI"/>
                             <constraint firstItem="Gjy-hC-gkm" firstAttribute="leading" secondItem="A9d-zf-IP5" secondAttribute="leading" id="Mxu-pv-7mF"/>
-                            <constraint firstAttribute="trailing" secondItem="N9o-NL-nWi" secondAttribute="trailing" id="NeE-mI-eLc"/>
                             <constraint firstAttribute="trailing" secondItem="UZP-Xq-qQs" secondAttribute="trailing" id="OIz-El-sPX"/>
-                            <constraint firstItem="Gjy-hC-gkm" firstAttribute="top" secondItem="N9o-NL-nWi" secondAttribute="bottom" id="OO4-fS-dqO"/>
                             <constraint firstItem="zB1-4z-BU4" firstAttribute="centerX" secondItem="9pu-XP-WLe" secondAttribute="centerX" id="SLp-Hk-5ds"/>
                             <constraint firstItem="m19-Tr-JzT" firstAttribute="leading" secondItem="A9d-zf-IP5" secondAttribute="leading" constant="16" id="SyM-hr-e6f"/>
                             <constraint firstAttribute="trailing" secondItem="4em-SK-45A" secondAttribute="trailing" constant="16" id="dDZ-xC-1xt"/>
-                            <constraint firstItem="N9o-NL-nWi" firstAttribute="top" secondItem="9pu-XP-WLe" secondAttribute="top" id="de2-8J-rg3"/>
                             <constraint firstItem="xAt-Lj-Yxs" firstAttribute="leading" secondItem="A9d-zf-IP5" secondAttribute="leading" id="eSi-4y-yua"/>
                             <constraint firstItem="UZP-Xq-qQs" firstAttribute="top" secondItem="zB1-4z-BU4" secondAttribute="bottom" constant="8" id="gaY-7k-VXv"/>
                             <constraint firstItem="4em-SK-45A" firstAttribute="leading" secondItem="m19-Tr-JzT" secondAttribute="trailing" constant="16" id="inW-3w-vkd"/>
@@ -282,7 +273,6 @@
                             <constraint firstItem="m19-Tr-JzT" firstAttribute="top" secondItem="UZP-Xq-qQs" secondAttribute="bottom" id="nGK-J4-PxO"/>
                             <constraint firstItem="Gjy-hC-gkm" firstAttribute="trailing" secondItem="A9d-zf-IP5" secondAttribute="trailing" id="ol1-tC-T2J"/>
                             <constraint firstItem="UZP-Xq-qQs" firstAttribute="leading" secondItem="9pu-XP-WLe" secondAttribute="leading" id="p0h-HX-Knd"/>
-                            <constraint firstItem="N9o-NL-nWi" firstAttribute="leading" secondItem="9pu-XP-WLe" secondAttribute="leading" id="qs9-MT-8Pd"/>
                             <constraint firstItem="Dh2-33-3E9" firstAttribute="centerX" secondItem="9pu-XP-WLe" secondAttribute="centerX" id="qyf-Y6-zmu"/>
                             <constraint firstItem="Dh2-33-3E9" firstAttribute="top" secondItem="Gjy-hC-gkm" secondAttribute="bottom" constant="16" id="s6z-it-2re"/>
                             <constraint firstItem="zB1-4z-BU4" firstAttribute="top" secondItem="Dh2-33-3E9" secondAttribute="bottom" constant="8" id="xJv-nZ-YAO"/>
@@ -314,13 +304,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dFa-H4-W5L" customClass="StatusBarBackgroundView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="8VK-MK-qZF"/>
-                                </constraints>
-                            </view>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l9O-qt-fVH">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
@@ -442,21 +425,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="uGe-a0-klV" firstAttribute="bottom" secondItem="FrK-ka-9i4" secondAttribute="bottom" id="05D-LV-Ott"/>
-                            <constraint firstAttribute="trailing" secondItem="dFa-H4-W5L" secondAttribute="trailing" id="1GN-bD-ymo"/>
                             <constraint firstItem="fgW-BT-7a1" firstAttribute="leading" secondItem="FrK-ka-9i4" secondAttribute="leading" constant="16" id="3MN-7Y-Bpr"/>
                             <constraint firstAttribute="trailing" secondItem="iFV-8z-L3T" secondAttribute="trailing" constant="16" id="9rc-uw-74f"/>
                             <constraint firstItem="uGe-a0-klV" firstAttribute="top" secondItem="l9O-qt-fVH" secondAttribute="bottom" id="E3b-X4-AxI"/>
                             <constraint firstItem="FrK-ka-9i4" firstAttribute="trailing" secondItem="iFV-8z-L3T" secondAttribute="trailing" constant="16" id="Efw-Lp-dOw"/>
                             <constraint firstItem="iFV-8z-L3T" firstAttribute="leading" secondItem="fgW-BT-7a1" secondAttribute="trailing" constant="8" id="ITT-bC-jyl"/>
                             <constraint firstItem="l9O-qt-fVH" firstAttribute="trailing" secondItem="FrK-ka-9i4" secondAttribute="trailing" id="P9T-E5-tPP"/>
-                            <constraint firstItem="dFa-H4-W5L" firstAttribute="top" secondItem="OqR-zb-JCj" secondAttribute="top" id="UKO-nJ-r3n"/>
                             <constraint firstItem="uGe-a0-klV" firstAttribute="trailing" secondItem="FrK-ka-9i4" secondAttribute="trailing" id="VOs-lL-ufc"/>
-                            <constraint firstItem="l9O-qt-fVH" firstAttribute="top" secondItem="dFa-H4-W5L" secondAttribute="bottom" id="YFK-QI-txj"/>
                             <constraint firstItem="fgW-BT-7a1" firstAttribute="top" secondItem="l9O-qt-fVH" secondAttribute="bottom" constant="16" id="dqG-jQ-0aH"/>
-                            <constraint firstItem="dFa-H4-W5L" firstAttribute="leading" secondItem="OqR-zb-JCj" secondAttribute="leading" id="eMf-Mg-zCi"/>
                             <constraint firstItem="uGe-a0-klV" firstAttribute="leading" secondItem="FrK-ka-9i4" secondAttribute="leading" id="gYE-Zl-J0L"/>
                             <constraint firstItem="l9O-qt-fVH" firstAttribute="leading" secondItem="FrK-ka-9i4" secondAttribute="leading" id="gfd-zg-qX3"/>
                             <constraint firstItem="iFV-8z-L3T" firstAttribute="leading" secondItem="fgW-BT-7a1" secondAttribute="trailing" constant="8" id="nfR-sf-4f5"/>
+                            <constraint firstItem="l9O-qt-fVH" firstAttribute="top" secondItem="FrK-ka-9i4" secondAttribute="top" id="qh1-d1-sFD"/>
                             <constraint firstItem="fgW-BT-7a1" firstAttribute="leading" secondItem="FrK-ka-9i4" secondAttribute="leading" constant="16" id="sy8-Pf-4Qg"/>
                             <constraint firstItem="iFV-8z-L3T" firstAttribute="top" secondItem="l9O-qt-fVH" secondAttribute="bottom" constant="16" id="zpZ-DK-v53"/>
                         </constraints>
@@ -1215,13 +1195,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mDp-Kl-dP4" customClass="StatusBarBackgroundView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="dRC-mX-Nac"/>
-                                </constraints>
-                            </view>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkX-dK-lcp">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
@@ -1245,13 +1218,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cYp-w4-f7O" firstAttribute="centerX" secondItem="0UW-iN-Ctj" secondAttribute="centerX" id="471-Jm-PyP"/>
-                            <constraint firstItem="mDp-Kl-dP4" firstAttribute="top" secondItem="0UW-iN-Ctj" secondAttribute="top" id="9mf-z9-F0i"/>
-                            <constraint firstItem="hkX-dK-lcp" firstAttribute="top" secondItem="mDp-Kl-dP4" secondAttribute="bottom" id="HHl-Ps-A7r"/>
                             <constraint firstItem="hkX-dK-lcp" firstAttribute="trailing" secondItem="Xdv-rB-X9T" secondAttribute="trailing" id="Jnf-kY-Fox"/>
                             <constraint firstItem="hkX-dK-lcp" firstAttribute="leading" secondItem="Xdv-rB-X9T" secondAttribute="leading" id="Uaf-YS-rAH"/>
-                            <constraint firstAttribute="trailing" secondItem="mDp-Kl-dP4" secondAttribute="trailing" id="YHp-TO-jWz"/>
-                            <constraint firstItem="hkX-dK-lcp" firstAttribute="top" secondItem="mDp-Kl-dP4" secondAttribute="bottom" id="h60-oy-0Yb"/>
-                            <constraint firstItem="mDp-Kl-dP4" firstAttribute="leading" secondItem="0UW-iN-Ctj" secondAttribute="leading" id="jVI-tr-QW8"/>
+                            <constraint firstItem="hkX-dK-lcp" firstAttribute="top" secondItem="Xdv-rB-X9T" secondAttribute="top" id="ncl-xj-1Oh"/>
                             <constraint firstItem="cYp-w4-f7O" firstAttribute="centerY" secondItem="0UW-iN-Ctj" secondAttribute="centerY" id="uCW-7D-Ahm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Xdv-rB-X9T"/>

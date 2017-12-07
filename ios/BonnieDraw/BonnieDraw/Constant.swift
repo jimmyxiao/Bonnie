@@ -115,6 +115,7 @@ struct Cell {
     static let NOTIFICATION = "notificationCell"
     static let CANVAS_SETTING = "canvasSettingCell"
     static let BRUSH_PICKER = "brushPickerCell"
+    static let COMMENT = "commentCell"
 }
 
 struct Service {
@@ -175,6 +176,7 @@ struct Segue {
     static let FAN = "fanSegue"
     static let FOLLOW = "followSegue"
     static let BACKGROUND_COLOR = "backgroundColorSegue"
+    static let COMMENT = "commentSegue"
 }
 
 struct Default {
