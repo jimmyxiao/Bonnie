@@ -382,6 +382,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="發佈" id="85a-p9-JUC">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="save:" destination="WrP-vG-tzf" id="03I-1f-ztB"/>
                             </connections>
