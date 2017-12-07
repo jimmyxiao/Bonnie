@@ -38,9 +38,9 @@ class CanvasViewController:
     private var redoPaths = [Path]()
     private var writeHandle: FileHandle?
     private var persistentBackgroundColor: UIColor?
-    var jotViewStateInkPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/ink.png")
-    var jotViewStateThumbnailPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/thumbnail.png")
-    var jotViewStatePlistPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/state.plist")
+    var jotViewStateInkPath = FileUrl.INK.path
+    var jotViewStateThumbnailPath = FileUrl.THUMBNAIL.path
+    var jotViewStatePlistPath = FileUrl.STATE.path
 
     override func viewDidLoad() {
         brush.isForceSupported = true
@@ -540,13 +540,14 @@ class CanvasViewController:
     }
 
     private func saveToDraft(completionHandler: ((UIImage?) -> Void)? = nil) {
+        let color = gridView.backgroundColor
         save(cacheToUrl: FileUrl.DRAFT) {
             url in
             if url != nil {
                 self.canvas.exportImage(to: self.jotViewStateInkPath, andThumbnailTo: self.jotViewStateThumbnailPath, andStateTo: self.jotViewStatePlistPath, withThumbnailScale: UIScreen.main.scale) {
                     ink, thumbnail, state in
                     completionHandler?(thumbnail)
-                    UserDefaults.standard.set(color: self.gridView.backgroundColor, forKey: Default.DRAFT_BACKGROUND_COLOR)
+                    UserDefaults.standard.set(color: color, forKey: Default.DRAFT_BACKGROUND_COLOR)
                 }
             }
         }
@@ -560,19 +561,21 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                try manager.copyItem(at: FileUrl.CACHE, to: url)
-                let writeHandle = try FileHandle(forWritingTo: url)
-                writeHandle.seekToEndOfFile()
-                var pointsToSave = [Point]()
-                for path in self.paths {
-                    for point in path.points {
-                        pointsToSave.append(point)
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                    try manager.copyItem(at: FileUrl.CACHE, to: url)
+                    let writeHandle = try FileHandle(forWritingTo: url)
+                    writeHandle.seekToEndOfFile()
+                    var pointsToSave = [Point]()
+                    for path in self.paths {
+                        for point in path.points {
+                            pointsToSave.append(point)
+                        }
                     }
+                    if !pointsToSave.isEmpty {
+                        writeHandle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
+                    }
+                    writeHandle.closeFile()
                 }
-                if !pointsToSave.isEmpty {
-                    writeHandle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))
-                }
-                writeHandle.closeFile()
                 DispatchQueue.main.async {
                     completionHandler?(url)
                 }

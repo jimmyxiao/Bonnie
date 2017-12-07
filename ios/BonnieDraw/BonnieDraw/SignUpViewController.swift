@@ -66,10 +66,21 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
         } else {
             view.endEditing(true)
             loading.hide(false)
+            var postData: [String: Any] = ["uc": email, "up": password.MD5(), "un": name, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 2]
+            let locale = Locale.current
+            if let languageCode = locale.languageCode {
+                postData["languageCode"] = languageCode
+            }
+            if let regionCode = locale.regionCode {
+                postData["countryCode"] = regionCode
+            }
+            if let deviceId = UIDevice.current.identifierForVendor?.uuidString {
+                postData["deviceId"] = deviceId
+            }
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.LOGIN),
                     method: .post,
-                    parameters: ["uc": email, "up": password.MD5(), "un": name, "ut": 1, "dt": SERVICE_DEVICE_TYPE, "fn": 2],
+                    parameters: postData,
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {

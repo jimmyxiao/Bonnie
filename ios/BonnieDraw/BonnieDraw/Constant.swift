@@ -84,6 +84,21 @@ struct FileUrl {
             in: .userDomainMask,
             appropriateFor: nil,
             create: true).appendingPathComponent("result.bdw")
+    static let INK = try! FileManager.default.url(
+            for: .documentationDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("ink.png")
+    static let THUMBNAIL = try! FileManager.default.url(
+            for: .documentationDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("thumbnail.png")
+    static let STATE = try! FileManager.default.url(
+            for: .documentationDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true).appendingPathComponent("state.plist")
 }
 
 struct Cell {

@@ -29,8 +29,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     private var readHandle: FileHandle?
     private var timer: Timer?
     private var animationSpeed = 1.0
-    var jotViewStateInkPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/ink.png")
-    var jotViewStatePlistPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path.appending("/state.plist")
+    var jotViewStateInkPath = FileUrl.INK.path
+    var jotViewStatePlistPath = FileUrl.STATE.path
     var work: Work?
     private var downloadRequest: DownloadRequest?
 
