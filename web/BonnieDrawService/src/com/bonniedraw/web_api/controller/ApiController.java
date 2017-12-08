@@ -199,7 +199,7 @@ public class ApiController {
 	public @ResponseBody ForgetPwdResponseVO forgetPwd(HttpServletRequest request,HttpServletResponse resp,@RequestBody ForgetPwdRequestVO forgetPwdRequestVO) {
 		ForgetPwdResponseVO respResult = new ForgetPwdResponseVO();
 		String email = forgetPwdRequestVO.getEmail();
-		respResult.setRes(0);
+		respResult.setRes(2);
 		if(ValidateUtil.isBlank(email)){
 			respResult.setMsg("無郵件資訊");
 		}else{

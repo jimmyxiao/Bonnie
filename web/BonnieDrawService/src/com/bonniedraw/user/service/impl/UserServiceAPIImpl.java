@@ -387,7 +387,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	@Transactional(rollbackFor = Exception.class)
 	public ForgetPwdResponseVO setPwdByEmail(String email, SystemSetup systemSetup) {
 		ForgetPwdResponseVO result = new ForgetPwdResponseVO();
-		result.setRes(2);
+		result.setRes(4);
 		SecureRandom random = new SecureRandom();
 		String code = new BigInteger(130, random).toString(32);
 		if(ValidateUtil.isNotBlank(code)){
@@ -414,6 +414,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "setPwdByEmail function encrypt md5Code has error : " + e );
+			result.setRes(3);
 			result.setMsg("重設密碼失敗");
 			callRollBack();
 		}
