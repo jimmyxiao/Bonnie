@@ -167,6 +167,8 @@ public class ApiController {
 						case 1:
 							if(res==3){
 								msg=result.getMsg();
+							}else if(res == 4){
+								msg = "帳號未驗證";
 							}else{
 								msg = messageSource.getMessage("api_login_fail1",null,request.getLocale());
 							}
