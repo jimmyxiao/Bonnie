@@ -25,6 +25,7 @@
 "alert_sign_up_success_title" = "註冊成功";
 "alert_sign_up_success_content" = "已發送認證信至您的信箱";
 "service_download_fail_title" = "下載失敗";
+"service_leave_message_fail_title" = "留言失敗";
 "likes" = "個讚";
 "canvas_data_parse_error_title" = "讀檔錯誤";
 "canvas_data_parse_error_content" = "檔案已損毀無法讀取";
@@ -61,3 +62,5 @@
 "twenty_by_twenty_grid" = "20 x 20 格線";
 "canvas_animation_title" = "播放速度";
 "first_like" = "成為第一個按讚";
+"alert_permission_required" = "權限需求";
+"alert_permission_photos" = "BonnieDraw 會把圖存進相簿裡";

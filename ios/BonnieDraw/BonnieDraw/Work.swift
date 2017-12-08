@@ -18,4 +18,5 @@ struct Work {
     var isLike: Bool?
     var isCollection: Bool?
     var likes: Int?
+    var messages = [Message]()
 }

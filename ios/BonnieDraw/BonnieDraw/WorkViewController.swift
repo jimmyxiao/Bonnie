@@ -67,6 +67,12 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         NotificationCenter.default.removeObserver(self)
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? CommentViewController {
+            controller.work = work
+        }
+    }
+
     @objc func applicationDidEnterBackground(notification: Notification) {
         UIApplication.shared.isIdleTimerDisabled = false
         timer?.invalidate()
@@ -242,11 +248,13 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                             smoothness: self.brush.smoothness,
                             stepWidth: self.brush.stepWidth)
                 case .up:
-                    self.canvas.drawEnded(point.position,
-                            width: point.size,
-                            color: point.type != .eraser ? point.color : nil,
-                            smoothness: self.brush.smoothness,
-                            stepWidth: self.brush.stepWidth)
+                    if point.type != .background {
+                        self.canvas.drawEnded(point.position,
+                                width: point.size,
+                                color: point.type != .eraser ? point.color : nil,
+                                smoothness: self.brush.smoothness,
+                                stepWidth: self.brush.stepWidth)
+                    }
                 case .down:
                     if point.type != .background {
                         self.brush.type = point.type

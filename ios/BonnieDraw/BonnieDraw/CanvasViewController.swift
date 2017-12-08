@@ -402,7 +402,15 @@ class CanvasViewController:
                     action: .down,
                     size: 0,
                     type: .background,
-                    duration: ANIMATION_TIMER)]))
+                    duration: ANIMATION_TIMER),
+                Point(length: LENGTH_SIZE,
+                        function: .draw,
+                        position: .zero,
+                        color: color,
+                        action: .up,
+                        size: 0,
+                        type: .background,
+                        duration: ANIMATION_TIMER)]))
             gridView.backgroundColor = color
             redoPaths.removeAll()
             saveToCache()
@@ -564,7 +572,7 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                if try !self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
                     try manager.copyItem(at: FileUrl.CACHE, to: url)
                     let writeHandle = try FileHandle(forWritingTo: url)
                     writeHandle.seekToEndOfFile()

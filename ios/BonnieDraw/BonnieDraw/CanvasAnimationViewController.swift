@@ -183,11 +183,13 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
                             smoothness: self.brush.smoothness,
                             stepWidth: self.brush.stepWidth)
                 case .up:
-                    self.canvas.drawEnded(point.position,
-                            width: point.size,
-                            color: point.type != .eraser ? point.color : nil,
-                            smoothness: self.brush.smoothness,
-                            stepWidth: self.brush.stepWidth)
+                    if point.type != .background {
+                        self.canvas.drawEnded(point.position,
+                                width: point.size,
+                                color: point.type != .eraser ? point.color : nil,
+                                smoothness: self.brush.smoothness,
+                                stepWidth: self.brush.stepWidth)
+                    }
                 case .down:
                     if point.type != .background {
                         self.brush.type = point.type

@@ -91,6 +91,7 @@
 		169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169C71CA1F66AFEF00B5D786 /* Constant.swift */; };
 		16A82D0E1FB1B564007D6128 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */; };
 		16A82D101FB1B56F007D6128 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */; };
+		16AD54EC1FDA91EF00EA498B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD54EB1FDA91EF00EA498B /* Message.swift */; };
 		16AD967F1FD3E6370084151D /* TouchExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD967E1FD3E6370084151D /* TouchExtension.swift */; };
 		16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */; };
 		16BE0F2C1FC67A1500B989CE /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2B1FC67A1500B989CE /* GridView.swift */; };
@@ -200,6 +201,7 @@
 		169C71CA1F66AFEF00B5D786 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		16AD54EB1FDA91EF00EA498B /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		16AD967E1FD3E6370084151D /* TouchExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchExtension.swift; sourceTree = "<group>"; };
 		16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		16BE0F2B1FC67A1500B989CE /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				16185C7E1F94A264008F0840 /* Work.swift */,
 				163DDF3F1FC566F40052DF80 /* Profile.swift */,
 				164F84651FC6643500A8E770 /* User.swift */,
+				16AD54EB1FDA91EF00EA498B /* Message.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -695,6 +698,7 @@
 				164F84661FC6643500A8E770 /* User.swift in Sources */,
 				163907051F6C0BE400E5717A /* BundleExtension.swift in Sources */,
 				16BE0F2C1FC67A1500B989CE /* GridView.swift in Sources */,
+				16AD54EC1FDA91EF00EA498B /* Message.swift in Sources */,
 				16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */,
 				16109CCB1F96E96D000864DB /* AccountFooterCollectionReusableView.swift in Sources */,
 			);

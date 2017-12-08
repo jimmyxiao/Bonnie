@@ -23,7 +23,8 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             title: nil,
             isLike: nil,
             isCollection: nil,
-            likes: Int(arc4random_uniform(256))),
+            likes: Int(arc4random_uniform(256)),
+            messages: []),
         Work(id: nil,
                 profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 profileName: "Name",
@@ -32,7 +33,8 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 title: nil,
                 isLike: nil,
                 isCollection: nil,
-                likes: Int(arc4random_uniform(256))),
+                likes: Int(arc4random_uniform(256)),
+                messages: []),
         Work(id: nil,
                 profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 profileName: "Name",
@@ -41,7 +43,8 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 title: nil,
                 isLike: nil,
                 isCollection: nil,
-                likes: Int(arc4random_uniform(256))),
+                likes: Int(arc4random_uniform(256)),
+                messages: []),
         Work(id: nil,
                 profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 profileName: "Name",
@@ -50,7 +53,8 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 title: nil,
                 isLike: nil,
                 isCollection: nil,
-                likes: Int(arc4random_uniform(256))),
+                likes: Int(arc4random_uniform(256)),
+                messages: []),
         Work(id: nil,
                 profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 profileName: "Name",
@@ -59,7 +63,8 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 title: nil,
                 isLike: nil,
                 isCollection: nil,
-                likes: Int(arc4random_uniform(256))),
+                likes: Int(arc4random_uniform(256)),
+                messages: []),
         Work(id: nil,
                 profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 profileName: "Name",
@@ -68,7 +73,8 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 title: nil,
                 isLike: nil,
                 isCollection: nil,
-                likes: Int(arc4random_uniform(256)))]
+                likes: Int(arc4random_uniform(256)),
+                messages: [])]
     private var tableViewWorks = [Work]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
@@ -168,7 +174,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         emptyLabel.isHidden = !tableViewWorks.isEmpty
     }
 
-    @objc private func downloadData() {
+    private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
             presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
                 success in
@@ -191,7 +197,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             response in
             switch response.result {
             case .success:
-                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workList = data["workList"] as? [[String: Any]] else {
+                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let works = data["workList"] as? [[String: Any]] else {
                     self.presentConfirmationDialog(
                             title: "service_download_fail_title".localized,
                             message: "app_network_unreachable_content".localized) {
@@ -203,7 +209,22 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                     return
                 }
                 self.works.removeAll()
-                for work in workList {
+                for work in works {
+                    var messageList = [Message]()
+                    if let messages = work["msgList"] as? [[String: Any]] {
+                        for message in messages {
+                            var date: Date? = nil
+                            if let milliseconds = message["creationDate"] as? Int {
+                                date = Date(timeIntervalSince1970: Double(milliseconds) / 1000)
+                            }
+                            messageList.append(Message(id: message["worksMsgId"] as? Int,
+                                    userId: message["userId"] as? Int,
+                                    message: message["message"] as? String,
+                                    date: date,
+                                    userName: message["userName"] as? String,
+                                    userProfile: URL(string: Service.filePath(withSubPath: message["profilePicture"] as? String))))
+                        }
+                    }
                     self.works.append(Work(
                             id: work["worksId"] as? Int,
                             profileImage: URL(string: Service.filePath(withSubPath: work["profilePicture"] as? String)),
@@ -213,7 +234,8 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                             title: work["title"] as? String,
                             isLike: work["like"] as? Bool,
                             isCollection: work["collection"] as? Bool,
-                            likes: work["likeCount"] as? Int))
+                            likes: work["likeCount"] as? Int,
+                            messages: messageList))
                 }
                 self.tableViewWorks = self.works
                 self.tableView.reloadSections([0], with: .automatic)

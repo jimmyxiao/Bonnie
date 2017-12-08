@@ -11,6 +11,11 @@ import UIKit
 class CommentTableViewCell: UITableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
-    @IBOutlet weak var comment: UILabel!
+    @IBOutlet weak var message: UILabel!
     @IBOutlet weak var date: UILabel!
+
+    override func awakeFromNib() {
+        profileImage.sd_setShowActivityIndicatorView(true)
+        profileImage.sd_setIndicatorStyle(.gray)
+    }
 }

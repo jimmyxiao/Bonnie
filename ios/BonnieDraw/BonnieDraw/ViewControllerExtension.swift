@@ -42,7 +42,7 @@ extension UIViewController {
                     if status == .authorized {
                         successHandler?()
                     } else {
-                        self.presentConfirmationDialog(title: "ERROR17_TITLE".localized, message: "ERROR17_CONTENT".localized) {
+                        self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_photos".localized) {
                             success in
                             if success {
                                 AppDelegate.openSettings()
@@ -65,7 +65,7 @@ extension UIViewController {
                     if status {
                         successHandler?()
                     } else {
-                        self.presentConfirmationDialog(title: "ERROR23_TITLE".localized, message: "ERROR23_CONTENT".localized) {
+                        self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "".localized) {
                             success in
                             if success {
                                 AppDelegate.openSettings()
@@ -88,7 +88,7 @@ extension UIViewController {
                     if status {
                         successHandler?()
                     } else {
-                        self.presentConfirmationDialog(title: "ERROR6_TITLE".localized, message: "ERROR6_CONTENT".localized) {
+                        self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "".localized) {
                             success in
                             if success {
                                 AppDelegate.openSettings()
