@@ -307,9 +307,8 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mGoogleApiClient.connect();
         //接收推播
         Intent intent = getIntent();
-        String msg = intent.getStringExtra("msg");
-        if (msg != null)
-            Log.d("FCM", "msg:" + msg);
+        int event = intent.getIntExtra("evnet", 0);
+        Log.d("FCM", "event:" + event);
     }
 
     @Override
