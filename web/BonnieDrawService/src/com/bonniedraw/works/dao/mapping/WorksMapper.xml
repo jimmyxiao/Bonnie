@@ -257,6 +257,7 @@
     <result column="MSG_ORDER" jdbcType="INTEGER" property="msgOrder" />
     <result column="MSG_CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
      <result column="MSG_USER_NAME" jdbcType="VARCHAR" property="userName" />
+     <result column="MSG_PROFILE_PICTURE" jdbcType="VARCHAR" property="profilePicture" />
   </resultMap>
   <resultMap id="CategoryModuleMap" type="com.bonniedraw.works.model.WorksCategory">
     <id column="WORKS_CATEGORY_ID" jdbcType="INTEGER" property="worksCategoryId" />
@@ -284,7 +285,7 @@
     left outer join 
     (select 
     wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER,
-    wm.CREATION_DATE as MSG_CREATION_DATE, user_info.USER_NAME as  MSG_USER_NAME
+    wm.CREATION_DATE as MSG_CREATION_DATE, user_info.USER_NAME as  MSG_USER_NAME, user_info.PROFILE_PICTURE as MSG_PROFILE_PICTURE
     from works_msg wm left outer join user_info on wm.USER_ID = user_info.USER_ID ) t
     on t.MSG_WORKS_ID = wk.WORKS_ID
     left outer join works_category as wc on wc.WORKS_ID = wk.WORKS_ID
@@ -312,7 +313,7 @@
     left outer join 
     (select 
     wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER,
-    wm.CREATION_DATE as MSG_CREATION_DATE, user_info.USER_NAME as  MSG_USER_NAME
+    wm.CREATION_DATE as MSG_CREATION_DATE, user_info.USER_NAME as  MSG_USER_NAME, user_info.PROFILE_PICTURE as MSG_PROFILE_PICTURE
     from works_msg wm left outer join user_info on wm.USER_ID = user_info.USER_ID ) t
     on t.MSG_WORKS_ID = wk.WORKS_ID
     left outer join works_category as wc on wc.WORKS_ID = wk.WORKS_ID
@@ -767,7 +768,7 @@
     left outer join 
     (select 
     wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER,
-    wm.CREATION_DATE as MSG_CREATION_DATE, user_info.USER_NAME as  MSG_USER_NAME
+    wm.CREATION_DATE as MSG_CREATION_DATE, user_info.USER_NAME as  MSG_USER_NAME, user_info.PROFILE_PICTURE as MSG_PROFILE_PICTURE
     from works_msg wm left outer join user_info on wm.USER_ID = user_info.USER_ID ) t
     on t.MSG_WORKS_ID = wk.WORKS_ID
 	where wk.WORKS_ID = #{worksId,jdbcType=INTEGER}

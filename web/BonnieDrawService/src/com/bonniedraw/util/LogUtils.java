@@ -30,10 +30,11 @@ public class LogUtils {
 		logger.error(strLog.toString());
 	}
 	
-	public static void scheduled (String msg) {
-		Logger logger = LoggerFactory.getLogger("scheduled_log");
-		StringBuffer strLog = new StringBuffer();
-		strLog.append(msg);
-		logger.error(strLog.toString());
-	}
+//	public static void scheduled (String msg) {
+//		Logger logger = LoggerFactory.getLogger("scheduled_log");
+//		StringBuffer strLog = new StringBuffer();
+//		strLog.append(msg);
+//		logger.error(strLog.toString());
+//	}
+	
 }

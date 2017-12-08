@@ -37,6 +37,18 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		crayon2.height = 80;
 		var ctx2 = crayon2.getContext('2d');
 
+		var stocker = document.createElement('canvas');
+		var st = stocker.getContext("2d");
+		stocker.width = 500;
+		stocker.height = 500;
+
+		var background = document.createElement('canvas');
+		var bg=background.getContext("2d");
+		background.width = 500;
+		background.height = 500;
+
+		var bgcolord = '';
+
 		$scope.hoverIn = function(){
 			if($scope.pausebol && $scope.playRead){
 				$scope.funcol = true;
@@ -160,6 +172,23 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		    var imgData=ctx1.getImageData(x,y, img.width,img.height);
 			ctx2.putImageData(imgData,0,0);
 			return crayon2;
+		}
+
+		function cahngBgCoior(color){
+			r=color.color_r;
+			g=color.color_g;
+			b=color.color_b;
+			a=color.color_a;
+			var imgData=cxt.createImageData(background.width,background.height);
+			for (var i=0;i<imgData.data.length;i+=4){
+				imgData.data[i+0]=r;
+				imgData.data[i+1]=g;
+				imgData.data[i+2]=b;
+				imgData.data[i+3]=a;
+			}
+			bg.clearRect(0, 0, 500, 500);
+			bg.putImageData(imgData,0,0);
+			return background;
 		} 
 
 		function distanceBetween(point1, point2){
@@ -182,9 +211,9 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		var canvas_height = 1000;
 		var imgdata;
 		var imgarray = [
-			'', new Image(), new Image(), new Image(), new Image(),	new Image() 
+			 new Image(), new Image(), new Image(), new Image(), new Image(),	new Image() 
 		];
-		imgarray[0].src = '';
+		imgarray[0].src = 'assets/images/BrushImage/eraser.png';
 		imgarray[1].src = 'assets/images/BrushImage/Creyon_brush_18.png';
 		imgarray[2].src = 'assets/images/BrushImage/SoftPencil_brush_04.png';
 		imgarray[3].src = 'assets/images/BrushImage/InkPen_brush_01.png';
@@ -192,7 +221,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05-1.png';
 		
 		var brush_Alpha = [
-			0, 0.4, 0.02, 1, 0.03, 0.02//0, 1, 1, 1, 0.4, 0.034|0, 0.9, 0.02, 1, 0.02, 0.08
+			1, 0.4, 0.02, 1, 0.03, 0.02//0, 1, 1, 1, 0.4, 0.034|0, 0.9, 0.02, 1, 0.02, 0.08
 		];
 		
 		var brush_imgAlpha = [
@@ -278,7 +307,14 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 				switch(action){
 				case 1:
 					if(brush==6){
-						can.style.backgroundColor = data.color.color_rgba;
+						//can.style.backgroundColor = data.color.color_rgba;
+						bgcolord = data.color;
+						var bgColordata = cahngBgCoior(data.color);
+						cxt.clearRect(0, 0, canvas_width, canvas_height);
+						cxt.globalAlpha = 1;
+						cxt.globalCompositeOperation = "source-over";
+						cxt.drawImage(bgColordata, 0, 0);
+						cxt.drawImage(stocker, 0, 0);
 					}
 					break;
 				case 2:
@@ -290,8 +326,12 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					break;
 				}
 			}else if(action == 3){
-				if((brush != 0) && (brush != 6)){
-					imgdata = changeColor(imgarray[brush], data.color);
+				// if((data.brush!=0) && (data.brush!=6)){
+				if(data.brush!=6){
+					imgdata = changeColor(imgarray[data.brush], data.color);
+				}
+				if(data.brush==0){
+					imgdata = changeColor(imgarray[0], bgcolord);
 				}
 				
 				if(brush != 6){
@@ -299,22 +339,26 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					var dist = distanceBetween(previewData, data);
 					var angle = angleBetween(previewData, data);
 					if(brush == 1){
-						for (var distnum = 0; distnum < dist; distnum+=4) {
+						for (var distnum = 0; distnum < dist; distnum++) {
 							x = previewData.xPos + (Math.sin(angle) * distnum) ;
 							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							var Crayonimg = changeCrayon(imgdata,x,y);
 							//cxt.globalCompositeOperation = 'xor';
 							cxt.drawImage(Crayonimg, x, y, data.size, data.size);
+							st.drawImage(Crayonimg, x, y, data.size, data.size);
+
 						}
 					}else{
 						for (var distnum = 0; distnum < dist; distnum++) {
 							x = previewData.xPos + (Math.sin(angle) * distnum) ;
 							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							if(brush == 0){
-								cxt.arc(x,y,data.size/2,0,2*Math.PI);
-								cxt.clearRect(x, y,data.size/2,data.size/2);
+								cxt.globalAlpha = 1;
+								cxt.clearRect(x, y,data.size,data.size);
+								cxt.drawImage(imgdata, x, y, data.size, data.size);
 							}else{
 								cxt.drawImage(imgdata, x, y, data.size, data.size);
+								st.drawImage(imgdata, x, y, data.size, data.size);	
 							}
 						}
 					}

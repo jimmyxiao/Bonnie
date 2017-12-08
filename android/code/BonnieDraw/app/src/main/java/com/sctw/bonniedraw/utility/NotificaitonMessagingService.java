@@ -17,22 +17,25 @@ public class NotificaitonMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.d("FCM", "onMessageReceived:" + remoteMessage.getFrom());
         if (remoteMessage.getNotification() != null) {
             Log.d("FCM", "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d("FCM", "Message Notification Body: " + remoteMessage.getNotification().getTitle());
+            sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         }
-        sendNotification(remoteMessage.getFrom());
     }
 
-    private void sendNotification(String body) {
+    private void sendNotification(String title, String body) {
         NotificationUtil mNotificationUtil = new NotificationUtil(getApplicationContext());
         Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //event 1= 留言 ， 2 = 點讚
+        intent.putExtra("evnet","msg");
+        intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Notification.Builder nb = mNotificationUtil.
-                getAndroidChannelNotification("Bonnidraw", body);
+                getAndroidChannelNotification(title, body);
+        nb.setContentIntent(pendingIntent);
 
         mNotificationUtil.getManager().notify(101, nb.build());
     }

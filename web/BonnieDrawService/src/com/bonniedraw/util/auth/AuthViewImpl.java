@@ -1,17 +1,17 @@
 package com.bonniedraw.util.auth;
 
-import java.lang.annotation.Annotation;
+//import java.lang.annotation.Annotation;
 
 public class AuthViewImpl implements AuthView{
 
-	@Override
-	public Class<? extends Annotation> annotationType() {
-		return null;
-	}
-
-	@Override
-	public boolean validate() {
-		return true;
-	}
+//	@Override
+//	public Class<? extends Annotation> annotationType() {
+//		return null;
+//	}
+//
+//	@Override
+//	public boolean validate() {
+//		return true;
+//	}
 
 }

@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class BaseService extends PushNotificationsServiceImpl{
 	
-	private final String TOPIC = "/topics/";
+//	private final String TOPIC = "/topics/";
 	
 	@Autowired
 	public DataSourceTransactionManager transactionManager;
@@ -46,7 +46,6 @@ public class BaseService extends PushNotificationsServiceImpl{
 	
 	@Autowired
 	LoginMapper loginMapper;
-	
 	
 	public void callRollBack(){
 		TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -89,7 +88,7 @@ public class BaseService extends PushNotificationsServiceImpl{
 				
 				notiMsgInfo = notiMsgInfoMapper.selectByPrimaryKey(notiMsgInfo);
 				if(notiMsgInfo!=null && notiMsgInfo.getMessage1()!=null){
-					UserInfo followUserInfo = userInfoMapper.selectByPrimaryKey(userId);
+					UserInfo followUserInfo = userInfoMapper.selectByPrimaryKey(userIdFollow);
 					if(followUserInfo!=null){
 						notiMsgInfo.setMessage1(notiMsgInfo.getMessage1().replace("xxx", followUserInfo.getUserName() ));
 					}
@@ -137,7 +136,7 @@ public class BaseService extends PushNotificationsServiceImpl{
 //						((ObjectNode)data).put("Key-2", "JSA Data 2");
 //						((ObjectNode) body).put("to", TOPIC + userInfo.getUserId());
 //						((ObjectNode) body).set("data", data);
-						for(String registerId : registerTokens){
+						for(String registerId : registerTokens) {
 							((ObjectNode) sendBody).put("to", registerId);
 							String  jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(sendBody);
 							HttpEntity<String> request = new HttpEntity<>(jsonString);

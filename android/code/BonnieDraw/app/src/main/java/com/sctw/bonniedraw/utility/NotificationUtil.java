@@ -54,13 +54,13 @@ public class NotificationUtil extends ContextWrapper {
             return new Notification.Builder(getApplicationContext(), ANDROID_CHANNEL_ID)
                     .setContentTitle(title)
                     .setContentText(body)
-                    .setSmallIcon(R.drawable.bottom_bar_ic_new)
+                    .setSmallIcon(R.drawable.bottom_notification_ic)
                     .setAutoCancel(true);
         } else {
             return new Notification.Builder(getApplicationContext())
                     .setContentTitle(title)
                     .setContentText(body)
-                    .setSmallIcon(R.drawable.bottom_bar_ic_new)
+                    .setSmallIcon(R.drawable.bottom_notification_ic)
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .setAutoCancel(true);
         }

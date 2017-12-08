@@ -177,10 +177,10 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.ic_btn_home:
-                        changeFragmentWithBundle(new HomeAndHotFragment(), 1);
+                        changeFragmentWithBundle(new HomeAndHotFragment(), 2);
                         return true;
                     case R.id.ic_btn_hot:
-                        changeFragmentWithBundle(new HomeAndHotFragment(), 2);
+                        changeFragmentWithBundle(new HomeAndHotFragment(), 1);
                         return true;
                     case R.id.ic_btn_notice:
                         changeFragment(new NoticeFragment());
@@ -298,6 +298,26 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     @Override
     protected void onStart() {
         super.onStart();
+        if(prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR,0)==0){
+            final AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+            dialog.setMessage("請先登入後再操作");
+            dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    Intent intent=new Intent();
+                    intent.setClass(MainActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+            dialog.show();
+        }
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -307,9 +327,8 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mGoogleApiClient.connect();
         //接收推播
         Intent intent = getIntent();
-        String msg = intent.getStringExtra("msg");
-        if (msg != null)
-            Log.d("FCM", "msg:" + msg);
+        String event = intent.getStringExtra("evnet");
+        Log.d("FCM", "event:" + event);
     }
 
     @Override

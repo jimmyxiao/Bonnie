@@ -472,6 +472,19 @@ public class PaintView extends View {
         invalidate();
     }
 
+    public void setDrawingBgColorTag(int color){
+        this.mBackgroundLayerColor = color;
+        invalidate();
+        TagPoint tagPointDown=new TagPoint();
+        TagPoint tagPointUp=new TagPoint();
+        tagPointDown.set_iAction(MotionEvent.ACTION_DOWN + 1);
+        tagPointDown.set_iBrush(6);
+        tagPointDown.set_iColor(getDrawingColor());
+        tagPointUp.set_iAction(MotionEvent.ACTION_UP + 1);
+        mListTagPoint.add(tagPointDown);
+        mListTagPoint.add(tagPointUp);
+    }
+
     public float getDrawingScaledSize() {
         return mBrush.getScaledSize();
     }

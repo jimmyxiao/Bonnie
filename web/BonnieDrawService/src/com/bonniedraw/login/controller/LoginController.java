@@ -13,7 +13,6 @@ import com.bonniedraw.user.model.AdminInfo;
 import com.bonniedraw.user.service.WebUserService;
 import com.bonniedraw.util.TimerUtil;
 import com.bonniedraw.util.ValidateUtil;
-import  com.bonniedraw.util.auth.AuthView;
 import com.bonniedraw.util.recaptchav2java.ReCaptcha;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +90,7 @@ public class LoginController {
 //		return baseModel;
 //	}
 	
-	@AuthView
+//	@AuthView
 	@RequestMapping(value="/loginFailed")
 	public @ResponseBody BaseModel loginFailed(HttpServletRequest request,HttpServletResponse resp) {
 		RespLogin respLogin = new RespLogin();
@@ -100,7 +99,7 @@ public class LoginController {
 		return respLogin;
 	}
 	
-	@AuthView
+//	@AuthView
 	@RequestMapping(value="/loginBackend", produces="application/json")
 	public @ResponseBody BaseModel loginBackend(HttpSession session,HttpServletRequest request,HttpServletResponse resp,@RequestBody LoginInput loginInput) {		
 		resp.setHeader("Access-Control-Allow-Origin", "*");

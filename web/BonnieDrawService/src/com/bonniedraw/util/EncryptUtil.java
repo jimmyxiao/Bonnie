@@ -14,15 +14,10 @@ public class EncryptUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String convertMD5(String beforValue) throws Exception{
+	public static String convertMD5(String beforValue) throws NoSuchAlgorithmException{
 		 try {  
-	         md5 = MessageDigest.getInstance("MD5");  
-		 } catch (NoSuchAlgorithmException ex) {
-			 LogUtils.error(EncryptUtil.class, "convertMD5 has error : " + ex);
-		 } 
-		 
-		 try{
-			 String afterValue = "";
+	         md5 = MessageDigest.getInstance("MD5");
+	         String afterValue = "";
 			 md5.update(beforValue.getBytes());
 			 byte[] array = md5.digest();  
 	         StringBuffer sb = new StringBuffer(32);  
@@ -35,10 +30,10 @@ public class EncryptUtil {
 	         }
 	         afterValue = sb.toString();
 	         return afterValue;
-		 } catch (Exception ex) {  
+		 } catch (NoSuchAlgorithmException ex) {
 			 LogUtils.error(EncryptUtil.class, "convertMD5 has error : " + ex);
 			 throw ex;
-		 }
+		 } 
 	}
 	
 	/**

@@ -118,9 +118,15 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!recyclerView.canScrollVertically(1)) {
-                    miStn += 10;
-                    miRc += 10;
-                    getWorksList(ADD_WORK_LIST);
+                    if (layoutManager.findLastVisibleItemPosition() == miRc) {
+                        miStn += 10;
+                        miRc += 10;
+                        getWorksList(ADD_WORK_LIST);
+                    } else if (gridLayoutManager.findLastVisibleItemPosition() == miRc) {
+                        miStn += 10;
+                        miRc += 10;
+                        getWorksList(ADD_WORK_LIST);
+                    }
                 }
             }
         });
@@ -226,7 +232,6 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                     mSwipeRefreshLayout.setRefreshing(false);
                                 }
                             });
-                            System.out.println(responseJSON.toString());
                         }
                     }
                 } catch (JSONException e) {
@@ -523,7 +528,6 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                     //點讚失敗或刪除失敗
                                     mAdapterList.notifyItemChanged(position);
                                 }
-                                System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -558,7 +562,6 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                 } else {
                                     ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
                                 }
-                                System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -689,5 +692,13 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         } else {
             setFollow(position, 0, uid);
         }
+    }
+
+    @Override
+    public void onResume() {
+        miStn = 1;
+        miRc = 15;
+        getWorksList(GET_AND_REFRESH_WORK_LIST);
+        super.onResume();
     }
 }

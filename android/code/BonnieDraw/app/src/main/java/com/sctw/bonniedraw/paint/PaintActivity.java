@@ -422,7 +422,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             public void onClick(View view) {
                 if (!mPaintView.mbZoomMode) {
                     mPaintView.mbZoomMode = true;
-                    mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_down_icon));
+                    mBtnZoom.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.zoom_down_icon));
                     ControlStateBtn();
                     if (!mbHint) {
                         mbHint = true;
@@ -439,7 +439,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                     }
                 } else {
                     mPaintView.mbZoomMode = false;
-                    mBtnZoom.setImageDrawable(getDrawable(R.drawable.zoom_up_icon));
+                    mBtnZoom.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.zoom_up_icon));
                     ControlStateBtn();
                 }
             }
@@ -729,7 +729,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     //*******Brush **********
 
     private void setBrush(int brushID) {
-        int tempSize=mPaintView.getBrush().getSize();
+        int tempSize = mPaintView.getBrush().getSize();
         Brush brush = Brushes.get(getApplicationContext())[brushID];
         mPaintView.setBrush(brush);
         mPaintView.setDrawingSize(tempSize);
@@ -743,7 +743,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 openGridScreen();
                 break;
             case MenuPopup.PAINT_SETTING_BG_COLOR:
-                mPaintView.setDrawingBgColor(mPaintView.getDrawingColor());
+                mPaintView.setDrawingBgColorTag(mPaintView.getDrawingColor());
                 mMenuPopup.dismiss();
                 break;
             case MenuPopup.PAINT_SETTING_SAVE:

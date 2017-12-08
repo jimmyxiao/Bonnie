@@ -1,6 +1,5 @@
 package com.bonniedraw.util.recaptchav2java;
 
-@SuppressWarnings("WeakerAccess")
 public class ReCaptcha {
 	private final String secret = "6LczuDYUAAAAAOJrdqUexPx_5dzzQ5Tq2mPydFe0";
 

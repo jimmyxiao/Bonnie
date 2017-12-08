@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.fragment;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,6 +46,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +66,7 @@ public class SignUpFragment extends Fragment {
     private boolean userNameVaild, userEmailVaild, userPwdVaild, userRePwdVaild = false;
     private FragmentManager fragmentManager;
     private ProgressBar mProgressBar;
+    private SharedPreferences prefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +77,7 @@ public class SignUpFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         mTextInputLayoutName = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_name);
         mTextInputLayoutEmail = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_email);
         mTextInputLayoutPwd = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_password);
@@ -146,6 +151,7 @@ public class SignUpFragment extends Fragment {
                     json.put("ut", GlobalVariable.EMAIL_LOGIN);
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_REGISTER);
+                    json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
                     Log.d("JSON DATA", json.toString());
                     break;
                 case 3:
@@ -153,6 +159,7 @@ public class SignUpFragment extends Fragment {
                     json.put("ut", GlobalVariable.EMAIL_LOGIN);
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_CHECK_EMAIL);
+                    json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
                     Log.d("JSON DATA", json.toString());
                     break;
             }

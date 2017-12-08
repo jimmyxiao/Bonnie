@@ -12,6 +12,7 @@ public class MsgBean {
     private int msgOrder;
     private String creationDate;
     private String userName;
+    private String profilePicture;
 
     public int getWorksMsgId() {
         return worksMsgId;
@@ -68,4 +69,13 @@ public class MsgBean {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String userPhoto) {
+        this.profilePicture = userPhoto;
+    }
+
 }

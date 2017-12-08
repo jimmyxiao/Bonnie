@@ -2,6 +2,7 @@ package com.bonniedraw.user.service.impl;
 
 
 import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
@@ -132,33 +133,42 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	
 	private LoginResponseVO callLogin(LoginRequestVO loginRequestVO, String ipAddress) {
 		LoginResponseVO result = new LoginResponseVO();
+		result.setRes(2);
 		int dt = loginRequestVO.getDt();
 		int ut = loginRequestVO.getUt();
-		if(dt==3 && ut ==1){
+		UserInfo existUserInfo = null;
+		
+		switch (ut) {
+		case 1:		//使用郵件登入
 			try {
-				loginRequestVO.setUp((EncryptUtil.convertMD5(loginRequestVO.getUp())));
-			} catch (Exception e1) {
+				if(dt == 3){
+					loginRequestVO.setUp((EncryptUtil.convertMD5(loginRequestVO.getUp())));
+				}
+				existUserInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
+				if(existUserInfo != null){
+					Integer status = existUserInfo.getStatus();
+					if(status != null && status!=0){
+						putLogin(result, loginRequestVO, existUserInfo, ipAddress);
+					}else{
+						result.setRes(4);
+					}
+				}
+			} catch (NoSuchAlgorithmException e) {
 				result.setRes(3);
 				result.setMsg("轉換失敗");
-				LogUtils.error(getClass(), "login encrypt MD5 has error : " + e1);
+				LogUtils.error(getClass(), "login encrypt MD5 has error : " + e);
 				return result;
+			} catch (Exception e) {
+				LogUtils.error(getClass(), "callLogin has error : " + e);
 			}
-		}
-		try {
-			UserInfo existUserInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
-			if(existUserInfo != null){
-				Integer status = existUserInfo.getStatus();
-				if(status != null){
-					if(status == 0 && ut ==1){
-						result.setRes(3);
-					}else{
-						putLogin(result, loginRequestVO, existUserInfo, ipAddress);
-					}
+			break;
+
+		default:		//使用各項第三方平台登入, 如未註冊則自動註冊並登入
+			try {
+				existUserInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
+				if(existUserInfo != null && existUserInfo.getStatus() != null){
+					putLogin(result, loginRequestVO, existUserInfo, ipAddress);
 				}else{
-					result.setRes(2);
-				}
-			}else{
-				if(ut != 1){
 					String thirdEmail = loginRequestVO.getThirdEmail();
 					if(ValidateUtil.isNotBlank(thirdEmail)){
 						UserInfo emailUserInfo = userInfoMapper.selectByUserCode(thirdEmail);
@@ -187,14 +197,74 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 					}else{
 						insertUserInfo(result, loginRequestVO, ipAddress);
 					}
-				}else{
-					result.setRes(2);
 				}
+			} catch (Exception e) {
+				LogUtils.error(getClass(), "callLogin has error : " + e);
 			}
-		} catch (Exception e) {
-			result.setRes(2);
-			LogUtils.error(getClass(), "callLogin has error : " + e);
+			break;
 		}
+		
+//		if(dt==3 && ut ==1){
+//			try {
+//				loginRequestVO.setUp((EncryptUtil.convertMD5(loginRequestVO.getUp())));
+//			} catch (Exception e1) {
+//				result.setRes(3);
+//				result.setMsg("轉換失敗");
+//				LogUtils.error(getClass(), "login encrypt MD5 has error : " + e1);
+//				return result;
+//			}
+//		}
+//		try {
+//			UserInfo existUserInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
+//			if(existUserInfo != null){
+//				Integer status = existUserInfo.getStatus();
+//				if(status != null){
+//					if(status == 0 && ut ==1){
+//						result.setRes(4);
+//					}else{
+//						putLogin(result, loginRequestVO, existUserInfo, ipAddress);
+//					}
+//				}else{
+//					result.setRes(2);
+//				}
+//			}else{
+//				if(ut != 1){
+//					String thirdEmail = loginRequestVO.getThirdEmail();
+//					if(ValidateUtil.isNotBlank(thirdEmail)){
+//						UserInfo emailUserInfo = userInfoMapper.selectByUserCode(thirdEmail);
+//						if(emailUserInfo!=null){		// 第三方平台註冊,且已有email帳號,直接更新;反之做第三方平台新註冊
+//							Date nowDate = TimerUtil.getNowDate();
+//							String id = loginRequestVO.getUc();
+//							switch (ut) {
+//							case 2:
+//								emailUserInfo.setRegFacebookId(id);
+//								break;
+//							case 3:
+//								emailUserInfo.setRegGoogleId(id);
+//								break;
+//							case 4:
+//								emailUserInfo.setRegTwitterId(id);
+//								break;
+//							}
+//							emailUserInfo.setStatus(1);
+//							emailUserInfo.setUpdatedBy(0);
+//							emailUserInfo.setUpdateDate(nowDate);
+//							userInfoMapper.updateByPrimaryKeySelective(emailUserInfo);
+//							putLogin(result, loginRequestVO, emailUserInfo, ipAddress);
+//						}else{
+//							insertUserInfo(result, loginRequestVO, ipAddress);
+//						}
+//					}else{
+//						insertUserInfo(result, loginRequestVO, ipAddress);
+//					}
+//				}else{
+//					result.setRes(2);
+//				}
+//			}
+//		} catch (Exception e) {
+//			result.setRes(2);
+//			LogUtils.error(getClass(), "callLogin has error : " + e);
+//		}
 		return result;
 	}
 	
@@ -387,7 +457,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	@Transactional(rollbackFor = Exception.class)
 	public ForgetPwdResponseVO setPwdByEmail(String email, SystemSetup systemSetup) {
 		ForgetPwdResponseVO result = new ForgetPwdResponseVO();
-		result.setRes(2);
+		result.setRes(4);
 		SecureRandom random = new SecureRandom();
 		String code = new BigInteger(130, random).toString(32);
 		if(ValidateUtil.isNotBlank(code)){
@@ -414,6 +484,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "setPwdByEmail function encrypt md5Code has error : " + e );
+			result.setRes(3);
 			result.setMsg("重設密碼失敗");
 			callRollBack();
 		}

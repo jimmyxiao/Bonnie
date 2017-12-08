@@ -208,6 +208,23 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			return crayon2;
 		} 
 
+		function cahngBgCoior(color){
+			r=color.color_r;
+			g=color.color_g;
+			b=color.color_b;
+			a=color.color_a;
+			var imgData=cxt.createImageData(background.width,background.height);
+			for (var i=0;i<imgData.data.length;i+=4){
+				imgData.data[i+0]=r;
+				imgData.data[i+1]=g;
+				imgData.data[i+2]=b;
+				imgData.data[i+3]=a;
+			}
+			bg.clearRect(0, 0, 500, 500);
+			bg.putImageData(imgData,0,0);
+			return background;
+		}
+
 		function distanceBetween(point1, point2) {
 			return Math.sqrt(Math.pow(point2.xPos - point1.xPos, 2) + Math.pow(point2.yPos - point1.yPos, 2));
 		}
@@ -232,11 +249,24 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		var imgdata;
 		var imgarray = new Image();
 
+		var stocker = document.createElement('canvas');
+		var st = stocker.getContext("2d");
+		stocker.width = 500;
+		stocker.height = 500;
+
+		var background = document.createElement('canvas');
+		var bg=background.getContext("2d");
+		background.width = 500;
+		background.height = 500;
+
 		var compos =['source-over','source-atop','source-in','source-out','destination-over','destination-atop','destination-in','destination-out','lighter','copy','xor'];
 
-		imgarray[0] = '';
-		imgarray[0].src = '';
-		brush_Alpha[0] = 0;
+		// imgarray[0] = '';
+		// imgarray[0].src = '';
+		// brush_Alpha[0] = 0;
+		imgarray[0]  = new Image();
+		imgarray[0].src = 'assets/images/BrushImage/eraser.png';
+		brush_Alpha[0] = 1;
 		brush_imgAlpha[0] = 1;
 		bursh_array[0] = '橡皮擦'
 		brush_Composite[0] ='source-over';
@@ -286,6 +316,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			imgBackNew.src = 'assets/images/BrushImage/crayon-texture1.png';
 
 		var firstnum=0;
+		var bgcolord = '';
 
 		function loop(){
 			if(draw_number>=lines.length){
@@ -336,6 +367,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				}
 				can.style.backgroundColor = "#ffffff";
 				cxt.clearRect(0, 0, canvas_width, canvas_height);
+				st.clearRect(0, 0, canvas_width, canvas_height);
 				var pindata = cxt.getImageData(0, 0,canvas_width, canvas_height);
 				predata.push(pindata);
 				iarray.push(draw_number);
@@ -348,7 +380,29 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			if(data.action==1 || data.action==2){
 				if(data.action==1){
 					if(data.brush==6){
-						can.style.backgroundColor = data.color.color_rgba;
+						// can.style.backgroundColor = data.color.color_rgba;
+						bgcolord = data.color;
+						// var st_pindata = st.getImageData(0, 0,canvas_width, canvas_height);
+						// cxt.clearRect(0, 0, canvas_width, canvas_height);
+						// cxt.globalCompositeOperation = "source-over";
+						// var bgColordata = cahngBgCoior(data.color);
+						// var cxt_gco = cxt.globalCompositeOperation;
+						// var cxt_ga = cxt.globalAlpha;
+						// cxt.putImageData(st_pindata, 0, 0);
+						// cxt.globalAlpha = 1;
+						// cxt.globalCompositeOperation = "destination-atop";
+						// cxt.drawImage(bgColordata, 0, 0);
+						// cxt.globalAlpha = cxt_ga;
+						// cxt.globalCompositeOperation = cxt_gco;	
+
+						var bgColordata = cahngBgCoior(data.color);
+						cxt.clearRect(0, 0, canvas_width, canvas_height);
+						cxt.globalAlpha = 1;
+						cxt.globalCompositeOperation = "source-over";
+						cxt.drawImage(bgColordata, 0, 0);
+						cxt.drawImage(stocker, 0, 0);
+
+						
 					}
 				}
 				if(data.action==2){
@@ -374,16 +428,20 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				cxt.arc(data.xPos, data.yPos, data.size , 0, 2 * Math.PI, false);
 				cxt.fillStyle = data.color;
 				cxt.fill();*/
-				if((data.brush!=0) && (data.brush!=6)){
+				// if((data.brush!=0) && (data.brush!=6)){
+				if(data.brush!=6){
 					imgdata = changeColor(imgarray[data.brush], data.color);
 				}
-				
+				if(data.brush==0){
+					imgdata = changeColor(imgarray[0], bgcolord);
+				}
+			
 				if(data.brush!=6){
 					cxt.globalAlpha = brush_Alpha[data.brush] * data.color.color_a;
 					var dist = distanceBetween(previewData, data);
 					var angle = angleBetween(previewData, data);
 					if(data.brush==1){
-						for (var distnum = 0; distnum < dist; distnum+=4) {
+						for (var distnum = 0; distnum < dist; distnum++) {
 
 							x = previewData.xPos + (Math.sin(angle) * distnum) ;
 							y = previewData.yPos + (Math.cos(angle) * distnum) ;
@@ -391,17 +449,22 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							var Crayonimg = changeCrayon(imgdata,x,y);
 							//cxt.globalCompositeOperation='xor';
 							cxt.drawImage(Crayonimg, x, y, data.size, data.size);
+							st.drawImage(Crayonimg, x, y, data.size, data.size);	
 						}
 					}else{
 						for (var distnum = 0; distnum < dist; distnum++) {
 							x = previewData.xPos + (Math.sin(angle) * distnum) ;
 							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							if(data.brush==0){
-								cxt.arc(x,y,data.size/2,0,2*Math.PI);
-								cxt.clearRect(x, y,data.size/2,data.size/2);
+								// cxt.arc(x,y,data.size/2,0,2*Math.PI);
+								// cxt.clearRect(x, y,data.size/2,data.size/2);
+								cxt.globalAlpha = 1;
+								cxt.clearRect(x, y,data.size,data.size);
+								cxt.drawImage(imgdata, x, y, data.size, data.size);
 							}else{
 								//cxt.globalAlpha=0.04;
 								cxt.drawImage(imgdata, x, y, data.size, data.size);
+								st.drawImage(imgdata, x, y, data.size, data.size);	
 							}
 						}
 					}
@@ -437,7 +500,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			for(i=0;i<lines.length; i++){
 				lines[i].xPos = Math.floor(lines[i].xPos / 65536 * canvas_width);
 				lines[i].yPos = Math.floor(lines[i].yPos / 65536 * canvas_width);
-				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width);
+				// lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width);
+				lines[i].size = Math.round(lines[i].size / 65536 * canvas_width);
 				if(lines[i].action){
 					switch(lines[i].action){
 						case 1:

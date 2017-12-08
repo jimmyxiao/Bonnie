@@ -57,7 +57,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvUserName.setText(data.get(position).getUserName());
         holder.mTvWorkName.setText(data.get(position).getTitle());
         if (data.get(position).getLikeCount() == 0) {
-            holder.mTvWorkGoodTotal.setText(String.format(context.getString(R.string.work_good_first), data.get(position).getLikeCount()));
+            holder.mTvWorkGoodTotal.setText(context.getString(R.string.work_good_first));
         } else {
             holder.mTvWorkGoodTotal.setText(String.format(context.getString(R.string.work_good_total), data.get(position).getLikeCount()));
         }
@@ -121,6 +121,8 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         //是自己的就沒有設定追蹤選項
         if (uid != ownUid) {
             holder.mTvFollow.setVisibility(View.VISIBLE);
+        } else {
+            holder.mTvFollow.setVisibility(View.INVISIBLE);
         }
 
         holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
@@ -233,6 +235,18 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     public void setFollow(int position, int isFollow) {
         data.get(position).setIsFollowing(isFollow);
         notifyItemChanged(position);
+        int uid = Integer.valueOf(data.get(position).getUserId());
+        setAllFollow(uid,isFollow);
+    }
+
+    private void setAllFollow(int uid,int isFollow) {
+        for (int x = 0; x < data.size(); x++) {
+            int dataUid = Integer.valueOf(data.get(x).getUserId());
+            if (dataUid == uid) {
+                data.get(x).setIsFollowing(isFollow);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public void setCollection(int position, boolean isCollection) {

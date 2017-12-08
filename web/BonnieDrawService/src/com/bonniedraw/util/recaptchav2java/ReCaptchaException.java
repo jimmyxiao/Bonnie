@@ -1,6 +1,6 @@
 package com.bonniedraw.util.recaptchav2java;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings("serial")
 public class ReCaptchaException extends RuntimeException{
 	public ReCaptchaException(String message, Throwable cause) {
         super(message, cause);
