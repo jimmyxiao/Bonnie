@@ -298,6 +298,26 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     @Override
     protected void onStart() {
         super.onStart();
+        if(prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR,0)==1){
+            final AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+            dialog.setMessage("請先登入後再操作");
+            dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    Intent intent=new Intent();
+                    intent.setClass(MainActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+            dialog.show();
+        }
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
