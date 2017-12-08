@@ -73,7 +73,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
     private LinearLayoutManager mLayoutManager;
-    private int miWt, miStn = 1, miRc = 20; //STN=起始筆數 RC=需求筆數
+    private int miWt, miStn = 1, miRc = 10; //STN=起始筆數 RC=需求筆數
     private int interWt;  // 1= home , 2=hot
     private String mStrQuery;
 
@@ -123,10 +123,12 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
                 Log.d("lastVisibleItemPosition", "COUNT" + lastVisibleItemPosition);
                 if (!recyclerView.canScrollVertically(1)) {
-                    miStn += 10;
-                    miRc += 10;
-                    getWorksList(ADD_WORKS_LIST);
-                    System.out.println("頂到肺了");
+                    if (mLayoutManager.findLastVisibleItemPosition() == miRc){
+                        miStn += 10;
+                        miRc += 10;
+                        getWorksList(ADD_WORKS_LIST);
+                        System.out.println("頂到肺了");
+                    }
                 }
             }
         });
@@ -148,6 +150,8 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 mStrQuery = query;
                 mProgressBar.setVisibility(View.VISIBLE);
                 miWt = 9;
+                miStn = 1;
+                miRc = 10;
                 getQueryWorksList(query);
                 return true;
             }
@@ -168,7 +172,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 miWt = interWt;
                 miStn = 1;
-                miRc = 20;
+                miRc = 10;
                 getWorksList(GET_WORKS_LIST);
                 return true;
             }
@@ -566,12 +570,17 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     @Override
     public void onRefresh() {
         miStn = 1;
-        miRc = 20;
+        miRc = 10;
         if (miWt != 9) {
             getWorksList(REFRESH_WORKS_LIST);
             System.out.println("刷新");
         } else {
             getQueryWorksList(mStrQuery);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

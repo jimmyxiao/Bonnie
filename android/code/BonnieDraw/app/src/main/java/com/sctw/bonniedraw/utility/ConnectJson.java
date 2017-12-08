@@ -231,6 +231,7 @@ public class ConnectJson {
             json.put("stn", stn);
             json.put("rc", rc);
             json.put("queryId", queryId);
+            System.out.println(json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

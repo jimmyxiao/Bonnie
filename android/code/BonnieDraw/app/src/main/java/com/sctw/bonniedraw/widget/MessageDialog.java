@@ -264,6 +264,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 setMsgDelete(position, miWid, msgId);
+                dialog.dismiss();
             }
         });
         dialog.show();

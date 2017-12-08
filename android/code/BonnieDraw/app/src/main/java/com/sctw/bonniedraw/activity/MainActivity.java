@@ -177,10 +177,10 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.ic_btn_home:
-                        changeFragmentWithBundle(new HomeAndHotFragment(), 1);
+                        changeFragmentWithBundle(new HomeAndHotFragment(), 2);
                         return true;
                     case R.id.ic_btn_hot:
-                        changeFragmentWithBundle(new HomeAndHotFragment(), 2);
+                        changeFragmentWithBundle(new HomeAndHotFragment(), 1);
                         return true;
                     case R.id.ic_btn_notice:
                         changeFragment(new NoticeFragment());
@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mGoogleApiClient.connect();
         //接收推播
         Intent intent = getIntent();
-        int event = intent.getIntExtra("evnet", 0);
+        String event = intent.getStringExtra("evnet");
         Log.d("FCM", "event:" + event);
     }
 
