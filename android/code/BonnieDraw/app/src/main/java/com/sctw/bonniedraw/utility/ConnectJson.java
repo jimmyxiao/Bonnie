@@ -39,8 +39,8 @@ public class ConnectJson {
                     json.put("fn", GlobalVariable.API_LOGIN);
                     json.put("thirdEmail", prefs.getString(GlobalVariable.USER_EMAIL_STR, ""));
                     json.put("thirdPictureUrl", prefs.getString(GlobalVariable.USER_IMG_URL_STR, ""));
-                    json.put("token",prefs.getString(GlobalVariable.USER_FCM_TOKEN_STR, ""));
-                    json.put("deviceId",prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
+                    json.put("token", prefs.getString(GlobalVariable.USER_FCM_TOKEN_STR, ""));
+                    json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
                     break;
                 case 1:
                     json.put("uc", prefs.getString(GlobalVariable.USER_EMAIL_STR, "null"));
@@ -48,8 +48,8 @@ public class ConnectJson {
                     json.put("ut", GlobalVariable.EMAIL_LOGIN);
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_LOGIN);
-                    json.put("token",prefs.getString(GlobalVariable.USER_FCM_TOKEN_STR, ""));
-                    json.put("deviceId",prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
+                    json.put("token", prefs.getString(GlobalVariable.USER_FCM_TOKEN_STR, ""));
+                    json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
                     break;
             }
             Log.d("JSON DATA", json.toString());
@@ -219,7 +219,7 @@ public class ConnectJson {
         return request;
     }
 
-    public static JSONObject queryListWorkOther(SharedPreferences prefs, int wt, int queryId) {
+    public static Request queryListWorkOther(SharedPreferences prefs, int wt, int stn, int rc, int queryId) {
         //wt = 作品類別 , stn = 起始數 , rc = 筆數
         JSONObject json = new JSONObject();
         try {
@@ -228,13 +228,18 @@ public class ConnectJson {
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("wid", 0);
             json.put("wt", wt);
-            json.put("stn", 0);
-            json.put("rc", 100);
+            json.put("stn", stn);
+            json.put("rc", rc);
             json.put("queryId", queryId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_WORK_LIST)
+                .post(body)
+                .build();
+        return request;
     }
 
     public static Request setLike(SharedPreferences prefs, int fn, int wid) {
@@ -429,10 +434,10 @@ public class ConnectJson {
         //wt = 作品類別 , stn = 起始數 , rc = 筆數
         JSONObject json = new JSONObject();
         try {
-            json.put("ui", prefs.getString(GlobalVariable.API_UID,""));
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, ""));
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
-            json.put("thirdPlatform", prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR,0));
+            json.put("thirdPlatform", prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0));
             json.put("uidList", uidList);
             System.out.println(json.toString());
         } catch (JSONException e) {

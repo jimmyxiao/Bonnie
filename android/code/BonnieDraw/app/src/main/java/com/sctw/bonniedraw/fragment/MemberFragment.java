@@ -46,10 +46,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -58,6 +56,8 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class MemberFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
+    private static final int GET_AND_REFRESH_WORK_LIST = 1;
+    private static final int ADD_WORK_LIST = 3;
     private TextView mTvMemberId, mTvMemberName, mTvMemberDescription, mTvMemberWorks, mTvMemberFans, mTvMemberFollows;
     private Button mBtnFollow;
     private CircleImageView mCircleImg;
@@ -72,10 +72,10 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     private WorkAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
     private LinearLayoutManager layoutManager;
-    private boolean mbFist = true, mbFollow = false;
+    private boolean mbFirst = true, mbFollow = false;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-
+    private int miStn = 1, miRc = 15;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,8 +95,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mTvMemberWorks = view.findViewById(R.id.textView_member_userworks);
         mTvMemberFans = view.findViewById(R.id.textView_member_fans);
         mTvMemberFollows = view.findViewById(R.id.textView_member_follows);
-        mLlFans=view.findViewById(R.id.ll_member_fans);
-        mLlFollow=view.findViewById(R.id.ll_member_follow);
+        mLlFans = view.findViewById(R.id.ll_member_fans);
+        mLlFollow = view.findViewById(R.id.ll_member_follow);
         mBtnFollow = view.findViewById(R.id.btn_member_follow);
         mCircleImg = view.findViewById(R.id.circleImg_member_photo);
         mBtnBack = view.findViewById(R.id.imgBtn_member_back);
@@ -112,7 +112,18 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        getWorksList();
+        getWorksList(GET_AND_REFRESH_WORK_LIST);
+        mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!recyclerView.canScrollVertically(1)) {
+                    miStn += 10;
+                    miRc += 10;
+                    getWorksList(ADD_WORK_LIST);
+                }
+            }
+        });
     }
 
     private void getMemberInfo() {
@@ -181,15 +192,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         });
     }
 
-    public void getWorksList() {
-        JSONObject json = ConnectJson.queryListWorkOther(prefs, 6, miUserId);
+    public void getWorksList(final int select) {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
-        Request request = new Request.Builder()
-                .url(GlobalVariable.API_LINK_WORK_LIST)
-                .post(body)
-                .build();
-        System.out.println(json.toString());
+        Request request = ConnectJson.queryListWorkOther(prefs, 6, miStn, miRc, miUserId);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -197,7 +202,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(final Call call, Response response) throws IOException {
                 try {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
                     if (responseJSON.getInt("res") == 1) {
@@ -207,7 +212,14 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                 public void run() {
                                     //下載資料
                                     try {
-                                        refreshWorks(responseJSON.getJSONArray("workList"));
+                                        switch (select) {
+                                            case GET_AND_REFRESH_WORK_LIST:
+                                                getWorks(responseJSON.getJSONArray("workList"));
+                                                break;
+                                            case ADD_WORK_LIST:
+                                                addWork(responseJSON.getJSONArray("workList"));
+                                                break;
+                                        }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -224,15 +236,15 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         });
     }
 
-    public void refreshWorks(JSONArray data) {
+    public void getWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, new WorkAdapterGrid.WorkGridOnClickListener() {
             @Override
             public void onWorkClick(int wid) {
-                Bundle bundle=new Bundle();
-                bundle.putInt("wid",wid);
-                PlayFragment playFragment=new PlayFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("wid", wid);
+                PlayFragment playFragment = new PlayFragment();
                 playFragment.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
@@ -243,7 +255,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
         mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this);
 
-        if (mbFist) {
+        if (mbFirst) {
             mRv.setLayoutManager(gridLayoutManager);
             mRv.setAdapter(mAdapterGrid);
             mSwipeRefreshLayout.setRefreshing(false);
@@ -254,22 +266,28 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         }
     }
 
+    public void addWork(JSONArray data) {
+        List<WorkInfoBean> temp = WorkInfoBean.generateInfoList(data);
+        mAdapterList.addData(temp);
+        mAdapterGrid.addData(temp);
+    }
+
     private void setOnClickEvent() {
         mBtnExtra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FullScreenDialog dialog=new FullScreenDialog(getContext(),R.layout.dialog_member_extra);
+                FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_member_extra);
             }
         });
 
         mLlFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 // 2=fans   1=follow
-                bundle.putInt("fn",1);
-                bundle.putInt("uid",miUserId);
-                FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
+                bundle.putInt("fn", 1);
+                bundle.putInt("uid", miUserId);
+                FansOrFollowFragment fansOrFollowFragment = new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
@@ -281,11 +299,11 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mLlFans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 // 1=fans   2=follow
-                bundle.putInt("fn",2);
-                bundle.putInt("uid",miUserId);
-                FansOrFollowFragment fansOrFollowFragment=new FansOrFollowFragment();
+                bundle.putInt("fn", 2);
+                bundle.putInt("uid", miUserId);
+                FansOrFollowFragment fansOrFollowFragment = new FansOrFollowFragment();
                 fansOrFollowFragment.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
@@ -297,7 +315,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getWorksList();
+                getWorksList(GET_AND_REFRESH_WORK_LIST);
             }
         });
 
@@ -306,7 +324,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             public void onClick(View v) {
                 mRv.setLayoutManager(layoutManager);
                 mRv.setAdapter(mAdapterList);
-                mbFist = false;
+                mbFirst = false;
             }
         });
 
@@ -322,7 +340,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             public void onClick(View v) {
                 mRv.setLayoutManager(gridLayoutManager);
                 mRv.setAdapter(mAdapterGrid);
-                mbFist = true;
+                mbFirst = true;
             }
         });
 
@@ -556,9 +574,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     //覆寫interface事件
     @Override
     public void onWorkImgClick(int wid) {
-        Bundle bundle=new Bundle();
-        bundle.putInt("wid",wid);
-        PlayFragment playFragment=new PlayFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("wid", wid);
+        PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);

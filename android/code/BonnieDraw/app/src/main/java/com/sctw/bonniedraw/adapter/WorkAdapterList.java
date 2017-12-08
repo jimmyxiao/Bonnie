@@ -56,9 +56,9 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     public void onBindViewHolder(final WorkAdapterList.ViewHolder holder, int position) {
         holder.mTvUserName.setText(data.get(position).getUserName());
         holder.mTvWorkName.setText(data.get(position).getTitle());
-        if(data.get(position).getLikeCount()==0){
+        if (data.get(position).getLikeCount() == 0) {
             holder.mTvWorkGoodTotal.setText(String.format(context.getString(R.string.work_good_first), data.get(position).getLikeCount()));
-        }else {
+        } else {
             holder.mTvWorkGoodTotal.setText(String.format(context.getString(R.string.work_good_total), data.get(position).getLikeCount()));
         }
         final int wid = Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
@@ -242,6 +242,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
 
     public void refreshData(List<WorkInfoBean> newData) {
         data = newData;
+        notifyDataSetChanged();
+    }
+
+    public void addData(List<WorkInfoBean> newData) {
+        data.addAll(newData);
         notifyDataSetChanged();
     }
 

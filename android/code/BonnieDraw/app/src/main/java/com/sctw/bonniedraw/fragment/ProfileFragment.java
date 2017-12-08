@@ -59,6 +59,8 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
+    private static final int GET_AND_REFRESH_WORK_LIST = 1;
+    private static final int ADD_WORK_LIST = 3;
     private CircleImageView imgPhoto;
     private TextView mTextViewUserName, mTextViewUserId, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
     private ImageButton mImgBtnBookmark, mImgBtnSetting, mImgBtnGrid, mImgBtnList, mImgBtnFriends;
@@ -76,6 +78,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private List<WorkInfoBean> workInfoBeanList;
     private boolean mbFist = true;
     private int miUserId;
+    private int miStn = 1, miRc = 15;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,8 +115,18 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        getWorksList();
+        getWorksList(GET_AND_REFRESH_WORK_LIST);
+        mRecyclerViewProfile.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!recyclerView.canScrollVertically(1)) {
+                    miStn += 10;
+                    miRc += 10;
+                    getWorksList(ADD_WORK_LIST);
+                }
+            }
+        });
     }
 
     private void setOnClick() {
@@ -209,7 +222,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mSwipeLayoutProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getWorksList();
+                getWorksList(GET_AND_REFRESH_WORK_LIST);
             }
         });
     }
@@ -276,9 +289,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         });
     }
 
-    public void getWorksList() {
+    public void getWorksList(final int select) {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.queryListWork(prefs, 5, 0, 100);
+        Request request = ConnectJson.queryListWork(prefs, 5, miStn, miRc);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -296,7 +309,14 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                 public void run() {
                                     //下載資料
                                     try {
-                                        refreshWorks(responseJSON.getJSONArray("workList"));
+                                        switch (select) {
+                                            case GET_AND_REFRESH_WORK_LIST:
+                                                getWorks(responseJSON.getJSONArray("workList"));
+                                                break;
+                                            case ADD_WORK_LIST:
+                                                addWork(responseJSON.getJSONArray("workList"));
+                                                break;
+                                        }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -313,7 +333,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         });
     }
 
-    public void refreshWorks(JSONArray data) {
+    public void getWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, new WorkAdapterGrid.WorkGridOnClickListener() {
@@ -341,6 +361,12 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             mRecyclerViewProfile.setAdapter(mAdapterList);
             mSwipeLayoutProfile.setRefreshing(false);
         }
+    }
+
+    public void addWork(JSONArray data) {
+        List<WorkInfoBean> temp = WorkInfoBean.generateInfoList(data);
+        mAdapterList.addData(temp);
+        mAdapterGrid.addData(temp);
     }
 
     public void setLike(final int position, final int fn, int wid) {

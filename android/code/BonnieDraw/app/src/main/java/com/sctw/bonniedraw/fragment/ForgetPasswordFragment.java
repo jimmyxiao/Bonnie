@@ -166,12 +166,13 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_get_password:
-                if(mbFirstCheck){
-                    mbFirstCheck=false;
-                    getPassword();
-                }else {
-
-                    recaptcha(v);
+                if(mbCheckEmail){
+                    if(mbFirstCheck){
+                        mbFirstCheck=false;
+                        getPassword();
+                    }else {
+                        recaptcha(v);
+                    }
                 }
                 break;
             case R.id.textView_singup_login:
@@ -192,11 +193,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                         // successful.
                         String userResponseToken = response.getTokenResult();
                         if (!userResponseToken.isEmpty()) {
-                            if (mbCheckEmail) {
                                 getPassword();
-                            } else {
-                                checkEmail();
-                            }
                             // Validate the user response token using the
                             // reCAPTCHA siteverify API.
                         }

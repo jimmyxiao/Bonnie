@@ -68,4 +68,9 @@ public class WorkAdapterGrid extends RecyclerView.Adapter<WorkAdapterGrid.ViewHo
     public interface WorkGridOnClickListener {
         void onWorkClick(int wid);
     }
+
+    public void addData(List<WorkInfoBean> newData) {
+        data.addAll(newData);
+        notifyDataSetChanged();
+    }
 }

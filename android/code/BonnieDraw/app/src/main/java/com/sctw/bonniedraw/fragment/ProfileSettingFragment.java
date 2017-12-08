@@ -96,7 +96,7 @@ public class ProfileSettingFragment extends Fragment {
             }
         });
 
-        if (!prefs.getString(GlobalVariable.USER_THIRD_PLATFORM_STR, "null").equals("1")) {
+        if (prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR,0)!=1) {
             mImgBtnUpdatePwd.setVisibility(View.GONE);
         } else {
             mImgBtnUpdatePwd.setOnClickListener(new View.OnClickListener() {

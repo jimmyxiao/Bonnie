@@ -44,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -57,7 +58,10 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
+public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, SwipeRefreshLayout.OnRefreshListener {
+    private static final int GET_WORKS_LIST = 1;
+    private static final int REFRESH_WORKS_LIST = 2;
+    private static final int ADD_WORKS_LIST = 3;
     private RecyclerView mRecyclerViewHome;
     private Toolbar mToolbar;
     private SearchView mSearchView;
@@ -68,7 +72,8 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private FragmentTransaction fragmentTransaction;
     private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
-    private int miWt, miStn = 0, miRc = 100;
+    private LinearLayoutManager mLayoutManager;
+    private int miWt, miStn = 1, miRc = 20; //STN=起始筆數 RC=需求筆數
     private int interWt;  // 1= home , 2=hot
     private String mStrQuery;
 
@@ -104,18 +109,24 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 ((DrawerLayout) getActivity().findViewById(R.id.main_actitivy_drawlayout)).openDrawer(Gravity.START);
             }
         });
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerViewHome.setLayoutManager(layoutManager);
-        getWorksList(false);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerViewHome.setLayoutManager(mLayoutManager);
+        getWorksList(GET_WORKS_LIST);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerViewHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
-            public void onRefresh() {
-                if (miWt != 9) {
-                    getWorksList(false);
-                } else {
-                    getQueryWorksList(mStrQuery);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+                Log.d("lastVisibleItemPosition", "COUNT" + lastVisibleItemPosition);
+                if (!recyclerView.canScrollVertically(1)) {
+                    miStn += 10;
+                    miRc += 10;
+                    getWorksList(ADD_WORKS_LIST);
+                    System.out.println("頂到肺了");
                 }
             }
         });
@@ -156,24 +167,32 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 miWt = interWt;
-                miStn = 0;
-                miRc = 100;
-                getWorksList(true);
+                miStn = 1;
+                miRc = 20;
+                getWorksList(GET_WORKS_LIST);
                 return true;
             }
         });
     }
 
-    public void getWorks(JSONArray data) {
-        workInfoBeanList = WorkInfoBean.generateInfoList(data);
-        mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this);
-        mProgressBar.setVisibility(View.GONE);
-        mRecyclerViewHome.setAdapter(mAdapter);
-    }
-
-    public void refreshWorks(JSONArray data) {
-        workInfoBeanList = WorkInfoBean.generateInfoList(data);
-        mAdapter.refreshData(workInfoBeanList);
+    public void getWorks(int select, JSONArray data) {
+        switch (select) {
+            case GET_WORKS_LIST:
+                workInfoBeanList = WorkInfoBean.generateInfoList(data);
+                mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this);
+                mProgressBar.setVisibility(View.GONE);
+                mRecyclerViewHome.setAdapter(mAdapter);
+                break;
+            case REFRESH_WORKS_LIST:
+                workInfoBeanList = WorkInfoBean.generateInfoList(data);
+                mAdapter.refreshData(workInfoBeanList);
+                break;
+            case ADD_WORKS_LIST:
+                ArrayList<WorkInfoBean> tempList = WorkInfoBean.generateInfoList(data);
+                workInfoBeanList.addAll(tempList);
+                mAdapter.addData(workInfoBeanList);
+                break;
+        }
     }
 
     public void setLike(final int position, final int fn, int wid) {
@@ -369,7 +388,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                                 public void run() {
                                     //下載資料
                                     try {
-                                        getWorks(responseJSON.getJSONArray("workList"));
+                                        getWorks(GET_WORKS_LIST, responseJSON.getJSONArray("workList"));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -385,7 +404,8 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         });
     }
 
-    public void getWorksList(final boolean refresh) {
+    public void getWorksList(final int select) {
+        //select 1=get ,2=refresh,3=add
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         Request request = ConnectJson.queryListWork(prefs, miWt, miStn, miRc);
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -406,11 +426,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                                 public void run() {
                                     //下載資料
                                     try {
-                                        if (!refresh) {
-                                            getWorks(responseJSON.getJSONArray("workList"));
-                                        } else {
-                                            refreshWorks(responseJSON.getJSONArray("workList"));
-                                        }
+                                        getWorks(select, responseJSON.getJSONArray("workList"));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -544,6 +560,18 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             setFollow(position, 1, uid);
         } else {
             setFollow(position, 0, uid);
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        miStn = 1;
+        miRc = 20;
+        if (miWt != 9) {
+            getWorksList(REFRESH_WORKS_LIST);
+            System.out.println("刷新");
+        } else {
+            getQueryWorksList(mStrQuery);
         }
     }
 }

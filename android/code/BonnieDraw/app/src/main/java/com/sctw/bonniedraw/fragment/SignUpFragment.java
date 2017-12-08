@@ -2,6 +2,7 @@ package com.sctw.bonniedraw.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -16,8 +17,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.safetynet.SafetyNet;
+import com.google.android.gms.safetynet.SafetyNetApi;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -42,17 +50,19 @@ import okhttp3.Response;
  * A simple {@link Fragment} subclass.
  */
 public class SignUpFragment extends Fragment {
-    TextInputLayout mTextInputLayoutName, mTextInputLayoutEmail, mTextInputLayoutPwd, mTextInputLayoutRePwd;
-    TextInputEditText userName, userEmail, userPassword, userRePassword;
-    TextView mTextViewSignin;
-    Button mBtnSignup;
-    boolean userNameVaild, userEmailVaild, userPwdVaild, userRePwdVaild = false;
-    FragmentManager fragmentManager;
-    final static int CHECK_PHONE = 0;
-    final static int CHECK_EMAIL = 1;
-    final static int CHECK_NAME = 2;
-    final static int CHECK_PWD = 3;
-    final static int CHECK_REPWD = 4;
+    private static final String SITE_KEY = "6LfZIDkUAAAAABgHI0HkKRCzaqdqCMTabI5vXWgs";
+    private final static int CHECK_PHONE = 0;
+    private final static int CHECK_EMAIL = 1;
+    private final static int CHECK_NAME = 2;
+    private final static int CHECK_PWD = 3;
+    private final static int CHECK_REPWD = 4;
+    private TextInputLayout mTextInputLayoutName, mTextInputLayoutEmail, mTextInputLayoutPwd, mTextInputLayoutRePwd;
+    private TextInputEditText userName, userEmail, userPassword, userRePassword;
+    private TextView mTextViewSignin;
+    private Button mBtnSignup;
+    private boolean userNameVaild, userEmailVaild, userPwdVaild, userRePwdVaild = false;
+    private FragmentManager fragmentManager;
+    private ProgressBar mProgressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +81,7 @@ public class SignUpFragment extends Fragment {
         userEmail = (TextInputEditText) view.findViewById(R.id.editText_signup_email);
         userPassword = (TextInputEditText) view.findViewById(R.id.editText_signup_password);
         userRePassword = (TextInputEditText) view.findViewById(R.id.editText_signup_repassword);
+        mProgressBar=(ProgressBar) view.findViewById(R.id.progressBar_signup);
         userName.setOnFocusChangeListener(userNameOnFocus);
         userName.addTextChangedListener(userNameInvalid);
         userEmail.setOnFocusChangeListener(userEmailOnFocus);
@@ -100,7 +111,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if (userNameVaild && userEmailVaild && userPwdVaild && userRePwdVaild) {
-                signupAPI(3);
+                recaptcha(view);
             } else {
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 infoCheck(CHECK_PHONE);
@@ -151,8 +162,20 @@ public class SignUpFragment extends Fragment {
         return json;
     }
 
+    private void disableBtn(boolean isTrue){
+        if(isTrue){
+            mBtnSignup.setEnabled(false);
+            mTextViewSignin.setEnabled(false);
+        }else {
+            mBtnSignup.setEnabled(true);
+            mTextViewSignin.setEnabled(true);
+        }
+    }
+
     private void signupAPI(final int style) {
-        mBtnSignup.setEnabled(false);
+        //set Enableed才可以禁止使用
+        disableBtn(true);
+        mProgressBar.setVisibility(View.VISIBLE);
         OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
         JSONObject json = registerJSONFormat(style);
         RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
@@ -181,6 +204,7 @@ public class SignUpFragment extends Fragment {
                                 if (style == 3) signupAPI(2);
                                 if (style == 2) createLogSignup(1);
                             } else {
+                                mProgressBar.setVisibility(View.INVISIBLE);
                                 if (style == 3) createLogSignup(2);
                                 if (style == 2) createLogSignup(3);
                             }
@@ -204,7 +228,7 @@ public class SignUpFragment extends Fragment {
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                mBtnSignup.setEnabled(true);
+                                disableBtn(false);
                                 dialog.dismiss();
                                 transLogin();
                                 //寄送認證信，回到主畫面。
@@ -217,7 +241,7 @@ public class SignUpFragment extends Fragment {
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                mBtnSignup.setEnabled(true);
+                                disableBtn(false);
                                 dialog.dismiss();
                                 //寄送認證信，回到主畫面。
                             }
@@ -229,7 +253,7 @@ public class SignUpFragment extends Fragment {
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                mBtnSignup.setEnabled(true);
+                                disableBtn(false);
                                 dialog.dismiss();
                                 //寄送認證信，回到主畫面。
                             }
@@ -408,5 +432,38 @@ public class SignUpFragment extends Fragment {
                 }
                 break;
         }
+    }
+
+    private void recaptcha(View view) {
+        SafetyNet.getClient(this.getActivity()).verifyWithRecaptcha(SITE_KEY)
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<SafetyNetApi.RecaptchaTokenResponse>() {
+                    @Override
+                    public void onSuccess(SafetyNetApi.RecaptchaTokenResponse response) {
+                        // Indicates communication with reCAPTCHA service was
+                        // successful.
+                        String userResponseToken = response.getTokenResult();
+                        if (!userResponseToken.isEmpty()) {
+                            signupAPI(3);
+                            // Validate the user response token using the
+                            // reCAPTCHA siteverify API.
+                        }
+                    }
+                }).addOnFailureListener(getActivity(), new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ApiException) {
+                    // An error occurred when communicating with the
+                    // reCAPTCHA service. Refer to the status code to
+                    // handle the error appropriately.
+                    ApiException apiException = (ApiException) e;
+                    int statusCode = apiException.getStatusCode();
+                    Log.d("recaptcha", "Error: " + CommonStatusCodes
+                            .getStatusCodeString(statusCode));
+                } else {
+                    // A different, unknown type of error occurred.
+                    Log.d("recaptcha", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 }
