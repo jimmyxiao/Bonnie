@@ -54,7 +54,7 @@ public class LoginController {
 			}else if(res==3){
 				msg="連結已失效，請重新申請";
 			}else {
-				msg="無註冊會員";
+				msg="無驗證或已驗證會員";
 			}
 		}else{
 			msg = "無效網址";

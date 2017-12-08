@@ -84,23 +84,28 @@ public class WebUserServiceImpl extends BaseService implements WebUserService {
 	}
 	
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public int registerComplete(String token) {
 		int res = 2;
-		UserInfo userInfo = userInfoMapper.queryTokenUser(token);
-		if(userInfo!=null){
-			Date nowDate = TimerUtil.getNowDate();
-			Date regValidDate = userInfo.getRegValidDate();
-			if(nowDate.compareTo(regValidDate) > 0){
-				res = 3;
-			}else {
-				userInfo.setStatus(1);
-				userInfo.setRegData(null);
-				userInfo.setRegValidDate(null);
-				userInfo.setUpdateDate(nowDate);
-				userInfo.setUpdatedBy(0);
-				userInfoMapper.updateByPrimaryKey(userInfo);
-				res=1;
+		try {
+			UserInfo userInfo = userInfoMapper.queryTokenUser(token);
+			if(userInfo!=null){
+				Date nowDate = TimerUtil.getNowDate();
+				Date regValidDate = userInfo.getRegValidDate();
+				if(nowDate.compareTo(regValidDate) > 0){
+					res = 3;
+				}else {
+					userInfo.setStatus(1);
+					userInfo.setRegData(null);
+					userInfo.setRegValidDate(null);
+					userInfo.setUpdateDate(nowDate);
+					userInfo.setUpdatedBy(0);
+					userInfoMapper.updateByPrimaryKey(userInfo);
+					res=1;
+				}
 			}
+		} catch (Exception e) {
+			callRollBack();
 		}
 		return res;
 	}

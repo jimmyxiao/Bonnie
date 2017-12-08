@@ -14,16 +14,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bonniedraw.base.service.BaseService;
+import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.email.EmailProcess;
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.login.dao.LoginMapper;
 import com.bonniedraw.login.model.Login;
+import com.bonniedraw.systemsetup.model.SystemSetup;
 import com.bonniedraw.systemsetup.service.SystemSetupService;
 import com.bonniedraw.user.dao.UserInfoMapper;
 import com.bonniedraw.user.model.OtherUserModel;
 import com.bonniedraw.user.model.UserCounter;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.UserServiceAPI;
+import com.bonniedraw.util.EmailUtil;
 import com.bonniedraw.util.EncryptUtil;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.SercurityUtil;
@@ -33,6 +36,7 @@ import com.bonniedraw.web_api.model.ApiRequestVO;
 import com.bonniedraw.web_api.model.request.FollowingListRequestVO;
 import com.bonniedraw.web_api.model.request.LoginRequestVO;
 import com.bonniedraw.web_api.model.request.UpdatePwdRequestVO;
+import com.bonniedraw.web_api.model.response.ForgetPwdResponseVO;
 import com.bonniedraw.web_api.model.response.FriendResponseVO;
 import com.bonniedraw.web_api.model.response.LoginResponseVO;
 import com.bonniedraw.web_api.module.UserInfoResponse;
@@ -143,7 +147,16 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		try {
 			UserInfo existUserInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
 			if(existUserInfo != null){
-				putLogin(result, loginRequestVO, existUserInfo, ipAddress);
+				Integer status = existUserInfo.getStatus();
+				if(status != null){
+					if(status == 0 && ut ==1){
+						result.setRes(3);
+					}else{
+						putLogin(result, loginRequestVO, existUserInfo, ipAddress);
+					}
+				}else{
+					result.setRes(2);
+				}
 			}else{
 				if(ut != 1){
 					String thirdEmail = loginRequestVO.getThirdEmail();
@@ -245,66 +258,60 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	@Transactional(rollbackFor = Exception.class)
 	private LoginResponseVO callRegister(LoginRequestVO loginRequestVO){
 		LoginResponseVO result = new LoginResponseVO();
-		Date nowDate = TimerUtil.getNowDate();
-		int userType = loginRequestVO.getUt();
-		String userCode;
-		if(userType!=1){	
-//			userCode = loginRequestVO.getThirdEmail();
-			result.setRes(2);
-			return result;
-		}else{
-			userCode = loginRequestVO.getUc();
-		}
-		UserInfo existUserInfo = userInfoMapper.selectByUserCode(userCode);
-		
 		try{
-			if(userType != 1){
-				if(existUserInfo!=null){		// 第三方平台註冊,且已有email帳號,直接更新;反之做第三方平台新註冊
-					String id = loginRequestVO.getUc();
-					switch (userType) {
-					case 2:
-						existUserInfo.setRegFacebookId(id);
-						break;
-					case 3:
-						existUserInfo.setRegGoogleId(id);
-						break;
-					case 4:
-						existUserInfo.setRegTwitterId(id);
-						break;
-					}
-					existUserInfo.setUpdatedBy(0);
-					existUserInfo.setUpdateDate(nowDate);
-					userInfoMapper.updateByPrimaryKey(existUserInfo);
-				}else{
-					UserInfo userInfo = getInitalUserInfo(loginRequestVO, nowDate);
-					userInfoMapper.insert(userInfo);
-					if(ValidateUtil.isNotBlank(loginRequestVO.getThirdPictureUrl())){
-						StringBuffer path = new StringBuffer();
-						path.append("/picture/").append(userInfo.getUserId());
-						Map<String, Object> resultMap = FileUtil.copyURLToFile(loginRequestVO.getThirdPictureUrl(), path.toString());
-						boolean status = (boolean)resultMap.get("status");
-						if(status){
-							String filePath = resultMap.get("path")!=null?resultMap.get("path").toString():null;
-							userInfo.setProfilePicture(filePath);
-							userInfoMapper.updateByPrimaryKeySelective(userInfo);
-						}
-					}
-				}
-				result.setRes(1);
-			}else{
+			UserInfo existUserInfo = userInfoMapper.selectByUserCode(loginRequestVO.getUc());
+//			if(userType != 1){
+//				if(existUserInfo!=null){		// 第三方平台註冊,且已有email帳號,直接更新;反之做第三方平台新註冊
+//					String id = loginRequestVO.getUc();
+//					switch (userType) {
+//					case 2:
+//						existUserInfo.setRegFacebookId(id);
+//						break;
+//					case 3:
+//						existUserInfo.setRegGoogleId(id);
+//						break;
+//					case 4:
+//						existUserInfo.setRegTwitterId(id);
+//						break;
+//					}
+//					existUserInfo.setUpdatedBy(0);
+//					existUserInfo.setUpdateDate(nowDate);
+//					userInfoMapper.updateByPrimaryKey(existUserInfo);
+//				}else{
+//					UserInfo userInfo = getInitalUserInfo(loginRequestVO, nowDate);
+//					userInfoMapper.insert(userInfo);
+//					if(ValidateUtil.isNotBlank(loginRequestVO.getThirdPictureUrl())){
+//						StringBuffer path = new StringBuffer();
+//						path.append("/picture/").append(userInfo.getUserId());
+//						Map<String, Object> resultMap = FileUtil.copyURLToFile(loginRequestVO.getThirdPictureUrl(), path.toString());
+//						boolean status = (boolean)resultMap.get("status");
+//						if(status){
+//							String filePath = resultMap.get("path")!=null?resultMap.get("path").toString():null;
+//							userInfo.setProfilePicture(filePath);
+//							userInfoMapper.updateByPrimaryKeySelective(userInfo);
+//						}
+//					}
+//				}
+//				result.setRes(1);
+//			}else{
+				Date nowDate = TimerUtil.getNowDate();
 				Date regVaildDate = TimerUtil.addMin(nowDate, 30);
 				String guid = SercurityUtil.getGUID();
-				if(existUserInfo!=null){		// email註冊,且含有第三方平台註冊帳號,更新額外資料,反之做email新註冊,都須發認證信	
-					existUserInfo.setRegData(guid);
-					existUserInfo.setRegValidDate(regVaildDate);
-					existUserInfo.setUpdatedBy(0);
-					existUserInfo.setUpdateDate(nowDate);
-					userInfoMapper.updateByPrimaryKeySelective(existUserInfo);
-					if(EmailProcess.sendValideMail(systemSetupService,existUserInfo)){
-						result.setRes(1);
+				if(existUserInfo != null) {
+					if(existUserInfo.getStatus() == 0) {		//當帳號為註冊中帳號, 可再更新和發送新的認證
+						existUserInfo.setRegData(guid);
+						existUserInfo.setRegValidDate(regVaildDate);
+						existUserInfo.setUpdatedBy(0);
+						existUserInfo.setUpdateDate(nowDate);
+						userInfoMapper.updateByPrimaryKeySelective(existUserInfo);
+						if(EmailProcess.sendValideMail(systemSetupService, existUserInfo)){
+							result.setRes(1);
+						}else{
+							result.setRes(2);
+							callRollBack();
+						}
 					}else{
-						result.setRes(2);
-						callRollBack();
+						result.setRes(3);
 					}
 				}else{
 					UserInfo userInfo = getInitalUserInfo(loginRequestVO, nowDate);
@@ -315,14 +322,14 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 					userInfo.setUpdatedBy(0);
 					userInfo.setUpdateDate(nowDate);
 					userInfoMapper.insert(userInfo);
-					if(EmailProcess.sendValideMail(systemSetupService,userInfo)){
+					if(EmailProcess.sendValideMail(systemSetupService, userInfo)){
 						result.setRes(1);
 					}else{
 						result.setRes(2);
 						callRollBack();
 					}
 				}
-			}
+//			}
 		} catch (Exception e) {
 			result.setRes(2);
 			LogUtils.error(getClass(), "callRegister has error : " + e);
@@ -377,7 +384,10 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	}
 	
 	@Override
-	public String setPwdByEmail(String email) {
+	@Transactional(rollbackFor = Exception.class)
+	public ForgetPwdResponseVO setPwdByEmail(String email, SystemSetup systemSetup) {
+		ForgetPwdResponseVO result = new ForgetPwdResponseVO();
+		result.setRes(2);
 		SecureRandom random = new SecureRandom();
 		String code = new BigInteger(130, random).toString(32);
 		if(ValidateUtil.isNotBlank(code)){
@@ -389,12 +399,25 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 			if(userInfo!=null){
 				userInfo.setUserPw(md5Code);
 				userInfoMapper.updateByPrimaryKeySelective(userInfo);
-				return code;
+				try {
+					if(EmailUtil.send(systemSetup, email, EmailContent.EMAIL_SUBJECT , EmailContent.getEmailBody(code))){
+						result.setRes(1);
+						result.setMsg("已發送");
+					}else{
+						result.setMsg("發送郵件伺服設定異常");
+					}
+				}catch (Exception e) {
+					LogUtils.error(this.getClass(), "send mail [ "+ email +" ] has error : " + e);
+					result.setMsg("發送失敗") ;
+					callRollBack();
+				}
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "setPwdByEmail function encrypt md5Code has error : " + e );
+			result.setMsg("重設密碼失敗");
+			callRollBack();
 		}
-		return null;
+		return result;
 	}
 
 	@Override

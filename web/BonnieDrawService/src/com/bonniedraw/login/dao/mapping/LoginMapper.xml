@@ -191,7 +191,9 @@
 	    set IS_CURRENT = 2
 	    where USER_ID = #{userId,jdbcType=INTEGER}
 	    and DEVICE_INFO = #{deviceInfo,jdbcType=VARCHAR}
-	    and DEVICE_ID = #{deviceId,jdbcType=VARCHAR}
+	    <if test="deviceInfo != 'Web' ">
+	    	and DEVICE_ID = #{deviceId,jdbcType=VARCHAR}
+	    </if>
 	    and IS_CURRENT = 1
 	</update>
 	

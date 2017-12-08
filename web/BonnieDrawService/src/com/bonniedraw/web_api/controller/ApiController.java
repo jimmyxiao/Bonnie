@@ -28,7 +28,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bonniedraw.email.EmailContent;
 import com.bonniedraw.file.FileUtil;
 import com.bonniedraw.file.Point;
 import com.bonniedraw.notification.service.NotiMsgService;
@@ -39,7 +38,6 @@ import com.bonniedraw.user.model.OtherUserModel;
 import com.bonniedraw.user.model.UserCounter;
 import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.UserServiceAPI;
-import com.bonniedraw.util.EmailUtil;
 import com.bonniedraw.util.LogUtils;
 import com.bonniedraw.util.ServletUtil;
 import com.bonniedraw.util.ValidateUtil;
@@ -145,7 +143,8 @@ public class ApiController {
 				&& (fn>=1 && fn<=3)
 				&& (ut>=1 && ut<=4) 
 				&& (dt>=1 && dt<=3)
-				&& (gender==null || (gender!=null && gender>=0 && gender<=2)) ){
+				&& (gender==null || (gender!=null && gender>=0 && gender<=2)) 
+				&& !(fn == 2 && ut != 1) ){
 				String ip = ServletUtil.getRequestIp(request);			
 				LoginResponseVO result = userServiceAPI.login(loginRequestVO,ip);
 				if(result !=null){
@@ -173,7 +172,11 @@ public class ApiController {
 							}
 							break;
 						case 2:
-							msg = messageSource.getMessage("api_login_fail2",null,request.getLocale());
+							if(res == 3){
+								msg = "此帳號已存在, 不可使用";
+							}else{
+								msg = messageSource.getMessage("api_login_fail2",null,request.getLocale());
+							}
 							break;
 						case 3:
 							if (res == 2){
@@ -195,31 +198,18 @@ public class ApiController {
 	@RequestMapping(value="/forgetpwd" , produces="application/json")
 	public @ResponseBody ForgetPwdResponseVO forgetPwd(HttpServletRequest request,HttpServletResponse resp,@RequestBody ForgetPwdRequestVO forgetPwdRequestVO) {
 		ForgetPwdResponseVO respResult = new ForgetPwdResponseVO();
-		String msg = "";
 		String email = forgetPwdRequestVO.getEmail();
 		respResult.setRes(0);
 		if(ValidateUtil.isBlank(email)){
-			msg = "無郵件資訊";
+			respResult.setMsg("無郵件資訊");
 		}else{
-			String userPwd = userServiceAPI.setPwdByEmail(email);
-			if(ValidateUtil.isBlank(userPwd)){
-				msg="密碼重設失敗";
+			SystemSetup systemSetup = systemSetupService.querySystemSetup();
+			if(systemSetup != null) {
+				respResult = userServiceAPI.setPwdByEmail(email, systemSetup);
 			}else{
-				try {
-					SystemSetup systemSetup = systemSetupService.querySystemSetup();
-					if(EmailUtil.send(systemSetup, email, EmailContent.EMAIL_SUBJECT , EmailContent.getEmailBody(userPwd))){
-						msg = "已發送";
-					}else{
-						msg = "發送郵件伺服設定異常";
-					}
-				}catch (Exception e) {
-					LogUtils.error(this.getClass(), "send mail has error : " + e);
-					msg =  "發送失敗" ;
-				}
+				respResult.setMsg("伺服器異常");
 			}
 		}
-		
-		respResult.setMsg(msg);
 		return respResult;
 	}
 	
