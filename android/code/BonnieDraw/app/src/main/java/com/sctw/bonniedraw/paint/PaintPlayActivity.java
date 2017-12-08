@@ -77,7 +77,9 @@ public class PaintPlayActivity extends AppCompatActivity {
                     switch (tagpoint.get_iAction() - 1) {
                         case MotionEvent.ACTION_DOWN:
                             mbPlaying = true;
-                            if (tagpoint.get_iBrush() != 0) {
+                            if (tagpoint.get_iBrush()==6) {
+                                mPaintView.setDrawingBgColor(tagpoint.get_iColor());
+                            } else if (tagpoint.get_iBrush() != 0) {
                                 mPaintView.getBrush().setEraser(false);
                                 int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                                 mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);

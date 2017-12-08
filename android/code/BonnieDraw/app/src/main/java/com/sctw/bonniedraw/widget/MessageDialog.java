@@ -224,6 +224,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                 msgBean.setMessage(data.getJSONObject(x).getString("message"));
                 msgBean.setCreationDate(data.getJSONObject(x).getString("creationDate"));
                 msgBean.setUserName(data.getJSONObject(x).getString("userName"));
+                msgBean.setProfilePicture(data.getJSONObject(x).getString("profilePicture"));
                 msgBeanArrayList.add(msgBean);
             }
         } catch (JSONException e) {
