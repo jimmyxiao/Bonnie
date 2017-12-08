@@ -35,6 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+@SuppressWarnings("serial")
 public class Server extends JFrame implements ActionListener{
 	//RTP variables:
     //----------------
@@ -490,7 +491,7 @@ public class Server extends JFrame implements ActionListener{
             }
             else if (request_type == DESCRIBE) {
                 tokens.nextToken();
-                String describeDataType = tokens.nextToken();
+//                String describeDataType = tokens.nextToken();
             }
             else {
                 //otherwise LastLine will be the SessionId line
