@@ -341,7 +341,7 @@ class CanvasViewController:
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         picker.dismiss(animated: true) {
             if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let model = image.cgImage?.colorSpace?.model, model == .rgb {
-                self.brush.image = image
+                self.brush.textureCache = image
                 self.brushButton.setImage(UIImage(named: "ic_android_white"), for: .normal)
             } else {
                 self.presentDialog(title: "檔案不支援", message: "圖檔請使用 RGB 色彩空間匯出，不可為 Monochrome 或 CMYK 等等")
@@ -352,6 +352,7 @@ class CanvasViewController:
     internal func sizePicker(didSelect size: CGFloat) {
         brush.minSize = size
         brush.maxSize = size * 1.5
+        brush.stepWidth = size * 0.1
         let rect = CGSize(width: 33, height: 33)
         UIGraphicsBeginImageContextWithOptions(rect, false, UIScreen.main.scale)
         UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: brush.minSize / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()

@@ -59,6 +59,18 @@
         //
         // fetch the cgimage for us to draw into a texture
         CGImageRef brushCGImage = self.texture.CGImage;
+//        CGImageRef maskCGImage = self.mask.CGImage;
+//        if (brushCGImage && maskCGImage) {
+//            CGImageRef texture = CGImageMaskCreate(CGImageGetWidth(maskCGImage),
+//                                                   CGImageGetHeight(maskCGImage),
+//                                                   CGImageGetBitsPerComponent(maskCGImage),
+//                                                   CGImageGetBitsPerPixel(maskCGImage),
+//                                                   CGImageGetBytesPerRow(maskCGImage),
+//                                                   CGImageGetDataProvider(maskCGImage),
+//                                                   CGImageGetDecode(maskCGImage),
+//                                                   CGImageGetShouldInterpolate(maskCGImage));
+//            brushCGImage = CGImageCreateWithMask(brushCGImage, texture);
+//        }
         // Make sure the image exists
         if (brushCGImage) {
             // Get the width and height of the image
