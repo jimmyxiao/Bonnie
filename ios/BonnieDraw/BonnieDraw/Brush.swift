@@ -11,8 +11,8 @@ class Brush: JotBrushTexture {
     private var velocity: CGFloat = 0
     private var lastPoint = CGPoint.zero
     private var lastTimestamp = Date()
-    private var imageName: String?
-    var image: UIImage?
+    private var textureName: String?
+    var textureCache: UIImage?
     var minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
     var color = UIColor.black
     var isRotationSupported = false, isForceSupported = false, isVelocitySupported = false
@@ -22,20 +22,20 @@ class Brush: JotBrushTexture {
         didSet {
             switch type {
             case .crayon:
-                imageName = "Crayon"
+                textureName = "Crayon"
             case .pencil:
-                imageName = "Pencil"
+                textureName = "Pencil"
             case .pen:
-                imageName = nil
+                textureName = nil
             case .airbrush:
-                imageName = "Airbrush"
+                textureName = "Airbrush"
             case .marker:
-                imageName = "Marker"
+                textureName = "Marker"
             default:
                 return
             }
-            if image != nil {
-                image = nil
+            if textureCache != nil {
+                textureCache = nil
             }
         }
     }
@@ -151,7 +151,7 @@ class Brush: JotBrushTexture {
     private func brushTexture() -> JotBrushTexture {
         if type != .eraser {
             if let context = JotGLContext.current() as? JotGLContext {
-                if let image = image {
+                if let image = textureCache {
                     if let texture = JotSharedBrushTexture(image: image) {
                         context.contextProperties[""] = texture
                         return texture
@@ -159,9 +159,9 @@ class Brush: JotBrushTexture {
                         return JotDefaultBrushTexture.sharedInstance()
                     }
                 } else {
-                    if let texture = context.contextProperties[imageName] as? JotSharedBrushTexture {
+                    if let texture = context.contextProperties[textureName] as? JotSharedBrushTexture {
                         return texture
-                    } else if let imageName = imageName, let texture = JotSharedBrushTexture(image: UIImage(named: imageName)) {
+                    } else if let imageName = textureName, let texture = JotSharedBrushTexture(image: UIImage(named: imageName)) {
                         context.contextProperties[imageName] = texture
                         return texture
                     } else {
