@@ -240,9 +240,25 @@ class CanvasViewController:
     private func checkCanvasStatus() {
         undoButton.isEnabled = !paths.isEmpty
         redoButton.isEnabled = !redoPaths.isEmpty
-        playButton.isEnabled = !paths.isEmpty
-        uploadButton.isEnabled = !paths.isEmpty
-        resetButton.isEnabled = !paths.isEmpty
+        if paths.isEmpty {
+            do {
+                if try (FileManager.default.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                    playButton.isEnabled = true
+                    uploadButton.isEnabled = true
+                    resetButton.isEnabled = true
+                } else {
+                    playButton.isEnabled = false
+                    uploadButton.isEnabled = false
+                    resetButton.isEnabled = false
+                }
+            } catch {
+                Logger.d("\(#function): \(error.localizedDescription)")
+            }
+        } else {
+            playButton.isEnabled = true
+            uploadButton.isEnabled = true
+            resetButton.isEnabled = true
+        }
     }
 
     internal func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -572,7 +588,7 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                if try !self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
                     try manager.copyItem(at: FileUrl.CACHE, to: url)
                     let writeHandle = try FileHandle(forWritingTo: url)
                     writeHandle.seekToEndOfFile()
