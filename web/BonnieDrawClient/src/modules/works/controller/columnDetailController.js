@@ -382,18 +382,25 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					if(data.brush==6){
 						// can.style.backgroundColor = data.color.color_rgba;
 						bgcolord = data.color;
-						var st_pindata = st.getImageData(0, 0,canvas_width, canvas_height);
-						cxt.clearRect(0, 0, canvas_width, canvas_height);
-						cxt.globalCompositeOperation = "source-over";
+						// var st_pindata = st.getImageData(0, 0,canvas_width, canvas_height);
+						// cxt.clearRect(0, 0, canvas_width, canvas_height);
+						// cxt.globalCompositeOperation = "source-over";
+						// var bgColordata = cahngBgCoior(data.color);
+						// var cxt_gco = cxt.globalCompositeOperation;
+						// var cxt_ga = cxt.globalAlpha;
+						// cxt.putImageData(st_pindata, 0, 0);
+						// cxt.globalAlpha = 1;
+						// cxt.globalCompositeOperation = "destination-atop";
+						// cxt.drawImage(bgColordata, 0, 0);
+						// cxt.globalAlpha = cxt_ga;
+						// cxt.globalCompositeOperation = cxt_gco;	
+
 						var bgColordata = cahngBgCoior(data.color);
-						var cxt_gco = cxt.globalCompositeOperation;
-						var cxt_ga = cxt.globalAlpha;
-						cxt.putImageData(st_pindata, 0, 0);
+						cxt.clearRect(0, 0, canvas_width, canvas_height);
 						cxt.globalAlpha = 1;
-						cxt.globalCompositeOperation = "destination-atop";
+						cxt.globalCompositeOperation = "source-over";
 						cxt.drawImage(bgColordata, 0, 0);
-						cxt.globalAlpha = cxt_ga;
-						cxt.globalCompositeOperation = cxt_gco;	
+						cxt.drawImage(stocker, 0, 0);
 
 						
 					}
@@ -442,7 +449,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							var Crayonimg = changeCrayon(imgdata,x,y);
 							//cxt.globalCompositeOperation='xor';
 							cxt.drawImage(Crayonimg, x, y, data.size, data.size);
-							st.drawImage(imgdata, x, y, data.size, data.size);	
+							st.drawImage(Crayonimg, x, y, data.size, data.size);	
 						}
 					}else{
 						for (var distnum = 0; distnum < dist; distnum++) {
