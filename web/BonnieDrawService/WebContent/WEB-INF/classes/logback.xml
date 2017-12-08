@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
 <configuration>
 	<property name="LOG_HOME" value="/logs" />
 	<property name="CHARSET" value="UTF-8" />
@@ -14,16 +15,16 @@
 
 	<appender name="error_log_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>logs/error_Info_%d{yyyyMMdd}.log</FileNamePattern>
-            <MaxHistory>365</MaxHistory>
+            <FileNamePattern>logs/error_Info_%d{yyyyMMdd}.%i.log</FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+	            <maxFileSize>100MB</maxFileSize>  
+	        	<maxHistory>365</maxHistory>  
+        	</timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${PATTERN}</pattern>
             <charset>${CHARSET}</charset>
         </encoder>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>100MB</MaxFileSize>
-        </triggeringPolicy>
     </appender>
    	<logger name="error_log" level="DEBUG">
         <appender-ref ref="error_log_file" />
@@ -32,16 +33,16 @@
     
     <appender name="operate_log_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>logs/operate_Info_%d{yyyyMMdd}.log</FileNamePattern>
-            <MaxHistory>365</MaxHistory>
+            <FileNamePattern>logs/operate_Info_%d{yyyyMMdd}.%i.log</FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+	            <maxFileSize>100MB</maxFileSize>  
+	        	<maxHistory>365</maxHistory>
+        	</timeBasedFileNamingAndTriggeringPolicy>  
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${PATTERN}</pattern>
             <charset>${CHARSET}</charset>
         </encoder>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>100MB</MaxFileSize>
-        </triggeringPolicy>
     </appender>
    	<logger name="operate_log" level="DEBUG">
         <appender-ref ref="operate_log_file" />
@@ -50,37 +51,19 @@
     
     <appender name="fileControllerError_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>logs/fileControllerError_%d{yyyyMMdd}.log</FileNamePattern>
-            <MaxHistory>365</MaxHistory>
+            <FileNamePattern>logs/fileControllerError_%d{yyyyMMdd}.%i.log</FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+	            <maxFileSize>100MB</maxFileSize>  
+	        	<maxHistory>365</maxHistory>
+        	</timeBasedFileNamingAndTriggeringPolicy>  
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${PATTERN}</pattern>
             <charset>${CHARSET}</charset>
         </encoder>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>100MB</MaxFileSize>
-        </triggeringPolicy>
     </appender>
    	<logger name="fileControllerError_log" level="DEBUG">
         <appender-ref ref="fileControllerError_file" />
-        <appender-ref ref="STDOUT" />
-    </logger>
-    
-    <appender name="scheduled_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>logs/scheduled_%d{yyyyMMdd}.log</FileNamePattern>
-            <MaxHistory>365</MaxHistory>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${PATTERN}</pattern>
-            <charset>${CHARSET}</charset>
-        </encoder>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>100MB</MaxFileSize>
-        </triggeringPolicy>
-    </appender>
-   	<logger name="scheduled_log" level="DEBUG">
-        <appender-ref ref="scheduled_file" />
         <appender-ref ref="STDOUT" />
     </logger>
 
