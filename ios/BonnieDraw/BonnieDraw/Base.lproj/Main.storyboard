@@ -165,8 +165,9 @@
                                         <rect key="frame" x="46" y="0.0" width="219" height="44"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                         <connections>
+                                            <action selector="textFieldTextDidChange:" destination="R9c-0p-Md0" eventType="editingChanged" id="D93-0W-3B8"/>
                                             <outlet property="delegate" destination="R9c-0p-Md0" id="8Oj-0m-czD"/>
                                         </connections>
                                     </textField>
@@ -228,20 +229,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AUr-zo-3pa"/>
                     </view>
-                    <navigationItem key="navigationItem" id="AJq-EC-GL2">
-                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="JI1-o0-PFp">
-                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="onBackPressed:" destination="R9c-0p-Md0" id="wyI-8e-Mpn"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="emptyLabel" destination="ffx-vH-WbV" id="lvT-vz-6qj"/>
                         <outlet property="loading" destination="ZNn-By-Abg" id="9oG-8V-Xwo"/>
+                        <outlet property="navigationBar" destination="Tub-WP-hxY" id="ntN-oW-jzG"/>
                         <outlet property="send" destination="gUC-4a-DLA" id="ugb-PQ-phf"/>
                         <outlet property="tableView" destination="brJ-qX-ckB" id="zAG-Ga-YsA"/>
                         <outlet property="textField" destination="MyV-Cp-V8e" id="PXr-IP-Chp"/>
+                        <outlet property="viewBottom" destination="d8G-fG-rYW" id="eEn-oc-1af"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QkV-Q4-kmD" userLabel="First Responder" sceneMemberID="firstResponder"/>

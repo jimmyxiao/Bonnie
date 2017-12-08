@@ -10,17 +10,23 @@ import UIKit
 import Alamofire
 
 class CommentViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var send: UIButton!
+    @IBOutlet weak var viewBottom: NSLayoutConstraint!
     private let formatter = DateFormatter()
     private var dataRequest: DataRequest?
+    private var timestamp: Date?
     private let refreshControl = UIRefreshControl()
+    private let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    private var keyboardOnScreen = false
     var work: Work?
 
     override func viewDidLoad() {
+        navigationBar.items?.first?.rightBarButtonItem = UIBarButtonItem(customView: indicator)
         formatter.dateFormat = "yyyy/MM/dd"
         if work?.messages.isEmpty ?? true {
             emptyLabel.isHidden = false
@@ -28,14 +34,57 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         tableView.refreshControl = refreshControl
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
+    }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
+            viewBottom.constant = -keyboardSize.height
+            UIView.animate(withDuration: 0.4) {
+                self.view.setNeedsDisplay()
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if keyboardOnScreen {
+            viewBottom.constant = 0
+            UIView.animate(withDuration: 0.4) {
+                self.view.setNeedsDisplay()
+            }
+        }
+    }
+
+    @objc func keyboardDidShow(_ notification: Notification) {
+        keyboardOnScreen = true
+    }
+
+    @objc func keyboardDidHide(_ notification: Notification) {
+        keyboardOnScreen = false
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         if work?.messages.isEmpty ?? true {
+            downloadData()
+        } else if let timestamp = timestamp {
+            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+                downloadData()
+            }
+        } else {
             downloadData()
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
     }
 
     private func downloadData() {
@@ -89,8 +138,10 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
                 if !self.loading.isHidden {
                     self.loading.hide(true)
                 }
+                self.timestamp = Date()
                 self.refreshControl.endRefreshing()
                 self.textField.isEnabled = true
+                self.indicator.stopAnimating()
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {
                     return
@@ -128,11 +179,17 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         }
     }
 
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        Logger.d("\(#function)")
+    @IBAction func textFieldTextDidChange(_ sender: UITextField) {
+        send.isEnabled = !(sender.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
+    }
+
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
     @IBAction func send(_ sender: UIButton) {
+        textField.resignFirstResponder()
         guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {
             return
         }
@@ -148,6 +205,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         textField.text = nil
         textField.isEnabled = false
         sender.isEnabled = false
+        indicator.startAnimating()
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.LEAVE_MESSAGE),
@@ -165,6 +223,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
                     self.downloadData()
                 } else {
                     self.textField.isEnabled = true
+                    self.indicator.stopAnimating()
                     self.presentDialog(title: "service_leave_message_fail_title".localized, message: data["msg"] as? String)
                 }
             case .failure(let error):
@@ -172,6 +231,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
                     return
                 }
                 self.textField.isEnabled = true
+                self.indicator.stopAnimating()
                 self.presentDialog(title: "service_leave_message_fail_title".localized, message: "app_network_unreachable_content".localized)
             }
         }
