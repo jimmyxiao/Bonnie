@@ -10,7 +10,7 @@ import UIKit
 import XLPagerTabStrip
 import Alamofire
 
-class CollectionAllViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, IndicatorInfoProvider {
+class CollectionAllViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, IndicatorInfoProvider, WorkViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
@@ -42,6 +42,7 @@ class CollectionAllViewController: UIViewController, UICollectionViewDataSource,
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? WorkViewController,
            let indexPath = collectionView.indexPathsForSelectedItems?.first {
+            controller.delegate = self
             controller.work = works[indexPath.row]
             collectionView.deselectItem(at: indexPath, animated: true)
         }
@@ -105,8 +106,9 @@ class CollectionAllViewController: UIViewController, UICollectionViewDataSource,
                             thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
                             file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
                             title: work["title"] as? String,
+                            description: work["description"] as? String,
                             isLike: work["like"] as? Bool,
-                            isCollection: work["collection"] as? Bool,
+                            isCollect: work["collection"] as? Bool,
                             likes: work["likeCount"] as? Int,
                             messages: messageList))
                 }
@@ -161,5 +163,9 @@ class CollectionAllViewController: UIViewController, UICollectionViewDataSource,
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width / CGFloat(3)
         return CGSize(width: width, height: width)
+    }
+
+    internal func workDidChange() {
+        downloadData()
     }
 }

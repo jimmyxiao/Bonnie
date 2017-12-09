@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class AccountViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class AccountViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, WorkViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     private var indicator: UIActivityIndicatorView?
     private var loadingLabel: UILabel?
@@ -74,6 +74,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? WorkViewController,
            let indexPath = collectionView.indexPathsForSelectedItems?.first {
+            controller.delegate = self
             controller.work = works[indexPath.row]
             collectionView.deselectItem(at: indexPath, animated: true)
         } else if let controller = segue.destination as? UserViewController {
@@ -177,8 +178,9 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                                     thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
                                     file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
                                     title: work["title"] as? String,
+                                    description: work["description"] as? String,
                                     isLike: work["like"] as? Bool,
-                                    isCollection: work["collection"] as? Bool,
+                                    isCollect: work["collection"] as? Bool,
                                     likes: work["likeCount"] as? Int,
                                     messages: messageList))
                         }
@@ -267,5 +269,9 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         } else {
             return CGSize(width: collectionView.bounds.width, height: 156 + collectionView.bounds.width * 3 / 4)
         }
+    }
+
+    internal func workDidChange() {
+        downloadData()
     }
 }

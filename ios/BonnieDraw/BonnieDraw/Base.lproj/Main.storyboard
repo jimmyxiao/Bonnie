@@ -104,8 +104,8 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mGF-g9-Ox8">
                                                     <rect key="frame" x="68" y="67.5" width="221" height="224"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -465,7 +465,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="435"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IMJ-jP-hJb">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="520"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="536"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="PX3-xH-H4M">
                                                 <rect key="frame" x="16" y="16" width="288" height="44"/>
@@ -542,42 +542,8 @@
                                                     <outlet property="delegate" destination="wJn-NR-0b0" id="EC3-F5-X5A"/>
                                                 </connections>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7nx-iV-rmL">
-                                                <rect key="frame" x="16" y="474" width="112" height="38"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpe-ET-Y35">
-                                                        <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
-                                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                                        <state key="normal" image="work_ic_like"/>
-                                                        <connections>
-                                                            <action selector="like:" destination="wJn-NR-0b0" eventType="touchUpInside" id="KY6-8k-VHP"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="81m-22-OHn">
-                                                        <rect key="frame" x="38" y="0.0" width="38" height="38"/>
-                                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                                        <state key="normal" image="work_ic_message"/>
-                                                        <connections>
-                                                            <segue destination="R9c-0p-Md0" kind="presentation" id="ycB-24-dRO"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zvf-8i-dNQ">
-                                                        <rect key="frame" x="76" y="0.0" width="36" height="38"/>
-                                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                                        <state key="normal" image="share_icon"/>
-                                                        <connections>
-                                                            <action selector="share:" destination="wJn-NR-0b0" eventType="touchUpInside" id="RQL-ae-Gfh"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Sq-yt-thS">
-                                                <rect key="frame" x="271" y="474" width="33" height="38"/>
-                                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                                <state key="normal" image="collect_ic_off"/>
-                                            </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1hW-UI-a2o">
-                                                <rect key="frame" x="28.5" y="404" width="263" height="62"/>
+                                                <rect key="frame" x="28" y="404" width="263" height="62"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XgX-1G-MTl">
                                                         <rect key="frame" x="0.0" y="0.0" width="42" height="62"/>
@@ -620,19 +586,65 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7nx-iV-rmL">
+                                                <rect key="frame" x="16" y="474" width="112" height="38"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpe-ET-Y35">
+                                                        <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
+                                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                                        <state key="normal" image="work_ic_like"/>
+                                                        <connections>
+                                                            <action selector="like:" destination="wJn-NR-0b0" eventType="touchUpInside" id="KY6-8k-VHP"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="81m-22-OHn">
+                                                        <rect key="frame" x="38" y="0.0" width="38" height="38"/>
+                                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                                        <state key="normal" image="work_ic_message"/>
+                                                        <connections>
+                                                            <segue destination="R9c-0p-Md0" kind="presentation" id="ycB-24-dRO"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zvf-8i-dNQ">
+                                                        <rect key="frame" x="76" y="0.0" width="36" height="38"/>
+                                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                                        <state key="normal" image="share_icon"/>
+                                                        <connections>
+                                                            <action selector="share:" destination="wJn-NR-0b0" eventType="touchUpInside" id="RQL-ae-Gfh"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Sq-yt-thS">
+                                                <rect key="frame" x="271" y="474" width="33" height="38"/>
+                                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                                <state key="normal" image="collect_ic_off"/>
+                                                <connections>
+                                                    <action selector="collect:" destination="wJn-NR-0b0" eventType="touchUpInside" id="niP-Y8-sSs"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pde-9J-2hI">
+                                                <rect key="frame" x="16" y="520" width="288" height="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="7Sq-yt-thS" firstAttribute="centerY" secondItem="7nx-iV-rmL" secondAttribute="centerY" id="041-6H-cI1"/>
                                             <constraint firstItem="7nx-iV-rmL" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" constant="16" id="0bj-st-pEU"/>
                                             <constraint firstItem="1hW-UI-a2o" firstAttribute="centerX" secondItem="IMJ-jP-hJb" secondAttribute="centerX" id="0rk-Mu-kNY"/>
+                                            <constraint firstAttribute="bottom" secondItem="Pde-9J-2hI" secondAttribute="bottom" constant="16" id="2Wv-Z2-qH1"/>
+                                            <constraint firstItem="Pde-9J-2hI" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" constant="16" id="48e-59-jyx"/>
                                             <constraint firstItem="hHV-lQ-Dfn" firstAttribute="bottom" secondItem="PyN-mC-Mya" secondAttribute="bottom" id="Dg6-mc-kwa"/>
-                                            <constraint firstAttribute="bottom" secondItem="7nx-iV-rmL" secondAttribute="bottom" constant="8" id="EcO-ld-JpV"/>
                                             <constraint firstItem="PX3-xH-H4M" firstAttribute="top" secondItem="IMJ-jP-hJb" secondAttribute="top" constant="16" id="GXU-ST-6Br"/>
                                             <constraint firstItem="PyN-mC-Mya" firstAttribute="top" secondItem="Cka-qb-CIQ" secondAttribute="bottom" constant="8" id="HQs-D7-UGb"/>
                                             <constraint firstItem="PyN-mC-Mya" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" id="JV1-0T-gU3"/>
+                                            <constraint firstItem="Pde-9J-2hI" firstAttribute="top" secondItem="7nx-iV-rmL" secondAttribute="bottom" constant="8" id="Lvg-Qy-zsW"/>
                                             <constraint firstItem="Cka-qb-CIQ" firstAttribute="leading" secondItem="Vsk-8R-8p8" secondAttribute="leading" id="Ms6-iF-ASe"/>
                                             <constraint firstItem="Cka-qb-CIQ" firstAttribute="top" secondItem="PX3-xH-H4M" secondAttribute="bottom" constant="8" id="VVj-Zh-3dv"/>
+                                            <constraint firstAttribute="trailing" secondItem="Pde-9J-2hI" secondAttribute="trailing" constant="16" id="YYN-gi-47C"/>
                                             <constraint firstItem="PX3-xH-H4M" firstAttribute="leading" secondItem="IMJ-jP-hJb" secondAttribute="leading" constant="16" id="c46-3b-dKO"/>
                                             <constraint firstItem="1hW-UI-a2o" firstAttribute="top" secondItem="PyN-mC-Mya" secondAttribute="bottom" constant="8" id="fqN-Kq-bAZ"/>
                                             <constraint firstAttribute="trailing" secondItem="PyN-mC-Mya" secondAttribute="trailing" id="gdy-j6-DPt"/>
@@ -657,7 +669,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="435"/>
                                 <subviews>
                                     <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-Ni-VLM">
-                                        <rect key="frame" x="80.5" y="248.5" width="160" height="2"/>
+                                        <rect key="frame" x="80" y="248.5" width="160" height="2"/>
                                         <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -693,10 +705,12 @@
                     </view>
                     <connections>
                         <outlet property="canvas" destination="PyN-mC-Mya" id="4bJ-gc-H2d"/>
-                        <outlet property="collect" destination="7Sq-yt-thS" id="GTX-SG-JHt"/>
+                        <outlet property="collect" destination="7Sq-yt-thS" id="AFX-vn-JCl"/>
                         <outlet property="decreaseSpeed" destination="XgX-1G-MTl" id="VmO-jN-Dd4"/>
+                        <outlet property="descriptionLabel" destination="Pde-9J-2hI" id="hFd-qj-w3P"/>
                         <outlet property="gridView" destination="hHV-lQ-Dfn" id="1Xs-F8-f8j"/>
                         <outlet property="increaseSpeed" destination="VJd-B2-4j8" id="aPR-wP-EBc"/>
+                        <outlet property="like" destination="wpe-ET-Y35" id="ODg-QY-zpt"/>
                         <outlet property="loading" destination="yDy-IQ-Hwa" id="Z6b-UP-RHk"/>
                         <outlet property="navigationBar" destination="Da8-0O-Aac" id="cdg-rG-Dnq"/>
                         <outlet property="nextStep" destination="hcu-ob-Xqy" id="UXz-fC-YKH"/>
@@ -768,16 +782,16 @@
                                                     </constraints>
                                                 </stackView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cmE-CB-ke8">
-                                                    <rect key="frame" x="0.0" y="68" width="320" height="240.5"/>
+                                                    <rect key="frame" x="0.0" y="68" width="320" height="240"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="cmE-CB-ke8" secondAttribute="height" multiplier="4:3" id="QZF-Du-zcM"/>
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t4e-eH-rxy">
-                                                    <rect key="frame" x="16" y="316.5" width="112" height="25.5"/>
+                                                    <rect key="frame" x="16" y="316" width="112" height="26"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sgo-nx-AbB">
-                                                            <rect key="frame" x="0.0" y="0.0" width="38" height="25.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="38" height="26"/>
                                                             <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                             <state key="normal" image="work_ic_like"/>
                                                             <connections>
@@ -785,7 +799,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EoK-vZ-xyB">
-                                                            <rect key="frame" x="38" y="0.0" width="38" height="25.5"/>
+                                                            <rect key="frame" x="38" y="0.0" width="38" height="26"/>
                                                             <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                             <state key="normal" image="work_ic_message"/>
                                                             <connections>
@@ -793,7 +807,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SVb-JT-eG0">
-                                                            <rect key="frame" x="76" y="0.0" width="36" height="25.5"/>
+                                                            <rect key="frame" x="76" y="0.0" width="36" height="26"/>
                                                             <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                             <state key="normal" image="share_icon"/>
                                                             <connections>
@@ -803,7 +817,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lSi-AH-aQF">
-                                                    <rect key="frame" x="271" y="310" width="33" height="38"/>
+                                                    <rect key="frame" x="271" y="309.5" width="33" height="38"/>
                                                     <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                     <state key="normal" image="collect_ic_off"/>
                                                 </button>

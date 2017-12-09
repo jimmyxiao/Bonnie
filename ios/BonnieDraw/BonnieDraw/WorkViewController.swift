@@ -19,22 +19,30 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var like: UIButton!
+    @IBOutlet weak var collect: UIButton!
     @IBOutlet weak var play: UIButton!
     @IBOutlet weak var previousStep: UIButton!
     @IBOutlet weak var nextStep: UIButton!
     @IBOutlet weak var decreaseSpeed: UIButton!
     @IBOutlet weak var increaseSpeed: UIButton!
+    @IBOutlet weak var descriptionLabel: UILabel!
     private var brush = Brush()
     private var drawPoints = [Point]()
     private var readHandle: FileHandle?
     private var timer: Timer?
     private var animationSpeed = 1.0
+    var delegate: WorkViewControllerDelegate?
     var jotViewStateInkPath = FileUrl.INK.path
     var jotViewStatePlistPath = FileUrl.STATE.path
     var work: Work?
     private var downloadRequest: DownloadRequest?
 
     override func viewDidLoad() {
+        like.isSelected = work?.isLike ?? false
+        collect.isSelected = work?.isCollect ?? false
+        like.setImage(UIImage(named: like.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
+        collect.setImage(UIImage(named: collect.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
         thumbnail?.sd_setShowActivityIndicatorView(true)
         thumbnail?.sd_setIndicatorStyle(.gray)
         if navigationBar.items?.first?.titleView == nil {
@@ -44,6 +52,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         }
         profileName.text = work?.profileName
         titleLabel.text = work?.title
+        descriptionLabel.text = work?.description
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -172,13 +181,110 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         checkSpeedButtons()
     }
 
-    @IBAction func like(_ sender: Any) {
+    @IBAction func like(_ sender: UIButton) {
+        guard AppDelegate.reachability.connection != .none else {
+            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+                success in
+                if success {
+                    self.downloadData()
+                }
+            }
+            return
+        }
+        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            return
+        }
+        sender.isEnabled = false
+        Alamofire.request(
+                Service.standard(withPath: Service.SET_LIKE),
+                method: .post,
+                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
+                encoding: JSONEncoding.default).validate().responseJSON {
+            response in
+            sender.isEnabled = true
+            switch response.result {
+            case .success:
+                guard let data = response.result.value as? [String: Any], let res = data["res"] as? Int else {
+                    self.presentDialog(
+                            title: "service_download_fail_title".localized,
+                            message: "app_network_unreachable_content".localized)
+                    return
+                }
+                if res != 1 {
+                    self.presentDialog(
+                            title: "service_download_fail_title".localized,
+                            message: data["msg"] as? String)
+                } else {
+                    sender.isSelected = !sender.isSelected
+                    sender.setImage(UIImage(named: sender.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
+                    self.work?.isLike = sender.isSelected
+                    self.delegate?.workDidChange()
+                }
+            case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
+                self.presentDialog(
+                        title: "service_download_fail_title".localized,
+                        message: error.localizedDescription)
+            }
+        }
     }
 
     @IBAction func share(_ sender: Any) {
     }
 
-    @IBOutlet weak var collect: UIButton!
+    @IBAction func collect(_ sender: UIButton) {
+        guard AppDelegate.reachability.connection != .none else {
+            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+                success in
+                if success {
+                    self.downloadData()
+                }
+            }
+            return
+        }
+        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
+              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            return
+        }
+        sender.isEnabled = false
+        Alamofire.request(
+                Service.standard(withPath: Service.SET_COLLECTION),
+                method: .post,
+                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
+                encoding: JSONEncoding.default).validate().responseJSON {
+            response in
+            sender.isEnabled = true
+            switch response.result {
+            case .success:
+                guard let data = response.result.value as? [String: Any], let res = data["res"] as? Int else {
+                    self.presentDialog(
+                            title: "service_download_fail_title".localized,
+                            message: "app_network_unreachable_content".localized)
+                    return
+                }
+                if res != 1 {
+                    self.presentDialog(
+                            title: "service_download_fail_title".localized,
+                            message: data["msg"] as? String)
+                } else {
+                    sender.isSelected = !sender.isSelected
+                    sender.setImage(UIImage(named: sender.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
+                    self.work?.isCollect = sender.isSelected
+                    self.delegate?.workDidChange()
+                }
+            case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
+                self.presentDialog(
+                        title: "service_download_fail_title".localized,
+                        message: error.localizedDescription)
+            }
+        }
+    }
 
     internal func textureForStroke() -> JotBrushTexture! {
         return brush.texture()
@@ -308,4 +414,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             increaseSpeed.isEnabled = true
         }
     }
+}
+
+protocol WorkViewControllerDelegate {
+    func workDidChange()
 }

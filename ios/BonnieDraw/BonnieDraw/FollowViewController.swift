@@ -21,8 +21,9 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
             file: nil,
             title: nil,
+            description: nil,
             isLike: nil,
-            isCollection: nil,
+            isCollect: nil,
             likes: Int(arc4random_uniform(256)),
             messages: []),
         Work(id: nil,
@@ -31,8 +32,9 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 file: nil,
                 title: nil,
+                description: nil,
                 isLike: nil,
-                isCollection: nil,
+                isCollect: nil,
                 likes: Int(arc4random_uniform(256)),
                 messages: []),
         Work(id: nil,
@@ -41,8 +43,9 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 file: nil,
                 title: nil,
+                description: nil,
                 isLike: nil,
-                isCollection: nil,
+                isCollect: nil,
                 likes: Int(arc4random_uniform(256)),
                 messages: []),
         Work(id: nil,
@@ -51,8 +54,9 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 file: nil,
                 title: nil,
+                description: nil,
                 isLike: nil,
-                isCollection: nil,
+                isCollect: nil,
                 likes: Int(arc4random_uniform(256)),
                 messages: []),
         Work(id: nil,
@@ -61,8 +65,9 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 file: nil,
                 title: nil,
+                description: nil,
                 isLike: nil,
-                isCollection: nil,
+                isCollect: nil,
                 likes: Int(arc4random_uniform(256)),
                 messages: []),
         Work(id: nil,
@@ -71,8 +76,9 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
                 file: nil,
                 title: nil,
+                description: nil,
                 isLike: nil,
-                isCollection: nil,
+                isCollect: nil,
                 likes: Int(arc4random_uniform(256)),
                 messages: [])]
     private var tableViewWorks = [Work]()
@@ -232,8 +238,9 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                             thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
                             file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
                             title: work["title"] as? String,
+                            description: work["description"] as? String,
                             isLike: work["like"] as? Bool,
-                            isCollection: work["collection"] as? Bool,
+                            isCollect: work["collection"] as? Bool,
                             likes: work["likeCount"] as? Int,
                             messages: messageList))
                 }
@@ -268,6 +275,5 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
 
 protocol FollowViewControllerDelegate {
     func followDidTapMenu()
-
     func follow(enableMenuGesture enable: Bool)
 }

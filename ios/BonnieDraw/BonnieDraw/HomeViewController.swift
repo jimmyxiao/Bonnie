@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate {
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
@@ -67,6 +67,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? WorkViewController,
            let indexPath = tableView.indexPathForSelectedRow {
+            controller.delegate = self
             controller.work = tableViewWorks[indexPath.row]
             tableView.deselectRow(at: indexPath, animated: true)
         } else if let controller = segue.destination as? CommentViewController,
@@ -187,8 +188,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
                             file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
                             title: work["title"] as? String,
+                            description: work["description"] as? String,
                             isLike: work["like"] as? Bool,
-                            isCollection: work["collection"] as? Bool,
+                            isCollect: work["collection"] as? Bool,
                             likes: work["likeCount"] as? Int,
                             messages: messageList))
                 }
@@ -242,7 +244,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 cell.likeButton.setImage(likeImage, for: .normal)
             }
         }
-        if let isCollection = work.isCollection {
+        if let isCollection = work.isCollect {
             if isCollection {
                 cell.collectButton.isSelected = true
                 cell.collectButton.setImage(collectionImageSelected, for: .normal)
@@ -253,6 +255,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         cell.likes.text = work.likes ?? 0 > 0 ? "\(work.likes ?? 0)" + "likes".localized : "first_like".localized
         return cell
+    }
+
+    internal func workDidChange() {
+        downloadData()
     }
 
     @IBAction func more(_ sender: UIButton) {
@@ -372,7 +378,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                                 message: data["msg"] as? String)
                     } else {
                         sender.isSelected = !sender.isSelected
-                        self.tableViewWorks[indexPath.row].isCollection = sender.isSelected
+                        self.tableViewWorks[indexPath.row].isCollect = sender.isSelected
                         if let cell = self.tableView.cellForRow(at: indexPath) as? HomeTableViewCell {
                             cell.collectButton.setImage(sender.isSelected ? self.collectionImageSelected : self.collectionImage, for: .normal)
                         }
@@ -396,6 +402,5 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
-
     func home(enableMenuGesture enable: Bool)
 }
