@@ -553,6 +553,9 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     //切換筆
     public void selectPaint(View view) {
+        if (mPaintView.getBrush().isEraser) {
+            recoveryPaint();
+        }
         switch (view.getId()) {
             case R.id.imgBtn_paint_left:
                 if (mPaintView.miPaintNum <= 5 && mPaintView.miPaintNum > 1) {
