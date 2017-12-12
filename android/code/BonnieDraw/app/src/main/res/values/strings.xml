@@ -140,4 +140,7 @@
     <string name="following">追蹤中</string>
     <string name="delete">刪除</string>
     <string name="download_html">https://drive.google.com/open?id=0BywnwT8B3NHJVHRrTU83ak9UTEE</string>
+    <string name="only_fb_or_twitter_friends_list">只有 Facebook 或 Twitter 的用戶 \n才可使用推薦好友名單</string>
+    <string name="not_recommend_friends">沒有推薦的好友名單</string>
+    <string name="find_someone_user">搜尋特定的使用者</string>
 </resources>

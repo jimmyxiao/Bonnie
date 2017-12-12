@@ -8,11 +8,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -60,11 +66,14 @@ public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnF
     private JSONArray mFriendsArray;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView mTvHint;
+    private Toolbar mToolbar;
+    private android.support.v7.widget.SearchView mSearchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_friends, container, false);
     }
 
@@ -76,8 +85,10 @@ public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnF
         mRv = view.findViewById(R.id.recyclerView_friend);
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(linearLayoutManager);
-        mTvHint=(TextView) view.findViewById(R.id.imgBtn_profile_friends);
-
+        mTvHint=(TextView) view.findViewById(R.id.textView_friends_hint);
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar_friends);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         int type = prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0);
         getFriendsListThird(type);
         setOnClick();
@@ -101,14 +112,52 @@ public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnF
                 getFacebookFriends();
                 break;
             case GlobalVariable.THIRD_LOGIN_GOOGLE:
-                //getGoogleFriends();
+                //Google 連結
+                mTvHint.setText(getText(R.string.only_fb_or_twitter_friends_list));
                 break;
             case GlobalVariable.THIRD_LOGIN_TWITTER:
                 break;
             default:
                 //沒有社群帳號連結
+                mTvHint.setText(getText(R.string.only_fb_or_twitter_friends_list));
                 break;
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        mSearchView = (android.support.v7.widget.SearchView) item.getActionView();
+        mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setQueryHint(getString(R.string.find_someone_user));
+        mSearchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                return false;
+            }
+        });
+        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return true;
+            }
+        });
     }
 
     private void getFacebookFriends() {

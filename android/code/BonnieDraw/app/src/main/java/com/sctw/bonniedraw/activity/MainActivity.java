@@ -298,8 +298,8 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     @Override
     protected void onStart() {
         super.onStart();
-        if(prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR,0)==0){
-            final AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        if (prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0) == 0) {
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage("請先登入後再操作");
             dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
                 @Override
@@ -310,25 +310,25 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialogInterface) {
-                    Intent intent=new Intent();
-                    intent.setClass(MainActivity.this,LoginActivity.class);
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
             });
             dialog.show();
+        } else {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+            mGoogleApiClient.connect();
+            //接收推播
+            Intent intent = getIntent();
+            String event = intent.getStringExtra("evnet");
+            Log.d("FCM", "event:" + event);
         }
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-        mGoogleApiClient.connect();
-        //接收推播
-        Intent intent = getIntent();
-        String event = intent.getStringExtra("evnet");
-        Log.d("FCM", "event:" + event);
     }
 
     @Override
@@ -353,8 +353,20 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
 
     @Override
     public void onClick(int position) {
-        if (position == 8) {
-            logout();
+        switch (position) {
+            case 0:
+                mBottomNavigationViewEx.setCurrentItem(0);
+                break;
+            case 1:
+                mBottomNavigationViewEx.setCurrentItem(1);
+                break;
+            case 2:
+                mBottomNavigationViewEx.setCurrentItem(4);
+                break;
+            case 8:
+                logout();
+                break;
         }
+        mDrawerLayout.closeDrawers();
     }
 }

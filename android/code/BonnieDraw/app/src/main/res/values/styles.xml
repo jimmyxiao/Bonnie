@@ -45,7 +45,6 @@
         <!-- Gets rid of the search icon when the SearchView is expanded -->
         <item name="searchHintIcon">@null</item>
         <!-- The hint text that appears when the user has not typed anything -->
-        <item name="queryHint">@string/search_hint</item>
     </style>
 
     <style name="ColorPickStyle" parent="android:Animation">
