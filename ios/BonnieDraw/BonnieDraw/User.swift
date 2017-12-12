@@ -20,6 +20,6 @@ struct User {
         profileImage = URL(string: Service.filePath(withSubPath: dictionary["profilePicture"] as? String))
         profileName = dictionary["userName"] as? String
         status = nil
-        isFollowing = dictionary["isFollowing"] as? Bool
+        isFollowing = dictionary["following"] as? Bool
     }
 }

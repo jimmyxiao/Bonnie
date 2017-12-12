@@ -163,7 +163,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         return UITableViewCell()
     }
 
-    @IBAction func selectFollow(_ sender: FollowButton) {
+    @IBAction func follow(_ sender: FollowButton) {
         sender.isSelected = !sender.isSelected
         if let indexPath = tableView.indexPath(forView: sender) {
             users[indexPath.row].isFollowing = sender.isSelected
