@@ -98,17 +98,23 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         miWt = interWt;
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar_home);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
         mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_home);
         fragmentManager = getFragmentManager();
-        mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((DrawerLayout) getActivity().findViewById(R.id.main_actitivy_drawlayout)).openDrawer(Gravity.START);
-            }
-        });
+        if (interWt == 2) {
+            mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((DrawerLayout) getActivity().findViewById(R.id.main_actitivy_drawlayout)).openDrawer(Gravity.START);
+                }
+            });
+        }else{
+            mToolbar.setNavigationIcon(null);
+        }
+
         mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewHome.setLayoutManager(mLayoutManager);
@@ -123,11 +129,10 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
                 Log.d("lastVisibleItemPosition", "COUNT" + lastVisibleItemPosition);
                 if (!recyclerView.canScrollVertically(1)) {
-                    if (mLayoutManager.findLastVisibleItemPosition() == miRc){
+                    if (mLayoutManager.findLastVisibleItemPosition() == miRc) {
                         miStn += 10;
                         miRc += 10;
                         getWorksList(ADD_WORKS_LIST);
-                        System.out.println("頂到肺了");
                     }
                 }
             }
@@ -138,12 +143,13 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.dashborad, menu);
+        inflater.inflate(R.menu.menu_search, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) item.getActionView();
         mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setIconifiedByDefault(false);
+        mSearchView.setQueryHint(getString(R.string.search_hint));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

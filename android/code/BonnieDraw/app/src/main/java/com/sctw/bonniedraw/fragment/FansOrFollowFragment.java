@@ -7,10 +7,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -50,12 +57,16 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
     private int miFn, miUserId;
     private SharedPreferences prefs;
     private FansOfFollowAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ArrayList<FansOfFollowBean> mList;
+    private Toolbar mToolbar;
+    private android.support.v7.widget.SearchView mSearchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_fans_or_follow, container, false);
     }
 
@@ -68,8 +79,12 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         mImgBtnBack = view.findViewById(R.id.imgBtn_fof_back);
         mTvTitle = view.findViewById(R.id.textView_fof_title);
         mRv = view.findViewById(R.id.recyclerView_fof);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_fof);
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(linearLayoutManager);
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar_fof);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         //miFn  2=fans, 1= follow
         if (miFn == 2) {
             mTvTitle.setText(R.string.fans);
@@ -79,6 +94,48 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         setOnClick();
         getFansOrFollow();
         mRv.addItemDecoration(new SimpleItemDecoration(getContext()));
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getFansOrFollow();
+            }
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        mSearchView = (android.support.v7.widget.SearchView) item.getActionView();
+        mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setQueryHint(getString(R.string.find_someone_user));
+        mSearchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                return false;
+            }
+        });
+        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return true;
+            }
+        });
     }
 
     private void setOnClick() {
@@ -114,6 +171,7 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+                                    mSwipeRefreshLayout.setRefreshing(false);
                                 }
                             });
                         }
