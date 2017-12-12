@@ -15,6 +15,7 @@ class AccountViewController:
         UICollectionViewDelegate,
         UICollectionViewDelegateFlowLayout,
         SettingViewControllerDelegate,
+        UserViewControllerDelegate,
         AccountEditViewControllerDelegate,
         WorkViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
@@ -90,6 +91,7 @@ class AccountViewController:
             controller.work = works[indexPath.row]
             collectionView.deselectItem(at: indexPath, animated: true)
         } else if let controller = segue.destination as? UserViewController {
+            controller.delegate = self
             switch segue.identifier {
             case Segue.FAN?:
                 controller.type = .fan
@@ -260,6 +262,14 @@ class AccountViewController:
 
     internal func settings(imageDidChange image: UIImage) {
         collectionView.reloadSections([0])
+    }
+
+    internal func user(didFollowUser follow: Bool) {
+        if var followsCount = profile?.followsCount {
+            followsCount += (follow ? 1 : -1)
+            profile?.followsCount = followsCount
+            collectionView.reloadSections([0])
+        }
     }
 
     internal func accountEdit(profileDidChange profile: Profile) {

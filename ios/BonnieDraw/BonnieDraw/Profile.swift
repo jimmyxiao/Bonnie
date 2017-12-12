@@ -17,7 +17,7 @@ class Profile: Comparable {
     var gender: Gender?
     let worksCount: Int?
     let fansCount: Int?
-    let followsCount: Int?
+    var followsCount: Int?
     let image: URL?
 
     init(withDictionary dictionary: [String: Any]) {

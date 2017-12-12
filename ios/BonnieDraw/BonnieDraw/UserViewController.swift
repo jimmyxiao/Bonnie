@@ -21,6 +21,7 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
     private let searchBar = UISearchBar()
     private let refreshControl = UIRefreshControl()
     private let placeholderImage = UIImage(named: "photo-square")
+    var delegate: UserViewControllerDelegate?
     var type: FollowingType?
 
     override func viewDidLoad() {
@@ -221,6 +222,7 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
                         self.tableViewUsers[index].isFollowing = follow
                         if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? UserTableViewCell {
                             cell.follow.isSelected = follow
+                            self.delegate?.user(didFollowUser: follow)
                         }
                     }
                 }
@@ -239,4 +241,8 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
             }
         }
     }
+}
+
+protocol UserViewControllerDelegate {
+    func user(didFollowUser follow: Bool)
 }
