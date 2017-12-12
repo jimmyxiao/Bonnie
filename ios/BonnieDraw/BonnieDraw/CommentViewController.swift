@@ -120,16 +120,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
                 var messageList = [Message]()
                 if let messages = work["msgList"] as? [[String: Any]] {
                     for message in messages {
-                        var date: Date? = nil
-                        if let milliseconds = message["creationDate"] as? Int {
-                            date = Date(timeIntervalSince1970: Double(milliseconds) / 1000)
-                        }
-                        messageList.append(Message(id: message["worksMsgId"] as? Int,
-                                userId: message["userId"] as? Int,
-                                message: message["message"] as? String,
-                                date: date,
-                                userName: message["userName"] as? String,
-                                userProfile: URL(string: Service.filePath(withSubPath: message["profilePicture"] as? String))))
+                        messageList.append(Message(withDictionary: message))
                     }
                 }
                 self.work?.messages = messageList

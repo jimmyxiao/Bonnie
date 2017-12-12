@@ -15,72 +15,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     var delegate: FollowViewControllerDelegate?
-    private var works = [Work(id: nil,
-            profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-            profileName: "Name",
-            thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-            file: nil,
-            title: nil,
-            description: nil,
-            isLike: nil,
-            isCollect: nil,
-            likes: Int(arc4random_uniform(256)),
-            messages: []),
-        Work(id: nil,
-                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                profileName: "Name",
-                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                file: nil,
-                title: nil,
-                description: nil,
-                isLike: nil,
-                isCollect: nil,
-                likes: Int(arc4random_uniform(256)),
-                messages: []),
-        Work(id: nil,
-                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                profileName: "Name",
-                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                file: nil,
-                title: nil,
-                description: nil,
-                isLike: nil,
-                isCollect: nil,
-                likes: Int(arc4random_uniform(256)),
-                messages: []),
-        Work(id: nil,
-                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                profileName: "Name",
-                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                file: nil,
-                title: nil,
-                description: nil,
-                isLike: nil,
-                isCollect: nil,
-                likes: Int(arc4random_uniform(256)),
-                messages: []),
-        Work(id: nil,
-                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                profileName: "Name",
-                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                file: nil,
-                title: nil,
-                description: nil,
-                isLike: nil,
-                isCollect: nil,
-                likes: Int(arc4random_uniform(256)),
-                messages: []),
-        Work(id: nil,
-                profileImage: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                profileName: "Name",
-                thumbnail: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"),
-                file: nil,
-                title: nil,
-                description: nil,
-                isLike: nil,
-                isCollect: nil,
-                likes: Int(arc4random_uniform(256)),
-                messages: [])]
+    private var works = [Work]()
     private var tableViewWorks = [Work]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
@@ -216,33 +151,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 }
                 self.works.removeAll()
                 for work in works {
-                    var messageList = [Message]()
-                    if let messages = work["msgList"] as? [[String: Any]] {
-                        for message in messages {
-                            var date: Date? = nil
-                            if let milliseconds = message["creationDate"] as? Int {
-                                date = Date(timeIntervalSince1970: Double(milliseconds) / 1000)
-                            }
-                            messageList.append(Message(id: message["worksMsgId"] as? Int,
-                                    userId: message["userId"] as? Int,
-                                    message: message["message"] as? String,
-                                    date: date,
-                                    userName: message["userName"] as? String,
-                                    userProfile: URL(string: Service.filePath(withSubPath: message["profilePicture"] as? String))))
-                        }
-                    }
-                    self.works.append(Work(
-                            id: work["worksId"] as? Int,
-                            profileImage: URL(string: Service.filePath(withSubPath: work["profilePicture"] as? String)),
-                            profileName: work["userName"] as? String,
-                            thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
-                            file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
-                            title: work["title"] as? String,
-                            description: work["description"] as? String,
-                            isLike: work["like"] as? Bool,
-                            isCollect: work["collection"] as? Bool,
-                            likes: work["likeCount"] as? Int,
-                            messages: messageList))
+                    self.works.append(Work(withDictionary: work))
                 }
                 self.tableViewWorks = self.works
                 self.tableView.reloadSections([0], with: .automatic)
@@ -275,5 +184,6 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
 
 protocol FollowViewControllerDelegate {
     func followDidTapMenu()
+
     func follow(enableMenuGesture enable: Bool)
 }

@@ -127,14 +127,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                     }
                     return
                 }
-                self.user = Profile(
-                        type: UserType(rawValue: data["userType"] as? Int ?? -1),
-                        code: data["userCode"] as? String,
-                        name: data["userName"] as? String,
-                        email: data["email"] as? String,
-                        worksCount: data["worksNum"] as? Int,
-                        fansCount: data["fansNum"] as? Int,
-                        followsCount: data["followNum"] as? Int)
+                self.user = Profile(withDictionary: data)
                 self.dataRequest = Alamofire.request(
                         Service.standard(withPath: Service.WORK_LIST),
                         method: .post,
@@ -156,33 +149,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                         }
                         self.works.removeAll()
                         for work in works {
-                            var messageList = [Message]()
-                            if let messages = work["msgList"] as? [[String: Any]] {
-                                for message in messages {
-                                    var date: Date? = nil
-                                    if let milliseconds = message["creationDate"] as? Int {
-                                        date = Date(timeIntervalSince1970: Double(milliseconds) / 1000)
-                                    }
-                                    messageList.append(Message(id: message["worksMsgId"] as? Int,
-                                            userId: message["userId"] as? Int,
-                                            message: message["message"] as? String,
-                                            date: date,
-                                            userName: message["userName"] as? String,
-                                            userProfile: URL(string: Service.filePath(withSubPath: message["profilePicture"] as? String))))
-                                }
-                            }
-                            self.works.append(Work(
-                                    id: work["worksId"] as? Int,
-                                    profileImage: URL(string: Service.filePath(withSubPath: work["profilePicture"] as? String)),
-                                    profileName: work["userName"] as? String,
-                                    thumbnail: URL(string: Service.filePath(withSubPath: work["imagePath"] as? String)),
-                                    file: URL(string: Service.filePath(withSubPath: work["bdwPath"] as? String)),
-                                    title: work["title"] as? String,
-                                    description: work["description"] as? String,
-                                    isLike: work["like"] as? Bool,
-                                    isCollect: work["collection"] as? Bool,
-                                    likes: work["likeCount"] as? Int,
-                                    messages: messageList))
+                            self.works.append(Work(withDictionary: work))
                         }
                         self.navigationItem.leftBarButtonItem?.title = self.user?.name
                         self.collectionView.reloadSections([0])

@@ -14,21 +14,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
-    private var users = [User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false),
-                         User(imageUrl: URL(string: "https://via.placeholder.com/400x300/\(AppDelegate.randomColor())"), name: "Title", status: "Status", isFollowing: false)]
+    private var users = [User]()
     private var tableViewUsers = [User]()
     private var dataRequest: DataRequest?
     private var timestamp: Date?
@@ -91,7 +77,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         } else {
             tableViewUsers.removeAll()
             for user in users {
-                if user.name?.uppercased().range(of: searchText.uppercased()) != nil {
+                if user.profileName?.uppercased().range(of: searchText.uppercased()) != nil {
                     tableViewUsers.append(user)
                 }
             }
@@ -172,10 +158,10 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Cell.USER, for: indexPath) as? UserTableViewCell {
             let item = users[indexPath.row]
-            cell.thumbnail.setImage(with: item.imageUrl, placeholderImage: placeholderImage)
-            cell.title.text = item.name
+            cell.thumbnail.setImage(with: item.profileImage, placeholderImage: placeholderImage)
+            cell.title.text = item.profileName
             cell.status.text = item.status
-            cell.follow.isSelected = item.isFollowing
+            cell.follow.isSelected = item.isFollowing ?? false
             return cell
         }
         return UITableViewCell()
