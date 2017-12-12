@@ -38,9 +38,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if let textField = searchBar.value(forKey: "searchField") as? UITextField {
             textField.textColor = UIColor.getTextColor()
         }
-        if #available(iOS 11.0, *) {
-            searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        }
+        searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         tableView.refreshControl = refreshControl
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         postData = ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128]

@@ -30,9 +30,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         if let textField = searchBar.value(forKey: "searchField") as? UITextField {
             textField.textColor = UIColor.getTextColor()
         }
-        if #available(iOS 11.0, *) {
-            searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        }
+        searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         tableView.refreshControl = refreshControl
     }
 
