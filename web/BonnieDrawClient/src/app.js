@@ -112,6 +112,27 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	            templateUrl: 'modules/share/view/use-terms.html',
 	        }
 	    }
+  	}).state('about_app', {
+      	url: '/about_app',
+	    views: {
+	        "layout": {
+	            templateUrl: 'modules/share/view/about_app.html',
+	        }
+	    }
+  	}).state('privacy_app', {
+      	url: '/privacy_app',
+	    views: {
+	        "layout": {
+	            templateUrl: 'modules/share/view/privacy_app.html',
+	        }
+	    }
+  	}).state('terms_app', {
+      	url: '/terms_app',
+	    views: {
+	        "layout": {
+	            templateUrl: 'modules/share/view/use-terms_app.html',
+	        }
+	    }
   	})
   	//.state('about', {
     //  	url: '/about',
