@@ -32,11 +32,11 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     private var readHandle: FileHandle?
     private var timer: Timer?
     private var animationSpeed = 1.0
+    private var request: Request?
     var delegate: WorkViewControllerDelegate?
     var jotViewStateInkPath = FileUrl.INK.path
     var jotViewStatePlistPath = FileUrl.STATE.path
     var work: Work?
-    private var downloadRequest: DownloadRequest?
 
     override func viewDidLoad() {
         like.isSelected = work?.isLike ?? false
@@ -72,7 +72,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         if !drawPoints.isEmpty {
             canvas.drawCancelled()
         }
-        downloadRequest?.cancel()
+        request?.cancel()
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -97,7 +97,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         }
         progressBar.progress = 0
         loading.hide(false)
-        downloadRequest = Alamofire.download(fileUrl) {
+        request = Alamofire.download(fileUrl) {
             _, _ in
             return (FileUrl.RESULT, [.removePreviousFile, .createIntermediateDirectories])
         }.downloadProgress() {
@@ -194,14 +194,13 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
-        sender.isEnabled = false
-        Alamofire.request(
+        request?.cancel()
+        request = Alamofire.request(
                 Service.standard(withPath: Service.SET_LIKE),
                 method: .post,
                 parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
-            sender.isEnabled = true
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let res = data["res"] as? Int else {
@@ -218,7 +217,9 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                     sender.isSelected = !sender.isSelected
                     sender.setImage(UIImage(named: sender.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
                     self.work?.isLike = sender.isSelected
-                    self.delegate?.workDidChange()
+                    if let work = self.work {
+                        self.delegate?.work(didChange: work)
+                    }
                 }
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {
@@ -271,7 +272,9 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                     sender.isSelected = !sender.isSelected
                     sender.setImage(UIImage(named: sender.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
                     self.work?.isCollect = sender.isSelected
-                    self.delegate?.workDidChange()
+                    if let work = self.work {
+                        self.delegate?.work(didChange: work)
+                    }
                 }
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {
@@ -415,5 +418,5 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 }
 
 protocol WorkViewControllerDelegate {
-    func workDidChange()
+    func work(didChange work: Work)
 }

@@ -100,7 +100,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wid": work?.id ?? 0],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wid": work?.id ?? 0],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -200,7 +200,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.LEAVE_MESSAGE),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "fn": 1, "worksId": work?.id ?? 0, "message": text],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "fn": 1, "worksId": work?.id ?? 0, "message": text],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {

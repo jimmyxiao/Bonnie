@@ -137,7 +137,13 @@ class CollectionAllViewController: UIViewController, UICollectionViewDataSource,
         return CGSize(width: width, height: width)
     }
 
-    internal func workDidChange() {
-        downloadData()
+    internal func work(didChange changedWork: Work) {
+        if let index = works.index(where: {
+            work in
+            return work.id == changedWork.id
+        }) {
+            works[index] = changedWork
+            collectionView.reloadSections([0])
+        }
     }
 }
