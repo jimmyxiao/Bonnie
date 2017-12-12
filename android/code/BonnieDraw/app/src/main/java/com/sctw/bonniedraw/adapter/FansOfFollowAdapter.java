@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,19 +24,30 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Fatorin on 2017/11/13.
  */
 
-public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapter.ViewHolder> {
+public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapter.ViewHolder> implements Filterable {
     private Context context;
-    private ArrayList<FansOfFollowBean> data;
+    private ArrayList<FansOfFollowBean> data, tempData;
     private OnFansOfFollowClick listener;
+    private FofFliter fofFilter;
+
+    @Override
+    public Filter getFilter() {
+        if (fofFilter == null) {
+            fofFilter = new FofFliter();
+        }
+        return fofFilter;
+    }
 
     public interface OnFansOfFollowClick {
         void onFansOfFollowOnClickFollow(int position, int fn, int uid);
+
         void onFansOfFollowOnClickUser(int uid);
     }
 
     public FansOfFollowAdapter(Context context, ArrayList<FansOfFollowBean> data, OnFansOfFollowClick listener) {
         this.context = context;
         this.data = data;
+        this.tempData = data;
         this.listener = listener;
     }
 
@@ -110,5 +123,39 @@ public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapte
     public void setFollow(int position, boolean isFollowing) {
         data.get(position).setFollowing(isFollowing);
         notifyItemChanged(position);
+    }
+
+
+    class FofFliter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<FansOfFollowBean> newData = new ArrayList();
+            if (charSequence != null && charSequence.toString().trim().length() > 0) {
+                for (int i = 0; i < tempData.size(); i++) {
+                    String content = (String) tempData.get(i).getUserName();
+                    if (content.contains(charSequence)) {
+                        newData.add(tempData.get(i));
+                    }
+                }
+            } else {
+                newData = tempData;
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.count = newData.size();
+            filterResults.values = newData;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            data = (ArrayList<FansOfFollowBean>) filterResults.values;
+            if (filterResults.count > 0) {
+                notifyDataSetChanged();
+            } else {
+                //沒符合的選項
+                data=new ArrayList<FansOfFollowBean>();
+                notifyDataSetChanged();
+            }
+        }
     }
 }

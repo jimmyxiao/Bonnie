@@ -110,7 +110,6 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         MenuItem item = menu.findItem(R.id.action_search);
         mSearchView = (android.support.v7.widget.SearchView) item.getActionView();
         mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
-        mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setQueryHint(getString(R.string.find_someone_user));
         mSearchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
@@ -122,18 +121,8 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
             @Override
             public boolean onQueryTextChange(String s) {
                 // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                mAdapter.getFilter().filter(s);
                 return false;
-            }
-        });
-        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                return true;
             }
         });
     }
