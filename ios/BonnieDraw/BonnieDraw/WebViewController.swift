@@ -24,7 +24,6 @@ class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDel
         container.addAndFill(subView: webView)
         indicator.startAnimating()
         self.webView = webView
-        url = URL(string: "https://www.google.com/")
     }
 
     override func viewDidAppear(_ animated: Bool) {

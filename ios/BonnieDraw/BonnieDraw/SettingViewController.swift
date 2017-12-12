@@ -21,9 +21,9 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
             settings.append(Setting(type: .password, title: "setting_change_password".localized, segueId: Segue.PASSWORD))
         }
         settings.append(contentsOf: [Setting(type: .language, title: "setting_language".localized, segueId: Segue.LANGUAGE),
-                                     Setting(type: .description, title: "setting_description".localized, segueId: Segue.DESCRIPTION),
-                                     Setting(type: .privacyPolicy, title: "setting_privacy_policy".localized, segueId: Segue.WEB),
-                                     Setting(type: .termOfUse, title: "setting_term_of_use".localized, segueId: Segue.WEB),
+                                     Setting(type: .description, title: "setting_about".localized, segueId: Segue.WEB_ABOUT),
+                                     Setting(type: .privacyPolicy, title: "setting_privacy_policy".localized, segueId: Segue.WEB_PRIVACY_POLICY),
+                                     Setting(type: .termOfUse, title: "setting_term_of_use".localized, segueId: Segue.WEB_TERM_OF_USE),
                                      Setting(type: .clearSearch, title: "setting_clear_search".localized, segueId: nil),
                                      Setting(type: .signOut, title: "setting_sign_out".localized, segueId: nil)])
     }
@@ -35,6 +35,14 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
         }
         if let controller = segue.destination as? AccountEditViewController {
             controller.delegate = self
+        } else if let controller = segue.destination as? WebViewController {
+            if segue.identifier == Segue.WEB_ABOUT {
+                controller.url = URL(string: Service.ABOUT)
+            } else if segue.identifier == Segue.WEB_PRIVACY_POLICY {
+                controller.url = URL(string: Service.PRIVACY_POLICY)
+            } else if segue.identifier == Segue.WEB_TERM_OF_USE {
+                controller.url = URL(string: Service.TERM_OF_USE)
+            }
         }
     }
 
@@ -121,6 +129,5 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol SettingViewControllerDelegate {
     func settings(profileDidChange profile: Profile)
-
     func settings(imageDidChange image: UIImage)
 }

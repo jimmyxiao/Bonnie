@@ -145,6 +145,9 @@ struct Service {
     static let LOAD_FILE = "/loadFile"
     static let FOLLOWING_LIST = "/followingList"
     static let TAG_LIST = "/tagList"
+    static let ABOUT = "https://www.bonniedraw.com/#/about_app"
+    static let PRIVACY_POLICY = "https://www.bonniedraw.com/#/privacy_app"
+    static let TERM_OF_USE = "https://www.bonniedraw.com/#/terms_app"
 
     static func standard(withPath path: String) -> String {
         return "\(SCHEME)://\(HOST)\(BASE)\(path)"
@@ -172,8 +175,9 @@ struct Segue {
     static let SETTING = "settingSegue"
     static let PASSWORD = "passwordSegue"
     static let LANGUAGE = "languageSegue"
-    static let DESCRIPTION = "descriptionSegue"
-    static let WEB = "webSegue"
+    static let WEB_ABOUT = "webAboutSegue"
+    static let WEB_PRIVACY_POLICY = "webPrivacyPolicySegue"
+    static let WEB_TERM_OF_USE = "webTermOfUseSegue"
     static let COLLECTION = "collectionSegue"
     static let ANIMATION = "animationSegue"
     static let UPLOAD = "uploadSegue"
