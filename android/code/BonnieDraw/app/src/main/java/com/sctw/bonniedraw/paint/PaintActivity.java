@@ -82,7 +82,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private ColorPopup mColorPopup;
     private boolean mbColorSwitch = false;
     private boolean mbHint = false;
-    private int mCurrentBrushId = 3; //default brush
+    private int mCurrentBrushId = 3, mTempBrushId; //default brush
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -385,7 +385,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(View v) {
                 if (!mPaintView.getBrush().isEraser) {
-                    mPaintView.getBrush().isEraser = true;
+                    mTempBrushId =mPaintView.getBrush().id;
+                    setBrush(9);
                     ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
                 } else {
                     recoveryPaint();
@@ -629,7 +630,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     }
 
     public void recoveryPaint() {
-        mPaintView.getBrush().isEraser = false;
+        setBrush(mTempBrushId);
         ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
     }
 

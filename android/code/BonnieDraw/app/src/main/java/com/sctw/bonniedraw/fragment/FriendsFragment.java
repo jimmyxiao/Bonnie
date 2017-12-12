@@ -76,7 +76,7 @@ public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnF
         mRv = view.findViewById(R.id.recyclerView_friend);
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.setLayoutManager(linearLayoutManager);
-        mTvHint=(TextView) view.findViewById(R.id.imgBtn_profile_friends);
+        mTvHint=(TextView) view.findViewById(R.id.textView_friends_hint);
 
         int type = prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0);
         getFriendsListThird(type);
@@ -101,12 +101,14 @@ public class FriendsFragment extends Fragment implements FansOfFollowAdapter.OnF
                 getFacebookFriends();
                 break;
             case GlobalVariable.THIRD_LOGIN_GOOGLE:
-                //getGoogleFriends();
+                //Google 連結
+                mTvHint.setText(getText(R.string.only_fb_or_twitter_friends_list));
                 break;
             case GlobalVariable.THIRD_LOGIN_TWITTER:
                 break;
             default:
                 //沒有社群帳號連結
+                mTvHint.setText(getText(R.string.only_fb_or_twitter_friends_list));
                 break;
         }
     }

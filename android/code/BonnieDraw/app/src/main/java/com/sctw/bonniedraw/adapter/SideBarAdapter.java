@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class SideBarAdapter extends RecyclerView.Adapter<SideBarAdapter.ViewHold
     @Override
     public void onBindViewHolder(final SideBarAdapter.ViewHolder holder, int position) {
         holder.mTv.setText(data.get(holder.getAdapterPosition()).getTitle());
-        holder.mIv.setImageDrawable(context.getDrawable(data.get(holder.getAdapterPosition()).getDrawableId()));
+        holder.mIv.setImageDrawable(ContextCompat.getDrawable(context,data.get(holder.getAdapterPosition()).getDrawableId()));
         if (position % 3 == 2 && position != getItemCount() - 1) {
             holder.viewDiv.setVisibility(View.VISIBLE);
         }

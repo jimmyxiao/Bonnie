@@ -80,12 +80,11 @@ public class PaintPlayActivity extends AppCompatActivity {
                             if (tagpoint.get_iBrush()==6) {
                                 mPaintView.setDrawingBgColor(tagpoint.get_iColor());
                             } else if (tagpoint.get_iBrush() != 0) {
-                                mPaintView.getBrush().setEraser(false);
                                 int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                                 mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
                                 System.out.println("筆代號 = " + paintId);
                             } else {
-                                mPaintView.getBrush().setEraser(true);
+                                mPaintView.setBrush(Brushes.get(getApplicationContext())[9]);
                             }
                             if (tagpoint.get_iColor() != 0) {
                                 mPaintView.setDrawingColor(tagpoint.get_iColor());
