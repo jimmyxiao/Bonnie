@@ -9,18 +9,25 @@
 import UIKit
 import Alamofire
 
-class AccountViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, WorkViewControllerDelegate {
+class AccountViewController:
+        UIViewController,
+        UICollectionViewDataSource,
+        UICollectionViewDelegate,
+        UICollectionViewDelegateFlowLayout,
+        SettingViewControllerDelegate,
+        AccountEditViewControllerDelegate,
+        WorkViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     private var indicator: UIActivityIndicatorView?
     private var loadingLabel: UILabel?
     private var dataRequest: DataRequest?
-    private var timestamp: Date?
+    private var timestamp = Date()
     private var cellId = Cell.ACCOUNT_GRID {
         didSet {
             collectionView.reloadSections([0])
         }
     }
-    var user: Profile?
+    var profile: Profile?
     var works = [Work]()
     private let refreshControl = UIRefreshControl()
     private let placeholderImage = UIImage(named: "photo-square")
@@ -30,12 +37,12 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if let timestamp = timestamp {
-            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-                downloadData()
-            }
-        } else {
+        if profile == nil {
             downloadData()
+        } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+            downloadData()
+        } else {
+            loadingLabel?.isHidden = true
         }
     }
 
@@ -72,8 +79,13 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? WorkViewController,
-           let indexPath = collectionView.indexPathsForSelectedItems?.first {
+        if let controller = segue.destination as? SettingViewController {
+            controller.delegate = self
+        } else if let controller = segue.destination as? AccountEditViewController {
+            controller.delegate = self
+            controller.profile = profile
+        } else if let controller = segue.destination as? WorkViewController,
+                  let indexPath = collectionView.indexPathsForSelectedItems?.first {
             controller.delegate = self
             controller.work = works[indexPath.row]
             collectionView.deselectItem(at: indexPath, animated: true)
@@ -101,10 +113,10 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
+        let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
         loadingLabel?.text = "loading".localized
         indicator?.startAnimating()
         dataRequest?.cancel()
@@ -127,7 +139,9 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                     }
                     return
                 }
-                self.user = Profile(withDictionary: data)
+                self.profile = Profile(withDictionary: data)
+                UserDefaults.standard.set(self.profile?.image, forKey: Default.IMAGE)
+                UserDefaults.standard.set(self.profile?.name, forKey: Default.NAME)
                 self.dataRequest = Alamofire.request(
                         Service.standard(withPath: Service.WORK_LIST),
                         method: .post,
@@ -151,7 +165,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                         for work in works {
                             self.works.append(Work(withDictionary: work))
                         }
-                        self.navigationItem.leftBarButtonItem?.title = self.user?.name
+                        self.navigationItem.leftBarButtonItem?.title = self.profile?.name
                         self.collectionView.reloadSections([0])
                         self.loadingLabel?.text = self.works.isEmpty ? "empty_data".localized : nil
                         self.indicator?.stopAnimating()
@@ -200,11 +214,11 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     internal func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
-            headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.THIRD_PARTY_IMAGE))
-            headerView.profileName.text = user?.name
-            headerView.worksCount.text = "\(user?.worksCount ?? 0)"
-            headerView.fansCount.text = "\(user?.fansCount ?? 0)"
-            headerView.followsCount.text = "\(user?.followsCount ?? 0)"
+            headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.IMAGE))
+            headerView.profileName.text = profile?.name
+            headerView.worksCount.text = "\(profile?.worksCount ?? 0)"
+            headerView.fansCount.text = "\(profile?.fansCount ?? 0)"
+            headerView.followsCount.text = "\(profile?.followsCount ?? 0)"
             return headerView
         } else {
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_FOOTER, for: indexPath) as! AccountFooterCollectionReusableView
@@ -236,6 +250,26 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         } else {
             return CGSize(width: collectionView.bounds.width, height: 156 + collectionView.bounds.width * 3 / 4)
         }
+    }
+
+    internal func settings(profileDidChange profile: Profile) {
+        self.profile = profile
+        navigationItem.leftBarButtonItem?.title = profile.name
+        collectionView.reloadSections([0])
+    }
+
+    internal func settings(imageDidChange image: UIImage) {
+        collectionView.reloadSections([0])
+    }
+
+    internal func accountEdit(profileDidChange profile: Profile) {
+        self.profile = profile
+        navigationItem.leftBarButtonItem?.title = profile.name
+        collectionView.reloadSections([0])
+    }
+
+    internal func accountEdit(imageDidChange image: UIImage) {
+        collectionView.reloadSections([0])
     }
 
     internal func workDidChange() {

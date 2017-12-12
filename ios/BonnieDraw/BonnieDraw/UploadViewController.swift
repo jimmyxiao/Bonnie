@@ -108,8 +108,8 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
                 action in
                 self.workTitle.becomeFirstResponder()
             }
-        } else if let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-                  let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
+        } else if let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
+            let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
             sender.isEnabled = false
             progressBar.progress = 0
             loading.hide(false)
@@ -129,7 +129,7 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
                     Alamofire.upload(
                             multipartFormData: {
                                 multipartFormData in
-                                multipartFormData.append(workThumbnailData, withName: "file", fileName: "\(workId).png", mimeType: "image/png")
+                                multipartFormData.append(workThumbnailData, withName: "file", fileName: "\(workId).jpg", mimeType: "image/jpg")
                             },
                             to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&fn=1&wid=\(workId)&ftype=\(FileType.png.rawValue)",
                             encodingCompletion: {

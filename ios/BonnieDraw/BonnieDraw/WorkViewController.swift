@@ -191,15 +191,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         sender.isEnabled = false
         Alamofire.request(
                 Service.standard(withPath: Service.SET_LIKE),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             sender.isEnabled = true
@@ -245,15 +244,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         sender.isEnabled = false
         Alamofire.request(
                 Service.standard(withPath: Service.SET_COLLECTION),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             sender.isEnabled = true

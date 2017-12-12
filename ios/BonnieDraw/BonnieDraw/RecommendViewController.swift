@@ -17,7 +17,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     private var users = [User]()
     private var tableViewUsers = [User]()
     private var dataRequest: DataRequest?
-    private var timestamp: Date?
+    private var timestamp = Date()
     private let searchBar = UISearchBar()
     private let refreshControl = UIRefreshControl()
     private let placeholderImage = UIImage(named: "photo-square")
@@ -37,14 +37,13 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if tableViewUsers.isEmpty {
+        if users.isEmpty {
             downloadData()
-        } else if let timestamp = timestamp {
-            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-                downloadData()
-            }
+        } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+            downloadData()
         } else {
-            downloadData()
+            emptyLabel.isHidden = true
+            loading.hide(true)
         }
     }
 
@@ -96,15 +95,14 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {

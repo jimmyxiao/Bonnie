@@ -110,15 +110,14 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                         self.showErrorMessage(message: "app_network_unreachable_content".localized)
                                         return
                                     }
-                                    Logger.d(token)
+                                    let profile = Profile(withDictionary: data)
                                     let defaults = UserDefaults.standard
+                                    defaults.set(profile.image, forKey: Default.IMAGE)
+                                    defaults.set(profile.name, forKey: Default.NAME)
                                     defaults.set(token, forKey: Default.TOKEN)
                                     defaults.set(userId, forKey: Default.USER_ID)
                                     defaults.set(email, forKey: Default.EMAIL)
                                     defaults.set(securePassword, forKey: Default.PASSWORD)
-                                    if let urlString = data["profilePicture"] as? String {
-                                        defaults.set(URL(string: urlString), forKey: Default.THIRD_PARTY_IMAGE)
-                                    }
                                     defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                                     self.launchMain()
                                 case .failure(let error):
@@ -320,18 +319,18 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                 self.showErrorMessage(message: "app_network_unreachable_content".localized)
                                 return
                             }
-                            Logger.d(token)
+                            let profile = Profile(withDictionary: data)
                             let defaults = UserDefaults.standard
                             defaults.set(token, forKey: Default.TOKEN)
                             defaults.set(userId, forKey: Default.USER_ID)
                             defaults.set(type.rawValue, forKey: Default.USER_TYPE)
                             defaults.set(id, forKey: Default.THIRD_PARTY_ID)
-                            defaults.set(name, forKey: Default.THIRD_PARTY_NAME)
+                            defaults.set(name, forKey: Default.NAME)
                             defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
-                            if let urlString = data["profilePicture"] as? String {
-                                defaults.set(URL(string: Service.filePath(withSubPath: urlString)), forKey: Default.THIRD_PARTY_IMAGE)
+                            if let imageUrl = profile.image {
+                                defaults.set(imageUrl, forKey: Default.IMAGE)
                             } else {
-                                defaults.set(imageUrl, forKey: Default.THIRD_PARTY_IMAGE)
+                                defaults.set(imageUrl, forKey: Default.IMAGE)
                             }
                             defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                             self.launchMain()

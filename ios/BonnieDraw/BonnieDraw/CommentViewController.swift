@@ -19,7 +19,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     @IBOutlet weak var viewBottom: NSLayoutConstraint!
     private let formatter = DateFormatter()
     private var dataRequest: DataRequest?
-    private var timestamp: Date?
+    private var timestamp = Date()
     private let refreshControl = UIRefreshControl()
     private let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     private var keyboardOnScreen = false
@@ -70,12 +70,11 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     override func viewDidAppear(_ animated: Bool) {
         if work?.messages.isEmpty ?? true {
             downloadData()
-        } else if let timestamp = timestamp {
-            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-                downloadData()
-            }
-        } else {
+        } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
             downloadData()
+        } else {
+            emptyLabel.isHidden = true
+            loading.hide(true)
         }
     }
 
@@ -101,7 +100,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.string(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wid": work?.id ?? 0],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wid": work?.id ?? 0],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -201,7 +200,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.LEAVE_MESSAGE),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.string(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "fn": 1, "worksId": work?.id ?? 0, "message": text],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "fn": 1, "worksId": work?.id ?? 0, "message": text],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {

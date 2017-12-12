@@ -26,7 +26,7 @@ class SplashViewController: UIViewController {
                     postData["up"] = defaults.string(forKey: Default.PASSWORD)
                 } else {
                     postData["uc"] = defaults.string(forKey: Default.THIRD_PARTY_ID)
-                    postData["un"] = defaults.string(forKey: Default.THIRD_PARTY_NAME)
+                    postData["un"] = defaults.string(forKey: Default.NAME)
                     postData["thirdEmail"] = defaults.string(forKey: Default.THIRD_PARTY_EMAIL)
                 }
                 Alamofire.request(
@@ -60,12 +60,11 @@ class SplashViewController: UIViewController {
                                         }
                                         return
                                     }
-                                    Logger.d(token)
+                                    let profile = Profile(withDictionary: data)
                                     let defaults = UserDefaults.standard
+                                    defaults.set(profile.image, forKey: Default.IMAGE)
+                                    defaults.set(profile.name, forKey: Default.NAME)
                                     defaults.set(token, forKey: Default.TOKEN)
-                                    if let urlString = data["profilePicture"] as? String {
-                                        defaults.set(URL(string: urlString), forKey: Default.THIRD_PARTY_IMAGE)
-                                    }
                                     defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                                     self.launchMain()
                                 case .failure(let error):

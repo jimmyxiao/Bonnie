@@ -15,7 +15,7 @@ class CollectionAllViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     private var dataRequest: DataRequest?
-    private var timestamp: Date?
+    private var timestamp = Date()
     private var works = [Work]()
     private let refreshControl = UIRefreshControl()
 
@@ -26,12 +26,11 @@ class CollectionAllViewController: UIViewController, UICollectionViewDataSource,
     override func viewDidAppear(_ animated: Bool) {
         if works.isEmpty {
             downloadData()
-        } else if let timestamp = timestamp {
-            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-                downloadData()
-            }
-        } else {
+        } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
             downloadData()
+        } else {
+            emptyLabel.isHidden = true
+            loading.hide(true)
         }
     }
 
@@ -58,15 +57,14 @@ class CollectionAllViewController: UIViewController, UICollectionViewDataSource,
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 7, "stn": 1, "rc": 128],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 7, "stn": 1, "rc": 128],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {

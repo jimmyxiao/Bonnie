@@ -84,8 +84,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                     self.confirmPassword.becomeFirstResponder()
                 }
             } else {
-                guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-                      let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+                guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
                     return
                 }
                 view.endEditing(true)
@@ -93,7 +92,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                 dataRequest = Alamofire.request(
                         Service.standard(withPath: Service.UPDATE_PASSWORD),
                         method: .post,
-                        parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "oldPwd": currentSecurePassword, "newPwd": newSecurePassword],
+                        parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "oldPwd": currentSecurePassword, "newPwd": newSecurePassword],
                         encoding: JSONEncoding.default).validate().responseJSON {
                     response in
                     switch response.result {

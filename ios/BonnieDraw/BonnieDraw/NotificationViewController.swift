@@ -14,7 +14,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet weak var tableView: UITableView!
     private let refreshControl = UIRefreshControl()
     private var dataRequest: DataRequest?
-    private var timestamp: Date?
+    private var timestamp = Date()
     private var notifications = [Notification]()
     private let dateFormatter = DateFormatter()
     private let placeholderImage = UIImage(named: "photo-square")
@@ -27,12 +27,11 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     override func viewDidAppear(_ animated: Bool) {
         if notifications.isEmpty {
             downloadData()
-        } else if let timestamp = timestamp {
-            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-                downloadData()
-            }
-        } else {
+        } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
             downloadData()
+        } else {
+            emptyLabel.isHidden = true
+            loading.hide(true)
         }
     }
 
@@ -50,15 +49,14 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.NOTIFICATION),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {

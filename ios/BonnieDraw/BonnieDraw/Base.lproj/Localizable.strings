@@ -64,3 +64,9 @@
 "first_like" = "成為第一個按讚";
 "alert_permission_required" = "權限需求";
 "alert_permission_photos" = "BonnieDraw 會把圖存進相簿裡";
+"alert_permission_camera" = "BonnieDraw 會把相機照片設為大頭貼";
+"image_picker_camera" = "相機";
+"image_picker_album" = "相簿";
+"gender_male" = "男性";
+"gender_female" = "女性";
+"gender_unspecified" = "不提供";

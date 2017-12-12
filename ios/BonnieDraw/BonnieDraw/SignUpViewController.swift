@@ -37,7 +37,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
         if name.isEmpty {
             presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_name_empty".localized) {
                 action in
-                self.email.becomeFirstResponder()
+                self.name.becomeFirstResponder()
             }
         } else if email.isEmpty {
             presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {

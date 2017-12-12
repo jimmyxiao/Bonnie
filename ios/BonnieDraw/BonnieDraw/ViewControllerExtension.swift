@@ -88,7 +88,7 @@ extension UIViewController {
                     if status {
                         successHandler?()
                     } else {
-                        self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "".localized) {
+                        self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_camera".localized) {
                             success in
                             if success {
                                 AppDelegate.openSettings()
@@ -115,7 +115,13 @@ extension UIViewController {
                         if success {
                             successHandler?()
                         } else {
-                            failHandler?()
+                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "".localized) {
+                                success in
+                                if success {
+                                    AppDelegate.openSettings()
+                                }
+                                failHandler?()
+                            }
                         }
                     }
                 }

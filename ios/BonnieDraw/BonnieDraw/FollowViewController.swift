@@ -10,15 +10,13 @@ import UIKit
 import Alamofire
 
 class FollowViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
-    @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
-    var delegate: FollowViewControllerDelegate?
     private var works = [Work]()
     private var tableViewWorks = [Work]()
     private var dataRequest: DataRequest?
-    private var timestamp: Date?
+    private var timestamp = Date()
     private let searchBar = UISearchBar()
     private let titleView = Bundle.main.loadView(from: "TitleView")
     private let refreshControl = UIRefreshControl()
@@ -40,21 +38,18 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if tableViewWorks.isEmpty {
+        if works.isEmpty {
             downloadData()
-        } else if let timestamp = timestamp {
-            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-                downloadData()
-            }
+        } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+            downloadData()
         } else {
-            downloadData()
+            emptyLabel.isHidden = true
+            loading.hide(true)
         }
-        delegate?.follow(enableMenuGesture: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
-        delegate?.follow(enableMenuGesture: false)
     }
 
     internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -81,13 +76,10 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
 
     @IBAction func search(_ sender: Any) {
         if navigationItem.titleView == titleView {
-            delegate?.follow(enableMenuGesture: false)
             navigationItem.setLeftBarButton(nil, animated: true)
             navigationItem.titleView = searchBar
             searchBar.becomeFirstResponder()
         } else {
-            delegate?.follow(enableMenuGesture: true)
-            navigationItem.setLeftBarButton(menuButton, animated: true)
             navigationItem.titleView = titleView
             searchBar.text = nil
             tableViewWorks = works
@@ -125,15 +117,14 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 1, "stn": 1, "rc": 128],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 1, "stn": 1, "rc": 128],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -176,14 +167,4 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             }
         }
     }
-
-    @IBAction func didTapMenu(_ sender: Any) {
-        delegate?.followDidTapMenu()
-    }
-}
-
-protocol FollowViewControllerDelegate {
-    func followDidTapMenu()
-
-    func follow(enableMenuGesture enable: Bool)
 }

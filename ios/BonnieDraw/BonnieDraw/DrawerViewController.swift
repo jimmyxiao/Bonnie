@@ -28,17 +28,19 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
                               Tag(type: .signOut, image: "menu_ic_out", title: "menu_sign_out".localized)]
     private let refreshControl = UIRefreshControl()
     private var dataRequest: DataRequest?
-    private var timestamp: Date?
+    private var timestamp = Date()
     private var tags = [Tag]()
 
     override func viewDidLoad() {
         if DEBUG {
             navigationBar.items?.first?.leftBarButtonItem = UIBarButtonItem(title: "Debug", style: .plain, target: self, action: #selector(debug))
         }
-        if let url = UserDefaults.standard.url(forKey: Default.THIRD_PARTY_IMAGE) {
+        if let url = UserDefaults.standard.url(forKey: Default.IMAGE) {
             profileImage.setImage(with: url)
         }
-        profileName.text = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_NAME)
+        profileName.text = UserDefaults.standard.string(forKey: Default.NAME)
+        UserDefaults.standard.addObserver(self, forKeyPath: Default.IMAGE, options: .new, context: nil)
+        UserDefaults.standard.addObserver(self, forKeyPath: Default.NAME, options: .new, context: nil)
         tableView.refreshControl = refreshControl
         downloadData()
     }
@@ -46,17 +48,25 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidAppear(_ animated: Bool) {
         if tags.isEmpty {
             downloadData()
-        } else if let timestamp = timestamp {
-            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-                downloadData()
-            }
-        } else {
+        } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
             downloadData()
+        } else {
+            loading.hide(true)
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == Default.IMAGE {
+            if let url = UserDefaults.standard.url(forKey: Default.IMAGE) {
+                profileImage.setImage(with: url)
+            }
+        } else if keyPath == Default.NAME {
+            profileName.text = UserDefaults.standard.string(forKey: Default.NAME)
+        }
     }
 
     private func downloadData() {
@@ -69,15 +79,14 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.TAG_LIST),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -159,6 +168,11 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         let type: TagType
         let image: String
         let title: String?
+    }
+
+    deinit {
+        UserDefaults.standard.removeObserver(self, forKeyPath: Default.IMAGE)
+        UserDefaults.standard.removeObserver(self, forKeyPath: Default.NAME)
     }
 }
 

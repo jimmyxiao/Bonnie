@@ -68,6 +68,12 @@ enum AccessControl: Int {
     case privateAccess
 }
 
+enum Gender: Int {
+    case male = 1
+    case female
+    case unspecified
+}
+
 struct FileUrl {
     static let CACHE = try! FileManager.default.url(
             for: .documentationDirectory,
@@ -188,13 +194,13 @@ struct Default {
     static let REMOTE_TOKEN = "remoteToken"
     static let NOTIFICATION_ENABLED = "notificationEnabled"
     static let USER_ID = "userId"
+    static let USER_TYPE = "userType"
+    static let NAME = "name"
     static let EMAIL = "email"
     static let PASSWORD = "password"
-    static let USER_TYPE = "userType"
+    static let IMAGE = "image"
     static let THIRD_PARTY_ID = "thirdPartyId"
-    static let THIRD_PARTY_NAME = "thirdPartyName"
     static let THIRD_PARTY_EMAIL = "thirdPartyEmail"
-    static let THIRD_PARTY_IMAGE = "thirdPartyImage"
 }
 
 struct Url {

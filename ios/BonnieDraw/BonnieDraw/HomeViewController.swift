@@ -19,7 +19,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var works = [Work]()
     private var tableViewWorks = [Work]()
     private var dataRequest: DataRequest?
-    private var timestamp: Date?
+    private var timestamp = Date()
     private let searchBar = UISearchBar()
     private let refreshControl = UIRefreshControl()
     private let titleView = Bundle.main.loadView(from: "TitleView")
@@ -43,18 +43,17 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         tableView.refreshControl = refreshControl
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
-        postData = ["ui": UserDefaults.standard.string(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128]
+        postData = ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID) ?? "", "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128]
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if tableViewWorks.isEmpty {
+        if works.isEmpty {
             downloadData()
-        } else if let timestamp = timestamp {
-            if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-                downloadData()
-            }
+        } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+            downloadData()
         } else {
-            downloadData()
+            emptyLabel.isHidden = true
+            loading.hide(true)
         }
         delegate?.home(enableMenuGesture: true)
     }
@@ -251,8 +250,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         if let indexPath = tableView.indexPath(forView: sender),
@@ -261,7 +259,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             Alamofire.request(
                     Service.standard(withPath: Service.SET_LIKE),
                     method: .post,
-                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": id, "likeType": 1],
+                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": id, "likeType": 1],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 sender.isEnabled = true
@@ -324,8 +322,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             return
         }
-        guard let userId = UserDefaults.standard.string(forKey: Default.USER_ID),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         if let indexPath = tableView.indexPath(forView: sender),
@@ -334,7 +331,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             Alamofire.request(
                     Service.standard(withPath: Service.SET_COLLECTION),
                     method: .post,
-                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": id, "likeType": 1],
+                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": id, "likeType": 1],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 sender.isEnabled = true

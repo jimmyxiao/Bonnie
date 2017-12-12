@@ -10,9 +10,10 @@ import UIKit
 import FacebookLogin
 import TwitterKit
 
-class SettingViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate, AccountEditViewControllerDelegate {
     @IBOutlet weak var tableView: UITableView!
-    var settings = [Setting(type: .profile, title: "setting_edit_profile".localized, segueId: Segue.ACCOUNT_EDIT)]
+    private var settings = [Setting(type: .profile, title: "setting_edit_profile".localized, segueId: Segue.ACCOUNT_EDIT)]
+    var delegate: SettingViewControllerDelegate?
 
     override func viewDidLoad() {
         if let type = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)),
@@ -32,13 +33,16 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
             segue.destination.title = settings[indexPath.row].title
             tableView.deselectRow(at: indexPath, animated: true)
         }
+        if let controller = segue.destination as? AccountEditViewController {
+            controller.delegate = self
+        }
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return settings.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.BASIC, for: indexPath)
         cell.textLabel?.text = settings[indexPath.row].title
         if let item = SettingType(rawValue: indexPath.row) {
@@ -51,7 +55,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let setting = settings[indexPath.row]
         if let segueId = setting.segueId {
             performSegue(withIdentifier: segueId, sender: nil)
@@ -83,8 +87,8 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                         defaults.removeObject(forKey: Default.USER_ID)
                         defaults.removeObject(forKey: Default.USER_TYPE)
                         defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
-                        defaults.removeObject(forKey: Default.THIRD_PARTY_NAME)
-                        defaults.removeObject(forKey: Default.THIRD_PARTY_IMAGE)
+                        defaults.removeObject(forKey: Default.NAME)
+                        defaults.removeObject(forKey: Default.IMAGE)
                         defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
                         if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
                             UIApplication.shared.replace(rootViewControllerWith: controller)
@@ -96,6 +100,14 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
         }
     }
 
+    internal func accountEdit(profileDidChange profile: Profile) {
+        delegate?.settings(profileDidChange: profile)
+    }
+
+    internal func accountEdit(imageDidChange image: UIImage) {
+        delegate?.settings(imageDidChange: image)
+    }
+
     enum SettingType: Int {
         case profile, password, language, description, privacyPolicy, termOfUse, clearSearch, signOut
     }
@@ -105,4 +117,10 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
         let title: String
         let segueId: String?
     }
+}
+
+protocol SettingViewControllerDelegate {
+    func settings(profileDidChange profile: Profile)
+
+    func settings(imageDidChange image: UIImage)
 }
