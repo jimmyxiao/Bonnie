@@ -37,7 +37,7 @@
         android:id="@+id/divier"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/background_dim_overlay" />
+        android:background="@color/DivColor" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout_fof"

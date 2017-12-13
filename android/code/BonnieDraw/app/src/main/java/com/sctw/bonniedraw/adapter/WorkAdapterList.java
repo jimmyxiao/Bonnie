@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,8 +23,6 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
  * Created by Fatorin on 2017/10/2.
  */
@@ -40,8 +37,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         this.context = context;
         this.data = data;
         this.listener = listener;
-        SharedPreferences prefs = context.getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        ownUid = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, ""));
+        //ownUid = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, ""));
     }
 
     @Override
