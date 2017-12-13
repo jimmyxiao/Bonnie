@@ -10,12 +10,14 @@ import UIKit
 
 struct Work {
     let id: Int?
+    let userId: Int?
     let profileImage: URL?
     let profileName: String?
     let thumbnail: URL?
     let file: URL?
     let title: String?
     let description: String?
+    var isFollow: Bool?
     var isLike: Bool?
     var isCollect: Bool?
     var likes: Int?
@@ -29,12 +31,14 @@ struct Work {
             }
         }
         id = dictionary["worksId"] as? Int
+        userId = dictionary["userId"] as? Int
         profileImage = URL(string: Service.filePath(withSubPath: dictionary["profilePicture"] as? String))
         profileName = dictionary["userName"] as? String
         thumbnail = URL(string: Service.filePath(withSubPath: dictionary["imagePath"] as? String))
         file = URL(string: Service.filePath(withSubPath: dictionary["bdwPath"] as? String))
         title = dictionary["title"] as? String
         description = dictionary["description"] as? String
+        isFollow = dictionary["isFollowing"] as? Bool
         isLike = dictionary["like"] as? Bool
         isCollect = dictionary["collection"] as? Bool
         likes = dictionary["likeCount"] as? Int

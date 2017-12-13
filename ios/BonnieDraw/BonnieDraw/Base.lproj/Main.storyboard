@@ -42,11 +42,11 @@
             <objects>
                 <viewController id="R9c-0p-Md0" customClass="CommentViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZHj-jM-OjM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="brJ-qX-ckB">
-                                <rect key="frame" x="0.0" y="64" width="320" height="390"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="459"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="nCB-uy-Myt">
                                     <rect key="frame" x="0.0" y="328" width="320" height="0.0"/>
@@ -149,14 +149,14 @@
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LlX-qg-l0k">
-                                <rect key="frame" x="0.0" y="454" width="320" height="1"/>
+                                <rect key="frame" x="0.0" y="523" width="320" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="88N-Vo-JoM"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3TZ-9J-Dbo">
-                                <rect key="frame" x="0.0" y="455" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="work_ic_message" translatesAutoresizingMaskIntoConstraints="NO" id="aU0-L6-epf">
                                         <rect key="frame" x="16" y="11" width="22" height="22"/>
@@ -201,7 +201,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNn-By-Abg" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="320" height="435"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -241,7 +241,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QkV-Q4-kmD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="20.625" y="2314.9647887323945"/>
+            <point key="canvasLocation" x="1763" y="1602"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="VaJ-Ar-rsM">
@@ -438,14 +438,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyz-PE-3Pi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="904" y="1525"/>
+            <point key="canvasLocation" x="904" y="794"/>
         </scene>
         <!--Delegate-->
         <scene sceneID="nyB-2A-h4h">
             <objects>
                 <viewController storyboardIdentifier="workViewController" id="wJn-NR-0b0" customClass="WorkViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Mm-Sd-DSY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Da8-0O-Aac">
@@ -462,7 +462,7 @@
                                 </items>
                             </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="joQ-M3-DBe">
-                                <rect key="frame" x="0.0" y="64" width="320" height="435"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IMJ-jP-hJb">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="536"/>
@@ -666,10 +666,10 @@
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yDy-IQ-Hwa" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="320" height="435"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <subviews>
                                     <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-Ni-VLM">
-                                        <rect key="frame" x="80" y="248.5" width="160" height="2"/>
+                                        <rect key="frame" x="80" y="283" width="160" height="2"/>
                                         <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -725,7 +725,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-sx-Edr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="903.75" y="2314.9647887323945"/>
+            <point key="canvasLocation" x="904" y="1602"/>
         </scene>
         <!--Follow View Controller-->
         <scene sceneID="3iE-eI-gSs">
@@ -761,17 +761,37 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faj-QQ-CsG">
-                                                            <rect key="frame" x="52" y="0.0" width="228" height="44"/>
+                                                            <rect key="frame" x="52" y="0.0" width="220" height="44"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vE-Pj-AeA">
+                                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lEL-lb-q8B" customClass="FollowButton" customModule="BonnieDraw" customModuleProvider="target">
+                                                            <rect key="frame" x="280" y="5" width="0.0" height="34"/>
+                                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                                            <state key="normal" title="追蹤">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <state key="selected" title="追蹤中">
+                                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                    <integer key="value" value="4"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="follow:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="9bH-CU-kVS"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvV-5P-SP5">
                                                             <rect key="frame" x="288" y="3" width="0.0" height="38"/>
                                                             <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                             <state key="normal" image="works_ic_more"/>
                                                             <connections>
-                                                                <action selector="more:" destination="gud-V7-B39" eventType="touchUpInside" id="pTp-YY-Evn"/>
+                                                                <action selector="more:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="VAs-Mv-wae"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -795,7 +815,7 @@
                                                             <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                             <state key="normal" image="work_ic_like"/>
                                                             <connections>
-                                                                <action selector="like:" destination="gud-V7-B39" eventType="touchUpInside" id="JC9-FI-Yro"/>
+                                                                <action selector="like:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="uZu-6T-8JD"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EoK-vZ-xyB">
@@ -803,7 +823,7 @@
                                                             <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                             <state key="normal" image="work_ic_message"/>
                                                             <connections>
-                                                                <action selector="comment:" destination="gud-V7-B39" eventType="touchUpInside" id="bRg-gO-5KV"/>
+                                                                <action selector="comment:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="bAM-5U-OKH"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SVb-JT-eG0">
@@ -811,7 +831,7 @@
                                                             <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                             <state key="normal" image="share_icon"/>
                                                             <connections>
-                                                                <action selector="share:" destination="gud-V7-B39" eventType="touchUpInside" id="IcA-XH-uc4"/>
+                                                                <action selector="share:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="kTM-0D-flS"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -820,6 +840,9 @@
                                                     <rect key="frame" x="271" y="309.5" width="33" height="38"/>
                                                     <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                     <state key="normal" image="collect_ic_off"/>
+                                                    <connections>
+                                                        <action selector="collect:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="yMO-6W-EZB"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LML-t1-ePD">
                                                     <rect key="frame" x="16" y="342" width="288" height="0.0"/>
@@ -846,10 +869,14 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="collectButton" destination="lSi-AH-aQF" id="hGb-Nr-Rtw"/>
+                                            <outlet property="followButton" destination="lEL-lb-q8B" id="6Xh-3z-V72"/>
+                                            <outlet property="likeButton" destination="sgo-nx-AbB" id="2Fw-Wk-Adm"/>
                                             <outlet property="likes" destination="LML-t1-ePD" id="V7x-BP-xrP"/>
                                             <outlet property="profileImage" destination="h3D-F9-P0v" id="k0M-YR-Cs8"/>
                                             <outlet property="profileName" destination="faj-QQ-CsG" id="wEh-tM-ogk"/>
                                             <outlet property="thumbnail" destination="cmE-CB-ke8" id="HAl-bs-NNd"/>
+                                            <segue destination="wJn-NR-0b0" kind="presentation" id="Mii-44-0Gq"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -884,15 +911,23 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uiQ-gv-BXj"/>
                     </view>
+                    <navigationItem key="navigationItem" id="UcU-0Q-Pye">
+                        <barButtonItem key="rightBarButtonItem" image="title_bar_ic_search" id="IdW-L1-2xH">
+                            <connections>
+                                <action selector="search:" destination="YPx-0H-Cfd" id="JTs-dQ-oeC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="emptyLabel" destination="pct-gg-31m" id="8VG-ie-NJi"/>
                         <outlet property="loading" destination="wLe-FF-rWl" id="IAV-6r-jhh"/>
                         <outlet property="tableView" destination="m2f-lW-bPO" id="wyG-kx-tF2"/>
+                        <segue destination="R9c-0p-Md0" kind="presentation" identifier="commentSegue" id="obk-S5-QJe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P8B-1q-Fml" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1779.375" y="1524.2957746478874"/>
+            <point key="canvasLocation" x="1763" y="793"/>
         </scene>
         <!--通知-->
         <scene sceneID="vdd-3p-tbe">
@@ -1025,7 +1060,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5e3-Xf-zpr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2604.375" y="1524.2957746478874"/>
+            <point key="canvasLocation" x="2604" y="793"/>
         </scene>
         <!--accountEditController-->
         <scene sceneID="9SZ-oe-Mv1">
@@ -1033,7 +1068,7 @@
                 <viewControllerPlaceholder storyboardName="Account" referencedIdentifier="accountEditController" id="6Ch-pY-4KF" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="izW-FV-rgu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="22" y="808"/>
+            <point key="canvasLocation" x="21" y="792"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pfH-Fr-T2O">
@@ -1055,7 +1090,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OQy-o9-POC" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="zjP-if-cn4" customClass="TabNavigationControllerDelegate" customModule="BonnieDraw" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="904" y="809"/>
+            <point key="canvasLocation" x="1763" y="36"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="fYN-7y-jDq">
@@ -1328,7 +1363,7 @@
                 <viewControllerPlaceholder storyboardName="Drawing" id="2wK-d3-fVO" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyN-nr-nnE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1763" y="36"/>
+            <point key="canvasLocation" x="2603" y="36"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="xVl-Yq-LD2">
@@ -1433,6 +1468,7 @@
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Mii-44-0Gq"/>
         <segue reference="ycB-24-dRO"/>
     </inferredMetricsTieBreakers>
 </document>

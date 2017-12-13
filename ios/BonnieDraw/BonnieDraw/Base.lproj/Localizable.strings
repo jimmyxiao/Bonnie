@@ -50,7 +50,10 @@
 "access_control_public" = "公開";
 "access_control_private" = "不公開";
 "access_control_contact" = "只限朋友";
-"user_liked_work" = "對你的作品按讚";
+"notification_user_followed" = "開始追蹤你";
+"notification_user_commented" = "在你的作品上留言";
+"notification_user_messaged" = "發訊息給你";
+"notification_user_liked" = "對你的作品按讚";
 "collection_tab_all" = "全部";
 "collection_tab_sort" = "收藏分類";
 "no_grid" = "無格線";
