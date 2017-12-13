@@ -1,6 +1,5 @@
 package com.sctw.bonniedraw.fragment;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +9,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,6 +28,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
@@ -86,7 +86,7 @@ public class SignUpFragment extends Fragment {
         userEmail = (TextInputEditText) view.findViewById(R.id.editText_signup_email);
         userPassword = (TextInputEditText) view.findViewById(R.id.editText_signup_password);
         userRePassword = (TextInputEditText) view.findViewById(R.id.editText_signup_repassword);
-        mProgressBar=(ProgressBar) view.findViewById(R.id.progressBar_signup);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_signup);
         userName.setOnFocusChangeListener(userNameOnFocus);
         userName.addTextChangedListener(userNameInvalid);
         userEmail.setOnFocusChangeListener(userEmailOnFocus);
@@ -98,7 +98,6 @@ public class SignUpFragment extends Fragment {
         mTextViewSignin = (TextView) view.findViewById(R.id.textView_singup_login);
         mTextViewSignin.setOnClickListener(clickListenerSignin);
         fragmentManager = getFragmentManager();
-
         mBtnSignup = (Button) view.findViewById(R.id.btn_get_password);
         mBtnSignup.setOnClickListener(clickListenerSignup);
         super.onViewCreated(view, savedInstanceState);
@@ -118,26 +117,42 @@ public class SignUpFragment extends Fragment {
             if (userNameVaild && userEmailVaild && userPwdVaild && userRePwdVaild) {
                 recaptcha(view);
             } else {
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 infoCheck(CHECK_PHONE);
                 infoCheck(CHECK_NAME);
                 infoCheck(CHECK_EMAIL);
                 infoCheck(CHECK_PWD);
                 infoCheck(CHECK_REPWD);
-
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.commit),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                //寄送認證信，回到主畫面。
-                            }
-                        });
-                alertDialog.setTitle(getString(R.string.signin_check_info));
-                alertDialog.setMessage(getString(R.string.signin_check_msg));
-                alertDialog.show();
+                logDialog(getString(R.string.signin_check_info), getString(R.string.signin_check_msg),0);
             }
         }
     };
+
+    private void logDialog(String title, String msg, final int option) {
+        final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_base);
+        FrameLayout layout = dialog.findViewById(R.id.frameLayout_dialog_base);
+        Button btnOk = dialog.findViewById(R.id.btn_paint_dialog_base_yes);
+        TextView tvTitle = dialog.findViewById(R.id.textView_dialog_base_title);
+        TextView tvMsg = dialog.findViewById(R.id.textView_dialog_base_msg);
+        tvTitle.setText(title);
+        tvMsg.setText(msg);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                disableBtn(false);
+                if(option==1) transLogin();
+            }
+        });
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                disableBtn(false);
+                if(option==1) transLogin();
+            }
+        });
+        dialog.show();
+    }
 
     private JSONObject registerJSONFormat(int style) {
         JSONObject json = new JSONObject();
@@ -169,11 +184,11 @@ public class SignUpFragment extends Fragment {
         return json;
     }
 
-    private void disableBtn(boolean isTrue){
-        if(isTrue){
+    private void disableBtn(boolean isTrue) {
+        if (isTrue) {
             mBtnSignup.setEnabled(false);
             mTextViewSignin.setEnabled(false);
-        }else {
+        } else {
             mBtnSignup.setEnabled(true);
             mTextViewSignin.setEnabled(true);
         }
@@ -194,7 +209,7 @@ public class SignUpFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(),getString(R.string.signin_fail_title), PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.signin_fail_title), PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -225,51 +240,16 @@ public class SignUpFragment extends Fragment {
     }
 
     public void createLogSignup(int format) {
-        String title = "";
-        String message = "";
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         switch (format) {
             case 1:
-                title = getString(R.string.signin_successful_title);
-                message = getString(R.string.sigin_successful_msg);
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                disableBtn(false);
-                                dialog.dismiss();
-                                transLogin();
-                                //寄送認證信，回到主畫面。
-                            }
-                        });
+                logDialog(getString(R.string.signin_successful_title), getString(R.string.sigin_successful_msg),1);
                 break;
             case 2:
-                title = getString(R.string.signin_fail_title);
-                message = getString(R.string.signin_fail_email);
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                disableBtn(false);
-                                dialog.dismiss();
-                                //寄送認證信，回到主畫面。
-                            }
-                        });
+                logDialog(getString(R.string.signin_fail_title),  getString(R.string.signin_fail_email),0);
                 break;
             case 3:
-                title = getString(R.string.signin_fail_title);
-                message = getString(R.string.signin_fail_error);
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "確認",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                disableBtn(false);
-                                dialog.dismiss();
-                                //寄送認證信，回到主畫面。
-                            }
-                        });
+                logDialog(getString(R.string.signin_fail_title),  getString(R.string.signin_fail_error),0);
         }
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setCancelable(false);
-        alertDialog.show();
     }
 
     public void transLogin() {

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -69,7 +70,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PlayFragment extends Fragment {
+public class PlayFragment extends DialogFragment {
     private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvCreateTime, mTvUserFollow, mTvPlayTotal;
     private ProgressBar mProgressBar;
     private ImageView mImgViewWorkImage;
@@ -93,6 +94,12 @@ public class PlayFragment extends Fragment {
     private boolean mbLike, mbCollection;
     private boolean mbStop = false;
     private String imgUrl;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +42,7 @@ import com.google.android.gms.common.api.Status;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.MainActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
@@ -467,25 +467,32 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    //EMAIL登入失敗
+    //登入失敗
     public void createLogSignin(String failString) {
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle(getString(R.string.login_fail_tittle));
-        alertDialog.setMessage(failString);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, (getString(R.string.commit)),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!prefs.getString(GlobalVariable.USER_THIRD_ID_STR, "null").isEmpty()) {
-                            LoginManager.getInstance().logOut();
-                        }
-                        prefs.edit().clear().apply();
-                        mBtnEmailLogin.setEnabled(true);
-                        dialog.dismiss();
-                        //失敗
-                    }
-                });
-        alertDialog.setCancelable(false);
-        alertDialog.show();
+        final FullScreenDialog dialog=new FullScreenDialog(getContext(),R.layout.dialog_base);
+        FrameLayout layout= dialog.findViewById(R.id.frameLayout_dialog_base);
+        Button btnOk=dialog.findViewById(R.id.btn_paint_dialog_base_yes);
+        TextView tvTitle=dialog.findViewById(R.id.textView_dialog_base_title);
+        TextView tvMsg=dialog.findViewById(R.id.textView_dialog_base_msg);
+        tvTitle.setText(getString(R.string.login_fail_tittle));
+        tvMsg.setText(failString);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBtnEmailLogin.setEnabled(true);
+                logoutPlatform();
+                dialog.dismiss();
+            }
+        });
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBtnEmailLogin.setEnabled(true);
+                logoutPlatform();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     //登入失敗自己登出第三方平台
@@ -511,25 +518,9 @@ public class LoginFragment extends Fragment {
                 prefs.edit().clear().apply();
                 break;
             case 0:
-                Toast.makeText(getActivity(), "has error", Toast.LENGTH_SHORT).show();
+                Log.d("Logout Error","not value");
                 break;
         }
-    }
-
-    //第三方平台登入錯誤訊息
-    public void logThirdSigninError() {
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle(R.string.login_fail_tittle);
-        alertDialog.setMessage("此平台所使用的電子信箱已註冊，請改用電子信箱或是別的帳戶來登入。");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.commit),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        logoutPlatform();
-                        dialog.dismiss();
-                        //失敗
-                    }
-                });
-        alertDialog.show();
     }
 
     private void loginThird(int select) {
@@ -568,7 +559,7 @@ public class LoginFragment extends Fragment {
                                 transferMainPage();
 
                             } else {
-                                logThirdSigninError();
+                                createLogSignin("此平台所使用的電子信箱已註冊，請改用電子信箱或是別的帳戶來登入。");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

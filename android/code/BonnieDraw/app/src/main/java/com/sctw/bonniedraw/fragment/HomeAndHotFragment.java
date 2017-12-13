@@ -459,10 +459,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         bundle.putInt("wid", wid);
         PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        playFragment.show(getFragmentManager(),"TAG");
     }
 
     @Override
