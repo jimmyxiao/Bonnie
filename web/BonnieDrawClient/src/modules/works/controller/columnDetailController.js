@@ -208,7 +208,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			return crayon2;
 		} 
 
-		function cahngBgCoior(color){
+		function changBgColor(color){
 			r=color.color_r;
 			g=color.color_g;
 			b=color.color_b;
@@ -395,7 +395,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 						// cxt.globalAlpha = cxt_ga;
 						// cxt.globalCompositeOperation = cxt_gco;	
 
-						var bgColordata = cahngBgCoior(data.color);
+						var bgColordata = changBgColor(data.color);
 						cxt.clearRect(0, 0, canvas_width, canvas_height);
 						cxt.globalAlpha = 1;
 						cxt.globalCompositeOperation = "source-over";
@@ -437,7 +437,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				}
 			
 				if(data.brush!=6){
-					cxt.globalAlpha = brush_Alpha[data.brush] * data.color.color_a;
+					cxt.globalAlpha = brush_Alpha[data.brush] * data.color.color_A;
 					var dist = distanceBetween(previewData, data);
 					var angle = angleBetween(previewData, data);
 					if(data.brush==1){

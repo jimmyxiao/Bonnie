@@ -174,7 +174,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			return crayon2;
 		}
 
-		function cahngBgCoior(color){
+		function changBgColor(color){
 			r=color.color_r;
 			g=color.color_g;
 			b=color.color_b;
@@ -309,7 +309,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					if(brush==6){
 						//can.style.backgroundColor = data.color.color_rgba;
 						bgcolord = data.color;
-						var bgColordata = cahngBgCoior(data.color);
+						var bgColordata = changBgColor(data.color);
 						cxt.clearRect(0, 0, canvas_width, canvas_height);
 						cxt.globalAlpha = 1;
 						cxt.globalCompositeOperation = "source-over";
@@ -335,7 +335,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 				}
 				
 				if(brush != 6){
-					cxt.globalAlpha = brush_Alpha[brush] * data.color.color_a;
+					cxt.globalAlpha = brush_Alpha[brush] * data.color.color_A;
 					var dist = distanceBetween(previewData, data);
 					var angle = angleBetween(previewData, data);
 					if(brush == 1){
