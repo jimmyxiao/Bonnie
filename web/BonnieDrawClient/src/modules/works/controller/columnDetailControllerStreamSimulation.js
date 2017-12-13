@@ -135,7 +135,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			}
 		}
 
-		function changeColor(img, color){
+		function changeColor(img, color, colorA){
 			r=color.color_r;
 			g=color.color_g;
 			b=color.color_b;
@@ -151,7 +151,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		        imgData.data[i]= r ;
 		        imgData.data[i+1]= g ;
 		        imgData.data[i+2]= b ;
-		        imgData.data[i+3]= imgData.data[i+3];//*a;
+		        imgData.data[i+3]= imgData.data[i+3]*colorA;
 		    }
 		    ctx_c.putImageData(imgData,0,0);
 		    return c;
@@ -221,7 +221,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05-1.png';
 		
 		var brush_Alpha = [
-			1, 0.4, 0.02, 1, 0.03, 0.02//0, 1, 1, 1, 0.4, 0.034|0, 0.9, 0.02, 1, 0.02, 0.08
+			1, 0.4, 0.02, 1, 0.03, 0.4//0, 1, 1, 1, 0.4, 0.034|0, 0.9, 0.02, 1, 0.02, 0.08
 		];
 		
 		var brush_imgAlpha = [
@@ -328,7 +328,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			}else if(action == 3){
 				// if((data.brush!=0) && (data.brush!=6)){
 				if(data.brush!=6){
-					imgdata = changeColor(imgarray[data.brush], data.color);
+					imgdata = changeColor(imgarray[data.brush], data.color, brush_Alpha[data.brush]);
 				}
 				if(data.brush==0){
 					imgdata = changeColor(imgarray[0], bgcolord);
@@ -339,10 +339,11 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					var dist = distanceBetween(previewData, data);
 					var angle = angleBetween(previewData, data);
 					if(brush == 1){
+						var Crayonimg = changeCrayon(imgdata,0,0);
 						for (var distnum = 0; distnum < dist; distnum++) {
 							x = previewData.xPos + (Math.sin(angle) * distnum) ;
 							y = previewData.yPos + (Math.cos(angle) * distnum) ;
-							var Crayonimg = changeCrayon(imgdata,x,y);
+							
 							//cxt.globalCompositeOperation = 'xor';
 							cxt.drawImage(Crayonimg, x, y, data.size, data.size);
 							st.drawImage(Crayonimg, x, y, data.size, data.size);

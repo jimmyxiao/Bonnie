@@ -161,7 +161,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			}
 		}
 
-		function changeColor(img, color) {
+		// function changeColor(img, color) {
+		function changeColor(img, color, colorA) {
 			//console.log(color);
 			r=color.color_r;
 			g=color.color_g;
@@ -185,7 +186,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		        imgData.data[i]= r ;
 		        imgData.data[i+1]= g ;
 		        imgData.data[i+2]= b ;
-		        imgData.data[i+3]= imgData.data[i+3];//*a;
+		        // imgData.data[i+3]= imgData.data[i+3];//*a;
+		         imgData.data[i+3]= imgData.data[i+3]*colorA;
 		    }
 		    ctx_c.putImageData(imgData,0,0);
 		    return c;
@@ -305,7 +307,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		imgarray[5] = new Image();
 		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05-1.png';
-		brush_Alpha[5] = 0.02//0.034;
+		brush_Alpha[5] = 0.4//0.034;
 		brush_imgAlpha[5] = 1;
 		bursh_array[5] = '噴槍'
 		brush_Composite[5] ='source-over';
@@ -430,7 +432,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				cxt.fill();*/
 				// if((data.brush!=0) && (data.brush!=6)){
 				if(data.brush!=6){
-					imgdata = changeColor(imgarray[data.brush], data.color);
+					//imgdata = changeColor(imgarray[data.brush], data.color);
+					 imgdata = changeColor(imgarray[data.brush], data.color, brush_Alpha[data.brush]);
 				}
 				if(data.brush==0){
 					imgdata = changeColor(imgarray[0], bgcolord);
@@ -441,12 +444,13 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					var dist = distanceBetween(previewData, data);
 					var angle = angleBetween(previewData, data);
 					if(data.brush==1){
+						var Crayonimg = changeCrayon(imgdata,0,0);
 						for (var distnum = 0; distnum < dist; distnum++) {
 
 							x = previewData.xPos + (Math.sin(angle) * distnum) ;
 							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							//cxt.globalAlpha=0.04;
-							var Crayonimg = changeCrayon(imgdata,x,y);
+							//var Crayonimg = changeCrayon(imgdata,x,y);
 							//cxt.globalCompositeOperation='xor';
 							cxt.drawImage(Crayonimg, x, y, data.size, data.size);
 							st.drawImage(Crayonimg, x, y, data.size, data.size);	
