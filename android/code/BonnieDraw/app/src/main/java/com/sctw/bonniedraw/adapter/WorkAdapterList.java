@@ -120,7 +120,9 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
 
         //是自己的就沒有設定追蹤選項
         if (uid != ownUid) {
-            holder.mTvFollow.setVisibility(View.VISIBLE);
+            //暫時隱藏追蹤選項
+            //holder.mTvFollow.setVisibility(View.VISIBLE);
+            holder.mTvFollow.setVisibility(View.INVISIBLE);
         } else {
             holder.mTvFollow.setVisibility(View.INVISIBLE);
         }

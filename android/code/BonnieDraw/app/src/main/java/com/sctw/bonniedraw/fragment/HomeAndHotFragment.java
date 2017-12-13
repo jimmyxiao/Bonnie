@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
@@ -73,14 +74,15 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
     private LinearLayoutManager mLayoutManager;
+    private TextView mTvHint;
     private int miWt, miStn = 1, miRc = 10; //STN=起始筆數 RC=需求筆數
-    private int interWt;  // 1= home , 2=hot
+    private int interWt;  // 1=追蹤 , 2= 熱門
     private String mStrQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment\
+        // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
@@ -102,6 +104,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
         mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_home);
+        mTvHint = (TextView) view.findViewById(R.id.textView_home_hint);
         fragmentManager = getFragmentManager();
         if (interWt == 2) {
             mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
@@ -111,15 +114,13 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                     ((DrawerLayout) getActivity().findViewById(R.id.main_actitivy_drawlayout)).openDrawer(Gravity.START);
                 }
             });
-        }else{
+        } else {
             mToolbar.setNavigationIcon(null);
         }
-
         mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewHome.setLayoutManager(mLayoutManager);
         getWorksList(GET_WORKS_LIST);
-
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerViewHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -127,7 +128,6 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
-                Log.d("lastVisibleItemPosition", "COUNT" + lastVisibleItemPosition);
                 if (!recyclerView.canScrollVertically(1)) {
                     if (mLayoutManager.findLastVisibleItemPosition() == miRc) {
                         miStn += 10;
@@ -189,6 +189,16 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         switch (select) {
             case GET_WORKS_LIST:
                 workInfoBeanList = WorkInfoBean.generateInfoList(data);
+                if (workInfoBeanList.size() == 0) {
+                    mTvHint.setVisibility(View.VISIBLE);
+                    if (miWt == 9) {
+                        mTvHint.setText(R.string.not_found_work);
+                    } else {
+                        mTvHint.setText(R.string.not_follow_user);
+                    }
+                } else {
+                    mTvHint.setVisibility(View.INVISIBLE);
+                }
                 mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this);
                 mProgressBar.setVisibility(View.GONE);
                 mRecyclerViewHome.setAdapter(mAdapter);
@@ -278,12 +288,8 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                                             mAdapter.setFollow(position, 1);
                                             break;
                                     }
-                                    mAdapter.notifyItemChanged(position);
-                                    System.out.println(responseJSON.toString());
-                                } else {
-                                    //點讚失敗或刪除失敗
-                                    mAdapter.notifyItemChanged(position);
                                 }
+                                mAdapter.notifyItemChanged(position);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -324,12 +330,8 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                                             mAdapter.setCollection(position, true);
                                             break;
                                     }
-                                    mAdapter.notifyItemChanged(position);
-                                } else {
-                                    //點讚失敗或刪除失敗
-                                    mAdapter.notifyItemChanged(position);
                                 }
-                                System.out.println(responseJSON.toString());
+                                mAdapter.notifyItemChanged(position);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -364,7 +366,6 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                                 } else {
                                     ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
                                 }
-                                System.out.println(responseJSON.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -489,7 +490,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 Button btnCancel = reportDialog.findViewById(R.id.btn_report_cancel);
                 Button btnCommit = reportDialog.findViewById(R.id.btn_report_commit);
                 ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
-                        getContext(), R.array.report, android.R.layout.simple_spinner_item);
+                        getContext(), R.array.report, R.layout.item_spinner);
                 nAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
                 spinner.setAdapter(nAdapter);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -579,7 +580,6 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         miRc = 10;
         if (miWt != 9) {
             getWorksList(REFRESH_WORKS_LIST);
-            System.out.println("刷新");
         } else {
             getQueryWorksList(mStrQuery);
         }

@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        init();
+        initTwitter();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                 .apply();
     }
 
-    void init() {
+    void initTwitter() {
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(new TwitterAuthConfig(getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
@@ -127,7 +127,6 @@ public class LoginActivity extends AppCompatActivity {
             default:
                 loginThird();
                 break;
-
         }
     }
 
@@ -173,6 +172,8 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        } finally {
+                            transferMainPage();
                         }
                     }
                 });
@@ -217,7 +218,6 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         ToastUtil.createToastWindow(LoginActivity.this, "登入失敗", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
-                                        transferLoginPage();
                                     }
                                 });
                             }
@@ -235,6 +235,8 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                             alertDialog.show();
+                        } finally {
+                            transferMainPage();
                         }
                     }
                 });

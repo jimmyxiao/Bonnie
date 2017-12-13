@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/GridLineColor"
     android:orientation="vertical"
-    tools:context="com.sctw.bonniedraw.paint.PaintActivity">
+    tools:context="com.sctw.bonniedraw.activity.PaintActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout_activity_paint"
@@ -113,10 +113,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:adjustViewBounds="false"
             android:background="@color/Transparent"
-            android:cropToPadding="false"
-            android:padding="0dp"
+            android:padding="8dp"
             app:srcCompat="@drawable/shape_paint_size" />
 
         <ImageButton

@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/shape_border_extra"
+                android:background="@drawable/shape_border_dialog"
                 android:orientation="vertical">
 
                 <View
@@ -71,7 +71,7 @@
                     android:id="@+id/btn_extra_cancel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_border_extra"
+                    android:background="@drawable/shape_border_dialog"
                     android:padding="20dp"
                     android:text="@string/cancel"
                     android:textColor="@color/Blue" />

@@ -18,7 +18,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +39,6 @@ import com.sctw.bonniedraw.bean.SidebarBean;
 import com.sctw.bonniedraw.fragment.HomeAndHotFragment;
 import com.sctw.bonniedraw.fragment.NoticeFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
-import com.sctw.bonniedraw.paint.PaintActivity;
 import com.sctw.bonniedraw.utility.BottomNavigationViewEx;
 import com.sctw.bonniedraw.utility.ExtraUtil;
 import com.sctw.bonniedraw.utility.GlideAppModule;
@@ -90,13 +88,14 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         fragmentTransaction.commit();
     }
 
-    //init Btn,Toolbar,BottomNav
+    //initTwitter Btn,Toolbar,BottomNav
     private void init() {
         // findview by id
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_actitivy_drawlayout);
         mNavigationView = (RelativeLayout) findViewById(R.id.sidebarView);
         mImgBtnPaint = (ImageButton) findViewById(R.id.imgBtn_paint_start);
+        mImgBtnPaint.bringToFront();
         mImgHeaderPhoto = (CircleImageView) mNavigationView.findViewById(R.id.header_user_photo);
         mTextViewHeaderText = (TextView) mNavigationView.findViewById(R.id.header_user_name);
         mImgBtnBack = (ImageButton) mNavigationView.findViewById(R.id.header_btn_back);
@@ -327,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             //接收推播
             Intent intent = getIntent();
             String event = intent.getStringExtra("evnet");
-            Log.d("FCM", "event:" + event);
+            if (event != null && !event.isEmpty()) mBottomNavigationViewEx.setCurrentItem(3);
         }
     }
 

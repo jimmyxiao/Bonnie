@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/GridLineColor"
-    tools:context="com.sctw.bonniedraw.paint.PaintPlayActivity">
+    tools:context="com.sctw.bonniedraw.activity.PaintPlayActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout_activity_paint"

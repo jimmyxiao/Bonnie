@@ -23,7 +23,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class ProfileSettingFragment extends Fragment {
     ImageButton mImgBtnBack;
-    Button mImgBtnEdit, mImgBtnUpdatePwd, mImgBtnLinkAccount, mImgDescription, mImgBtnPrivacyPolicy, mImgBtnTermsOfUse;
+    Button mImgBtnEdit, mImgBtnUpdatePwd, mImgDescription, mImgBtnPrivacyPolicy, mImgBtnTermsOfUse;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     SharedPreferences prefs;
@@ -43,7 +43,6 @@ public class ProfileSettingFragment extends Fragment {
         mImgBtnBack = view.findViewById(R.id.imgBtn_profile_back);
         mImgBtnEdit = view.findViewById(R.id.btn_profile_edit);
         mImgBtnUpdatePwd = view.findViewById(R.id.btn_profile_update_pwd);
-        mImgBtnLinkAccount = view.findViewById(R.id.btn_profile_link_account);
         mImgDescription = view.findViewById(R.id.btn_profile_description);
         mImgBtnPrivacyPolicy = view.findViewById(R.id.btn_profile_privacy_policy);
         mImgBtnTermsOfUse = view.findViewById(R.id.btn_profile_terms_of_use);

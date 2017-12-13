@@ -143,4 +143,6 @@
     <string name="only_fb_or_twitter_friends_list">只有 Facebook 或 Twitter 的用戶 \n才可使用推薦好友名單</string>
     <string name="not_recommend_friends">沒有推薦的好友名單</string>
     <string name="find_someone_user">搜尋特定的使用者</string>
+    <string name="not_follow_user">您沒有追蹤任何的使用者</string>
+    <string name="not_found_work">沒有找到相關的作品</string>
 </resources>

@@ -17,7 +17,7 @@ import razerdp.basepopup.BasePopupWindow;
  * Created by Fatorin on 2017/11/1.
  */
 
-public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+public class SizePopup extends BasePopupWindow implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
     private OnSeekChange listener;
     private SeekBar mSeekbar;
     private int miMaxSize;
@@ -57,7 +57,7 @@ public class SeekbarPopup extends BasePopupWindow implements SeekBar.OnSeekBarCh
         this.miMinSize = min;
     }
 
-    public SeekbarPopup(Context context, OnSeekChange listener, int max, int min) {
+    public SizePopup(Context context, OnSeekChange listener, int max, int min) {
         super(context, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.listener = listener;
         this.miMaxSize = max;

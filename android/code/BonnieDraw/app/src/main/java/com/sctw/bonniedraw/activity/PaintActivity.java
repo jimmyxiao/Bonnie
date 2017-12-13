@@ -1,7 +1,5 @@
-package com.sctw.bonniedraw.paint;
+package com.sctw.bonniedraw.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -23,12 +21,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.colorpick.ColorBean;
+import com.sctw.bonniedraw.paint.Brush;
+import com.sctw.bonniedraw.paint.Brushes;
+import com.sctw.bonniedraw.paint.PaintView;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
@@ -37,7 +39,7 @@ import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
-import com.sctw.bonniedraw.widget.SeekbarPopup;
+import com.sctw.bonniedraw.widget.SizePopup;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
 import org.json.JSONException;
@@ -67,7 +69,7 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SeekbarPopup.OnSeekChange, ColorPopup.OnPopupColorPick {
+public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SizePopup.OnSeekChange, ColorPopup.OnPopupColorPick {
     private PaintView mPaintView;
     private FrameLayout mFrameLayoutFreePaint;
     private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange, mBtnZoom;
@@ -78,7 +80,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private int miPrivacyType;
     private SharedPreferences mPrefs;
     private MenuPopup mMenuPopup;
-    private SeekbarPopup mSeekbarPopup;
+    private SizePopup mSeekbarPopup;
     private ColorPopup mColorPopup;
     private boolean mbColorSwitch = false;
     private boolean mbHint = false;
@@ -97,7 +99,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnRedo = (ImageButton) findViewById(R.id.imgBtn_paint_redo);
         mBtnUndo = (ImageButton) findViewById(R.id.imgBtn_paint_undo);
         mBtnOpenAutoPlay = (ImageButton) findViewById(R.id.imgBtn_paint_open_autoplay);
-        mBtnSize = (ImageButton) findViewById(R.id.imgBtn_paint_size);
+        mBtnSize = findViewById(R.id.imgBtn_paint_size);
         mBtnColorChange = findViewById(R.id.imgBtn_paint_colorpicker);
         mBtnErase = findViewById(R.id.imgBtn_paint_erase);
         mBtnSetting = (ImageButton) findViewById(R.id.imgBtn_paint_setting);
@@ -107,7 +109,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mMenuPopup = new MenuPopup(this, this);
         mColorPopup = new ColorPopup(this, this);
         setOnClick();
-        //Paint init & View
+        //Paint initTwitter & View
         mPaintView = new PaintView(this);
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
@@ -115,7 +117,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         //********Init Brush*******
         mSeekbarOpacity.setProgress(100);
         mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
-        mSeekbarPopup = new SeekbarPopup(this, this, (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
+        mSeekbarPopup = new SizePopup(this, this, (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
         mPaintView.setDrawingAlpha(100 / 100.0f);
         defaultColor();
         mPaintView.onCheckSketch();
@@ -492,7 +494,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         findViewById(R.id.imgBtn_paint_clear).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final FullScreenDialog dialog = new FullScreenDialog(PaintActivity.this, R.layout.dialog_paint_back);
+                final FullScreenDialog dialog = new FullScreenDialog(PaintActivity.this, R.layout.dialog_paint_clean);
                 Button btnClean = dialog.findViewById(R.id.btn_paint_back_clean);
                 Button btnCancel = dialog.findViewById(R.id.btn_paint_back_cancel);
                 btnClean.setOnClickListener(new View.OnClickListener() {
@@ -648,41 +650,49 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
 
     public void callSaveDialog(int num) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final FullScreenDialog dialog=new FullScreenDialog(this,R.layout.dialog_paint_sketch);
+        FrameLayout layout=dialog.findViewById(R.id.frameLayout_paint_sketch);
+        TextView tvTitle=dialog.findViewById(R.id.textView_sketch_title);
+        Button btnYes=dialog.findViewById(R.id.btn_paint_sketch_yes);
+        Button btnNo=dialog.findViewById(R.id.btn_paint_sketch_no);
+        Button btnCancel=dialog.findViewById(R.id.btn_paint_sketch_cancel);
         switch (num) {
             case 0:
-                builder.setMessage(R.string.paint_sketch_save_title);
-                mPaintView.mFileBDW.delete();
-                mPaintView.mFilePNG.delete();
+                tvTitle.setText(R.string.paint_sketch_save_title);
                 break;
             case 1:
-                builder.setMessage(R.string.paint_sketch_save_add_title);
+                tvTitle.setText(R.string.paint_sketch_save_add_title);
                 break;
         }
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View view) {
                 boolean result = mPaintView.saveTempPhotoAndBdw();
                 Toast.makeText(PaintActivity.this, "草稿儲存成功", Toast.LENGTH_SHORT).show();
-                dialogInterface.dismiss();
+                dialog.dismiss();
                 if (result) finish();
             }
         });
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
                 finish();
             }
         });
-        builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        layout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
-
-        builder.create().show();
+        dialog.show();
     }
 
     public void onBackMethod() {

@@ -1,5 +1,4 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -56,4 +55,19 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">315dp</item>
     </style>
+
+    <style name="TextLabel">
+        <!-- Android 4.4 修正用 -->
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@color/HintColor</item>
+        <item name="android:textColorHighlight">@color/Indigo</item>
+        <item name="android:textColorLink">@color/Indigo</item>
+        <item name="android:textSize">20sp</item>
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@color/Black</item>
+        <item name="colorControlNormal">@color/Black</item>
+        <item name="colorControlActivated">@color/Indigo</item>
+        <item name="colorError">@color/Red</item>
+    </style>
+
 </resources>

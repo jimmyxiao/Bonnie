@@ -30,7 +30,7 @@
             android:adjustViewBounds="true"
             android:background="@color/Transparent"
             android:cropToPadding="false"
-            android:elevation="9dp"
+            android:translationZ ="9dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

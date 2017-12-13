@@ -1,4 +1,4 @@
-package com.sctw.bonniedraw.paint;
+package com.sctw.bonniedraw.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +14,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.paint.Brush;
+import com.sctw.bonniedraw.paint.Brushes;
+import com.sctw.bonniedraw.paint.PaintView;
+import com.sctw.bonniedraw.paint.TagPoint;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
