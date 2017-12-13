@@ -30,7 +30,6 @@
     <color name="White">#ffffff</color>
     <color name="LightGrey">#c7c7c7</color>
     <color name="DivColor">#DBDBDB</color>
-    <color name="background_dim_overlay">#DBDBDB</color>
     <color name="HintColor">#808080</color>
     <color name="GridLineColor">#FFEEEEEE</color>
     <color name="PaintSettingBg">#4A4A4A</color>

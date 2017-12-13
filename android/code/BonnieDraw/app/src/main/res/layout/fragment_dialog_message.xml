@@ -38,11 +38,11 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/divier"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:id="@+id/divier"
         android:layout_below="@id/ll"
-        android:background="@color/background_dim_overlay" />
+        android:background="@color/DivColor" />
 
     <FrameLayout
         android:id="@+id/frameLayout_message_empty"
