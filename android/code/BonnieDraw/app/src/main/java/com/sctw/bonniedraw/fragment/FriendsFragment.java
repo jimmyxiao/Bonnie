@@ -35,9 +35,13 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.FriendsAdapter;
 import com.sctw.bonniedraw.bean.FriendBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FriendTwitterApiClient;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.SimpleItemDecoration;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,8 +94,8 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
         mRv.setLayoutManager(linearLayoutManager);
         mTvHint = (TextView) view.findViewById(R.id.textView_friends_hint);
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar_friends);
-        mProgressBar=view.findViewById(R.id.progressBar_friends);
-        mSwipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.swipeLayout_friend);
+        mProgressBar = view.findViewById(R.id.progressBar_friends);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeLayout_friend);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         miType = prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0);
@@ -129,6 +133,7 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
                 mSwipeRefreshLayout.setRefreshing(false);
                 break;
             case GlobalVariable.THIRD_LOGIN_TWITTER:
+                getTwitterFriends();
                 break;
             default:
                 //沒有社群帳號連結
@@ -159,6 +164,7 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
             @Override
             public boolean onQueryTextChange(String s) {
                 // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                mAdapter.getFilter().filter(s);
                 return false;
             }
         });
@@ -182,7 +188,20 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
     }
 
     private void getTwitterFriends() {
+        Long userId = Long.getLong(prefs.getString(GlobalVariable.API_UID, "0"));
+        FriendTwitterApiClient client = new FriendTwitterApiClient(TwitterCore.getInstance().getSessionManager().getActiveSession());
+        retrofit2.Call<FriendTwitterApiClient.Ids> call = client.getFriendsService().idsByUserId(userId);
+        call.enqueue(new com.twitter.sdk.android.core.Callback<FriendTwitterApiClient.Ids>() {
+            @Override
+            public void success(Result<FriendTwitterApiClient.Ids> result) {
+                Log.d("TWITTER FRIEND", result.data.toString());
+            }
 
+            @Override
+            public void failure(TwitterException exception) {
+                Log.d("TWITTER FRIEND", exception.toString());
+            }
+        });
     }
 
     private void transformFacebook(final GraphResponse response) {
@@ -245,9 +264,9 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
 
     private void refresh(JSONArray data) {
         mList = new ArrayList<>();
-        if(data.length()==0) {
+        if (data.length() == 0) {
             mTvHint.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             mTvHint.setVisibility(View.GONE);
         }
         try {
@@ -301,10 +320,10 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
                             try {
                                 if (responseJSON.getInt("res") == 1) {
                                     //點成功或失敗
-                                    mAdapter.setFollow(position,true);
+                                    mAdapter.setFollow(position, true);
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    mAdapter.setFollow(position,false);
+                                    mAdapter.setFollow(position, false);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
