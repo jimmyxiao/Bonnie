@@ -26,7 +26,7 @@ public interface UserServiceAPI {
 	public int updateUserInfo(UserInfo userInfo);
 	public int updatePwd(UpdatePwdRequestVO updatePwdRequestVO);
 	public boolean updateUserPicture(int userId, String path);
-	public FriendResponseVO getUserFriendsList(int userId, int thirdPlatform, List<Integer> uidList);
+	public FriendResponseVO getUserFriendsList(int userId, int thirdPlatform, List<String> uidList);
 	public List<UserInfoResponse> getFollowingList(int fn, int userId);
 	public Map<String, Object> getFollowingListForWeb(FollowingListRequestVO followingListRequestVO);
 	

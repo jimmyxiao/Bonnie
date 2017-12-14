@@ -388,13 +388,14 @@ public class ApiController {
 	
 	@RequestMapping(value="/friendsList" , produces="application/json")
 	public @ResponseBody FriendResponseVO getUserFriendsList(HttpServletRequest request,HttpServletResponse resp,@RequestBody FriendRequestVO friendRequestVO) {
+		
 		FriendResponseVO respResult = new FriendResponseVO();
 		String msg = "";
 		respResult.setRes(2);
 		if(isLogin(friendRequestVO)){
 			int thirdPlatform = friendRequestVO.getThirdPlatform();
 			if(thirdPlatform>=2 && thirdPlatform<=4){
-				List<Integer> uidList = friendRequestVO.getUidList();
+				List<String> uidList = friendRequestVO.getUidList();
 				if(uidList !=null && !(uidList.contains(null) || uidList.contains("")) ){
 					respResult = userServiceAPI.getUserFriendsList(friendRequestVO.getUi(), thirdPlatform, uidList);
 					msg = "成功";
@@ -408,6 +409,7 @@ public class ApiController {
 			respResult.setRes(0);
 			msg = "帳號未登入"; 
 		}
+		
 		respResult.setMsg(msg);
 		return respResult;
 	}

@@ -596,7 +596,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	}
 	
 	@Override
-	public FriendResponseVO getUserFriendsList(int userId, int thirdPlatform, List<Integer> uidList) {
+	public FriendResponseVO getUserFriendsList(int userId, int thirdPlatform, List<String> uidList) {
 		FriendResponseVO friendResponseVO = new FriendResponseVO();
 		friendResponseVO.setRes(2);
 		Map<String, Object> paramMap = new HashMap<String, Object>();

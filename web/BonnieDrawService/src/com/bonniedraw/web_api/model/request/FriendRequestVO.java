@@ -6,21 +6,17 @@ import com.bonniedraw.web_api.model.ApiRequestVO;
 
 public class FriendRequestVO extends ApiRequestVO {
 	private int thirdPlatform;
-	private List<Integer> uidList;
-
+	private List<String> uidList;
 	public int getThirdPlatform() {
 		return thirdPlatform;
 	}
-
 	public void setThirdPlatform(int thirdPlatform) {
 		this.thirdPlatform = thirdPlatform;
 	}
-
-	public List<Integer> getUidList() {
+	public List<String> getUidList() {
 		return uidList;
 	}
-
-	public void setUidList(List<Integer> uidList) {
+	public void setUidList(List<String> uidList) {
 		this.uidList = uidList;
 	}
 
