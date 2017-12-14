@@ -51,7 +51,15 @@
             android:lineSpacingExtra="14sp"
             android:text="@string/not_recommend_friends"
             android:textAlignment="center"
-            android:textColor="@color/HintColor" />
+            android:textColor="@color/HintColor"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_friends"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeLayout_friend"

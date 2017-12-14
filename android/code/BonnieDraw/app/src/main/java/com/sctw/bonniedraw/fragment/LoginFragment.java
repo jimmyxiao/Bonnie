@@ -84,8 +84,7 @@ public class LoginFragment extends Fragment {
     private SharedPreferences prefs;
     private AccessToken accessToken;
     private FragmentManager fragmentManager;
-    private URL profilePicUrl;
-    private TextInputLayout mInputLayoutEmail, mInputLayoutPassword;
+    private TextInputLayout mInputLayoutEmail;
     private TextInputEditText mInputEditTextEmail, mInputEditTextPassword;
     boolean emailCheck = false;
     private GoogleApiClient mGoogleApiClient;
@@ -110,7 +109,7 @@ public class LoginFragment extends Fragment {
         //FB init
         mBtnFacebookLogin = (Button) view.findViewById(R.id.btn_fb_login);
         facebookLoginButton = (LoginButton) view.findViewById(R.id.btn_fb_login_hide);
-        facebookLoginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+        facebookLoginButton.setReadPermissions(Arrays.asList("public_profile", "email","user_friends"));
         facebookLoginButton.setFragment(this);
         callbackManager = CallbackManager.Factory.create();
         mBtnFacebookLogin.setOnClickListener(clickListenerFcaebookLogin);
@@ -125,7 +124,6 @@ public class LoginFragment extends Fragment {
         mBtnForgetPassword = (Button) view.findViewById(R.id.btn_forget_password);
         mBtnForgetPassword.setOnClickListener(clickListenerForgetPwd);
         mInputLayoutEmail = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_email);
-        mInputLayoutPassword = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_password);
         mInputLayoutEmail.setErrorEnabled(true);
         mInputEditTextEmail = (TextInputEditText) view.findViewById(R.id.editText_signup_email);
         mInputEditTextPassword = (TextInputEditText) view.findViewById(R.id.editText_signup_password);
@@ -286,7 +284,7 @@ public class LoginFragment extends Fragment {
                                     JSONObject object,
                                     GraphResponse response) {
                                 try {
-                                    profilePicUrl = new URL(object.getJSONObject("picture").getJSONObject("data").getString("url"));
+                                    URL profilePicUrl = new URL(object.getJSONObject("picture").getJSONObject("data").getString("url"));
                                     prefs.edit()
                                             .putInt(GlobalVariable.USER_THIRD_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_FACEBOOK)
                                             .putString(GlobalVariable.USER_TOKEN_STR, accessToken.toString())
@@ -310,7 +308,7 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onCancel() {
-                System.out.println("onCancel");
+
             }
 
             @Override
@@ -332,7 +330,7 @@ public class LoginFragment extends Fragment {
             if (result.isSuccess()) {
                 GoogleSignInAccount acct = result.getSignInAccount();
                 try {
-                    profilePicUrl = new URL(acct.getPhotoUrl().toString());
+                    URL profilePicUrl = new URL(acct.getPhotoUrl().toString());
                     prefs.edit()
                             .putString(GlobalVariable.USER_THIRD_ID_STR, acct.getId())
                             .putInt(GlobalVariable.USER_THIRD_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_GOOGLE)

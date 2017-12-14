@@ -27,10 +27,6 @@ import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ToastUtil;
-import com.twitter.sdk.android.core.DefaultLogger;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initTwitter();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
@@ -96,15 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                 .putString(GlobalVariable.USER_FCM_TOKEN_STR, FirebaseInstanceId.getInstance().getToken())
                 .putString(GlobalVariable.USER_DEVICE_ID_STR, FirebaseInstanceId.getInstance().getId())
                 .apply();
-    }
-
-    void initTwitter() {
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
     }
 
     void startAndCheck() {
