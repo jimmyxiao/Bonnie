@@ -49,6 +49,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Call;
@@ -188,13 +189,24 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
     }
 
     private void getTwitterFriends() {
-        Long userId = Long.getLong(prefs.getString(GlobalVariable.API_UID, "0"));
+        final Long userId = Long.getLong(prefs.getString(GlobalVariable.API_UID, "0"));
         FriendTwitterApiClient client = new FriendTwitterApiClient(TwitterCore.getInstance().getSessionManager().getActiveSession());
         retrofit2.Call<FriendTwitterApiClient.Ids> call = client.getFriendsService().idsByUserId(userId);
         call.enqueue(new com.twitter.sdk.android.core.Callback<FriendTwitterApiClient.Ids>() {
             @Override
-            public void success(Result<FriendTwitterApiClient.Ids> result) {
-                Log.d("TWITTER FRIEND", result.data.toString());
+            public void success(final Result<FriendTwitterApiClient.Ids> result) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("TWITTER FRIEND", result.data.toString());
+                        List uidList= Arrays.asList(result.data.ids);
+                        JSONArray array=new JSONArray();
+                        for(int x=0;x<uidList.size();x++){
+                            array.put(uidList.get(x));
+                        }
+                        getSuggestFriend(array);
+                    }
+                });
             }
 
             @Override
@@ -213,7 +225,6 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
                     if (responeArray.length() > 0) {
                         JSONArray friendsArray = new JSONArray();
                         for (int x = 0; x < responeArray.length(); x++) {
-                            List<String> friendObj = new ArrayList<>();
                             friendsArray.put(responeArray.getJSONObject(x).getString("id"));
                         }
                         getSuggestFriend(friendsArray);
