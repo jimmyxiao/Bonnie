@@ -71,11 +71,11 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class PlayFragment extends DialogFragment {
-    private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvCreateTime, mTvUserFollow, mTvPlayTotal;
+    private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvCreateTime, mTvUserFollow, mTextViewPlayProgress, mTvPlaySpeed;
     private ProgressBar mProgressBar;
     private ImageView mImgViewWorkImage;
     private CircleImageView mCircleImgUserPhoto;
-    private ImageButton mBtnExtra, mBtnGood, mBtnMsg, mBtnShare, mBtnCollection, mBtnPlay, mBtnPause, mBtnNext, mBtnPrevious;
+    private ImageButton mBtnExtra, mBtnGood, mBtnMsg, mBtnShare, mBtnCollection, mBtnPlay, mBtnPause, mBtnNext, mBtnPrevious, mBtnSlow, mBtnFast,mBtnBack;
     private String bdwPath = ""; //"bdwPath":
     private String workUid = "";
     SharedPreferences prefs;
@@ -84,7 +84,7 @@ public class PlayFragment extends DialogFragment {
     private Handler mHandlerTimerPlay = new Handler();
     private FrameLayout mFrameLayoutFreePaint;
     private PaintView mPaintView;
-    private static int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 10;
+    private int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 10, miSpeedCount = 0;
     private boolean mbPlaying = false, mbAutoPlay = false;
     private int miViewWidth, miPrivacyType;
     private File mFileBDW;
@@ -119,8 +119,9 @@ public class PlayFragment extends DialogFragment {
         mTvWorkDescription = view.findViewById(R.id.textView_single_work_description);
         mTvGoodTotal = view.findViewById(R.id.textView_single_work_good_total);
         mTvCreateTime = view.findViewById(R.id.textView_single_work_create_time);
-        mTvPlayTotal = view.findViewById(R.id.textView_single_work_current_total);
         mTvUserFollow = view.findViewById(R.id.textView_single_work_follow);
+        mTvPlaySpeed = view.findViewById(R.id.textView_play_speed);
+        mTextViewPlayProgress = view.findViewById(R.id.textView_paint_play_title);
         mProgressBar = view.findViewById(R.id.progressBar_single_work);
         mImgViewWorkImage = view.findViewById(R.id.imgView_single_work_img);
         mCircleImgUserPhoto = view.findViewById(R.id.circleImg_single_work_user_photo);
@@ -133,6 +134,9 @@ public class PlayFragment extends DialogFragment {
         mBtnPause = view.findViewById(R.id.imgBtn_single_work_pause);
         mBtnNext = view.findViewById(R.id.imgBtn_single_work_next);
         mBtnPrevious = view.findViewById(R.id.imgBtn_single_work_previous);
+        mBtnSlow = view.findViewById(R.id.imgBtn_slow);
+        mBtnFast = view.findViewById(R.id.imgBtn_fast);
+        mBtnBack=view.findViewById(R.id.imgBtn_paint_back);
         mFrameLayoutFreePaint = (FrameLayout) view.findViewById(R.id.frameLayout_single_work);
         miViewWidth = mPaintView.getMiWidth();
         mFileBDW = new File(getActivity().getFilesDir().getPath() + PLAY_FILE_BDW);
@@ -140,6 +144,7 @@ public class PlayFragment extends DialogFragment {
         mListRecordInt = new ArrayList<>();
         getSingleWork(false);
         setOnClick();
+        showSpeed();
         mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
     }
 
@@ -164,10 +169,10 @@ public class PlayFragment extends DialogFragment {
                                 mPaintView.setDrawingColor(tagpoint.get_iColor());
                             }
                             if (tagpoint.get_iSize() != 0) {
-                                mPaintView.setDrawingSize((int)PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
+                                mPaintView.setDrawingSize((int) PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
                             }
-                            if(tagpoint.get_iReserved()!=0){
-                                mPaintView.setDrawingAlpha(tagpoint.get_iReserved()/100.0f);
+                            if (tagpoint.get_iReserved() != 0) {
+                                mPaintView.setDrawingAlpha(tagpoint.get_iReserved() / 100.0f);
                             }
                             mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
                             mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
@@ -188,9 +193,7 @@ public class PlayFragment extends DialogFragment {
                     }
                     miPointCount--;
                     miPointCurrent++;
-                    int progress = 100 * miPointCurrent / mPaintView.mListTagPoint.size();
-                    mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", progress));
-                    mProgressBar.setProgress(progress);
+                    showProgress();
 
                     if (brun) {
                         mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
@@ -236,11 +239,57 @@ public class PlayFragment extends DialogFragment {
         });
     }
 
+    private void showSpeed() {
+        int absCount = Math.abs(miSpeedCount);
+        if (miSpeedCount >= 0) {
+            mTvPlaySpeed.setText(getString(R.string.play_speed) + (int) Math.pow(2, absCount) + "x");
+        } else if (miSpeedCount < 0) {
+            mTvPlaySpeed.setText(getString(R.string.play_speed) + "1/" + (int) Math.pow(2, absCount) + "x");
+        }
+    }
+
+    private void showProgress() {
+        if (miPointCurrent > 0) {
+            mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, " %d%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+            int progress = 100 * miPointCurrent / mPaintView.mListTagPoint.size();
+            mProgressBar.setProgress(progress);
+        }
+    }
+
     private void setOnClick() {
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ExtraUtil.Share(getContext().getApplicationContext(), mTvWorkName.getText().toString(), Uri.parse(imgUrl));
+            }
+        });
+
+        mBtnFast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (miSpeedCount < 4) {
+                    miSpeedCount++;
+                    miAutoPlayIntervalTime = miAutoPlayIntervalTime / 2;
+                    showSpeed();
+                }
+            }
+        });
+
+        mBtnSlow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (miSpeedCount > -4) {
+                    miSpeedCount--;
+                    miAutoPlayIntervalTime = miAutoPlayIntervalTime * 2;
+                    showSpeed();
+                }
             }
         });
 
@@ -428,12 +477,13 @@ public class PlayFragment extends DialogFragment {
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (miPointCount > 0) {
+                if (miPointCurrent == 0) {
+                    ToastUtil.createToastWindow(getContext(), "請按撥放鍵開始撥放", PxDpConvert.getSystemHight(getContext()) / 4);
+                } else if (miPointCount > 0) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
                     ToastUtil.createToastWindow(getContext(), getString(R.string.play_end), PxDpConvert.getSystemHight(getContext()) / 4);
                 }
-                int progess = 100 * miPointCurrent / mPaintView.mListTagPoint.size();
             }
         });
 
@@ -457,9 +507,7 @@ public class PlayFragment extends DialogFragment {
                 } else if (miPointCurrent == 0) {
                     ToastUtil.createToastWindow(getContext(), getString(R.string.play_frist), PxDpConvert.getSystemHight(getContext()) / 4);
                 }
-                int progess = 100 * miPointCurrent / mPaintView.mListTagPoint.size();
-                mTvPlayTotal.setText(String.format(Locale.TAIWAN, "%d/ 100%%", progess));
-                mProgressBar.setProgress(progess);
+                showProgress();
             }
         });
     }

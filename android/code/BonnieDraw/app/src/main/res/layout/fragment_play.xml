@@ -8,6 +8,51 @@
     tools:context="com.sctw.bonniedraw.fragment.PlayFragment">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPaintLayout"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageButton
+            android:id="@+id/imgBtn_paint_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/top_bar_ic_back" />
+
+        <TextView
+            android:id="@+id/textView_play_speed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:background="@color/Transparent"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView_paint_play_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textColor="@color/White" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_replay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/Transparent"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/ic_restart" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/linearLayout_paint_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,28 +157,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView_single_work_current_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="0 / 100%"
-                        android:textAlignment="textEnd" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/imgBtn_goback"
+                        android:id="@+id/imgBtn_slow"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

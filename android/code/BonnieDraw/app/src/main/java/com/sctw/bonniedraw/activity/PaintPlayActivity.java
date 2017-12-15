@@ -31,9 +31,9 @@ import java.util.Locale;
 public class PaintPlayActivity extends AppCompatActivity {
     private static final String BACKUP_FILE_BDW = "/backup.bdw";
     private Handler mHandlerTimerPlay = new Handler();
-    private TextView mTextViewPlayProgress;
-    private ImageButton mBtnBack, mBtnAutoPlay, mBtnNext, mBtnPrevious, mImgBtnReplay, mBtnPause, mBtnZoom;
-    private int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 10;
+    private TextView mTextViewPlayProgress, mTvPlaySpeed;
+    private ImageButton mBtnBack, mBtnAutoPlay, mBtnNext, mBtnPrevious, mImgBtnReplay, mBtnPause, mBtnZoom, mBtnFast, mBtnSlow;
+    private int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 16, miSpeedCount = 0;
     private FrameLayout mFrameLayoutFreePaint;
     private PaintView mPaintView;
     private int miViewWidth;
@@ -56,12 +56,15 @@ public class PaintPlayActivity extends AppCompatActivity {
         mFrameLayoutFreePaint.addView(mPaintView);
         mListRecordInt = new ArrayList<>();
         mTextViewPlayProgress = findViewById(R.id.textView_paint_play_title);
+        mTvPlaySpeed = findViewById(R.id.textView_play_speed);
         mBtnAutoPlay = findViewById(R.id.imgBtn_autoplay);
         mBtnNext = findViewById(R.id.imgBtn_next);
         mBtnPrevious = findViewById(R.id.imgBtn_previous);
         mBtnBack = findViewById(R.id.imgBtn_paint_back);
         mBtnPause = findViewById(R.id.imgBtn_pause);
         mBtnZoom = findViewById(R.id.btn_paint_zoom);
+        mBtnFast = findViewById(R.id.imgBtn_fast);
+        mBtnSlow = findViewById(R.id.imgBtn_slow);
         mImgBtnReplay = findViewById(R.id.imgBtn_replay);
         miViewWidth = mPaintView.getMiWidth();
         mFileBDW = new File(getFilesDir().getPath() + BACKUP_FILE_BDW);
@@ -70,6 +73,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
         mPaintView.initDefaultBrush(brush);
         setImgBtnOnClick();
+        showSpeed();
     }
 
     private Runnable rb_play = new Runnable() {
@@ -81,7 +85,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                     switch (tagpoint.get_iAction() - 1) {
                         case MotionEvent.ACTION_DOWN:
                             mbPlaying = true;
-                            if (tagpoint.get_iBrush()==6) {
+                            if (tagpoint.get_iBrush() == 6) {
                                 mPaintView.setDrawingBgColor(tagpoint.get_iColor());
                             } else if (tagpoint.get_iBrush() != 0) {
                                 int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
@@ -120,7 +124,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                     }
                     miPointCount--;
                     miPointCurrent++;
-                    mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "撥放進度: %d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+                    showProgress();
 
                     if (brun) {
                         mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
@@ -140,7 +144,44 @@ public class PaintPlayActivity extends AppCompatActivity {
         }
     };
 
-    void setImgBtnOnClick() {
+    private void showSpeed() {
+        int absCount = Math.abs(miSpeedCount);
+        if (miSpeedCount >= 0) {
+            mTvPlaySpeed.setText(getString(R.string.play_speed) + (int)Math.pow(2, absCount) + "x");
+        } else if (miSpeedCount < 0) {
+            mTvPlaySpeed.setText(getString(R.string.play_speed) + "1/" + (int)Math.pow(2, absCount) + "x");
+        }
+    }
+
+    private void showProgress(){
+        if(miPointCurrent>0){
+            mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, " %d%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+        }
+    }
+
+    private void setImgBtnOnClick() {
+        mBtnFast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (miSpeedCount < 4) {
+                    miSpeedCount++;
+                    miAutoPlayIntervalTime = miAutoPlayIntervalTime / 2;
+                    showSpeed();
+                }
+            }
+        });
+
+        mBtnSlow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (miSpeedCount > -4) {
+                    miSpeedCount--;
+                    miAutoPlayIntervalTime = miAutoPlayIntervalTime * 2;
+                    showSpeed();
+                }
+            }
+        });
+
         mBtnZoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -204,7 +245,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 } else if (miPointCount == 0) {
                     ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_end), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                 }
-                mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "撥放進度: %d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+                showProgress();
             }
         });
 
@@ -219,10 +260,8 @@ public class PaintPlayActivity extends AppCompatActivity {
                     int count;
                     if (mListRecordInt.size() > 1) {
                         count = mListRecordInt.remove(mListRecordInt.size() - 1) - mListRecordInt.get(mListRecordInt.size() - 1);
-                        System.out.println(count);
                     } else {
                         count = mListRecordInt.remove(mListRecordInt.size() - 1);
-                        System.out.println(count);
                     }
                     System.out.println(miPointCurrent);
                     miPointCount = miPointCount + count;
@@ -231,7 +270,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 } else if (miPointCurrent == 0) {
                     ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_frist), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                 }
-                mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, "撥放進度: %d/ 100%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
+                showProgress();
             }
         });
 

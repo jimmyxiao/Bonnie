@@ -145,4 +145,5 @@
     <string name="find_someone_user">搜尋特定的使用者</string>
     <string name="not_follow_user">您沒有追蹤任何的使用者</string>
     <string name="not_found_work">沒有找到相關的作品</string>
+    <string name="play_speed">撥放速度：</string>
 </resources>
