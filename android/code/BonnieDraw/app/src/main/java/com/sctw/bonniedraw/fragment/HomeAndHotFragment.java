@@ -176,10 +176,13 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                miWt = interWt;
-                miStn = 1;
-                miRc = 10;
-                getWorksList(GET_WORKS_LIST);
+                if(interWt!=miWt){
+                    miWt = interWt;
+                    miStn = 1;
+                    miRc = 10;
+                    getWorksList(GET_WORKS_LIST);
+                    return true;
+                }
                 return true;
             }
         });
