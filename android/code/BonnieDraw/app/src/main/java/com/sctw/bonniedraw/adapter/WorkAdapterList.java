@@ -71,7 +71,6 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         Glide.with(context)
                 .load(workImgUrl)
                 .apply(GlideAppModule.getWorkOptions())
-                .thumbnail(Glide.with(context).load(R.drawable.loading))
                 .into(holder.mImgViewWrok);
         //作者圖
         Glide.with(context)

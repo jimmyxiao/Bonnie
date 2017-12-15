@@ -229,7 +229,7 @@ public class PlayFragment extends DialogFragment {
                 try {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
                     if (responseJSON.getInt("res") == 1) {
-                        getActivity().onBackPressed();
+                        PlayFragment.this.dismiss();
                     }
                     Log.d("JSON RESPONE", responseJSON.toString());
                 } catch (JSONException e) {
@@ -260,7 +260,7 @@ public class PlayFragment extends DialogFragment {
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().onBackPressed();
+                PlayFragment.this.dismiss();
             }
         });
 

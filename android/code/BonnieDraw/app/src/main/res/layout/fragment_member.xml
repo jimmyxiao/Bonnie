@@ -50,6 +50,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/Transparent"
+            android:visibility="gone"
             app:srcCompat="@drawable/recommend_icon" />
 
         <ImageButton

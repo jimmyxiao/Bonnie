@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.bean.WorkInfoBean;
+import com.sctw.bonniedraw.utility.GlideAppModule;
+import com.sctw.bonniedraw.utility.GlobalVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +45,13 @@ public class WorkAdapterGrid extends RecyclerView.Adapter<WorkAdapterGrid.ViewHo
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listner.onWorkClick(wid);
+                listner.onGridWorkClick(wid);
             }
         });
-        Glide.with(context).load(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath()).into(holder.mImageView).onLoadFailed(ContextCompat.getDrawable(context, R.drawable.loading));
+        Glide.with(context)
+                .load(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath())
+                .apply(GlideAppModule.getWorkOptions())
+                .into(holder.mImageView);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -66,7 +69,7 @@ public class WorkAdapterGrid extends RecyclerView.Adapter<WorkAdapterGrid.ViewHo
     }
 
     public interface WorkGridOnClickListener {
-        void onWorkClick(int wid);
+        void onGridWorkClick(int wid);
     }
 
     public void addData(List<WorkInfoBean> newData) {

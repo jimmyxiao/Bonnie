@@ -22,7 +22,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
@@ -58,7 +57,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
+public class ProfileFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, WorkAdapterGrid.WorkGridOnClickListener {
     private static final int GET_AND_REFRESH_WORK_LIST = 1;
     private static final int ADD_WORK_LIST = 3;
     private CircleImageView imgPhoto;
@@ -240,56 +239,56 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Log.d("Profile", "onFailure");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String responseStr = response.body().string();
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                JSONObject responseJSON = new JSONObject(responseStr);
-                                if (responseJSON.getInt("res") == 1) {
-                                    //Successful
-                                    mTextViewUserName.setText(responseJSON.getString("userName"));
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        //Successful
+                                        mTextViewUserName.setText(responseJSON.getString("userName"));
 
-                                    if (responseJSON.has("description") && !responseJSON.isNull("description")) {
-                                        mTextViewUserdescription.setText(responseJSON.getString("description"));
-                                    } else {
-                                        mTextViewUserdescription.setText("");
-                                    }
+                                        if (responseJSON.has("description") && !responseJSON.isNull("description")) {
+                                            mTextViewUserdescription.setText(responseJSON.getString("description"));
+                                        } else {
+                                            mTextViewUserdescription.setText("");
+                                        }
 
-                                    //if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
-                                    if (responseJSON.has("email") && !responseJSON.isNull("email")) {
-                                        String temp = responseJSON.getString("email");
-                                        mTextViewUserId.setText(temp.substring(0, temp.indexOf("@")));
-                                    } else {
-                                        mTextViewUserId.setText("");
-                                    }
-                                    mTextViewWorks.setText(responseJSON.getString("worksNum"));
-                                    mTextViewFans.setText(responseJSON.getString("fansNum"));
-                                    ;
-                                    mTextViewFollows.setText(responseJSON.getString("followNum"));
-                                    ;
+                                        //if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
+                                        if (responseJSON.has("email") && !responseJSON.isNull("email")) {
+                                            String temp = responseJSON.getString("email");
+                                            mTextViewUserId.setText(temp.substring(0, temp.indexOf("@")));
+                                        } else {
+                                            mTextViewUserId.setText("");
+                                        }
+                                        mTextViewWorks.setText(responseJSON.getString("worksNum"));
+                                        mTextViewFans.setText(responseJSON.getString("fansNum"));
+                                        mTextViewFollows.setText(responseJSON.getString("followNum"));
 
-                                    String profileUrl = "";
-                                    if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                        profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
+                                        String profileUrl = "";
+                                        if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
+                                            profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
+                                        }
+                                        Glide.with(getContext())
+                                                .load(profileUrl)
+                                                .apply(GlideAppModule.getUserOptions())
+                                                .into(imgPhoto);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                    Glide.with(getContext())
-                                            .load(profileUrl)
-                                            .apply(GlideAppModule.getUserOptions())
-                                            .into(imgPhoto);
-                                } else {
-                                    Toast.makeText(getContext(), "連線失敗", Toast.LENGTH_SHORT).show();
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            });
                         }
-                    });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -341,31 +340,18 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     public void getWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
-        mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, new WorkAdapterGrid.WorkGridOnClickListener() {
-            @Override
-            public void onWorkClick(int wid) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("wid", wid);
-                PlayFragment playFragment = new PlayFragment();
-                playFragment.setArguments(bundle);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+        mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
 
         mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this);
 
         if (mbFist) {
             mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
             mRecyclerViewProfile.setAdapter(mAdapterGrid);
-            mSwipeLayoutProfile.setRefreshing(false);
         } else {
             mRecyclerViewProfile.setLayoutManager(layoutManager);
             mRecyclerViewProfile.setAdapter(mAdapterList);
-            mSwipeLayoutProfile.setRefreshing(false);
         }
+        mSwipeLayoutProfile.setRefreshing(false);
     }
 
     public void addWork(JSONArray data) {
@@ -542,16 +528,17 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         });
     }
 
-    @Override
-    public void onWorkImgClick(int wid) {
+    private void showWork(int wid){
         Bundle bundle = new Bundle();
         bundle.putInt("wid", wid);
         PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        playFragment.show(getFragmentManager(),"TAG");
+    }
+
+    @Override
+    public void onWorkImgClick(int wid) {
+        showWork(wid);
     }
 
     @Override
@@ -663,9 +650,14 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
     @Override
     public void onResume() {
-        miStn=1;
-        miRc=15;
+        miStn = 1;
+        miRc = 15;
         getWorksList(GET_AND_REFRESH_WORK_LIST);
         super.onResume();
+    }
+
+    @Override
+    public void onGridWorkClick(int wid) {
+        showWork(wid);
     }
 }

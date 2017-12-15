@@ -55,7 +55,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MemberFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener {
+public class MemberFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, WorkAdapterGrid.WorkGridOnClickListener {
     private static final int GET_AND_REFRESH_WORK_LIST = 1;
     private static final int ADD_WORK_LIST = 3;
     private TextView mTvMemberId, mTvMemberName, mTvMemberDescription, mTvMemberWorks, mTvMemberFans, mTvMemberFollows;
@@ -143,56 +143,59 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String responseStr = response.body().string();
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                JSONObject responseJSON = new JSONObject(responseStr);
-                                if (responseJSON.getInt("res") == 1) {
-                                    //Successful
-                                    mTvMemberName.setText(responseJSON.getString("userName"));
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        //Successful
+                                        mTvMemberName.setText(responseJSON.getString("userName"));
 
-                                    if (responseJSON.has("description") && !responseJSON.isNull("description")) {
-                                        mTvMemberDescription.setText(responseJSON.getString("description"));
-                                    } else {
-                                        mTvMemberDescription.setText("");
+                                        if (responseJSON.has("description") && !responseJSON.isNull("description")) {
+                                            mTvMemberDescription.setText(responseJSON.getString("description"));
+                                        } else {
+                                            mTvMemberDescription.setText("");
+                                        }
+
+                                        if (responseJSON.has("email") && !responseJSON.isNull("email")) {
+                                            String temp = responseJSON.getString("email");
+                                            mTvMemberId.setText(temp.substring(0, temp.indexOf("@")));
+                                        } else {
+                                            mTvMemberId.setText("");
+                                        }
+
+                                        if (responseJSON.getBoolean("follow")) {
+                                            mbFollow = true;
+                                            mBtnFollow.setText("追蹤中");
+                                        } else {
+                                            mbFollow = false;
+                                            mBtnFollow.setText("追蹤");
+                                        }
+
+                                        mTvMemberWorks.setText(responseJSON.getString("worksNum"));
+                                        mTvMemberFans.setText(responseJSON.getString("fansNum"));
+                                        mTvMemberFollows.setText(responseJSON.getString("followNum"));
+
+                                        String profileUrl = "";
+                                        if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
+                                            profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
+                                        }
+                                        Glide.with(getContext())
+                                                .load(profileUrl)
+                                                .apply(GlideAppModule.getUserOptions())
+                                                .into(mCircleImg);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-
-                                    if (responseJSON.has("email") && !responseJSON.isNull("email")) {
-                                        String temp = responseJSON.getString("email");
-                                        mTvMemberId.setText(temp.substring(0, temp.indexOf("@")));
-                                    } else {
-                                        mTvMemberId.setText("");
-                                    }
-
-                                    if (responseJSON.getBoolean("follow")) {
-                                        mbFollow = true;
-                                        mBtnFollow.setText("追蹤中");
-                                    } else {
-                                        mbFollow = false;
-                                        mBtnFollow.setText("追蹤");
-                                    }
-
-                                    mTvMemberWorks.setText(responseJSON.getString("worksNum"));
-                                    mTvMemberFans.setText(responseJSON.getString("fansNum"));
-                                    mTvMemberFollows.setText(responseJSON.getString("followNum"));
-
-                                    String profileUrl = "";
-                                    if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                        profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
-                                    }
-                                    Glide.with(getContext())
-                                            .load(profileUrl)
-                                            .apply(GlideAppModule.getUserOptions())
-                                            .into(mCircleImg);
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            });
                         }
-                    });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -244,19 +247,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     public void getWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
-        mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, new WorkAdapterGrid.WorkGridOnClickListener() {
-            @Override
-            public void onWorkClick(int wid) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("wid", wid);
-                PlayFragment playFragment = new PlayFragment();
-                playFragment.setArguments(bundle);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+        mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
 
         mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this);
 
@@ -574,17 +565,18 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         });
     }
 
-    //覆寫interface事件
-    @Override
-    public void onWorkImgClick(int wid) {
+    private void showWork(int wid){
         Bundle bundle = new Bundle();
         bundle.putInt("wid", wid);
         PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        playFragment.show(getFragmentManager(),"TAG");
+    }
+
+    //覆寫interface事件
+    @Override
+    public void onWorkImgClick(int wid) {
+        showWork(wid);
     }
 
     @Override
@@ -700,5 +692,10 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         miRc = 15;
         getWorksList(GET_AND_REFRESH_WORK_LIST);
         super.onResume();
+    }
+
+    @Override
+    public void onGridWorkClick(int wid) {
+        showWork(wid);
     }
 }
