@@ -1,8 +1,6 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.ApiException;
@@ -27,6 +26,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 
 import org.json.JSONException;
@@ -83,15 +83,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("連線失敗");
-                        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.show();
+                        showErrorDialog(getString(R.string.login_fail_server));
                     }
                 });
             }
@@ -106,25 +98,9 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                             try {
                                 JSONObject responseJSON = new JSONObject(responseStr);
                                 if (responseJSON.getInt("res") == 1) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setMessage("請至您的電子信箱來獲得新密碼。");
-                                    builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                                    builder.show();
+                                    showErrorDialog(getString(R.string.go_to_email_get_password));
                                 } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setMessage("查無此帳號。");
-                                    builder.setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                                    builder.show();
+                                    showErrorDialog(getString(R.string.not_found_account));
                                 }
                                 Log.d("GET RESPONE", responseJSON.toString());
                             } catch (JSONException e) {
@@ -135,6 +111,29 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                 }
             }
         });
+    }
+
+    private void showErrorDialog(String msg){
+        final FullScreenDialog dialog=new FullScreenDialog(getContext(),R.layout.dialog_base);
+        FrameLayout layout= dialog.findViewById(R.id.frameLayout_dialog_base);
+        Button btnOk=dialog.findViewById(R.id.btn_paint_dialog_base_yes);
+        TextView tvTitle=dialog.findViewById(R.id.textView_dialog_base_title);
+        TextView tvMsg=dialog.findViewById(R.id.textView_dialog_base_msg);
+        tvTitle.setText(R.string.fail);
+        tvMsg.setText(msg);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     @Override
@@ -154,7 +153,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
 
     private void checkEmail() {
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mTextViewEmail.getText().toString()).matches()) {
-            mTextInputLayoutEmail.setError("請輸入正確的E-mail");
+            mTextInputLayoutEmail.setError(getString(R.string.need_correct_email));
             mbCheckEmail = false;
         } else {
             mTextInputLayoutEmail.setError(null);

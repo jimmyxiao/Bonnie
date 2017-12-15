@@ -380,7 +380,7 @@ public class SignUpFragment extends Fragment {
                     mTextInputLayoutEmail.setError(getString(R.string.signin_check_email));
                     userEmailVaild = false;
                 } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail.getText().toString()).matches()) {
-                    mTextInputLayoutEmail.setError(getString(R.string.signin_need_correct_email));
+                    mTextInputLayoutEmail.setError(getString(R.string.need_correct_email));
                     userEmailVaild = false;
                 } else {
                     mTextInputLayoutEmail.setError(null);

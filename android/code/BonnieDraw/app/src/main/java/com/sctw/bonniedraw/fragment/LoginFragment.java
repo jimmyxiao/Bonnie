@@ -161,7 +161,7 @@ public class LoginFragment extends Fragment {
                 mInputLayoutEmail.setError(null);
                 emailCheck = false;
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mInputEditTextEmail.getText().toString()).matches()) {
-                mInputLayoutEmail.setError(getString(R.string.login_need_correct_email));
+                mInputLayoutEmail.setError(getString(R.string.need_correct_email));
                 emailCheck = false;
             } else {
                 mInputLayoutEmail.setError(null);
@@ -374,7 +374,7 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), R.string.login_fail_tittle, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.login_fail, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -427,7 +427,7 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), R.string.login_fail_tittle, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.login_fail, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -472,7 +472,7 @@ public class LoginFragment extends Fragment {
         Button btnOk=dialog.findViewById(R.id.btn_paint_dialog_base_yes);
         TextView tvTitle=dialog.findViewById(R.id.textView_dialog_base_title);
         TextView tvMsg=dialog.findViewById(R.id.textView_dialog_base_msg);
-        tvTitle.setText(getString(R.string.login_fail_tittle));
+        tvTitle.setText(getString(R.string.login_fail));
         tvMsg.setText(failString);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -534,7 +534,7 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "連線失敗", PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -557,7 +557,7 @@ public class LoginFragment extends Fragment {
                                 transferMainPage();
 
                             } else {
-                                createLogSignin("此平台所使用的電子信箱已註冊，請改用電子信箱或是別的帳戶來登入。");
+                                createLogSignin(getString(R.string.third_login_fail));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

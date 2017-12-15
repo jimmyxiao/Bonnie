@@ -169,10 +169,10 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
                                         if (responseJSON.getBoolean("follow")) {
                                             mbFollow = true;
-                                            mBtnFollow.setText("追蹤中");
+                                            mBtnFollow.setText(getString(R.string.following));
                                         } else {
                                             mbFollow = false;
-                                            mBtnFollow.setText("追蹤");
+                                            mBtnFollow.setText(getString(R.string.follow));
                                         }
 
                                         mTvMemberWorks.setText(responseJSON.getString("worksNum"));
@@ -419,11 +419,11 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                     switch (fn) {
                                         case 0:
                                             mbFollow = false;
-                                            mBtnFollow.setText("追蹤");
+                                            mBtnFollow.setText(getString(R.string.follow));
                                             break;
                                         case 1:
                                             mbFollow = true;
-                                            mBtnFollow.setText("追蹤中");
+                                            mBtnFollow.setText(getString(R.string.following));
                                             break;
                                     }
                                 } else {
@@ -549,9 +549,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, 0);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, 0);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

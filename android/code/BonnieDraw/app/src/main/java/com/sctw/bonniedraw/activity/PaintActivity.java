@@ -220,7 +220,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(PaintActivity.this, "與伺服器連接失敗", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.login_fail_server), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
             }
@@ -280,7 +280,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Upload File", "Fail");
+                ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.connect_fail), false, 0);
             }
 
             @Override
@@ -296,10 +296,10 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                                         Log.d("上傳圖片", "成功");
                                     } else {
                                         Log.d("上傳BDW", "成功");
-                                        ToastUtil.createToastIsCheck(getApplicationContext(), "發佈成功", true, 0);
+                                        ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.publish_successful), true, 0);
                                     }
                                 } else {
-                                    ToastUtil.createToastIsCheck(getApplicationContext(), "發佈失敗", false, 0);
+                                    ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.publish_fail), false, 0);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -668,7 +668,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(View view) {
                 boolean result = mPaintView.saveTempPhotoAndBdw();
-                Toast.makeText(PaintActivity.this, "草稿儲存成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PaintActivity.this, R.string.save_temp_successful, Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 if (result) finish();
             }
@@ -765,7 +765,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 mMenuPopup.dismiss();
                 break;
             case MenuPopup.PAINT_SETTING_EXTRA:
-                saveBdw();
+                //saveBdw();
                 break;
         }
     }
@@ -800,7 +800,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
-                ToastUtil.createToastWindow(PaintActivity.this, "儲存成功，檔案位於Screenshots資料夾。", PxDpConvert.getSystemHight(this) / 4);
+                ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.save_photo_successful), PxDpConvert.getSystemHight(this) / 4);
                 mMenuPopup.dismiss();
             } catch (IOException e) {
                 e.printStackTrace();

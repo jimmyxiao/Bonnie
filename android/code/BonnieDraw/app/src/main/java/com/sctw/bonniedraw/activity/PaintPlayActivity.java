@@ -239,7 +239,7 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this, "請按撥放鍵開始撥放", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.please_touch_play_start), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                 } else if (miPointCount > 0) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {

@@ -167,7 +167,7 @@ public class UpdatePasswordFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), "連線失敗", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.connect_fail), Toast.LENGTH_SHORT).show();
             }
 
             @Override

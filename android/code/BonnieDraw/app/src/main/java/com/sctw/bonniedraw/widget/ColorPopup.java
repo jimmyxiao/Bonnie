@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,6 +26,7 @@ import com.sctw.bonniedraw.colorpick.ColorBean;
 import com.sctw.bonniedraw.colorpick.ColorPanelView;
 import com.sctw.bonniedraw.colorpick.ColorPickerView;
 import com.sctw.bonniedraw.colorpick.ColorTicket;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 
 import java.util.ArrayList;
 
@@ -167,7 +167,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                     mAdapterTicket.removeColor();
                     savePreferencesColor();
                 } else {
-                    Toast.makeText(context, "請選擇色票再移除", Toast.LENGTH_SHORT).show();
+                    ToastUtil.createToastWindow(context, context.getString(R.string.please_select_ticket), PxDpConvert.getSystemHight(context) / 4);
                 }
 
             }
@@ -182,7 +182,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                     mAdapterTicket.notifyDataSetChanged();
                     savePreferencesColor();
                 } else {
-                    Toast.makeText(context, "色票滿囉，請先刪掉一些", Toast.LENGTH_SHORT).show();
+                    ToastUtil.createToastWindow(context, context.getString(R.string.ticket_full), PxDpConvert.getSystemHight(context) / 4);
                 }
             }
         });

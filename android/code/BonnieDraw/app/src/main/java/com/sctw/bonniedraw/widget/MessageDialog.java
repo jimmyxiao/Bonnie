@@ -159,7 +159,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                                 }
                             });
                         } else {
-                            ToastUtil.createToastWindow(getContext(), "留言失敗，請再試一次", PxDpConvert.getSystemHight(getContext()) / 4);
+                            ToastUtil.createToastWindow(getContext(), getString(R.string.msg_fail), PxDpConvert.getSystemHight(getContext()) / 4);
                         }
 
                     }
@@ -289,7 +289,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ToastUtil.createToastIsCheck(getContext(), "刪除成功", true, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.delete_successful), true, 0);
                                     mAdapter.deleteMsg(position);
                                 }
                             });

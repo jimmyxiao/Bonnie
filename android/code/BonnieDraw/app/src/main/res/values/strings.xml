@@ -75,7 +75,7 @@
 
     <string name="forget_password_hint">請輸入註冊的E-mail，系統會發送新密碼。</string>
 
-    <string name="like_title">我的收藏</string>
+    <string name="my_collection">我的收藏</string>
     <string name="like_all">全部</string>
     <string name="like_class">收藏分類</string>
     <string name="like_select_title">儲存收藏分類</string>
@@ -104,9 +104,8 @@
     <string name="play_frist">已經是最前步驟</string>
 
     <string name="login_need_password">請輸入密碼</string>
-    <string name="login_need_correct_email">請輸入正確的信箱</string>
     <string name="login_need_email">請輸入帳號</string>
-    <string name="login_fail_tittle">登入失敗</string>
+    <string name="login_fail">登入失敗</string>
     <string name="login_fail_msg">帳號或密碼錯誤，請重新輸入或按忘記密碼</string>
     <string name="public_title_privacy_policy">隱私政策</string>
     <string name="public_title_terms_of_use">使用條款</string>
@@ -120,6 +119,7 @@
     <string name="signin_check_name">請輸入名字</string>
     <string name="signin_check_info">請確認輸入資料</string>
     <string name="signin_check_msg">您的輸入資料有誤或未填寫。</string>
+    <string name="logout">登出</string>
     <string name="logout_title">登出？</string>
     <string name="logout_msg">您是否要登出呢</string>
     <string name="profile_setting_chage_pwd">更改密碼</string>
@@ -132,12 +132,13 @@
     <string name="work_release_time">發布日期: %s</string>
     <string name="sourcecode_copyright">© 2017 SourceCode 原碼數位科技版權所有</string>
     <string name="signin_need_correct_phone">請輸入正確的手機號碼</string>
-    <string name="signin_need_correct_email">請輸入正確的Email</string>
+    <string name="need_correct_email">請輸入正確的Email</string>
     <string name="signin_need_correct_password">密碼至少需要6個字元</string>
     <string name="signin_need_correct_repassword">密碼不一致</string>
     <string name="search_hint">搜尋作品 or 作者</string>
     <string name="fans">粉絲</string>
     <string name="following">追蹤中</string>
+    <string name="follow">追蹤</string>
     <string name="delete">刪除</string>
     <string name="download_html">https://drive.google.com/open?id=0BywnwT8B3NHJVHRrTU83ak9UTEE</string>
     <string name="only_fb_or_twitter_friends_list">只有 Facebook 或 Twitter 的用戶 \n才可使用推薦好友名單</string>
@@ -146,4 +147,29 @@
     <string name="not_follow_user">您沒有追蹤任何的使用者</string>
     <string name="not_found_work">沒有找到相關的作品</string>
     <string name="play_speed">撥放速度：</string>
+    <string name="login_data_error">登入資料異常</string>
+    <string name="connection_failed">連線失敗，請檢查網路狀態</string>
+    <string name="login_fail_server">連線失敗，伺服器發生異常或錯誤，請稍後再試。</string>
+    <string name="account_setting">帳號設定</string>
+    <string name="please_login">請先登入後再操作</string>
+    <string name="publish_fail">發佈失敗</string>
+    <string name="publish_successful">發佈成功</string>
+    <string name="save_temp_successful">草稿儲存成功</string>
+    <string name="save_photo_successful">儲存成功，檔案位於Screenshots資料夾。</string>
+    <string name="please_touch_play_start">請按撥放鍵開始撥放</string>
+    <string name="select_photo">選擇圖片</string>
+    <string name="update_fail">更新失敗</string>
+    <string name="go_to_email_get_password">請至您的電子信箱來獲得新密碼</string>
+    <string name="not_found_account">查無此帳號</string>
+    <string name="fail">失敗</string>
+    <string name="report_successful">檢舉成功</string>
+    <string name="report_fail">檢舉失敗，請再試一次</string>
+    <string name="third_login_fail">資料傳送錯誤，請稍後再試一次</string>
+    <string name="load_error">讀取錯誤</string>
+    <string name="confirm_delete">確認要刪除這個作品嗎?</string>
+    <string name="brush_size">筆刷大小 : %d</string>
+    <string name="msg_fail">留言失敗，請再試一次</string>
+    <string name="delete_successful">刪除成功</string>
+    <string name="please_select_ticket">請選擇色票再移除</string>
+    <string name="ticket_full">色票滿囉，請先刪掉一些</string>
 </resources>

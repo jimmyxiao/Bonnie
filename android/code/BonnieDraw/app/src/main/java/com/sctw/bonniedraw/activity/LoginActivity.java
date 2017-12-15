@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(getApplicationContext(), "登入資料異常", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(getApplicationContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
                 break;
@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(LoginActivity.this, "連線失敗，請檢查網路狀態", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
             }
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                ToastUtil.createToastWindow(LoginActivity.this, "登入失敗", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                                ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -177,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(LoginActivity.this, "登入失敗", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
             }
@@ -203,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ToastUtil.createToastWindow(LoginActivity.this, "登入失敗", PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                                     }
                                 });
                             }
@@ -211,9 +211,9 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
-                            alertDialog.setMessage("連線失敗，伺服器發生異常或錯誤，請稍後再試。");
+                            alertDialog.setMessage(R.string.login_fail_server);
                             alertDialog.setCancelable(false);
-                            alertDialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                            alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();

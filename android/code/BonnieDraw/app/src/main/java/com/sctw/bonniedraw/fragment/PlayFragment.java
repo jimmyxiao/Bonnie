@@ -221,7 +221,7 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "讀取錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -318,7 +318,7 @@ public class PlayFragment extends DialogFragment {
                     public void onClick(View v) {
                         dialog.dismiss();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("確認要刪除這個作品嗎?");
+                        builder.setMessage(R.string.confirm_delete);
                         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -433,10 +433,10 @@ public class PlayFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (miFollow == 1) {
-                    mTvUserFollow.setText("追蹤");
+                    mTvUserFollow.setText(getString(R.string.follow));
                     setFollow(0, uid);
                 } else {
-                    mTvUserFollow.setText("已追蹤");
+                    mTvUserFollow.setText(getString(R.string.following));
                     setFollow(1, uid);
                 }
             }
@@ -478,7 +478,7 @@ public class PlayFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(getContext(), "請按撥放鍵開始撥放", PxDpConvert.getSystemHight(getContext()) / 4);
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.please_touch_play_start), PxDpConvert.getSystemHight(getContext()) / 4);
                 } else if (miPointCount > 0) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
@@ -572,12 +572,12 @@ public class PlayFragment extends DialogFragment {
             mBDWFileReader.readFromFile(mFileBDW);
             mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
             if (mPaintView.mListTagPoint.size() == 0) {
-                ToastUtil.createToastWindow(getContext(), "讀取錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
                 return false;
             }
             return true;
         } else {
-            ToastUtil.createToastWindow(getContext(), "讀取錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
+            ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
             return false;
         }
     }
@@ -588,7 +588,7 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "讀取失敗", PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -600,7 +600,7 @@ public class PlayFragment extends DialogFragment {
                             @Override
                             public void run() {
                                 //下載資料
-                                ToastUtil.createToastIsCheck(getContext(), "更新成功", true, 0);
+                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_successful), true, 0);
                                 getSingleWork(true);
                             }
                         });
@@ -618,7 +618,7 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "讀取失敗", PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -653,7 +653,7 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), "讀取失敗", PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -889,9 +889,9 @@ public class PlayFragment extends DialogFragment {
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, 0);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, 0);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {

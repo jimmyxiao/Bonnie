@@ -365,9 +365,9 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉成功", true, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, 0);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), "檢舉失敗，請再試一次", false, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, 0);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

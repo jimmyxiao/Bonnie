@@ -119,9 +119,9 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別一"));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別二"));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別三"));
-        list.add(new SidebarBean(R.drawable.collect_ic_off, "我的收藏"));
-        list.add(new SidebarBean(R.drawable.menu_ic_account, "帳號設定"));
-        list.add(new SidebarBean(R.drawable.menu_ic_out, "登出"));
+        list.add(new SidebarBean(R.drawable.collect_ic_off, getString(R.string.my_collection)));
+        list.add(new SidebarBean(R.drawable.menu_ic_account, getString(R.string.account_setting)));
+        list.add(new SidebarBean(R.drawable.menu_ic_out, getString(R.string.logout)));
         mAdapter = new SideBarAdapter(this, list, this);
         mRv.setAdapter(mAdapter);
 
@@ -299,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         super.onStart();
         if (prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0) == 0) {
             final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setMessage("請先登入後再操作");
+            dialog.setMessage(R.string.please_login);
             dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
