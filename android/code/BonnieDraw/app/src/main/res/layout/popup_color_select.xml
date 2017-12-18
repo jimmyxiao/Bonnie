@@ -45,7 +45,7 @@
             android:layout_gravity="center"
             android:layout_weight="3.5"
             android:background="@drawable/shape_add_ticket_border"
-            android:text="新增色票"
+            android:text="@string/add_ticket"
             android:textColor="#FFF" />
 
     </LinearLayout>

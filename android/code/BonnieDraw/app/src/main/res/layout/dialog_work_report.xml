@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="檢舉作品"
+                android:text="@string/report_work"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="檢舉類別："
+                    android:text="@string/work_class"
                     android:textAlignment="center" />
 
                 <Spinner
@@ -51,7 +51,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="檢舉原因："
+                    android:text="@string/report_reason"
                     android:textAlignment="center" />
 
                 <EditText

@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_weight="6"
             android:gravity="center"
-            android:text="留言"
+            android:text="@string/leave_msg"
             android:textColor="#000"
             android:textSize="18sp" />
 
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="成為第一個留言的人"
+            android:text="@string/first_leave_msg"
             android:textColor="@color/HintColor" />
 
     </FrameLayout>
@@ -96,14 +96,14 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_weight="8"
-            android:hint="留言..." />
+            android:hint="@string/leave_a_msg" />
 
         <TextView
             android:id="@+id/textView_publish_msg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="發佈"
+            android:text="@string/publish"
             android:textAlignment="center"
             android:textColor="@color/HyperLinkColor" />
 

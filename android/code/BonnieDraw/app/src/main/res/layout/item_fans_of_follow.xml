@@ -37,7 +37,7 @@
         android:layout_height="36dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/shape_notice_img_border"
-        android:text="追蹤"
+        android:text="@string/follow"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="@+id/circle_fof_user_img"
         app:layout_constraintEnd_toEndOf="parent"

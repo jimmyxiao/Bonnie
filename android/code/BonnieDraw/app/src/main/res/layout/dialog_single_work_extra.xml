@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/Transparent"
                 android:padding="20dp"
-                android:text="刪除作品" />
+                android:text="@string/delete_work" />
 
             <View
                 android:id="@+id/view_divier_extra_delete"
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/Transparent"
                 android:padding="20dp"
-                android:text="編輯作品" />
+                android:text="@string/edit_work" />
 
         </LinearLayout>
 

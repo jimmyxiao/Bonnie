@@ -61,7 +61,7 @@ public class ToastUtil {
         View view = inflater.inflate(R.layout.item_toast_size, null);
         TextView mTv = (TextView) view.findViewById(R.id.textView_brush_size);
         CircleView mCircleView=(CircleView) view.findViewById(R.id.circle_paint_size);
-        mTv.setText(String.format(context.getString(R.string.brush_size), (int) size));
+        mTv.setText(String.format(context.getString(R.string.brush_size_count), (int) size));
         mCircleView.setCircleRadius(size/2.0f);
         view.setLayoutParams(new LinearLayout.LayoutParams(
                 android.widget.LinearLayout.LayoutParams.MATCH_PARENT,

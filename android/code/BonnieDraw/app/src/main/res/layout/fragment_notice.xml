@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:minHeight="?android:attr/actionBarSize"
-        android:text="通知" />
+        android:text="@string/notice" />
 
     <View
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="您沒有任何訊息"
+            android:text="@string/you_have_not_notice"
             android:textColor="@color/HintColor" />
     </FrameLayout>
 

@@ -28,7 +28,6 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.bean.WorkInfoBean;
-import com.sctw.bonniedraw.collection.CollectionFragment;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;

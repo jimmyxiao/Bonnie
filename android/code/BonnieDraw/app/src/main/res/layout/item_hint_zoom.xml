@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:lineSpacingExtra="16sp"
-        android:text="現在不能使用其他功能唷!\n只能進行縮放\n長按可恢復原狀\n要繼續畫圖請再點縮放按鈕"
+        android:text="@string/zoom_hint"
         android:textAlignment="center"
         android:textColor="@color/White"
         android:textSize="24sp"

@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="筆刷大小"
+            android:text="@string/brush_size"
             android:textColor="@color/White" />
 
         <ImageButton

@@ -242,7 +242,7 @@ public class SignUpFragment extends Fragment {
     public void createLogSignup(int format) {
         switch (format) {
             case 1:
-                logDialog(getString(R.string.signin_successful_title), getString(R.string.sigin_successful_msg),1);
+                logDialog(getString(R.string.signin_successful_title), getString(R.string.signin_successful_msg),1);
                 break;
             case 2:
                 logDialog(getString(R.string.signin_fail_title),  getString(R.string.signin_fail_email),0);
