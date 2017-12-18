@@ -109,7 +109,7 @@ public class LoginFragment extends Fragment {
         //FB init
         mBtnFacebookLogin = (Button) view.findViewById(R.id.btn_fb_login);
         facebookLoginButton = (LoginButton) view.findViewById(R.id.btn_fb_login_hide);
-        facebookLoginButton.setReadPermissions(Arrays.asList("public_profile", "email","user_friends"));
+        facebookLoginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends"));
         facebookLoginButton.setFragment(this);
         callbackManager = CallbackManager.Factory.create();
         mBtnFacebookLogin.setOnClickListener(clickListenerFcaebookLogin);
@@ -284,6 +284,11 @@ public class LoginFragment extends Fragment {
                                     JSONObject object,
                                     GraphResponse response) {
                                 try {
+                                    if (!object.has("email")) {
+                                        ToastUtil.createToastWindow(getContext(), getString(R.string.this_account_not_email), PxDpConvert.getSystemHight(getContext()) / 4);
+                                        LoginManager.getInstance().logOut();
+                                        return;
+                                    }
                                     URL profilePicUrl = new URL(object.getJSONObject("picture").getJSONObject("data").getString("url"));
                                     prefs.edit()
                                             .putInt(GlobalVariable.USER_THIRD_PLATFORM_STR, GlobalVariable.THIRD_LOGIN_FACEBOOK)
@@ -296,7 +301,8 @@ public class LoginFragment extends Fragment {
                                     loginThird(GlobalVariable.API_LOGIN_CODE);
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
-                                    ToastUtil.createToastWindow(getContext(), "發生錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
+                                    ToastUtil.createToastWindow(getContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getContext()) / 4);
+                                    LoginManager.getInstance().logOut();
                                 }
                             }
                         });
@@ -341,7 +347,7 @@ public class LoginFragment extends Fragment {
                             .apply();
                     loginThird(GlobalVariable.API_LOGIN_CODE);
                 } catch (IOException e) {
-                    ToastUtil.createToastWindow(getContext(), "發生錯誤", PxDpConvert.getSystemHight(getContext()) / 4);
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getContext()) / 4);
                     e.printStackTrace();
                 }
             }
@@ -390,7 +396,7 @@ public class LoginFragment extends Fragment {
                                 //Successful
                                 loginEamil();
                             } else {
-                                createLogSignin("此帳號尚未申請");
+                                createLogSignin(getString(R.string.this_account_not_signup));
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -467,11 +473,11 @@ public class LoginFragment extends Fragment {
 
     //登入失敗
     public void createLogSignin(String failString) {
-        final FullScreenDialog dialog=new FullScreenDialog(getContext(),R.layout.dialog_base);
-        FrameLayout layout= dialog.findViewById(R.id.frameLayout_dialog_base);
-        Button btnOk=dialog.findViewById(R.id.btn_paint_dialog_base_yes);
-        TextView tvTitle=dialog.findViewById(R.id.textView_dialog_base_title);
-        TextView tvMsg=dialog.findViewById(R.id.textView_dialog_base_msg);
+        final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_base);
+        FrameLayout layout = dialog.findViewById(R.id.frameLayout_dialog_base);
+        Button btnOk = dialog.findViewById(R.id.btn_paint_dialog_base_yes);
+        TextView tvTitle = dialog.findViewById(R.id.textView_dialog_base_title);
+        TextView tvMsg = dialog.findViewById(R.id.textView_dialog_base_msg);
         tvTitle.setText(getString(R.string.login_fail));
         tvMsg.setText(failString);
         btnOk.setOnClickListener(new View.OnClickListener() {
@@ -516,7 +522,7 @@ public class LoginFragment extends Fragment {
                 prefs.edit().clear().apply();
                 break;
             case 0:
-                Log.d("Logout Error","not value");
+                Log.d("Logout Error", "not value");
                 break;
         }
     }

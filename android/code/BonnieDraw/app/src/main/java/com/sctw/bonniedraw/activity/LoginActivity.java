@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -42,9 +43,10 @@ import okhttp3.Response;
 public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
     SharedPreferences prefs;
-    Boolean result = false;
+    Boolean mbLoginCheck = false, mBFirst = false;
     FragmentManager fragmentManager;
     LinearLayout mLinearLayout;
+    FrameLayout mFrameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +55,24 @@ public class LoginActivity extends AppCompatActivity {
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         updateFCM();
         mLinearLayout = findViewById(R.id.frameLayout_login_frist);
+        mFrameLayout = findViewById(R.id.frameLayout_login);
+        mFrameLayout.setVisibility(View.INVISIBLE);
         AlphaAnimation mAlphaAnimation = new AlphaAnimation(0, 1);
         mAlphaAnimation.setDuration(2000);
         mLinearLayout.setAnimation(mAlphaAnimation);
         mAlphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                if (prefs != null && !prefs.getString(GlobalVariable.USER_TOKEN_STR, "").isEmpty()) {
+                    mbLoginCheck = true;
+                } else {
+                    mbLoginCheck = false;
+                }
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if (prefs != null && !prefs.getString(GlobalVariable.USER_TOKEN_STR, "").isEmpty()) {
+                if (mbLoginCheck) {
                     checkLoginInfo(prefs);
                 } else {
                     transferLoginPage();
@@ -237,6 +246,7 @@ public class LoginActivity extends AppCompatActivity {
         ft.replace(R.id.frameLayout_login, loginFragment, "LoginFragment");
         ft.commit();
         mLinearLayout.setVisibility(View.INVISIBLE);
+        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
     public void transferMainPage() {
@@ -245,7 +255,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(it);
         finish();
     }
-
 
     @Override
     public void onBackPressed() {

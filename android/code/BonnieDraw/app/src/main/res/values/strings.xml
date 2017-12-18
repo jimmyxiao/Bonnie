@@ -172,4 +172,6 @@
     <string name="delete_successful">刪除成功</string>
     <string name="please_select_ticket">請選擇色票再移除</string>
     <string name="ticket_full">色票滿囉，請先刪掉一些</string>
+    <string name="this_account_not_signup">此帳號尚未申請</string>
+    <string name="this_account_not_email">這個帳戶沒有使用Email，無法登入</string>
 </resources>
