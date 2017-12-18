@@ -396,7 +396,8 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			for(i=0;i<lines.length; i++){
 				lines[i].xPos = Math.floor(lines[i].xPos / 65536 * canvas_width);
 				lines[i].yPos = Math.floor(lines[i].yPos / 65536 * canvas_width);
-				lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width);
+				// lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width);
+				lines[i].size = lines[i].size / 65536 * canvas_width;
 				switch(lines[i].action){
 				case 1:
 					var bigint = parseInt(lines[i].color, 16);

@@ -505,7 +505,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				lines[i].xPos = Math.floor(lines[i].xPos / 65536 * canvas_width);
 				lines[i].yPos = Math.floor(lines[i].yPos / 65536 * canvas_width);
 				// lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width);
-				lines[i].size = Math.round(lines[i].size / 65536 * canvas_width);
+				// lines[i].size = Math.round(lines[i].size / 65536 * canvas_width);
+				lines[i].size = lines[i].size / 65536 * canvas_width;
 				if(lines[i].action){
 					switch(lines[i].action){
 						case 1:
