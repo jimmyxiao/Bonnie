@@ -66,7 +66,7 @@ public class CollectionFragment extends Fragment {
         List<Fragment> fragmentList = new ArrayList<Fragment>();
         fragmentList.add(collectionAllFragment);
         fragmentList.add(collectionSelectFragment);
-        CollectionAdapter myFragmentAdapter = new CollectionAdapter(getChildFragmentManager(), fragmentList);
+        CollectionAdapter myFragmentAdapter = new CollectionAdapter(getContext(),getChildFragmentManager(), fragmentList);
         mViewPager.setAdapter(myFragmentAdapter);
     }
 

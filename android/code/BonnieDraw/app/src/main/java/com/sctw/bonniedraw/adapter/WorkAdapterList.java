@@ -95,9 +95,9 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         }
 
         if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
-            holder.mTvFollow.setText("追蹤");
+            holder.mTvFollow.setText(context.getString(R.string.follow));
         } else {
-            holder.mTvFollow.setText("追蹤中");
+            holder.mTvFollow.setText(context.getString(R.string.following));
         }
 
         //設定追蹤  0=沒追蹤，傳出沒追蹤的值

@@ -76,7 +76,7 @@
     <string name="forget_password_hint">請輸入註冊的E-mail，系統會發送新密碼。</string>
 
     <string name="my_collection">我的收藏</string>
-    <string name="like_all">全部</string>
+    <string name="all">全部</string>
     <string name="like_class">收藏分類</string>
     <string name="like_select_title">儲存收藏分類</string>
     <string name="like_select_empty_class">收藏分類可將你儲存的內容分門別類。按右上角的「+」即可開始建立第一個收藏分類</string>
@@ -174,4 +174,5 @@
     <string name="ticket_full">色票滿囉，請先刪掉一些</string>
     <string name="this_account_not_signup">此帳號尚未申請</string>
     <string name="this_account_not_email">這個帳戶沒有使用Email，無法登入</string>
+    <string name="please_fill_out">請填寫該欄位</string>
 </resources>

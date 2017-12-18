@@ -69,7 +69,7 @@ public class CollectionDialog extends DialogFragment implements View.OnClickList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() == 0) {
-                    mEtClass.setError("請填寫該欄位");
+                    mEtClass.setError(getString(R.string.please_fill_out));
                     mBtnAdd.setTextColor(ContextCompat.getColor(getContext(), R.color.HintColor));
                     mbCheck = false;
                 } else {
