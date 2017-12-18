@@ -127,12 +127,10 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
                 if (!recyclerView.canScrollVertically(1)) {
-                    if (mLayoutManager.findLastVisibleItemPosition() == miRc) {
-                        miStn += 10;
+                    if (mLayoutManager.findLastVisibleItemPosition()+1 == miRc) {
                         miRc += 10;
-                        getWorksList(ADD_WORKS_LIST);
+                        getWorksList(REFRESH_WORKS_LIST);
                     }
                 }
             }
@@ -176,7 +174,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                if(interWt!=miWt){
+                if (interWt != miWt) {
                     miWt = interWt;
                     miStn = 1;
                     miRc = 10;
@@ -462,7 +460,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         bundle.putInt("wid", wid);
         PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
-        playFragment.show(getFragmentManager(),"TAG");
+        playFragment.show(getFragmentManager(), "TAG");
     }
 
     @Override
@@ -576,11 +574,11 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
 
     @Override
     public void onRefresh() {
-        miStn = 1;
-        miRc = 10;
         if (miWt != 9) {
             getWorksList(REFRESH_WORKS_LIST);
         } else {
+            miStn = 1;
+            miRc = 10;
             getQueryWorksList(mStrQuery);
         }
     }

@@ -73,7 +73,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private SharedPreferences prefs;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-    private List<WorkInfoBean> workInfoBeanList;
     private boolean mbFist = true;
     private int miUserId;
     private int miStn = 1, miRc = 15;
@@ -110,7 +109,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         updateProfileInfo();
         setOnClick();
         fragmentManager = getFragmentManager();
-        gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        gridLayoutManager = new GridLayoutManager(getContext(), 3);
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         getWorksList(GET_AND_REFRESH_WORK_LIST);
@@ -119,14 +118,12 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!recyclerView.canScrollVertically(1)) {
-                    if (layoutManager.findLastVisibleItemPosition() == miRc) {
-                        miStn += 10;
+                    if (layoutManager.findLastVisibleItemPosition() + 1 == miRc) {
                         miRc += 10;
-                        getWorksList(ADD_WORK_LIST);
-                    } else if (gridLayoutManager.findLastVisibleItemPosition() == miRc) {
-                        miStn += 10;
+                        getWorksList(GET_AND_REFRESH_WORK_LIST);
+                    } else if (gridLayoutManager.findLastVisibleItemPosition() + 1 == miRc) {
                         miRc += 10;
-                        getWorksList(ADD_WORK_LIST);
+                        getWorksList(GET_AND_REFRESH_WORK_LIST);
                     }
                 }
             }
@@ -337,7 +334,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     }
 
     public void getWorks(JSONArray data) {
-        workInfoBeanList = WorkInfoBean.generateInfoList(data);
+        List<WorkInfoBean> workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
 
@@ -527,12 +524,12 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         });
     }
 
-    private void showWork(int wid){
+    private void showWork(int wid) {
         Bundle bundle = new Bundle();
         bundle.putInt("wid", wid);
         PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
-        playFragment.show(getFragmentManager(),"TAG");
+        playFragment.show(getFragmentManager(), "TAG");
     }
 
     @Override

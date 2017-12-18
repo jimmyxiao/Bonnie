@@ -169,7 +169,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.imgBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = data.get(holder.getAdapterPosition()).getTitle();
+                String title = GlobalVariable.API_LINK_SHARE_LINK + uid;
                 Uri uri = Uri.parse(parseURL);
                 ExtraUtil.Share(context.getApplicationContext(), title, uri);
             }
@@ -233,10 +233,10 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         data.get(position).setIsFollowing(isFollow);
         notifyItemChanged(position);
         int uid = Integer.valueOf(data.get(position).getUserId());
-        setAllFollow(uid,isFollow);
+        setAllFollow(uid, isFollow);
     }
 
-    private void setAllFollow(int uid,int isFollow) {
+    private void setAllFollow(int uid, int isFollow) {
         for (int x = 0; x < data.size(); x++) {
             int dataUid = Integer.valueOf(data.get(x).getUserId());
             if (dataUid == uid) {

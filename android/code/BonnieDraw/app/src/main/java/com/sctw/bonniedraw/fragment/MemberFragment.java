@@ -118,14 +118,12 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!recyclerView.canScrollVertically(1)) {
-                    if (layoutManager.findLastVisibleItemPosition() == miRc) {
-                        miStn += 10;
+                    if (layoutManager.findLastVisibleItemPosition() + 1 == miRc) {
                         miRc += 10;
-                        getWorksList(ADD_WORK_LIST);
-                    } else if (gridLayoutManager.findLastVisibleItemPosition() == miRc) {
-                        miStn += 10;
+                        getWorksList(GET_AND_REFRESH_WORK_LIST);
+                    } else if (gridLayoutManager.findLastVisibleItemPosition() + 1 == miRc) {
                         miRc += 10;
-                        getWorksList(ADD_WORK_LIST);
+                        getWorksList(GET_AND_REFRESH_WORK_LIST);
                     }
                 }
             }
