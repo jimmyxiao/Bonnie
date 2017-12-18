@@ -145,6 +145,7 @@
     <string name="play_wait">請等畫完這一段再按</string>
     <string name="play_frist">已經是最前步驟</string>
     <string name="please_touch_play_start">請按撥放鍵開始撥放</string>
+    <string name="play_speed">撥放速度：</string>
 
     <!--社群雜項-->
     <string name="public_title_privacy_policy">隱私政策</string>
@@ -168,7 +169,6 @@
     <string name="find_someone_user">搜尋特定的使用者</string>
     <string name="not_follow_user">您沒有追蹤任何的使用者</string>
     <string name="not_found_work">沒有找到相關的作品</string>
-    <string name="play_speed">撥放速度：</string>
     <string name="login_data_error">登入資料異常</string>
     <string name="connection_failed">連線失敗，請檢查網路狀態</string>
     <string name="login_fail_server">連線失敗，伺服器發生異常或錯誤，請稍後再試。</string>

@@ -472,11 +472,11 @@ public class PaintView extends View {
         invalidate();
     }
 
-    public void setDrawingBgColorTag(int color){
+    public void setDrawingBgColorTag(int color) {
         this.mBackgroundLayerColor = color;
         invalidate();
-        TagPoint tagPointDown=new TagPoint();
-        TagPoint tagPointUp=new TagPoint();
+        TagPoint tagPointDown = new TagPoint();
+        TagPoint tagPointUp = new TagPoint();
         tagPointDown.set_iAction(MotionEvent.ACTION_DOWN + 1);
         tagPointDown.set_iBrush(6);
         tagPointDown.set_iColor(getDrawingColor());
@@ -1018,7 +1018,13 @@ public class PaintView extends View {
     private void onTouchMoveTagPoint(float x, float y, float t) {
         TagPoint tagpoint = new TagPoint();
         tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
-        tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
+        if (y < this.getHeight() && y >= 0) {
+            tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
+        } else if (y > this.getHeight()) {
+            tagpoint.set_iPosY(PxDpConvert.displayToFormat(this.getHeight()-1, miWidth));
+        } else if (y <= 0) {
+            tagpoint.set_iPosY(PxDpConvert.displayToFormat(1, miWidth));
+        }
         tagpoint.set_iSize(PxDpConvert.displayToFormat(getDrawingSize(), miWidth));
         tagpoint.set_iBrush(miPaintNum);
         tagpoint.set_iTime((int) t);
