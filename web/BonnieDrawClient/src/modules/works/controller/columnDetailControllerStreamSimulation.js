@@ -625,7 +625,11 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			var params = util.getInitalScope();
 			params.worksId = $scope.mainSection.worksId;
 			params.turnInType = $scope.turnModel.option;
-			params.description = $scope.turnModel.description[($scope.turnModel.option - 1)];
+			if(params.turnInType == 99){
+				params.description = $scope.turnModel.description[2];
+			}else{
+				params.description = $scope.turnModel.description[($scope.turnModel.option - 1)];
+			}
 			worksService.setTurnin(params,function(data, status, headers, config){
 				if(data.res == 1){
 					alert('檢舉已發送');

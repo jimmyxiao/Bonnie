@@ -718,7 +718,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		$scope.turnModel = {
 			optin:1,
-			description:['內容不當', '侵犯著作權利']
+			description:['內容不當', '侵犯著作權利', '其它']
 		}
 
 		$scope.clickTurnIn = function(){
@@ -729,7 +729,11 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			var params = util.getInitalScope();
 			params.worksId = $scope.mainSection.worksId;
 			params.turnInType = $scope.turnModel.option;
-			params.description = $scope.turnModel.description[($scope.turnModel.option - 1)];
+			if(params.turnInType == 99){
+				params.description = $scope.turnModel.description[2];
+			}else{
+				params.description = $scope.turnModel.description[($scope.turnModel.option - 1)];
+			}
 			worksService.setTurnin(params,function(data, status, headers, config){
 				if(data.res == 1){
 					alert('檢舉已發送');
