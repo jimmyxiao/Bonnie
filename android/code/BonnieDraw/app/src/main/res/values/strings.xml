@@ -41,6 +41,7 @@
     <string name="fail">失敗</string>
     <string name="update_successful">更新成功</string>
     <string name="update_fail">更新失敗</string>
+    <string name="other">其他</string>
     <!--登入註冊相關-->
     <string name="update_password_need_length">新密碼需大於6位數</string>
     <string name="update_password_not_equal">密碼不相符</string>
@@ -118,6 +119,8 @@
     <string name="publish_fail">發佈失敗</string>
     <string name="publish_successful">發佈成功</string>
     <string name="save_photo_successful">儲存成功，檔案位於Screenshots資料夾。</string>
+    <string name="content_pornography">內容色情</string>
+    <string name="content_violence">內容暴力</string>
     <!--繪圖相關-->
     <string name="paint_need_draw">請畫些東西吧！</string>
     <string name="paint_delete_sketch">刪除草稿</string>
@@ -192,4 +195,5 @@
     <string name="you_have_not_notice">您沒有任何訊息</string>
     <string name="account_setting_option">帳號設定選項</string>
     <string name="zoom_hint">現在不能使用其他功能唷!\n只能進行縮放 長按可恢復原狀\n要繼續畫圖請再點縮放按鈕</string>
+    <string name="copylink_successful">複製成功</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.fragment;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +38,7 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
@@ -128,7 +130,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!recyclerView.canScrollVertically(1)) {
-                    if (mLayoutManager.findLastVisibleItemPosition()+1 == miRc) {
+                    if (mLayoutManager.findLastVisibleItemPosition() + 1 == miRc) {
                         miRc += 10;
                         getWorksList(REFRESH_WORKS_LIST);
                     }
@@ -473,7 +475,10 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         extraCopyLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("POSTION CLICK", "extraCopyLink=" + wid);
+                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                android.content.ClipData clip = android.content.ClipData.newPlainText("text", GlobalVariable.API_LINK_SHARE_LINK + wid);
+                clipboard.setPrimaryClip(clip);
+                ToastUtil.createToastIsCheck(getContext(), getString(R.string.copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 4);
                 extraDialog.dismiss();
             }
         });
@@ -500,7 +505,19 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 btnCommit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setReport(wid, spinner.getSelectedItemPosition() + 1, editText.getText().toString());
+                        int type = 0;
+                        switch (spinner.getSelectedItemPosition()) {
+                            case 0:
+                                type = 1;
+                                break;
+                            case 1:
+                                type = 2;
+                                break;
+                            case 2:
+                                type = 99;
+                                break;
+                        }
+                        setReport(wid, type, editText.getText().toString());
                         reportDialog.dismiss();
                     }
                 });

@@ -29,9 +29,9 @@ public class NotificaitonMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(this, MainActivity.class);
         //event 1= 留言 ， 2 = 點讚
         intent.putExtra("evnet","msg");
-        intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder nb = mNotificationUtil.
                 getAndroidChannelNotification(title, body);

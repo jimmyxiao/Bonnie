@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Build;
@@ -52,12 +53,16 @@ public class NotificationUtil extends ContextWrapper {
     public Notification.Builder getAndroidChannelNotification(String title, String body) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return new Notification.Builder(getApplicationContext(), ANDROID_CHANNEL_ID)
+                    .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                            R.drawable.bottom_notification_ic))
                     .setContentTitle(title)
                     .setContentText(body)
                     .setSmallIcon(R.drawable.bottom_notification_ic)
                     .setAutoCancel(true);
         } else {
             return new Notification.Builder(getApplicationContext())
+                    .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                            R.drawable.bottom_notification_ic))
                     .setContentTitle(title)
                     .setContentText(body)
                     .setSmallIcon(R.drawable.bottom_notification_ic)

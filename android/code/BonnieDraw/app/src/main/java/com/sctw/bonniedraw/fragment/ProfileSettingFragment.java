@@ -4,6 +4,7 @@ package com.sctw.bonniedraw.fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,12 +22,18 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileSettingFragment extends Fragment {
+public class ProfileSettingFragment extends DialogFragment {
     ImageButton mImgBtnBack;
     Button mImgBtnEdit, mImgBtnUpdatePwd, mImgDescription, mImgBtnPrivacyPolicy, mImgBtnTermsOfUse;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     SharedPreferences prefs;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,50 +59,52 @@ public class ProfileSettingFragment extends Fragment {
         mImgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().onBackPressed();
+                ProfileSettingFragment.this.dismiss();
             }
         });
 
         mImgBtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentTransaction = fragmentManager.beginTransaction();
+                EditProfileFragment fragment = new EditProfileFragment();
+                fragment.show(getFragmentManager(), "TAG");
+                /*fragmentTransaction = fragmentManager.beginTransaction();
                 EditProfileFragment fragment = new EditProfileFragment();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
             }
         });
 
         mImgBtnPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentTransaction = fragmentManager.beginTransaction();
+               /* fragmentTransaction = fragmentManager.beginTransaction();
                 PublicFragment fragment = new PublicFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 1);
                 fragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
             }
         });
 
         mImgBtnTermsOfUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentTransaction = fragmentManager.beginTransaction();
+               /* fragmentTransaction = fragmentManager.beginTransaction();
                 PublicFragment fragment = new PublicFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 2);
                 fragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
             }
         });
 
-        if (prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR,0)!=1) {
+        if (prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0) != 1) {
             mImgBtnUpdatePwd.setVisibility(View.GONE);
         } else {
             mImgBtnUpdatePwd.setOnClickListener(new View.OnClickListener() {

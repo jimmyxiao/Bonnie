@@ -157,17 +157,17 @@ public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeCl
         mRv.setAdapter(mAdapter);
     }
 
-    @Override
-    public void onWorkImgClick(int wid) {
-        System.out.println("onWorkImgClick = " + wid);
+    private void showWork(int wid){
         Bundle bundle = new Bundle();
         bundle.putInt("wid", wid);
         PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout_actitivy, playFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        playFragment.show(getFragmentManager(),"TAG");
+    }
+
+    @Override
+    public void onWorkImgClick(int wid) {
+        showWork(wid);
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.sctw.bonniedraw.fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,7 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CollectionFragment extends Fragment implements WorkAdapterGrid.WorkGridOnClickListener {
+public class CollectionFragment extends DialogFragment implements WorkAdapterGrid.WorkGridOnClickListener {
     private ImageButton mImgBtnBack;
     private SharedPreferences prefs;
     private ProgressBar mProgressBar;
@@ -50,6 +51,12 @@ public class CollectionFragment extends Fragment implements WorkAdapterGrid.Work
     private TextView mTvHInt;
     private GridLayoutManager mGridLayoutManager;
     private WorkAdapterGrid mAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +72,7 @@ public class CollectionFragment extends Fragment implements WorkAdapterGrid.Work
         mImgBtnBack = (ImageButton) view.findViewById(R.id.imgBtn_collection_back);
         mRv = view.findViewById(R.id.recyclerView_collection);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_collection);
-        mProgressBar=view.findViewById(R.id.progressBar_collection);
+        mProgressBar = view.findViewById(R.id.progressBar_collection);
         mTvHInt = view.findViewById(R.id.textView_collection);
         mGridLayoutManager = new GridLayoutManager(getContext(), 3);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -82,7 +89,7 @@ public class CollectionFragment extends Fragment implements WorkAdapterGrid.Work
         mImgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                CollectionFragment.this.dismiss();
             }
         });
     }
@@ -133,7 +140,7 @@ public class CollectionFragment extends Fragment implements WorkAdapterGrid.Work
 
     public void getWorks(JSONArray data) {
         List<WorkInfoBean> workInfoBeanList = WorkInfoBean.generateInfoList(data);
-        if(workInfoBeanList.size()==0) mTvHInt.setVisibility(View.VISIBLE);
+        if (workInfoBeanList.size() == 0) mTvHInt.setVisibility(View.VISIBLE);
         mAdapter = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
         mProgressBar.setVisibility(View.GONE);
         mRv.setLayoutManager(mGridLayoutManager);

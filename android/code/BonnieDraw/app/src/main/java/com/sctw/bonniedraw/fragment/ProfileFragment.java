@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.fragment;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,6 +34,7 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
@@ -175,30 +177,24 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mImgBtnBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, new CollectionFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                CollectionFragment fragment = new CollectionFragment();
+                fragment.show(getFragmentManager(), "TAG");
             }
         });
 
         mImgBtnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, new ProfileSettingFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                ProfileSettingFragment fragment = new ProfileSettingFragment();
+                fragment.show(getFragmentManager(), "TAG");
             }
         });
 
         mBtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, new EditProfileFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                EditProfileFragment fragment = new EditProfileFragment();
+                fragment.show(getFragmentManager(), "TAG");
             }
         });
 
@@ -547,7 +543,10 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         extraCopyLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("POSTION CLICK", "extraCopyLink=" + wid);
+                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                android.content.ClipData clip = android.content.ClipData.newPlainText("text", GlobalVariable.API_LINK_SHARE_LINK + wid);
+                clipboard.setPrimaryClip(clip);
+                ToastUtil.createToastIsCheck(getContext(), getString(R.string.copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 4);
                 extraDialog.dismiss();
             }
         });

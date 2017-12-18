@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,7 +57,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditProfileFragment extends Fragment implements RequestListener<Drawable> {
+public class EditProfileFragment extends DialogFragment implements RequestListener<Drawable> {
     Button mBtnDone, mBtnCancel;
     TextView mTextViewChangePhoto;
     CircleImageView mImgViewPhoto;
@@ -64,6 +65,12 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
     RadioGroup mRadioGroupGender;
     SharedPreferences prefs;
     Integer mIntGender;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,7 +135,7 @@ public class EditProfileFragment extends Fragment implements RequestListener<Dra
         mBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().onBackPressed();
+                EditProfileFragment.this.dismiss();
             }
         });
     }

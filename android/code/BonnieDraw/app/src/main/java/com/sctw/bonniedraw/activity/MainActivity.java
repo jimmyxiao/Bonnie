@@ -36,9 +36,11 @@ import com.google.android.gms.common.api.Status;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.SideBarAdapter;
 import com.sctw.bonniedraw.bean.SidebarBean;
+import com.sctw.bonniedraw.fragment.CollectionFragment;
 import com.sctw.bonniedraw.fragment.HomeAndHotFragment;
 import com.sctw.bonniedraw.fragment.NoticeFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
+import com.sctw.bonniedraw.fragment.ProfileSettingFragment;
 import com.sctw.bonniedraw.utility.BottomNavigationViewEx;
 import com.sctw.bonniedraw.utility.ExtraUtil;
 import com.sctw.bonniedraw.utility.GlideAppModule;
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     FragmentTransaction fragmentTransaction;
     GoogleApiClient mGoogleApiClient;
     SharedPreferences prefs;
+    private int miFunction=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,14 +188,14 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                         changeFragment(new NoticeFragment());
                         return true;
                     case R.id.ic_btn_user:
-                        changeFragment(new ProfileFragment());
+                        changeFragmentWithBundle(new ProfileFragment(),miFunction);
+                        miFunction=0;
                         return true;
                     default:
                         return false;
                 }
             }
         });
-
         mBottomNavigationViewEx.setCurrentItem(0);
     }
 
@@ -352,6 +355,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
 
     @Override
     public void onClick(int position) {
+        mDrawerLayout.closeDrawers();
         switch (position) {
             case 0:
                 mBottomNavigationViewEx.setCurrentItem(0);
@@ -360,12 +364,21 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                 mBottomNavigationViewEx.setCurrentItem(1);
                 break;
             case 2:
-                mBottomNavigationViewEx.setCurrentItem(4);
+                //我的畫作
+                break;
+            case 6:
+                //收藏
+                CollectionFragment collectionFragment = new CollectionFragment();
+                collectionFragment.show(getSupportFragmentManager(), "TAG");
+                break;
+            case 7:
+                //帳號設定
+                ProfileSettingFragment profileSettingFragment = new ProfileSettingFragment();
+                profileSettingFragment.show(getSupportFragmentManager(), "TAG");
                 break;
             case 8:
                 logout();
                 break;
         }
-        mDrawerLayout.closeDrawers();
     }
 }
