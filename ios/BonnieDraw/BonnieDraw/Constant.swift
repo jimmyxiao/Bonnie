@@ -166,8 +166,6 @@ struct Identifier {
     static let HOME = "homeViewController"
     static let FOLLOW = "followViewController"
     static let NOTIFICATION = "notificationController"
-    static let COLLECTION_ALL = "collectionAllController"
-    static let COLLECTION_SORT = "collectionSortController"
 }
 
 struct Segue {
@@ -178,7 +176,6 @@ struct Segue {
     static let WEB_ABOUT = "webAboutSegue"
     static let WEB_PRIVACY_POLICY = "webPrivacyPolicySegue"
     static let WEB_TERM_OF_USE = "webTermOfUseSegue"
-    static let COLLECTION = "collectionSegue"
     static let ANIMATION = "animationSegue"
     static let UPLOAD = "uploadSegue"
     static let DEBUG = "debugSegue"

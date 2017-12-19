@@ -15,6 +15,10 @@
  *
  */
 
+/**
+ This header is private to the Twitter Core SDK and not exposed for public SDK consumption
+ */
+
 @class TWTRScribeFilterDetails;
 @class TWTRScribeMediaDetails;
 @class TWTRScribeCardEvent;
@@ -30,10 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  on the backend so do not change without double checking against the thrift IDL.
  */
 typedef NS_ENUM(NSUInteger, TWTRScribeItemType) {
-    TWTRScribeItemTypeTweet = 0,
-    TWTRScribeItemTypeUser = 3,
-    TWTRScribeItemTypeMessage = 6,
-    TWTRScribeItemTypeCustomTimeline = 17
+    TWTRScribeItemTypeTweet = 0, TWTRScribeItemTypeUser = 3, TWTRScribeItemTypeMessage = 6, TWTRScribeItemTypeCustomTimeline = 17
 };
 
 /**

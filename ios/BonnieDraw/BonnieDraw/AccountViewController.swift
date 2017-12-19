@@ -43,7 +43,7 @@ class AccountViewController:
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
             downloadData()
         } else {
-            loadingLabel?.isHidden = true
+            loadingLabel?.text = works.isEmpty ? "empty_data".localized : nil
         }
     }
 
@@ -61,10 +61,6 @@ class AccountViewController:
 
     @IBAction func didSelectRecommend(_ sender: Any) {
         performSegue(withIdentifier: Segue.RECOMMEND, sender: nil)
-    }
-
-    @IBAction func didSelectColllection(_ sender: Any) {
-        performSegue(withIdentifier: Segue.COLLECTION, sender: nil)
     }
 
     @IBAction func didSelectListLayout(_ sender: Any) {

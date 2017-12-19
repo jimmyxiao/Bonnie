@@ -21,19 +21,26 @@
 #import "TWTRAPIClient.h"
 
 NS_ASSUME_NONNULL_BEGIN
+#ifndef Twitter
+
+/**
+ *  To support legacy integrations with TwitterKit,
+ *  map the old `Twitter` to the new `TWTRTwitter` using a macro.
+ */
+#define Twitter TWTRTwitter
+#endif
 
 /**
  *  The central class of the Twitter Kit.
  *  @note This class can only be used from the main thread.
  */
-@interface Twitter : NSObject
-
+@interface TWTRTwitter : NSObject
 /**
  *  Returns the Twitter singleton.
  *
  *  @return The Twitter singleton.
  */
-+ (Twitter *)sharedInstance;
++ (TWTRTwitter *)sharedInstance;
 
 /**
  *  Start Twitter with your consumer key and secret. These will override any credentials
@@ -45,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startWithConsumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret;
 
 /**
- *  Start Twitter with a consumer key, secret, and keychain access group. See -[Twitter startWithConsumerKey:consumerSecret:]
+ *  Start Twitter with a consumer key, secret, and keychain access group. See -[TWTRTwitter startWithConsumerKey:consumerSecret:]
  *
  *  @param consumerKey    Your Twitter application's consumer key.
  *  @param consumerSecret Your Twitter application's consumer secret.
@@ -60,18 +67,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The current version of this kit.
  */
-@property (nonatomic, copy, readonly) NSString *version;
-
+@property(nonatomic, copy, readonly) NSString *version;
 /**
  *  Authentication configuration details. Encapsulates the `consumerKey` and `consumerSecret` credentials required to authenticate a Twitter application.
  */
-@property (nonatomic, readonly) TWTRAuthConfig *authConfig;
-
+@property(nonatomic, readonly) TWTRAuthConfig *authConfig;
 /**
  *  Session store exposing methods to fetch and manage active sessions. Applications that need to manage
  *  multiple users should use the session store to authenticate and log out users.
  */
-@property (nonatomic, readonly) TWTRSessionStore *sessionStore;
+@property(nonatomic, readonly) TWTRSessionStore *sessionStore;
 
 /**
  *  Triggers user authentication with Twitter.

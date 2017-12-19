@@ -16,7 +16,9 @@
  */
 
 #import <Foundation/Foundation.h>
+
 @class TWTRAuthConfig;
+
 /**
  *  Completion block called when the network request succeeds or fails.
  *
@@ -26,18 +28,20 @@
  */
 typedef void (^TWTRTwitterNetworkCompletion)(NSURLResponse *response, NSData *data, NSError *connectionError);
 
-@interface TwitterNetworking : NSObject
-
-@property (nonatomic, readonly) TWTRAuthConfig *authConfig;
+@interface TWTRNetworking : NSObject
+@property(nonatomic, readonly) TWTRAuthConfig *authConfig;
 
 - (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig;
 
 - (NSURLRequest *)URLRequestForGETMethodWithURLString:(NSString *)URLString parameters:(NSDictionary *)params;
+
 - (NSURLRequest *)URLRequestForPOSTMethodWithURLString:(NSString *)URLString parameters:(NSDictionary *)params;
+
 - (NSURLRequest *)URLRequestForDELETEMethodWithURLString:(NSString *)URLString parameters:(NSDictionary *)params;
 
-- (NSURLRequest *)URLRequestWithMethod:(NSString *)method URL:(NSString *)URLString parameters:(NSDictionary *)parameters;
+- (NSURLRequest *)URLRequestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters;
 
 - (void)sendAsynchronousRequest:(NSURLRequest *)request completion:(TWTRTwitterNetworkCompletion)completion;
 

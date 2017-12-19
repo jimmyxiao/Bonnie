@@ -37,8 +37,8 @@ class DebugViewController: UIViewController, UITableViewDataSource, UITableViewD
                     GIDSignIn.sharedInstance().signOut()
                     break
                 case .twitter:
-                    if let userId = Twitter.sharedInstance().sessionStore.session()?.userID {
-                        Twitter.sharedInstance().sessionStore.logOutUserID(userId)
+                    if let userId = TWTRTwitter.sharedInstance().sessionStore.session()?.userID {
+                        TWTRTwitter.sharedInstance().sessionStore.logOutUserID(userId)
                     }
                     break
                 default:

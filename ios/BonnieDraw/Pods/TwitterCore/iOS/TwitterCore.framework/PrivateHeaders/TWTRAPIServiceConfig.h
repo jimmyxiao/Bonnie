@@ -15,11 +15,13 @@
  *
  */
 
-@protocol TWTRAPIServiceConfig <NSObject>
+/**
+ This header is private to the Twitter Core SDK and not exposed for public SDK consumption
+ */
 
+@protocol TWTRAPIServiceConfig <NSObject>
 @property (nonatomic, readonly, copy) NSString *apiHost;
 @property (nonatomic, readonly, copy) NSString *apiScheme;
-
 /**
  * A unique name to assign to this service. It is recommended
  * that reverse dns be used to make the name unique.

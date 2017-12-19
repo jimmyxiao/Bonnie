@@ -15,8 +15,11 @@
  *
  */
 
-@interface TWTRCoreLanguage : NSObject
+/**
+ This header is private to the Twitter Core SDK and not exposed for public SDK consumption
+ */
 
+@interface TWTRCoreLanguage : NSObject
 + (NSString *)preferredLanguage;
 
 @end

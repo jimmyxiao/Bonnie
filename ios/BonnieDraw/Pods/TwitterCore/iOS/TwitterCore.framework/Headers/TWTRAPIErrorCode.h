@@ -133,9 +133,8 @@ typedef NS_ENUM(NSUInteger, TWTRAPIErrorCode) {
      * Returned from server in digits sign-in flow if user provides wrong confirmation code
      */
     TWTRAPIErrorCodeChallengeCodeInvalid = 236,
-
     /**
-     *  "Bad guest token." The token has probably expired. Try calling `-[Twitter logInGuestWithCompletion:]` again later.
+     *  "Bad guest token." The token has probably expired. Try calling `-[TWTRTwitter logInGuestWithCompletion:]` again later.
      */
     TWTRAPIErrorCodeBadGuestToken = 239,
 

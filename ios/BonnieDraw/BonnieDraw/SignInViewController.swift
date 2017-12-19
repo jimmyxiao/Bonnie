@@ -202,7 +202,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 
     @IBAction func twitter(_ sender: Any) {
         loading.hide(false)
-        Twitter.sharedInstance().logIn() {
+        TWTRTwitter.sharedInstance().logIn() {
             session, error in
             if let error = error {
                 self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
