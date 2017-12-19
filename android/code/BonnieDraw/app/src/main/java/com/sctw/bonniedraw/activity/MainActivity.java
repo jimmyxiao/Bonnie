@@ -52,20 +52,21 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements SideBarAdapter.SideBarClickListener {
-    DrawerLayout mDrawerLayout;
-    ImageButton mImgBtnBack, mImgBtnPaint;
-    TextView mTvVersion, mTvDownload;
-    BottomNavigationViewEx mBottomNavigationViewEx;
-    RelativeLayout mNavigationView;
-    RecyclerView mRv;
-    SideBarAdapter mAdapter;
-    CircleImageView mImgHeaderPhoto;
-    TextView mTextViewHeaderText;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    GoogleApiClient mGoogleApiClient;
-    SharedPreferences prefs;
-    private int miFunction=0;
+    private DrawerLayout mDrawerLayout;
+    private ImageButton mImgBtnBack, mImgBtnPaint;
+    private TextView mTvVersion, mTvDownload;
+    private BottomNavigationViewEx mBottomNavigationViewEx;
+    private RelativeLayout mNavigationView;
+    private RecyclerView mRv;
+    private SideBarAdapter mAdapter;
+    private CircleImageView mImgHeaderPhoto;
+    private TextView mTextViewHeaderText;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private GoogleApiClient mGoogleApiClient;
+    private SharedPreferences prefs;
+    private int miFn = 0;
+    private boolean mbFirst = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +82,9 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         fragmentTransaction.commit();
     }
 
-    private void changeFragmentWithBundle(Fragment fragment, int num) {
+    private void changeFragmentWithBundle(Fragment fragment, int function) {
         Bundle bundle = new Bundle();
-        bundle.putInt("page", num);
+        bundle.putInt("page", function);
         fragment.setArguments(bundle);
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -179,17 +180,28 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.ic_btn_home:
-                        changeFragmentWithBundle(new HomeAndHotFragment(), 2);
+                        if (mBottomNavigationViewEx.getCurrentItem() == 0 && mbFirst) {
+                            callFragmentToTop();
+                            return false;
+                        }
+                        mbFirst = true;
+                        if (miFn == 0) miFn = 2;
+                        changeFragmentWithBundle(new HomeAndHotFragment(), miFn);
                         return true;
                     case R.id.ic_btn_hot:
+                        if (mBottomNavigationViewEx.getCurrentItem() == 1) {
+                            callFragmentToTop();
+                            return false;
+                        }
                         changeFragmentWithBundle(new HomeAndHotFragment(), 1);
                         return true;
                     case R.id.ic_btn_notice:
+                        if (mBottomNavigationViewEx.getCurrentItem() == 3) return false;
                         changeFragment(new NoticeFragment());
                         return true;
                     case R.id.ic_btn_user:
-                        changeFragmentWithBundle(new ProfileFragment(),miFunction);
-                        miFunction=0;
+                        if (mBottomNavigationViewEx.getCurrentItem() == 4) return false;
+                        changeFragment(new ProfileFragment());
                         return true;
                     default:
                         return false;
@@ -358,12 +370,15 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mDrawerLayout.closeDrawers();
         switch (position) {
             case 0:
+                miFn = 2;
                 mBottomNavigationViewEx.setCurrentItem(0);
                 break;
             case 1:
-                mBottomNavigationViewEx.setCurrentItem(1);
+                miFn = 4;
+                mBottomNavigationViewEx.setCurrentItem(0);
                 break;
             case 2:
+                miFn = 5;
                 //我的畫作
                 break;
             case 6:
@@ -379,6 +394,17 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             case 8:
                 logout();
                 break;
+        }
+    }
+
+    public void callFragmentToTop() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        // (if you're not using the support library)
+        // FragmentManager fragmentManager = getFragmentManager();
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            if (fragment != null && fragment.isVisible() && fragment instanceof HomeAndHotFragment) {
+                ((HomeAndHotFragment) fragment).showViewToTop();
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -61,8 +59,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
     Button mBtnDone, mBtnCancel;
     TextView mTextViewChangePhoto;
     CircleImageView mImgViewPhoto;
-    EditText mEditTextName, mEditTextNickName, mEditTextProfile, mEditTextEmail, mEditPhone;
-    RadioGroup mRadioGroupGender;
+    EditText mEditTextName, mEditTextProfile, mEditTextEmail, mEditPhone,mEditGender;
     SharedPreferences prefs;
     Integer mIntGender;
 
@@ -89,11 +86,10 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         mImgViewPhoto = view.findViewById(R.id.imgView_edit_user_photo);
         mImgViewPhoto.setDrawingCacheEnabled(true);
         mEditTextName = view.findViewById(R.id.editText_edit_name);
-        mEditTextNickName = view.findViewById(R.id.editText_edit_user_nickname);
         mEditTextProfile = view.findViewById(R.id.editText_edit_profile);
         mEditTextEmail = view.findViewById(R.id.editText_edit_email);
         mEditPhone = view.findViewById(R.id.editText_edit_phone);
-        mRadioGroupGender = view.findViewById(R.id.radioGroup_edit_gender);
+        mEditGender=view.findViewById(R.id.editText_edit_gender);
         setOnClick();
         getUserInfo();
     }
@@ -109,22 +105,6 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
             }
         });
 
-        mRadioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i) {
-                    case R.id.radioBtn_edit_gender_m:
-                        mIntGender = 1;
-                        break;
-                    case R.id.radioBtn_edit_gender_f:
-                        mIntGender = 2;
-                        break;
-                    case R.id.radioBtn_edit_gender_o:
-                        mIntGender = 0;
-                        break;
-                }
-            }
-        });
         mBtnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,12 +144,6 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                                 prefs.edit().putString(GlobalVariable.USER_NAME_STR, responseJSON.getString("userName")).apply();
                                 mEditTextName.setText(responseJSON.getString("userName"));
 
-                                if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
-                                    mEditTextNickName.setText(responseJSON.getString("nickName"));
-                                } else {
-                                    mEditTextNickName.setHint("");
-                                }
-
                                 if (responseJSON.has("description") && !responseJSON.isNull("description")) {
                                     mEditTextProfile.setText(responseJSON.getString("description"));
                                 } else {
@@ -185,21 +159,24 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                                 }
 
                                 if (responseJSON.has("gender") && !responseJSON.isNull("gender")) {
-                                    int x = responseJSON.getInt("gender");
+                                    int x = responseJSON.getInt("gender");   //0 not , 1=male, 2=female
                                     switch (x) {
                                         case 0:
-                                            mRadioGroupGender.check(R.id.radioBtn_edit_gender_o);
+                                            mEditGender.setText(R.string.not_select_gender);
                                             mIntGender = 0;
                                             break;
                                         case 1:
-                                            mRadioGroupGender.check(R.id.radioBtn_edit_gender_m);
                                             mIntGender = 1;
+                                            mEditGender.setText(R.string.male);
                                             break;
                                         case 2:
-                                            mRadioGroupGender.check(R.id.radioBtn_edit_gender_f);
+                                            mEditGender.setText(R.string.female);
                                             mIntGender = 2;
                                             break;
                                     }
+                                }else {
+                                    mEditGender.setText(R.string.not_select_gender);
+                                    mIntGender = 0;
                                 }
 
                                 String profileUrl = "";
@@ -231,7 +208,6 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         JSONObject json = ConnectJson.updateUserInfoJson(
                 prefs,
                 mEditTextName.getText().toString(),
-                mEditTextNickName.getText().toString(),
                 mEditTextProfile.getText().toString(),
                 mEditPhone.getText().toString(),
                 gender);

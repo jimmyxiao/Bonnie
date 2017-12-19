@@ -37,6 +37,7 @@
     <string name="fans">粉絲</string>
     <string name="following">追蹤中</string>
     <string name="follow">追蹤</string>
+    <string name="follow_start">開始追蹤</string>
     <string name="delete">刪除</string>
     <string name="fail">失敗</string>
     <string name="update_successful">更新成功</string>
@@ -162,8 +163,6 @@
     <string name="only_fb_or_twitter_friends_list">只有 Facebook 或 Twitter 的用戶 \n才可使用推薦好友名單</string>
     <string name="report_successful">檢舉成功</string>
     <string name="report_fail">檢舉失敗，請再試一次</string>
-    <string name="work_good_total">%d 個人按讚</string>
-    <string name="work_good_first">成為第一個按讚的人</string>
     <string name="work_release_time">發布日期: %s</string>
     <string name="sourcecode_copyright">© 2017 SourceCode 原碼數位科技版權所有</string>
     <string name="search_hint">搜尋作品 or 作者</string>
@@ -196,4 +195,5 @@
     <string name="account_setting_option">帳號設定選項</string>
     <string name="zoom_hint">現在不能使用其他功能唷!\n只能進行縮放 長按可恢復原狀\n要繼續畫圖請再點縮放按鈕</string>
     <string name="copylink_successful">複製成功</string>
+    <string name="not_select_gender">未指定</string>
 </resources>

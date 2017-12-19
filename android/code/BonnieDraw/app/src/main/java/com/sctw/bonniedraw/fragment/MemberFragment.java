@@ -60,7 +60,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class MemberFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, WorkAdapterGrid.WorkGridOnClickListener {
     private static final int GET_AND_REFRESH_WORK_LIST = 1;
     private static final int ADD_WORK_LIST = 3;
-    private TextView mTvMemberId, mTvMemberName, mTvMemberDescription, mTvMemberWorks, mTvMemberFans, mTvMemberFollows;
+    private TextView mTvMemberName, mTvMemberDescription, mTvMemberWorks, mTvMemberFans, mTvMemberFollows;
     private Button mBtnFollow;
     private CircleImageView mCircleImg;
     private ImageButton mBtnBack, mBtnGrid, mBtnList, mBtnAdd, mBtnExtra;
@@ -91,7 +91,6 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         miUserId = getArguments().getInt("userId");
-        mTvMemberId = view.findViewById(R.id.textView_member_user_id);
         mTvMemberName = view.findViewById(R.id.textView_member_userName);
         mTvMemberDescription = view.findViewById(R.id.textView_member_user_description);
         mTvMemberWorks = view.findViewById(R.id.textView_member_userworks);
@@ -158,13 +157,6 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                             mTvMemberDescription.setText(responseJSON.getString("description"));
                                         } else {
                                             mTvMemberDescription.setText("");
-                                        }
-
-                                        if (responseJSON.has("email") && !responseJSON.isNull("email")) {
-                                            String temp = responseJSON.getString("email");
-                                            mTvMemberId.setText(temp.substring(0, temp.indexOf("@")));
-                                        } else {
-                                            mTvMemberId.setText("");
                                         }
 
                                         if (responseJSON.getBoolean("follow")) {
@@ -249,7 +241,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
 
-        mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this);
+        mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this,true);
 
         if (mbFirst) {
             mRv.setLayoutManager(gridLayoutManager);

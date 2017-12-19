@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.NoticeAdapter;
@@ -53,6 +54,7 @@ public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeCl
     FrameLayout mFrameLayout;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    ProgressBar mProgressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,9 +73,12 @@ public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeCl
         fragmentManager = getFragmentManager();
         mSwipeLayout = view.findViewById(R.id.swipeLayout_notice);
         mFrameLayout = view.findViewById(R.id.frameLayout_notice);
+        mProgressBar=view.findViewById(R.id.progressBar_notice);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mFrameLayout.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
                 getNoticeList();
             }
         });
@@ -152,6 +157,8 @@ public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeCl
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }else {
+            mProgressBar.setVisibility(View.GONE);
         }
         mAdapter = new NoticeAdapter(getContext(), this, noticeInfoList);
         mRv.setAdapter(mAdapter);

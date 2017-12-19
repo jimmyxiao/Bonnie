@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -62,11 +63,12 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private static final int GET_AND_REFRESH_WORK_LIST = 1;
     private static final int ADD_WORK_LIST = 3;
     private CircleImageView imgPhoto;
-    private TextView mTextViewUserName, mTextViewUserId, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
+    private TextView mTextViewUserName, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
     private ImageButton mImgBtnBookmark, mImgBtnSetting, mImgBtnGrid, mImgBtnList, mImgBtnFriends;
     private Button mBtnEdit;
     private SwipeRefreshLayout mSwipeLayoutProfile;
     private RecyclerView mRecyclerViewProfile;
+    private FrameLayout mFrameLayoutLoading;
     private WorkAdapterGrid mAdapterGrid;
     private WorkAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
@@ -92,12 +94,13 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         miUserId = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, "null"));
         imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
+        mFrameLayoutLoading = view.findViewById(R.id.frameLayout_profile);
+        mFrameLayoutLoading.bringToFront();
         mSwipeLayoutProfile = view.findViewById(R.id.swipeLayout_profile);
         mLlFans = (LinearLayout) view.findViewById(R.id.ll_profile_fans);
         mLlFollow = (LinearLayout) view.findViewById(R.id.ll_profile_follow);
         mTextViewUserName = (TextView) view.findViewById(R.id.textView_profile_userName);
         mTextViewUserdescription = view.findViewById(R.id.textView_profile_user_description);
-        mTextViewUserId = (TextView) view.findViewById(R.id.textView_profile_user_id);
         mTextViewWorks = (TextView) view.findViewById(R.id.textView_profile_userworks);
         mTextViewFollows = (TextView) view.findViewById(R.id.textView_profile_follows);
         mTextViewFans = (TextView) view.findViewById(R.id.textView_profile_fans);
@@ -254,12 +257,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                         }
 
                                         //if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
-                                        if (responseJSON.has("email") && !responseJSON.isNull("email")) {
-                                            String temp = responseJSON.getString("email");
-                                            mTextViewUserId.setText(temp.substring(0, temp.indexOf("@")));
-                                        } else {
-                                            mTextViewUserId.setText("");
-                                        }
                                         mTextViewWorks.setText(responseJSON.getString("worksNum"));
                                         mTextViewFans.setText(responseJSON.getString("fansNum"));
                                         mTextViewFollows.setText(responseJSON.getString("followNum"));
@@ -334,7 +331,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
 
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
 
-        mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this);
+        mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this, false);
 
         if (mbFist) {
             mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
@@ -343,6 +340,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             mRecyclerViewProfile.setLayoutManager(layoutManager);
             mRecyclerViewProfile.setAdapter(mAdapterList);
         }
+        mFrameLayoutLoading.setVisibility(View.GONE);
         mSwipeLayoutProfile.setRefreshing(false);
     }
 

@@ -130,7 +130,7 @@ public class ConnectJson {
     }
 
     //更新個人資料用
-    public static JSONObject updateUserInfoJson(SharedPreferences prefs, String userName, String nickName, String description, String phoneNo, String gender) {
+    public static JSONObject updateUserInfoJson(SharedPreferences prefs, String userName, String description, String phoneNo, String gender) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
@@ -139,7 +139,6 @@ public class ConnectJson {
             json.put("userType", prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0));
             json.put("userCode", prefs.getString(GlobalVariable.USER_EMAIL_STR, "null"));
             json.put("userName", userName);
-            json.put("nickName", nickName);
             json.put("description", description);
             json.put("phoneNo", phoneNo);
             if (!gender.isEmpty()) json.put("gender", String.valueOf(gender));

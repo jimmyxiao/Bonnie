@@ -15,6 +15,7 @@ public final class GlideAppModule extends AppGlideModule {
     public static RequestOptions getWorkOptions() {
         return new RequestOptions()
                 .skipMemoryCache(true)
+                .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .dontAnimate();
     }

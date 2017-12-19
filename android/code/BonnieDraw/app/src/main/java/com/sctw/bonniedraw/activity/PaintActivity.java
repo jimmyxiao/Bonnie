@@ -139,6 +139,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         }
     }
 
+    private void toggleBrushPanel(){
+        if(mLinearLayoutPaintSelect.getVisibility()==View.VISIBLE){
+            mLinearLayoutPaintSelect.setVisibility(View.INVISIBLE);
+            mBtnZoom.setVisibility(View.VISIBLE);
+        }
+    }
+
     //產生預覽圖&上傳
     private void publishWorkEdit() {
         //上傳要關掉格線
@@ -340,6 +347,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnOpacityAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleBrushPanel();
                 int progress = mSeekbarOpacity.getProgress() + 1;
                 mSeekbarOpacity.setProgress(progress);
                 mPaintView.setDrawingAlpha(progress / 100f);
@@ -350,6 +358,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnOpacityDecrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleBrushPanel();
                 int progress = mSeekbarOpacity.getProgress() - 1;
                 mSeekbarOpacity.setProgress(progress);
                 mPaintView.setDrawingAlpha(progress / 100f);
@@ -379,6 +388,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnColorChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleBrushPanel();
                 mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 2);
             }
         });
@@ -386,6 +396,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnErase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleBrushPanel();
                 if (!mPaintView.getBrush().isEraser) {
                     mTempBrushId =mPaintView.getBrush().id;
                     setBrush(9);
@@ -399,6 +410,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnErase.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                toggleBrushPanel();
                 mSeekbarPopup.changeProgress((int) (mPaintView.getDrawingSize()), (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
                 mSeekbarPopup.showPopupWindow(v);
                 return false;
@@ -408,6 +420,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnSize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleBrushPanel();
                 mSeekbarPopup.changeProgress((int) (mPaintView.getDrawingSize()), (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
                 mSeekbarPopup.showPopupWindow(v);
             }
@@ -416,6 +429,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleBrushPanel();
                 mMenuPopup.showPopupWindow(v);
             }
         });
@@ -464,6 +478,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnOpenAutoPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toggleBrushPanel();
                 if (mPaintView.mListTagPoint.size() > 0) {
                     if (mPaintView.saveTempBdw()) {
                         Intent intent = new Intent();
@@ -480,6 +495,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnRedo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toggleBrushPanel();
                 mPaintView.onClickRedo();
             }
         });
@@ -487,6 +503,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnUndo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toggleBrushPanel();
                 mPaintView.onClickUndo();
             }
         });
@@ -494,6 +511,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         findViewById(R.id.imgBtn_paint_clear).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleBrushPanel();
                 final FullScreenDialog dialog = new FullScreenDialog(PaintActivity.this, R.layout.dialog_paint_clean);
                 Button btnClean = dialog.findViewById(R.id.btn_paint_back_clean);
                 Button btnCancel = dialog.findViewById(R.id.btn_paint_back_cancel);
@@ -531,6 +549,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         findViewById(R.id.imgBtn_paint_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleBrushPanel();
                 if (mPaintView.mListTagPoint.size() > 0) {
                     publishWorkEdit();
                 } else {

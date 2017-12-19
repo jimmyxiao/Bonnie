@@ -26,6 +26,7 @@ public class ExtraUtil {
         }
         shareIntent.putExtra(Intent.EXTRA_TEXT, content);
         //自定義選擇框的標題
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.share)));
         //系統默認標題
     }

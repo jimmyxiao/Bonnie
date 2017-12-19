@@ -71,11 +71,11 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class PlayFragment extends DialogFragment {
-    private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvCreateTime, mTvUserFollow, mTextViewPlayProgress, mTvPlaySpeed;
+    private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvMsgTotal, mTvCreateTime, mTvUserFollow, mTextViewPlayProgress, mTvPlaySpeed;
     private ProgressBar mProgressBar;
     private ImageView mImgViewWorkImage;
     private CircleImageView mCircleImgUserPhoto;
-    private ImageButton mBtnExtra, mBtnGood, mBtnMsg, mBtnShare, mBtnCollection, mBtnPlay, mBtnPause, mBtnNext, mBtnPrevious, mBtnSlow, mBtnFast,mBtnBack;
+    private ImageButton mBtnExtra, mBtnGood, mBtnMsg, mBtnShare, mBtnCollection, mBtnPlay, mBtnPause, mBtnNext, mBtnPrevious, mBtnSlow, mBtnFast, mBtnBack;
     private String bdwPath = ""; //"bdwPath":
     private String workUid = "";
     SharedPreferences prefs;
@@ -118,6 +118,7 @@ public class PlayFragment extends DialogFragment {
         mTvWorkName = view.findViewById(R.id.textView_single_work_title);
         mTvWorkDescription = view.findViewById(R.id.textView_single_work_description);
         mTvGoodTotal = view.findViewById(R.id.textView_single_work_good_total);
+        mTvMsgTotal = view.findViewById(R.id.textView_single_work_msg_total);
         mTvCreateTime = view.findViewById(R.id.textView_single_work_create_time);
         mTvUserFollow = view.findViewById(R.id.textView_single_work_follow);
         mTvPlaySpeed = view.findViewById(R.id.textView_play_speed);
@@ -136,7 +137,7 @@ public class PlayFragment extends DialogFragment {
         mBtnPrevious = view.findViewById(R.id.imgBtn_single_work_previous);
         mBtnSlow = view.findViewById(R.id.imgBtn_slow);
         mBtnFast = view.findViewById(R.id.imgBtn_fast);
-        mBtnBack=view.findViewById(R.id.imgBtn_paint_back);
+        mBtnBack = view.findViewById(R.id.imgBtn_paint_back);
         mFrameLayoutFreePaint = (FrameLayout) view.findViewById(R.id.frameLayout_single_work);
         miViewWidth = mPaintView.getMiWidth();
         mFileBDW = new File(getActivity().getFilesDir().getPath() + PLAY_FILE_BDW);
@@ -687,7 +688,16 @@ public class PlayFragment extends DialogFragment {
             mTvUserName.setText(data.getString("userName"));
             mTvWorkName.setText(data.getString("title"));
             mTvWorkDescription.setText(data.getString("description"));
-            mTvGoodTotal.setText(String.format(getString(R.string.work_good_total), data.getInt("likeCount")));
+            if (data.getInt("likeCount") == 0) {
+                mTvGoodTotal.setVisibility(View.GONE);
+            } else {
+                mTvGoodTotal.setText("" + data.getInt("likeCount"));
+            }
+            if (data.getInt("msgCount") == 0) {
+                mTvMsgTotal.setVisibility(View.GONE);
+            } else {
+                mTvMsgTotal.setText("" + data.getInt("msgCount"));
+            }
             mTvCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
             miPrivacyType = data.getInt("privacyType");
             uid = data.getInt("userId");
@@ -709,7 +719,6 @@ public class PlayFragment extends DialogFragment {
             Glide.with(getContext())
                     .load(imgUrl)
                     .apply(GlideAppModule.getWorkOptions())
-                    .thumbnail(Glide.with(getContext()).load(R.drawable.loading))
                     .into(mImgViewWorkImage);
 
             String profilePictureUrl = "";

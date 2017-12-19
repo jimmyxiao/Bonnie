@@ -54,7 +54,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
         holder.mTvBoard.setText(data.get(position).getMessage());
         String IMG_URL = "";
         if (!data.get(position).getProfilePicture().equals("null")) {
-            IMG_URL = data.get(position).getProfilePicture();
+            IMG_URL = GlobalVariable.API_LINK_GET_FILE + data.get(position).getProfilePicture();
         }
         Glide.with(context).load(IMG_URL).apply(GlideAppModule.getUserOptions()).into(holder.mCircleUserImg);
         holder.mTvTime.setText(DateFormatString.getDate(Long.valueOf(data.get(position).getCreationDate())));

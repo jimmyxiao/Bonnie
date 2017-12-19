@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile_container_layout"
@@ -7,209 +7,222 @@
     android:orientation="vertical"
     tools:context="com.sctw.bonniedraw.fragment.ProfileFragment">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/frameLayout_profile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/White">
 
-        <TextView
-            android:id="@+id/textView_profile_user_id"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:layout_weight="6"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:textColor="#000" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_profile_grid"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            app:srcCompat="@drawable/personal_ic_rectangle" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_profile_list"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            app:srcCompat="@drawable/personal_ic_list" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_profile_bookmark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            app:srcCompat="@drawable/collect_ic_off" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_profile_friends"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            app:srcCompat="@drawable/recommend_icon" />
-
-        <ImageButton
-            android:id="@+id/imgBtn_profile_setting"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/Transparent"
-            app:srcCompat="@drawable/personal_ic_shape" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/DivColor" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout_porfile_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImg_profile_photo"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="16dp" />
-
-        <TextView
-            android:id="@+id/textView_profile_userName"
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/btn_profile_edit"
-            android:layout_width="120dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/icon_edit_profile"
-            android:text="@string/profile_edit_profile"
-            android:textColor="@color/White"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <TextView
-            android:id="@+id/textView_profile_user_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:lineSpacingExtra="8sp"
-            android:paddingEnd="72dp"
-            android:paddingStart="72dp"
-            android:textAlignment="center"
-            android:textColor="#000" />
-    </LinearLayout>
+            android:layout_gravity="center" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_border"
-        android:divider="@drawable/divider_layout"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:showDividers="middle|">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:minHeight="?attr/actionBarSize"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_profile_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/Transparent"
+                app:srcCompat="@drawable/personal_ic_rectangle" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_profile_list"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/Transparent"
+                app:srcCompat="@drawable/personal_ic_list" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_profile_bookmark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/Transparent"
+                app:srcCompat="@drawable/collect_ic_off" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_profile_friends"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/Transparent"
+                app:srcCompat="@drawable/recommend_icon" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_profile_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/Transparent"
+                app:srcCompat="@drawable/personal_ic_shape" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/DivColor" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout_porfile_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView_profile_userworks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="#000"
-                android:textStyle="bold" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImg_profile_photo"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/textView_profile_userName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/works_count"
                 android:textAlignment="center" />
 
+            <Button
+                android:id="@+id/btn_profile_edit"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/icon_edit_profile"
+                android:text="@string/profile_edit_profile"
+                android:textColor="@color/White"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/textView_profile_user_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:lineSpacingExtra="8sp"
+                android:paddingEnd="72dp"
+                android:paddingStart="72dp"
+                android:textAlignment="center"
+                android:textColor="#000" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_profile_fans"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_border"
+            android:divider="@drawable/divider_layout"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:showDividers="middle|">
 
-            <TextView
-                android:id="@+id/textView_profile_fans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="#000"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/fans_count"
-                android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/textView_profile_userworks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/works_count"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_profile_fans"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_profile_fans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fans_count"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_profile_follow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_profile_follows"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/follow_count"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_profile_follow"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeLayout_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView_profile_follows"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_profile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="#000"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/follow_count"
-                android:textAlignment="center" />
-
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:background="@color/Transparent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeLayout_profile"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_profile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:background="@color/Transparent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-
-
-</LinearLayout>
+</FrameLayout>

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +22,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by Fatorin on 2017/10/2.
  */
@@ -32,12 +33,14 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     private WorkListOnClickListener listener;
     private Context context;
     private int ownUid;
+    private boolean mbShowFollow = false;
 
-    public WorkAdapterList(Context context, List<WorkInfoBean> data, WorkListOnClickListener listener) {
+    public WorkAdapterList(Context context, List<WorkInfoBean> data, WorkListOnClickListener listener, boolean mbShowFollow) {
         this.context = context;
         this.data = data;
         this.listener = listener;
-        //ownUid = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, ""));
+        this.mbShowFollow = mbShowFollow;
+        ownUid = Integer.valueOf(context.getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE).getString(GlobalVariable.API_UID, ""));
     }
 
     @Override
@@ -53,9 +56,14 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         holder.mTvUserName.setText(data.get(position).getUserName());
         holder.mTvWorkName.setText(data.get(position).getTitle());
         if (data.get(position).getLikeCount() == 0) {
-            holder.mTvWorkGoodTotal.setText(context.getString(R.string.work_good_first));
+            holder.mTvWorkGoodTotal.setVisibility(View.GONE);
         } else {
-            holder.mTvWorkGoodTotal.setText(String.format(context.getString(R.string.work_good_total), data.get(position).getLikeCount()));
+            holder.mTvWorkGoodTotal.setText(""+data.get(position).getLikeCount());
+        }
+        if (data.get(position).getMsgCount() == 0) {
+            holder.mTvWorkMsgTotal.setVisibility(View.GONE);
+        } else {
+            holder.mTvWorkMsgTotal.setText(""+data.get(position).getMsgCount());
         }
         final int wid = Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
         final int uid = Integer.parseInt(data.get(holder.getAdapterPosition()).getUserId());
@@ -78,9 +86,6 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                 .apply(GlideAppModule.getUserOptions())
                 .into(holder.mCircleImageView);
 
-        if (data.get(position).getMsgBeanList().isEmpty()) {
-            holder.mLinearLayoutWorksMsgOutSide.setVisibility(View.GONE);
-        }
         //設定讚
         if (data.get(position).isLike()) {
             holder.imgBtnGood.setSelected(true);
@@ -95,7 +100,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         }
 
         if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
-            holder.mTvFollow.setText(context.getString(R.string.follow));
+            holder.mTvFollow.setText(context.getString(R.string.follow_start));
         } else {
             holder.mTvFollow.setText(context.getString(R.string.following));
         }
@@ -114,12 +119,13 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         });
 
         //是自己的就沒有設定追蹤選項
-        if (uid != ownUid) {
+        if (!mbShowFollow) {
+            holder.mTvFollow.setVisibility(View.INVISIBLE);
+        } else if (uid == ownUid) {
             //暫時隱藏追蹤選項
-            //holder.mTvFollow.setVisibility(View.VISIBLE);
             holder.mTvFollow.setVisibility(View.INVISIBLE);
         } else {
-            holder.mTvFollow.setVisibility(View.INVISIBLE);
+            holder.mTvFollow.setVisibility(View.VISIBLE);
         }
 
         holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
@@ -188,17 +194,17 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTvUserName, mTvWorkName, mTvWorkGoodTotal, mTvFollow;
+        TextView mTvUserName, mTvWorkName, mTvWorkGoodTotal, mTvWorkMsgTotal, mTvFollow;
         ImageView mImgViewWrok;
         CircleImageView mCircleImageView;
         ImageButton imgBtnExtra, imgBtnGood, imgBtnMsg, imgBtnShare, imgBtnCollection;
-        LinearLayout mLinearLayoutWorksMsgOutSide, mLinearLayoutWorksMsg1, mLinearLayoutWorksMsg2;
 
         ViewHolder(View v) {
             super(v);
             mTvUserName = (TextView) v.findViewById(R.id.textView_works_username);
             mTvWorkName = (TextView) v.findViewById(R.id.textView_works_title);
             mTvWorkGoodTotal = (TextView) v.findViewById(R.id.textView_works_good_total);
+            mTvWorkMsgTotal = (TextView) v.findViewById(R.id.textView_works_msg_total);
             mTvFollow = (TextView) v.findViewById(R.id.textView_works_follow);
             mImgViewWrok = (ImageView) v.findViewById(R.id.imgView_works_img);
             imgBtnExtra = (ImageButton) v.findViewById(R.id.imgBtn_works_extra);
@@ -206,9 +212,6 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             imgBtnMsg = (ImageButton) v.findViewById(R.id.imgBtn_works_msg);
             imgBtnShare = (ImageButton) v.findViewById(R.id.imgBtn_works_share);
             imgBtnCollection = (ImageButton) v.findViewById(R.id.imgBtn_works_collection);
-            mLinearLayoutWorksMsg1 = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_1);
-            mLinearLayoutWorksMsg2 = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_2);
-            mLinearLayoutWorksMsgOutSide = (LinearLayout) v.findViewById(R.id.linearLayout_works_msg_outside);
             mCircleImageView = v.findViewById(R.id.circleImg_works_user_photo);
         }
     }
@@ -231,7 +234,6 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
 
     public void setFollow(int position, int isFollow) {
         data.get(position).setIsFollowing(isFollow);
-        notifyItemChanged(position);
         int uid = Integer.valueOf(data.get(position).getUserId());
         setAllFollow(uid, isFollow);
     }

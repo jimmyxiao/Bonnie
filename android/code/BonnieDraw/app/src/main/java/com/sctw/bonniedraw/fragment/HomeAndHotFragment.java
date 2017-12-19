@@ -77,7 +77,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private WorkAdapterList mAdapter;
     private LinearLayoutManager mLayoutManager;
     private TextView mTvHint;
-    private int miWt, miStn = 1, miRc = 10; //STN=起始筆數 RC=需求筆數
+    private int miWt, miStn = 1, miRc = 20; //STN=起始筆數 RC=需求筆數
     private int interWt;  // 1=追蹤 , 2= 熱門
     private String mStrQuery;
 
@@ -108,7 +108,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_home);
         mTvHint = (TextView) view.findViewById(R.id.textView_home_hint);
         fragmentManager = getFragmentManager();
-        if (interWt == 2) {
+        if (interWt != 1) {
             mToolbar.setNavigationIcon(R.drawable.title_bar_menu);
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -179,13 +179,18 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 if (interWt != miWt) {
                     miWt = interWt;
                     miStn = 1;
-                    miRc = 10;
+                    miRc = 20;
                     getWorksList(GET_WORKS_LIST);
                     return true;
                 }
                 return true;
             }
         });
+    }
+
+    public void showViewToTop(){
+        mRecyclerViewHome.smoothScrollToPosition(0);
+        System.out.println("CHECK SUCCESSFUL");
     }
 
     public void getWorks(int select, JSONArray data) {
@@ -202,7 +207,12 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 } else {
                     mTvHint.setVisibility(View.INVISIBLE);
                 }
-                mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this);
+                if (interWt == 1) {
+                    mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this, false);
+                } else {
+                    mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this, true);
+                }
+
                 mProgressBar.setVisibility(View.GONE);
                 mRecyclerViewHome.setAdapter(mAdapter);
                 break;
@@ -595,7 +605,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             getWorksList(REFRESH_WORKS_LIST);
         } else {
             miStn = 1;
-            miRc = 10;
+            miRc = 20;
             getQueryWorksList(mStrQuery);
         }
     }
@@ -604,4 +614,5 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     public void onResume() {
         super.onResume();
     }
+
 }
