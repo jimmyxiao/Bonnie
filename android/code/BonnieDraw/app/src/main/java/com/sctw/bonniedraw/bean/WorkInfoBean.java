@@ -20,7 +20,6 @@ public class WorkInfoBean {
     private String userImgPath;
     private Integer likeCount;
     private Integer msgCount;
-    private ArrayList<MsgBean> msgBeanList;
     private boolean like;
     private boolean isCollection;
 
@@ -104,14 +103,6 @@ public class WorkInfoBean {
         this.msgCount = msgCount;
     }
 
-    public ArrayList<MsgBean> getMsgBeanList() {
-        return msgBeanList;
-    }
-
-    public void setMsgBeanList(ArrayList<MsgBean> msgBeanList) {
-        this.msgBeanList = msgBeanList;
-    }
-
     public boolean isLike() {
         return like;
     }
@@ -153,7 +144,6 @@ public class WorkInfoBean {
                     workInfoBean.setMsgCount(0);
                 }
                 workInfoBean.setLike(data.getJSONObject(x).getBoolean("like"));
-                workInfoBean.setMsgBeanList(msgBeanList);
                 workInfoBeanList.add(workInfoBean);
             }
         } catch (JSONException e) {

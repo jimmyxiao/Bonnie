@@ -190,7 +190,6 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
 
     public void showViewToTop(){
         mRecyclerViewHome.smoothScrollToPosition(0);
-        System.out.println("CHECK SUCCESSFUL");
     }
 
     public void getWorks(int select, JSONArray data) {

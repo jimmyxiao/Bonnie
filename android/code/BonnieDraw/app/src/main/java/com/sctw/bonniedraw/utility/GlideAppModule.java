@@ -22,8 +22,7 @@ public final class GlideAppModule extends AppGlideModule {
 
     public static RequestOptions getUserOptions() {
         return new RequestOptions()
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.photo_round)
                 .error(R.drawable.photo_round);
     }

@@ -75,8 +75,7 @@
     <ImageView
         android:id="@+id/imgView_works_img"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="false" />
+        android:layout_height="wrap_content" />
 
     <View
         android:layout_width="match_parent"
