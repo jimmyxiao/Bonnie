@@ -13,7 +13,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,10 +36,12 @@ import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LoadMoreFooter;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
+import com.takwolf.android.hfrecyclerview.HeaderAndFooterRecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,11 +62,11 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, SwipeRefreshLayout.OnRefreshListener, LoadMoreFooter.OnLoadMoreListener {
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
     private static final int ADD_WORKS_LIST = 3;
-    private RecyclerView mRecyclerViewHome;
+    private HeaderAndFooterRecyclerView mRecyclerViewHome;
     private Toolbar mToolbar;
     private SearchView mSearchView;
     private SharedPreferences prefs;
@@ -80,6 +81,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private int miWt, miStn = 1, miRc = 20; //STN=起始筆數 RC=需求筆數
     private int interWt;  // 1=追蹤 , 2= 熱門
     private String mStrQuery;
+    private LoadMoreFooter mLoadMoreFooter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,7 +106,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
-        mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerView_home);
+        mRecyclerViewHome = view.findViewById(R.id.recyclerView_home);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_home);
         mTvHint = (TextView) view.findViewById(R.id.textView_home_hint);
         fragmentManager = getFragmentManager();
@@ -124,7 +126,8 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         mRecyclerViewHome.setLayoutManager(mLayoutManager);
         getWorksList(GET_WORKS_LIST);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mRecyclerViewHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mLoadMoreFooter=new LoadMoreFooter(getContext(),mRecyclerViewHome,this);
+        /*mRecyclerViewHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -136,7 +139,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                     }
                 }
             }
-        });
+        });*/
     }
 
     @Override
@@ -610,8 +613,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onLoadMore() {
+        System.out.println("刷新新方法");
     }
-
 }

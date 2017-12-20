@@ -75,6 +75,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
     //客制化對話框套件
     compile 'com.github.razerdp:BasePopup:1.8.5.1'
+    //下拉刷新元件
+    implementation 'com.takwolf.android:hf-recyclerview:0.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

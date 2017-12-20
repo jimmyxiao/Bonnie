@@ -265,10 +265,12 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                         if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                             profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                         }
-                                        Glide.with(getContext())
-                                                .load(profileUrl)
-                                                .apply(GlideAppModule.getUserOptions())
-                                                .into(imgPhoto);
+                                        if(imgPhoto!=null){
+                                            Glide.with(getContext())
+                                                    .load(profileUrl)
+                                                    .apply(GlideAppModule.getUserOptions())
+                                                    .into(imgPhoto);
+                                        }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
