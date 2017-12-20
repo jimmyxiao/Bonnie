@@ -212,6 +212,9 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                     sender.isSelected = !sender.isSelected
                     sender.setImage(UIImage(named: sender.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
                     self.work?.isLike = sender.isSelected
+                    if let likes = self.work?.likes {
+                        self.work?.likes = likes + (sender.isSelected ? 1 : -1)
+                    }
                     if let work = self.work {
                         self.delegate?.work(didChange: work)
                     }
@@ -355,6 +358,9 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 case .down:
                     if point.type != .background {
                         self.brush.type = point.type
+                        self.brush.minSize = point.size
+                        self.brush.maxSize = point.size * 1.5
+                        self.brush.stepWidth = point.size * 0.1
                         self.canvas.drawBegan(point.position,
                                 width: point.size,
                                 color: point.type != .eraser ? point.color : nil,

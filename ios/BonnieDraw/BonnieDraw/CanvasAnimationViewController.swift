@@ -19,7 +19,7 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
     @IBOutlet weak var increaseSpeed: UIButton!
     var workThumbnail: UIImage?
     var workFileUrl: URL?
-    private var brush = Brush(withBrushType: .pen, minSize: 6, maxSize: 12, minAlpha: 0.6, maxAlpha: 0.8)
+    private var brush = Brush()
     private var drawPoints = [Point]()
     private var readHandle: FileHandle?
     private var timer: Timer?
@@ -193,6 +193,9 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
                 case .down:
                     if point.type != .background {
                         self.brush.type = point.type
+                        self.brush.minSize = point.size
+                        self.brush.maxSize = point.size * 1.5
+                        self.brush.stepWidth = point.size * 0.1
                         self.canvas.drawBegan(point.position,
                                 width: point.size,
                                 color: point.type != .eraser ? point.color : nil,

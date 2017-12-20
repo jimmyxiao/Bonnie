@@ -254,15 +254,11 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                             self.works[index].isFollow = follow
                         }
                     }
-                    var indexPaths = [IndexPath]()
                     for index in 0..<self.tableViewWorks.count {
                         if self.tableViewWorks[index].userId == id {
                             self.tableViewWorks[index].isFollow = follow
-                            indexPaths.append(IndexPath(row: index, section: 0))
+                            (self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? HomeTableViewCell)?.followButton.isSelected = follow
                         }
-                    }
-                    if !indexPaths.isEmpty {
-                        self.tableView.reloadRows(at: indexPaths, with: .automatic)
                     }
                 }
             case .failure(let error):
