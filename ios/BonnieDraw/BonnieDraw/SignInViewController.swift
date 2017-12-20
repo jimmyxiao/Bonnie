@@ -204,8 +204,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         loading.hide(false)
         TWTRTwitter.sharedInstance().logIn() {
             session, error in
-            if let error = error {
-                self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+            if let error = error as NSError? {
+                if error.code != TWTRLogInErrorCode.logInErrorCodeCancelled.rawValue {
+                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+                }
                 self.loading.hide(true)
             } else {
                 TWTRAPIClient.withCurrentUser().requestEmail() {
@@ -234,9 +236,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     internal func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        if let error = error {
+        if let error = error as NSError? {
+            if error.code != GIDSignInErrorCode.canceled.rawValue {
+                presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+            }
             loading.hide(true)
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
         } else {
             self.completionHandler = {
                 token in
