@@ -269,7 +269,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			}
 			break;
 		case 2:
-				worksResponseList = worksMapper.queryPopularWorks(paramMap);
+			worksResponseList = worksMapper.queryPopularWorks(paramMap);
 			break;
 		case 4:
 			worksResponseList = worksMapper.queryNewUploadWorks(paramMap);
