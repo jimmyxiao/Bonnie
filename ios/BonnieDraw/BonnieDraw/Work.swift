@@ -21,6 +21,7 @@ struct Work {
     var isLike: Bool?
     var isCollect: Bool?
     var likes: Int?
+    var comments: Int?
     var messages = [Message]()
 
     init(withDictionary dictionary: [String: Any]) {
@@ -42,6 +43,7 @@ struct Work {
         isLike = dictionary["like"] as? Bool
         isCollect = dictionary["collection"] as? Bool
         likes = dictionary["likeCount"] as? Int
+        comments = dictionary["msgCount"] as? Int
         messages = messageList
     }
 }

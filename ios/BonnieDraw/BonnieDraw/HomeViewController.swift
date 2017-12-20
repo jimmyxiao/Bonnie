@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate, CommentViewControllerDelegate {
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
@@ -67,6 +67,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             tableView.deselectRow(at: indexPath, animated: true)
         } else if let controller = segue.destination as? CommentViewController,
                   let indexPath = sender as? IndexPath {
+            controller.delegate = self
             controller.work = tableViewWorks[indexPath.row]
         }
     }
@@ -202,6 +203,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.HOME, for: indexPath) as! HomeTableViewCell
         cell.profileImage.setImage(with: work.profileImage, placeholderImage: placeholderImage)
         cell.profileName.text = work.profileName
+        cell.followButton.isSelected = work.isFollow ?? false
         cell.title.text = work.title
         cell.thumbnail?.setImage(with: work.thumbnail)
         if let isLike = work.isLike {
@@ -213,6 +215,18 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 cell.likeButton.setImage(likeImage, for: .normal)
             }
         }
+        if let likes = work.likes, likes > 0 {
+            cell.likes.text = "\(likes)"
+            cell.likes.isHidden = false
+        } else {
+            cell.likes.isHidden = true
+        }
+        if let comments = work.comments, comments > 0 {
+            cell.comments.text = "\(comments)"
+            cell.comments.isHidden = false
+        } else {
+            cell.comments.isHidden = true
+        }
         if let isCollection = work.isCollect {
             if isCollection {
                 cell.collectButton.isSelected = true
@@ -222,7 +236,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 cell.collectButton.setImage(collectionImage, for: .normal)
             }
         }
-        cell.likes.text = work.likes ?? 0 > 0 ? "\(work.likes ?? 0)" + "likes".localized : "first_like".localized
         return cell
     }
 
@@ -238,24 +251,122 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return work.id == changedWork.id
         }) {
             tableViewWorks[index] = changedWork
-            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        }
+    }
+
+    internal func comment(didCommentOnWork changedWork: Work) {
+        if let index = self.works.index(where: {
+            work in
+            return work.id == changedWork.id
+        }) {
+            works[index] = changedWork
+        }
+        if let index = self.tableViewWorks.index(where: {
+            work in
+            return work.id == changedWork.id
+        }) {
+            tableViewWorks[index] = changedWork
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        }
+    }
+
+    @IBAction func follow(_ sender: FollowButton) {
+        guard AppDelegate.reachability.connection != .none else {
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            return
+        }
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+              let indexPath = tableView.indexPath(forView: sender),
+              let id = tableViewWorks[indexPath.row].userId else {
+            return
+        }
+        let follow = !sender.isSelected
+        dataRequest?.cancel()
+        dataRequest = Alamofire.request(
+                Service.standard(withPath: Service.SET_FOLLOW),
+                method: .post,
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
+                encoding: JSONEncoding.default).validate().responseJSON {
+            response in
+            switch response.result {
+            case .success:
+                guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                    self.presentConfirmationDialog(
+                            title: "service_download_fail_title".localized,
+                            message: "app_network_unreachable_content".localized) {
+                        success in
+                        if success {
+                            self.downloadData()
+                        }
+                    }
+                    return
+                }
+                if response != 1 {
+                    self.presentDialog(
+                            title: "service_download_fail_title".localized,
+                            message: data["msg"] as? String)
+                } else {
+                    for index in 0..<self.works.count {
+                        if self.works[index].userId == id {
+                            self.works[index].isFollow = follow
+                        }
+                    }
+                    var indexPaths = [IndexPath]()
+                    for index in 0..<self.tableViewWorks.count {
+                        if self.tableViewWorks[index].userId == id {
+                            self.tableViewWorks[index].isFollow = follow
+                            indexPaths.append(IndexPath(row: index, section: 0))
+                        }
+                    }
+                    if !indexPaths.isEmpty {
+                        self.tableView.reloadRows(at: indexPaths, with: .automatic)
+                    }
+                }
+            case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
+                self.presentConfirmationDialog(
+                        title: "service_download_fail_title".localized,
+                        message: error.localizedDescription) {
+                    success in
+                    if success {
+                        self.downloadData()
+                    }
+                }
+            }
         }
     }
 
     @IBAction func more(_ sender: UIButton) {
         if let indexPath = tableView.indexPath(forView: sender) {
-            Logger.d("\(#function) \(indexPath.row)")
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            alert.view.tintColor = UIColor.getAccentColor()
+            alert.popoverPresentationController?.sourceView = sender
+            let color = UIColor.gray
+            let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
+                action in
+            }
+            copyLinkAction.setValue(color, forKey: "titleTextColor")
+            alert.addAction(copyLinkAction)
+            let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+            }
+            alert.addAction(reportAction)
+            let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
+            alert.addAction(cancelAction)
+            present(alert, animated: true)
         }
     }
 
     @IBAction func like(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
-                success in
-                if success {
-                    self.downloadData()
-                }
-            }
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
@@ -304,7 +415,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? HomeTableViewCell {
                             cell.likeButton.isSelected = like
                             cell.likeButton.setImage(like ? self.likeImageSelected : self.likeImage, for: .normal)
-                            cell.likes.text = "\(self.tableViewWorks[index].likes ?? 0)" + "likes".localized
+                            if let likes = self.tableViewWorks[index].likes, likes > 0 {
+                                cell.likes.text = "\(likes)"
+                                cell.likes.isHidden = false
+                            } else {
+                                cell.likes.isHidden = true
+                            }
                         }
                     }
                 }
@@ -333,12 +449,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @IBAction func collect(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
-                success in
-                if success {
-                    self.downloadData()
-                }
-            }
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
@@ -402,6 +513,5 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
-
     func home(enableMenuGesture enable: Bool)
 }

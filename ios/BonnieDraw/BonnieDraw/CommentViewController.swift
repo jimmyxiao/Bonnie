@@ -23,6 +23,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     private let refreshControl = UIRefreshControl()
     private let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     private var keyboardOnScreen = false
+    var delegate: CommentViewControllerDelegate?
     var work: Work?
 
     override func viewDidLoad() {
@@ -105,7 +106,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
             response in
             switch response.result {
             case .success:
-                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let work = data["work"] as? [String: Any] else {
+                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workData = data["work"] as? [String: Any] else {
                     self.presentConfirmationDialog(
                             title: "service_download_fail_title".localized,
                             message: "app_network_unreachable_content".localized) {
@@ -116,13 +117,9 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
                     }
                     return
                 }
-                var messageList = [Message]()
-                if let messages = work["msgList"] as? [[String: Any]] {
-                    for message in messages {
-                        messageList.append(Message(withDictionary: message))
-                    }
-                }
-                self.work?.messages = messageList
+                let work = Work(withDictionary: workData)
+                self.delegate?.comment(didCommentOnWork: work)
+                self.work = work
                 self.tableView.reloadSections([0], with: .automatic)
                 self.emptyLabel.isHidden = !(self.work?.messages.isEmpty ?? true)
                 if !self.loading.isHidden {
@@ -184,12 +181,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
             return
         }
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
-                success in
-                if success {
-                    self.downloadData()
-                }
-            }
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
         textField.text = nil
@@ -226,4 +218,8 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
             }
         }
     }
+}
+
+protocol CommentViewControllerDelegate {
+    func comment(didCommentOnWork work: Work)
 }

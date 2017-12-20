@@ -183,12 +183,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     @IBAction func like(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
-                success in
-                if success {
-                    self.downloadData()
-                }
-            }
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
@@ -237,12 +232,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     @IBAction func collect(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
-                success in
-                if success {
-                    self.downloadData()
-                }
-            }
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {

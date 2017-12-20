@@ -141,12 +141,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
     @IBAction func done(_ sender: UIBarButtonItem) {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
-                success in
-                if success {
-                    self.done(sender)
-                }
-            }
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
         let defaults = UserDefaults.standard
@@ -426,6 +421,5 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
 protocol AccountEditViewControllerDelegate {
     func accountEdit(profileDidChange profile: Profile)
-
     func accountEdit(imageDidChange image: UIImage)
 }

@@ -11,10 +11,12 @@ import UIKit
 class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
+    @IBOutlet weak var followButton: FollowButton!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likes: UILabel!
+    @IBOutlet weak var comments: UILabel!
     @IBOutlet weak var collectButton: UIButton!
 
     override func awakeFromNib() {

@@ -70,16 +70,30 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     private func downloadData() {
-        guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
-                success in
-                if success {
-                    self.downloadData()
+        let completionHandler: ([[String: Any]]?) -> Void = {
+            tagList in
+            self.tags.removeAll()
+            self.tags.append(contentsOf: self.startingTags)
+            if let tagList = tagList {
+                for tag in tagList {
+                    self.tags.append(Tag(type: .normal, image: "left_menu_icon_1", title: tag["tagName"] as? String))
                 }
             }
+            self.tags.append(contentsOf: self.endingTags)
+            self.tableView.reloadSections([0], with: .automatic)
+            if !self.loading.isHidden {
+                self.loading.hide(true)
+            }
+            self.timestamp = Date()
+            self.refreshControl.endRefreshing()
+        }
+        guard AppDelegate.reachability.connection != .none else {
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            completionHandler(nil)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            completionHandler(nil)
             return
         }
         dataRequest?.cancel()
@@ -89,44 +103,12 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
                 parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
-            switch response.result {
-            case .success:
-                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let tagList = data["tagList"] as? [[String: Any]] else {
-                    self.presentConfirmationDialog(
-                            title: "service_download_fail_title".localized,
-                            message: "app_network_unreachable_content".localized) {
-                        success in
-                        if success {
-                            self.downloadData()
-                        }
-                    }
-                    return
-                }
-                self.tags.removeAll()
-                self.tags.append(contentsOf: self.startingTags)
-                for tag in tagList {
-                    self.tags.append(Tag(type: .normal, image: "left_menu_icon_1", title: tag["tagName"] as? String))
-                }
-                self.tags.append(contentsOf: self.endingTags)
-                self.tableView.reloadSections([0], with: .automatic)
-                if !self.loading.isHidden {
-                    self.loading.hide(true)
-                }
-                self.timestamp = Date()
-                self.refreshControl.endRefreshing()
-            case .failure(let error):
-                if let error = error as? URLError, error.code == .cancelled {
-                    return
-                }
-                self.presentConfirmationDialog(
-                        title: "service_download_fail_title".localized,
-                        message: error.localizedDescription) {
-                    success in
-                    if success {
-                        self.downloadData()
-                    }
-                }
+            if let data = response.result.value as? [String: Any],
+               data["res"] as? Int == 1 {
+                completionHandler(data["tagList"] as? [[String: Any]])
+                return
             }
+            completionHandler(nil)
         }
     }
 
@@ -178,6 +160,5 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
 
 protocol DrawerViewControllerDelegate {
     func drawerDidTapDismiss()
-
     func drawer(didSelectType type: DrawerViewController.TagType, withTag tag: String?)
 }

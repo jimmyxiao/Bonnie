@@ -268,8 +268,9 @@ class CanvasViewController:
     internal func canvasSetting(didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            controller.popoverPresentationController?.barButtonItem = settingButton
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            alert.view.tintColor = UIColor.getAccentColor()
+            alert.popoverPresentationController?.barButtonItem = settingButton
             let color = UIColor.gray
             let noGridAction = UIAlertAction(title: "no_grid".localized, style: .default) {
                 action in
@@ -277,38 +278,38 @@ class CanvasViewController:
                 UserDefaults.standard.set(0, forKey: Default.GRID)
             }
             noGridAction.setValue(color, forKey: "titleTextColor")
-            controller.addAction(noGridAction)
+            alert.addAction(noGridAction)
             let threeByThreeAction = UIAlertAction(title: "three_by_three_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 3, verticalCount: 3)
                 UserDefaults.standard.set(3, forKey: Default.GRID)
             }
             threeByThreeAction.setValue(color, forKey: "titleTextColor")
-            controller.addAction(threeByThreeAction)
+            alert.addAction(threeByThreeAction)
             let sixBySixAction = UIAlertAction(title: "six_by_six_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 6, verticalCount: 6)
                 UserDefaults.standard.set(6, forKey: Default.GRID)
             }
             sixBySixAction.setValue(color, forKey: "titleTextColor")
-            controller.addAction(sixBySixAction)
+            alert.addAction(sixBySixAction)
             let tenByTenAction = UIAlertAction(title: "ten_by_ten_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 10, verticalCount: 10)
                 UserDefaults.standard.set(10, forKey: Default.GRID)
             }
             tenByTenAction.setValue(color, forKey: "titleTextColor")
-            controller.addAction(tenByTenAction)
+            alert.addAction(tenByTenAction)
             let twentyByTwentyAction = UIAlertAction(title: "twenty_by_twenty_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 20, verticalCount: 20)
                 UserDefaults.standard.set(20, forKey: Default.GRID)
             }
             twentyByTwentyAction.setValue(color, forKey: "titleTextColor")
-            controller.addAction(twentyByTwentyAction)
+            alert.addAction(twentyByTwentyAction)
             let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
-            controller.addAction(cancelAction)
-            present(controller, animated: true)
+            alert.addAction(cancelAction)
+            present(alert, animated: true)
         case 1:
             performSegue(withIdentifier: Segue.BACKGROUND_COLOR, sender: nil)
         case 2:
@@ -588,7 +589,7 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                if try !self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
                     try manager.copyItem(at: FileUrl.CACHE, to: url)
                     let writeHandle = try FileHandle(forWritingTo: url)
                     writeHandle.seekToEndOfFile()
