@@ -331,7 +331,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					imgdata = changeColor(imgarray[data.brush], data.color, brush_Alpha[data.brush]);
 				}
 				if(data.brush==0){
-					imgdata = changeColor(imgarray[0], bgcolord);
+					imgdata = changeColor(imgarray[0], bgcolord, brush_Alpha[data.brush]);
 				}
 				
 				if(brush != 6){
@@ -354,8 +354,11 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 							x = previewData.xPos + (Math.sin(angle) * distnum) ;
 							y = previewData.yPos + (Math.cos(angle) * distnum) ;
 							if(brush == 0){
-								cxt.globalAlpha = 1;
-								cxt.clearRect(x, y,data.size,data.size);
+								// cxt.globalAlpha = 1;
+								// cxt.clearRect(x, y,data.size,data.size);
+								cxt.globalCompositeOperation="xor";
+								cxt.drawImage(imgdata, x, y, data.size, data.size);
+								cxt.globalCompositeOperation="source-over";
 								cxt.drawImage(imgdata, x, y, data.size, data.size);
 							}else{
 								cxt.drawImage(imgdata, x, y, data.size, data.size);

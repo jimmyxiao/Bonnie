@@ -436,7 +436,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					 imgdata = changeColor(imgarray[data.brush], data.color, brush_Alpha[data.brush]);
 				}
 				if(data.brush==0){
-					imgdata = changeColor(imgarray[0], bgcolord);
+					imgdata = changeColor(imgarray[0], bgcolord, brush_Alpha[data.brush]);
 				}
 			
 				if(data.brush!=6){
@@ -462,8 +462,11 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 							if(data.brush==0){
 								// cxt.arc(x,y,data.size/2,0,2*Math.PI);
 								// cxt.clearRect(x, y,data.size/2,data.size/2);
-								cxt.globalAlpha = 1;
-								cxt.clearRect(x, y,data.size,data.size);
+								// cxt.globalAlpha = 1;
+								// cxt.clearRect(x, y,data.size,data.size);
+								cxt.globalCompositeOperation="xor";
+								cxt.drawImage(imgdata, x, y, data.size, data.size);
+								cxt.globalCompositeOperation="source-over";
 								cxt.drawImage(imgdata, x, y, data.size, data.size);
 							}else{
 								//cxt.globalAlpha=0.04;
