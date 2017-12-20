@@ -152,6 +152,9 @@
     <string name="play_speed">撥放速度：</string>
 
     <!--社群雜項-->
+    <string name="sidebar_class_hot">熱門畫作</string>
+    <string name="sidebar_class_new">最新畫作</string>
+    <string name="sidebar_class_my">我的畫作</string>
     <string name="public_title_privacy_policy">隱私政策</string>
     <string name="public_title_terms_of_use">使用條款</string>
     <string name="profile_setting_link_account">已連結帳號</string>
@@ -196,4 +199,18 @@
     <string name="zoom_hint">現在不能使用其他功能唷!\n只能進行縮放 長按可恢復原狀\n要繼續畫圖請再點縮放按鈕</string>
     <string name="copylink_successful">複製成功</string>
     <string name="not_select_gender">未指定</string>
+    <string name="just_now">剛才</string>
+
+    <!--時間類別-->
+    <string name="a_few_seconds_ago">數秒前</string>
+    <string name="a_few_minutes_ago">分鐘前</string>
+    <string name="a_few_hours_ago">小時前</string>
+    <string name="a_few_days_ago">天前</string>
+    <string name="hour">點</string>
+    <string name="min">分</string>
+    <string name="date_format">yyyy年MM月dd日 ahh:mm</string>
+    <string name="yesterday">昨天</string>
+    <string name="the_day_before_yesterday">前天</string>
+    <string name="am">上午</string>
+    <string name="pm">下午</string>
 </resources>

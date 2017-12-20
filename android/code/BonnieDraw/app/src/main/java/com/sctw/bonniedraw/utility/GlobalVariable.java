@@ -50,6 +50,7 @@ public class GlobalVariable {
     public static final String API_LINK_REPOT_WORK = "https://www.bonniedraw.com/bonniedraw_service/BDService//setTurnin";
     public static final String API_LINK_FOLLOW_LIST_LINK = "https://www.bonniedraw.com/bonniedraw_service/BDService/followingList";
     public static final String API_LINK_FRIENDS_LINK = "https://www.bonniedraw.com/bonniedraw_service/BDService/friendsList";
+    public static final String API_LINK_TAG_LIST = "https://www.bonniedraw.com/bonniedraw_service/BDService/tagList";
     public static final String API_LINK_SHARE_LINK = "https://www.bonniedraw.com/bonniedraw_service/BDService/socialShare?id=";
     public static final String HTML_ABOUT_LINK = "https://www.bonniedraw.com/#/about_app";
     public static final String HTML_PRIVACY_LINK = "https://www.bonniedraw.com/#/privacy_app";

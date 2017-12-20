@@ -133,7 +133,7 @@
                     android:id="@+id/imgView_single_work_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:adjustViewBounds="true" />
+                    android:minHeight="250dp" />
             </FrameLayout>
 
             <LinearLayout

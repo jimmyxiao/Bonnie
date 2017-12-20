@@ -57,9 +57,9 @@ public class DateFormatString {
                     }
                 } else {
                     if (nowDay - msgDay < 2) {
-                        return context.getString(R.string.yesterday) + checkAMorPM(msgAM_PM) + msgHour + context.getString(R.string.hour) + msgMin + context.getString(R.string.min);
+                        return context.getString(R.string.yesterday) + checkAMorPM(context,msgAM_PM) + msgHour + context.getString(R.string.hour) + msgMin + context.getString(R.string.min);
                     } else if (nowDay - msgDay < 3) {
-                        return context.getString(R.string.the_day_before_yesterday) + checkAMorPM(msgAM_PM) + msgHour + context.getString(R.string.hour) + msgMin + context.getString(R.string.min);
+                        return context.getString(R.string.the_day_before_yesterday) + checkAMorPM(context,msgAM_PM) + msgHour + context.getString(R.string.hour) + msgMin + context.getString(R.string.min);
                     } else if (nowDay - msgDay < 7) {
                         return nowDay - msgDay + context.getString(R.string.a_few_days_ago);
                     } else {
@@ -74,14 +74,14 @@ public class DateFormatString {
         }
     }
 
-    private static String checkAMorPM(int type) {
+    private static String checkAMorPM(Context context,int type) {
         switch (type) {
             case 0:
                 //上午
-                return "上午";
+                return context.getString(R.string.am);
             case 1:
                 //下午
-                return "下午";
+                return context.getString(R.string.pm);
             default:
                 return "";
         }

@@ -117,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mRv = findViewById(R.id.recyclerView_sidebar);
         mRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         ArrayList<SidebarBean> list = new ArrayList<>();
-        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "熱門畫作"));
-        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "最新畫作"));
-        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "我的畫作"));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.sidebar_class_hot)));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.sidebar_class_new)));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.sidebar_class_my)));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別一"));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別二"));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別三"));

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/relativeLayout_works_extra"
+    android:id="@+id/relativeLayout_gender_select"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#50505050"
@@ -29,12 +29,12 @@
                 android:background="#aaa" />
 
             <Button
-                android:id="@+id/btn_extra_copylink"
+                android:id="@+id/btn_gender_none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/Transparent"
                 android:padding="20dp"
-                android:text="@string/copylink" />
+                android:text="@string/not_select_gender" />
 
             <View
                 android:layout_width="match_parent"
@@ -44,15 +44,28 @@
                 android:background="#aaa" />
 
             <Button
-                android:id="@+id/btn_extra_report"
+                android:id="@+id/btn_gender_male"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/Transparent"
                 android:padding="20dp"
-                android:text="@string/report"
-                android:textColor="@color/Red" />
-        </LinearLayout>
+                android:text="@string/male" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:background="#aaa" />
+
+            <Button
+                android:id="@+id/btn_gender_famale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/Transparent"
+                android:padding="20dp"
+                android:text="@string/female" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,7 +75,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_extra_cancel"
+                android:id="@+id/btn_gender_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_border_dialog"
@@ -72,5 +85,6 @@
 
         </LinearLayout>
     </RelativeLayout>
+
 
 </RelativeLayout>

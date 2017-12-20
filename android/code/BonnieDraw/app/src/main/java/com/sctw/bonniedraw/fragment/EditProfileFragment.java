@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +26,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
@@ -59,7 +61,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
     Button mBtnDone, mBtnCancel;
     TextView mTextViewChangePhoto;
     CircleImageView mImgViewPhoto;
-    EditText mEditTextName, mEditTextProfile, mEditTextEmail, mEditPhone,mEditGender;
+    EditText mEditTextName, mEditTextProfile, mEditTextEmail, mEditPhone, mEditGender;
     SharedPreferences prefs;
     Integer mIntGender;
 
@@ -89,12 +91,60 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         mEditTextProfile = view.findViewById(R.id.editText_edit_profile);
         mEditTextEmail = view.findViewById(R.id.editText_edit_email);
         mEditPhone = view.findViewById(R.id.editText_edit_phone);
-        mEditGender=view.findViewById(R.id.editText_edit_gender);
+        mEditGender = view.findViewById(R.id.editText_edit_gender);
         setOnClick();
         getUserInfo();
     }
 
     void setOnClick() {
+        mEditGender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_gender_select);
+                RelativeLayout layout = dialog.findViewById(R.id.relativeLayout_gender_select);
+                Button btnNone = dialog.findViewById(R.id.btn_gender_none);
+                Button btnMale = dialog.findViewById(R.id.btn_gender_male);
+                Button btnFemale = dialog.findViewById(R.id.btn_gender_famale);
+                Button btnCancel = dialog.findViewById(R.id.btn_gender_cancel);
+                btnNone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mEditGender.setText(getString(R.string.not_select_gender));
+                        mIntGender=0;
+                        dialog.dismiss();
+                    }
+                });
+                btnMale.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mEditGender.setText(getString(R.string.male));
+                        mIntGender=1;
+                        dialog.dismiss();
+                    }
+                });
+                btnFemale.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mEditGender.setText(getString(R.string.female));
+                        mIntGender=2;
+                        dialog.dismiss();
+                    }
+                });
+                layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
         mTextViewChangePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +224,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                                             mIntGender = 2;
                                             break;
                                     }
-                                }else {
+                                } else {
                                     mEditGender.setText(R.string.not_select_gender);
                                     mIntGender = 0;
                                 }
@@ -294,7 +344,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                             responseJSON = new JSONObject(response.body().string());
                             if (responseJSON.getInt("res") == 1) {
                                 Log.d("上傳圖片", "成功");
-                                ToastUtil.createToastIsCheck(getContext(),  getString(R.string.update_successful), true, PxDpConvert.getSystemHight(getActivity()) / 4);
+                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_successful), true, PxDpConvert.getSystemHight(getActivity()) / 4);
                             } else {
                                 ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_fail), false, PxDpConvert.getSystemHight(getActivity()) / 4);
                             }

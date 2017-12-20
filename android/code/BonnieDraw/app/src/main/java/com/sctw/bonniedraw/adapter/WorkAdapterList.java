@@ -243,9 +243,9 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             int dataUid = Integer.valueOf(data.get(x).getUserId());
             if (dataUid == uid) {
                 data.get(x).setIsFollowing(isFollow);
+                notifyItemChanged(x);
             }
         }
-        notifyDataSetChanged();
     }
 
     public void setCollection(int position, boolean isCollection) {
@@ -279,5 +279,4 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         // 0 = not follow , 1= following
         void onFollowClick(int position, int isFollow, int uid);
     }
-
 }
