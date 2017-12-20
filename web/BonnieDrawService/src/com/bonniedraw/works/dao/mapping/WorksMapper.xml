@@ -442,6 +442,7 @@
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
+ 	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike,
@@ -451,6 +452,7 @@
     from works wk 
     right join (select * from works_tag where tag_name = #{tagName, jdbcType=VARCHAR} ) wt on wt.works_id = wk.works_id
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
 	where 1=1 
@@ -556,6 +558,7 @@
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
+ 	ifnull(wm.MSG_COUNT,0) as MSG_COUNT,
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike,
@@ -564,6 +567,7 @@
  	then true else false end as isCollection
     from works wk 
     left outer join user_info ur on ur.USER_ID = wk.USER_ID
+    left join (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
 	where 1=1 
@@ -578,6 +582,7 @@
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
+ 	ifnull(wm.MSG_COUNT,0) as MSG_COUNT,
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike,
@@ -586,6 +591,7 @@
  	then true else false end as isCollection 
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
     where 1=1
@@ -625,6 +631,7 @@
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 1 isFollowing ,
+  	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike,
@@ -634,6 +641,8 @@
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
     right join following fl on wk.USER_ID = fl.FOLLOWING_USER_ID
+    left join
+    (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
     where 1=1
@@ -669,6 +678,7 @@
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
+ 	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike, 
@@ -677,6 +687,8 @@
  	then true else false end as isCollection 
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join
+    (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
 	where 1=1 
@@ -695,6 +707,7 @@
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
+ 	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike,
@@ -704,6 +717,8 @@
     from works wk 
     right join (select * from works_tag where tag_name = #{tagName, jdbcType=VARCHAR} ) wt on wt.works_id = wk.works_id
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join
+    (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
 	where 1=1 
@@ -718,6 +733,7 @@
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
+ 	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
  	then true else false end as isLike,
@@ -727,6 +743,8 @@
     from works wk 
     left join works_tag wt on wt.works_id = wk.works_id
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join
+    (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
 	where 1=1 
