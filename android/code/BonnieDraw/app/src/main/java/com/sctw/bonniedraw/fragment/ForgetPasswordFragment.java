@@ -116,7 +116,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
     private void showErrorDialog(String msg){
         final FullScreenDialog dialog=new FullScreenDialog(getContext(),R.layout.dialog_base);
         FrameLayout layout= dialog.findViewById(R.id.frameLayout_dialog_base);
-        Button btnOk=dialog.findViewById(R.id.btn_paint_dialog_base_yes);
+        Button btnOk=dialog.findViewById(R.id.btn_dialog_base_yes);
         TextView tvTitle=dialog.findViewById(R.id.textView_dialog_base_title);
         TextView tvMsg=dialog.findViewById(R.id.textView_dialog_base_msg);
         tvTitle.setText(R.string.fail);

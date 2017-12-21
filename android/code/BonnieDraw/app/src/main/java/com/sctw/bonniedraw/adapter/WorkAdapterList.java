@@ -1,6 +1,8 @@
 package com.sctw.bonniedraw.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,12 +12,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.bean.WorkInfoBean;
-import com.sctw.bonniedraw.utility.ExtraUtil;
 import com.sctw.bonniedraw.utility.GlideApp;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.PxDpConvert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,145 +57,231 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(final WorkAdapterList.ViewHolder holder, int position) {
-        holder.mTvUserName.setText(data.get(position).getUserName());
-        holder.mTvWorkName.setText(data.get(position).getTitle());
-        if (data.get(position).getLikeCount() == 0) {
-            holder.mTvWorkGoodTotal.setVisibility(View.GONE);
-        } else {
-            holder.mTvWorkGoodTotal.setText(""+data.get(position).getLikeCount());
-        }
-        if (data.get(position).getMsgCount() == 0) {
-            holder.mTvWorkMsgTotal.setVisibility(View.GONE);
-        } else {
-            holder.mTvWorkMsgTotal.setText(""+data.get(position).getMsgCount());
-        }
+    public void onBindViewHolder(ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public void onBindViewHolder(final WorkAdapterList.ViewHolder holder, int position, List payloads) {
         final int wid = Integer.parseInt(data.get(holder.getAdapterPosition()).getWorkId());
         final int uid = Integer.parseInt(data.get(holder.getAdapterPosition()).getUserId());
-        String workImgUrl = "";
-        String userImgUrl = "";
-        if (!data.get(position).getImagePath().equals("null")) {
-            workImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath();
-        }
-        if (!data.get(position).getUserImgPath().equals("null")) {
-            userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath();
-        }
+        if (payloads.isEmpty()) {
+            holder.mTvUserName.setText(data.get(position).getUserName());
+            holder.mTvWorkName.setText(data.get(position).getTitle());
+            if (data.get(position).getLikeCount() == 0) {
+                holder.mTvWorkGoodTotal.setVisibility(View.GONE);
+            } else {
+                holder.mTvWorkGoodTotal.setText("" + data.get(position).getLikeCount());
+            }
+            if (data.get(position).getMsgCount() == 0) {
+                holder.mTvWorkMsgTotal.setVisibility(View.GONE);
+            } else {
+                holder.mTvWorkMsgTotal.setText("" + data.get(position).getMsgCount());
+            }
+            String workImgUrl = "";
+            String userImgUrl = "";
+            if (!data.get(position).getImagePath().equals("null")) {
+                workImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath();
+            }
+            if (!data.get(position).getUserImgPath().equals("null")) {
+                userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath();
+            }
 
-        GlideApp.with(context)
-                .load(workImgUrl)
-                .apply(GlideAppModule.getWorkOptions())
-                .into(holder.mImgViewWrok);
-        //作者圖
-        GlideApp.with(context)
-                .load(userImgUrl)
-                .apply(GlideAppModule.getUserOptions())
-                .into(holder.mCircleImageView);
+            Glide.with(context)
+                    .asBitmap()
+                    .load(workImgUrl)
+                    .apply(GlideAppModule.getWorkOptions())
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            int imageWidth = resource.getWidth();
+                            int imageHeight = resource.getHeight();
+                            int width = PxDpConvert.getScreenWidth(context);//固定寬度
+                            // 寬度固定,然後根據原始寬高比得到此固定寬度需要的高度
+                            int height = width * imageHeight / imageWidth;
+                            ViewGroup.LayoutParams para = holder.mImgViewWrok.getLayoutParams();
+                            para.height = height;
+                            para.width = width;
+                            holder.mImgViewWrok.setImageBitmap(resource);
+                        }
+                    });
+            //作者圖
+            GlideApp.with(context)
+                    .load(userImgUrl)
+                    .apply(GlideAppModule.getUserOptions())
+                    .into(holder.mCircleImageView);
 
-        //設定讚
-        if (data.get(position).isLike()) {
-            holder.imgBtnGood.setSelected(true);
-        } else {
-            holder.imgBtnGood.setSelected(false);
-        }
-        //設定收藏
-        if (data.get(position).isCollection()) {
-            holder.imgBtnCollection.setSelected(true);
-        } else {
-            holder.imgBtnCollection.setSelected(false);
-        }
+            //設定讚
+            if (data.get(position).isLike()) {
+                holder.imgBtnGood.setSelected(true);
+            } else {
+                holder.imgBtnGood.setSelected(false);
+            }
+            //設定收藏
+            if (data.get(position).isCollection()) {
+                holder.imgBtnCollection.setSelected(true);
+            } else {
+                holder.imgBtnCollection.setSelected(false);
+            }
 
-        if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
-            holder.mTvFollow.setText(context.getString(R.string.follow_start));
-        } else {
-            holder.mTvFollow.setText(context.getString(R.string.following));
-        }
+            if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
+                holder.mTvFollow.setText(context.getString(R.string.follow_start));
+            } else {
+                holder.mTvFollow.setText(context.getString(R.string.following));
+            }
 
-        //設定追蹤  0=沒追蹤，傳出沒追蹤的值
-        holder.mTvFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
-                    listener.onFollowClick(holder.getAdapterPosition(), 0, uid);
-                } else {
-                    listener.onFollowClick(holder.getAdapterPosition(), 1, uid);
+            //設定追蹤  0=沒追蹤，傳出沒追蹤的值
+            holder.mTvFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
+                        listener.onFollowClick(holder.getAdapterPosition(), 0, uid);
+                    } else {
+                        listener.onFollowClick(holder.getAdapterPosition(), 1, uid);
+                    }
                 }
+            });
 
+            //是自己的就沒有設定追蹤選項
+            if (!mbShowFollow) {
+                holder.mTvFollow.setVisibility(View.INVISIBLE);
+            } else if (uid == ownUid) {
+                //暫時隱藏追蹤選項
+                holder.mTvFollow.setVisibility(View.INVISIBLE);
+            } else {
+                holder.mTvFollow.setVisibility(View.VISIBLE);
             }
-        });
 
-        //是自己的就沒有設定追蹤選項
-        if (!mbShowFollow) {
-            holder.mTvFollow.setVisibility(View.INVISIBLE);
-        } else if (uid == ownUid) {
-            //暫時隱藏追蹤選項
-            holder.mTvFollow.setVisibility(View.INVISIBLE);
+            holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onUserClick(uid);
+                }
+            });
+
+            holder.mCircleImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onUserClick(uid);
+                }
+            });
+
+            holder.mImgViewWrok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onWorkImgClick(wid);
+                }
+            });
+            holder.imgBtnExtra.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onWorkExtraClick(wid);
+                }
+            });
+            holder.imgBtnGood.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!data.get(holder.getAdapterPosition()).isLike()) {
+                        listener.onWorkGoodClick(holder.getAdapterPosition(), true, wid);
+                    } else {
+                        listener.onWorkGoodClick(holder.getAdapterPosition(), false, wid);
+                    }
+                }
+            });
+            holder.imgBtnMsg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onWorkMsgClick(wid);
+                }
+            });
+
+            final String parseURL = workImgUrl;
+            holder.imgBtnShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String title = GlobalVariable.API_LINK_SHARE_LINK + uid;
+                    Uri uri = Uri.parse(parseURL);
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    if (uri != null) {
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                        shareIntent.setType("image/*");
+                        //當用戶選擇短信時使用sms_body取得文字
+                        shareIntent.putExtra("sms_body", title);
+                    } else {
+                        shareIntent.setType("text/plain");
+                    }
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, title);
+                    //自定義選擇框的標題
+                    shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.share)));
+                }
+            });
+
+            holder.imgBtnCollection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!data.get(holder.getAdapterPosition()).isCollection()) {
+                        listener.onWorkCollectionClick(holder.getAdapterPosition(), true, wid);
+                    } else {
+                        listener.onWorkCollectionClick(holder.getAdapterPosition(), false, wid);
+                    }
+                }
+            });
         } else {
-            holder.mTvFollow.setVisibility(View.VISIBLE);
+            //單獨刷新用
+            int type = (int) payloads.get(0);
+            switch (type) {
+                case 0:
+                    //type 0 =Like, 1 =Follow, 2 =Collection
+                    if (data.get(position).isLike()) {
+                        holder.imgBtnGood.setSelected(true);
+                    } else {
+                        holder.imgBtnGood.setSelected(false);
+                    }
+                    if (data.get(position).getLikeCount() == 0) {
+                        holder.mTvWorkGoodTotal.setVisibility(View.GONE);
+                    } else {
+                        holder.mTvWorkGoodTotal.setText("" + data.get(position).getLikeCount());
+                        holder.mTvWorkGoodTotal.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case 1:
+                    if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
+                        holder.mTvFollow.setText(context.getString(R.string.follow_start));
+                    } else {
+                        holder.mTvFollow.setText(context.getString(R.string.following));
+                    }
+
+                    //設定追蹤  0=沒追蹤，傳出沒追蹤的值
+                    holder.mTvFollow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
+                                listener.onFollowClick(holder.getAdapterPosition(), 0, uid);
+                            } else {
+                                listener.onFollowClick(holder.getAdapterPosition(), 1, uid);
+                            }
+                        }
+                    });
+                    //是自己的就沒有設定追蹤選項
+                    if (!mbShowFollow) {
+                        holder.mTvFollow.setVisibility(View.INVISIBLE);
+                    } else if (uid == ownUid) {
+                        //暫時隱藏追蹤選項
+                        holder.mTvFollow.setVisibility(View.INVISIBLE);
+                    } else {
+                        holder.mTvFollow.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case 2:
+                    if (data.get(position).isCollection()) {
+                        holder.imgBtnCollection.setSelected(true);
+                    } else {
+                        holder.imgBtnCollection.setSelected(false);
+                    }
+                    break;
+            }
         }
-
-        holder.mTvUserName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onUserClick(uid);
-            }
-        });
-
-        holder.mCircleImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onUserClick(uid);
-            }
-        });
-
-        holder.mImgViewWrok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onWorkImgClick(wid);
-            }
-        });
-        holder.imgBtnExtra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onWorkExtraClick(wid);
-            }
-        });
-        holder.imgBtnGood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!data.get(holder.getAdapterPosition()).isLike()) {
-                    listener.onWorkGoodClick(holder.getAdapterPosition(), true, wid);
-                } else {
-                    listener.onWorkGoodClick(holder.getAdapterPosition(), false, wid);
-                }
-            }
-        });
-        holder.imgBtnMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onWorkMsgClick(wid);
-            }
-        });
-
-        final String parseURL = workImgUrl;
-        holder.imgBtnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String title = GlobalVariable.API_LINK_SHARE_LINK + uid;
-                Uri uri = Uri.parse(parseURL);
-                ExtraUtil.Share(context.getApplicationContext(), title, uri);
-            }
-        });
-
-        holder.imgBtnCollection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!data.get(holder.getAdapterPosition()).isCollection()) {
-                    listener.onWorkCollectionClick(holder.getAdapterPosition(), true, wid);
-                } else {
-                    listener.onWorkCollectionClick(holder.getAdapterPosition(), false, wid);
-                }
-            }
-        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -216,9 +307,18 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         }
     }
 
+
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public List<WorkInfoBean> getData() {
+        return data;
+    }
+
+    public void setData(List<WorkInfoBean> newData) {
+        data = newData;
     }
 
     public void setLike(int position, boolean like) {
@@ -229,38 +329,24 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         } else {
             data.get(position).setLikeCount(likeCount - 1);
         }
-        notifyItemChanged(position);
+        notifyItemChanged(position, 0);
     }
 
     public void setFollow(int position, int isFollow) {
         data.get(position).setIsFollowing(isFollow);
         int uid = Integer.valueOf(data.get(position).getUserId());
-        setAllFollow(uid, isFollow);
-    }
-
-    private void setAllFollow(int uid, int isFollow) {
         for (int x = 0; x < data.size(); x++) {
             int dataUid = Integer.valueOf(data.get(x).getUserId());
             if (dataUid == uid) {
                 data.get(x).setIsFollowing(isFollow);
-                notifyItemChanged(x);
+                notifyItemChanged(x, 1);
             }
         }
     }
 
     public void setCollection(int position, boolean isCollection) {
         data.get(position).setCollection(isCollection);
-        notifyItemChanged(position);
-    }
-
-    public void refreshData(List<WorkInfoBean> newData) {
-        data = newData;
-        notifyDataSetChanged();
-    }
-
-    public void addData(List<WorkInfoBean> newData) {
-        data.addAll(newData);
-        notifyDataSetChanged();
+        notifyItemChanged(position, 2);
     }
 
     public interface WorkListOnClickListener {

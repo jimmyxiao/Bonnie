@@ -2,6 +2,7 @@ package com.sctw.bonniedraw.fragment;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,7 +36,6 @@ import com.sctw.bonniedraw.paint.PaintView;
 import com.sctw.bonniedraw.paint.TagPoint;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.ConnectJson;
-import com.sctw.bonniedraw.utility.ExtraUtil;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -268,7 +268,19 @@ public class PlayFragment extends DialogFragment {
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExtraUtil.Share(getContext().getApplicationContext(), mTvWorkName.getText().toString(), Uri.parse(imgUrl));
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                if (Uri.parse(imgUrl) != null) {
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(imgUrl));
+                    shareIntent.setType("image/*");
+                    //當用戶選擇短信時使用sms_body取得文字
+                    shareIntent.putExtra("sms_body", mTvWorkName.getText().toString());
+                } else {
+                    shareIntent.setType("text/plain");
+                }
+                shareIntent.putExtra(Intent.EXTRA_TEXT, mTvWorkName.getText().toString());
+                //自定義選擇框的標題
+                shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(Intent.createChooser(shareIntent, getContext().getString(R.string.share)));
             }
         });
 
@@ -479,11 +491,11 @@ public class PlayFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.please_touch_play_start), PxDpConvert.getSystemHight(getContext()) / 4);
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.please_touch_play_start), PxDpConvert.getSystemHight(getContext()) / 3);
                 } else if (miPointCount > 0) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_end), PxDpConvert.getSystemHight(getContext()) / 4);
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_end), PxDpConvert.getSystemHight(getContext()) / 3);
                 }
             }
         });
@@ -492,7 +504,7 @@ public class PlayFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (mbPlaying) {
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_wait), PxDpConvert.getSystemHight(getContext()) / 4);
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_wait), PxDpConvert.getSystemHight(getContext()) / 3);
                 } else if (miPointCurrent > 0) {
                     mPaintView.onClickPrevious();
                     // 兩個UP差異點數 = 減少的點數 在移除最後第一個
@@ -506,7 +518,7 @@ public class PlayFragment extends DialogFragment {
                     miPointCurrent = miPointCurrent - count;
 
                 } else if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_frist), PxDpConvert.getSystemHight(getContext()) / 4);
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.play_frist), PxDpConvert.getSystemHight(getContext()) / 3);
                 }
                 showProgress();
             }
@@ -573,12 +585,12 @@ public class PlayFragment extends DialogFragment {
             mBDWFileReader.readFromFile(mFileBDW);
             mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
             if (mPaintView.mListTagPoint.size() == 0) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.load_error), PxDpConvert.getSystemHight(getContext()) / 3);
                 return false;
             }
             return true;
         } else {
-            ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+            ToastUtil.createToastWindow(getContext(), getString(R.string.load_error), PxDpConvert.getSystemHight(getContext()) / 3);
             return false;
         }
     }
@@ -589,7 +601,7 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.load_error), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override
@@ -601,7 +613,7 @@ public class PlayFragment extends DialogFragment {
                             @Override
                             public void run() {
                                 //下載資料
-                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_successful), true, 0);
+                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                                 getSingleWork(true);
                             }
                         });
@@ -619,7 +631,7 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.load_error), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override
@@ -654,7 +666,7 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.login_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.load_error), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override
@@ -898,9 +910,9 @@ public class PlayFragment extends DialogFragment {
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, PxDpConvert.getSystemHight(getContext()) / 3);
                                 }
                                 System.out.println(responseJSON.toString());
                             } catch (JSONException e) {

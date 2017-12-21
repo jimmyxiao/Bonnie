@@ -21,6 +21,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ import com.sctw.bonniedraw.fragment.ProfileFragment;
 import com.sctw.bonniedraw.fragment.ProfileSettingFragment;
 import com.sctw.bonniedraw.utility.BottomNavigationViewEx;
 import com.sctw.bonniedraw.utility.ExtraUtil;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.twitter.sdk.android.core.TwitterCore;
@@ -230,22 +233,35 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     }
 
     private void logout() {
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.commit),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        logoutPlatform();
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.setTitle(getString(R.string.logout_title));
-        alertDialog.setMessage(getString(R.string.logout_msg));
-        alertDialog.show();
+        final FullScreenDialog dialog=new FullScreenDialog(this,R.layout.dialog_base);
+        FrameLayout layout=dialog.findViewById(R.id.frameLayout_dialog_base);
+        TextView title=dialog.findViewById(R.id.textView_dialog_base_title);
+        TextView msg=dialog.findViewById(R.id.textView_dialog_base_msg);
+        Button yes=dialog.findViewById(R.id.btn_dialog_base_yes);
+        Button no=dialog.findViewById(R.id.btn_dialog_base_no);
+        title.setText(getString(R.string.logout_title));
+        msg.setText(getString(R.string.logout_msg));
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        no.setVisibility(View.VISIBLE);
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutPlatform();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private void logoutPlatform() {
@@ -370,15 +386,19 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mDrawerLayout.closeDrawers();
         switch (position) {
             case 0:
+                mbFirst = false;
                 miFn = 2;
                 mBottomNavigationViewEx.setCurrentItem(0);
                 break;
             case 1:
+                mbFirst = false;
                 miFn = 4;
                 mBottomNavigationViewEx.setCurrentItem(0);
                 break;
             case 2:
+                mbFirst = false;
                 miFn = 5;
+                mBottomNavigationViewEx.setCurrentItem(0);
                 //我的畫作
                 break;
             case 6:

@@ -130,7 +130,7 @@ public class SignUpFragment extends Fragment {
     private void logDialog(String title, String msg, final int option) {
         final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_base);
         FrameLayout layout = dialog.findViewById(R.id.frameLayout_dialog_base);
-        Button btnOk = dialog.findViewById(R.id.btn_paint_dialog_base_yes);
+        Button btnOk = dialog.findViewById(R.id.btn_dialog_base_yes);
         TextView tvTitle = dialog.findViewById(R.id.textView_dialog_base_title);
         TextView tvMsg = dialog.findViewById(R.id.textView_dialog_base_msg);
         tvTitle.setText(title);
@@ -209,7 +209,7 @@ public class SignUpFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.signin_fail_title), PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.signin_fail_title), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override

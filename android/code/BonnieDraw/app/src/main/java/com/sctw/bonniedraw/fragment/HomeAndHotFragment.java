@@ -4,6 +4,7 @@ package com.sctw.bonniedraw.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +36,7 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.DiffCallBack;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.LoadMoreFooter;
@@ -48,7 +51,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -65,7 +67,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, SwipeRefreshLayout.OnRefreshListener, LoadMoreFooter.OnLoadMoreListener {
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
-    private static final int ADD_WORKS_LIST = 3;
     private HeaderAndFooterRecyclerView mRecyclerViewHome;
     private Toolbar mToolbar;
     private SearchView mSearchView;
@@ -84,7 +85,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private LoadMoreFooter mLoadMoreFooter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
@@ -97,7 +98,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         interWt = getArguments().getInt("page");
@@ -126,20 +127,8 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         mRecyclerViewHome.setLayoutManager(mLayoutManager);
         getWorksList(GET_WORKS_LIST);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mLoadMoreFooter=new LoadMoreFooter(getContext(),mRecyclerViewHome,this);
-        /*mRecyclerViewHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (!recyclerView.canScrollVertically(1)) {
-                    if (mLayoutManager.findLastVisibleItemPosition() + 1 == miRc) {
-                        miRc += 10;
-                        getWorksList(REFRESH_WORKS_LIST);
-                    }
-                }
-            }
-        });*/
+        mLoadMoreFooter = new LoadMoreFooter(getContext(), mRecyclerViewHome, this);
+        mLoadMoreFooter.setState(LoadMoreFooter.STATE_DISABLED);
     }
 
     @Override
@@ -191,7 +180,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         });
     }
 
-    public void showViewToTop(){
+    public void showViewToTop() {
         mRecyclerViewHome.smoothScrollToPosition(0);
     }
 
@@ -214,20 +203,17 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 } else {
                     mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this, true);
                 }
-
                 mProgressBar.setVisibility(View.GONE);
                 mRecyclerViewHome.setAdapter(mAdapter);
                 break;
             case REFRESH_WORKS_LIST:
                 workInfoBeanList = WorkInfoBean.generateInfoList(data);
-                mAdapter.refreshData(workInfoBeanList);
-                break;
-            case ADD_WORKS_LIST:
-                ArrayList<WorkInfoBean> tempList = WorkInfoBean.generateInfoList(data);
-                workInfoBeanList.addAll(tempList);
-                mAdapter.addData(workInfoBeanList);
+                DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapter.getData(), workInfoBeanList), false);
+                diffResult.dispatchUpdatesTo(mAdapter);
+                mAdapter.setData(workInfoBeanList);
                 break;
         }
+        mLoadMoreFooter.setState(mAdapter.getItemCount() == miRc ? LoadMoreFooter.STATE_ENDLESS : LoadMoreFooter.STATE_FINISHED);
     }
 
     public void setLike(final int position, final int fn, int wid) {
@@ -258,10 +244,9 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                                             mAdapter.setLike(position, true);
                                             break;
                                     }
-                                    mAdapter.notifyItemChanged(position);
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    mAdapter.notifyItemChanged(position);
+                                    mAdapter.notifyItemChanged(position, 0);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -303,8 +288,9 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                                             mAdapter.setFollow(position, 1);
                                             break;
                                     }
+                                } else {
+                                    mAdapter.notifyItemChanged(position, 1);
                                 }
-                                mAdapter.notifyItemChanged(position);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -345,8 +331,9 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                                             mAdapter.setCollection(position, true);
                                             break;
                                     }
+                                } else {
+                                    mAdapter.notifyItemChanged(position, 2);
                                 }
-                                mAdapter.notifyItemChanged(position);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -377,9 +364,9 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, PxDpConvert.getSystemHight(getContext()) / 3);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -490,7 +477,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                 android.content.ClipData clip = android.content.ClipData.newPlainText("text", GlobalVariable.API_LINK_SHARE_LINK + wid);
                 clipboard.setPrimaryClip(clip);
-                ToastUtil.createToastIsCheck(getContext(), getString(R.string.copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastIsCheck(getContext(), getString(R.string.copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                 extraDialog.dismiss();
             }
         });
@@ -614,6 +601,9 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
 
     @Override
     public void onLoadMore() {
-        System.out.println("刷新新方法");
+        if (mLayoutManager.findLastVisibleItemPosition() == miRc) {
+            miRc += 10;
+            getWorksList(REFRESH_WORKS_LIST);
+        }
     }
 }

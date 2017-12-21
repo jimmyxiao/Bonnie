@@ -177,7 +177,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override
@@ -239,7 +239,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                                         .apply(GlideAppModule.getUserOptions())
                                         .into(mImgViewPhoto);
                             } else {
-                                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -271,7 +271,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override
@@ -284,10 +284,10 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                ToastUtil.createToastWindow(getContext(), getString(R.string.update_successful), PxDpConvert.getSystemHight(getContext()) / 4);
-                                getActivity().onBackPressed();
+                                ToastUtil.createToastWindow(getContext(), getString(R.string.update_successful), PxDpConvert.getSystemHight(getContext()) / 3);
+                                EditProfileFragment.this.dismiss();
                             } else {
-                                ToastUtil.createToastWindow(getContext(), getString(R.string.update_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                                ToastUtil.createToastWindow(getContext(), getString(R.string.update_fail), PxDpConvert.getSystemHight(getContext()) / 3);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -344,9 +344,9 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                             responseJSON = new JSONObject(response.body().string());
                             if (responseJSON.getInt("res") == 1) {
                                 Log.d("上傳圖片", "成功");
-                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_successful), true, PxDpConvert.getSystemHight(getActivity()) / 4);
+                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_successful), true, PxDpConvert.getSystemHight(getActivity()) / 3);
                             } else {
-                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_fail), false, PxDpConvert.getSystemHight(getActivity()) / 4);
+                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_fail), false, PxDpConvert.getSystemHight(getActivity()) / 3);
                             }
                             System.out.println(responseJSON.toString());
                         } catch (IOException | JSONException e) {

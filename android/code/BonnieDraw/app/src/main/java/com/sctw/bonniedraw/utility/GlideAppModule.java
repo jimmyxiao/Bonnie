@@ -16,13 +16,12 @@ public final class GlideAppModule extends AppGlideModule {
         return new RequestOptions()
                 .skipMemoryCache(true)
                 .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .dontAnimate();
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
     }
 
     public static RequestOptions getUserOptions() {
         return new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .placeholder(R.drawable.photo_round)
                 .error(R.drawable.photo_round);
     }
