@@ -154,6 +154,9 @@ app.factory('tagManagerService', function(baseHttp) {
     }
 
     $scope.addCustomTag = function(){
+        if(!$scope.tagList){
+            $scope.tagList = 0;
+        }
         if($scope.tagList.length>=5){
             util.alert('類別標籤最多5項');
         }else{
