@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class FollowViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate {
+class FollowViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate, CommentViewControllerDelegate {
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -25,7 +25,6 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     private let likeImageSelected = UIImage(named: "work_ic_like_on")
     private let collectionImage = UIImage(named: "collect_ic_off")
     private let collectionImageSelected = UIImage(named: "collect_ic_on")
-    private var postData: [String: Any] = ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 1, "stn": 1, "rc": 128]
 
     override func viewDidLoad() {
         navigationItem.titleView = titleView
@@ -63,6 +62,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             tableView.deselectRow(at: indexPath, animated: true)
         } else if let controller = segue.destination as? CommentViewController,
                   let indexPath = sender as? IndexPath {
+            controller.delegate = self
             controller.work = tableViewWorks[indexPath.row]
         }
     }
@@ -114,7 +114,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: postData,
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 1, "stn": 1, "rc": 128],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -173,8 +173,8 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.FOLLOW, for: indexPath) as! FollowTableViewCell
         cell.profileImage.setImage(with: work.profileImage, placeholderImage: placeholderImage)
         cell.profileName.text = work.profileName
+        cell.title.text = work.title
         cell.thumbnail?.setImage(with: work.thumbnail)
-        cell.followButton.isSelected = work.isFollow ?? false
         if let isLike = work.isLike {
             if isLike {
                 cell.likeButton.isSelected = true
@@ -183,6 +183,18 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.likeButton.isSelected = false
                 cell.likeButton.setImage(likeImage, for: .normal)
             }
+        }
+        if let likes = work.likes, likes > 0 {
+            cell.likes.text = "\(likes)"
+            cell.likes.isHidden = false
+        } else {
+            cell.likes.isHidden = true
+        }
+        if let comments = work.comments, comments > 0 {
+            cell.comments.text = "\(comments)"
+            cell.comments.isHidden = false
+        } else {
+            cell.comments.isHidden = true
         }
         if let isCollection = work.isCollect {
             if isCollection {
@@ -193,7 +205,6 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.collectButton.setImage(collectionImage, for: .normal)
             }
         }
-        cell.likes.text = work.likes ?? 0 > 0 ? "\(work.likes ?? 0)" + "likes".localized : "first_like".localized
         return cell
     }
 
@@ -209,77 +220,48 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             return work.id == changedWork.id
         }) {
             tableViewWorks[index] = changedWork
-            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
         }
     }
 
-    @IBAction func follow(_ sender: FollowButton) {
-        guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
-            return
+    internal func comment(didCommentOnWork changedWork: Work) {
+        if let index = self.works.index(where: {
+            work in
+            return work.id == changedWork.id
+        }) {
+            works[index] = changedWork
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
-              let indexPath = tableView.indexPath(forView: sender),
-              let id = tableViewWorks[indexPath.row].userId else {
-            return
-        }
-        let follow = !sender.isSelected
-        dataRequest?.cancel()
-        dataRequest = Alamofire.request(
-                Service.standard(withPath: Service.SET_FOLLOW),
-                method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
-                encoding: JSONEncoding.default).validate().responseJSON {
-            response in
-            switch response.result {
-            case .success:
-                guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                    self.presentConfirmationDialog(
-                            title: "service_download_fail_title".localized,
-                            message: "app_network_unreachable_content".localized) {
-                        success in
-                        if success {
-                            self.downloadData()
-                        }
-                    }
-                    return
-                }
-                if response != 1 {
-                    self.presentDialog(
-                            title: "service_download_fail_title".localized,
-                            message: data["msg"] as? String)
-                } else {
-                    for index in 0..<self.works.count {
-                        if self.works[index].userId == id {
-                            self.works[index].isFollow = follow
-                        }
-                    }
-                    for index in 0..<self.tableViewWorks.count {
-                        if self.tableViewWorks[index].userId == id {
-                            self.tableViewWorks[index].isFollow = follow
-                            (self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? HomeTableViewCell)?.followButton.isSelected = follow
-                        }
-                    }
-                }
-            case .failure(let error):
-                if let error = error as? URLError, error.code == .cancelled {
-                    return
-                }
-                self.presentConfirmationDialog(
-                        title: "service_download_fail_title".localized,
-                        message: error.localizedDescription) {
-                    success in
-                    if success {
-                        self.downloadData()
-                    }
-                }
-            }
+        if let index = self.tableViewWorks.index(where: {
+            work in
+            return work.id == changedWork.id
+        }) {
+            tableViewWorks[index] = changedWork
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
         }
     }
 
     @IBAction func more(_ sender: UIButton) {
         if let indexPath = tableView.indexPath(forView: sender) {
-            Logger.d("\(#function) \(indexPath.row)")
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            alert.view.tintColor = UIColor.getAccentColor()
+            alert.popoverPresentationController?.sourceView = sender
+            let color = UIColor.gray
+            let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
+                action in
+            }
+            copyLinkAction.setValue(color, forKey: "titleTextColor")
+            alert.addAction(copyLinkAction)
+            let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+            }
+            alert.addAction(reportAction)
+            let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
+            alert.addAction(cancelAction)
+            present(alert, animated: true)
         }
     }
 
@@ -334,7 +316,12 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                         if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? FollowTableViewCell {
                             cell.likeButton.isSelected = like
                             cell.likeButton.setImage(like ? self.likeImageSelected : self.likeImage, for: .normal)
-                            cell.likes.text = "\(self.tableViewWorks[index].likes ?? 0)" + "likes".localized
+                            if let likes = self.tableViewWorks[index].likes, likes > 0 {
+                                cell.likes.text = "\(likes)"
+                                cell.likes.isHidden = false
+                            } else {
+                                cell.likes.isHidden = true
+                            }
                         }
                     }
                 }
