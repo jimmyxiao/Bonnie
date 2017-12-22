@@ -356,10 +356,14 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 							if(brush == 0){
 								// cxt.globalAlpha = 1;
 								// cxt.clearRect(x, y,data.size,data.size);
-								cxt.globalCompositeOperation="xor";
-								cxt.drawImage(imgdata, x, y, data.size, data.size);
-								cxt.globalCompositeOperation="source-over";
-								cxt.drawImage(imgdata, x, y, data.size, data.size);
+								if(bgcolord.length == 0){
+									cxt.clearRect(x, y,data.size,data.size);
+								}else{	
+									cxt.globalCompositeOperation="xor";
+									cxt.drawImage(imgdata, x, y, data.size, data.size);
+									cxt.globalCompositeOperation="source-over";
+									cxt.drawImage(imgdata, x, y, data.size, data.size);
+								}
 							}else{
 								cxt.drawImage(imgdata, x, y, data.size, data.size);
 								st.drawImage(imgdata, x, y, data.size, data.size);	
@@ -400,7 +404,8 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 				lines[i].xPos = Math.floor(lines[i].xPos / 65536 * canvas_width);
 				lines[i].yPos = Math.floor(lines[i].yPos / 65536 * canvas_width);
 				// lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width);
-				lines[i].size = lines[i].size / 65536 * canvas_width;
+				// lines[i].size = lines[i].size / 65536 * canvas_width;
+				lines[i].size = Math.ceil(lines[i].size / 65536 * canvas_width);
 				switch(lines[i].action){
 				case 1:
 					var bigint = parseInt(lines[i].color, 16);
