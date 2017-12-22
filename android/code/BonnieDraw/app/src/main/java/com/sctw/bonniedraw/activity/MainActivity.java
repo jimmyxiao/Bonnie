@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,21 +39,37 @@ import com.google.android.gms.common.api.Status;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.SideBarAdapter;
 import com.sctw.bonniedraw.bean.SidebarBean;
+import com.sctw.bonniedraw.bean.TagListBean;
 import com.sctw.bonniedraw.fragment.CollectionFragment;
 import com.sctw.bonniedraw.fragment.HomeAndHotFragment;
 import com.sctw.bonniedraw.fragment.NoticeFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
 import com.sctw.bonniedraw.fragment.ProfileSettingFragment;
 import com.sctw.bonniedraw.utility.BottomNavigationViewEx;
+import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.ExtraUtil;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.OkHttpUtil;
+import com.sctw.bonniedraw.utility.PxDpConvert;
+import com.sctw.bonniedraw.widget.ToastUtil;
 import com.twitter.sdk.android.core.TwitterCore;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements SideBarAdapter.SideBarClickListener {
     private DrawerLayout mDrawerLayout;
@@ -70,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     private SharedPreferences prefs;
     private int miFn = 0;
     private boolean mbFirst = false;
+    private String mSquery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +103,10 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         fragmentTransaction.commit();
     }
 
-    private void changeFragmentWithBundle(Fragment fragment, int function) {
+    private void changeFragmentWithBundle(Fragment fragment, int function, String query) {
         Bundle bundle = new Bundle();
         bundle.putInt("page", function);
+        bundle.putString("query", query);
         fragment.setArguments(bundle);
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -123,9 +142,9 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.sidebar_class_hot)));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.sidebar_class_new)));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.sidebar_class_my)));
-        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別一"));
-        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別二"));
-        list.add(new SidebarBean(R.drawable.left_menu_icon_1, "類別三"));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, ""));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, ""));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, ""));
         list.add(new SidebarBean(R.drawable.collect_ic_off, getString(R.string.my_collection)));
         list.add(new SidebarBean(R.drawable.menu_ic_account, getString(R.string.account_setting)));
         list.add(new SidebarBean(R.drawable.menu_ic_out, getString(R.string.logout)));
@@ -189,14 +208,14 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                         }
                         mbFirst = true;
                         if (miFn == 0) miFn = 2;
-                        changeFragmentWithBundle(new HomeAndHotFragment(), miFn);
+                        changeFragmentWithBundle(new HomeAndHotFragment(), miFn, mSquery);
                         return true;
                     case R.id.ic_btn_hot:
                         if (mBottomNavigationViewEx.getCurrentItem() == 1) {
                             callFragmentToTop();
                             return false;
                         }
-                        changeFragmentWithBundle(new HomeAndHotFragment(), 1);
+                        changeFragmentWithBundle(new HomeAndHotFragment(), miFn, mSquery);
                         return true;
                     case R.id.ic_btn_notice:
                         if (mBottomNavigationViewEx.getCurrentItem() == 3) return false;
@@ -212,6 +231,75 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             }
         });
         mBottomNavigationViewEx.setCurrentItem(0);
+        getTagList();
+    }
+
+    private void getTagList() {
+        OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.getTagList(prefs, 0);
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.createToastWindow(MainActivity.this, getString(R.string.connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseStr = response.body().string();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject responseJSON = new JSONObject(responseStr);
+                            if (responseJSON.getInt("res") == 1) {
+                                //Successful
+                                showTagList(responseJSON.getJSONArray("tagList"));
+                            } else {
+                                ToastUtil.createToastWindow(MainActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                            }
+                            Log.d("RESTFUL API : ", responseJSON.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void showTagList(JSONArray jsonArray) {
+        List<TagListBean> list = new ArrayList<>();
+        try {
+            for (int x = 0; x < jsonArray.length(); x++) {
+                TagListBean bean = new TagListBean(
+                        jsonArray.getJSONObject(x).getInt("tagId"),
+                        jsonArray.getJSONObject(x).getString("tagName"),
+                        jsonArray.getJSONObject(x).getString("tagEngName"),
+                        jsonArray.getJSONObject(x).getInt("tagOrder"),
+                        jsonArray.getJSONObject(x).getString("countryCode")
+                );
+                list.add(bean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (!list.isEmpty()) {
+            if (list.size() > 2) {
+                for (int x = 0; x < 3; x++) {
+                    mAdapter.chagneTitle(3 + x, list.get(x).getTagName());
+                }
+            } else {
+                for (int x = 0; x < 2; x++) {
+                    mAdapter.chagneTitle(3 + x, list.get(x).getTagName());
+                }
+            }
+        }
     }
 
     private void startPaint() {
@@ -233,12 +321,12 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     }
 
     private void logout() {
-        final FullScreenDialog dialog=new FullScreenDialog(this,R.layout.dialog_base);
-        FrameLayout layout=dialog.findViewById(R.id.frameLayout_dialog_base);
-        TextView title=dialog.findViewById(R.id.textView_dialog_base_title);
-        TextView msg=dialog.findViewById(R.id.textView_dialog_base_msg);
-        Button yes=dialog.findViewById(R.id.btn_dialog_base_yes);
-        Button no=dialog.findViewById(R.id.btn_dialog_base_no);
+        final FullScreenDialog dialog = new FullScreenDialog(this, R.layout.dialog_base);
+        FrameLayout layout = dialog.findViewById(R.id.frameLayout_dialog_base);
+        TextView title = dialog.findViewById(R.id.textView_dialog_base_title);
+        TextView msg = dialog.findViewById(R.id.textView_dialog_base_msg);
+        Button yes = dialog.findViewById(R.id.btn_dialog_base_yes);
+        Button no = dialog.findViewById(R.id.btn_dialog_base_no);
         title.setText(getString(R.string.logout_title));
         msg.setText(getString(R.string.logout_msg));
         layout.setOnClickListener(new View.OnClickListener() {
@@ -400,6 +488,30 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                 miFn = 5;
                 mBottomNavigationViewEx.setCurrentItem(0);
                 //我的畫作
+                break;
+            case 3:
+                if(!mAdapter.getTagName(3).isEmpty()){
+                    mbFirst=false;
+                    miFn=8;
+                    mSquery=mAdapter.getTagName(3);
+                    mBottomNavigationViewEx.setCurrentItem(0);
+                }
+                break;
+            case 4:
+                if(!mAdapter.getTagName(4).isEmpty()){
+                    mbFirst=false;
+                    miFn=8;
+                    mSquery=mAdapter.getTagName(4);
+                    mBottomNavigationViewEx.setCurrentItem(0);
+                }
+                break;
+            case 5:
+                if(!mAdapter.getTagName(5).isEmpty()){
+                    mbFirst=false;
+                    miFn=8;
+                    mSquery=mAdapter.getTagName(5);
+                    mBottomNavigationViewEx.setCurrentItem(0);
+                }
                 break;
             case 6:
                 //收藏

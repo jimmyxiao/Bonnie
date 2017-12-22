@@ -7,8 +7,8 @@ android {
         applicationId "com.sctw.bonniedraw"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 29
-        versionName "1.122119"
+        versionCode 30
+        versionName "1.12221848"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled=true

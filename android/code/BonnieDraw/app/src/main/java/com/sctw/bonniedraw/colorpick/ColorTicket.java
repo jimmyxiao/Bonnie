@@ -59,10 +59,9 @@ public class ColorTicket extends RecyclerView.Adapter<ColorTicket.ViewHolder> {
                     //設定新Item的勾選狀態
                     mSelectedPos = holder.getAdapterPosition();
                     colors.get(mSelectedPos).setSelect(true);
-                    notifyItemChanged(mSelectedPos);
+                    notifyDataSetChanged();
                     listener.onItemClick(colors.get(mSelectedPos).getColor());
                 }
-                //(holder.getAdapterPosition(),colors.get(holder.getAdapterPosition()).getColor());
             }
         });
     }
@@ -103,6 +102,12 @@ public class ColorTicket extends RecyclerView.Adapter<ColorTicket.ViewHolder> {
         notifyItemRemoved(mSelectedPos);
         notifyDataSetChanged();
         mSelectedPos = -1;
+    }
+
+    public void removeAllTrace() {
+        for (int x = 0; x < getItemCount(); x++) {
+            colors.get(x).setSelect(false);
+        }
     }
 
     public interface OnItemListener {

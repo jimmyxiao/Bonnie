@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -18,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,6 +27,7 @@ import com.sctw.bonniedraw.colorpick.ColorPanelView;
 import com.sctw.bonniedraw.colorpick.ColorPickerView;
 import com.sctw.bonniedraw.colorpick.ColorTicket;
 import com.sctw.bonniedraw.utility.PxDpConvert;
+import com.sctw.bonniedraw.utility.TicketGridLayoutManger;
 
 import java.util.ArrayList;
 
@@ -43,17 +44,19 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     private Context context;
     private SharedPreferences mPref;
     private Button mBtnAddTicket;
-    private ImageButton mBtnOpen, mBtnRemove;
+    private ImageButton mBtnOpen, mBtnRemove, mBtnLeftList, mBtnRightList;
     private RecyclerView mRv;
     private ColorTicket mAdapterTicket;
     private ColorPickerView mColorPicker;
     private ColorPanelView mColorPanel;
     private EditText mEditTextHex;
     private LinearLayout mLlColorControl;
-    private int color = Color.BLACK;
+    private int color;
     private boolean fromEditText;
-    private ArrayList<ColorBean> colorsList;
+    private TextView mTvColorListHint;
+    private ArrayList<ColorBean> colorsList1, colorsList2, colorsList3;
     private OnPopupColorPick listener;
+    private int miPoint;
 
     public ColorPopup(Context context, OnPopupColorPick listener) {
         super(context);
@@ -68,30 +71,68 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     public void dismiss() {
         super.dismiss();
         savePreferencesColor();
-        toggleColorPick(false);
-    }
-
-    private void savePreferencesColor() {
-        Gson gson = new Gson();
-        String json = gson.toJson(colorsList);
-        mPref.edit().clear().commit();
-        mPref.edit().putString("colorsInfo", json).apply();
     }
 
     private void readPreferencesColor() {
-        colorsList = new ArrayList<>();
+        //迴圈依序讀取
+        miPoint = mPref.getInt("colorsDefault", 1); //讀不到就強制選一
+        color = mPref.getInt("lastColor", Color.BLACK);
+        for (int x = 1; x <= 3; x++) {
+            switch (x) {
+                case 1:
+                    colorsList1 = readPreferencesColorByType(1);
+                    break;
+                case 2:
+                    colorsList2 = readPreferencesColorByType(2);
+                    break;
+                case 3:
+                    colorsList3 = readPreferencesColorByType(3);
+                    break;
+            }
+        }
+    }
+
+    private void savePreferencesColor() {
+        mPref.edit().clear().apply();
+        for (int x = 1; x <= 3; x++) {
+            Gson gson = new Gson();
+            String json = "";
+            switch (x) {
+                case 1:
+                    json = gson.toJson(colorsList1);
+                    mPref.edit().putString("colorsInfo1", json).apply();
+                    break;
+                case 2:
+                    json = gson.toJson(colorsList2);
+                    mPref.edit().putString("colorsInfo2", json).apply();
+                    break;
+                case 3:
+                    json = gson.toJson(colorsList3);
+                    mPref.edit().putString("colorsInfo3", json).apply();
+                    break;
+            }
+        }
+        mPref.edit()
+                .putInt("colorsDefault", miPoint)
+                .putInt("lastColor", color)
+                .apply();
+    }
+
+    private ArrayList<ColorBean> readPreferencesColorByType(int type) {
+        ArrayList<ColorBean> list = new ArrayList<>();
         Gson gson = new Gson();
-        String json = mPref.getString("colorsInfo", "");
+        String json = mPref.getString("colorsInfo" + type, "");
         if (!json.isEmpty()) {
-            colorsList = gson.fromJson(json, new TypeToken<ArrayList<ColorBean>>() {
+            list = gson.fromJson(json, new TypeToken<ArrayList<ColorBean>>() {
             }.getType());
         } else {
-            colorsList.add(new ColorBean(ContextCompat.getColor(context, R.color.Red)));
-            colorsList.add(new ColorBean(ContextCompat.getColor(context, R.color.Amber)));
-            colorsList.add(new ColorBean(ContextCompat.getColor(context, R.color.Yellow)));
-            colorsList.add(new ColorBean(ContextCompat.getColor(context, R.color.Green)));
-            colorsList.add(new ColorBean(ContextCompat.getColor(context, R.color.Blue)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Red)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Amber)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Yellow)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Green)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Blue)));
         }
+        return list;
     }
 
     private void initBindView() {
@@ -104,24 +145,29 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
         this.setFocusable(true);
         this.setOutsideTouchable(true);
         this.update();
+        readPreferencesColor();
         mLlColorControl = (LinearLayout) conentView.findViewById(R.id.linearLayout_colorpick_control);
+        mTvColorListHint = (TextView) conentView.findViewById(R.id.textView_color_select);
         mColorPanel = (ColorPanelView) conentView.findViewById(R.id.cpv_colorpanel);
         mEditTextHex = (EditText) conentView.findViewById(R.id.editText_hex_color);
         mBtnAddTicket = (Button) conentView.findViewById(R.id.btn_add_ticket);
+        mBtnLeftList = conentView.findViewById(R.id.imgBtn_color_list_left);
+        mBtnRightList = conentView.findViewById(R.id.imgBtn_color_list_right);
         mColorPicker = (ColorPickerView) conentView.findViewById(R.id.cpv_colorpicker);
         mBtnOpen = (ImageButton) conentView.findViewById(R.id.imgBtn_colorpick_open);
         mBtnRemove = (ImageButton) conentView.findViewById(R.id.imgBtn_ticket_remove);
         mRv = (RecyclerView) conentView.findViewById(R.id.recyclerView_color_tickets);
         mColorPicker.setColor(color, true);
         mColorPanel.setColor(color);
+        mTvColorListHint.setText(String.format(context.getString(R.string.get_current_color_list_num), miPoint));
         setHex(color);
         conentView.setOnTouchListener(this);
         mColorPicker.setOnColorChangedListener(this);
         mEditTextHex.addTextChangedListener(this);
-        readPreferencesColor();
-        mAdapterTicket = new ColorTicket(colorsList, this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 9, LinearLayoutManager.VERTICAL, false);
+        TicketGridLayoutManger gridLayoutManager = new TicketGridLayoutManger(context, 9, LinearLayoutManager.VERTICAL, false);
+        gridLayoutManager.setScrollEnabled(false);
         mRv.setLayoutManager(gridLayoutManager);
+        mAdapterTicket = new ColorTicket(getCurrentColorList(), this);
         mRv.setAdapter(mAdapterTicket);
         mEditTextHex.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -134,8 +180,31 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
         });
     }
 
-    public void toggleColorPick(boolean toggle) {
-        if (toggle) {
+    private ArrayList<ColorBean> getCurrentColorList() {
+        switch (miPoint) {
+            case 1:
+                return colorsList1;
+            case 2:
+                return colorsList2;
+            case 3:
+                return colorsList3;
+            default:
+                return colorsList1;
+        }
+    }
+
+    public boolean isPanelOpen() {
+        return mLlColorControl.getVisibility() == View.VISIBLE;
+    }
+
+    @Override
+    public void showAtLocation(View parent, int gravity, int x, int y) {
+        super.showAtLocation(parent, gravity, x, y);
+    }
+
+    public void showAtLocation(View parent, int gravity, int x, int y, boolean isOpen) {
+        super.showAtLocation(parent, gravity, x, y);
+        if (isOpen) {
             mLlColorControl.setVisibility(View.VISIBLE);
             mColorPicker.setVisibility(View.VISIBLE);
         } else {
@@ -145,20 +214,44 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     }
 
     private void setOnClick() {
+        mBtnLeftList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                miPoint--;
+                if (miPoint == 0) {
+                    miPoint = 3;
+                }
+                mAdapterTicket.removeAllTrace();
+                mAdapterTicket = new ColorTicket(getCurrentColorList(), ColorPopup.this);
+                mRv.setAdapter(mAdapterTicket);
+                mTvColorListHint.setText(String.format(context.getString(R.string.get_current_color_list_num), miPoint));
+            }
+        });
+        mBtnRightList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                miPoint++;
+                if (miPoint == 4) {
+                    miPoint = 1;
+                }
+                mAdapterTicket.removeAllTrace();
+                mAdapterTicket = new ColorTicket(getCurrentColorList(), ColorPopup.this);
+                mRv.setAdapter(mAdapterTicket);
+                mTvColorListHint.setText(String.format(context.getString(R.string.get_current_color_list_num), miPoint));
+            }
+        });
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mAdapterTicket.get_mSelectedPos() != -1) {
-                    color = colorsList.get(mAdapterTicket.get_mSelectedPos()).getColor();
+                    color = getCurrentColorList().get(mAdapterTicket.get_mSelectedPos()).getColor();
                     mColorPicker.setColor(color);
                     mColorPanel.setColor(color);
                     setHex(color);
                 }
-                toggleColorPick(true);
                 listener.onClickOpenColorPick();
             }
         });
-
         mBtnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,10 +262,8 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                 } else {
                     ToastUtil.createToastWindow(context, context.getString(R.string.please_select_ticket), PxDpConvert.getSystemHight(context) / 4);
                 }
-
             }
         });
-
         mBtnAddTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

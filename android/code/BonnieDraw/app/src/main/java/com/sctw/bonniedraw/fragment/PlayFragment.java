@@ -37,6 +37,7 @@ import com.sctw.bonniedraw.paint.TagPoint;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
+import com.sctw.bonniedraw.utility.GlideApp;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
@@ -728,7 +729,7 @@ public class PlayFragment extends DialogFragment {
             }
 
             imgUrl = GlobalVariable.API_LINK_GET_FILE + data.getString("imagePath");
-            Glide.with(getContext())
+            GlideApp.with(getContext())
                     .load(imgUrl)
                     .apply(GlideAppModule.getWorkOptions())
                     .into(mImgViewWorkImage);

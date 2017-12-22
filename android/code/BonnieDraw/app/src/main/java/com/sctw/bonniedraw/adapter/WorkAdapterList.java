@@ -28,6 +28,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade;
 
 /**
  * Created by Fatorin on 2017/10/2.
@@ -86,11 +87,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             if (!data.get(position).getUserImgPath().equals("null")) {
                 userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position).getUserImgPath();
             }
-
-            Glide.with(context)
+            GlideApp.with(context)
                     .asBitmap()
                     .load(workImgUrl)
                     .apply(GlideAppModule.getWorkOptions())
+                    .transition(withCrossFade())
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -307,6 +308,11 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         }
     }
 
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        super.onViewRecycled(holder);
+        Glide.with(context).clear(holder.mImgViewWrok);
+    }
 
     @Override
     public int getItemCount() {

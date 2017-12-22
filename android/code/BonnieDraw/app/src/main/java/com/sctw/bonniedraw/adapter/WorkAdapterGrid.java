@@ -20,6 +20,8 @@ import com.sctw.bonniedraw.utility.PxDpConvert;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade;
+
 /**
  * Created by Fatorin on 2017/10/2.
  */
@@ -56,6 +58,7 @@ public class WorkAdapterGrid extends RecyclerView.Adapter<WorkAdapterGrid.ViewHo
                 .asBitmap()
                 .load(GlobalVariable.API_LINK_GET_FILE + data.get(position).getImagePath())
                 .apply(GlideAppModule.getWorkOptions())
+                .transition(withCrossFade())
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {

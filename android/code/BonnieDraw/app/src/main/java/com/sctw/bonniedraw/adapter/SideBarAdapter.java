@@ -45,7 +45,10 @@ public class SideBarAdapter extends RecyclerView.Adapter<SideBarAdapter.ViewHold
     @Override
     public void onBindViewHolder(final SideBarAdapter.ViewHolder holder, int position) {
         holder.mTv.setText(data.get(holder.getAdapterPosition()).getTitle());
-        holder.mIv.setImageDrawable(ContextCompat.getDrawable(context,data.get(holder.getAdapterPosition()).getDrawableId()));
+        if (data.get(holder.getAdapterPosition()).getTitle().isEmpty()) {
+            holder.mIv.setVisibility(View.INVISIBLE);
+        }
+        holder.mIv.setImageDrawable(ContextCompat.getDrawable(context, data.get(holder.getAdapterPosition()).getDrawableId()));
         if (position % 3 == 2 && position != getItemCount() - 1) {
             holder.viewDiv.setVisibility(View.VISIBLE);
         }
@@ -55,6 +58,7 @@ public class SideBarAdapter extends RecyclerView.Adapter<SideBarAdapter.ViewHold
                 listener.onClick(holder.getAdapterPosition());
             }
         });
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,5 +79,14 @@ public class SideBarAdapter extends RecyclerView.Adapter<SideBarAdapter.ViewHold
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void chagneTitle(int position, String str) {
+        data.get(position).setTitle(str);
+        notifyItemChanged(position);
+    }
+
+    public String getTagName(int position) {
+        return data.get(position).getTitle();
     }
 }

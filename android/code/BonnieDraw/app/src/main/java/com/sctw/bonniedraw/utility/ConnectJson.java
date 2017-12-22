@@ -450,4 +450,24 @@ public class ConnectJson {
                 .build();
         return request;
     }
+
+    public static Request getTagList(SharedPreferences prefs, int tagId) {
+        //wt = 作品類別 , stn = 起始數 , rc = 筆數
+        JSONObject json = new JSONObject();
+        try {
+            json.put("ui", prefs.getString(GlobalVariable.API_UID, ""));
+            json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
+            json.put("dt", GlobalVariable.LOGIN_PLATFORM);
+            json.put("tagId", tagId);
+            json.put("countryCode", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_TAG_LIST)
+                .post(body)
+                .build();
+        return request;
+    }
 }

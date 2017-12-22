@@ -7,7 +7,7 @@
         android:centerX="1"
         android:centerY="1"
         android:endColor="#000"
-        android:gradientRadius="150"
+        android:gradientRadius="360"
         android:startColor="#000"
         android:type="radial"/>
 </shape>

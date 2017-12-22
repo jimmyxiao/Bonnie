@@ -19,16 +19,17 @@ import java.lang.annotation.RetentionPolicy;
  * Created by Fatorin on 2017/12/20.
  */
 
-public class LoadMoreFooter implements View.OnClickListener{
+public class LoadMoreFooter implements View.OnClickListener {
     public static final int STATE_DISABLED = 0;
     public static final int STATE_LOADING = 1;
     public static final int STATE_FINISHED = 2;
     public static final int STATE_ENDLESS = 3;
     public static final int STATE_FAILED = 4;
+    private boolean mbIsScrolling = false;
 
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.textView_footer_refresh){
+        if (view.getId() == R.id.textView_footer_refresh) {
             checkLoadMore();
         }
     }
@@ -49,25 +50,32 @@ public class LoadMoreFooter implements View.OnClickListener{
     private int state = STATE_DISABLED;
     private final OnLoadMoreListener loadMoreListener;
 
-    public LoadMoreFooter(@NonNull Context context, @NonNull HeaderAndFooterRecyclerView recyclerView, @NonNull OnLoadMoreListener loadMoreListener) {
+    public LoadMoreFooter(@NonNull final Context context, @NonNull HeaderAndFooterRecyclerView recyclerView, @NonNull OnLoadMoreListener loadMoreListener) {
         this.loadMoreListener = loadMoreListener;
         View footerView = LayoutInflater.from(context).inflate(R.layout.item_footer_refresh, recyclerView.getFooterContainer(), false);
         recyclerView.addFooterView(footerView);
-        mProgressBar=footerView.findViewById(R.id.progressBar_footer_refresh);
-        mTvHint=footerView.findViewById(R.id.textView_footer_refresh);
+        mProgressBar = footerView.findViewById(R.id.progressBar_footer_refresh);
+        mTvHint = footerView.findViewById(R.id.textView_footer_refresh);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (!recyclerView.canScrollVertically( 1)) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE || newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                    mbIsScrolling = true;
+                    GlideApp.with(context).resumeRequests();
+                }
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    if (mbIsScrolling == true) {
+                        GlideApp.with(context).pauseRequests();
+                    }
+                    mbIsScrolling = false;
+                }
+                if (!recyclerView.canScrollVertically(1)) {
                     checkLoadMore();
                 }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (!recyclerView.canScrollVertically( 1)) {
-                    checkLoadMore();
-                }
             }
         });
     }
@@ -95,8 +103,8 @@ public class LoadMoreFooter implements View.OnClickListener{
                     break;
                 case STATE_FINISHED:
                     mProgressBar.setVisibility(View.GONE);
-                    mTvHint.setVisibility(View.VISIBLE);
-                    mTvHint.setText("已到最底");
+                    mTvHint.setVisibility(View.GONE);
+                    mTvHint.setText(null);
                     mTvHint.setClickable(false);
                     break;
                 case STATE_ENDLESS:

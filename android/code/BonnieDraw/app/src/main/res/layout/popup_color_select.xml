@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/shape_select_color_bg"
     android:orientation="vertical">
 
@@ -36,7 +36,8 @@
             android:maxLength="8"
             android:maxLines="1"
             android:padding="8dp"
-            android:textColor="@color/White" />
+            android:textColor="@color/White"
+            android:textColorHint="@color/White" />
 
         <Button
             android:id="@+id/btn_add_ticket"
@@ -71,7 +72,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:background="@color/Transparent"
             android:padding="8dp"
             app:srcCompat="@drawable/plus_icon_off" />
@@ -81,22 +81,79 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:background="@color/Transparent"
             android:padding="8dp"
             app:srcCompat="@drawable/less_icon_off" />
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_color_tickets"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@color/Black"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_single_own" />
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imgBtn_color_list_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/recyclerView_color_tickets"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/recyclerView_color_tickets"
+            android:background="@color/Black"
+            android:onClick="selectPaint"
+            app:srcCompat="@drawable/icon_paint_left" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_color_tickets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/imgBtn_color_list_left"
+            android:layout_toStartOf="@+id/imgBtn_color_list_right"
+            android:background="@color/Black"
+            android:minHeight="72dip" />
+
+
+        <ImageButton
+            android:id="@+id/imgBtn_color_list_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/recyclerView_color_tickets"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/recyclerView_color_tickets"
+            android:background="@color/Black"
+            android:onClick="selectPaint"
+            app:srcCompat="@drawable/icon_paint_right" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="6"
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/plus_icon_off" />
+
+        <TextView
+            android:id="@+id/textView_color_select"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="ListNum"
+            android:textColor="@color/White"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -102,6 +102,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         interWt = getArguments().getInt("page");
+        mStrQuery = getArguments().getString("query", "");
         miWt = interWt;
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar_home);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
@@ -125,7 +126,11 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewHome.setLayoutManager(mLayoutManager);
-        getWorksList(GET_WORKS_LIST);
+        if (interWt == 8 && !mStrQuery.isEmpty()) {
+            getQueryWorksList(mStrQuery);
+        } else {
+            getWorksList(GET_WORKS_LIST);
+        }
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mLoadMoreFooter = new LoadMoreFooter(getContext(), mRecyclerViewHome, this);
         mLoadMoreFooter.setState(LoadMoreFooter.STATE_DISABLED);
@@ -190,7 +195,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 workInfoBeanList = WorkInfoBean.generateInfoList(data);
                 if (workInfoBeanList.size() == 0) {
                     mTvHint.setVisibility(View.VISIBLE);
-                    if (miWt == 9) {
+                    if (miWt != 2) {
                         mTvHint.setText(R.string.not_found_work);
                     } else {
                         mTvHint.setText(R.string.not_follow_user);

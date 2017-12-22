@@ -213,4 +213,5 @@
     <string name="the_day_before_yesterday">前天</string>
     <string name="am">上午</string>
     <string name="pm">下午</string>
+    <string name="get_current_color_list_num">現在列表：%d/3</string>
 </resources>

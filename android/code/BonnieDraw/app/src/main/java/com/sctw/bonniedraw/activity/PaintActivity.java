@@ -3,6 +3,7 @@ package com.sctw.bonniedraw.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
@@ -82,7 +83,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private MenuPopup mMenuPopup;
     private SizePopup mSeekbarPopup;
     private ColorPopup mColorPopup;
-    private boolean mbColorSwitch = false;
     private boolean mbHint = false;
     private int mCurrentBrushId = 3, mTempBrushId; //default brush
 
@@ -96,6 +96,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mLinearLayoutPaintSelect = findViewById(R.id.linearLayout_paint_select);
         mBtnZoom = (ImageButton) findViewById(R.id.btn_paint_zoom);
         mBtnChangePaint = (ImageButton) findViewById(R.id.imgBtn_paint_change);
+        mBtnChangePaint.bringToFront();
         mBtnRedo = (ImageButton) findViewById(R.id.imgBtn_paint_redo);
         mBtnUndo = (ImageButton) findViewById(R.id.imgBtn_paint_undo);
         mBtnOpenAutoPlay = (ImageButton) findViewById(R.id.imgBtn_paint_open_autoplay);
@@ -120,6 +121,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mSeekbarPopup = new SizePopup(this, this, (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
         mPaintView.setDrawingAlpha(100 / 100.0f);
         defaultColor();
+        int lastColor=getSharedPreferences("colors", MODE_PRIVATE).getInt("lastColor", Color.BLACK);
+        onColorSelect(lastColor);
         mPaintView.onCheckSketch();
     }
 
@@ -139,8 +142,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         }
     }
 
-    private void toggleBrushPanel(){
-        if(mLinearLayoutPaintSelect.getVisibility()==View.VISIBLE){
+    private void toggleBrushPanel() {
+        if (mLinearLayoutPaintSelect.getVisibility() == View.VISIBLE) {
             mLinearLayoutPaintSelect.setVisibility(View.INVISIBLE);
             mBtnZoom.setVisibility(View.VISIBLE);
         }
@@ -329,17 +332,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
     @Override
     public void onClickOpenColorPick() {
-        if (mbColorSwitch) {
+        if (mColorPopup.isPanelOpen()) {
             mColorPopup.dismiss();
-            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 2);
-            mbColorSwitch = false;
+            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 3,false);
         } else {
             mColorPopup.dismiss();
-            mColorPopup.toggleColorPick(true);
-            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, 0);
-            mbColorSwitch = true;
+            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, 0,true);
         }
-
     }
 
     //設定各個按鍵
@@ -389,7 +388,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(View v) {
                 toggleBrushPanel();
-                mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 2);
+                mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 3,false);
             }
         });
 
@@ -398,7 +397,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             public void onClick(View v) {
                 toggleBrushPanel();
                 if (!mPaintView.getBrush().isEraser) {
-                    mTempBrushId =mPaintView.getBrush().id;
+                    mTempBrushId = mPaintView.getBrush().id;
                     setBrush(9);
                     ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
                 } else {
@@ -440,7 +439,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 if (!mPaintView.mbZoomMode) {
                     mPaintView.mbZoomMode = true;
                     mBtnZoom.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.zoom_down_icon));
-                    ControlStateBtn();
+                    controlStateBtn();
                     if (!mbHint) {
                         mbHint = true;
                         mPrefs.edit().putBoolean("zoomhint", true).apply();
@@ -457,7 +456,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 } else {
                     mPaintView.mbZoomMode = false;
                     mBtnZoom.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.zoom_up_icon));
-                    ControlStateBtn();
+                    controlStateBtn();
                 }
             }
         });
@@ -571,6 +570,14 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 }
             }
         });
+
+        findViewById(R.id.view_empty_paint_select).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                toggleBrushPanel();
+            }
+        });
     }
 
     //切換筆
@@ -655,7 +662,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         ((ImageButton) findViewById(R.id.imgBtn_paint_erase)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.Transparent));
     }
 
-    public void ControlStateBtn() {
+    public void controlStateBtn() {
         mBtnRedo.setClickable(!mPaintView.mbZoomMode);
         mBtnUndo.setClickable(!mPaintView.mbZoomMode);
         mBtnSize.setClickable(!mPaintView.mbZoomMode);
@@ -669,12 +676,12 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
 
 
     public void callSaveDialog(int num) {
-        final FullScreenDialog dialog=new FullScreenDialog(this,R.layout.dialog_paint_sketch);
-        FrameLayout layout=dialog.findViewById(R.id.frameLayout_paint_sketch);
-        TextView tvTitle=dialog.findViewById(R.id.textView_sketch_title);
-        Button btnYes=dialog.findViewById(R.id.btn_paint_sketch_yes);
-        Button btnNo=dialog.findViewById(R.id.btn_paint_sketch_no);
-        Button btnCancel=dialog.findViewById(R.id.btn_paint_sketch_cancel);
+        final FullScreenDialog dialog = new FullScreenDialog(this, R.layout.dialog_paint_sketch);
+        FrameLayout layout = dialog.findViewById(R.id.frameLayout_paint_sketch);
+        TextView tvTitle = dialog.findViewById(R.id.textView_sketch_title);
+        Button btnYes = dialog.findViewById(R.id.btn_paint_sketch_yes);
+        Button btnNo = dialog.findViewById(R.id.btn_paint_sketch_no);
+        Button btnCancel = dialog.findViewById(R.id.btn_paint_sketch_cancel);
         switch (num) {
             case 0:
                 tvTitle.setText(R.string.paint_sketch_save_title);
@@ -776,16 +783,15 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 break;
             case MenuPopup.PAINT_SETTING_BG_COLOR:
                 mPaintView.setDrawingBgColorTag(mPaintView.getDrawingColor());
-                mMenuPopup.dismiss();
                 break;
             case MenuPopup.PAINT_SETTING_SAVE:
                 savePicture();
-                mMenuPopup.dismiss();
                 break;
             case MenuPopup.PAINT_SETTING_EXTRA:
                 //saveBdw();
                 break;
         }
+        mMenuPopup.dismiss();
     }
 
     public void saveBdw() {
@@ -865,7 +871,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             public void onClick(View view) {
                 mPaintView.setMiGridCol(0);
                 gridDialog.dismiss();
-                mMenuPopup.dismiss();
             }
         });
 
@@ -874,7 +879,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             public void onClick(View view) {
                 mPaintView.setMiGridCol(3);
                 gridDialog.dismiss();
-                mMenuPopup.dismiss();
             }
         });
 
@@ -883,7 +887,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             public void onClick(View view) {
                 mPaintView.setMiGridCol(6);
                 gridDialog.dismiss();
-                mMenuPopup.dismiss();
             }
         });
 
@@ -892,7 +895,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             public void onClick(View view) {
                 mPaintView.setMiGridCol(10);
                 gridDialog.dismiss();
-                mMenuPopup.dismiss();
             }
         });
 
@@ -901,7 +903,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             public void onClick(View view) {
                 mPaintView.setMiGridCol(20);
                 gridDialog.dismiss();
-                mMenuPopup.dismiss();
             }
         });
 
@@ -909,7 +910,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(View view) {
                 gridDialog.dismiss();
-                mMenuPopup.dismiss();
             }
         });
 
@@ -917,7 +917,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(View view) {
                 gridDialog.dismiss();
-                mMenuPopup.dismiss();
             }
         });
 
