@@ -18,6 +18,8 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
 					$scope.secondarySectionArr_new = data.workList;
+				}else if(data.res == 0){
+					$state.go('login');
 				}
 			})
 		}
@@ -40,6 +42,9 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 					}
 					$scope.secondarySectionArr_popular = data.workList;
 					$scope.secondarySectionArr_popular_first = $scope.secondarySectionArr_popular.shift();
+				}else if(data.res == 0){
+					$rootScope.logout();
+					// $state.go('login');
 				}
 			})
 		}
