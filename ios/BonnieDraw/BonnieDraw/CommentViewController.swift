@@ -76,6 +76,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         } else {
             emptyLabel.isHidden = true
             loading.hide(true)
+            textField.isEnabled = true
         }
     }
 

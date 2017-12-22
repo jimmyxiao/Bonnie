@@ -102,6 +102,7 @@
 		16D439681F66AC8200FF5878 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439671F66AC8200FF5878 /* Point.swift */; };
 		16E539701FD965D800799E4D /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5396F1FD965D800799E4D /* CommentViewController.swift */; };
 		16E539721FD9698000799E4D /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E539711FD9698000799E4D /* CommentTableViewCell.swift */; };
+		16ECCD6D1FECD3B9009C053E /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */; };
 		16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FC10231F6963B3008A6A92 /* ViewExtension.swift */; };
 		C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */; };
 /* End PBXBuildFile section */
@@ -207,6 +208,7 @@
 		16D439671F66AC8200FF5878 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		16E5396F1FD965D800799E4D /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		16E539711FD9698000799E4D /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
 		16FC10231F6963B3008A6A92 /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.release.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.release.xcconfig"; sourceTree = "<group>"; };
 		F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.debug.xcconfig"; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				16369FFD1FB2A60300C7C8BC /* TabNavigationControllerDelegate.swift */,
 				166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */,
 				16AD967E1FD3E6370084151D /* TouchExtension.swift */,
+				16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -674,6 +677,7 @@
 				16353D4A1FCDA61C00482807 /* BrushPickerViewController.swift in Sources */,
 				1649F2701FD7A09200B90A1E /* CanvasAnimationViewController.swift in Sources */,
 				16C013CB1F9F2E3E00238463 /* UserViewController.swift in Sources */,
+				16ECCD6D1FECD3B9009C053E /* CollectionViewExtension.swift in Sources */,
 				1619E9401FEA88C6009CFE08 /* HomeBarBackgroundView.swift in Sources */,
 				164F84661FC6643500A8E770 /* User.swift in Sources */,
 				163907051F6C0BE400E5717A /* BundleExtension.swift in Sources */,

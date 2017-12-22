@@ -40,13 +40,13 @@
         <!--Comment View Controller-->
         <scene sceneID="hlz-FZ-BN3">
             <objects>
-                <viewController id="R9c-0p-Md0" customClass="CommentViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="commentViewController" id="R9c-0p-Md0" customClass="CommentViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZHj-jM-OjM">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="685"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="brJ-qX-ckB">
-                                <rect key="frame" x="0.0" y="88" width="375" height="518"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="645"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="nCB-uy-Myt">
                                     <rect key="frame" x="0.0" y="328" width="375" height="0.0"/>
@@ -149,14 +149,14 @@
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LlX-qg-l0k">
-                                <rect key="frame" x="0.0" y="606" width="375" height="1"/>
+                                <rect key="frame" x="0.0" y="733" width="375" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="88N-Vo-JoM"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3TZ-9J-Dbo">
-                                <rect key="frame" x="0.0" y="607" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="734" width="375" height="44"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="work_ic_message" translatesAutoresizingMaskIntoConstraints="NO" id="aU0-L6-epf">
                                         <rect key="frame" x="16" y="11" width="22" height="22"/>
@@ -201,7 +201,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNn-By-Abg" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="88" width="375" height="597"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -374,7 +374,7 @@
                                                         </button>
                                                         <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="itJ-ja-Kak">
                                                             <rect key="frame" x="152.66666666666663" y="0.0" width="146.33333333333337" height="44"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NHf-Ty-ORG">
                                                             <rect key="frame" x="299" y="0.0" width="44" height="44"/>
@@ -875,7 +875,7 @@
                                                         </button>
                                                         <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Zmy-S5-jkR">
                                                             <rect key="frame" x="152.66666666666663" y="0.0" width="146.33333333333337" height="44"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wxC-1P-Ynl">
                                                             <rect key="frame" x="299" y="0.0" width="44" height="44"/>
@@ -1509,6 +1509,6 @@
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ycB-24-dRO"/>
+        <segue reference="obk-S5-QJe"/>
     </inferredMetricsTieBreakers>
 </document>
