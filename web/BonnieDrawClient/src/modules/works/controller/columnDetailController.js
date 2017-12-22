@@ -464,10 +464,14 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 								// cxt.clearRect(x, y,data.size/2,data.size/2);
 								// cxt.globalAlpha = 1;
 								// cxt.clearRect(x, y,data.size,data.size);
-								cxt.globalCompositeOperation="xor";
-								cxt.drawImage(imgdata, x, y, data.size, data.size);
-								cxt.globalCompositeOperation="source-over";
-								cxt.drawImage(imgdata, x, y, data.size, data.size);
+								if(bgcolord.length == 0){
+									cxt.clearRect(x, y,data.size,data.size);
+								}else{	
+									cxt.globalCompositeOperation="xor";
+									cxt.drawImage(imgdata, x, y, data.size, data.size);
+									cxt.globalCompositeOperation="source-over";
+									cxt.drawImage(imgdata, x, y, data.size, data.size);
+								}
 							}else{
 								//cxt.globalAlpha=0.04;
 								cxt.drawImage(imgdata, x, y, data.size, data.size);
@@ -510,6 +514,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				// lines[i].size = Math.floor(lines[i].size / 65536 * canvas_width);
 				// lines[i].size = Math.round(lines[i].size / 65536 * canvas_width);
 				lines[i].size = lines[i].size / 65536 * canvas_width;
+				lines[i].size = Math.ceil(lines[i].size / 65536 * canvas_width);
 				if(lines[i].action){
 					switch(lines[i].action){
 						case 1:

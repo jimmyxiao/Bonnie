@@ -240,13 +240,13 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     internal func work(didChange changedWork: Work) {
-        if let index = self.works.index(where: {
+        if let index = works.index(where: {
             work in
             return work.id == changedWork.id
         }) {
             works[index] = changedWork
         }
-        if let index = self.tableViewWorks.index(where: {
+        if let index = tableViewWorks.index(where: {
             work in
             return work.id == changedWork.id
         }) {
@@ -256,13 +256,13 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     internal func comment(didCommentOnWork changedWork: Work) {
-        if let index = self.works.index(where: {
+        if let index = works.index(where: {
             work in
             return work.id == changedWork.id
         }) {
             works[index] = changedWork
         }
-        if let index = self.tableViewWorks.index(where: {
+        if let index = tableViewWorks.index(where: {
             work in
             return work.id == changedWork.id
         }) {
@@ -509,5 +509,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
+
     func home(enableMenuGesture enable: Bool)
 }
