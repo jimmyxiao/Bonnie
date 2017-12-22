@@ -285,7 +285,7 @@ public class LoginFragment extends Fragment {
                                     GraphResponse response) {
                                 try {
                                     if (!object.has("email")) {
-                                        ToastUtil.createToastWindow(getContext(), getString(R.string.this_account_not_email), PxDpConvert.getSystemHight(getContext()) / 4);
+                                        ToastUtil.createToastWindow(getContext(), getString(R.string.this_account_not_email), PxDpConvert.getSystemHight(getContext()) / 3);
                                         LoginManager.getInstance().logOut();
                                         return;
                                     }
@@ -301,7 +301,7 @@ public class LoginFragment extends Fragment {
                                     loginThird(GlobalVariable.API_LOGIN_CODE);
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
-                                    ToastUtil.createToastWindow(getContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getContext()) / 4);
+                                    ToastUtil.createToastWindow(getContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getContext()) / 3);
                                     LoginManager.getInstance().logOut();
                                 }
                             }
@@ -347,7 +347,7 @@ public class LoginFragment extends Fragment {
                             .apply();
                     loginThird(GlobalVariable.API_LOGIN_CODE);
                 } catch (IOException e) {
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getContext()) / 4);
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getContext()) / 3);
                     e.printStackTrace();
                 }
             }
@@ -475,7 +475,7 @@ public class LoginFragment extends Fragment {
     public void createLogSignin(String failString) {
         final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_base);
         FrameLayout layout = dialog.findViewById(R.id.frameLayout_dialog_base);
-        Button btnOk = dialog.findViewById(R.id.btn_paint_dialog_base_yes);
+        Button btnOk = dialog.findViewById(R.id.btn_dialog_base_yes);
         TextView tvTitle = dialog.findViewById(R.id.textView_dialog_base_title);
         TextView tvMsg = dialog.findViewById(R.id.textView_dialog_base_msg);
         tvTitle.setText(getString(R.string.login_fail));
@@ -540,7 +540,7 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override

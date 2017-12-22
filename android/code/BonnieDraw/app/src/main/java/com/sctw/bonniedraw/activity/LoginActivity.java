@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(getApplicationContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(getApplicationContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                     }
                 });
                 break;
@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                     }
                 });
             }
@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                                ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                             }
                             Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                     }
                 });
             }
@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                                     }
                                 });
                             }

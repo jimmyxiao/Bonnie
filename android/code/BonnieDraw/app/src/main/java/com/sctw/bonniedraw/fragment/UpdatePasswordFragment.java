@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.LoginActivity;
@@ -167,7 +166,6 @@ public class UpdatePasswordFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), getString(R.string.connect_fail), Toast.LENGTH_SHORT).show();
             }
 
             @Override

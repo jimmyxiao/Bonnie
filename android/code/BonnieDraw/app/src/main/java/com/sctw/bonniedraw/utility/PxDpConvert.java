@@ -31,9 +31,23 @@ public class PxDpConvert {
 
     public static int getSystemHight(Context c){
         WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size.y;
+        if (wm != null) {
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            return size.y;
+        }
+        return 0;
     };
+
+    public static int getScreenWidth(Context c) {
+        WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
+        if (wm != null) {
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            return size.x;
+        }
+        return 0;
+    }
 }

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,7 @@ import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.DiffCallBack;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -55,19 +57,19 @@ import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, WorkAdapterGrid.WorkGridOnClickListener {
-    private static final int GET_AND_REFRESH_WORK_LIST = 1;
-    private static final int ADD_WORK_LIST = 3;
+    private static final int GET_WORKS_LIST = 1;
+    private static final int REFRESH_WORKS_LIST = 2;
     private CircleImageView imgPhoto;
     private TextView mTextViewUserName, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
     private ImageButton mImgBtnBookmark, mImgBtnSetting, mImgBtnGrid, mImgBtnList, mImgBtnFriends;
     private Button mBtnEdit;
+    private List<WorkInfoBean> workInfoBeanList;
     private SwipeRefreshLayout mSwipeLayoutProfile;
-    private RecyclerView mRecyclerViewProfile;
+    private RecyclerView mRv;
     private FrameLayout mFrameLayoutLoading;
     private WorkAdapterGrid mAdapterGrid;
     private WorkAdapterList mAdapterList;
@@ -77,9 +79,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private SharedPreferences prefs;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-    private boolean mbFist = true;
+    private boolean mbGridMode = true;
     private int miUserId;
-    private int miStn = 1, miRc = 15;
+    private int miStn = 1, miRc = 18;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,25 +112,25 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mImgBtnList = (ImageButton) view.findViewById(R.id.imgBtn_profile_list);
         mImgBtnFriends = (ImageButton) view.findViewById(R.id.imgBtn_profile_friends);
         mBtnEdit = view.findViewById(R.id.btn_profile_edit);
-        mRecyclerViewProfile = (RecyclerView) view.findViewById(R.id.recyclerview_profile);
+        mRv = view.findViewById(R.id.recyclerview_profile);
         updateProfileInfo();
         setOnClick();
         fragmentManager = getFragmentManager();
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        getWorksList(GET_AND_REFRESH_WORK_LIST);
-        mRecyclerViewProfile.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        getWorksList(GET_WORKS_LIST);
+        mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!recyclerView.canScrollVertically(1)) {
                     if (layoutManager.findLastVisibleItemPosition() + 1 == miRc) {
                         miRc += 10;
-                        getWorksList(GET_AND_REFRESH_WORK_LIST);
+                        getWorksList(REFRESH_WORKS_LIST);
                     } else if (gridLayoutManager.findLastVisibleItemPosition() + 1 == miRc) {
                         miRc += 10;
-                        getWorksList(GET_AND_REFRESH_WORK_LIST);
+                        getWorksList(REFRESH_WORKS_LIST);
                     }
                 }
             }
@@ -204,25 +206,27 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mImgBtnGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
-                mRecyclerViewProfile.setAdapter(mAdapterGrid);
-                mbFist = true;
+                mRv.setLayoutManager(gridLayoutManager);
+                mRv.setAdapter(mAdapterGrid);
+                mbGridMode = true;
+                changeLayout();
             }
         });
 
         mImgBtnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mRecyclerViewProfile.setLayoutManager(layoutManager);
-                mRecyclerViewProfile.setAdapter(mAdapterList);
-                mbFist = false;
+                mRv.setLayoutManager(layoutManager);
+                mRv.setAdapter(mAdapterList);
+                mbGridMode = false;
+                changeLayout();
             }
         });
 
         mSwipeLayoutProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getWorksList(GET_AND_REFRESH_WORK_LIST);
+                getWorksList(REFRESH_WORKS_LIST);
             }
         });
     }
@@ -265,12 +269,10 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                         if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                             profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                         }
-                                        if(imgPhoto!=null){
-                                            Glide.with(getContext())
-                                                    .load(profileUrl)
-                                                    .apply(GlideAppModule.getUserOptions())
-                                                    .into(imgPhoto);
-                                        }
+                                        Glide.with(getContext())
+                                                .load(profileUrl)
+                                                .apply(GlideAppModule.getUserOptions())
+                                                .into(imgPhoto);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -306,11 +308,11 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                     //下載資料
                                     try {
                                         switch (select) {
-                                            case GET_AND_REFRESH_WORK_LIST:
+                                            case GET_WORKS_LIST:
                                                 getWorks(responseJSON.getJSONArray("workList"));
                                                 break;
-                                            case ADD_WORK_LIST:
-                                                addWork(responseJSON.getJSONArray("workList"));
+                                            case REFRESH_WORKS_LIST:
+                                                refresh(responseJSON.getJSONArray("workList"));
                                                 break;
                                         }
                                     } catch (JSONException e) {
@@ -329,27 +331,48 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     }
 
     public void getWorks(JSONArray data) {
-        List<WorkInfoBean> workInfoBeanList = WorkInfoBean.generateInfoList(data);
+        workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
 
         mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this, false);
 
-        if (mbFist) {
-            mRecyclerViewProfile.setLayoutManager(gridLayoutManager);
-            mRecyclerViewProfile.setAdapter(mAdapterGrid);
+        if (mbGridMode) {
+            mRv.setLayoutManager(gridLayoutManager);
+            mRv.setAdapter(mAdapterGrid);
         } else {
-            mRecyclerViewProfile.setLayoutManager(layoutManager);
-            mRecyclerViewProfile.setAdapter(mAdapterList);
+            mRv.setLayoutManager(layoutManager);
+            mRv.setAdapter(mAdapterList);
         }
         mFrameLayoutLoading.setVisibility(View.GONE);
         mSwipeLayoutProfile.setRefreshing(false);
     }
 
-    public void addWork(JSONArray data) {
-        List<WorkInfoBean> temp = WorkInfoBean.generateInfoList(data);
-        mAdapterList.addData(temp);
-        mAdapterGrid.addData(temp);
+    public void refresh(JSONArray data) {
+        workInfoBeanList = WorkInfoBean.generateInfoList(data);
+        DiffUtil.DiffResult diffResult;
+        if(mbGridMode){
+            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), false);
+            diffResult.dispatchUpdatesTo(mAdapterGrid);
+            mAdapterGrid.setData(workInfoBeanList);
+        }else {
+            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), false);
+            diffResult.dispatchUpdatesTo(mAdapterGrid);
+            mAdapterList.setData(workInfoBeanList);
+        }
+    }
+
+    private void changeLayout(){
+        DiffUtil.DiffResult diffResult;
+        if(mbGridMode){
+            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), false);
+            diffResult.dispatchUpdatesTo(mAdapterGrid);
+            mAdapterGrid.setData(workInfoBeanList);
+        }else {
+            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), false);
+            diffResult.dispatchUpdatesTo(mAdapterGrid);
+            mAdapterList.setData(workInfoBeanList);
+        }
     }
 
     public void setLike(final int position, final int fn, int wid) {
@@ -382,7 +405,49 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                     }
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position);
+                                    mAdapterList.notifyItemChanged(position, 0);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void setFollow(final int position, final int fn, int followId) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.setFollow(prefs, fn, followId);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Get List Works", "Fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (responseJSON.getInt("res") == 1) {
+                                    switch (fn) {
+                                        case 0:
+                                            mAdapterList.setFollow(position, 0);
+                                            break;
+                                        case 1:
+                                            mAdapterList.setFollow(position, 1);
+                                            break;
+                                    }
+                                } else {
+                                    //點讚失敗或刪除失敗
+                                    mAdapterList.notifyItemChanged(position, 1);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -415,7 +480,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    //點讚成功或刪除成功
                                     switch (fn) {
                                         case 0:
                                             mAdapterList.setCollection(position, false);
@@ -424,55 +488,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                             mAdapterList.setCollection(position, true);
                                             break;
                                     }
-                                    mAdapterList.notifyItemChanged(position);
                                 } else {
-                                    //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void setFollow(final int position, final int fn, int followId) {
-        // fn = 1 點讚, 0 取消讚
-        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.setFollow(prefs, fn, followId);
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    final JSONObject responseJSON = new JSONObject(response.body().string());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                if (responseJSON.getInt("res") == 1) {
-                                    //點讚成功或刪除成功
-                                    switch (fn) {
-                                        case 0:
-                                            mAdapterList.setFollow(position, 0);
-                                            break;
-                                        case 1:
-                                            mAdapterList.setFollow(position, 1);
-                                            break;
-                                    }
-                                    mAdapterList.notifyItemChanged(position);
-                                } else {
-                                    //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position);
+                                    mAdapterList.notifyItemChanged(position, 2);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -504,9 +521,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, PxDpConvert.getSystemHight(getContext()) / 3);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -546,7 +563,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                 android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                 android.content.ClipData clip = android.content.ClipData.newPlainText("text", GlobalVariable.API_LINK_SHARE_LINK + wid);
                 clipboard.setPrimaryClip(clip);
-                ToastUtil.createToastIsCheck(getContext(), getString(R.string.copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastIsCheck(getContext(), getString(R.string.copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                 extraDialog.dismiss();
             }
         });
@@ -647,7 +664,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     public void onResume() {
         miStn = 1;
         miRc = 15;
-        getWorksList(GET_AND_REFRESH_WORK_LIST);
+        getWorksList(GET_WORKS_LIST);
         super.onResume();
     }
 

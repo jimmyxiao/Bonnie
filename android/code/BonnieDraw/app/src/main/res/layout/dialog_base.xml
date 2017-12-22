@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/shape_border_dialog"
+        android:minWidth="200dp"
         android:orientation="vertical">
 
         <TextView
@@ -26,6 +27,7 @@
             android:id="@+id/textView_dialog_base_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="24dp"
             android:text="內容"
             android:textAlignment="center"
@@ -45,7 +47,17 @@
             android:showDividers="middle">
 
             <Button
-                android:id="@+id/btn_paint_dialog_base_yes"
+                android:id="@+id/btn_dialog_base_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/Transparent"
+                android:text="@string/no"
+                android:textColor="@color/Blue"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_dialog_base_yes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

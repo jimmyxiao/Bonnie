@@ -84,16 +84,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:text="@string/username"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/Black" />
 
             <EditText
                 android:id="@+id/editText_edit_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
+                android:layout_weight="8"
                 android:hint="@string/limit_50_word"
                 android:inputType="textPersonName"
                 android:maxLength="50"
@@ -112,17 +112,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:gravity="center"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
                 android:text="@string/edit_profile_description"
-                android:textAlignment="center"
                 android:textColor="@color/Black" />
 
             <EditText
                 android:id="@+id/editText_edit_profile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
+                android:layout_weight="8"
                 android:gravity="bottom|left"
                 android:inputType="none"
                 android:maxLines="3"
@@ -141,16 +140,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:text="@string/edit_profile_email"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/Black" />
 
             <EditText
                 android:id="@+id/editText_edit_email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
+                android:layout_weight="8"
                 android:inputType="textEmailAddress"
                 android:text="" />
         </LinearLayout>
@@ -166,16 +165,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:text="@string/phone_number"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/Black" />
 
             <EditText
                 android:id="@+id/editText_edit_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
+                android:layout_weight="8"
                 android:inputType="phone"
                 android:text="" />
         </LinearLayout>
@@ -191,17 +190,15 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:text="@string/gender"
-                android:textAlignment="center"
                 android:textColor="@color/Black" />
 
             <EditText
                 android:id="@+id/editText_edit_gender"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
+                android:layout_weight="8"
                 android:clickable="true"
                 android:focusable="false"
                 android:text="" />

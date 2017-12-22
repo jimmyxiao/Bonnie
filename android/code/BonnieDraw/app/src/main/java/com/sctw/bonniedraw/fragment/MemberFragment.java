@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.DiffCallBack;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -58,8 +60,8 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class MemberFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, WorkAdapterGrid.WorkGridOnClickListener {
-    private static final int GET_AND_REFRESH_WORK_LIST = 1;
-    private static final int ADD_WORK_LIST = 3;
+    private static final int GET_WORKS_LIST = 1;
+    private static final int REFRESH_WORKS_LIST = 2;
     private TextView mTvMemberName, mTvMemberDescription, mTvMemberWorks, mTvMemberFans, mTvMemberFollows;
     private Button mBtnFollow;
     private CircleImageView mCircleImg;
@@ -74,10 +76,10 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     private WorkAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
     private LinearLayoutManager layoutManager;
-    private boolean mbFirst = true, mbFollow = false;
+    private boolean mbGridMode = true, mbFollow = false;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-    private int miStn = 1, miRc = 15;
+    private int miStn = 1, miRc = 18;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,7 +115,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        getWorksList(GET_AND_REFRESH_WORK_LIST);
+        getWorksList(GET_WORKS_LIST);
         mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -121,10 +123,10 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                 if (!recyclerView.canScrollVertically(1)) {
                     if (layoutManager.findLastVisibleItemPosition() + 1 == miRc) {
                         miRc += 10;
-                        getWorksList(GET_AND_REFRESH_WORK_LIST);
+                        getWorksList(REFRESH_WORKS_LIST);
                     } else if (gridLayoutManager.findLastVisibleItemPosition() + 1 == miRc) {
                         miRc += 10;
-                        getWorksList(GET_AND_REFRESH_WORK_LIST);
+                        getWorksList(REFRESH_WORKS_LIST);
                     }
                 }
             }
@@ -214,11 +216,11 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                     //下載資料
                                     try {
                                         switch (select) {
-                                            case GET_AND_REFRESH_WORK_LIST:
+                                            case GET_WORKS_LIST:
                                                 getWorks(responseJSON.getJSONArray("workList"));
                                                 break;
-                                            case ADD_WORK_LIST:
-                                                addWork(responseJSON.getJSONArray("workList"));
+                                            case REFRESH_WORKS_LIST:
+                                                refresh(responseJSON.getJSONArray("workList"));
                                                 break;
                                         }
                                     } catch (JSONException e) {
@@ -236,14 +238,14 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         });
     }
 
-    public void getWorks(JSONArray data) {
+    private void getWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
 
         mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this,true);
 
-        if (mbFirst) {
+        if (mbGridMode) {
             mRv.setLayoutManager(gridLayoutManager);
             mRv.setAdapter(mAdapterGrid);
             mSwipeRefreshLayout.setRefreshing(false);
@@ -254,10 +256,31 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         }
     }
 
-    public void addWork(JSONArray data) {
-        List<WorkInfoBean> temp = WorkInfoBean.generateInfoList(data);
-        mAdapterList.addData(temp);
-        mAdapterGrid.addData(temp);
+    private void refresh(JSONArray data) {
+        workInfoBeanList = WorkInfoBean.generateInfoList(data);
+        DiffUtil.DiffResult diffResult;
+        if(mbGridMode){
+            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), false);
+            diffResult.dispatchUpdatesTo(mAdapterGrid);
+            mAdapterGrid.setData(workInfoBeanList);
+        }else {
+            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), false);
+            diffResult.dispatchUpdatesTo(mAdapterGrid);
+            mAdapterList.setData(workInfoBeanList);
+        }
+    }
+
+    private void changeLayout(){
+        DiffUtil.DiffResult diffResult;
+        if(mbGridMode){
+            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), false);
+            diffResult.dispatchUpdatesTo(mAdapterGrid);
+            mAdapterGrid.setData(workInfoBeanList);
+        }else {
+            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), false);
+            diffResult.dispatchUpdatesTo(mAdapterGrid);
+            mAdapterList.setData(workInfoBeanList);
+        }
     }
 
     private void setOnClickEvent() {
@@ -303,7 +326,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getWorksList(GET_AND_REFRESH_WORK_LIST);
+                getWorksList(REFRESH_WORKS_LIST);
             }
         });
 
@@ -312,7 +335,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             public void onClick(View v) {
                 mRv.setLayoutManager(layoutManager);
                 mRv.setAdapter(mAdapterList);
-                mbFirst = false;
+                mbGridMode = false;
+                changeLayout();
             }
         });
 
@@ -328,7 +352,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             public void onClick(View v) {
                 mRv.setLayoutManager(gridLayoutManager);
                 mRv.setAdapter(mAdapterGrid);
-                mbFirst = true;
+                mbGridMode = true;
+                changeLayout();
             }
         });
 
@@ -336,8 +361,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             @Override
             public void onClick(View v) {
                 if (!mbFollow) {
-                    //IF
-                    setFollow(1, miUserId);
+                    setPersonFollow(1, miUserId);
                 }
             }
         });
@@ -371,10 +395,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                             mAdapterList.setLike(position, true);
                                             break;
                                     }
-                                    mAdapterList.notifyItemChanged(position);
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position);
+                                    mAdapterList.notifyItemChanged(position,0);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -388,7 +411,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         });
     }
 
-    public void setFollow(final int fn, int followId) {
+    public void setPersonFollow(final int fn, int followId) {
         // fn = 1 點追蹤, 0 取消追蹤
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
         Request request = ConnectJson.setFollow(prefs, fn, followId);
@@ -461,10 +484,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                             mAdapterList.setFollow(position, 1);
                                             break;
                                     }
-                                    mAdapterList.notifyItemChanged(position);
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position);
+                                    mAdapterList.notifyItemChanged(position,1);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -506,10 +528,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                             mAdapterList.setCollection(position, true);
                                             break;
                                     }
-                                    mAdapterList.notifyItemChanged(position);
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position);
+                                    mAdapterList.notifyItemChanged(position,2);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -541,9 +562,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, 0);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, PxDpConvert.getSystemHight(getContext()) / 3);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -584,7 +605,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                 android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                 android.content.ClipData clip = android.content.ClipData.newPlainText("text", GlobalVariable.API_LINK_SHARE_LINK + wid);
                 clipboard.setPrimaryClip(clip);
-                ToastUtil.createToastIsCheck(getContext(), getString(R.string.copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 4);
+                ToastUtil.createToastIsCheck(getContext(), getString(R.string.copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                 extraDialog.dismiss();
             }
         });
@@ -685,7 +706,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     public void onResume() {
         miStn = 1;
         miRc = 15;
-        getWorksList(GET_AND_REFRESH_WORK_LIST);
+        getWorksList(GET_WORKS_LIST);
         super.onResume();
     }
 

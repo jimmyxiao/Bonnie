@@ -83,25 +83,25 @@ public class LoadMoreFooter implements View.OnClickListener{
             switch (state) {
                 case STATE_DISABLED:
                     mProgressBar.setVisibility(View.GONE);
-                    mTvHint.setVisibility(View.INVISIBLE);
+                    mTvHint.setVisibility(View.GONE);
                     mTvHint.setText(null);
                     mTvHint.setClickable(false);
                     break;
                 case STATE_LOADING:
                     mProgressBar.setVisibility(View.VISIBLE);
-                    mTvHint.setVisibility(View.INVISIBLE);
+                    mTvHint.setVisibility(View.VISIBLE);
                     mTvHint.setText("載入中");
                     mTvHint.setClickable(false);
                     break;
                 case STATE_FINISHED:
                     mProgressBar.setVisibility(View.GONE);
                     mTvHint.setVisibility(View.VISIBLE);
-                    mTvHint.setText("載入完畢");
+                    mTvHint.setText("已到最底");
                     mTvHint.setClickable(false);
                     break;
                 case STATE_ENDLESS:
                     mProgressBar.setVisibility(View.INVISIBLE);
-                    mTvHint.setVisibility(View.VISIBLE);
+                    mTvHint.setVisibility(View.INVISIBLE);
                     mTvHint.setText(null);
                     mTvHint.setClickable(true);
                     break;

@@ -117,13 +117,12 @@
 }
 
 .pasue-back{
-	 /*position: absolute;*/
-	 position: relative; 
-	 width: auto;
-	 /*height: 640px;*/
-	 height: 60px;
-	 top: -65px; 
-	 background: rgba(0,0,0,0.3);
+	/*position: absolute;*/
+	position: relative; 
+	width: auto;
+	height: 60px;/*640px*/
+	top: -65px; 
+	background: rgba(0,0,0,0.3);
 }
 .pasue-back div{
 	float: right; 
@@ -252,4 +251,89 @@
 
 .container-full{
 	width: 100%;
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+	.pasue-back{
+		background-color: red;
+		top: -67px;
+	}
+	
+	.next-img{
+		width: 85px;
+	}
+
+	.pasue-img{
+		width: 85px;
+	}
+
+	.last-img{
+		width: 85px;
+	}
+	.rewind-img{
+		width: 85px;
+	}
+	.nowrap{
+		white-space:nowrap;
+	}
+}
+@media screen and (max-width: 767px) {
+	.rewind-img{
+		width: 85px;
+	}
+	.nowrap{
+		white-space:nowrap;
+	}
+}
+
+@media screen and (min-width: 320px) and (max-width: 576px) {
+	.forward-img{
+		width: calc(20% - 10px);
+	}
+	.next-img{
+		width: calc(20% - 10px);
+	}
+
+	.pasue-img{
+		width: calc(20% - 10px);
+	}
+
+	.last-img{
+		width: calc(20% - 10px);
+	}
+	.rewind-img{
+		width: calc(20% - 10px);
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.pasue-back{
+		height: 50px;
+		top: -55px;
+	}
+
+	.speennum{
+		font-size: 20px;
+	}
+
+	.pasue-back i{
+		font-size: 30px;
+	}
+	
+	.pasue-back .circleimg a i{
+		margin-top: 7px;
+		margin-left: 5px;
+	}
+	.pasue-back .circleimg a{
+		width: 15px;
+		height: 20px;
+		margin-top: 10px;
+		margin-left: 0px;
+	}
+	
+	div.rewind-img, div.forward-img{
+		margin-top: 11px;
+	}
+	
+	
 }

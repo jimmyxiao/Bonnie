@@ -715,7 +715,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     }
 
     public void onBackMethod() {
-        System.out.println(mPaintView.mFileBDW.exists());
         if (mPaintView.mListTagPoint.isEmpty()) {
             finish();
         } else if (mPaintView.mListTagPoint.size() != 0 && mPaintView.mBDWReader.m_tagArray == null) {
@@ -799,7 +798,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             File bdwfile = new File(Environment.getExternalStorageDirectory() + "/Screenshots/" + "BDW" + filename + ".bdw");
             BDWFileWriter writer = new BDWFileWriter();
             if (writer.WriteToFile(mPaintView.mListTagPoint, bdwfile.getAbsolutePath())) {
-                ToastUtil.createToastWindow(PaintActivity.this, "BDW儲存成功，檔案位於Screenshots資料夾。", PxDpConvert.getSystemHight(this) / 4);
+                ToastUtil.createToastWindow(PaintActivity.this, "BDW儲存成功，檔案位於Screenshots資料夾。", PxDpConvert.getSystemHight(this) / 3);
             }
             mMenuPopup.dismiss();
         }
@@ -819,7 +818,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
-                ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.save_photo_successful), PxDpConvert.getSystemHight(this) / 4);
+                ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.save_photo_successful), PxDpConvert.getSystemHight(this) / 3);
                 mMenuPopup.dismiss();
             } catch (IOException e) {
                 e.printStackTrace();
