@@ -25,10 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.colorpick.ColorBean;
 import com.sctw.bonniedraw.paint.Brush;
 import com.sctw.bonniedraw.paint.Brushes;
 import com.sctw.bonniedraw.paint.PaintView;
@@ -38,6 +35,7 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
+import com.sctw.bonniedraw.widget.BgColorPopup;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
 import com.sctw.bonniedraw.widget.SizePopup;
@@ -51,7 +49,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -70,7 +67,7 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SizePopup.OnSeekChange, ColorPopup.OnPopupColorPick {
+public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SizePopup.OnSeekChange, ColorPopup.OnPopupColorPick, BgColorPopup.OnBgPopupColorPick {
     private PaintView mPaintView;
     private FrameLayout mFrameLayoutFreePaint;
     private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange, mBtnZoom;
@@ -83,6 +80,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private MenuPopup mMenuPopup;
     private SizePopup mSeekbarPopup;
     private ColorPopup mColorPopup;
+    private BgColorPopup mBgColorPopup;
     private boolean mbHint = false;
     private int mCurrentBrushId = 3, mTempBrushId; //default brush
 
@@ -107,8 +105,9 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mBtnOpacityAdd = (ImageButton) findViewById(R.id.imgBtn_paint_opacity_add);
         mBtnOpacityDecrease = (ImageButton) findViewById(R.id.imgBtn_paint_opacity_decrease);
         mSeekbarOpacity = (SeekBar) findViewById(R.id.seekbar_paint_opacity);
-        mMenuPopup = new MenuPopup(this, this);
-        mColorPopup = new ColorPopup(this, this);
+        //
+        new Thread(runSettingView).start();
+
         setOnClick();
         //Paint initTwitter & View
         mPaintView = new PaintView(this);
@@ -120,27 +119,19 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
         mSeekbarPopup = new SizePopup(this, this, (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
         mPaintView.setDrawingAlpha(100 / 100.0f);
-        defaultColor();
-        int lastColor=getSharedPreferences("colors", MODE_PRIVATE).getInt("lastColor", Color.BLACK);
+        int lastColor = getSharedPreferences("colors", MODE_PRIVATE).getInt("lastColor", Color.BLACK);
         onColorSelect(lastColor);
         mPaintView.onCheckSketch();
     }
 
-    private void defaultColor() {
-        ArrayList<ColorBean> colorsList;
-        SharedPreferences pref = getSharedPreferences("colors", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = pref.getString("colorsInfo", "");
-        if (!json.isEmpty()) {
-            colorsList = gson.fromJson(json, new TypeToken<ArrayList<ColorBean>>() {
-            }.getType());
-            for (int i = 0; i < colorsList.size(); i++) {
-                if (colorsList.get(i).isSelect()) {
-                    onColorSelect(colorsList.get(i).getColor());
-                }
-            }
+    private Runnable runSettingView = new Runnable() {
+        @Override
+        public void run() {
+            mMenuPopup = new MenuPopup(PaintActivity.this, PaintActivity.this);
+            mColorPopup = new ColorPopup(PaintActivity.this, PaintActivity.this);
+            mBgColorPopup = new BgColorPopup(PaintActivity.this, PaintActivity.this);
         }
-    }
+    };
 
     private void toggleBrushPanel() {
         if (mLinearLayoutPaintSelect.getVisibility() == View.VISIBLE) {
@@ -334,10 +325,26 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     public void onClickOpenColorPick() {
         if (mColorPopup.isPanelOpen()) {
             mColorPopup.dismiss();
-            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 3,false);
+            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 3, false);
         } else {
             mColorPopup.dismiss();
-            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, 0,true);
+            mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, 0, true);
+        }
+    }
+
+    @Override
+    public void onBgColorSelect(int color) {
+        mPaintView.setDrawingBgColorTag(color);
+    }
+
+    @Override
+    public void onClickBgOpenColorPick() {
+        if (mBgColorPopup.isPanelOpen()) {
+            mBgColorPopup.dismiss();
+            mBgColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 3, false);
+        } else {
+            mBgColorPopup.dismiss();
+            mBgColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, 0, true);
         }
     }
 
@@ -388,7 +395,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(View v) {
                 toggleBrushPanel();
-                mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 3,false);
+                mColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 3, false);
             }
         });
 
@@ -753,18 +760,6 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         onBackMethod();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        System.out.println("onRestart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        System.out.println("onResume");
-    }
-
     //*******Brush **********
 
     private void setBrush(int brushID) {
@@ -782,7 +777,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 openGridScreen();
                 break;
             case MenuPopup.PAINT_SETTING_BG_COLOR:
-                mPaintView.setDrawingBgColorTag(mPaintView.getDrawingColor());
+                mBgColorPopup.showAtLocation(mPaintView, Gravity.CENTER, 0, mPaintView.getHeight() / 3, false);
                 break;
             case MenuPopup.PAINT_SETTING_SAVE:
                 savePicture();

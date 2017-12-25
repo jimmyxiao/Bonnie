@@ -37,7 +37,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by Fatorin on 2017/11/1.
  */
 
-public class ColorPopup extends PopupWindow implements View.OnTouchListener,
+public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
         ColorPickerView.OnColorChangedListener, TextWatcher, ColorTicket.OnItemListener {
 
     private View conentView;
@@ -55,14 +55,14 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     private boolean fromEditText;
     private TextView mTvColorListHint;
     private ArrayList<ColorBean> colorsList1, colorsList2, colorsList3;
-    private OnPopupColorPick listener;
+    private OnBgPopupColorPick listener;
     private int miPoint;
 
-    public ColorPopup(Context context, OnPopupColorPick listener) {
+    public BgColorPopup(Context context, OnBgPopupColorPick listener) {
         super(context);
         this.context = context;
         this.listener = listener;
-        mPref = context.getSharedPreferences("colors", MODE_PRIVATE);
+        mPref = context.getSharedPreferences("bgColors", MODE_PRIVATE);
         this.initBindView();
         this.setOnClick();
     }
@@ -76,8 +76,8 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
 
     private void readPreferencesColor() {
         //迴圈依序讀取
-        miPoint = mPref.getInt("colorsDefault", 1); //讀不到就強制選一
-        color = mPref.getInt("lastColor", Color.BLACK);
+        miPoint = mPref.getInt("bgColorsDefault", 1); //讀不到就強制選一
+        color = mPref.getInt("lastBgColor", Color.BLACK);
         for (int x = 1; x <= 3; x++) {
             switch (x) {
                 case 1:
@@ -101,28 +101,28 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
             switch (x) {
                 case 1:
                     json = gson.toJson(colorsList1);
-                    mPref.edit().putString("colorsInfo1", json).apply();
+                    mPref.edit().putString("bgColorsInfo1", json).apply();
                     break;
                 case 2:
                     json = gson.toJson(colorsList2);
-                    mPref.edit().putString("colorsInfo2", json).apply();
+                    mPref.edit().putString("bgColorsInfo2", json).apply();
                     break;
                 case 3:
                     json = gson.toJson(colorsList3);
-                    mPref.edit().putString("colorsInfo3", json).apply();
+                    mPref.edit().putString("bgColorsInfo3", json).apply();
                     break;
             }
         }
         mPref.edit()
-                .putInt("colorsDefault", miPoint)
-                .putInt("lastColor", color)
+                .putInt("bgColorsDefault", miPoint)
+                .putInt("lastBgColor", color)
                 .apply();
     }
 
     private ArrayList<ColorBean> readPreferencesColorByType(int type) {
         ArrayList<ColorBean> list = new ArrayList<>();
         Gson gson = new Gson();
-        String json = mPref.getString("colorsInfo" + type, "");
+        String json = mPref.getString("bgColorsInfo" + type, "");
         if (!json.isEmpty()) {
             list = gson.fromJson(json, new TypeToken<ArrayList<ColorBean>>() {
             }.getType());
@@ -160,7 +160,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
         mRv = (RecyclerView) conentView.findViewById(R.id.recyclerView_color_tickets);
         mColorPicker.setColor(color, true);
         mColorPanel.setColor(color);
-        mTvColorListHint.setText(String.format(context.getString(R.string.get_current_color_list_num), miPoint));
+        mTvColorListHint.setText(String.format(context.getString(R.string.get_current_bg_color_list_num), miPoint));
         setHex(color);
         conentView.setOnTouchListener(this);
         mColorPicker.setOnColorChangedListener(this);
@@ -223,9 +223,9 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                     miPoint = 3;
                 }
                 mAdapterTicket.removeAllTrace();
-                mAdapterTicket = new ColorTicket(getCurrentColorList(), ColorPopup.this);
+                mAdapterTicket = new ColorTicket(getCurrentColorList(), BgColorPopup.this);
                 mRv.setAdapter(mAdapterTicket);
-                mTvColorListHint.setText(String.format(context.getString(R.string.get_current_color_list_num), miPoint));
+                mTvColorListHint.setText(String.format(context.getString(R.string.get_current_bg_color_list_num), miPoint));
             }
         });
         mBtnRightList.setOnClickListener(new View.OnClickListener() {
@@ -236,9 +236,9 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                     miPoint = 1;
                 }
                 mAdapterTicket.removeAllTrace();
-                mAdapterTicket = new ColorTicket(getCurrentColorList(), ColorPopup.this);
+                mAdapterTicket = new ColorTicket(getCurrentColorList(), BgColorPopup.this);
                 mRv.setAdapter(mAdapterTicket);
-                mTvColorListHint.setText(String.format(context.getString(R.string.get_current_color_list_num), miPoint));
+                mTvColorListHint.setText(String.format(context.getString(R.string.get_current_bg_color_list_num), miPoint));
             }
         });
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +250,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                     mColorPanel.setColor(color);
                     setHex(color);
                 }
-                listener.onClickOpenColorPick();
+                listener.onClickBgOpenColorPick();
             }
         });
         mBtnRemove.setOnClickListener(new View.OnClickListener() {
@@ -298,7 +298,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     public void onColorChanged(int newColor) {
         color = newColor;
         mColorPanel.setColor(newColor);
-        listener.onColorSelect(color);
+        listener.onBgColorSelect(color);
         if (!fromEditText) {
             setHex(newColor);
             if (mEditTextHex.hasFocus()) {
@@ -328,7 +328,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
             if (color != mColorPicker.getColor()) {
                 fromEditText = true;
                 mColorPicker.setColor(color, true);
-                listener.onColorSelect(color);
+                listener.onBgColorSelect(color);
             }
         }
     }
@@ -392,12 +392,12 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     public void onItemClick(int color) {
         onColorChanged(color);
         mColorPicker.setColor(color, true);
-        listener.onColorSelect(color);
+        listener.onBgColorSelect(color);
     }
 
-    public interface OnPopupColorPick {
-        void onClickOpenColorPick();
+    public interface OnBgPopupColorPick {
+        void onClickBgOpenColorPick();
 
-        void onColorSelect(int color);
+        void onBgColorSelect(int color);
     }
 }
