@@ -12,6 +12,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="ArialBold.ttf">
+            <string>Arial-BoldMT</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Parent View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -42,11 +47,11 @@
             <objects>
                 <viewController storyboardIdentifier="commentViewController" id="R9c-0p-Md0" customClass="CommentViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZHj-jM-OjM">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="685"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="brJ-qX-ckB">
-                                <rect key="frame" x="0.0" y="88" width="375" height="645"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="518"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="nCB-uy-Myt">
                                     <rect key="frame" x="0.0" y="328" width="375" height="0.0"/>
@@ -149,14 +154,14 @@
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LlX-qg-l0k">
-                                <rect key="frame" x="0.0" y="733" width="375" height="1"/>
+                                <rect key="frame" x="0.0" y="606" width="375" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="88N-Vo-JoM"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3TZ-9J-Dbo">
-                                <rect key="frame" x="0.0" y="734" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="607" width="375" height="44"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="work_ic_message" translatesAutoresizingMaskIntoConstraints="NO" id="aU0-L6-epf">
                                         <rect key="frame" x="16" y="11" width="22" height="22"/>
@@ -201,7 +206,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNn-By-Abg" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="597"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -706,7 +711,7 @@
                                 <rect key="frame" x="0.0" y="88" width="375" height="597"/>
                                 <subviews>
                                     <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-Ni-VLM">
-                                        <rect key="frame" x="93.666666666666671" y="329.66666666666669" width="187.66666666666663" height="2"/>
+                                        <rect key="frame" x="93.666666666666671" y="330" width="187.66666666666663" height="2"/>
                                         <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -762,7 +767,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-sx-Edr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="903.20000000000005" y="1601.600985221675"/>
+            <point key="canvasLocation" x="903" y="1602"/>
         </scene>
         <!--Follow View Controller-->
         <scene sceneID="3iE-eI-gSs">
@@ -918,6 +923,7 @@
                                             <outlet property="profileName" destination="yQa-4R-ZLs" id="3nW-gW-iGu"/>
                                             <outlet property="thumbnail" destination="ZIv-07-8Ku" id="8YO-Eh-cMb"/>
                                             <outlet property="title" destination="5Ho-5I-mTC" id="sBk-Qm-CJ3"/>
+                                            <segue destination="wJn-NR-0b0" kind="presentation" id="YCJ-BW-acg"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1141,23 +1147,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TbO-nn-97d">
-                                <rect key="frame" x="124" y="343" width="127.33333333333331" height="126"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Y6T-aY-oT9">
+                                <rect key="frame" x="109.99999999999999" y="344" width="154.66666666666663" height="124"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading_icon" translatesAutoresizingMaskIntoConstraints="NO" id="iI9-zR-mxP">
-                                        <rect key="frame" x="19.333333333333343" y="0.0" width="89" height="89"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Zuh-Fu-AOc">
+                                        <rect key="frame" x="33" y="0.0" width="89" height="89"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zil-2q-i2f">
-                                        <rect key="frame" x="0.0" y="97" width="127.33333333333333" height="29"/>
-                                        <attributedString key="attributedText">
-                                            <fragment content="BonnieDRAW">
-                                                <attributes>
-                                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <font key="NSFont" size="24" name="HelveticaNeue-CondensedBlack"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                </attributes>
-                                            </fragment>
-                                        </attributedString>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BonnieDRAW" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WLq-1k-svZ">
+                                        <rect key="frame" x="0.0" y="97" width="154.66666666666666" height="27"/>
+                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="24"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -1165,8 +1164,8 @@
                         </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="TbO-nn-97d" firstAttribute="centerX" secondItem="6IL-hZ-VAE" secondAttribute="centerX" id="TFY-Zt-uyV"/>
-                            <constraint firstItem="TbO-nn-97d" firstAttribute="centerY" secondItem="6IL-hZ-VAE" secondAttribute="centerY" id="hjD-hW-QE7"/>
+                            <constraint firstItem="Y6T-aY-oT9" firstAttribute="centerY" secondItem="6IL-hZ-VAE" secondAttribute="centerY" id="Orm-IS-p4z"/>
+                            <constraint firstItem="Y6T-aY-oT9" firstAttribute="centerX" secondItem="6IL-hZ-VAE" secondAttribute="centerX" id="aQb-5V-omc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zaF-nm-TG1"/>
                     </view>
@@ -1509,6 +1508,7 @@
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="obk-S5-QJe"/>
+        <segue reference="2zW-BR-tce"/>
+        <segue reference="ycB-24-dRO"/>
     </inferredMetricsTieBreakers>
 </document>
