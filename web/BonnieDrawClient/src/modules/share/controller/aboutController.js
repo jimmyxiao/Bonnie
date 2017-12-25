@@ -1,5 +1,25 @@
 app.controller('aboutController', function ($rootScope,$scope,$window ,$location, $http,$filter,$state,$modal) {
-		$rootScope.title = '關於我們 | BonnieDRW';
+		switch($state.current.name) {
+			case "about":
+				$rootScope.title = '關於我們 | BonnieDRW';
+				break;
+			case "privacy":
+				$rootScope.title = '隱私權條款 | BonnieDRW';
+				break;
+			case "terms":
+				$rootScope.title = '使用條款 | BonnieDRW';
+				break;
+			case "about_app":
+				$rootScope.title = '關於我們 | BonnieDRW';
+				break;
+			case "privacy_app":
+				$rootScope.title = '隱私權條款 | BonnieDRW';
+				break;
+			case "terms_app":
+				$rootScope.title = '使用條款 | BonnieDRW';
+				break;
+		}
+
 		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();

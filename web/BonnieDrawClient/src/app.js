@@ -2,8 +2,8 @@
 
 // localhost
 var locationIP='http://localhost:8080/';
-//var locationIP='http://www.bonniedraw.com:8080/';
-var rootUrl = locationIP + 'BonnieDrawService/';
+// var locationIP='http://www.bonniedraw.com:8080/';
+ var rootUrl = locationIP + 'BonnieDrawService/';
 
 // release
 // var locationIP='https://www.bonniedraw.com/';
@@ -96,6 +96,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	    views: {
 	        "layout": {
 	            templateUrl: 'modules/share/view/about.html',
+	            controller:'aboutController'
 	        }
 	    }
   	}).state('privacy', {
@@ -103,6 +104,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	    views: {
 	        "layout": {
 	            templateUrl: 'modules/share/view/privacy.html',
+	            controller:'aboutController'
 	        }
 	    }
   	}).state('terms', {
@@ -110,6 +112,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	    views: {
 	        "layout": {
 	            templateUrl: 'modules/share/view/use-terms.html',
+	            controller:'aboutController'
 	        }
 	    }
   	}).state('about_app', {
@@ -117,6 +120,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	    views: {
 	        "layout": {
 	            templateUrl: 'modules/share/view/about_app.html',
+	            controller:'aboutController'
 	        }
 	    }
   	}).state('privacy_app', {
@@ -124,6 +128,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	    views: {
 	        "layout": {
 	            templateUrl: 'modules/share/view/privacy_app.html',
+	            controller:'aboutController'
 	        }
 	    }
   	}).state('terms_app', {
@@ -131,6 +136,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	    views: {
 	        "layout": {
 	            templateUrl: 'modules/share/view/use-terms_app.html',
+	            controller:'aboutController'
 	        }
 	    }
   	})
