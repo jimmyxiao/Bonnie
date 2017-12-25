@@ -294,7 +294,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mLlFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 // 2=fans   1=follow
                 bundle.putInt("fn", 1);
                 bundle.putInt("uid", miUserId);
@@ -303,14 +303,14 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
             }
         });
 
         mLlFans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 // 1=fans   2=follow
                 bundle.putInt("fn", 2);
                 bundle.putInt("uid", miUserId);
@@ -319,7 +319,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
             }
         });
 
@@ -674,14 +674,14 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
     @Override
     public void onUserClick(int uid) {
-        MemberFragment memberFragment = new MemberFragment();
+        /*MemberFragment memberFragment = new MemberFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("userId", uid);
         memberFragment.setArguments(bundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
     }
 
     @Override

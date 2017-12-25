@@ -218,11 +218,9 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                         changeFragmentWithBundle(new HomeAndHotFragment(), miFn, mSquery);
                         return true;
                     case R.id.ic_btn_notice:
-                        if (mBottomNavigationViewEx.getCurrentItem() == 3) return false;
                         changeFragment(new NoticeFragment());
                         return true;
                     case R.id.ic_btn_user:
-                        if (mBottomNavigationViewEx.getCurrentItem() == 4) return false;
                         changeFragment(new ProfileFragment());
                         return true;
                     default:
