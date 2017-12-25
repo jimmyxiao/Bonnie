@@ -25,7 +25,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                                      Setting(type: .privacyPolicy, title: "setting_privacy_policy".localized, segueId: Segue.WEB_PRIVACY_POLICY),
                                      Setting(type: .termOfUse, title: "setting_term_of_use".localized, segueId: Segue.WEB_TERM_OF_USE),
                                      Setting(type: .clearSearch, title: "setting_clear_search".localized, segueId: nil),
-                                     Setting(type: .signOut, title: "setting_sign_out".localized, segueId: nil)])
+                                     Setting(type: .signOut, title: "menu_sign_out".localized, segueId: nil)])
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
