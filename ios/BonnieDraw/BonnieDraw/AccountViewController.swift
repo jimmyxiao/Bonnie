@@ -223,6 +223,7 @@ class AccountViewController:
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
             headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.IMAGE))
             headerView.profileName.text = profile?.name
+            headerView.profileDescription.text = profile?.description
             headerView.worksCount.text = "\(profile?.worksCount ?? 0)"
             headerView.fansCount.text = "\(profile?.fansCount ?? 0)"
             headerView.followsCount.text = "\(profile?.followsCount ?? 0)"
@@ -232,6 +233,14 @@ class AccountViewController:
             indicator = footerView.indicator
             loadingLabel = footerView.label
             return footerView
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if let headerView = collectionView.dataSource?.collectionView?(collectionView, viewForSupplementaryElementOfKind: UICollectionElementKindSectionHeader, at: IndexPath(row: 0, section: section)) {
+            return headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize)
+        } else {
+            return .zero
         }
     }
 
@@ -337,28 +346,29 @@ class AccountViewController:
     }
 
     @IBAction func more(_ sender: UIButton) {
-        if let indexPath = collectionView.indexPath(forView: sender) {
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            alert.view.tintColor = UIColor.getAccentColor()
-            alert.popoverPresentationController?.sourceView = sender
-            let color = UIColor.gray
-            let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
-                action in
-            }
-            copyLinkAction.setValue(color, forKey: "titleTextColor")
-            alert.addAction(copyLinkAction)
-            let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
-                action in
-                guard AppDelegate.reachability.connection != .none else {
-                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
-                    return
-                }
-            }
-            alert.addAction(reportAction)
-            let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
-            alert.addAction(cancelAction)
-            present(alert, animated: true)
+        guard let indexPath = collectionView.indexPath(forView: sender) else {
+            return
         }
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.view.tintColor = UIColor.getAccentColor()
+        alert.popoverPresentationController?.sourceView = sender
+        let color = UIColor.gray
+        let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
+            action in
+        }
+        copyLinkAction.setValue(color, forKey: "titleTextColor")
+        alert.addAction(copyLinkAction)
+        let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
+            action in
+            guard AppDelegate.reachability.connection != .none else {
+                self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                return
+            }
+        }
+        alert.addAction(reportAction)
+        let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
 
     @IBAction func like(_ sender: UIButton) {

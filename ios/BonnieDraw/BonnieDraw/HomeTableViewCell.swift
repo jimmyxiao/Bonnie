@@ -9,8 +9,8 @@
 import UIKit
 
 class HomeTableViewCell: UITableViewCell {
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var profileName: UILabel!
+    @IBOutlet weak var profileImage: UIButton!
+    @IBOutlet weak var profileName: UIButton!
     @IBOutlet weak var followButton: FollowButton!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var thumbnail: UIImageView!

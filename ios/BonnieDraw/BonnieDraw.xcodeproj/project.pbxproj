@@ -25,6 +25,7 @@
 		16303BB31FD14D0E00C42783 /* stencil.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 16303BAD1FD14D0D00C42783 /* stencil.fsh */; };
 		16303BB41FD14D0E00C42783 /* point.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 16303BAE1FD14D0D00C42783 /* point.fsh */; };
 		16303BB51FD14D0E00C42783 /* coloredpoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 16303BAF1FD14D0D00C42783 /* coloredpoint.vsh */; };
+		163174711FF0E661001F7A99 /* ButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163174701FF0E661001F7A99 /* ButtonExtension.swift */; };
 		16332A231F7F3048007857E3 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16332A221F7F3048007857E3 /* UploadViewController.swift */; };
 		1633C0651F9ED4410039E7F6 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1633C0641F9ED4400039E7F6 /* WebViewController.swift */; };
 		16353D481FCDA57200482807 /* BrushPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16353D471FCDA57200482807 /* BrushPickerCollectionViewCell.swift */; };
@@ -124,6 +125,7 @@
 		16303BAD1FD14D0D00C42783 /* stencil.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = stencil.fsh; path = ../JotUI/stencil.fsh; sourceTree = "<group>"; };
 		16303BAE1FD14D0D00C42783 /* point.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = point.fsh; path = ../JotUI/point.fsh; sourceTree = "<group>"; };
 		16303BAF1FD14D0D00C42783 /* coloredpoint.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = coloredpoint.vsh; path = ../JotUI/coloredpoint.vsh; sourceTree = "<group>"; };
+		163174701FF0E661001F7A99 /* ButtonExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonExtension.swift; sourceTree = "<group>"; };
 		16332A221F7F3048007857E3 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		1633C0641F9ED4400039E7F6 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		16353D471FCDA57200482807 /* BrushPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrushPickerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 		16D439611F66A97400FF5878 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				163174701FF0E661001F7A99 /* ButtonExtension.swift */,
 				164AEC231FC69CCE00542354 /* ViewControllerExtension.swift */,
 				166C41231F90964F00A98385 /* DataExtension.swift */,
 				164ED24E1F7B414500E8B910 /* TableViewExtension.swift */,
@@ -609,6 +612,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				163174711FF0E661001F7A99 /* ButtonExtension.swift in Sources */,
 				16369FFE1FB2A60300C7C8BC /* TabNavigationControllerDelegate.swift in Sources */,
 				16BE0F2E1FC67D5700B989CE /* CanvasSettingTableViewController.swift in Sources */,
 				16369FFC1FB2A43600C7C8BC /* TabNavigationControllerAnimator.swift in Sources */,

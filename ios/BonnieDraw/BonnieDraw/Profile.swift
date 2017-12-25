@@ -13,6 +13,7 @@ class Profile: Comparable {
     var name: String?
     var summery: String?
     var email: String?
+    var description: String?
     var phone: String?
     var gender: Gender?
     let worksCount: Int?
@@ -25,6 +26,7 @@ class Profile: Comparable {
         name = dictionary["userName"] as? String
         summery = dictionary["description"] as? String
         email = dictionary["email"] as? String
+        description = dictionary["description"] as? String
         phone = dictionary["phoneNo"] as? String
         gender = Gender(rawValue: dictionary["gender"] as? Int ?? 3)
         worksCount = dictionary["worksNum"] as? Int

@@ -172,7 +172,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         let work = tableViewWorks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.FOLLOW, for: indexPath) as! FollowTableViewCell
         cell.profileImage.setImage(with: work.profileImage, placeholderImage: placeholderImage)
-        cell.profileName.text = work.profileName
+        cell.profileName.setTitle(work.profileName, for: .normal)
         cell.title.text = work.title
         cell.thumbnail?.setImage(with: work.thumbnail)
         if let isLike = work.isLike {
@@ -240,29 +240,36 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    @IBAction func more(_ sender: UIButton) {
-        if let indexPath = tableView.indexPath(forView: sender) {
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            alert.view.tintColor = UIColor.getAccentColor()
-            alert.popoverPresentationController?.sourceView = sender
-            let color = UIColor.gray
-            let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
-                action in
-            }
-            copyLinkAction.setValue(color, forKey: "titleTextColor")
-            alert.addAction(copyLinkAction)
-            let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
-                action in
-                guard AppDelegate.reachability.connection != .none else {
-                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
-                    return
-                }
-            }
-            alert.addAction(reportAction)
-            let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
-            alert.addAction(cancelAction)
-            present(alert, animated: true)
+    @IBAction func profile(_ sender: UIButton) {
+        guard let indexPath = tableView.indexPath(forView: sender) else {
+            return
         }
+    }
+
+    @IBAction func more(_ sender: UIButton) {
+        guard let indexPath = tableView.indexPath(forView: sender) else {
+            return
+        }
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.view.tintColor = UIColor.getAccentColor()
+        alert.popoverPresentationController?.sourceView = sender
+        let color = UIColor.gray
+        let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
+            action in
+        }
+        copyLinkAction.setValue(color, forKey: "titleTextColor")
+        alert.addAction(copyLinkAction)
+        let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
+            action in
+            guard AppDelegate.reachability.connection != .none else {
+                self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                return
+            }
+        }
+        alert.addAction(reportAction)
+        let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
 
     @IBAction func like(_ sender: UIButton) {
