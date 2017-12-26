@@ -167,7 +167,6 @@ public class SignUpFragment extends Fragment {
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_REGISTER);
                     json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
-                    Log.d("JSON DATA", json.toString());
                     break;
                 case 3:
                     json.put("uc", userEmail.getText().toString());
@@ -175,7 +174,6 @@ public class SignUpFragment extends Fragment {
                     json.put("dt", GlobalVariable.LOGIN_PLATFORM);
                     json.put("fn", GlobalVariable.API_CHECK_EMAIL);
                     json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
-                    Log.d("JSON DATA", json.toString());
                     break;
             }
         } catch (JSONException e) {
@@ -222,7 +220,6 @@ public class SignUpFragment extends Fragment {
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                Log.d("RESTFUL API : ", responseJSON.toString());
                                 if (style == 3) signupAPI(2);
                                 if (style == 2) createLogSignup(1);
                             } else {

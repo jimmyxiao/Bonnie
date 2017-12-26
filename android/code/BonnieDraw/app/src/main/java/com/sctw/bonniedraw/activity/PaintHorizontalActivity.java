@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -189,7 +188,6 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
                         json.put("title", workName.getText().toString());
                         json.put("description", workDescription.getText().toString());
                         json.put("languageId", 2);
-                        Log.d("LOGIN JSON: ", json.toString());
                         fileUpload(json, GlobalVariable.API_LINK_WORK_SAVE);
                         mFullScreenDialog.dismiss();
                     } catch (JSONException e) {
@@ -243,7 +241,6 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
                             }
                         });
                     }
-                    Log.d("RESPONSE", responseJSON.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -297,9 +294,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
                             try {
                                 if (responseJSON.getInt("res") == 1) {
                                     if (type == 1) {
-                                        Log.d("上傳圖片", "成功");
                                     } else {
-                                        Log.d("上傳BDW", "成功");
                                         ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.publish_successful), true, 0);
                                     }
                                 } else {

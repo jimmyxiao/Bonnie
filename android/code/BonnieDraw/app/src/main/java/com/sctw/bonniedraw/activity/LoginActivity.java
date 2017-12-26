@@ -164,7 +164,6 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                             }
-                            Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } finally {
@@ -216,7 +215,6 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 });
                             }
-                            Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);

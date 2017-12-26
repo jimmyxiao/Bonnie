@@ -18,7 +18,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -271,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                             } else {
                                 ToastUtil.createToastWindow(MainActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                             }
-                            Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -311,6 +309,10 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     }
 
     private void startPaint() {
+        Intent it = new Intent();
+        it.setClass(MainActivity.this, PaintActivity.class);
+        startActivity(it);
+        /*
         final FullScreenDialog dialog = new FullScreenDialog(this, R.layout.dialog_base);
         FrameLayout layout = dialog.findViewById(R.id.frameLayout_dialog_base);
         Button yes = dialog.findViewById(R.id.btn_dialog_base_yes);
@@ -346,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                 startActivity(it);
             }
         });
-        dialog.show();
+        dialog.show();*/
     }
 
     private void createProfileInfo() {

@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -142,7 +141,6 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override
@@ -198,7 +196,6 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override

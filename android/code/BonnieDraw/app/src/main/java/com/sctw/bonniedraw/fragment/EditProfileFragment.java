@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -331,7 +330,6 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Upload File", "Fail");
             }
 
             @Override
@@ -343,7 +341,6 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                             JSONObject responseJSON = null;
                             responseJSON = new JSONObject(response.body().string());
                             if (responseJSON.getInt("res") == 1) {
-                                Log.d("上傳圖片", "成功");
                                 ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_successful), true, PxDpConvert.getSystemHight(getActivity()) / 3);
                             } else {
                                 ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_fail), false, PxDpConvert.getSystemHight(getActivity()) / 3);

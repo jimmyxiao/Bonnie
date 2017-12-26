@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,7 +150,6 @@ public class UpdatePasswordFragment extends Fragment {
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("oldPwd", mEditTextOldPwd.getText().toString());
             json.put("newPwd", mEditTextNewPwd.getText().toString());
-            Log.d("JSON DATA", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -184,7 +182,6 @@ public class UpdatePasswordFragment extends Fragment {
                                 }else{
                                     msg(ERROR_CONNECT);
                                 }
-                                Log.d("RESTFUL API : ", responseJSON.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
 

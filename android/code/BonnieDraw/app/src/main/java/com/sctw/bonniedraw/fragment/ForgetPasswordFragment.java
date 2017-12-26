@@ -102,7 +102,6 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                                 } else {
                                     showErrorDialog(getString(R.string.not_found_account));
                                 }
-                                Log.d("GET RESPONE", responseJSON.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

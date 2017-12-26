@@ -275,7 +275,6 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 accessToken = loginResult.getAccessToken();
-                Log.d("Token", accessToken.getToken());
                 GraphRequest request = GraphRequest.newMeRequest(
                         accessToken,
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -398,7 +397,6 @@ public class LoginFragment extends Fragment {
                             } else {
                                 createLogSignin(getString(R.string.this_account_not_signup));
                             }
-                            Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -461,7 +459,6 @@ public class LoginFragment extends Fragment {
                             } else {
                                 createLogSignin(getString(R.string.login_fail_msg));
                             }
-                            Log.d("RESTFUL API : ", responseJSON.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -522,7 +519,6 @@ public class LoginFragment extends Fragment {
                 prefs.edit().clear().apply();
                 break;
             case 0:
-                Log.d("Logout Error", "not value");
                 break;
         }
     }

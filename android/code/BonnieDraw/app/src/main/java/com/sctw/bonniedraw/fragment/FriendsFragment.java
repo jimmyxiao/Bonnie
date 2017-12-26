@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -198,7 +197,6 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("TWITTER FRIEND", result.data.toString());
                         List uidList= Arrays.asList(result.data.ids);
                         JSONArray array=new JSONArray();
                         for(int x=0;x<uidList.size();x++){
@@ -211,7 +209,6 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
 
             @Override
             public void failure(TwitterException exception) {
-                Log.d("TWITTER FRIEND", exception.toString());
             }
         });
     }
@@ -242,7 +239,6 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override
@@ -318,7 +314,6 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override

@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.utility;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +51,6 @@ public class ConnectJson {
                     json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
                     break;
             }
-            Log.d("JSON DATA", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -77,7 +75,6 @@ public class ConnectJson {
             json.put("title", title);
             json.put("description", description);
             json.put("worksId", worksId);
-            Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -97,7 +94,6 @@ public class ConnectJson {
             json.put("lk", prefs.getString(GlobalVariable.API_TOKEN, "null"));
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("type", 0);
-            Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -117,7 +113,6 @@ public class ConnectJson {
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("type", 1);
             json.put("queryId", queryId);
-            Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -142,7 +137,6 @@ public class ConnectJson {
             json.put("description", description);
             json.put("phoneNo", phoneNo);
             if (!gender.isEmpty()) json.put("gender", String.valueOf(gender));
-            Log.d("JSON", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -399,7 +393,6 @@ public class ConnectJson {
             json.put("workId", workId);
             json.put("turnInType", turnInType);
             json.put("description", description);
-            Log.d("LOGIN JSON: ", json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

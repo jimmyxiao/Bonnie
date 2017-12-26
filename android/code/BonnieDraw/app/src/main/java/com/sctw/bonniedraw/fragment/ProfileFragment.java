@@ -13,7 +13,6 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -238,7 +237,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Profile", "onFailure");
             }
 
             @Override
@@ -293,7 +291,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override
@@ -382,7 +379,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override
@@ -425,7 +421,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override
@@ -468,7 +463,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override
@@ -509,7 +503,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override

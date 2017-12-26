@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -233,7 +232,6 @@ public class PlayFragment extends DialogFragment {
                     if (responseJSON.getInt("res") == 1) {
                         PlayFragment.this.dismiss();
                     }
-                    Log.d("JSON RESPONE", responseJSON.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -755,7 +753,6 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override
@@ -782,7 +779,6 @@ public class PlayFragment extends DialogFragment {
                                             break;
                                     }
                                 }
-                                Log.d("LOGIN JSON", responseJSON.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -802,7 +798,6 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override
@@ -829,7 +824,6 @@ public class PlayFragment extends DialogFragment {
                                             break;
                                     }
                                 }
-                                Log.d("LOGIN JSON", responseJSON.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -849,7 +843,6 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override
@@ -876,7 +869,6 @@ public class PlayFragment extends DialogFragment {
                                             break;
                                     }
                                 }
-                                Log.d("LOGIN JSON", responseJSON.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -895,7 +887,6 @@ public class PlayFragment extends DialogFragment {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
             }
 
             @Override

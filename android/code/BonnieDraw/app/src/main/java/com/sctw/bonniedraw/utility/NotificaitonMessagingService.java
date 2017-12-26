@@ -3,7 +3,6 @@ package com.sctw.bonniedraw.utility;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -18,8 +17,6 @@ public class NotificaitonMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         if (remoteMessage.getNotification() != null) {
-            Log.d("FCM", "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            Log.d("FCM", "Message Notification Body: " + remoteMessage.getNotification().getTitle());
             sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         }
     }
