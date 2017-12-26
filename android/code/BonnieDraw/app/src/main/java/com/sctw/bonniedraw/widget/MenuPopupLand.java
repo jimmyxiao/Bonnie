@@ -16,7 +16,7 @@ import razerdp.basepopup.BasePopupWindow;
  * Created by Fatorin on 2017/11/1.
  */
 
-public class MenuPopup extends BasePopupWindow implements View.OnClickListener {
+public class MenuPopupLand extends BasePopupWindow implements View.OnClickListener {
     public static final int PAINT_SETTING_GRID = 1;
     public static final int PAINT_SETTING_BG_COLOR = 2;
     public static final int PAINT_SETTING_SAVE = 3;
@@ -28,7 +28,7 @@ public class MenuPopup extends BasePopupWindow implements View.OnClickListener {
         void onPopupClick(int item);
     }
 
-    public MenuPopup(Activity context, MenuPopupOnClick listener) {
+    public MenuPopupLand(Activity context, MenuPopupOnClick listener) {
         super(context, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         findViewById(R.id.imgBtn_paint_setting_grid).setOnClickListener(this);
         findViewById(R.id.imgBtn_paint_setting_bg_color).setOnClickListener(this);
@@ -61,7 +61,8 @@ public class MenuPopup extends BasePopupWindow implements View.OnClickListener {
     public void showPopupWindow(View v) {
         //setOffsetX(-(getWidth() - v.getWidth() / 2));
         //setOffsetY(-v.getHeight() / 2);
-        setOffsetY(0);
+        setOffsetX(0);
+        setOffsetY(-getHeight());
         super.showPopupWindow(v);
     }
 
@@ -72,13 +73,12 @@ public class MenuPopup extends BasePopupWindow implements View.OnClickListener {
 
     @Override
     public View onCreatePopupView() {
-        return createPopupById(R.layout.popup_paint_setting);
-
+        return createPopupById(R.layout.popup_paint_setting_land);
     }
 
     @Override
     public View initAnimaView() {
-        return getPopupWindowView().findViewById(R.id.main_paint_layout);
+        return getPopupWindowView().findViewById(R.id.main_paint_layout_land);
     }
 
     @Override

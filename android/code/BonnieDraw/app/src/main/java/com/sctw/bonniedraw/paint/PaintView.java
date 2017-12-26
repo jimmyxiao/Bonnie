@@ -117,16 +117,19 @@ public class PaintView extends View {
     private ArrayList<Bitmap> mBitmapList;
     private ArrayList<Bitmap> mBitmapUndoList;
     private Bitmap mSketchLayer;
-    private Bitmap mBackgroundLayer;
+    private boolean mbDirection=true;
 
-    public PaintView(Context c) {
+    public PaintView(Context c,boolean direction) {
+        //true = 直  false=橫
         super(c);
+        this.mbDirection=direction;
         initBrush();
     }
 
-    public PaintView(Context c, boolean mbPlayMode) {
+    public PaintView(Context c, boolean mbPlayMode,boolean direction) {
         super(c);
         this.mbPlayMode = mbPlayMode;
+        this.mbDirection=direction;
         initBrush();
     }
 
@@ -264,6 +267,15 @@ public class PaintView extends View {
         return size.x;
     }
 
+    private int getHieghtSize(Context c) {
+        WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        setLayoutParams(new LinearLayout.LayoutParams(size.y, size.y));
+        return size.y;
+    }
+
     public boolean saveTempPhotoAndBdw() {
         try {
             File pngfile = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_PNG);
@@ -313,7 +325,11 @@ public class PaintView extends View {
 
     public void initBrush() {
         //old init
-        this.miWidth = getWidthSize(getContext());
+        if(mbDirection){
+            this.miWidth = getWidthSize(getContext());
+        }else {
+            this.miWidth = getHieghtSize(getContext());
+        }
         this.mListTagPoint = new ArrayList<>();
         this.mListUndoTagPoint = new ArrayList<>();
         this.mFileBDW = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_BDW);

@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,6 +40,7 @@ import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.BgColorPopup;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
+import com.sctw.bonniedraw.widget.MenuPopupLand;
 import com.sctw.bonniedraw.widget.SizePopup;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
@@ -67,7 +70,7 @@ import okhttp3.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPopupOnClick, SizePopup.OnSeekChange, ColorPopup.OnPopupColorPick, BgColorPopup.OnBgPopupColorPick {
+public class PaintHorizontalActivity extends AppCompatActivity implements MenuPopupLand.MenuPopupOnClick, SizePopup.OnSeekChange, ColorPopup.OnPopupColorPick, BgColorPopup.OnBgPopupColorPick {
     private PaintView mPaintView;
     private FrameLayout mFrameLayoutFreePaint;
     private ImageButton mBtnRedo, mBtnUndo, mBtnOpenAutoPlay, mBtnSize, mBtnErase, mBtnChangePaint, mBtnSetting, mBtnColorChange, mBtnZoom;
@@ -77,7 +80,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private LinearLayout mLinearLayoutPaintSelect;
     private int miPrivacyType;
     private SharedPreferences mPrefs;
-    private MenuPopup mMenuPopup;
+    private MenuPopupLand mMenuPopupLand;
     private SizePopup mSeekbarPopup;
     private ColorPopup mColorPopup;
     private BgColorPopup mBgColorPopup;
@@ -87,7 +90,10 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_paint);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_paint_land);
         mPrefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         //set View
         mbHint = mPrefs.getBoolean("zoomhint", false);
@@ -108,7 +114,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         new Thread(runSettingView).start();
         setOnClick();
         //Paint initTwitter & View
-        mPaintView = new PaintView(this,true);
+        mPaintView = new PaintView(this,false);
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
         //********Init Brush*******
@@ -124,9 +130,9 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     private Runnable runSettingView = new Runnable() {
         @Override
         public void run() {
-            mMenuPopup = new MenuPopup(PaintActivity.this, PaintActivity.this);
-            mColorPopup = new ColorPopup(PaintActivity.this, PaintActivity.this);
-            mBgColorPopup = new BgColorPopup(PaintActivity.this, PaintActivity.this);
+            mMenuPopupLand = new MenuPopupLand(PaintHorizontalActivity.this, PaintHorizontalActivity.this);
+            mColorPopup = new ColorPopup(PaintHorizontalActivity.this, PaintHorizontalActivity.this);
+            mBgColorPopup = new BgColorPopup(PaintHorizontalActivity.this, PaintHorizontalActivity.this);
         }
     };
 
@@ -190,7 +196,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(PaintActivity.this, R.string.paint_save_need_name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaintHorizontalActivity.this, R.string.paint_save_need_name, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -218,7 +224,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.login_fail_server), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.login_fail_server), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
             }
@@ -354,7 +360,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 int progress = mSeekbarOpacity.getProgress() + 1;
                 mSeekbarOpacity.setProgress(progress);
                 mPaintView.setDrawingAlpha(progress / 100f);
-                ToastUtil.createToastWindow(PaintActivity.this, progress + "%", 0);
+                ToastUtil.createToastWindow(PaintHorizontalActivity.this, progress + "%", 0);
             }
         });
 
@@ -365,7 +371,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 int progress = mSeekbarOpacity.getProgress() - 1;
                 mSeekbarOpacity.setProgress(progress);
                 mPaintView.setDrawingAlpha(progress / 100f);
-                ToastUtil.createToastWindow(PaintActivity.this, progress + "%", 0);
+                ToastUtil.createToastWindow(PaintHorizontalActivity.this, progress + "%", 0);
             }
         });
 
@@ -373,13 +379,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    ToastUtil.createToastWindow(PaintActivity.this, progress + "%", 0);
+                    ToastUtil.createToastWindow(PaintHorizontalActivity.this, progress + "%", 0);
                 }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                ToastUtil.createToastWindow(PaintActivity.this, seekBar.getProgress() + "%", 0);
+                ToastUtil.createToastWindow(PaintHorizontalActivity.this, seekBar.getProgress() + "%", 0);
             }
 
             @Override
@@ -433,7 +439,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(View v) {
                 toggleBrushPanel();
-                mMenuPopup.showPopupWindow(v);
+                mMenuPopupLand.showPopupWindow(v);
             }
         });
 
@@ -447,7 +453,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                     if (!mbHint) {
                         mbHint = true;
                         mPrefs.edit().putBoolean("zoomhint", true).apply();
-                        final FullScreenDialog dialog = new FullScreenDialog(PaintActivity.this, R.layout.item_hint_zoom);
+                        final FullScreenDialog dialog = new FullScreenDialog(PaintHorizontalActivity.this, R.layout.item_hint_zoom);
                         ConstraintLayout layout = dialog.findViewById(R.id.ll_hint_zoom);
                         layout.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -489,7 +495,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         startActivity(intent);
                     }
                 } else {
-                    ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_need_draw), 0);
+                    ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.paint_need_draw), 0);
                 }
 
             }
@@ -515,20 +521,20 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(View v) {
                 toggleBrushPanel();
-                final FullScreenDialog dialog = new FullScreenDialog(PaintActivity.this, R.layout.dialog_paint_clean);
+                final FullScreenDialog dialog = new FullScreenDialog(PaintHorizontalActivity.this, R.layout.dialog_paint_clean);
                 Button btnClean = dialog.findViewById(R.id.btn_paint_back_clean);
                 Button btnCancel = dialog.findViewById(R.id.btn_paint_back_cancel);
                 btnClean.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mPaintView.mFileBDW.delete() && mPaintView.mFilePNG.delete()) {
-                            ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_delete_sketch), 0);
+                            ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.paint_delete_sketch), 0);
                         }
                         mFrameLayoutFreePaint.removeAllViews();
                         Brush brush = mPaintView.getBrush();
                         int color = mPaintView.getDrawingColor();
                         float brusnSize = mPaintView.getDrawingScaledSize();
-                        mPaintView = new PaintView(getApplicationContext(),true);
+                        mPaintView = new PaintView(getApplicationContext(),false);
                         mPaintView.initDefaultBrush(brush);
                         mPaintView.setBrush(brush);
                         mPaintView.setDrawingColor(color);
@@ -556,7 +562,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 if (mPaintView.mListTagPoint.size() > 0) {
                     publishWorkEdit();
                 } else {
-                    ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_need_draw), 0);
+                    ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.paint_need_draw), 0);
                 }
             }
         });
@@ -698,7 +704,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             @Override
             public void onClick(View view) {
                 boolean result = mPaintView.saveTempPhotoAndBdw();
-                Toast.makeText(PaintActivity.this, R.string.save_temp_successful, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PaintHorizontalActivity.this, R.string.save_temp_successful, Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 if (result) finish();
             }
@@ -783,7 +789,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 //saveBdw();
                 break;
         }
-        mMenuPopup.dismiss();
+        mMenuPopupLand.dismiss();
     }
 
     public void saveBdw() {
@@ -796,9 +802,9 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             File bdwfile = new File(Environment.getExternalStorageDirectory() + "/Screenshots/" + "BDW" + filename + ".bdw");
             BDWFileWriter writer = new BDWFileWriter();
             if (writer.WriteToFile(mPaintView.mListTagPoint, bdwfile.getAbsolutePath())) {
-                ToastUtil.createToastWindow(PaintActivity.this, "BDW儲存成功，檔案位於Screenshots資料夾。", PxDpConvert.getSystemHight(this) / 3);
+                ToastUtil.createToastWindow(PaintHorizontalActivity.this, "BDW儲存成功，檔案位於Screenshots資料夾。", PxDpConvert.getSystemHight(this) / 3);
             }
-            mMenuPopup.dismiss();
+            mMenuPopupLand.dismiss();
         }
     }
 
@@ -816,8 +822,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
-                ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.save_photo_successful), PxDpConvert.getSystemHight(this) / 3);
-                mMenuPopup.dismiss();
+                ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.save_photo_successful), PxDpConvert.getSystemHight(this) / 3);
+                mMenuPopupLand.dismiss();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -851,7 +857,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
     }
 
     private void openGridScreen() {
-        final FullScreenDialog gridDialog = new FullScreenDialog(PaintActivity.this, R.layout.dialog_paint_grid);
+        final FullScreenDialog gridDialog = new FullScreenDialog(PaintHorizontalActivity.this, R.layout.dialog_paint_grid);
         Button gridNone = gridDialog.findViewById(R.id.paint_grid_none);
         Button grid3 = gridDialog.findViewById(R.id.paint_grid_3);
         Button grid6 = gridDialog.findViewById(R.id.paint_grid_6);

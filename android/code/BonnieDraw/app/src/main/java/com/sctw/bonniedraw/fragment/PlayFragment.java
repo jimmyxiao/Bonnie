@@ -114,7 +114,7 @@ public class PlayFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPaintView = new PaintView(getContext());
+        mPaintView = new PaintView(getContext(),true);
         mTvUserName = view.findViewById(R.id.textView_single_work_username);
         mTvWorkName = view.findViewById(R.id.textView_single_work_title);
         mTvWorkDescription = view.findViewById(R.id.textView_single_work_description);

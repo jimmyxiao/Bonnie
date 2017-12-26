@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_paint_setting_background"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageButton
+            android:id="@+id/imgBtn_paint_setting_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/grid_lines_ic" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_paint_setting_bg_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/color_icon" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_paint_setting_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/save_icon" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_paint_setting_extra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Transparent"
+            android:padding="8dp"
+            app:srcCompat="@drawable/system_icon" />
+    </LinearLayout>
+</RelativeLayout>

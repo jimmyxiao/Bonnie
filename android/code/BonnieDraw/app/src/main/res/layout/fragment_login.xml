@@ -7,6 +7,7 @@
     android:focusableInTouchMode="true"
     tools:context="com.sctw.bonniedraw.fragment.LoginFragment">
 
+
     <ImageView
         android:id="@+id/logoImg"
         android:layout_width="match_parent"
@@ -25,11 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/logoImg"
-        android:layout_marginEnd="60dp"
-        android:layout_marginStart="60dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
-        app:errorEnabled="true"
-        android:theme="@style/TextLabel">
+        android:theme="@style/TextLabel"
+        app:errorEnabled="true">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/editText_signup_email"
@@ -46,10 +47,10 @@
         android:layout_alignEnd="@+id/inputLayout_signup_email"
         android:layout_alignStart="@+id/inputLayout_signup_email"
         android:layout_below="@+id/inputLayout_signup_email"
+        android:theme="@style/TextLabel"
         app:counterEnabled="true"
         app:counterMaxLength="15"
-        app:passwordToggleEnabled="true"
-        android:theme="@style/TextLabel">
+        app:passwordToggleEnabled="true">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/editText_signup_password"
@@ -65,7 +66,7 @@
     <Button
         android:id="@+id/btn_forget_password"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/inputLayout_signup_password"
         android:layout_below="@+id/inputLayout_signup_password"
         android:background="@color/Transparent"
@@ -73,81 +74,88 @@
         android:textColor="@color/Brown"
         android:textColorLink="@color/Brown" />
 
-    <Button
-        android:id="@+id/btn_email_login"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_hint_signup"
         android:layout_alignEnd="@+id/btn_forget_password"
         android:layout_alignStart="@+id/inputLayout_signup_password"
-        android:layout_below="@+id/btn_forget_password"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/icon_login_email"
-        android:text="@string/login"
-        android:textColor="@color/White" />
+        android:layout_below="@+id/btn_forget_password">
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_email_login"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/or" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/btn_fb_login_hide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent" />
+            <Button
+                android:id="@+id/btn_email_login"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/icon_login_email"
+                android:text="@string/login"
+                android:textColor="@color/White" />
 
-    <Button
-        android:id="@+id/btn_fb_login"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignEnd="@+id/btn_email_login"
-        android:layout_alignStart="@+id/btn_email_login"
-        android:layout_below="@+id/textView6"
-        android:background="@drawable/icon_login_fb"
-        android:text="Facebook"
-        android:textAllCaps="false"
-        android:textColor="@color/White" />
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/or" />
 
-    <com.twitter.sdk.android.core.identity.TwitterLoginButton
-        android:id="@+id/btn_twitter_login_hide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/btn_fb_login_hide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
-    <Button
-        android:id="@+id/btn_twitter_login"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignEnd="@+id/btn_email_login"
-        android:layout_alignStart="@+id/btn_email_login"
-        android:layout_below="@+id/btn_fb_login"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/icon_login_twitter"
-        android:text="Twitter"
-        android:textAllCaps="false"
-        android:textColor="@color/White" />
+            <Button
+                android:id="@+id/btn_fb_login"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/icon_login_fb"
+                android:text="Facebook"
+                android:textAllCaps="false"
+                android:textColor="@color/White" />
+
+            <com.twitter.sdk.android.core.identity.TwitterLoginButton
+                android:id="@+id/btn_twitter_login_hide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_twitter_login"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/icon_login_twitter"
+                android:text="Twitter"
+                android:textAllCaps="false"
+                android:textColor="@color/White" />
 
 
-    <Button
-        android:id="@+id/btn_google_plus_login"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignEnd="@+id/btn_email_login"
-        android:layout_alignStart="@+id/btn_email_login"
-        android:layout_below="@+id/btn_twitter_login"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/icon_login_googleplus"
-        android:text="Google+"
-        android:textAllCaps="false"
-        android:textColor="@color/White" />
+            <Button
+                android:id="@+id/btn_google_plus_login"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/icon_login_googleplus"
+                android:text="Google+"
+                android:textAllCaps="false"
+                android:textColor="@color/White" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <LinearLayout
+        android:id="@+id/ll_hint_signup"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
@@ -170,6 +178,5 @@
             android:text="@string/register"
             android:textColor="@color/Blue" />
     </LinearLayout>
-
 
 </RelativeLayout>

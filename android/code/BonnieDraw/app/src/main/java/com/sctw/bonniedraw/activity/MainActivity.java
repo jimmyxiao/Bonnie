@@ -301,9 +301,42 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     }
 
     private void startPaint() {
-        Intent it = new Intent();
-        it.setClass(MainActivity.this, PaintActivity.class);
-        startActivity(it);
+        final FullScreenDialog dialog=new FullScreenDialog(this,R.layout.dialog_base);
+        FrameLayout layout=dialog.findViewById(R.id.frameLayout_dialog_base);
+        Button yes=dialog.findViewById(R.id.btn_dialog_base_yes);
+        Button no=dialog.findViewById(R.id.btn_dialog_base_no);
+        TextView title=dialog.findViewById(R.id.textView_dialog_base_title);
+        TextView msg=dialog.findViewById(R.id.textView_dialog_base_msg);
+        yes.setText("縱向");
+        no.setText("橫向");
+        //no.setVisibility(View.VISIBLE);
+        title.setText("畫圖方向");
+        msg.setText("請選擇你要的繪圖方向");
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent it = new Intent();
+                it.setClass(MainActivity.this, PaintActivity.class);
+                startActivity(it);
+            }
+        });
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent it = new Intent();
+                it.setClass(MainActivity.this, PaintHorizontalActivity.class);
+                startActivity(it);
+            }
+        });
+        dialog.show();
     }
 
     private void createProfileInfo() {

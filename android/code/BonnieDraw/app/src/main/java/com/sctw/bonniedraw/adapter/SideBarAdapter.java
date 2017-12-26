@@ -46,7 +46,7 @@ public class SideBarAdapter extends RecyclerView.Adapter<SideBarAdapter.ViewHold
     public void onBindViewHolder(final SideBarAdapter.ViewHolder holder, int position) {
         holder.mTv.setText(data.get(holder.getAdapterPosition()).getTitle());
         if (data.get(holder.getAdapterPosition()).getTitle().isEmpty()) {
-            holder.mIv.setVisibility(View.INVISIBLE);
+            holder.mIv.setVisibility(View.GONE);
         }
         holder.mIv.setImageDrawable(ContextCompat.getDrawable(context, data.get(holder.getAdapterPosition()).getDrawableId()));
         if (position % 3 == 2 && position != getItemCount() - 1) {
