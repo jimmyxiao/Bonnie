@@ -19,7 +19,8 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 				if(data.res == 1){
 					$scope.secondarySectionArr_new = data.workList;
 				}else if(data.res == 0){
-					$state.go('login');
+					$rootScope.logout();
+					// $state.go('login');
 				}
 			})
 		}

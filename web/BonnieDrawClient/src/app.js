@@ -3,11 +3,11 @@
 // localhost
 var locationIP='http://localhost:8080/';
 // var locationIP='http://www.bonniedraw.com:8080/';
- var rootUrl = locationIP + 'BonnieDrawService/';
+var rootUrl = locationIP + 'BonnieDrawService/';
 
 // release
-// var locationIP='https://www.bonniedraw.com/';
-// var rootUrl = locationIP + 'bonniedraw_service/';
+ // var locationIP='https://www.bonniedraw.com/';
+ // var rootUrl = locationIP + 'bonniedraw_service/';
 
 var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
@@ -23,7 +23,9 @@ app.factory('baseHttp', function($rootScope, $http){
 			function(data, status, headers, config){
 				callback(data, status, headers, config);
 			}).error(function(data, status, headers, config){
-				alert('Oops ! has error ! try it again !');
+				// alert('Oops ! has error ! try it again !');
+				alert('您的登入帳號遺失,請重新登入!');
+				$rootScope.logout();
 			}
 		)
 	}
