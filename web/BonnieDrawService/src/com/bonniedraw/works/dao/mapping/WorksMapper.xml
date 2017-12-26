@@ -573,6 +573,9 @@
 	where 1=1 
     and wk.PRIVACY_TYPE = 1
     and wk.STATUS = 1
+    <![CDATA[
+    and wk.CREATION_DATE <= ( NOW() + INTERVAL 7 DAY )
+    ]]> 
     order by wl.LIKE_COUNT desc, wk.WORKS_ID asc
     LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
   </select>
