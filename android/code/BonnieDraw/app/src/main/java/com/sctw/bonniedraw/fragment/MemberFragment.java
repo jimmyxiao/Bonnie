@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -69,6 +70,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     private LinearLayout mLlFans, mLlFollow;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRv;
+    private FrameLayout mFrameLayoutLoading;
     private SharedPreferences prefs;
     private List<WorkInfoBean> workInfoBeanList;
     private int miUserId;
@@ -92,6 +94,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         miUserId = getArguments().getInt("userId");
+        mFrameLayoutLoading = view.findViewById(R.id.frameLayout_member);
+        mFrameLayoutLoading.bringToFront();
         mTvMemberName = view.findViewById(R.id.textView_member_userName);
         mTvMemberDescription = view.findViewById(R.id.textView_member_user_description);
         mTvMemberWorks = view.findViewById(R.id.textView_member_userworks);
@@ -252,6 +256,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             mRv.setAdapter(mAdapterList);
             mSwipeRefreshLayout.setRefreshing(false);
         }
+
+        mFrameLayoutLoading.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void refresh(JSONArray data) {

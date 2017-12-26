@@ -112,24 +112,23 @@ public class PaintView extends View {
     private boolean mIsBatchDraw;
 
     //**add
-    private TouchResampler mPlayResampler;
     private OnTouchHandler mPlayDrawingHandler;
     private ArrayList<Bitmap> mBitmapList;
     private ArrayList<Bitmap> mBitmapUndoList;
     private Bitmap mSketchLayer;
-    private boolean mbDirection=true;
+    private boolean mbDirection = true;
 
-    public PaintView(Context c,boolean direction) {
+    public PaintView(Context c, boolean direction) {
         //true = 直  false=橫
         super(c);
-        this.mbDirection=direction;
+        this.mbDirection = direction;
         initBrush();
     }
 
-    public PaintView(Context c, boolean mbPlayMode,boolean direction) {
+    public PaintView(Context c, boolean mbPlayMode, boolean direction) {
         super(c);
         this.mbPlayMode = mbPlayMode;
-        this.mbDirection=direction;
+        this.mbDirection = direction;
         initBrush();
     }
 
@@ -325,9 +324,9 @@ public class PaintView extends View {
 
     public void initBrush() {
         //old init
-        if(mbDirection){
+        if (mbDirection) {
             this.miWidth = getWidthSize(getContext());
-        }else {
+        } else {
             this.miWidth = getHieghtSize(getContext());
         }
         this.mListTagPoint = new ArrayList<>();
@@ -372,16 +371,16 @@ public class PaintView extends View {
         mDstOutPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
 
         if (mbPlayMode) {
-            this.mPlayResampler = new MyPlayDistanceResampler();
             this.mPlayDrawingHandler = new OnTouchHandler() {
                 public boolean onTouchEvent(MotionEvent event) {
                     if (!PaintView.this.mBrush.traceMode) {
-                        mPlayResampler.onTouchEvent(event);
+                        mTouchResampler.onTouchEvent(event);
                         return true;
                     }
                     return false;
                 }
             };
+            this.mTouchResampler = new MyPlayDistanceResampler();
         } else {
             this.mCurveDrawingHandler = new OnTouchHandler() {
                 public boolean onTouchEvent(MotionEvent event) {
@@ -580,8 +579,6 @@ public class PaintView extends View {
         if (this.mBrush == null) {
             return super.onTouchEvent(event);
         }
-
-        int action = Build.VERSION.SDK_INT >= 8 ? event.getActionMasked() : event.getAction() & 255;
 
         if (this.mCurveDrawingHandler != null && !mbPlayMode) {
             return this.mCurveDrawingHandler.onTouchEvent(event);
@@ -1037,7 +1034,7 @@ public class PaintView extends View {
         if (y < this.getHeight() && y >= 0) {
             tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));
         } else if (y > this.getHeight()) {
-            tagpoint.set_iPosY(PxDpConvert.displayToFormat(this.getHeight()-1, miWidth));
+            tagpoint.set_iPosY(PxDpConvert.displayToFormat(this.getHeight() - 1, miWidth));
         } else if (y <= 0) {
             tagpoint.set_iPosY(PxDpConvert.displayToFormat(1, miWidth));
         }

@@ -36,9 +36,10 @@
             android:id="@+id/textView_paint_play_title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:textAlignment="center"
-            android:textColor="@color/White" />
+            android:textColor="@color/White"
+            android:textSize="18sp" />
 
         <ImageButton
             android:id="@+id/imgBtn_replay"
@@ -46,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/Transparent"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_restart" />
     </LinearLayout>
 
@@ -132,8 +133,7 @@
                 <ImageView
                     android:id="@+id/imgView_single_work_img"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:minHeight="250dp" />
+                    android:layout_height="match_parent" />
             </FrameLayout>
 
             <LinearLayout

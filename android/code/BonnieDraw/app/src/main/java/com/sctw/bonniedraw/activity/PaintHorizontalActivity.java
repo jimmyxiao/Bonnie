@@ -114,7 +114,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
         new Thread(runSettingView).start();
         setOnClick();
         //Paint initTwitter & View
-        mPaintView = new PaintView(this,false);
+        mPaintView = new PaintView(this,true,false);
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
         //********Init Brush*******

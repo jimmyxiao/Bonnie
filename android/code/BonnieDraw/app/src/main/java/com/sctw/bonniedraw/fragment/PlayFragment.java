@@ -114,7 +114,7 @@ public class PlayFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPaintView = new PaintView(getContext(),true);
+        mPaintView = new PaintView(getContext(), true, true);
         mTvUserName = view.findViewById(R.id.textView_single_work_username);
         mTvWorkName = view.findViewById(R.id.textView_single_work_title);
         mTvWorkDescription = view.findViewById(R.id.textView_single_work_description);
@@ -164,8 +164,6 @@ public class PlayFragment extends DialogFragment {
                                 int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                                 mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
                                 System.out.println("筆代號 = " + paintId);
-                            } else {
-                                mPaintView.getBrush().setEraser(true);
                             }
                             if (tagpoint.get_iColor() != 0) {
                                 mPaintView.setDrawingColor(tagpoint.get_iColor());
@@ -205,6 +203,8 @@ public class PlayFragment extends DialogFragment {
                         }
                     }
                 } else {
+                    mBtnPause.setVisibility(View.GONE);
+                    mBtnPlay.setVisibility(View.VISIBLE);
                     mbAutoPlay = false;
                 }
             }
@@ -459,21 +459,17 @@ public class PlayFragment extends DialogFragment {
         mBtnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkSketch() && !mbAutoPlay) {
+                if (checkSketch() && !mbAutoPlay && miPointCount == 0) {
                     mImgViewWorkImage.setVisibility(View.GONE);
                     replayStart();
                     mBtnNext.setVisibility(View.VISIBLE);
                     mBtnPrevious.setVisibility(View.VISIBLE);
                     mBtnPlay.setVisibility(View.GONE);
                     mBtnPause.setVisibility(View.VISIBLE);
-                } else {
-                    if (miPointCount > 0)
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-                            }
-                        });
+                } else if (miPointCount > 0) {
+                    mBtnPlay.setVisibility(View.GONE);
+                    mBtnPause.setVisibility(View.VISIBLE);
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                     mbAutoPlay = true;
                 }
             }
@@ -571,7 +567,7 @@ public class PlayFragment extends DialogFragment {
 
     private void replayStart() {
         mFrameLayoutFreePaint.removeAllViews();
-        mPaintView = new PaintView(getContext(), true);
+        mPaintView = new PaintView(getContext(), true, true);
         mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
         mFrameLayoutFreePaint.addView(mPaintView);
         mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);

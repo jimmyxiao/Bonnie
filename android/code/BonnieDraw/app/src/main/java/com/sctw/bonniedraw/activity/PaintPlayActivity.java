@@ -51,7 +51,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paint_play);
         mPrefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
-        mPaintView = new PaintView(this, true);
+        mPaintView = new PaintView(this, true, true);
         mFrameLayoutFreePaint = (FrameLayout) findViewById(R.id.frameLayout_freepaint);
         mFrameLayoutFreePaint.addView(mPaintView);
         mListRecordInt = new ArrayList<>();
@@ -147,14 +147,14 @@ public class PaintPlayActivity extends AppCompatActivity {
     private void showSpeed() {
         int absCount = Math.abs(miSpeedCount);
         if (miSpeedCount >= 0) {
-            mTvPlaySpeed.setText(getString(R.string.play_speed) + (int)Math.pow(2, absCount) + "x");
+            mTvPlaySpeed.setText(getString(R.string.play_speed) + (int) Math.pow(2, absCount) + "x");
         } else if (miSpeedCount < 0) {
-            mTvPlaySpeed.setText(getString(R.string.play_speed) + "1/" + (int)Math.pow(2, absCount) + "x");
+            mTvPlaySpeed.setText(getString(R.string.play_speed) + "1/" + (int) Math.pow(2, absCount) + "x");
         }
     }
 
-    private void showProgress(){
-        if(miPointCurrent>0){
+    private void showProgress() {
+        if (miPointCurrent > 0) {
             mTextViewPlayProgress.setText(String.format(Locale.TAIWAN, " %d%%", 100 * miPointCurrent / mPaintView.mListTagPoint.size()));
         }
     }
@@ -230,6 +230,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         mBtnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBtnPause.setVisibility(View.GONE);
                 mBtnAutoPlay.setVisibility(View.VISIBLE);
                 mbAutoPlay = false;
             }
@@ -280,22 +281,23 @@ public class PaintPlayActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (miPointCount == 0) {
                     mFrameLayoutFreePaint.removeAllViews();
-                    mPaintView = new PaintView(PaintPlayActivity.this, true);
+                    mPaintView = mPaintView = new PaintView(PaintPlayActivity.this, true, true);
                     mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
                     mFrameLayoutFreePaint.addView(mPaintView);
                     mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
                     miPointCount = mPaintView.mListTagPoint.size();
                     miPointCurrent = 0;
-                    if (miPointCount > 0)
-                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                     mImgBtnReplay.setVisibility(View.INVISIBLE);
                     mbAutoPlay = true;
                     mListRecordInt.clear();
                     mBtnPause.setVisibility(View.VISIBLE);
                     mBtnAutoPlay.setVisibility(View.GONE);
                 } else {
-                    if (miPointCount > 0)
-                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    mBtnAutoPlay.setVisibility(View.GONE);
+                    mBtnPause.setVisibility(View.VISIBLE);
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    mbAutoPlay = true;
                 }
             }
         };

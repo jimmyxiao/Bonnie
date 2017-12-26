@@ -7,22 +7,22 @@
 
         <ImageView
             android:id="@+id/viewColorBorder"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="center"
             android:background="@drawable/shape_paint_color_border" />
 
         <ImageView
             android:id="@+id/viewColor"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
             android:background="@drawable/shape_paint_color" />
 
         <ImageView
             android:id="@+id/viewColorPress"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_gravity="center"
             android:background="@color/Transparent"
             android:visibility="visible"
