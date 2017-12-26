@@ -109,6 +109,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
         mRecyclerViewHome = view.findViewById(R.id.recyclerView_home);
+        mRecyclerViewHome.setHasFixedSize(true);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_home);
         mTvHint = (TextView) view.findViewById(R.id.textView_home_hint);
         fragmentManager = getFragmentManager();

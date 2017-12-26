@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                             return false;
                         }
                         mbFirst = true;
-                        if (miFn == 0) miFn = 2;
+                        miFn = 2;
                         changeFragmentWithBundle(new HomeAndHotFragment(), miFn, mSquery);
                         return true;
                     case R.id.ic_btn_hot:
@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                             callFragmentToTop();
                             return false;
                         }
+                        miFn = 1;
                         changeFragmentWithBundle(new HomeAndHotFragment(), miFn, mSquery);
                         return true;
                     case R.id.ic_btn_notice:
@@ -301,12 +302,12 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
     }
 
     private void startPaint() {
-        final FullScreenDialog dialog=new FullScreenDialog(this,R.layout.dialog_base);
-        FrameLayout layout=dialog.findViewById(R.id.frameLayout_dialog_base);
-        Button yes=dialog.findViewById(R.id.btn_dialog_base_yes);
-        Button no=dialog.findViewById(R.id.btn_dialog_base_no);
-        TextView title=dialog.findViewById(R.id.textView_dialog_base_title);
-        TextView msg=dialog.findViewById(R.id.textView_dialog_base_msg);
+        final FullScreenDialog dialog = new FullScreenDialog(this, R.layout.dialog_base);
+        FrameLayout layout = dialog.findViewById(R.id.frameLayout_dialog_base);
+        Button yes = dialog.findViewById(R.id.btn_dialog_base_yes);
+        Button no = dialog.findViewById(R.id.btn_dialog_base_no);
+        TextView title = dialog.findViewById(R.id.textView_dialog_base_title);
+        TextView msg = dialog.findViewById(R.id.textView_dialog_base_msg);
         yes.setText("縱向");
         no.setText("橫向");
         //no.setVisibility(View.VISIBLE);
@@ -521,26 +522,26 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                 //我的畫作
                 break;
             case 3:
-                if(!mAdapter.getTagName(3).isEmpty()){
-                    mbFirst=false;
-                    miFn=8;
-                    mSquery=mAdapter.getTagName(3);
+                if (!mAdapter.getTagName(3).isEmpty()) {
+                    mbFirst = false;
+                    miFn = 8;
+                    mSquery = mAdapter.getTagName(3);
                     mBottomNavigationViewEx.setCurrentItem(0);
                 }
                 break;
             case 4:
-                if(!mAdapter.getTagName(4).isEmpty()){
-                    mbFirst=false;
-                    miFn=8;
-                    mSquery=mAdapter.getTagName(4);
+                if (!mAdapter.getTagName(4).isEmpty()) {
+                    mbFirst = false;
+                    miFn = 8;
+                    mSquery = mAdapter.getTagName(4);
                     mBottomNavigationViewEx.setCurrentItem(0);
                 }
                 break;
             case 5:
-                if(!mAdapter.getTagName(5).isEmpty()){
-                    mbFirst=false;
-                    miFn=8;
-                    mSquery=mAdapter.getTagName(5);
+                if (!mAdapter.getTagName(5).isEmpty()) {
+                    mbFirst = false;
+                    miFn = 8;
+                    mSquery = mAdapter.getTagName(5);
                     mBottomNavigationViewEx.setCurrentItem(0);
                 }
                 break;
