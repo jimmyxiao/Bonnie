@@ -22,6 +22,7 @@ import com.sctw.bonniedraw.adapter.NoticeAdapter;
 import com.sctw.bonniedraw.bean.NoticeInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LinearLayoutManagerWithSmoothScroller;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 
 import org.json.JSONArray;
@@ -68,8 +69,8 @@ public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeCl
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         mRv = view.findViewById(R.id.recyclerView_notice);
-        LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        mRv.setLayoutManager(lm);
+        mRv.setHasFixedSize(true);
+        mRv.setLayoutManager(new LinearLayoutManagerWithSmoothScroller(getContext(),LinearLayoutManager.VERTICAL,false));
         fragmentManager = getFragmentManager();
         mSwipeLayout = view.findViewById(R.id.swipeLayout_notice);
         mFrameLayout = view.findViewById(R.id.frameLayout_notice);
@@ -188,5 +189,9 @@ public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeCl
         fragmentTransaction.replace(R.id.frameLayout_actitivy, memberFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void showViewToTop() {
+        mRv.smoothScrollToPosition(0);
     }
 }

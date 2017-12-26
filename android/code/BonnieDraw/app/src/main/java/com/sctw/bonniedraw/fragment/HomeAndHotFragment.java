@@ -15,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,6 +40,7 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.DiffCallBack;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LinearLayoutManagerWithSmoothScroller;
 import com.sctw.bonniedraw.utility.LoadMoreFooter;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
@@ -68,6 +70,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
     private HeaderAndFooterRecyclerView mRecyclerViewHome;
+    private RecyclerView.SmoothScroller mSmoothScroller;
     private Toolbar mToolbar;
     private SearchView mSearchView;
     private SharedPreferences prefs;
@@ -77,7 +80,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private FragmentTransaction fragmentTransaction;
     private ProgressBar mProgressBar;
     private WorkAdapterList mAdapter;
-    private LinearLayoutManager mLayoutManager;
+    private LinearLayoutManagerWithSmoothScroller mLayoutManager;
     private TextView mTvHint;
     private int miWt, miStn = 1, miRc = 20; //STN=起始筆數 RC=需求筆數
     private int interWt;  // 1=追蹤 , 2= 熱門
@@ -110,6 +113,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_home);
         mRecyclerViewHome = view.findViewById(R.id.recyclerView_home);
         mRecyclerViewHome.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManagerWithSmoothScroller(getContext(),LinearLayoutManager.VERTICAL,false);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar_home);
         mTvHint = (TextView) view.findViewById(R.id.textView_home_hint);
         fragmentManager = getFragmentManager();
@@ -124,8 +128,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         } else {
             mToolbar.setNavigationIcon(null);
         }
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
         mRecyclerViewHome.setLayoutManager(mLayoutManager);
         if (interWt == 8 && !mStrQuery.isEmpty()) {
             getQueryWorksList(mStrQuery);

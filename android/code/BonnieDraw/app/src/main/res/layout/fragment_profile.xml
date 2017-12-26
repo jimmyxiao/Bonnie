@@ -4,6 +4,7 @@
     android:id="@+id/profile_container_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minHeight="?attr/actionBarSize"
     android:orientation="vertical"
     tools:context="com.sctw.bonniedraw.fragment.ProfileFragment">
 
@@ -96,21 +97,21 @@
                 android:id="@+id/circleImg_profile_photo"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:id="@+id/textView_profile_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:textAlignment="center" />
 
             <Button
                 android:id="@+id/btn_profile_edit"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
                 android:background="@drawable/icon_edit_profile"
                 android:text="@string/profile_edit_profile"
                 android:textColor="@color/White"
@@ -119,7 +120,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="4dp"
                 android:paddingEnd="72dp"
                 android:paddingStart="72dp">
 
@@ -128,8 +129,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="4sp"
-                    android:textAlignment="viewStart"
                     android:maxLines="2"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/Black"
                     android:textIsSelectable="true" />
             </ScrollView>

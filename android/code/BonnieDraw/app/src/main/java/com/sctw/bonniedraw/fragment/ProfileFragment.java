@@ -36,6 +36,7 @@ import com.sctw.bonniedraw.utility.DiffCallBack;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LinearLayoutManagerWithSmoothScroller;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.MessageDialog;
@@ -75,7 +76,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private WorkAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
     private LinearLayout mLlFans, mLlFollow;
-    private LinearLayoutManager layoutManager;
+    private LinearLayoutManagerWithSmoothScroller layoutManager;
     private SharedPreferences prefs;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -117,8 +118,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         setOnClick();
         fragmentManager = getFragmentManager();
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
-        layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager = new LinearLayoutManagerWithSmoothScroller(getContext(),LinearLayoutManager.VERTICAL,false);
         getWorksList(GET_WORKS_LIST);
         mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -671,5 +671,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     @Override
     public void onGridWorkClick(int wid) {
         showWork(wid);
+    }
+
+    public void showViewToTop() {
+        mRv.smoothScrollToPosition(0);
     }
 }

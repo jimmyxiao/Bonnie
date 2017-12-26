@@ -42,6 +42,7 @@ import com.sctw.bonniedraw.bean.SidebarBean;
 import com.sctw.bonniedraw.bean.TagListBean;
 import com.sctw.bonniedraw.fragment.CollectionFragment;
 import com.sctw.bonniedraw.fragment.HomeAndHotFragment;
+import com.sctw.bonniedraw.fragment.MemberFragment;
 import com.sctw.bonniedraw.fragment.NoticeFragment;
 import com.sctw.bonniedraw.fragment.ProfileFragment;
 import com.sctw.bonniedraw.fragment.ProfileSettingFragment;
@@ -219,9 +220,17 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                         changeFragmentWithBundle(new HomeAndHotFragment(), miFn, mSquery);
                         return true;
                     case R.id.ic_btn_notice:
+                        if (mBottomNavigationViewEx.getCurrentItem() == 3) {
+                            callFragmentToTop();
+                            return false;
+                        }
                         changeFragment(new NoticeFragment());
                         return true;
                     case R.id.ic_btn_user:
+                        if (mBottomNavigationViewEx.getCurrentItem() == 4) {
+                            callFragmentToTop();
+                            return false;
+                        }
                         changeFragment(new ProfileFragment());
                         return true;
                     default:
@@ -568,6 +577,12 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         for (Fragment fragment : fragmentManager.getFragments()) {
             if (fragment != null && fragment.isVisible() && fragment instanceof HomeAndHotFragment) {
                 ((HomeAndHotFragment) fragment).showViewToTop();
+            } else if (fragment != null && fragment.isVisible() && fragment instanceof NoticeFragment) {
+                ((NoticeFragment) fragment).showViewToTop();
+            } else if (fragment != null && fragment.isVisible() && fragment instanceof MemberFragment) {
+                ((MemberFragment) fragment).showViewToTop();
+            } else if (fragment != null && fragment.isVisible() && fragment instanceof ProfileFragment) {
+                ((ProfileFragment) fragment).showViewToTop();
             }
         }
     }

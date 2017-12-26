@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,6 +34,7 @@ import com.sctw.bonniedraw.utility.DiffCallBack;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.LinearLayoutManagerWithSmoothScroller;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.MessageDialog;
@@ -75,10 +75,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     private WorkAdapterGrid mAdapterGrid;
     private WorkAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
-    private LinearLayoutManager layoutManager;
+    private LinearLayoutManagerWithSmoothScroller layoutManager;
     private boolean mbGridMode = true, mbFollow = false;
     private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
     private int miStn = 1, miRc = 18;
 
     @Override
@@ -113,8 +112,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         setOnClickEvent();
         getMemberInfo();
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager = new LinearLayoutManagerWithSmoothScroller(getContext(),LinearLayoutManager.VERTICAL,false);
         getWorksList(GET_WORKS_LIST);
         mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -713,5 +711,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     @Override
     public void onGridWorkClick(int wid) {
         showWork(wid);
+    }
+
+    public void showViewToTop() {
+        mRv.smoothScrollToPosition(0);
     }
 }
