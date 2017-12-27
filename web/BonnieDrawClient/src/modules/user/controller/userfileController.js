@@ -3,6 +3,16 @@ app.controller('userfileController', function ($cookieStore, $rootScope, $scope,
 		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
+		$rootScope.maxPagination = 0;
+		$rootScope.paginList =[];
+		$scope.clickPagin = function(pagin){
+			$rootScope.offset = pagin;
+			$scope.queryMyWorks();
+		}
+		$scope.movePagin = function(offset){
+			$rootScope.offset = $rootScope.offset + offset;
+			$scope.queryMyWorks();
+		}
 		$scope.status = $state.params.id;
 
 		if($scope.status==$rootScope.rg_gl.currentUser.ui){
@@ -33,6 +43,8 @@ app.controller('userfileController', function ($cookieStore, $rootScope, $scope,
 				params.queryId = $scope.status;
 				worksService.queryWorksList(params,function(data, status, headers, config){
 					if(data.res == 1){
+						$rootScope.maxPagination = data.maxPagination;
+						$rootScope.initalPaginList();
 						$scope.worksList = data.workList;
 					}
 				})

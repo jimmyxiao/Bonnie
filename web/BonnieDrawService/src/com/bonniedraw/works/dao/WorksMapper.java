@@ -45,6 +45,8 @@ public interface WorksMapper {
     int seletNewMaxPagination(Integer rc);
     
     int seletMaxPaginationBindUser(Map<String, Object> pagerMap);
+
+    int seletMaxPaginationBindOtherUser(Map<String, Object> pagerMap);
     
     int seletMaxPaginationBindFollow(Map<String, Object> pagerMap);
     

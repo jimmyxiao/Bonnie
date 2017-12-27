@@ -518,6 +518,14 @@
 		where USER_ID = #{userId, jdbcType=INTEGER}
 	) as counts
   </select>
+
+  <select id="seletMaxPaginationBindOtherUser" parameterType="java.util.Map" resultType="java.lang.Integer">
+  select ifnull(CEILING(MAX(counted) / #{limit, jdbcType=INTEGER} ), 0) as maxPagination 
+  from ( 
+    select count(*) as counted from works 
+    where USER_ID = #{queryId, jdbcType=INTEGER}
+  ) as counts
+  </select>
   
   <select id="seletMaxPaginationBindFollow" parameterType="java.util.Map" resultType="java.lang.Integer">
 	select ifnull(CEILING(MAX(counted) / #{limit, jdbcType=INTEGER} ), 0) as maxPagination

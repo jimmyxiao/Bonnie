@@ -341,6 +341,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 			Integer queryId = workListRequestVO.getQueryId();
 			if(queryId!=null && queryId>0 && queryId!=workListRequestVO.getUi()){
 				pagerMap.put("queryId", workListRequestVO.getQueryId());
+				maxPagination = worksMapper.seletMaxPaginationBindOtherUser(pagerMap);
 				worksResponseList = worksMapper.queryOtherUserWorksPager(pagerMap);
 			}
 			break;
