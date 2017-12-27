@@ -146,6 +146,7 @@ struct Service {
     static let SET_LIKE = "/setLike"
     static let SET_FOLLOW = "/setFollowing"
     static let SET_COLLECTION = "/setCollection"
+    static let SET_TURN_IN = "/setTurnin"
     static let REPORT = "/setTurnin"
     static let UPDATE_PASSWORD = "/updatePwd"
     static let LOAD_FILE = "/loadFile"

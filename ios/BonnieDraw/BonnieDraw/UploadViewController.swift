@@ -88,14 +88,18 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
         dropDown.show()
     }
 
-    @IBAction func save(_ sender: UIBarButtonItem) {
+    @IBAction func post(_ sender: UIBarButtonItem) {
         guard AppDelegate.reachability.connection != .none else {
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
-        guard let workThumbnail = workThumbnail, let workThumbnailData = UIImageJPEGRepresentation(workThumbnail, 1), let workFileUrl = workFileUrl else {
+        guard let workThumbnail = workThumbnail,
+              let workThumbnailData = UIImageJPEGRepresentation(workThumbnail, 1),
+              let workFileUrl = workFileUrl,
+              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
+        let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let title = self.workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if description.isEmpty {
@@ -108,8 +112,7 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
                 action in
                 self.workTitle.becomeFirstResponder()
             }
-        } else if let token = UserDefaults.standard.string(forKey: Default.TOKEN) {
-            let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
+        } else {
             sender.isEnabled = false
             progressBar.progress = 0
             loading.hide(false)
