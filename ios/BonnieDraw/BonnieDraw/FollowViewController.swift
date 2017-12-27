@@ -19,7 +19,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     private var timestamp = Date()
     private let searchBar = UISearchBar()
     private let refreshControl = UIRefreshControl()
-    private let titleView = Bundle.main.loadView(from: "TitleView")
+    private let titleView = UIImageView(image: UIImage(named: "title_logo"))
     private let placeholderImage = UIImage(named: "photo-square")
     private let likeImage = UIImage(named: "work_ic_like")
     private let likeImageSelected = UIImage(named: "work_ic_like_on")

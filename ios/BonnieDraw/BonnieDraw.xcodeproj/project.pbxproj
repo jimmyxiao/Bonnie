@@ -37,7 +37,6 @@
 		16369FFE1FB2A60300C7C8BC /* TabNavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16369FFD1FB2A60300C7C8BC /* TabNavigationControllerDelegate.swift */; };
 		16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16386DD51FAC019A00DFE2E5 /* DataConverter.swift */; };
 		163906FE1F6C083300E5717A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163906FD1F6C083300E5717A /* SignInViewController.swift */; };
-		163907001F6C0A4E00E5717A /* TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 163906FF1F6C0A4E00E5717A /* TitleView.xib */; };
 		163907041F6C0BE400E5717A /* ApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163907021F6C0BE400E5717A /* ApplicationExtension.swift */; };
 		163907051F6C0BE400E5717A /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163907031F6C0BE400E5717A /* BundleExtension.swift */; };
 		163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */; };
@@ -138,7 +137,6 @@
 		163784621FB13EE600D70261 /* BonnieDraw.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BonnieDraw.entitlements; sourceTree = "<group>"; };
 		16386DD51FAC019A00DFE2E5 /* DataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverter.swift; sourceTree = "<group>"; };
 		163906FD1F6C083300E5717A /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
-		163906FF1F6C0A4E00E5717A /* TitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TitleView.xib; path = Base.lproj/TitleView.xib; sourceTree = "<group>"; };
 		163907021F6C0BE400E5717A /* ApplicationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationExtension.swift; sourceTree = "<group>"; };
 		163907031F6C0BE400E5717A /* BundleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
 		163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowBarItem.swift; sourceTree = "<group>"; };
@@ -305,7 +303,6 @@
 				16D08F251FB16A34001D167C /* GoogleService-Info.plist */,
 				163F65B61F61663900945E04 /* Info.plist */,
 				1664F4A81F74AD9200809C32 /* Localizable.strings */,
-				163906FF1F6C0A4E00E5717A /* TitleView.xib */,
 				1664F4B41F74E3F100809C32 /* Login.storyboard */,
 				163F65AE1F61663900945E04 /* Main.storyboard */,
 				1649F2711FD7A0E000B90A1E /* Drawing.storyboard */,
@@ -538,7 +535,6 @@
 				162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */,
 				16D08F241FB169AD001D167C /* Account.storyboard in Resources */,
 				1664F4B51F74E3F100809C32 /* Login.storyboard in Resources */,
-				163907001F6C0A4E00E5717A /* TitleView.xib in Resources */,
 				1649F2721FD7A0E000B90A1E /* Drawing.storyboard in Resources */,
 				163F65B21F61663900945E04 /* Assets.xcassets in Resources */,
 			);

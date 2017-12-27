@@ -46,9 +46,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         thumbnail?.sd_setShowActivityIndicatorView(true)
         thumbnail?.sd_setIndicatorStyle(.gray)
         if navigationBar.items?.first?.titleView == nil {
-            let titleView = Bundle.main.loadView(from: "TitleView")
-            titleView?.backgroundColor = .clear
-            navigationBar.items?.first?.titleView = titleView
+            navigationBar.items?.first?.titleView = UIImageView(image: UIImage(named: "title_logo"))
         }
         profileName.text = work?.profileName
         titleLabel.text = work?.title

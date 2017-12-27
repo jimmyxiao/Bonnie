@@ -15,9 +15,7 @@ class CustomTitleNavigationViewController: UINavigationController, UINavigationC
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController.navigationItem.titleView == nil {
-            let titleView = Bundle.main.loadView(from: "TitleView")
-            titleView?.backgroundColor = .clear
-            viewController.navigationItem.titleView = titleView
+            viewController.navigationItem.titleView = UIImageView(image: UIImage(named: "title_logo"))
         }
     }
 }

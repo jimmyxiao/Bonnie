@@ -12,11 +12,6 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="ArialBold.ttf">
-            <string>Arial-BoldMT</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Parent View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -63,7 +58,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RwB-fj-Tew" id="vg7-G2-qUQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="299.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="299.66666666666669"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="seo-DO-eE2">
@@ -1009,7 +1004,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Bu-8k-Wt5" id="iCg-YG-WMe">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="65.666666666666671"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo-square" translatesAutoresizingMaskIntoConstraints="NO" id="M7l-pD-eMu">
@@ -1159,25 +1154,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Y6T-aY-oT9">
-                                <rect key="frame" x="109.99999999999999" y="344" width="154.66666666666663" height="124"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Zp7-Tp-g3q">
+                                <rect key="frame" x="95" y="343" width="184" height="125"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Zuh-Fu-AOc">
-                                        <rect key="frame" x="33" y="0.0" width="89" height="89"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading_icon" translatesAutoresizingMaskIntoConstraints="NO" id="rdh-Xu-UHB">
+                                        <rect key="frame" x="47.666666666666657" y="0.0" width="89" height="89"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BonnieDRAW" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WLq-1k-svZ">
-                                        <rect key="frame" x="0.0" y="97" width="154.66666666666666" height="27"/>
-                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="24"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading_text" translatesAutoresizingMaskIntoConstraints="NO" id="y08-N3-Uwl">
+                                        <rect key="frame" x="0.0" y="105" width="184" height="20"/>
+                                    </imageView>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Y6T-aY-oT9" firstAttribute="centerY" secondItem="6IL-hZ-VAE" secondAttribute="centerY" id="Orm-IS-p4z"/>
-                            <constraint firstItem="Y6T-aY-oT9" firstAttribute="centerX" secondItem="6IL-hZ-VAE" secondAttribute="centerX" id="aQb-5V-omc"/>
+                            <constraint firstItem="Zp7-Tp-g3q" firstAttribute="centerY" secondItem="6IL-hZ-VAE" secondAttribute="centerY" id="M3E-uX-uRT"/>
+                            <constraint firstItem="Zp7-Tp-g3q" firstAttribute="centerX" secondItem="6IL-hZ-VAE" secondAttribute="centerX" id="TgA-io-Jap"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zaF-nm-TG1"/>
                     </view>
@@ -1269,11 +1261,11 @@
                                         <rect key="frame" x="0.0" y="160" width="375" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bvI-B5-A6w" id="2Dd-sP-9Ix">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="65.666666666666671"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="045-JS-EyD">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="65.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="65.666666666666671"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1360,11 +1352,11 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kTo-6v-Sje" id="EC7-ft-egh">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V0A-ix-o17">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1511,6 +1503,7 @@
         <image name="drawplay_ic_prev_off" width="42" height="42"/>
         <image name="drawplay_ic_prev_on" width="42" height="42"/>
         <image name="loading_icon" width="89" height="89"/>
+        <image name="loading_text" width="184" height="20"/>
         <image name="photo-square" width="300" height="300"/>
         <image name="share_icon" width="20" height="22"/>
         <image name="title_bar_ic_search" width="22" height="22"/>
