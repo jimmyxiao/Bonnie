@@ -83,6 +83,7 @@
 		16812ADA1F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */; };
 		16816AA71FAFF8DD00855104 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16816AA61FAFF8DD00855104 /* ShadowView.swift */; };
 		169490F61FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169490F51FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift */; };
+		1694F2721FF355640063F9E9 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1694F2711FF355640063F9E9 /* ReportViewController.swift */; };
 		169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169C71CA1F66AFEF00B5D786 /* Constant.swift */; };
 		16A82D0E1FB1B564007D6128 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */; };
 		16A82D101FB1B56F007D6128 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */; };
@@ -189,6 +190,7 @@
 		16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleNavigationViewController.swift; sourceTree = "<group>"; };
 		16816AA61FAFF8DD00855104 /* ShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		169490F51FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		1694F2711FF355640063F9E9 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		169C71CA1F66AFEF00B5D786 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		16A82D0F1FB1B56F007D6128 /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 				16D08F1E1FB14D84001D167C /* DebugViewController.swift */,
 				16353D491FCDA61C00482807 /* BrushPickerViewController.swift */,
 				16E5396F1FD965D800799E4D /* CommentViewController.swift */,
+				1694F2711FF355640063F9E9 /* ReportViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -622,6 +625,7 @@
 				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				1649F2741FD7A43A00B90A1E /* LightStatusBarViewController.swift in Sources */,
+				1694F2721FF355640063F9E9 /* ReportViewController.swift in Sources */,
 				166889971FBC6802001CBFB3 /* UserDefaultsExtension.swift in Sources */,
 				16353D481FCDA57200482807 /* BrushPickerCollectionViewCell.swift in Sources */,
 				16076EBA1F7CA142009E1E49 /* SizePickerViewController.swift in Sources */,

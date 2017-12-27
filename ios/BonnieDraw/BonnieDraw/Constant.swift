@@ -68,6 +68,12 @@ enum AccessControl: Int {
     case privateAccess
 }
 
+enum ReportType: Int {
+    case sexual = 1
+    case violence
+    case other = 99
+}
+
 enum Gender: Int {
     case male = 1
     case female
@@ -166,6 +172,7 @@ struct Identifier {
     static let HOME = "homeViewController"
     static let FOLLOW = "followViewController"
     static let NOTIFICATION = "notificationController"
+    static let REPORT = "reportController"
 }
 
 struct Segue {
@@ -184,6 +191,7 @@ struct Segue {
     static let FOLLOW = "followSegue"
     static let BACKGROUND_COLOR = "backgroundColorSegue"
     static let COMMENT = "commentSegue"
+    static let REPORT = "reportSegue"
 }
 
 struct Default {

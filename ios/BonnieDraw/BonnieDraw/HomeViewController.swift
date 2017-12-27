@@ -69,6 +69,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                   let indexPath = sender as? IndexPath {
             controller.delegate = self
             controller.work = tableViewWorks[indexPath.row]
+        } else if let controller = segue.destination as? ReportViewController,
+                  let indexPath = sender as? IndexPath {
+            controller.work = works[indexPath.row]
         }
     }
 
@@ -360,6 +363,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
                 return
             }
+            self.performSegue(withIdentifier: Segue.REPORT, sender: indexPath)
         }
         alert.addAction(reportAction)
         let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)

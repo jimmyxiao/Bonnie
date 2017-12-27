@@ -26,7 +26,7 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
     private let dropDownItems: [(access: AccessControl, title: String)] = [(.publicAccess, "access_control_public".localized),
                                                                            (.contactAccess, "access_control_contact".localized),
                                                                            (.privateAccess, "access_control_private".localized)]
-    private var accessControl: (access: AccessControl, title: String) = (.publicAccess, "access_control_public".localized)
+    private var accessControl = AccessControl.publicAccess
 
     override func viewDidLoad() {
         dropDown.dataSource = dropDownItems.map() {
@@ -35,9 +35,9 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
         }
         dropDown.selectRow(at: 0)
         dropDown.selectionAction = {
-            (index, text) in
+            index, text in
             self.accessLabel.text = text
-            self.accessControl = self.dropDownItems[index]
+            self.accessControl = self.dropDownItems[index].access
         }
         thumbnail.image = workThumbnail
     }
@@ -116,7 +116,7 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.WORK_SAVE),
                     method: .post,
-                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": accessControl.access.rawValue, "title": title, "description": description],
+                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": accessControl.rawValue, "title": title, "description": description],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {

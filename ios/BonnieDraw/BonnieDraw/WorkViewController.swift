@@ -16,8 +16,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBOutlet weak var thumbnail: UIImageView?
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var profileName: UILabel!
+    @IBOutlet weak var profileImage: UIButton!
+    @IBOutlet weak var profileName: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var like: UIButton!
     @IBOutlet weak var collect: UIButton!
@@ -48,7 +48,10 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         if navigationBar.items?.first?.titleView == nil {
             navigationBar.items?.first?.titleView = UIImageView(image: UIImage(named: "title_logo"))
         }
-        profileName.text = work?.profileName
+        profileImage.sd_setShowActivityIndicatorView(true)
+        profileImage.sd_setIndicatorStyle(.gray)
+        profileImage.setImage(with: work?.profileImage)
+        profileName.setTitle(work?.profileName, for: .normal)
         titleLabel.text = work?.title
         descriptionLabel.text = work?.description
     }
@@ -76,6 +79,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? CommentViewController {
+            controller.work = work
+        } else if let controller = segue.destination as? ReportViewController {
             controller.work = work
         }
     }
@@ -177,6 +182,33 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBAction func increaseSpeed(_ sender: Any) {
         animationSpeed /= 2
         checkSpeedButtons()
+    }
+
+    @IBAction func profile(_ sender: UIButton) {
+    }
+
+    @IBAction func more(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.view.tintColor = UIColor.getAccentColor()
+        alert.popoverPresentationController?.sourceView = sender
+        let color = UIColor.gray
+        let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
+            action in
+        }
+        copyLinkAction.setValue(color, forKey: "titleTextColor")
+        alert.addAction(copyLinkAction)
+        let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
+            action in
+            guard AppDelegate.reachability.connection != .none else {
+                self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                return
+            }
+            self.performSegue(withIdentifier: Segue.REPORT, sender: sender)
+        }
+        alert.addAction(reportAction)
+        let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
 
     @IBAction func like(_ sender: UIButton) {
