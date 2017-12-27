@@ -7,31 +7,31 @@
 			<div class="container">
 				<div class="row overflow-hidden">
 			    	<!--<div class="col-md-6 col-sm-12 md-grid" ng-repeat="data in secondarySectionArr_popular_first track by $index">-->
-			    	<div class="col-md-6 col-sm-12 md-grid">
-			       		<div class="vid-img-holder wow pulse" data-wow-duration="{{secondarySectionArr_popular_first.delay}}">
+			    	<div class="col-md-6 col-sm-12 md-grid" ng-repeat="data in secondarySectionArr_popular_first track by $index">
+			       		<div class="vid-img-holder wow pulse" data-wow-duration="{{data.delay}}">
 			        		<div class="top-shadow">
 								<span style="float:left; width: auto;">
 									<!--<i class="material-icons author-font-icon">favorite_border</i>-->
 										<a ng-click="clickWorksLikeOne('p')" class="_eszkz _l9yih" href="" role="button" aria-disabled>
-										<i ng-if="!secondarySectionArr_popular_first.like" class="material-icons font-icon" style="color: white;">favorite_border</i>
-										<i ng-if="secondarySectionArr_popular_first.like" class="material-icons font-icon" style="color: white;">favorite</i>
+										<i ng-if="!data.like" class="material-icons font-icon" style="color: white;">favorite_border</i>
+										<i ng-if="data.like" class="material-icons font-icon" style="color: white;">favorite</i>
 									</a>
-									{{secondarySectionArr_popular_first.likeCount}}
+									{{data.likeCount}}
 								</span>
 			            	</div>
-			            	<a ng-href="#/column-detail?id={{secondarySectionArr_popular_first.worksId}}">
+			            	<a ng-href="#/column-detail?id={{data.worksId}}">
 			                	<!-- <img class="img-responsive hidden-sm hidden-xs" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb">
 			                	<img class="img-responsive hidden-md hidden-lg" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" alt="video_thumb"> -->
-			                	<img class="img-responsive firstimg" ng-src="{{imageLoadUrl}}{{secondarySectionArr_popular_first.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
+			                	<img class="img-responsive firstimg" ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
 			                	<span class="play-icon">
 			                		<img class="img-responsive play-svg svg" src="assets/images/play-button.svg" alt="play" onerror="this.src='assets/images/play-button.png'">		                	
 			                	</span>			                			                
 			            	</a> 
 			            	<h3 class="vid-author">
 				                <span>
-				                    By <a href="#/userfile/{{secondarySectionArr_popular_first.userId}}" rel="author">{{secondarySectionArr_popular_first.userName}}</a>
+				                    By <a href="#/userfile/{{data.userId}}" rel="author">{{data.userName}}</a>
 				                </span>
-				                <a ng-href="#/column-detail?id={{secondarySectionArr_popular_first.worksId}}">{{secondarySectionArr_popular_first.title}}</a>
+				                <a ng-href="#/column-detail?id={{data.worksId}}">{{data.title}}</a>
 			            	</h3> 
 			            	<div class="bottom-shadow"></div>
 			            	<div class="overlay-div"></div>		
