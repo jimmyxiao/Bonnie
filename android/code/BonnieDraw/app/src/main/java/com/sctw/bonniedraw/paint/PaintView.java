@@ -118,6 +118,7 @@ public class PaintView extends View {
     private Bitmap mSketchLayer;
     private boolean mbDirection = true;
 
+
     public PaintView(Context c, boolean direction) {
         //true = 直  false=橫
         super(c);
@@ -494,7 +495,7 @@ public class PaintView extends View {
         TagPoint tagPointUp = new TagPoint();
         tagPointDown.set_iAction(MotionEvent.ACTION_DOWN + 1);
         tagPointDown.set_iBrush(6);
-        tagPointDown.set_iColor(getDrawingColor());
+        tagPointDown.set_iColor(color);
         tagPointUp.set_iAction(MotionEvent.ACTION_UP + 1);
         mListTagPoint.add(tagPointDown);
         mListTagPoint.add(tagPointUp);
@@ -728,6 +729,7 @@ public class PaintView extends View {
 
     private void maskBrushWithAngle(Brush brush, float angle, float tipAlpha) {
         mDstInPaint.setAlpha((int) ((tipAlpha * tipAlpha) * 255.0f));
+        if(this.mMaskBitmap==null) return;
         Bitmap maskLayer = this.mMaskBitmap.length == 1 ? this.mMaskBitmap[0] : this.mMaskBitmap[this.mRandom.nextInt(this.mMaskBitmap.length)];
 
         if (angle != 0.0f) {

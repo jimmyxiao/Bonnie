@@ -86,9 +86,9 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         //miFn  2=fans, 1= follow
         if (miFn == 2) {
-            mTvTitle.setText(R.string.fans);
+            mTvTitle.setText(R.string.uc_fans);
         } else {
-            mTvTitle.setText(R.string.following);
+            mTvTitle.setText(R.string.uc_following);
         }
         setOnClick();
         getFansOrFollow();

@@ -35,9 +35,9 @@
     </integer-array>
 
     <string-array name="privacies">
-        <item>@string/work_public</item>
-        <item>@string/work_not_public</item>
-        <item>@string/work_only_friend</item>
+        <item>@string/u04_03_public</item>
+        <item>@string/u04_03_private</item>
+        <item>@string/u04_03_public_friends</item>
     </string-array>
 
     <string-array name="report">

@@ -7,27 +7,40 @@
     android:focusableInTouchMode="true"
     tools:context="com.sctw.bonniedraw.fragment.LoginFragment">
 
-
-    <ImageView
-        android:id="@+id/logoImg"
+    <LinearLayout
+        android:id="@+id/frameLayout_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
+        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/title_bar_img_logo" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/logoImg"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/title_bar_img_logo" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/DivColor"/>
+
+    </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/inputLayout_signup_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/logoImg"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_below="@+id/frameLayout_logo"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="30dp"
         android:theme="@style/TextLabel"
         app:errorEnabled="true">
@@ -36,7 +49,7 @@
             android:id="@+id/editText_signup_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email"
+            android:hint="@string/u01_01_account"
             android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
@@ -56,7 +69,7 @@
             android:id="@+id/editText_signup_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/user_password"
+            android:hint="@string/u01_01_password"
             android:inputType="textPassword"
             android:maxLength="15"
             app:passwordToggleTint="@color/White"
@@ -70,14 +83,14 @@
         android:layout_alignEnd="@+id/inputLayout_signup_password"
         android:layout_below="@+id/inputLayout_signup_password"
         android:background="@color/Transparent"
-        android:text="@string/login_forget_password"
+        android:text="@string/u01_01_forgot_password"
         android:textColor="@color/Brown"
         android:textColorLink="@color/Brown" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ll_hint_signup"
+        android:layout_above="@+id/fl_hint_signup"
         android:layout_alignEnd="@+id/btn_forget_password"
         android:layout_alignStart="@+id/inputLayout_signup_password"
         android:layout_below="@+id/btn_forget_password">
@@ -94,7 +107,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/icon_login_email"
-                android:text="@string/login"
+                android:text="@string/u01_01_login"
                 android:textColor="@color/White" />
 
             <TextView
@@ -154,29 +167,37 @@
 
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/ll_hint_signup"
+
+    <FrameLayout
+        android:id="@+id/fl_hint_signup"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:background="#b2eeeeee"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/LightGrey"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_alignParentStart="true">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/login_not_account" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView_singup_login"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/register"
-            android:textColor="@color/Blue" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/u01_01_have_not_account" />
+
+            <TextView
+                android:id="@+id/textView_singup_login"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/u01_02_sign_up"
+                android:textColor="@color/Blue" />
+        </LinearLayout>
+
+    </FrameLayout>
+
 
 </RelativeLayout>

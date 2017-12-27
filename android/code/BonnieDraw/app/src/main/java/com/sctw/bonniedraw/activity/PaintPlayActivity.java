@@ -147,9 +147,9 @@ public class PaintPlayActivity extends AppCompatActivity {
     private void showSpeed() {
         int absCount = Math.abs(miSpeedCount);
         if (miSpeedCount >= 0) {
-            mTvPlaySpeed.setText(getString(R.string.play_speed) + (int) Math.pow(2, absCount) + "x");
+            mTvPlaySpeed.setText(getString(R.string.u04_05_play_speed) + (int) Math.pow(2, absCount) + "x");
         } else if (miSpeedCount < 0) {
-            mTvPlaySpeed.setText(getString(R.string.play_speed) + "1/" + (int) Math.pow(2, absCount) + "x");
+            mTvPlaySpeed.setText(getString(R.string.u04_05_play_speed) + "1/" + (int) Math.pow(2, absCount) + "x");
         }
     }
 

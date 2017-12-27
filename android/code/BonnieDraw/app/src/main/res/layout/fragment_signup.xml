@@ -22,13 +22,16 @@
 
         <ImageView
             android:id="@+id/logoImg"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/title_bar_img_logo" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/DivColor"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/inputLayout_signup_name"
@@ -44,7 +47,7 @@
                 android:id="@+id/editText_signup_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username"
+                android:hint="@string/uc_username"
                 android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
 
@@ -62,7 +65,7 @@
                 android:id="@+id/editText_signup_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email"
+                android:hint="@string/uc_email"
                 android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
@@ -82,7 +85,7 @@
                 android:id="@+id/editText_signup_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/user_password"
+                android:hint="@string/u01_01_password"
                 android:inputType="textPassword"
                 android:maxLength="15"
                 app:passwordToggleTint="@color/White"
@@ -104,7 +107,7 @@
                 android:id="@+id/editText_signup_repassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/check_user_password"
+                android:hint="@string/u01_02_repassword"
                 android:inputType="textPassword"
                 android:maxLength="15"
                 app:passwordToggleTint="@color/colorPrimaryDark"
@@ -117,33 +120,40 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/icon_login_email"
-            android:text="@string/register"
+            android:text="@string/u01_02_sign_up"
             android:textColor="@color/White" />
     </LinearLayout>
 
 
+    <FrameLayout
+        android:id="@+id/fl_hint_signup"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:background="#b2eeeeee">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:background="@color/LightGrey"
         android:gravity="center"
-        android:minHeight="40dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/signin_have_account" />
+            android:text="@string/u01_02_not_account" />
 
         <TextView
             android:id="@+id/textView_singup_login"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/login"
+            android:text="@string/u01_01_login"
             android:textColor="@color/Blue" />
     </LinearLayout>
+
+</FrameLayout>
 
 </FrameLayout>

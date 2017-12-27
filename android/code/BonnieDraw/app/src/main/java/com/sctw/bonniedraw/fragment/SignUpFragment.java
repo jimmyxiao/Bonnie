@@ -122,7 +122,7 @@ public class SignUpFragment extends Fragment {
                 infoCheck(CHECK_EMAIL);
                 infoCheck(CHECK_PWD);
                 infoCheck(CHECK_REPWD);
-                logDialog(getString(R.string.signin_check_info), getString(R.string.signin_check_msg),0);
+                logDialog(getString(R.string.u01_02_sigin_up_check_fail_title), getString(R.string.u01_02_sigin_up_check_fail_content),0);
             }
         }
     };
@@ -207,7 +207,7 @@ public class SignUpFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.signin_fail_title), PxDpConvert.getSystemHight(getContext()) / 3);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.u01_02_alert_sign_up_fail_title), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override
@@ -239,13 +239,13 @@ public class SignUpFragment extends Fragment {
     public void createLogSignup(int format) {
         switch (format) {
             case 1:
-                logDialog(getString(R.string.signin_successful_title), getString(R.string.signin_successful_msg),1);
+                logDialog(getString(R.string.u01_02_alert_sign_up_success_title), getString(R.string.u01_02_activate_account),1);
                 break;
             case 2:
-                logDialog(getString(R.string.signin_fail_title),  getString(R.string.signin_fail_email),0);
+                logDialog(getString(R.string.u01_02_alert_sign_up_fail_title),  getString(R.string.signin_fail_email),0);
                 break;
             case 3:
-                logDialog(getString(R.string.signin_fail_title),  getString(R.string.signin_fail_error),0);
+                logDialog(getString(R.string.u01_02_alert_sign_up_fail_title),  getString(R.string.signin_fail_error),0);
         }
     }
 
@@ -261,7 +261,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userName.getText().toString().trim().isEmpty()) {
-                mTextInputLayoutName.setError(getString(R.string.signin_check_name));
+                mTextInputLayoutName.setError(getString(R.string.uc_username_empty));
             }
         }
     };
@@ -270,7 +270,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userEmail.getText().toString().equals("")) {
-                mTextInputLayoutEmail.setError(getString(R.string.signin_check_email));
+                mTextInputLayoutEmail.setError(getString(R.string.uc_email_empty));
             }
         }
     };
@@ -279,7 +279,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userPassword.getText().toString().equals("")) {
-                mTextInputLayoutPwd.setError(getString(R.string.login_need_password));
+                mTextInputLayoutPwd.setError(getString(R.string.uc_password_empty));
             }
         }
     };
@@ -365,7 +365,7 @@ public class SignUpFragment extends Fragment {
         switch (checkNum) {
             case CHECK_NAME:
                 if (userName.getText().toString().equals("")) {
-                    mTextInputLayoutName.setError(getString(R.string.signin_check_name));
+                    mTextInputLayoutName.setError(getString(R.string.uc_username_empty));
                     userNameVaild = false;
                 } else {
                     mTextInputLayoutName.setError(null);
@@ -374,10 +374,10 @@ public class SignUpFragment extends Fragment {
                 break;
             case CHECK_EMAIL:
                 if (userEmail.getText().toString().trim().isEmpty()) {
-                    mTextInputLayoutEmail.setError(getString(R.string.signin_check_email));
+                    mTextInputLayoutEmail.setError(getString(R.string.uc_email_empty));
                     userEmailVaild = false;
                 } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail.getText().toString()).matches()) {
-                    mTextInputLayoutEmail.setError(getString(R.string.need_correct_email));
+                    mTextInputLayoutEmail.setError(getString(R.string.uc_email_invalid));
                     userEmailVaild = false;
                 } else {
                     mTextInputLayoutEmail.setError(null);
@@ -386,11 +386,11 @@ public class SignUpFragment extends Fragment {
                 break;
             case CHECK_PWD:
                 if (userPassword.getText().toString().equals("")) {
-                    mTextInputLayoutPwd.setError(getString(R.string.login_need_password));
+                    mTextInputLayoutPwd.setError(getString(R.string.uc_password_empty));
                     userPwdVaild = false;
                 } else {
                     if (userPassword.getText().toString().length() < 6) {
-                        mTextInputLayoutPwd.setError(getString(R.string.signin_need_correct_password));
+                        mTextInputLayoutPwd.setError(getString(R.string.uc_password_invalid));
                         userPwdVaild = false;
                     } else {
                         mTextInputLayoutPwd.setError(null);
@@ -410,7 +410,7 @@ public class SignUpFragment extends Fragment {
                         mTextInputLayoutRePwd.setError(null);
                         userRePwdVaild = true;
                     } else {
-                        mTextInputLayoutRePwd.setError(getString(R.string.signin_need_correct_repassword));
+                        mTextInputLayoutRePwd.setError(getString(R.string.uc_password_unmatch));
                         userRePwdVaild = false;
                     }
                 }

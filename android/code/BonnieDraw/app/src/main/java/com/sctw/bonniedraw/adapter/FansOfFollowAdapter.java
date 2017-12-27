@@ -63,9 +63,9 @@ public class FansOfFollowAdapter extends RecyclerView.Adapter<FansOfFollowAdapte
     public void onBindViewHolder(final FansOfFollowAdapter.ViewHolder holder, int position) {
         holder.mTvUserName.setText(data.get(position).getUserName());
         if (data.get(position).isFollowing()) {
-            holder.mBtnFollow.setText(context.getString(R.string.following));
+            holder.mBtnFollow.setText(context.getString(R.string.uc_following));
         } else {
-            holder.mBtnFollow.setText(context.getString(R.string.follow));
+            holder.mBtnFollow.setText(context.getString(R.string.uc_follow));
         }
         String imgUrl = "";
         if (!data.get(holder.getAdapterPosition()).getProfilePicture().equals("null")) {

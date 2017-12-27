@@ -92,7 +92,6 @@ public class PlayFragment extends DialogFragment {
     private float mfLastPosX, mfLastPosY; //replay use
     private ArrayList<Integer> mListRecordInt;
     private boolean mbLike, mbCollection;
-    private boolean mbStop = false;
     private String imgUrl;
 
     @Override
@@ -151,64 +150,61 @@ public class PlayFragment extends DialogFragment {
 
     private Runnable rb_play = new Runnable() {
         public void run() {
-            if (!mbStop) {
-                boolean brun = true;
-                if (miPointCount > 0) {
-                    TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
-                    switch (tagpoint.get_iAction() - 1) {
-                        case MotionEvent.ACTION_DOWN:
-                            mbPlaying = true;
-                            if (tagpoint.get_iBrush() != 0) {
-                                mPaintView.getBrush().setEraser(false);
-                                int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
-                                mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
-                                System.out.println("筆代號 = " + paintId);
-                            }
-                            if (tagpoint.get_iColor() != 0) {
-                                mPaintView.setDrawingColor(tagpoint.get_iColor());
-                            }
-                            if (tagpoint.get_iSize() != 0) {
-                                mPaintView.setDrawingSize((int) PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
-                            }
-                            if (tagpoint.get_iReserved() != 0) {
-                                mPaintView.setDrawingAlpha(tagpoint.get_iReserved() / 100.0f);
-                            }
-                            mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
-                            mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
-                            mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            //開始畫 記錄每一個時間點 即可模擬回去
-                            mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
-                            mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
-                            mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
-                            mListRecordInt.add(miPointCurrent + 1);
-                            mbPlaying = false;
-                            brun = false;
-                            break;
-                    }
-                    miPointCount--;
-                    miPointCurrent++;
-                    showProgress();
-
-                    if (brun) {
-                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-                    } else {
-                        if (mbAutoPlay) {
-                            mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+            boolean brun = true;
+            if (miPointCount > 0) {
+                TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
+                switch (tagpoint.get_iAction() - 1) {
+                    case MotionEvent.ACTION_DOWN:
+                        mbPlaying = true;
+                        if (tagpoint.get_iBrush() != 0) {
+                            mPaintView.getBrush().setEraser(false);
+                            int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
+                            mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
+                            System.out.println("筆代號 = " + paintId);
                         }
-                    }
-                } else {
-                    mBtnPause.setVisibility(View.GONE);
-                    mBtnPlay.setVisibility(View.VISIBLE);
-                    mbAutoPlay = false;
+                        if (tagpoint.get_iColor() != 0) {
+                            mPaintView.setDrawingColor(tagpoint.get_iColor());
+                        }
+                        if (tagpoint.get_iSize() != 0) {
+                            mPaintView.setDrawingSize((int) PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
+                        }
+                        if (tagpoint.get_iReserved() != 0) {
+                            mPaintView.setDrawingAlpha(tagpoint.get_iReserved() / 100.0f);
+                        }
+                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        //開始畫 記錄每一個時間點 即可模擬回去
+                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
+                        mListRecordInt.add(miPointCurrent + 1);
+                        mbPlaying = false;
+                        brun = false;
+                        break;
                 }
+                miPointCount--;
+                miPointCurrent++;
+                showProgress();
+
+                if (brun) {
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                } else {
+                    if (mbAutoPlay) {
+                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    }
+                }
+            } else {
+                mBtnPause.setVisibility(View.GONE);
+                mBtnPlay.setVisibility(View.VISIBLE);
+                mbAutoPlay = false;
             }
         }
-
     };
 
     private void deleteWork() {
@@ -242,9 +238,9 @@ public class PlayFragment extends DialogFragment {
     private void showSpeed() {
         int absCount = Math.abs(miSpeedCount);
         if (miSpeedCount >= 0) {
-            mTvPlaySpeed.setText(getString(R.string.play_speed) + (int) Math.pow(2, absCount) + "x");
+            mTvPlaySpeed.setText(getString(R.string.u04_05_play_speed) + (int) Math.pow(2, absCount) + "x");
         } else if (miSpeedCount < 0) {
-            mTvPlaySpeed.setText(getString(R.string.play_speed) + "1/" + (int) Math.pow(2, absCount) + "x");
+            mTvPlaySpeed.setText(getString(R.string.u04_05_play_speed) + "1/" + (int) Math.pow(2, absCount) + "x");
         }
     }
 
@@ -331,14 +327,14 @@ public class PlayFragment extends DialogFragment {
                         dialog.dismiss();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage(R.string.confirm_delete);
-                        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton(R.string.uc_alert_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 deleteWork();
                                 dialog.dismiss();
                             }
                         });
-                        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(R.string.uc_alert_no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -445,10 +441,10 @@ public class PlayFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (miFollow == 1) {
-                    mTvUserFollow.setText(getString(R.string.follow));
+                    mTvUserFollow.setText(getString(R.string.uc_follow));
                     setFollow(0, uid);
                 } else {
-                    mTvUserFollow.setText(getString(R.string.following));
+                    mTvUserFollow.setText(getString(R.string.uc_following));
                     setFollow(1, uid);
                 }
             }
@@ -705,7 +701,7 @@ public class PlayFragment extends DialogFragment {
             } else {
                 mTvMsgTotal.setText("" + data.getInt("msgCount"));
             }
-            mTvCreateTime.setText(String.format(getString(R.string.work_release_time), sdf.format(date)));
+            mTvCreateTime.setText(String.format(getString(R.string.u02_04_date), sdf.format(date)));
             miPrivacyType = data.getInt("privacyType");
             uid = data.getInt("userId");
             mbLike = data.getBoolean("like");
@@ -913,12 +909,5 @@ public class PlayFragment extends DialogFragment {
                 }
             }
         });
-    }
-
-    @Override
-    public void onStop() {
-        mbStop = true;
-        mHandlerTimerPlay.removeCallbacks(rb_play);
-        super.onStop();
     }
 }

@@ -2,6 +2,7 @@ package com.sctw.bonniedraw.fragment;
 
 
 import android.app.AlertDialog;
+import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,13 +40,20 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UpdatePasswordFragment extends Fragment {
+public class UpdatePasswordFragment extends DialogFragment {
     Button updatePasswordCancel, updatePasswordDone;
     SharedPreferences prefs;
     EditText mEditTextOldPwd, mEditTextNewPwd, mTextViewCheckPwd;
-    final static int SUCCESSFUL_UPDATE_PASSWORD =1;
-    final static int ERROR_OLD_PASSWORD =4;
-    final static int ERROR_CONNECT =0;
+    final static int SUCCESSFUL_UPDATE_PASSWORD = 1;
+    final static int ERROR_OLD_PASSWORD = 4;
+    final static int ERROR_CONNECT = 0;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,7 +73,7 @@ public class UpdatePasswordFragment extends Fragment {
         updatePasswordCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().onBackPressed();
+                UpdatePasswordFragment.this.dismiss();
             }
         });
 
@@ -75,7 +83,7 @@ public class UpdatePasswordFragment extends Fragment {
                 String oldPwd = mEditTextOldPwd.getText().toString();
                 String newPwd = mEditTextNewPwd.getText().toString();
                 String checkPwd = mTextViewCheckPwd.getText().toString();
-                if (newPwd.equals(checkPwd)&&oldPwd.trim().length()!=0) {
+                if (newPwd.equals(checkPwd) && oldPwd.trim().length() != 0) {
                     updatePassword();
                 } else {
                     checkPwdEmpty();
@@ -92,7 +100,7 @@ public class UpdatePasswordFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (mEditTextNewPwd.getText().toString().length() < 6) {
-                    mEditTextNewPwd.setError(getString(R.string.update_password_need_length));
+                    mEditTextNewPwd.setError(getString(R.string.uc_password_invalid));
                 } else {
                     mEditTextNewPwd.setError(null);
                 }
@@ -122,23 +130,23 @@ public class UpdatePasswordFragment extends Fragment {
         });
     }
 
-    void checkPwd(){
+    void checkPwd() {
         if (mEditTextNewPwd.getText().toString().equals(mTextViewCheckPwd.getText().toString())) {
             mTextViewCheckPwd.setError(null);
         } else {
-            mTextViewCheckPwd.setError(getString(R.string.update_password_not_equal));
+            mTextViewCheckPwd.setError(getString(R.string.uc_password_unmatch));
         }
     }
 
-    void checkPwdEmpty(){
+    void checkPwdEmpty() {
         if (mEditTextOldPwd.getText().toString().isEmpty()) {
-            mEditTextOldPwd.setError(getString(R.string.update_password_old_need));
+            mEditTextOldPwd.setError(getString(R.string.m02_alert_old_password_empty));
         }
         if (mEditTextNewPwd.getText().toString().isEmpty()) {
-            mEditTextNewPwd.setError(getString(R.string.update_password_new_need));
+            mEditTextNewPwd.setError(getString(R.string.m02_alert_new_password_empty));
         }
         if (mTextViewCheckPwd.getText().toString().isEmpty()) {
-            mTextViewCheckPwd.setError(getString(R.string.update_password_check_need));
+            mTextViewCheckPwd.setError(getString(R.string.m02_alert_new_password_empty));
         }
     }
 
@@ -177,9 +185,9 @@ public class UpdatePasswordFragment extends Fragment {
                                 JSONObject responseJSON = new JSONObject(responseStr);
                                 if (responseJSON.getInt("res") == SUCCESSFUL_UPDATE_PASSWORD) {
                                     msg(SUCCESSFUL_UPDATE_PASSWORD);
-                                } else if(responseJSON.getInt("res") == ERROR_OLD_PASSWORD) {
+                                } else if (responseJSON.getInt("res") == ERROR_OLD_PASSWORD) {
                                     msg(ERROR_OLD_PASSWORD);
-                                }else{
+                                } else {
                                     msg(ERROR_CONNECT);
                                 }
                             } catch (JSONException e) {
@@ -193,10 +201,10 @@ public class UpdatePasswordFragment extends Fragment {
         });
     }
 
-    public void msg(int type){
-        AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+    public void msg(int type) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        switch (type){
+        switch (type) {
             case SUCCESSFUL_UPDATE_PASSWORD:
                 builder.setMessage(R.string.update_password_successful);
                 builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
@@ -208,8 +216,8 @@ public class UpdatePasswordFragment extends Fragment {
                 });
                 break;
             case ERROR_OLD_PASSWORD:
-                builder.setMessage(R.string.update_password_old_error);
-                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.m02_old_password_unmatch);
+                builder.setPositiveButton(R.string.uc_alert_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -218,7 +226,7 @@ public class UpdatePasswordFragment extends Fragment {
                 break;
             case ERROR_CONNECT:
                 builder.setMessage(R.string.update_password_other_error);
-                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.uc_alert_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();

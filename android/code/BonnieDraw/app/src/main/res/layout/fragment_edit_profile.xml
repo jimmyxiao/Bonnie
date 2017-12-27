@@ -18,14 +18,14 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="@color/Transparent"
-            android:text="@string/cancel" />
+            android:text="@string/uc_cancel" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
             android:gravity="center"
-            android:text="@string/profile_edit_profile"
+            android:text="@string/u06_03_edit_profile"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="14sp" />
@@ -64,7 +64,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/edit_profile_change_photo"
+            android:text="@string/u06_03_change_picture"
             android:textColor="@color/Blue" />
 
         <View
@@ -85,7 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/username"
+                android:text="@string/uc_username"
                 android:textAlignment="viewStart"
                 android:textColor="@color/Black" />
 
@@ -114,7 +114,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:text="@string/edit_profile_description"
+                android:text="@string/u06_03_bio"
                 android:textColor="@color/Black" />
 
             <EditText
@@ -141,7 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/edit_profile_email"
+                android:text="@string/uc_email"
                 android:textAlignment="viewStart"
                 android:textColor="@color/Black" />
 
@@ -166,7 +166,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/phone_number"
+                android:text="@string/u06_03_phone_number"
                 android:textAlignment="viewStart"
                 android:textColor="@color/Black" />
 
@@ -191,7 +191,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/gender"
+                android:text="@string/u06_03_gender"
                 android:textColor="@color/Black" />
 
             <EditText

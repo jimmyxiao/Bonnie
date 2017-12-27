@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/Transparent"
                 android:padding="20dp"
-                android:text="@string/report"
+                android:text="@string/u02_02_report"
                 android:textColor="@color/Red" />
 
             <View
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/Transparent"
                 android:padding="20dp"
-                android:text="@string/delete_work" />
+                android:text="@string/u02_04_delete" />
 
             <View
                 android:id="@+id/view_divier_extra_delete"
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_border_dialog"
                 android:padding="20dp"
-                android:text="@string/cancel"
+                android:text="@string/uc_cancel"
                 android:textColor="@color/Blue"
                 android:visibility="visible" />
         </LinearLayout>

@@ -149,7 +149,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setIconifiedByDefault(false);
-        mSearchView.setQueryHint(getString(R.string.search_hint));
+        mSearchView.setQueryHint(getString(R.string.u02_03_search));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

@@ -96,7 +96,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center_vertical"
-            android:text="@string/follow"
+            android:text="@string/uc_follow"
             android:textAlignment="center"
             android:textColor="@color/HyperLinkColor"
             android:visibility="invisible" />

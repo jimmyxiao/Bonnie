@@ -289,10 +289,10 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                                 if (responseJSON.getInt("res") == 1) {
                                     if (type == 1) {
                                     } else {
-                                        ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.publish_successful), true, 0);
+                                        ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.u04_04_post_successful), true, 0);
                                     }
                                 } else {
-                                    ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.publish_fail), false, 0);
+                                    ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.u04_04_post_fail), false, 0);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -811,7 +811,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
-                ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.save_photo_successful), PxDpConvert.getSystemHight(this) / 3);
+                ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.u04_01_saved_photo_album), PxDpConvert.getSystemHight(this) / 3);
                 mMenuPopup.dismiss();
             } catch (IOException e) {
                 e.printStackTrace();

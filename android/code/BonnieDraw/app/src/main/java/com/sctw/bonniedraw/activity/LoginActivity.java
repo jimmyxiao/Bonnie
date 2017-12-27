@@ -40,13 +40,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements Animation.AnimationListener {
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
     SharedPreferences prefs;
-    Boolean mbLoginCheck = false, mBFirst = false;
+    Boolean mbLoginCheck = false;
     FragmentManager fragmentManager;
     LinearLayout mLinearLayout;
     FrameLayout mFrameLayout;
+    AlphaAnimation mAlphaAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,41 +58,24 @@ public class LoginActivity extends AppCompatActivity {
         mLinearLayout = findViewById(R.id.frameLayout_login_frist);
         mFrameLayout = findViewById(R.id.frameLayout_login);
         mFrameLayout.setVisibility(View.INVISIBLE);
-        AlphaAnimation mAlphaAnimation = new AlphaAnimation(0, 1);
+        mAlphaAnimation = new AlphaAnimation(0, 1);
         mAlphaAnimation.setDuration(2000);
         mLinearLayout.setAnimation(mAlphaAnimation);
-        mAlphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                if (prefs != null && !prefs.getString(GlobalVariable.USER_TOKEN_STR, "").isEmpty()) {
-                    mbLoginCheck = true;
-                } else {
-                    mbLoginCheck = false;
-                }
-            }
+        mAlphaAnimation.setAnimationListener(this);
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (mbLoginCheck) {
-                    checkLoginInfo(prefs);
-                } else {
-                    transferLoginPage();
-                }
-            }
+        if (prefs != null && !prefs.getString(GlobalVariable.USER_TOKEN_STR, "").isEmpty()) {
+            mbLoginCheck = true;
+        } else {
+            mbLoginCheck = false;
+        }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-
-        //login animation
         if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_EXTERNAL_STORAGE);
-            } else {
-                startAndCheck();
             }
+        }else {
+            startAndCheck();
         }
     }
 
@@ -103,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void startAndCheck() {
-        mLinearLayout.startLayoutAnimation();
+        mAlphaAnimation.start();
     }
 
     private void checkLoginInfo(SharedPreferences prefs) {
@@ -143,7 +127,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseStr = response.body().string();
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -162,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                                ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.u01_01_login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -185,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.u01_01_login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                     }
                 });
             }
@@ -211,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.u01_01_login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                                     }
                                 });
                             }
@@ -220,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
                             alertDialog.setMessage(R.string.login_fail_server);
                             alertDialog.setCancelable(false);
-                            alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            alertDialog.setPositiveButton(getString(R.string.uc_alert_yes), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -241,8 +224,8 @@ public class LoginActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         LoginFragment loginFragment = new LoginFragment();
-        ft.replace(R.id.frameLayout_login, loginFragment, "LoginFragment");
-        ft.commit();
+        ft.add(R.id.frameLayout_login, loginFragment, "LoginFragment");
+        ft.commitAllowingStateLoss();
         mLinearLayout.setVisibility(View.INVISIBLE);
         mFrameLayout.setVisibility(View.VISIBLE);
     }
@@ -280,6 +263,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startAndCheck();
                 } else {
+                    ToastUtil.createToastIsCheck(this, "拒絕存取權限，將會自動關閉程式。", false, PxDpConvert.getSystemHight(this) / 3);
                     //使用者拒絕權限，關閉程式
                     finish();
                 }
@@ -290,5 +274,24 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        if (mbLoginCheck) {
+            checkLoginInfo(prefs);
+        } else {
+            transferLoginPage();
+        }
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
     }
 }

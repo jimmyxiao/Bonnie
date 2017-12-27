@@ -72,7 +72,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="@string/paint_save_name"
+                    android:text="@string/u04_03_work_title"
                     android:textAlignment="viewStart"
                     android:textColor="@color/Black"
                     android:textSize="18sp" />
@@ -102,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="@string/paint_save_description"
+                    android:text="@string/u04_02_work_description"
                     android:textAlignment="viewStart"
                     android:textColor="@color/Black"
                     android:textSize="18sp" />
@@ -114,7 +114,7 @@
                     android:layout_weight="6"
                     android:background="@null"
                     android:gravity="top|left"
-                    android:hint="@string/paint_save_description_hint" />
+                    android:hint="@string/u04_02_enter_description" />
             </LinearLayout>
 
             <View
@@ -132,7 +132,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="@string/paint_save_privacytype"
+                    android:text="@string/u04_03_privacy_setting"
                     android:textAlignment="viewStart"
                     android:textColor="@color/Black"
                     android:textSize="18sp" />

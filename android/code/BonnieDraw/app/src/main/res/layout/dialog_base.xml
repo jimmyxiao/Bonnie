@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/Transparent"
-                android:text="@string/no"
+                android:text="@string/uc_alert_no"
                 android:textColor="@color/Blue"
                 android:visibility="gone" />
 
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/Transparent"
-                android:text="@string/yes"
+                android:text="@string/uc_alert_yes"
                 android:textColor="@color/Blue" />
 
         </LinearLayout>

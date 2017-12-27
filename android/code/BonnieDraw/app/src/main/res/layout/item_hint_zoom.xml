@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:lineSpacingExtra="16sp"
-        android:text="@string/zoom_hint"
+        android:text="@string/u04_01_press_below_button"
         android:textAlignment="center"
         android:textColor="@color/White"
         android:textSize="24sp"

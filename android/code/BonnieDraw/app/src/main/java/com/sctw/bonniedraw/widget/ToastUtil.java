@@ -24,7 +24,7 @@ public class ToastUtil {
 
     private static Toast mToast;
 
-    public static void createToastWindow(Context context, String text,int yOffset) {
+    public static void createToastWindow(Context context, String text, int yOffset) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_toast_opacity, null);
         TextView tv = (TextView) view.findViewById(R.id.textView_opacity);
@@ -37,16 +37,16 @@ public class ToastUtil {
         mToast.show();
     }
 
-    public static void createToastIsCheck(Context context, String text, boolean isCheck,int yOffset) {
+    public static void createToastIsCheck(Context context, String text, boolean isCheck, int yOffset) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_toast_base, null);
-        ImageView iv=(ImageView) view.findViewById(R.id.imgView_toast_base);
+        ImageView iv = (ImageView) view.findViewById(R.id.imgView_toast_base);
         TextView tv = (TextView) view.findViewById(R.id.textView_toast_base);
         tv.setText(text);
-        if(isCheck){
-            iv.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_check_circle_black_24dp));
-        }else {
-            iv.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_cancel_black_24dp));
+        if (isCheck) {
+            iv.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check_circle_black_24dp));
+        } else {
+            iv.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_cancel_black_24dp));
         }
         if (mToast == null) {
             mToast = new Toast(context);
@@ -60,9 +60,9 @@ public class ToastUtil {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_toast_size, null);
         TextView mTv = (TextView) view.findViewById(R.id.textView_brush_size);
-        CircleView mCircleView=(CircleView) view.findViewById(R.id.circle_paint_size);
-        mTv.setText(String.format(context.getString(R.string.brush_size_count), (int) size));
-        mCircleView.setCircleRadius(size/2.0f);
+        CircleView mCircleView = (CircleView) view.findViewById(R.id.circle_paint_size);
+        mTv.setText(String.format(context.getString(R.string.u04_01_brush_size) +" %d", (int) size));
+        mCircleView.setCircleRadius(size / 2.0f);
         view.setLayoutParams(new LinearLayout.LayoutParams(
                 android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
                 android.widget.LinearLayout.LayoutParams.MATCH_PARENT));

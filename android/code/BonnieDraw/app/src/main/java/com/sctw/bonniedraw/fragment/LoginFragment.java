@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -84,9 +83,9 @@ public class LoginFragment extends Fragment {
     private SharedPreferences prefs;
     private AccessToken accessToken;
     private FragmentManager fragmentManager;
-    private TextInputLayout mInputLayoutEmail;
+    private TextInputLayout mInputLayoutEmail, mInputLayoutPwd;
     private TextInputEditText mInputEditTextEmail, mInputEditTextPassword;
-    boolean emailCheck = false;
+    boolean mbEmailCheck = false, mbPwdCheck = false;
     private GoogleApiClient mGoogleApiClient;
 
     @Override
@@ -125,9 +124,12 @@ public class LoginFragment extends Fragment {
         mBtnForgetPassword.setOnClickListener(clickListenerForgetPwd);
         mInputLayoutEmail = (TextInputLayout) view.findViewById(R.id.inputLayout_signup_email);
         mInputLayoutEmail.setErrorEnabled(true);
+        mInputLayoutPwd = view.findViewById(R.id.inputLayout_signup_password);
+        mInputLayoutPwd.setErrorEnabled(true);
         mInputEditTextEmail = (TextInputEditText) view.findViewById(R.id.editText_signup_email);
         mInputEditTextPassword = (TextInputEditText) view.findViewById(R.id.editText_signup_password);
         mInputEditTextEmail.addTextChangedListener(checkEmail);
+        mInputEditTextPassword.addTextChangedListener(checkPwd);
         facebookLinkAPI();
         twitterResult();
     }
@@ -149,6 +151,32 @@ public class LoginFragment extends Fragment {
                 .build();
     }
 
+    TextWatcher checkPwd = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mInputEditTextPassword.getText().toString().isEmpty()) {
+                mInputLayoutPwd.setError(getString(R.string.uc_password_empty));
+                mbPwdCheck = false;
+            } else if (mInputEditTextPassword.getText().toString().length() < 6) {
+                mInputLayoutPwd.setError(getString(R.string.uc_password_invalid));
+                mbPwdCheck = false;
+            } else {
+                mInputLayoutPwd.setError(null);
+                mbPwdCheck = true;
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
     TextWatcher checkEmail = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -159,13 +187,13 @@ public class LoginFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (mInputEditTextEmail.getText().toString().isEmpty()) {
                 mInputLayoutEmail.setError(null);
-                emailCheck = false;
+                mbEmailCheck = false;
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mInputEditTextEmail.getText().toString()).matches()) {
-                mInputLayoutEmail.setError(getString(R.string.need_correct_email));
-                emailCheck = false;
+                mInputLayoutEmail.setError(getString(R.string.uc_email_invalid));
+                mbEmailCheck = false;
             } else {
                 mInputLayoutEmail.setError(null);
-                emailCheck = true;
+                mbEmailCheck = true;
             }
         }
 
@@ -175,13 +203,16 @@ public class LoginFragment extends Fragment {
         }
     };
 
+
     private View.OnClickListener clickListenerEmail = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (emailCheck) {
+            if (mbEmailCheck && mbPwdCheck) {
                 checkEmail();
+            } else if (mInputEditTextEmail.getText().toString().isEmpty()) {
+                mInputLayoutEmail.setError(getString(R.string.uc_email_empty));
             } else {
-                mInputLayoutEmail.setError(getString(R.string.login_need_email));
+                mInputLayoutEmail.setError(getString(R.string.uc_email_invalid));
             }
         }
     };
@@ -284,7 +315,7 @@ public class LoginFragment extends Fragment {
                                     GraphResponse response) {
                                 try {
                                     if (!object.has("email")) {
-                                        ToastUtil.createToastWindow(getContext(), getString(R.string.this_account_not_email), PxDpConvert.getSystemHight(getContext()) / 3);
+                                        ToastUtil.createToastWindow(getContext(), getString(R.string.u01_01_fb_not_email), PxDpConvert.getSystemHight(getContext()) / 3);
                                         LoginManager.getInstance().logOut();
                                         return;
                                     }
@@ -365,6 +396,7 @@ public class LoginFragment extends Fragment {
             json.put("ut", GlobalVariable.EMAIL_LOGIN);
             json.put("dt", GlobalVariable.LOGIN_PLATFORM);
             json.put("fn", GlobalVariable.API_CHECK_EMAIL);
+            json.put("deviceId", prefs.getString(GlobalVariable.USER_DEVICE_ID_STR, ""));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -379,7 +411,12 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), R.string.login_fail, Toast.LENGTH_SHORT).show();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                    }
+                });
             }
 
             @Override
@@ -395,7 +432,7 @@ public class LoginFragment extends Fragment {
                                 //Successful
                                 loginEamil();
                             } else {
-                                createLogSignin(getString(R.string.this_account_not_signup));
+                                createLogSignin(getString(R.string.u01_01_not_signin));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -431,7 +468,12 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(getActivity(), R.string.login_fail, Toast.LENGTH_SHORT).show();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                    }
+                });
             }
 
             @Override
@@ -457,7 +499,7 @@ public class LoginFragment extends Fragment {
                                         .apply();
                                 transferMainPage();
                             } else {
-                                createLogSignin(getString(R.string.login_fail_msg));
+                                createLogSignin(getString(R.string.u01_01_login_fail_id_pwd_error));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -475,7 +517,7 @@ public class LoginFragment extends Fragment {
         Button btnOk = dialog.findViewById(R.id.btn_dialog_base_yes);
         TextView tvTitle = dialog.findViewById(R.id.textView_dialog_base_title);
         TextView tvMsg = dialog.findViewById(R.id.textView_dialog_base_msg);
-        tvTitle.setText(getString(R.string.login_fail));
+        tvTitle.setText(getString(R.string.u01_01_login_fail));
         tvMsg.setText(failString);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -536,7 +578,12 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                    }
+                });
             }
 
             @Override

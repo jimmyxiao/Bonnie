@@ -110,10 +110,9 @@
                 android:id="@+id/btn_profile_edit"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
-                android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/icon_edit_profile"
-                android:text="@string/profile_edit_profile"
+                android:text="@string/u06_03_edit_profile"
                 android:textColor="@color/White"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -121,13 +120,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:paddingEnd="72dp"
-                android:paddingStart="72dp">
+                android:paddingEnd="64dp"
+                android:paddingStart="64dp">
 
                 <TextView
                     android:id="@+id/textView_profile_user_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:lineSpacingExtra="4sp"
                     android:maxLines="2"
                     android:textAlignment="viewStart"
@@ -164,7 +164,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/works_count"
+                    android:text="@string/u06_01_posts"
                     android:textAlignment="center" />
 
             </LinearLayout>
@@ -189,7 +189,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/fans_count"
+                    android:text="@string/u06_01_followers"
                     android:textAlignment="center" />
 
             </LinearLayout>
@@ -213,7 +213,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/follow_count"
+                    android:text="@string/uc_following"
                     android:textAlignment="center" />
 
             </LinearLayout>

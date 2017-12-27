@@ -130,7 +130,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
                 holder.mTvFollow.setText(context.getString(R.string.follow_start));
             } else {
-                holder.mTvFollow.setText(context.getString(R.string.following));
+                holder.mTvFollow.setText(context.getString(R.string.uc_following));
             }
 
             //設定追蹤  0=沒追蹤，傳出沒追蹤的值
@@ -252,7 +252,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                     if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
                         holder.mTvFollow.setText(context.getString(R.string.follow_start));
                     } else {
-                        holder.mTvFollow.setText(context.getString(R.string.following));
+                        holder.mTvFollow.setText(context.getString(R.string.uc_following));
                     }
 
                     //設定追蹤  0=沒追蹤，傳出沒追蹤的值

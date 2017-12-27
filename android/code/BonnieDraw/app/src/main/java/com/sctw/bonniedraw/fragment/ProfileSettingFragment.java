@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +23,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class ProfileSettingFragment extends DialogFragment {
     ImageButton mImgBtnBack;
     Button mImgBtnEdit, mImgBtnUpdatePwd, mImgDescription, mImgBtnPrivacyPolicy, mImgBtnTermsOfUse;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     SharedPreferences prefs;
 
     @Override
@@ -54,8 +50,6 @@ public class ProfileSettingFragment extends DialogFragment {
         mImgBtnPrivacyPolicy = view.findViewById(R.id.btn_profile_privacy_policy);
         mImgBtnTermsOfUse = view.findViewById(R.id.btn_profile_terms_of_use);
 
-        fragmentManager = getFragmentManager();
-
         mImgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,40 +61,29 @@ public class ProfileSettingFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 EditProfileFragment fragment = new EditProfileFragment();
-                fragment.show(getFragmentManager(), "TAG");
-                /*fragmentTransaction = fragmentManager.beginTransaction();
-                EditProfileFragment fragment = new EditProfileFragment();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();*/
+                fragment.show(getChildFragmentManager(), "TAG");
             }
         });
 
         mImgBtnPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* fragmentTransaction = fragmentManager.beginTransaction();
                 PublicFragment fragment = new PublicFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 1);
                 fragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();*/
+                fragment.show(getChildFragmentManager(), "TAG");
             }
         });
 
         mImgBtnTermsOfUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* fragmentTransaction = fragmentManager.beginTransaction();
                 PublicFragment fragment = new PublicFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 2);
                 fragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();*/
+                fragment.show(getChildFragmentManager(), "TAG");
             }
         });
 
@@ -110,11 +93,8 @@ public class ProfileSettingFragment extends DialogFragment {
             mImgBtnUpdatePwd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    fragmentTransaction = fragmentManager.beginTransaction();
                     UpdatePasswordFragment fragment = new UpdatePasswordFragment();
-                    fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    fragment.show(getChildFragmentManager(), "TAG");
                 }
             });
         }

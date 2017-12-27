@@ -76,8 +76,8 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
 
     private void readPreferencesColor() {
         //迴圈依序讀取
-        miPoint = mPref.getInt("bgColorsDefault", 1); //讀不到就強制選一
-        color = mPref.getInt("lastBgColor", Color.BLACK);
+        this.miPoint = mPref.getInt("bgColorsDefault", 1); //讀不到就強制選一
+        this.color = mPref.getInt("lastBgColor", Color.BLACK);
         for (int x = 1; x <= 3; x++) {
             switch (x) {
                 case 1:

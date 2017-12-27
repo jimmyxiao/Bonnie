@@ -108,7 +108,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                 btnNone.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mEditGender.setText(getString(R.string.not_select_gender));
+                        mEditGender.setText(getString(R.string.u06_03_gender_no_specified));
                         mIntGender=0;
                         dialog.dismiss();
                     }
@@ -116,7 +116,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                 btnMale.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mEditGender.setText(getString(R.string.male));
+                        mEditGender.setText(getString(R.string.u06_03_gender_male));
                         mIntGender=1;
                         dialog.dismiss();
                     }
@@ -124,7 +124,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                 btnFemale.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mEditGender.setText(getString(R.string.female));
+                        mEditGender.setText(getString(R.string.u06_03_gender_female));
                         mIntGender=2;
                         dialog.dismiss();
                     }
@@ -157,7 +157,11 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         mBtnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateUserInfo();
+                if(mEditTextName.getText().toString().isEmpty()){
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.empty_username), PxDpConvert.getSystemHight(getContext()) / 3);
+                }else {
+                    updateUserInfo();
+                }
             }
         });
 
@@ -211,20 +215,20 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                                     int x = responseJSON.getInt("gender");   //0 not , 1=male, 2=female
                                     switch (x) {
                                         case 0:
-                                            mEditGender.setText(R.string.not_select_gender);
+                                            mEditGender.setText(R.string.u06_03_gender_no_specified);
                                             mIntGender = 0;
                                             break;
                                         case 1:
                                             mIntGender = 1;
-                                            mEditGender.setText(R.string.male);
+                                            mEditGender.setText(R.string.u06_03_gender_male);
                                             break;
                                         case 2:
-                                            mEditGender.setText(R.string.female);
+                                            mEditGender.setText(R.string.u06_03_gender_female);
                                             mIntGender = 2;
                                             break;
                                     }
                                 } else {
-                                    mEditGender.setText(R.string.not_select_gender);
+                                    mEditGender.setText(R.string.u06_03_gender_no_specified);
                                     mIntGender = 0;
                                 }
 

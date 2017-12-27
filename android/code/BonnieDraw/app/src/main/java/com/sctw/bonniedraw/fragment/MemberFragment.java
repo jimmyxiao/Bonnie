@@ -164,10 +164,10 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
                                         if (responseJSON.getBoolean("follow")) {
                                             mbFollow = true;
-                                            mBtnFollow.setText(getString(R.string.following));
+                                            mBtnFollow.setText(getString(R.string.uc_following));
                                         } else {
                                             mbFollow = false;
-                                            mBtnFollow.setText(getString(R.string.follow));
+                                            mBtnFollow.setText(getString(R.string.uc_follow));
                                         }
 
                                         mTvMemberWorks.setText(responseJSON.getString("worksNum"));
@@ -435,11 +435,11 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                     switch (fn) {
                                         case 0:
                                             mbFollow = false;
-                                            mBtnFollow.setText(getString(R.string.follow));
+                                            mBtnFollow.setText(getString(R.string.uc_follow));
                                             break;
                                         case 1:
                                             mbFollow = true;
-                                            mBtnFollow.setText(getString(R.string.following));
+                                            mBtnFollow.setText(getString(R.string.uc_following));
                                             break;
                                     }
                                 } else {

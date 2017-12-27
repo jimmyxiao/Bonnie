@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_weight="6"
             android:gravity="center"
-            android:text="@string/account_setting_option"
+            android:text="@string/u06_04_account_setting_option"
             android:textColor="#000"
             android:textSize="18sp" />
 
@@ -44,67 +44,74 @@
         android:layout_height="1dp"
         android:background="@color/DivColor" />
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/frameLayout_profile_setting"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btn_profile_edit"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:drawableEnd="@drawable/ic_chevron_right_selector"
-            android:paddingEnd="24dp"
-            android:paddingStart="24dp"
-            android:text="@string/profile_edit_profile"
-            android:textAlignment="viewStart" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_profile_update_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:drawableEnd="@drawable/ic_chevron_right_selector"
-            android:paddingEnd="24dp"
-            android:paddingStart="24dp"
-            android:text="@string/profile_setting_chage_pwd"
-            android:textAlignment="viewStart" />
+            <Button
+                android:id="@+id/btn_profile_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:drawableEnd="@drawable/ic_chevron_right_selector"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
+                android:text="@string/u06_03_edit_profile"
+                android:textAlignment="viewStart" />
 
-
-        <Button
-            android:id="@+id/btn_profile_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:drawableEnd="@drawable/ic_chevron_right_selector"
-            android:paddingEnd="24dp"
-            android:paddingStart="24dp"
-            android:text="@string/profile_setting_description"
-            android:textAlignment="viewStart" />
+            <Button
+                android:id="@+id/btn_profile_update_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:drawableEnd="@drawable/ic_chevron_right_selector"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
+                android:text="@string/u06_04_change_password"
+                android:textAlignment="viewStart" />
 
 
-        <Button
-            android:id="@+id/btn_profile_privacy_policy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:drawableEnd="@drawable/ic_chevron_right_selector"
-            android:paddingEnd="24dp"
-            android:paddingStart="24dp"
-            android:text="@string/profile_setting_privacy_policy"
-            android:textAlignment="viewStart" />
+            <Button
+                android:id="@+id/btn_profile_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:drawableEnd="@drawable/ic_chevron_right_selector"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
+                android:text="@string/u06_04_help_center"
+                android:textAlignment="viewStart" />
 
-        <Button
-            android:id="@+id/btn_profile_terms_of_use"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:drawableEnd="@drawable/ic_chevron_right_selector"
-            android:paddingEnd="24dp"
-            android:paddingStart="24dp"
-            android:text="@string/profile_setting_terms_of_use"
-            android:textAlignment="viewStart" />
-    </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_profile_privacy_policy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:drawableEnd="@drawable/ic_chevron_right_selector"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
+                android:text="@string/u06_04_privacy_policy"
+                android:textAlignment="viewStart" />
+
+            <Button
+                android:id="@+id/btn_profile_terms_of_use"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:drawableEnd="@drawable/ic_chevron_right_selector"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
+                android:text="@string/u06_04_terms_of_service"
+                android:textAlignment="viewStart" />
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_weight="6"
             android:gravity="center"
-            android:text="@string/my_collection"
+            android:text="@string/u02_01_collections"
             android:textColor="#000"
             android:textSize="18sp" />
 

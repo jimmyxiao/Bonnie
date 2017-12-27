@@ -139,15 +139,15 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mRv = findViewById(R.id.recyclerView_sidebar);
         mRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         ArrayList<SidebarBean> list = new ArrayList<>();
-        list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.sidebar_class_hot)));
-        list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.sidebar_class_new)));
-        list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.sidebar_class_my)));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.u02_01_popular)));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.u02_01_newest)));
+        list.add(new SidebarBean(R.drawable.left_menu_icon_1, getString(R.string.u02_01_my_drawings)));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, ""));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, ""));
         list.add(new SidebarBean(R.drawable.left_menu_icon_1, ""));
-        list.add(new SidebarBean(R.drawable.collect_ic_off, getString(R.string.my_collection)));
-        list.add(new SidebarBean(R.drawable.menu_ic_account, getString(R.string.account_setting)));
-        list.add(new SidebarBean(R.drawable.menu_ic_out, getString(R.string.logout)));
+        list.add(new SidebarBean(R.drawable.collect_ic_off, getString(R.string.u02_01_collections)));
+        list.add(new SidebarBean(R.drawable.menu_ic_account, getString(R.string.u02_01_settings)));
+        list.add(new SidebarBean(R.drawable.menu_ic_out, getString(R.string.u02_01_logout)));
         mAdapter = new SideBarAdapter(this, list, this);
         mRv.setAdapter(mAdapter);
 
@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                                 //Successful
                                 showTagList(responseJSON.getJSONArray("tagList"));
                             } else {
-                                ToastUtil.createToastWindow(MainActivity.this, getString(R.string.login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                                ToastUtil.createToastWindow(MainActivity.this, getString(R.string.u01_01_login_fail), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

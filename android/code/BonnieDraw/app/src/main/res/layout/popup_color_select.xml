@@ -46,7 +46,7 @@
             android:layout_gravity="center"
             android:layout_weight="3.5"
             android:background="@drawable/shape_add_ticket_border"
-            android:text="@string/add_ticket"
+            android:text="@string/u04_01_new_color_swatch"
             android:textColor="#FFF" />
 
     </LinearLayout>

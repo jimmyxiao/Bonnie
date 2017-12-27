@@ -3,6 +3,7 @@ package com.sctw.bonniedraw.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,16 @@ import com.sctw.bonniedraw.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PublicFragment extends Fragment {
+public class PublicFragment extends DialogFragment {
+    // 1.關於BONNIEDRAW  2.隱私權條款  3.使用條款
     TextView mTextViewTitle;
     ImageButton mImgBtnBack;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,11 +45,13 @@ public class PublicFragment extends Fragment {
             int item = bundle.getInt("type");
             String title="";
             switch (item){
+                case 0:
+                    title=getString(R.string.public_title_about_bonnidraw);
                 case 1:
-                    title=getString(R.string.public_title_privacy_policy);
+                    title=getString(R.string.u06_04_privacy_policy);
                     break;
                 case 2:
-                    title=getString(R.string.public_title_terms_of_use);
+                    title=getString(R.string.u06_04_terms_of_service);
                     break;
             }
             mTextViewTitle.setText(title);
@@ -50,7 +60,7 @@ public class PublicFragment extends Fragment {
         mImgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().onBackPressed();
+                PublicFragment.this.dismiss();
             }
         });
     }

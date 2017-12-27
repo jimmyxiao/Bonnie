@@ -98,7 +98,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                             try {
                                 JSONObject responseJSON = new JSONObject(responseStr);
                                 if (responseJSON.getInt("res") == 1) {
-                                    showErrorDialog(getString(R.string.go_to_email_get_password));
+                                    showErrorDialog(getString(R.string.m02_alert_forget_password_content));
                                 } else {
                                     showErrorDialog(getString(R.string.not_found_account));
                                 }
@@ -152,7 +152,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
 
     private void checkEmail() {
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mTextViewEmail.getText().toString()).matches()) {
-            mTextInputLayoutEmail.setError(getString(R.string.need_correct_email));
+            mTextInputLayoutEmail.setError(getString(R.string.uc_email_invalid));
             mbCheckEmail = false;
         } else {
             mTextInputLayoutEmail.setError(null);

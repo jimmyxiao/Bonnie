@@ -177,7 +177,6 @@ public class NoticeFragment extends Fragment implements NoticeAdapter.OnNoticeCl
 
     @Override
     public void onUserImgClick(int uid) {
-        System.out.println("onUserImgClick = " + uid);
         MemberFragment memberFragment = new MemberFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("userId", uid);

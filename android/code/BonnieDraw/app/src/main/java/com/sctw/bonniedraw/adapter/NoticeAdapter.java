@@ -132,15 +132,15 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
     private String selectType(String msg, int notiMsgType) {
         switch (notiMsgType) {
             case 1:
-                return "開始追蹤你";
+                return context.getString(R.string.u03_01_set_following);
             case 2:
-                return "你的好友，加入BonnieDraw";
+                return context.getString(R.string.u03_01_set_fb_friend);
             case 3:
-                return "對你的作品留言：" + "\n「" + msg + "」";
+                return context.getString(R.string.u03_01_set_comment) + "\n「" + msg + "」";
             case 4:
-                return "分享一則新作品";
+                return context.getString(R.string.u03_01_set_share);
             case 5:
-                return "對你的作品按讚";
+                return context.getString(R.string.u03_01_set_like);
             default:
                 return "";
         }
