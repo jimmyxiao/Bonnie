@@ -9,6 +9,7 @@
 import UIKit
 
 class AccountHeaderCollectionReusableView: UICollectionReusableView {
+    @IBOutlet weak var root: UIView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var editButton: UIButton!

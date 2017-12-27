@@ -20,8 +20,8 @@ class AccountViewController:
         WorkViewControllerDelegate,
         CommentViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
-    private var indicator: UIActivityIndicatorView?
-    private var loadingLabel: UILabel?
+    private var headerView: AccountHeaderCollectionReusableView?
+    private var footerView: AccountFooterCollectionReusableView?
     private var dataRequest: DataRequest?
     private var timestamp = Date()
     private var cellId = Cell.ACCOUNT_GRID {
@@ -48,8 +48,8 @@ class AccountViewController:
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
             downloadData()
         } else {
-            indicator?.stopAnimating()
-            loadingLabel?.text = works.isEmpty ? "empty_data".localized : nil
+            footerView?.indicator.stopAnimating()
+            footerView?.label.text = works.isEmpty ? "empty_data".localized : nil
         }
     }
 
@@ -125,8 +125,8 @@ class AccountViewController:
             return
         }
         let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
-        loadingLabel?.text = "loading".localized
-        indicator?.startAnimating()
+        footerView?.indicator.startAnimating()
+        footerView?.label.text = "loading".localized
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.USER_INFO_QUERY),
@@ -175,8 +175,8 @@ class AccountViewController:
                         }
                         self.navigationItem.leftBarButtonItem?.title = self.profile?.name
                         self.collectionView.reloadSections([0])
-                        self.loadingLabel?.text = self.works.isEmpty ? "empty_data".localized : nil
-                        self.indicator?.stopAnimating()
+                        self.footerView?.indicator.stopAnimating()
+                        self.footerView?.label.text = self.works.isEmpty ? "empty_data".localized : nil
                         self.timestamp = Date()
                         self.refreshControl.endRefreshing()
                     case .failure(let error):
@@ -221,28 +221,31 @@ class AccountViewController:
 
     internal func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
+            let headerView = self.headerView ?? collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
             headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.IMAGE))
             headerView.profileName.text = profile?.name
             headerView.profileDescription.text = profile?.description
             headerView.worksCount.text = "\(profile?.worksCount ?? 0)"
             headerView.fansCount.text = "\(profile?.fansCount ?? 0)"
             headerView.followsCount.text = "\(profile?.followsCount ?? 0)"
+            self.headerView = headerView
             return headerView
         } else {
-            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_FOOTER, for: indexPath) as! AccountFooterCollectionReusableView
-            indicator = footerView.indicator
-            loadingLabel = footerView.label
+            let footerView = self.footerView ?? collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_FOOTER, for: indexPath) as! AccountFooterCollectionReusableView
+            self.footerView = footerView
             return footerView
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if let headerView = collectionView.dataSource?.collectionView?(collectionView, viewForSupplementaryElementOfKind: UICollectionElementKindSectionHeader, at: IndexPath(row: 0, section: section)) {
-            return headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize)
-        } else {
-            return .zero
-        }
+        let headerView = self.headerView ?? collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: IndexPath(row: 0, section: section)) as! AccountHeaderCollectionReusableView
+        headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.IMAGE))
+        headerView.profileName.text = profile?.name
+        headerView.profileDescription.text = profile?.description
+        headerView.worksCount.text = "\(profile?.worksCount ?? 0)"
+        headerView.fansCount.text = "\(profile?.fansCount ?? 0)"
+        headerView.followsCount.text = "\(profile?.followsCount ?? 0)"
+        return headerView.root.systemLayoutSizeFitting(UILayoutFittingExpandedSize)
     }
 
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
