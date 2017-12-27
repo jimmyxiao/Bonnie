@@ -48,6 +48,7 @@ class AccountViewController:
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
             downloadData()
         } else {
+            indicator?.stopAnimating()
             loadingLabel?.text = works.isEmpty ? "empty_data".localized : nil
         }
     }

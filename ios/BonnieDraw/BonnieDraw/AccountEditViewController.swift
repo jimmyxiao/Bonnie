@@ -149,7 +149,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             return
         }
         let name = profile?.name?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let summery = profile?.summery?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let summery = profile?.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let email = profile?.email?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let phone = profile?.phone?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let gender = profile?.gender ?? .unspecified
@@ -383,7 +383,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         case name:
             profile?.name = sender.text
         case summery:
-            profile?.summery = sender.text
+            profile?.description = sender.text
         case email:
             profile?.email = sender.text
         case phone:
@@ -395,7 +395,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
     private func setViewData() {
         name.text = profile?.name
-        summery.text = profile?.summery
+        summery.text = profile?.description
         email.text = profile?.email
         phone.text = profile?.phone
         if let gender = profile?.gender {

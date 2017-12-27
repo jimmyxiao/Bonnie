@@ -11,7 +11,6 @@ import UIKit
 class Profile: Comparable {
     let type: UserType?
     var name: String?
-    var summery: String?
     var email: String?
     var description: String?
     var phone: String?
@@ -24,7 +23,6 @@ class Profile: Comparable {
     init(withDictionary dictionary: [String: Any]) {
         type = UserType(rawValue: dictionary["userType"] as? Int ?? -1)
         name = dictionary["userName"] as? String
-        summery = dictionary["description"] as? String
         email = dictionary["email"] as? String
         description = dictionary["description"] as? String
         phone = dictionary["phoneNo"] as? String
@@ -41,9 +39,9 @@ class Profile: Comparable {
 
     static func ==(lhs: Profile, rhs: Profile) -> Bool {
         return lhs.name == rhs.name &&
-                lhs.summery == rhs.summery &&
-                lhs.email == rhs.email
-        lhs.phone == rhs.phone
-        lhs.gender == rhs.gender
+                lhs.description == rhs.description &&
+                lhs.email == rhs.email &&
+                lhs.phone == rhs.phone &&
+                lhs.gender == rhs.gender
     }
 }
