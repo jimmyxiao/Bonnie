@@ -501,6 +501,15 @@
       and CREATION_DATE <![CDATA[>= ]]>  CURDATE() - INTERVAL 7 day
 	) as counts
   </select>
+
+  <select id="seletNewMaxPagination" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  select ifnull(CEILING(MAX(counted) / #{rc, jdbcType=INTEGER} ), 0) as maxPagination 
+  from ( 
+    select count(*) as counted from works 
+    where PRIVACY_TYPE = 1
+      and STATUS = 1
+  ) as counts
+  </select>
   
   <select id="seletMaxPaginationBindUser" parameterType="java.util.Map" resultType="java.lang.Integer">
 	select ifnull(CEILING(MAX(counted) / #{limit, jdbcType=INTEGER} ), 0) as maxPagination 
@@ -576,6 +585,29 @@
     and wk.STATUS = 1
     and wk.CREATION_DATE <![CDATA[>= ]]>  CURDATE() - INTERVAL 7 day
     order by wl.LIKE_COUNT desc, wk.WORKS_ID asc
+    LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
+  </select>
+
+  <select id="queryNewUploadWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
+  select 
+  wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+  wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+  wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT,
+  ifnull(wm.MSG_COUNT,0) as MSG_COUNT,  
+  case when exists 
+  (select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
+  then true else false end as isLike,
+  case when exists 
+  (select works_collection_id from works_collection where collection_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
+  then true else false end as isCollection 
+    from works wk 
+    left outer join user_info ur on ur.user_id = wk.user_id
+    left outer join (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID) as wl on wl.WORKS_ID = wk.WORKS_ID
+    left join (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
+  where 1=1 
+    and wk.PRIVACY_TYPE = 1
+    and wk.STATUS = 1
+    order by wk.CREATION_DATE desc
     LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
   </select>
   

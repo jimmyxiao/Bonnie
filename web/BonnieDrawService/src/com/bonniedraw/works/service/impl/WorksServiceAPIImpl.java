@@ -305,7 +305,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	
 	/**
 	 *	wt type:
-	 *	1: 追蹤清單, 2:熱門, 5:個人, 6:其他用戶, 7:收藏, 8:HashTag, 9:一般查詢
+	 *	1: 追蹤清單, 2:熱門, 4:最新, 5:個人, 6:其他用戶, 7:收藏, 8:HashTag, 9:一般查詢
 	 */
 	@Override
 	public Map<String, Object> queryAllWorksAndPagination(WorkListRequestVO workListRequestVO) {
@@ -328,6 +328,10 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		case 2:
 			maxPagination = worksMapper.seletMaxPagination(rc);
 			worksResponseList = worksMapper.queryPopularWorksPager(pagerMap);
+			break;
+		case 4:
+			maxPagination = worksMapper.seletNewMaxPagination(rc);
+			worksResponseList = worksMapper.queryNewUploadWorksPager(pagerMap);
 			break;
 		case 5:
 			maxPagination = worksMapper.seletMaxPaginationBindUser(pagerMap);

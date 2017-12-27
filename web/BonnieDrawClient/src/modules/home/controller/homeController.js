@@ -3,6 +3,16 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
+		$rootScope.maxPagination = 0;
+		$rootScope.paginList =[];
+		$scope.clickPagin = function(pagin){
+			$rootScope.offset = pagin;
+			$scope.queryNewUploadWorks();
+		}
+		$scope.movePagin = function(offset){
+			$rootScope.offset = $rootScope.offset + offset;
+			$scope.queryNewUploadWorks();
+		}
 
 		$scope.popupShare = function(){
 			
@@ -13,10 +23,12 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 			var params = util.getInitalScope();
 			params.wid = 0;
 			params.wt = 4;
-			params.stn = 0;
+			params.stn = $scope.offset;
 			params.rc = 6; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
+					$rootScope.maxPagination = data.maxPagination;
+					$rootScope.initalPaginList();
 					$scope.secondarySectionArr_new = data.workList;
 				}else if(data.res == 0){
 					$rootScope.logout();

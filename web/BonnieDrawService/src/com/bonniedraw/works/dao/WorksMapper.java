@@ -41,6 +41,8 @@ public interface WorksMapper {
     List<WorksResponse> querySearchWorks(Map<String, Object> paramMap);
     
     int seletMaxPagination(Integer rc);
+
+    int seletNewMaxPagination(Integer rc);
     
     int seletMaxPaginationBindUser(Map<String, Object> pagerMap);
     
@@ -53,6 +55,8 @@ public interface WorksMapper {
     int seletMaxPaginationBindSearch(Map<String, Object> pagerMap);
     
     List<WorksResponse> queryPopularWorksPager(Map<String, Object> pagerMap);
+
+     List<WorksResponse> queryNewUploadWorksPager(Map<String, Object> pagerMap);
     
     List<WorksResponse> queryUserWorksPager(Map<String, Object> pagerMap);
     

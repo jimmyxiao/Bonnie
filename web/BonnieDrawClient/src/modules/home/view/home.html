@@ -146,6 +146,22 @@
 								</div>
 							</div>
 						</div>-->
+						<!-- pagination top -->	
+					<div class="pagination-container text-center">
+						<ul class="pagination">
+						   	<li>
+						   		<a href="" ng-hide="offset==1 || maxPagination==0" ng-click="movePagin(-1)">&laquo;</a>
+						   	</li>
+						   	<li ng-class="{true:'active',false:''}[offset==pagin]" ng-repeat="pagin in paginList">
+						   		<a href="" ng-click="clickPagin(pagin)">{{pagin}}</a>
+						   		<div class="pagination-hvr"></div>
+						   	</li>
+						   	<li>
+						   		<a href="" ng-hide="offset==maxPagination || maxPagination==0" ng-click="movePagin(1)">&raquo;</a>
+						   	</li>
+						</ul>
+					</div>
+					<!-- pagination end -->
 					</div>
 
  					<div class="col-md-3 col-sm-4" ng-show="secondarySectionArr_userLike!=null">
