@@ -32,7 +32,7 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 			var params = util.getInitalScope();
 			params.wid = 0;
 			params.wt = 2;
-			params.stn = 0;
+			params.stn = 1;
 			params.rc = 5; 
 			worksService.queryWorksList(params,function(data, status, headers, config){
 				if(data.res == 1){
@@ -42,7 +42,12 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 						}
 					}
 					$scope.secondarySectionArr_popular = data.workList;
-					$scope.secondarySectionArr_popular_first = $scope.secondarySectionArr_popular.shift();
+					if($scope.secondarySectionArr_popular.length == 0){
+						$scope.secondarySectionArr_popular_first[0] = [];
+						$scope.secondarySectionArr_popular_first.length = 0;
+					}else{
+						$scope.secondarySectionArr_popular_first[0] = $scope.secondarySectionArr_popular.shift();
+					}
 				}else if(data.res == 0){
 					$rootScope.logout();
 					// $state.go('login');
@@ -105,7 +110,6 @@ app.controller('homeController', function ($rootScope, $scope, $window, $locatio
 					var map = data.dataMap;
 					$scope.secondarySectionArr_userLike = map.works;
 					$scope.secondarySectionArr_keyword = map.keyword;
-					console.log($scope.secondarySectionArr_userLike);
 				}
 			})
 		}
