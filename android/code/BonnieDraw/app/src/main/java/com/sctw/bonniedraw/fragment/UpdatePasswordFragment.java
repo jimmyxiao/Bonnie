@@ -1,13 +1,11 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.app.AlertDialog;
-import android.support.v4.app.DialogFragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,10 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.activity.LoginActivity;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 
@@ -91,6 +92,25 @@ public class UpdatePasswordFragment extends DialogFragment {
             }
         });
 
+        mEditTextOldPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (mEditTextOldPwd.getText().toString().isEmpty()) {
+                    mEditTextOldPwd.setError(getString(R.string.u06_05_old_password_empty));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         mEditTextNewPwd.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -99,7 +119,9 @@ public class UpdatePasswordFragment extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (mEditTextNewPwd.getText().toString().length() < 6) {
+                if (mEditTextNewPwd.getText().toString().isEmpty()) {
+                    mEditTextNewPwd.setError(getString(R.string.u06_05_new_password_empty));
+                } else if (mEditTextNewPwd.getText().toString().length() < 6) {
                     mEditTextNewPwd.setError(getString(R.string.uc_password_invalid));
                 } else {
                     mEditTextNewPwd.setError(null);
@@ -140,13 +162,13 @@ public class UpdatePasswordFragment extends DialogFragment {
 
     void checkPwdEmpty() {
         if (mEditTextOldPwd.getText().toString().isEmpty()) {
-            mEditTextOldPwd.setError(getString(R.string.m02_alert_old_password_empty));
+            mEditTextOldPwd.setError(getString(R.string.u06_05_old_password_empty));
         }
         if (mEditTextNewPwd.getText().toString().isEmpty()) {
-            mEditTextNewPwd.setError(getString(R.string.m02_alert_new_password_empty));
+            mEditTextNewPwd.setError(getString(R.string.u06_05_new_password_empty));
         }
         if (mTextViewCheckPwd.getText().toString().isEmpty()) {
-            mTextViewCheckPwd.setError(getString(R.string.m02_alert_new_password_empty));
+            mTextViewCheckPwd.setError(getString(R.string.u06_05_new_password_empty));
         }
     }
 
@@ -201,40 +223,48 @@ public class UpdatePasswordFragment extends DialogFragment {
         });
     }
 
-    public void msg(int type) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
+    public void msg(final int type) {
+        final FullScreenDialog dialog=new FullScreenDialog(getContext(),R.layout.dialog_base);
+        FrameLayout layout=dialog.findViewById(R.id.frameLayout_dialog_base);
+        TextView title=dialog.findViewById(R.id.textView_dialog_base_title);
+        TextView msg=dialog.findViewById(R.id.textView_dialog_base_msg);
+        Button btnYes=dialog.findViewById(R.id.btn_dialog_base_yes);
+        title.setText(getString(R.string.uc_update_fail));
         switch (type) {
             case SUCCESSFUL_UPDATE_PASSWORD:
-                builder.setMessage(R.string.update_password_successful);
-                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        cleanValue();
-                    }
-                });
+                msg.setText(getString(R.string.u06_05_password_update_successful));
+                dialog.setCancelable(false);
                 break;
             case ERROR_OLD_PASSWORD:
-                builder.setMessage(R.string.m02_old_password_unmatch);
-                builder.setPositiveButton(R.string.uc_alert_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
+                msg.setText(getString(R.string.u06_05_old_password_unmatch));
                 break;
             case ERROR_CONNECT:
-                builder.setMessage(R.string.update_password_other_error);
-                builder.setPositiveButton(R.string.uc_alert_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
+                msg.setText(getString(R.string.u06_05_password_update_fail));
                 break;
         }
-        builder.create().show();
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(type==SUCCESSFUL_UPDATE_PASSWORD){
+                    dialog.dismiss();
+                    cleanValue();
+                }else {
+                    dialog.dismiss();
+                }
+            }
+        });
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(type==SUCCESSFUL_UPDATE_PASSWORD){
+                    dialog.dismiss();
+                    cleanValue();
+                }else {
+                    dialog.dismiss();
+                }
+            }
+        });
+        dialog.show();
     }
 
     public void cleanValue() {

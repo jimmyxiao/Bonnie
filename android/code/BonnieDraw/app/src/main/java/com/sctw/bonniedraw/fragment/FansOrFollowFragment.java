@@ -86,7 +86,7 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         //miFn  2=fans, 1= follow
         if (miFn == 2) {
-            mTvTitle.setText(R.string.uc_fans);
+            mTvTitle.setText(R.string.u06_01_fan);
         } else {
             mTvTitle.setText(R.string.uc_following);
         }
@@ -110,7 +110,7 @@ public class FansOrFollowFragment extends Fragment implements FansOfFollowAdapte
         mSearchView = (android.support.v7.widget.SearchView) item.getActionView();
         mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
         mSearchView.setIconifiedByDefault(false);
-        mSearchView.setQueryHint(getString(R.string.find_someone_user));
+        mSearchView.setQueryHint(getString(R.string.u06_01_search_user));
         mSearchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

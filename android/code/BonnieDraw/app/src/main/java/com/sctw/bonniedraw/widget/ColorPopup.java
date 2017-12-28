@@ -160,7 +160,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
         mRv = (RecyclerView) conentView.findViewById(R.id.recyclerView_color_tickets);
         mColorPicker.setColor(color, true);
         mColorPanel.setColor(color);
-        mTvColorListHint.setText(String.format(context.getString(R.string.get_current_color_list_num), miPoint));
+        mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_color_ticket_current_list), miPoint));
         setHex(color);
         conentView.setOnTouchListener(this);
         mColorPicker.setOnColorChangedListener(this);
@@ -225,7 +225,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                 mAdapterTicket.removeAllTrace();
                 mAdapterTicket = new ColorTicket(getCurrentColorList(), ColorPopup.this);
                 mRv.setAdapter(mAdapterTicket);
-                mTvColorListHint.setText(String.format(context.getString(R.string.get_current_color_list_num), miPoint));
+                mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_color_ticket_current_list), miPoint));
             }
         });
         mBtnRightList.setOnClickListener(new View.OnClickListener() {
@@ -238,7 +238,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                 mAdapterTicket.removeAllTrace();
                 mAdapterTicket = new ColorTicket(getCurrentColorList(), ColorPopup.this);
                 mRv.setAdapter(mAdapterTicket);
-                mTvColorListHint.setText(String.format(context.getString(R.string.get_current_color_list_num), miPoint));
+                mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_color_ticket_current_list), miPoint));
             }
         });
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +260,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                 if (position != -1) {
                     mAdapterTicket.removeColor();
                 } else {
-                    ToastUtil.createToastWindow(context, context.getString(R.string.please_select_ticket), PxDpConvert.getSystemHight(context) / 4);
+                    ToastUtil.createToastWindow(context, context.getString(R.string.u04_01_color_ticket_not_select), PxDpConvert.getSystemHight(context) / 4);
                 }
             }
         });
@@ -272,7 +272,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                     mAdapterTicket.addNewColor(new ColorBean(color, true));
                     mAdapterTicket.notifyDataSetChanged();
                 } else {
-                    ToastUtil.createToastWindow(context, context.getString(R.string.ticket_full), PxDpConvert.getSystemHight(context) / 4);
+                    ToastUtil.createToastWindow(context, context.getString(R.string.u04_01_color_ticket_is_full), PxDpConvert.getSystemHight(context) / 4);
                 }
             }
         });

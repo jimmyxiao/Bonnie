@@ -204,7 +204,7 @@ public class PaintView extends View {
             }
             invalidate();
         } else {
-            ToastUtil.createToastWindow(getContext(), "復原次數到達上限", PxDpConvert.getSystemHight(getContext()) / 4);
+            ToastUtil.createToastWindow(getContext(), getContext().getString(R.string.uc_undo_limit), PxDpConvert.getSystemHight(getContext()) / 4);
         }
     }
 
@@ -229,7 +229,7 @@ public class PaintView extends View {
 
             invalidate();
         } else {
-            ToastUtil.createToastWindow(getContext(), "重作次數到達上限", PxDpConvert.getSystemHight(getContext()) / 4);
+            ToastUtil.createToastWindow(getContext(), getContext().getString(R.string.uc_redo_limit), PxDpConvert.getSystemHight(getContext()) / 4);
         }
     }
 
@@ -241,7 +241,7 @@ public class PaintView extends View {
             this.mMergedLayerCanvas.setBitmap(mMergedLayer);
             invalidate();
         } else {
-            ToastUtil.createToastWindow(getContext(), "復原次數到達上限", PxDpConvert.getSystemHight(getContext()) / 4);
+            ToastUtil.createToastWindow(getContext(), getContext().getString(R.string.uc_undo_limit), PxDpConvert.getSystemHight(getContext()) / 4);
         }
     }
 
@@ -729,7 +729,7 @@ public class PaintView extends View {
 
     private void maskBrushWithAngle(Brush brush, float angle, float tipAlpha) {
         mDstInPaint.setAlpha((int) ((tipAlpha * tipAlpha) * 255.0f));
-        if(this.mMaskBitmap==null) return;
+        if (this.mMaskBitmap == null) return;
         Bitmap maskLayer = this.mMaskBitmap.length == 1 ? this.mMaskBitmap[0] : this.mMaskBitmap[this.mRandom.nextInt(this.mMaskBitmap.length)];
 
         if (angle != 0.0f) {

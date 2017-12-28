@@ -127,7 +127,7 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
                 break;
             case GlobalVariable.THIRD_LOGIN_GOOGLE:
                 //Google 連結
-                mTvHint.setText(getText(R.string.only_fb_or_twitter_friends_list));
+                mTvHint.setText(getText(R.string.u06_02_only_fb_or_twitter));
                 mTvHint.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -137,7 +137,7 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
                 break;
             default:
                 //沒有社群帳號連結
-                mTvHint.setText(getText(R.string.only_fb_or_twitter_friends_list));
+                mTvHint.setText(getText(R.string.u06_02_only_fb_or_twitter));
                 mTvHint.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -154,7 +154,7 @@ public class FriendsFragment extends Fragment implements FriendsAdapter.OnFriend
         mSearchView = (android.support.v7.widget.SearchView) item.getActionView();
         mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
         mSearchView.setIconifiedByDefault(false);
-        mSearchView.setQueryHint(getString(R.string.find_someone_user));
+        mSearchView.setQueryHint(getString(R.string.u06_01_search_user));
         mSearchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

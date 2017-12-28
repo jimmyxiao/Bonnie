@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="@color/Transparent"
-            android:text="@string/finish" />
+            android:text="@string/uc_update" />
 
     </LinearLayout>
 
@@ -94,7 +94,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:hint="@string/limit_50_word"
+                android:hint="@string/u06_03_alert_save_length_max"
                 android:inputType="textPersonName"
                 android:maxLength="50"
                 android:maxLines="1"

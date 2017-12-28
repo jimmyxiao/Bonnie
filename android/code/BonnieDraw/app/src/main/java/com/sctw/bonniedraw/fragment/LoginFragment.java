@@ -331,7 +331,7 @@ public class LoginFragment extends Fragment {
                                     loginThird(GlobalVariable.API_LOGIN_CODE);
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
-                                    ToastUtil.createToastWindow(getContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getContext()) / 3);
+                                    ToastUtil.createToastWindow(getContext(), getString(R.string.u01_01_login_data_error), PxDpConvert.getSystemHight(getContext()) / 3);
                                     LoginManager.getInstance().logOut();
                                 }
                             }
@@ -377,7 +377,7 @@ public class LoginFragment extends Fragment {
                             .apply();
                     loginThird(GlobalVariable.API_LOGIN_CODE);
                 } catch (IOException e) {
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getContext()) / 3);
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.u01_01_login_data_error), PxDpConvert.getSystemHight(getContext()) / 3);
                     e.printStackTrace();
                 }
             }
@@ -414,7 +414,7 @@ public class LoginFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                        ToastUtil.createToastWindow(getContext(), getString(R.string.uc_connect_failed_title), PxDpConvert.getSystemHight(getContext()) / 3);
                     }
                 });
             }
@@ -471,7 +471,7 @@ public class LoginFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                        ToastUtil.createToastWindow(getContext(), getString(R.string.uc_connect_failed_title), PxDpConvert.getSystemHight(getContext()) / 3);
                     }
                 });
             }
@@ -581,7 +581,7 @@ public class LoginFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                        ToastUtil.createToastWindow(getContext(), getString(R.string.uc_connect_failed_title), PxDpConvert.getSystemHight(getContext()) / 3);
                     }
                 });
             }
@@ -606,7 +606,7 @@ public class LoginFragment extends Fragment {
                                 transferMainPage();
 
                             } else {
-                                createLogSignin(getString(R.string.third_login_fail));
+                                createLogSignin(getString(R.string.uc_connection_failed));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

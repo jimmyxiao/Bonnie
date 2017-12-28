@@ -26,7 +26,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
@@ -207,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                             return false;
                         }
                         mbFirst = true;
-                        miFn = 2;
+                        if (miFn == 0) miFn = 2;
                         changeFragmentWithBundle(new HomeAndHotFragment(), miFn, mSquery);
                         return true;
                     case R.id.ic_btn_hot:
@@ -215,8 +214,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                             callFragmentToTop();
                             return false;
                         }
-                        miFn = 1;
-                        changeFragmentWithBundle(new HomeAndHotFragment(), miFn, mSquery);
+                        changeFragmentWithBundle(new HomeAndHotFragment(), 1, mSquery);
                         return true;
                     case R.id.ic_btn_notice:
                         if (mBottomNavigationViewEx.getCurrentItem() == 3) {
@@ -251,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(MainActivity.this, getString(R.string.connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                        ToastUtil.createToastWindow(MainActivity.this, getString(R.string.uc_connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                     }
                 });
             }
@@ -370,8 +368,8 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         TextView msg = dialog.findViewById(R.id.textView_dialog_base_msg);
         Button yes = dialog.findViewById(R.id.btn_dialog_base_yes);
         Button no = dialog.findViewById(R.id.btn_dialog_base_no);
-        title.setText(getString(R.string.logout_title));
-        msg.setText(getString(R.string.logout_msg));
+        title.setText(getString(R.string.uc_logout_title));
+        msg.setText(getString(R.string.uc_logout_msg));
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -417,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                 cleanValue();
                 break;
             case 0:
-                Toast.makeText(this, "has error", Toast.LENGTH_SHORT).show();
+                ToastUtil.createToastWindow(getApplicationContext(), "Error", PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                 break;
         }
     }
@@ -461,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         super.onStart();
         if (prefs.getInt(GlobalVariable.USER_THIRD_PLATFORM_STR, 0) == 0) {
             final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setMessage(R.string.please_login);
+            dialog.setMessage(R.string.m01_01_please_login);
             dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

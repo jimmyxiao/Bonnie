@@ -83,7 +83,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        showErrorDialog(getString(R.string.login_fail_server));
+                        showErrorDialog(getString(R.string.uc_connection_failed));
                     }
                 });
             }
@@ -98,7 +98,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
                             try {
                                 JSONObject responseJSON = new JSONObject(responseStr);
                                 if (responseJSON.getInt("res") == 1) {
-                                    showErrorDialog(getString(R.string.m02_alert_forget_password_content));
+                                    showErrorDialog(getString(R.string.u01_03_alert_forget_password_content));
                                 } else {
                                     showErrorDialog(getString(R.string.u01_03_search_fail_no_account));
                                 }
@@ -118,7 +118,7 @@ public class ForgetPasswordFragment extends Fragment implements TextWatcher, Vie
         Button btnOk=dialog.findViewById(R.id.btn_dialog_base_yes);
         TextView tvTitle=dialog.findViewById(R.id.textView_dialog_base_title);
         TextView tvMsg=dialog.findViewById(R.id.textView_dialog_base_msg);
-        tvTitle.setText(R.string.fail);
+        tvTitle.setVisibility(View.GONE);
         tvMsg.setText(msg);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override

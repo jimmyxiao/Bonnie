@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_border_dialog"
                 android:padding="20dp"
-                android:text="@string/delete"
+                android:text="@string/uc_delete"
                 android:textColor="@color/Red" />
 
         </LinearLayout>

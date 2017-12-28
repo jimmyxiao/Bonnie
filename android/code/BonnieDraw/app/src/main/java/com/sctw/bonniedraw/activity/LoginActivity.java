@@ -1,7 +1,6 @@
 package com.sctw.bonniedraw.activity;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,19 +10,21 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.fragment.LoginFragment;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(getApplicationContext(), getString(R.string.login_data_error), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                        ToastUtil.createToastWindow(getApplicationContext(), getString(R.string.u01_01_login_data_error), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                     }
                 });
                 break;
@@ -119,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                        ToastUtil.createToastWindow(LoginActivity.this, getString(R.string.uc_connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                     }
                 });
             }
@@ -200,17 +201,29 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
-                            alertDialog.setMessage(R.string.login_fail_server);
-                            alertDialog.setCancelable(false);
-                            alertDialog.setPositiveButton(getString(R.string.uc_alert_yes), new DialogInterface.OnClickListener() {
+                            final FullScreenDialog dialog = new FullScreenDialog(LoginActivity.this, R.layout.dialog_base);
+                            FrameLayout layout = dialog.findViewById(R.id.frameLayout_dialog_base);
+                            Button btnOk = dialog.findViewById(R.id.btn_dialog_base_yes);
+                            TextView tvTitle = dialog.findViewById(R.id.textView_dialog_base_title);
+                            TextView tvMsg = dialog.findViewById(R.id.textView_dialog_base_msg);
+                            tvTitle.setText(getString(R.string.u01_01_login_fail));
+                            tvMsg.setText(getString(R.string.uc_connection_failed));
+                            dialog.setCancelable(false);
+                            btnOk.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                public void onClick(View view) {
                                     dialog.dismiss();
                                     finish();
                                 }
                             });
-                            alertDialog.show();
+                            layout.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            dialog.show();
                         } finally {
                             transferMainPage();
                         }

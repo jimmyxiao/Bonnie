@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/first_leave_msg"
+            android:text="@string/u02_03_first_comment"
             android:textColor="@color/HintColor" />
 
     </FrameLayout>
@@ -96,14 +96,14 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_weight="8"
-            android:hint="@string/leave_a_msg" />
+            android:hint="@string/u02_03_add_comment_hint" />
 
         <TextView
             android:id="@+id/textView_publish_msg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/publish"
+            android:text="@string/uc_publish"
             android:textAlignment="center"
             android:textColor="@color/HyperLinkColor" />
 

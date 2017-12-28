@@ -122,7 +122,7 @@ public class SignUpFragment extends Fragment {
                 infoCheck(CHECK_EMAIL);
                 infoCheck(CHECK_PWD);
                 infoCheck(CHECK_REPWD);
-                logDialog(getString(R.string.u01_02_sigin_up_check_fail_title), getString(R.string.u01_02_sigin_up_check_fail_content),0);
+                logDialog(getString(R.string.u01_02_sign_up_check_fail_title), getString(R.string.u01_02_sign_up_check_fail_content),0);
             }
         }
     };
@@ -242,10 +242,10 @@ public class SignUpFragment extends Fragment {
                 logDialog(getString(R.string.u01_02_alert_sign_up_success_title), getString(R.string.u01_02_activate_account),1);
                 break;
             case 2:
-                logDialog(getString(R.string.u01_02_alert_sign_up_fail_title),  getString(R.string.signin_fail_email),0);
+                logDialog(getString(R.string.u01_02_alert_sign_up_fail_title),  getString(R.string.u01_02_sign_up_email_fail_content),0);
                 break;
             case 3:
-                logDialog(getString(R.string.u01_02_alert_sign_up_fail_title),  getString(R.string.signin_fail_error),0);
+                logDialog(getString(R.string.u01_02_alert_sign_up_fail_title),  getString(R.string.uc_connection_failed),0);
         }
     }
 
@@ -288,7 +288,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onFocusChange(View view, boolean b) {
             if (userRePassword.getText().toString().equals("")) {
-                mTextInputLayoutRePwd.setError(getString(R.string.signin_recheck_password));
+                mTextInputLayoutRePwd.setError(getString(R.string.u01_02_sign_up_repassword_empty));
             }
         }
     };
@@ -401,7 +401,7 @@ public class SignUpFragment extends Fragment {
 
             case CHECK_REPWD:
                 if (userRePassword.getText().toString().equals("")) {
-                    mTextInputLayoutRePwd.setError(getString(R.string.signin_recheck_password));
+                    mTextInputLayoutRePwd.setError(getString(R.string.u01_02_sign_up_repassword_empty));
                     userRePwdVaild = false;
                 } else {
                     String userPasswordString = userPassword.getText().toString();

@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/Transparent"
                 android:padding="20dp"
-                android:text="@string/u02_04_delete" />
+                android:text="@string/u02_04_delete_title" />
 
             <View
                 android:id="@+id/view_divier_extra_delete"
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/Transparent"
                 android:padding="20dp"
-                android:text="@string/edit_work" />
+                android:text="@string/u02_04_edit_work" />
 
         </LinearLayout>
 

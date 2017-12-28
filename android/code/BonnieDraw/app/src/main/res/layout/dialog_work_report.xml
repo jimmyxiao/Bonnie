@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/report_work"
+                android:text="@string/u02_02_report_work_title"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/work_class"
+                    android:text="@string/u02_02_type_report"
                     android:textAlignment="center" />
 
                 <Spinner
@@ -51,7 +51,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/report_reason"
+                    android:text="@string/u02_02_reason_report"
                     android:textAlignment="center" />
 
                 <EditText
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/Transparent"
-                    android:text="@string/commit"
+                    android:text="@string/uc_commit"
                     android:textColor="@color/Blue" />
 
             </LinearLayout>

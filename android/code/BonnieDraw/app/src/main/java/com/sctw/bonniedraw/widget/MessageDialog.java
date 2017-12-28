@@ -159,7 +159,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                                 }
                             });
                         } else {
-                            ToastUtil.createToastWindow(getContext(), getString(R.string.msg_fail), PxDpConvert.getSystemHight(getContext()) / 4);
+                            ToastUtil.createToastWindow(getContext(), getString(R.string.u02_03_add_comment_fail), PxDpConvert.getSystemHight(getContext()) / 4);
                         }
 
                     }
@@ -277,7 +277,7 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Get List Works", "Fail");
+                ToastUtil.createToastWindow(getContext(), getString(R.string.uc_connect_failed_title), PxDpConvert.getSystemHight(getContext()) / 4);
             }
 
             @Override
@@ -289,7 +289,6 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.delete_successful), true, 0);
                                     mAdapter.deleteMsg(position);
                                 }
                             });

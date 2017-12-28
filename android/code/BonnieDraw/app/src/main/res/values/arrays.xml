@@ -41,8 +41,8 @@
     </string-array>
 
     <string-array name="report">
-        <item>@string/content_pornography</item>
-        <item>@string/content_violence</item>
-        <item>@string/other</item>
+        <item>@string/u02_02_content_pornography</item>
+        <item>@string/u02_02_content_violance</item>
+        <item>@string/u02_02_content_other</item>
     </string-array>
 </resources>

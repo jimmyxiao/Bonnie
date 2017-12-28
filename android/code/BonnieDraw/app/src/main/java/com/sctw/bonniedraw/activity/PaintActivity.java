@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.paint.Brush;
@@ -188,7 +187,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(PaintActivity.this, R.string.paint_save_need_name, Toast.LENGTH_SHORT).show();
+                    ToastUtil.createToastWindow(getApplicationContext(), getString(R.string.u04_02_enter_empty), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                 }
             }
         });
@@ -216,7 +215,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.login_fail_server), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.uc_connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
             }
@@ -275,7 +274,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.connect_fail), false, 0);
+                ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.uc_connect_failed_title), false, 0);
             }
 
             @Override
@@ -484,7 +483,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         startActivity(intent);
                     }
                 } else {
-                    ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_need_draw), 0);
+                    ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.u04_01_press_play_with_empty), 0);
                 }
 
             }
@@ -517,7 +516,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                     @Override
                     public void onClick(View v) {
                         if (mPaintView.mFileBDW.delete() && mPaintView.mFilePNG.delete()) {
-                            ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_delete_sketch), 0);
+                            ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.u04_04_clear_finish), 0);
                         }
                         mFrameLayoutFreePaint.removeAllViews();
                         Brush brush = mPaintView.getBrush();
@@ -551,7 +550,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 if (mPaintView.mListTagPoint.size() > 0) {
                     publishWorkEdit();
                 } else {
-                    ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.paint_need_draw), 0);
+                    ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.u04_01_press_play_with_empty), 0);
                 }
             }
         });
@@ -683,17 +682,17 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         Button btnCancel = dialog.findViewById(R.id.btn_paint_sketch_cancel);
         switch (num) {
             case 0:
-                tvTitle.setText(R.string.paint_sketch_save_title);
+                tvTitle.setText(R.string.u04_01_exit_ask_save_sketch_title);
                 break;
             case 1:
-                tvTitle.setText(R.string.paint_sketch_save_add_title);
+                tvTitle.setText(R.string.u04_01_exit_ask_update_sketch_title);
                 break;
         }
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean result = mPaintView.saveTempPhotoAndBdw();
-                Toast.makeText(PaintActivity.this, R.string.save_temp_successful, Toast.LENGTH_SHORT).show();
+                ToastUtil.createToastWindow(getApplicationContext(), getString(R.string.u04_01_exit_ask_sketch_successful), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                 dialog.dismiss();
                 if (result) finish();
             }

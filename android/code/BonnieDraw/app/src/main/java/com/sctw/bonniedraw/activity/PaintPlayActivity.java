@@ -90,7 +90,6 @@ public class PaintPlayActivity extends AppCompatActivity {
                             } else if (tagpoint.get_iBrush() != 0) {
                                 int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                                 mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
-                                System.out.println("筆代號 = " + paintId);
                             } else {
                                 mPaintView.setBrush(Brushes.get(getApplicationContext())[9]);
                             }
@@ -240,11 +239,11 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.please_touch_play_start), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.u04_05_please_touch_play_start), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                 } else if (miPointCount > 0) {
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_end), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.u04_05_play_end), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                 }
                 showProgress();
             }
@@ -254,7 +253,7 @@ public class PaintPlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mbPlaying) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_wait), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.u04_05_wait_this_part_finish), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                 } else if (miPointCurrent > 0) {
                     mPaintView.onClickPrevious();
                     // 兩個UP差異點數 = 減少的點數 在移除最後第一個
@@ -269,7 +268,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                     miPointCurrent = miPointCurrent - count;
 
                 } else if (miPointCurrent == 0) {
-                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.play_frist), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
+                    ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.uc_undo_limit), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                 }
                 showProgress();
             }

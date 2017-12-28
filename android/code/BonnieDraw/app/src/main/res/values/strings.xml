@@ -15,7 +15,6 @@
     <item name="masked" type="id" />
 
     <!--uc 共用，重複用到兩次以上-->
-
     <!--登入、註冊、更新資料、忘記密碼共用-->
     <string name="uc_email_empty">請輸入電子郵件</string>
     <string name="uc_email_invalid">電子郵件格式不正確</string>
@@ -23,15 +22,41 @@
     <string name="uc_password_empty">請輸入密碼</string>
     <string name="uc_password_invalid">密碼至少需要6個字元</string>
     <string name="uc_password_unmatch">密碼不一致</string>
+    <string name="uc_update_successful">更新成功</string>
+    <string name="uc_update_fail">更新失敗</string>
+    <string name="uc_publish">發佈</string>
     <!--通用名稱、詞彙-->
     <string name="uc_cancel">取消</string>
+    <string name="uc_commit">確認</string>
     <string name="uc_following">追蹤中</string>
     <string name="uc_follow">追蹤</string>
+    <string name="uc_share">分享</string>
     <string name="uc_username">用戶名稱</string>
     <string name="uc_email">電子郵件</string>
-    <string name="uc_fans">粉絲</string>
     <string name="uc_alert_yes">是</string>
     <string name="uc_alert_no">否</string>
+    <!--時間類別-->
+    <string name="uc_a_few_days_ago">天前</string>
+    <string name="uc_a_few_hours_ago">小時前</string>
+    <string name="uc_a_few_minutes_ago">分鐘前</string>
+    <string name="uc_a_few_seconds_ago">數秒前</string>
+    <string name="uc_time_am">上午</string>
+    <string name="uc_time_pm">下午</string>
+    <string name="uc_yesterday">昨天</string>
+    <string name="uc_day_before_yesterday">前天</string>
+    <string name="uc_date_format">yyyy年MM月dd日 ahh:mm</string>
+    <string name="uc_hour">點</string>
+    <string name="uc_min">分</string>
+    <string name="uc_just_now">剛才</string>
+    <string name="uc_undo_limit">復原次數到達上限</string>
+    <string name="uc_redo_limit">重作次數到達上限</string>
+    <string name="uc_logout_title">登出？</string>
+    <string name="uc_logout_msg">確定要登出？</string>
+    <string name="uc_delete">刪除</string>
+    <string name="uc_update">儲存</string>
+    <string name="uc_connect_failed_title">連線失敗</string>
+    <string name="uc_connection_failed">請檢查您的網路連線狀態後重試</string>
+    <string name="uc_block">封鎖</string>
     <!--01-01 登入頁面-->
     <string name="u01_01_account">帳號(E-mail)</string>
     <string name="u01_01_password">使用者密碼</string>
@@ -42,6 +67,8 @@
     <string name="u01_01_not_signin">此帳號尚未申請</string>
     <string name="u01_01_fb_not_email">這個帳戶沒有電子郵件的資訊，無法登入</string>
     <string name="u01_01_login_fail_id_pwd_error">帳號或密碼錯誤，請重新輸入或按忘記密碼</string>
+    <string name="u01_01_or">或</string>
+    <string name="u01_01_login_data_error">登入資料異常</string>
     <!--01-02 註冊頁面-->
     <string name="u01_02_sign_up">註冊</string>
     <string name="u01_02_not_account">已經有帳號?</string>
@@ -49,12 +76,15 @@
     <string name="u01_02_alert_sign_up_fail_title">註冊失敗</string>
     <string name="u01_02_alert_sign_up_success_title">註冊成功</string>
     <string name="u01_02_activate_account">請於30分鐘內至您的電子郵件啟用帳號，即可登入使用各項功能。</string>
-    <string name="u01_02_sigin_up_check_fail_title">請確認輸入資料</string>
-    <string name="u01_02_sigin_up_check_fail_content">您的輸入資料有誤或未填寫。</string>
+    <string name="u01_02_sign_up_check_fail_title">請確認註冊資料</string>
+    <string name="u01_02_sign_up_check_fail_content">您的註冊資料有誤或未填寫。</string>
+    <string name="u01_02_sign_up_email_fail_content">這個Email已使用過，請換另一個</string>
+    <string name="u01_02_sign_up_repassword_empty">請再次輸入密碼</string>
     <!--01-03 忘記密碼-->
     <string name="u01_03_send">送出</string>
     <string name="u01_03_enter_email">請輸入註冊的E-mail，系統將密碼寄到您的信箱。</string>
     <string name="u01_03_search_fail_no_account">查無此帳號</string>
+    <string name="u01_03_alert_forget_password_content">請至您的電子郵件來獲得新密碼</string>
     <!--02-01-->
     <string name="u02_01_popular">熱門畫作</string>
     <string name="u02_01_newest">最新畫作</string>
@@ -63,16 +93,33 @@
     <string name="u02_01_settings">帳號設定</string>
     <string name="u02_01_logout">登出</string>
     <string name="u02_01_copyright">© 2017 SourceCode 原碼數位科技版權所有</string>
-    <!--02-02-->
+    <!--02-02 檢舉頁面-->
     <string name="u02_02_cop_link">複製連結</string>
     <string name="u02_02_report">檢舉</string>
+    <string name="u02_02_report_work_title">檢舉作品</string>
+    <string name="u02_02_type_report">檢舉類別：</string>
+    <string name="u02_02_reason_report">檢舉原因：</string>
+    <string name="u02_02_content_pornography">內容色情</string>
+    <string name="u02_02_content_violance">內容暴力</string>
+    <string name="u02_02_content_other">其他</string>
+    <string name="u02_02_report_successful">檢舉成功</string>
+    <string name="u02_02_report_fail">檢舉失敗，請再試一次</string>
+    <string name="u02_02_report_reason_empty">請填寫原因</string>
     <!--02-03-->
     <string name="u02_03_add_comment">留言</string>
-    <string name="u02_03_search">搜尋作品 or 作者</string>
+    <string name="u02_03_add_comment_hint">留言…</string>
+    <string name="u02_03_first_comment">成為第一個留言的人</string>
+    <string name="u02_03_add_comment_fail">留言失敗，請再試一次</string>
     <!--02-04-->
     <string name="u02_04_date">發佈日期: %s</string>
-    <string name="u02_04_delete">刪除作品</string>
-    <!--04-01-->
+    <string name="u02_04_delete_title">刪除作品</string>
+    <string name="u02_04_delete_content">確認要刪除這個作品嗎?</string>
+    <string name="u02_04_delete_successful">刪除作品成功</string>
+    <string name="u02_04_edit_work">編輯作品</string>
+    <!--02-05-->
+    <string name="u02_05_search">搜尋作品 or 作者</string>
+    <string name="u02_05_not_match_work">沒有找到相關的作品</string>
+    <!--04-01 主繪圖部分-->
     <string name="u04_01_press_below_button">現在不能使用其他功能唷!\n只能進行縮放 長按可恢復原狀\n要繼續畫圖請再點縮放按鈕</string>
     <string name="u04_01_new_color_swatch">新增色票</string>
     <string name="u04_01_brush_opacity">筆刷不透明度</string>
@@ -83,9 +130,20 @@
     <string name="u04_01_grid_line_6x6">6x6格線</string>
     <string name="u04_01_grid_line_10x10">10x10格線</string>
     <string name="u04_01_grid_line_20x20">20x20格線</string>
+    <string name="u04_01_press_play_with_empty">請畫些東西吧！</string>
+    <string name="u04_01_exit_ask_save_sketch_title">是否要儲存草稿</string>
+    <string name="u04_01_exit_ask_update_sketch_title">是否要更新草稿</string>
+    <string name="u04_01_exit_ask_sketch_content">按下「是」，可以儲存現在的草稿。</string>
+    <string name="u04_01_exit_ask_sketch_successful">草稿儲存成功</string>
+    <string name="u04_01_color_ticket_not_select">請選擇色票再移除</string>
+    <string name="u04_01_color_ticket_is_full">色票滿囉，請先刪掉一些</string>
+    <string name="u04_01_color_ticket_current_list">顏色列表：%d/3</string>
+    <string name="u04_01_bgcolor_ticket_current_list">背景顏色列表：%d/3</string>
     <!--04-02-->
+    <string name="u04_02_share">分享作品</string>
     <string name="u04_02_work_description">作品說明：</string>
     <string name="u04_02_enter_description">新增作品說明 請輸入作品簡短說明，並再說明後加上「#」，例:#BonnieDraw</string>
+    <string name="u04_02_enter_empty">請輸入作品的內容</string>
     <!--04-03-->
     <string name="u04_03_work_title">作品名稱：</string>
     <string name="u04_03_privacy_setting">隱私權設定：</string>
@@ -93,23 +151,34 @@
     <string name="u04_03_private">不公開</string>
     <string name="u04_03_public_friends">只限朋友</string>
     <!--04-04-->
-    <string name="u04_04_post_successful">發佈成功</string>
+    <string name="u04_04_post_successful">已發佈成功</string>
     <string name="u04_04_post_fail">發佈失敗</string>
     <string name="u04_04_clear_status_title">是否清除目前畫面?</string>
-    <string name="u04_04_clear_status">按下「清除」，當前所有動作將全部移除。</string>
+    <string name="u04_04_clear_status">按下清除會將畫面及草稿全部清除。</string>
+    <string name="u04_04_clear">清除</string>
+    <string name="u04_04_clear_finish">草稿已清除</string>
     <!--04-05-->
     <string name="u04_05_play_speed">撥放速度：</string>
+    <string name="u04_05_play_end">播放完畢</string>
+    <string name="u04_05_wait_this_part_finish">請等畫完這一段再按</string>
+    <string name="u04_05_please_touch_play_start">請按撥放鍵開始撥放</string>
     <!--03-01-->
+    <string name="u03_01_notice_title">通知</string>
     <string name="u03_01_set_like">對你的作品按讚</string>
     <string name="u03_01_set_following">開始追蹤你</string>
     <string name="u03_01_set_fb_friend">你的好友，加入BonnieDraw</string>
     <string name="u03_01_set_comment">對你的作品留言：</string>
     <string name="u03_01_set_share">分享一則新作品</string>
+    <string name="u03_01_not_notice">您沒有任何訊息</string>
     <!--06-01-->
     <string name="u06_01_posts">作品數</string>
     <string name="u06_01_followers">粉絲數</string>
+    <string name="u06_01_fan">粉絲</string>
+    <string name="u06_01_search_user">搜尋特定的使用者</string>
     <!--06-02-->
     <string name="u06_02_suggested">推薦名單</string>
+    <string name="u06_02_not_suggested_friend">沒有推薦的好友名單</string>
+    <string name="u06_02_only_fb_or_twitter">只有 Facebook 或 Twitter 的用戶 \n才可使用推薦好友名單</string>
     <!--06-03-->
     <string name="u06_03_edit_profile">編輯個人檔案</string>
     <string name="u06_03_change_picture">更換大頭貼照</string>
@@ -119,124 +188,35 @@
     <string name="u06_03_gender_male">男性</string>
     <string name="u06_03_gender_female">女性</string>
     <string name="u06_03_gender_no_specified">沒有指定</string>
+    <string name="u06_03_alert_save_fail_name_empty">用戶名稱不得空白</string>
+    <string name="u06_03_alert_save_length_max">上限為 50 個字</string>
+    <string name="u06_03_select_image">選擇圖片</string>
     <!--06-04-->
     <string name="u06_04_account_setting_option">帳號設定選項</string>
     <string name="u06_04_change_password">更改密碼</string>
     <string name="u06_04_help_center">使用說明</string>
     <string name="u06_04_privacy_policy">隱私政策</string>
     <string name="u06_04_terms_of_service">使用條款</string>
+    <string name="u06_04_about_bonniedraw">關於BonnieDraw</string>
     <!--06-05-->
     <string name="u06_05_current_password">目前密碼</string>
     <string name="u06_05_new_password">新密碼</string>
     <string name="u06_05_verify">驗證</string>
     <string name="u06_05_new_password_again">再次輸入新密碼</string>
-    <!--登入註冊相關-->
-    <string name="m02_alert_forget_password_content">請至您的電子郵件來獲得新密碼</string>
-    <string name="m02_alert_old_password_empty">請輸入舊密碼</string>
-    <string name="m02_alert_new_password_empty">請輸入新密碼</string>
-    <string name="m02_old_password_unmatch">舊密碼錯誤，請重新確認。</string>
-    <string name="update_password_successful">密碼已更新完成，確認後回到登入畫面。</string>
-    <string name="update_password_other_error">發生錯誤，檢查你的連線是否正常</string>
-    <string name="update_successful">更新成功</string>
-    <string name="update_fail">更新失敗</string>
-    <string name="signin_fail_error">資料異常，請稍後再試</string>
-    <string name="signin_fail_email">您的Email已使用過，請換另一個</string>
-    <string name="signin_recheck_password">請再次輸入密碼</string>
-    <string name="signin_need_correct_phone">請輸入正確的手機號碼</string>
-    <string name="logout_title">登出？</string>
-    <string name="logout_msg">您是否要登出呢</string>
-
-
-
-    <!--作品相關-->
-    <string name="block">封鎖</string>
-    <string name="edit_work">編輯作品</string>
-    <string name="report_work">檢舉作品</string>
-    <string name="work_class">檢舉類別：</string>
-    <string name="report_reason">檢舉原因：</string>
-    <string name="content_pornography">內容色情</string>
-    <string name="content_violence">內容暴力</string>
-    <string name="paint_save_need_name">請輸入檔名或按取消</string>
-    <string name="paint_save_title">新增作品</string>
-    <string name="work_edit_title">編輯作品</string>
-
-
+    <string name="u06_05_old_password_empty">請輸入舊密碼</string>
+    <string name="u06_05_new_password_empty">請輸入新密碼</string>
+    <string name="u06_05_old_password_unmatch">"舊密碼錯誤"</string>
+    <string name="u06_05_password_update_successful">密碼已更新完成，確認後回到登入畫面。</string>
+    <string name="u06_05_password_update_fail">更新密碼失敗</string>
+    <!--m01_01-->
+    <string name="m01_01_start_follow">開始追蹤</string>
+    <string name="m01_01_not_follow_anyone">你沒有追蹤任何的使用者</string>
+    <string name="m01_01_not_collection">您沒有收藏的作品</string>
+    <string name="m01_01_please_login">請先登入後再操作</string>
+    <string name="m01_01_copylink_successful">複製成功</string>
+    <string name="m02_01_data_parse_error">讀取錯誤</string>
     <!--通用類-->
-    <string name="or">或</string>
-    <string name="finish">完成</string>
-    <string name="commit">確認</string>
-    <string name="save">儲存</string>
-    <string name="connect_fail">連線失敗</string>
-    <string name="clean">清除</string>
-    <string name="share">分享</string>
-    <string name="all">全部</string>
     <string name="user_permission_fail">使用者拒絕權限 無法存取</string>
-    <string name="follow_start">開始追蹤</string>
-    <string name="delete">刪除</string>
-    <string name="fail">失敗</string>
-    <string name="other">其他</string>
-
-    <!--繪圖相關-->
-    <string name="paint_need_draw">請畫些東西吧！</string>
-    <string name="paint_delete_sketch">刪除草稿</string>
-    <string name="paint_sketch_save_title">是否要保留草稿</string>
-    <string name="paint_sketch_save_add_title">是否要更新草稿</string>
-    <string name="want_save_sketch">是否要儲存草稿呢?</string>
-    <string name="submit_save_sketch">按下「是」，可以儲存當前的草稿。</string>
-    <string name="save_temp_successful">草稿儲存成功</string>
-    <string name="please_select_ticket">請選擇色票再移除</string>
-    <string name="ticket_full">色票滿囉，請先刪掉一些</string>
-
-    <!--撥放相關-->
-    <string name="play_end">播放完畢</string>
-    <string name="play_wait">請等畫完這一段再按</string>
-    <string name="play_frist">已經是最前步驟</string>
-    <string name="please_touch_play_start">請按撥放鍵開始撥放</string>
-
     <!--社群雜項-->
-    <string name="public_title_about_bonnidraw">關於BonnieDraw</string>
-    <string name="you_have_not_collection">您沒有收藏的作品</string>
-    <string name="only_fb_or_twitter_friends_list">只有 Facebook 或 Twitter 的用戶 \n才可使用推薦好友名單</string>
-    <string name="report_successful">檢舉成功</string>
-    <string name="report_fail">檢舉失敗，請再試一次</string>
     <string name="download_html">https://drive.google.com/open?id=0BywnwT8B3NHJVHRrTU83ak9UTEE</string>
-    <string name="not_recommend_friends">沒有推薦的好友名單</string>
-    <string name="find_someone_user">搜尋特定的使用者</string>
-    <string name="not_follow_user">您沒有追蹤任何的使用者</string>
-    <string name="not_found_work">沒有找到相關的作品</string>
-    <string name="login_data_error">登入資料異常</string>
-    <string name="connection_failed">連線失敗，請檢查網路狀態</string>
-    <string name="login_fail_server">連線失敗，伺服器發生異常或錯誤，請稍後再試。</string>
-    <string name="third_login_fail">資料傳送錯誤，請稍後再試一次</string>
-    <string name="please_login">請先登入後再操作</string>
-    <string name="select_photo">選擇圖片</string>
-    <string name="load_error">讀取錯誤</string>
-    <string name="confirm_delete">確認要刪除這個作品嗎?</string>
-    <string name="msg_fail">留言失敗，請再試一次</string>
-    <string name="delete_successful">刪除成功</string>
-    <string name="please_fill_out">請填寫該欄位</string>
-    <string name="publish">發佈</string>
-    <string name="leave_a_msg">留言...</string>
-    <string name="first_leave_msg">成為第一個留言的人</string>
-    <string name="limit_50_word">上限為 50 個字</string>
-    <string name="notice">通知</string>
-    <string name="you_have_not_notice">您沒有任何訊息</string>
-    <string name="copylink_successful">複製成功</string>
-    <string name="just_now">剛才</string>
-
-    <!--時間類別-->
-    <string name="a_few_seconds_ago">數秒前</string>
-    <string name="a_few_minutes_ago">分鐘前</string>
-    <string name="a_few_hours_ago">小時前</string>
-    <string name="a_few_days_ago">天前</string>
-    <string name="hour">點</string>
-    <string name="min">分</string>
-    <string name="date_format">yyyy年MM月dd日 ahh:mm</string>
-    <string name="yesterday">昨天</string>
-    <string name="the_day_before_yesterday">前天</string>
-    <string name="am">上午</string>
-    <string name="pm">下午</string>
-    <string name="get_current_color_list_num">顏色列表：%d/3</string>
-    <string name="get_current_bg_color_list_num">背景顏色列表：%d/3</string>
-    <string name="empty_username">用戶名稱不得空白</string>
 </resources>

@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPaintLayout"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:minHeight="?attr/actionBarSize"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/imgBtn_paint_back"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="@color/Transparent"
             app:srcCompat="@drawable/top_bar_ic_back" />
@@ -25,9 +25,10 @@
         <TextView
             android:id="@+id/textView_play_speed"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="6"
             android:background="@color/Transparent"
+            android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/White"
             android:textSize="18sp" />
@@ -221,6 +222,7 @@
                     android:id="@+id/imgBtn_single_work_good"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
                     android:background="@color/Transparent"
                     app:srcCompat="@drawable/ic_favorite_selector" />
 
@@ -228,7 +230,6 @@
                     android:id="@+id/textView_single_work_good_total"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="4dp"
                     android:layout_marginRight="8dp"
                     android:gravity="center"
                     android:text="00" />
@@ -238,6 +239,7 @@
                     android:id="@+id/imgBtn_single_work_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
                     android:background="@color/Transparent"
                     app:srcCompat="@drawable/work_ic_message" />
 
@@ -245,7 +247,6 @@
                     android:id="@+id/textView_single_work_msg_total"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="4dp"
                     android:layout_marginRight="8dp"
                     android:gravity="center"
                     android:text="00" />

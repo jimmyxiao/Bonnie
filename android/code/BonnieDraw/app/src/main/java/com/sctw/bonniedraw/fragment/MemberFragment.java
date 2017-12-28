@@ -115,7 +115,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         setOnClickEvent();
         getMemberInfo();
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        layoutManager = new LinearLayoutManagerWithSmoothScroller(getContext(),LinearLayoutManager.VERTICAL,false);
+        layoutManager = new LinearLayoutManagerWithSmoothScroller(getContext(), LinearLayoutManager.VERTICAL, false);
         getWorksList(GET_WORKS_LIST);
         mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -243,7 +243,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
 
         mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
 
-        mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this,true);
+        mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this, true);
 
         if (mbGridMode) {
             mRv.setLayoutManager(gridLayoutManager);
@@ -262,24 +262,24 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     private void refresh(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
         DiffUtil.DiffResult diffResult;
-        if(mbGridMode){
+        if (mbGridMode) {
             diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), false);
             diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterGrid.setData(workInfoBeanList);
-        }else {
+        } else {
             diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), false);
             diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterList.setData(workInfoBeanList);
         }
     }
 
-    private void changeLayout(){
+    private void changeLayout() {
         DiffUtil.DiffResult diffResult;
-        if(mbGridMode){
+        if (mbGridMode) {
             diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), false);
             diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterGrid.setData(workInfoBeanList);
-        }else {
+        } else {
             diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), false);
             diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterList.setData(workInfoBeanList);
@@ -399,7 +399,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                     }
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position,0);
+                                    mAdapterList.notifyItemChanged(position, 0);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -486,7 +486,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                     }
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position,1);
+                                    mAdapterList.notifyItemChanged(position, 1);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -529,7 +529,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                     }
                                 } else {
                                     //點讚失敗或刪除失敗
-                                    mAdapterList.notifyItemChanged(position,2);
+                                    mAdapterList.notifyItemChanged(position, 2);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -560,9 +560,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_02_report_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.report_fail), false, PxDpConvert.getSystemHight(getContext()) / 3);
+                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_02_report_fail), false, PxDpConvert.getSystemHight(getContext()) / 3);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -576,12 +576,12 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         });
     }
 
-    private void showWork(int wid){
+    private void showWork(int wid) {
         Bundle bundle = new Bundle();
         bundle.putInt("wid", wid);
         PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
-        playFragment.show(getFragmentManager(),"TAG");
+        playFragment.show(getFragmentManager(), "TAG");
     }
 
     //覆寫interface事件
@@ -603,7 +603,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                 android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                 android.content.ClipData clip = android.content.ClipData.newPlainText("text", GlobalVariable.API_LINK_SHARE_LINK + wid);
                 clipboard.setPrimaryClip(clip);
-                ToastUtil.createToastIsCheck(getContext(), getString(R.string.copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+                ToastUtil.createToastIsCheck(getContext(), getString(R.string.m01_01_copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                 extraDialog.dismiss();
             }
         });
@@ -630,8 +630,24 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                 btnCommit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setReport(wid, spinner.getSelectedItemPosition() + 1, editText.getText().toString());
-                        reportDialog.dismiss();
+                        if (editText.getText().toString().isEmpty()) {
+                            ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_02_report_reason_empty), false, PxDpConvert.getSystemHight(getContext()) / 3);
+                        } else {
+                            int type = 0;
+                            switch (spinner.getSelectedItemPosition()) {
+                                case 0:
+                                    type = 1;
+                                    break;
+                                case 1:
+                                    type = 2;
+                                    break;
+                                case 2:
+                                    type = 99;
+                                    break;
+                            }
+                            setReport(wid, type, editText.getText().toString());
+                            reportDialog.dismiss();
+                        }
                     }
                 });
                 reportDialog.show();

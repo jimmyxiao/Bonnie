@@ -16,7 +16,7 @@ public class DateFormatString {
 
     public static String getDate(Context context, long time) {
         // 格式為日期
-        SimpleDateFormat SDF_FULL = new SimpleDateFormat(context.getString(R.string.date_format), Locale.getDefault());
+        SimpleDateFormat SDF_FULL = new SimpleDateFormat(context.getString(R.string.uc_date_format), Locale.getDefault());
         Calendar mNowCalendar = Calendar.getInstance();// 現在時間
         Calendar mMsgCalendar = Calendar.getInstance();// 當天
         mMsgCalendar.setTimeInMillis(time);
@@ -45,23 +45,23 @@ public class DateFormatString {
                     if (nowHour == msgHour) {
                         if (nowMin == msgMin) {
                             if (nowSec - msgSec == 0) {
-                                return context.getString(R.string.just_now);
+                                return context.getString(R.string.uc_just_now);
                             } else {
-                                return context.getString(R.string.a_few_seconds_ago);
+                                return context.getString(R.string.uc_a_few_seconds_ago);
                             }
                         } else {
-                            return nowMin - msgMin + context.getString(R.string.a_few_minutes_ago);
+                            return nowMin - msgMin + context.getString(R.string.uc_a_few_minutes_ago);
                         }
                     } else {
-                        return nowHour - msgHour + context.getString(R.string.a_few_hours_ago);
+                        return nowHour - msgHour + context.getString(R.string.uc_a_few_hours_ago);
                     }
                 } else {
                     if (nowDay - msgDay < 2) {
-                        return context.getString(R.string.yesterday) + checkAMorPM(context,msgAM_PM) + msgHour + context.getString(R.string.hour) + msgMin + context.getString(R.string.min);
+                        return context.getString(R.string.uc_yesterday) + checkAMorPM(context,msgAM_PM) + msgHour + context.getString(R.string.uc_hour) + msgMin + context.getString(R.string.uc_min);
                     } else if (nowDay - msgDay < 3) {
-                        return context.getString(R.string.the_day_before_yesterday) + checkAMorPM(context,msgAM_PM) + msgHour + context.getString(R.string.hour) + msgMin + context.getString(R.string.min);
+                        return context.getString(R.string.uc_day_before_yesterday) + checkAMorPM(context,msgAM_PM) + msgHour + context.getString(R.string.uc_hour) + msgMin + context.getString(R.string.uc_min);
                     } else if (nowDay - msgDay < 7) {
-                        return nowDay - msgDay + context.getString(R.string.a_few_days_ago);
+                        return nowDay - msgDay + context.getString(R.string.uc_a_few_days_ago);
                     } else {
                         return SDF_FULL.format(time);
                     }
@@ -78,10 +78,10 @@ public class DateFormatString {
         switch (type) {
             case 0:
                 //上午
-                return context.getString(R.string.am);
+                return context.getString(R.string.uc_time_am);
             case 1:
                 //下午
-                return context.getString(R.string.pm);
+                return context.getString(R.string.uc_time_pm);
             default:
                 return "";
         }

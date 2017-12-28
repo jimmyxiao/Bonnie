@@ -150,7 +150,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, getString(R.string.select_photo)), 1);
+                startActivityForResult(Intent.createChooser(intent, getString(R.string.u06_03_select_image)), 1);
             }
         });
 
@@ -158,7 +158,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
             @Override
             public void onClick(View view) {
                 if(mEditTextName.getText().toString().isEmpty()){
-                    ToastUtil.createToastWindow(getContext(), getString(R.string.empty_username), PxDpConvert.getSystemHight(getContext()) / 3);
+                    ToastUtil.createToastWindow(getContext(), getString(R.string.u06_03_alert_save_fail_name_empty), PxDpConvert.getSystemHight(getContext()) / 3);
                 }else {
                     updateUserInfo();
                 }
@@ -180,7 +180,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.uc_connect_failed_title), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override
@@ -242,7 +242,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                                         .apply(GlideAppModule.getUserOptions())
                                         .into(mImgViewPhoto);
                             } else {
-                                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                                ToastUtil.createToastWindow(getContext(), getString(R.string.uc_connect_failed_title), PxDpConvert.getSystemHight(getContext()) / 3);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -274,7 +274,7 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.connect_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                ToastUtil.createToastWindow(getContext(), getString(R.string.uc_connect_failed_title), PxDpConvert.getSystemHight(getContext()) / 3);
             }
 
             @Override
@@ -287,10 +287,10 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                ToastUtil.createToastWindow(getContext(), getString(R.string.update_successful), PxDpConvert.getSystemHight(getContext()) / 3);
+                                ToastUtil.createToastWindow(getContext(), getString(R.string.uc_update_successful), PxDpConvert.getSystemHight(getContext()) / 3);
                                 EditProfileFragment.this.dismiss();
                             } else {
-                                ToastUtil.createToastWindow(getContext(), getString(R.string.update_fail), PxDpConvert.getSystemHight(getContext()) / 3);
+                                ToastUtil.createToastWindow(getContext(), getString(R.string.uc_update_fail), PxDpConvert.getSystemHight(getContext()) / 3);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -345,9 +345,9 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                             JSONObject responseJSON = null;
                             responseJSON = new JSONObject(response.body().string());
                             if (responseJSON.getInt("res") == 1) {
-                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_successful), true, PxDpConvert.getSystemHight(getActivity()) / 3);
+                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.uc_update_successful), true, PxDpConvert.getSystemHight(getActivity()) / 3);
                             } else {
-                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.update_fail), false, PxDpConvert.getSystemHight(getActivity()) / 3);
+                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.uc_update_fail), false, PxDpConvert.getSystemHight(getActivity()) / 3);
                             }
                             System.out.println(responseJSON.toString());
                         } catch (IOException | JSONException e) {

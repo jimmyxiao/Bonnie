@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:minHeight="?android:attr/actionBarSize"
-        android:text="@string/notice" />
+        android:text="@string/u03_01_notice_title" />
 
     <View
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/you_have_not_notice"
+                android:text="@string/u03_01_not_notice"
                 android:textColor="@color/HintColor"/>
         </LinearLayout>
 

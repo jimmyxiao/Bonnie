@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/or" />
+                android:text="@string/u01_01_or" />
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/btn_fb_login_hide"

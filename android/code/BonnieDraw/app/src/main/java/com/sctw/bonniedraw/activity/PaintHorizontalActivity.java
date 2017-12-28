@@ -194,7 +194,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(PaintHorizontalActivity.this, R.string.paint_save_need_name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaintHorizontalActivity.this, R.string.u04_02_enter_empty, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -222,7 +222,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.login_fail_server), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
+                        ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.uc_connection_failed), PxDpConvert.getSystemHight(getApplicationContext()) / 4);
                     }
                 });
             }
@@ -281,7 +281,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.connect_fail), false, 0);
+                ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.uc_connect_failed_title), false, 0);
             }
 
             @Override
@@ -490,7 +490,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
                         startActivity(intent);
                     }
                 } else {
-                    ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.paint_need_draw), 0);
+                    ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.u04_01_press_play_with_empty), 0);
                 }
 
             }
@@ -523,7 +523,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
                     @Override
                     public void onClick(View v) {
                         if (mPaintView.mFileBDW.delete() && mPaintView.mFilePNG.delete()) {
-                            ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.paint_delete_sketch), 0);
+                            ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.u04_04_clear_finish), 0);
                         }
                         mFrameLayoutFreePaint.removeAllViews();
                         Brush brush = mPaintView.getBrush();
@@ -557,7 +557,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
                 if (mPaintView.mListTagPoint.size() > 0) {
                     publishWorkEdit();
                 } else {
-                    ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.paint_need_draw), 0);
+                    ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.u04_01_press_play_with_empty), 0);
                 }
             }
         });
@@ -689,17 +689,17 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
         Button btnCancel = dialog.findViewById(R.id.btn_paint_sketch_cancel);
         switch (num) {
             case 0:
-                tvTitle.setText(R.string.paint_sketch_save_title);
+                tvTitle.setText(R.string.u04_01_exit_ask_save_sketch_title);
                 break;
             case 1:
-                tvTitle.setText(R.string.paint_sketch_save_add_title);
+                tvTitle.setText(R.string.u04_01_exit_ask_update_sketch_title);
                 break;
         }
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean result = mPaintView.saveTempPhotoAndBdw();
-                Toast.makeText(PaintHorizontalActivity.this, R.string.save_temp_successful, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PaintHorizontalActivity.this, R.string.u04_01_exit_ask_sketch_successful, Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 if (result) finish();
             }

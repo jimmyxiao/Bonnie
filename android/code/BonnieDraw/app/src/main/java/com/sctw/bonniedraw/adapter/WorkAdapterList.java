@@ -128,7 +128,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             }
 
             if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
-                holder.mTvFollow.setText(context.getString(R.string.follow_start));
+                holder.mTvFollow.setText(context.getString(R.string.m01_01_start_follow));
             } else {
                 holder.mTvFollow.setText(context.getString(R.string.uc_following));
             }
@@ -216,7 +216,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                     shareIntent.putExtra(Intent.EXTRA_TEXT, title);
                     //自定義選擇框的標題
                     shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.share)));
+                    context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.uc_share)));
                 }
             });
 
@@ -250,7 +250,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                     break;
                 case 1:
                     if (data.get(holder.getAdapterPosition()).getIsFollowing() == 0) {
-                        holder.mTvFollow.setText(context.getString(R.string.follow_start));
+                        holder.mTvFollow.setText(context.getString(R.string.m01_01_start_follow));
                     } else {
                         holder.mTvFollow.setText(context.getString(R.string.uc_following));
                     }

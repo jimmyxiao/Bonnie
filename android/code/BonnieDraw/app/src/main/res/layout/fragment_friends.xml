@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:lineSpacingExtra="14sp"
-            android:text="@string/not_recommend_friends"
+            android:text="@string/u06_02_not_suggested_friend"
             android:textAlignment="center"
             android:textColor="@color/HintColor"
             android:visibility="invisible" />

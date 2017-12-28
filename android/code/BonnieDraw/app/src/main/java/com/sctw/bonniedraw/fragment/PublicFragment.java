@@ -46,7 +46,7 @@ public class PublicFragment extends DialogFragment {
             String title="";
             switch (item){
                 case 0:
-                    title=getString(R.string.public_title_about_bonnidraw);
+                    title=getString(R.string.u06_04_about_bonniedraw);
                 case 1:
                     title=getString(R.string.u06_04_privacy_policy);
                     break;
