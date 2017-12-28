@@ -7,19 +7,19 @@
     android:background="#50505050"
     android:gravity="bottom">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/ll_single_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_margin="4dp"
-        android:background="@color/Transparent">
+        android:background="@drawable/shape_border_dialog"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_single_other"
+            android:id="@+id/ll_single_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/shape_border_dialog"
             android:orientation="vertical">
 
             <Button
@@ -37,28 +37,23 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:background="#aaa" />
-
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_extra_copylink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Transparent"
+            android:padding="20dp"
+            android:text="@string/u02_02_cop_link" />
 
         <LinearLayout
             android:id="@+id/ll_single_own"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ll_single_other"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/shape_border_dialog"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_extra_delete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/Transparent"
-                android:padding="20dp"
-                android:text="@string/u02_04_delete_title" />
-
             <View
-                android:id="@+id/view_divier_extra_delete"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginEnd="16dp"
@@ -73,26 +68,43 @@
                 android:padding="20dp"
                 android:text="@string/u02_04_edit_work" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ll_single_own"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:background="#aaa" />
 
             <Button
-                android:id="@+id/btn_extra_cancel"
+                android:id="@+id/btn_extra_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_border_dialog"
+                android:background="@color/Transparent"
                 android:padding="20dp"
-                android:text="@string/uc_cancel"
-                android:textColor="@color/Blue"
-                android:visibility="visible" />
+                android:text="@string/u02_04_delete_title" />
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_single_option"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_extra_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_border_dialog"
+            android:padding="20dp"
+            android:text="@string/uc_cancel"
+            android:textColor="@color/Blue"
+            android:visibility="visible" />
+    </LinearLayout>
+
 
 </RelativeLayout>

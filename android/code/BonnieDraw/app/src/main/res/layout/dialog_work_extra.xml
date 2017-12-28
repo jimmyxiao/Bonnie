@@ -7,41 +7,20 @@
     android:background="#50505050"
     android:gravity="bottom">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/ll_single_own"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_margin="4dp"
-        android:background="@color/Transparent">
+        android:background="@drawable/shape_border_dialog"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_single_own"
+            android:id="@+id/ll_item_work_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/shape_border_dialog"
             android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:background="#aaa" />
-
-            <Button
-                android:id="@+id/btn_extra_copylink"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/Transparent"
-                android:padding="20dp"
-                android:text="@string/u02_02_cop_link" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:background="#aaa" />
 
             <Button
                 android:id="@+id/btn_extra_report"
@@ -51,26 +30,42 @@
                 android:padding="20dp"
                 android:text="@string/u02_02_report"
                 android:textColor="@color/Red" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:background="#aaa" />
         </LinearLayout>
 
-
-        <LinearLayout
+        <Button
+            android:id="@+id/btn_extra_copylink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ll_single_own"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical">
+            android:background="@color/Transparent"
+            android:padding="20dp"
+            android:text="@string/u02_02_cop_link" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_extra_cancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_border_dialog"
-                android:padding="20dp"
-                android:text="@string/uc_cancel"
-                android:textColor="@color/Blue" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_single_own"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:orientation="vertical">
 
-        </LinearLayout>
-    </RelativeLayout>
+        <Button
+            android:id="@+id/btn_extra_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_border_dialog"
+            android:padding="20dp"
+            android:text="@string/uc_cancel"
+            android:textColor="@color/Blue" />
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -306,17 +307,30 @@ public class PlayFragment extends DialogFragment {
             public void onClick(View v) {
                 final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_single_work_extra);
                 RelativeLayout Rl = dialog.findViewById(R.id.relativeLayout_works_extra);
+                //是自己的要隱藏REPORT，要顯示編輯與刪除
                 LinearLayout llOwn = dialog.findViewById(R.id.ll_single_own);
-                LinearLayout llOther = dialog.findViewById(R.id.ll_single_other);
+                LinearLayout llReport = dialog.findViewById(R.id.ll_single_report);
                 Button btnReportWork = dialog.findViewById(R.id.btn_extra_report);
                 Button btnDeleteWork = dialog.findViewById(R.id.btn_extra_delete);
                 Button btnEditWork = dialog.findViewById(R.id.btn_extra_edit_work);
                 Button btnCancel = dialog.findViewById(R.id.btn_extra_cancel);
+                Button btnCopyLink=dialog.findViewById(R.id.btn_extra_copylink);
                 btnEditWork.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                         editWork();
+                    }
+                });
+
+                btnCopyLink.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        android.content.ClipData clip = android.content.ClipData.newPlainText("text", GlobalVariable.API_LINK_SHARE_LINK + wid);
+                        clipboard.setPrimaryClip(clip);
+                        ToastUtil.createToastIsCheck(getContext(), getString(R.string.m01_01_copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+                        dialog.dismiss();
                     }
                 });
 
@@ -355,10 +369,6 @@ public class PlayFragment extends DialogFragment {
                         deleteDialog.show();
                     }
                 });
-                if (!prefs.getString(GlobalVariable.API_UID, "null").equals(workUid)) {
-                    dialog.findViewById(R.id.view_divier_extra_delete).setVisibility(View.GONE);
-                    btnDeleteWork.setVisibility(View.GONE);
-                }
 
                 btnReportWork.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -424,7 +434,7 @@ public class PlayFragment extends DialogFragment {
                 if (uid != userUid) {
                     llOwn.setVisibility(View.GONE);
                 } else {
-                    llOther.setVisibility(View.GONE);
+                    llReport.setVisibility(View.GONE);
                 }
                 dialog.show();
             }

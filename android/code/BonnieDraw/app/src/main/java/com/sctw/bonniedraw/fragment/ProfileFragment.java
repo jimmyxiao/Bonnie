@@ -544,11 +544,12 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     }
 
     @Override
-    public void onWorkExtraClick(final int wid) {
+    public void onWorkExtraClick(int uid,final int wid) {
         final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
         Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
+        LinearLayout reportLayout=extraDialog.findViewById(R.id.ll_item_work_report);
 
         extraCopyLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -604,7 +605,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                 extraDialog.dismiss();
             }
         });
-
+        if(miUserId==uid){
+            reportLayout.setVisibility(View.GONE);
+        }
         extraDialog.show();
     }
 
