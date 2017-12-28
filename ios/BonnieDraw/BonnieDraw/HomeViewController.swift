@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate, CommentViewControllerDelegate {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate, AccountViewControllerDelegate, CommentViewControllerDelegate {
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
@@ -60,8 +60,15 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? WorkViewController,
-           let indexPath = tableView.indexPathForSelectedRow {
+        if let controller = segue.destination as? AccountViewController,
+           let indexPath = sender as? IndexPath {
+            controller.delegate = self
+            controller.user = User(withWork: works[indexPath.row])
+        } else if let controller = segue.destination as? ReportViewController,
+                  let indexPath = sender as? IndexPath {
+            controller.work = works[indexPath.row]
+        } else if let controller = segue.destination as? WorkViewController,
+                  let indexPath = tableView.indexPathForSelectedRow {
             controller.delegate = self
             controller.work = tableViewWorks[indexPath.row]
             tableView.deselectRow(at: indexPath, animated: true)
@@ -69,9 +76,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                   let indexPath = sender as? IndexPath {
             controller.delegate = self
             controller.work = tableViewWorks[indexPath.row]
-        } else if let controller = segue.destination as? ReportViewController,
-                  let indexPath = sender as? IndexPath {
-            controller.work = works[indexPath.row]
         }
     }
 
@@ -258,6 +262,20 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    internal func account(didFollowUser user: User, follow: Bool) {
+        for index in 0..<works.count {
+            if works[index].userId == user.id {
+                works[index].isFollow = follow
+            }
+        }
+        for index in 0..<tableViewWorks.count {
+            if tableViewWorks[index].userId == user.id {
+                tableViewWorks[index].isFollow = follow
+                (tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? HomeTableViewCell)?.followButton.isSelected = follow
+            }
+        }
+    }
+
     internal func comment(didCommentOnWork changedWork: Work) {
         if let index = works.index(where: {
             work in
@@ -278,6 +296,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         guard let indexPath = tableView.indexPath(forView: sender) else {
             return
         }
+        performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
     }
 
     @IBAction func follow(_ sender: FollowButton) {
@@ -520,6 +539,5 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
-
     func home(enableMenuGesture enable: Bool)
 }

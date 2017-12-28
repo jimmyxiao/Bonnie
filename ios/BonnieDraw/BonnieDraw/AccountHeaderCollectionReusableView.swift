@@ -13,6 +13,8 @@ class AccountHeaderCollectionReusableView: UICollectionReusableView {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var fanButton: UIButton!
+    @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var profileDescription: UILabel!
     @IBOutlet weak var worksCount: UILabel!
     @IBOutlet weak var fansCount: UILabel!

@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class FollowViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate, CommentViewControllerDelegate {
+class FollowViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate, AccountViewControllerDelegate, CommentViewControllerDelegate {
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -55,8 +55,15 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? WorkViewController,
-           let indexPath = tableView.indexPathForSelectedRow {
+        if let controller = segue.destination as? AccountViewController,
+           let indexPath = sender as? IndexPath {
+            controller.delegate = self
+            controller.user = User(withWork: works[indexPath.row])
+        } else if let controller = segue.destination as? ReportViewController,
+                  let indexPath = sender as? IndexPath {
+            controller.work = works[indexPath.row]
+        } else if let controller = segue.destination as? WorkViewController,
+                  let indexPath = tableView.indexPathForSelectedRow {
             controller.delegate = self
             controller.work = tableViewWorks[indexPath.row]
             tableView.deselectRow(at: indexPath, animated: true)
@@ -64,9 +71,6 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                   let indexPath = sender as? IndexPath {
             controller.delegate = self
             controller.work = tableViewWorks[indexPath.row]
-        } else if let controller = segue.destination as? ReportViewController,
-                  let indexPath = sender as? IndexPath {
-            controller.work = works[indexPath.row]
         }
     }
 
@@ -227,6 +231,22 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
+    internal func account(didFollowUser user: User, follow: Bool) {
+        if follow {
+            downloadData()
+        } else {
+            works = works.filter {
+                work in
+                return work.userId != user.id
+            }
+            tableViewWorks = tableViewWorks.filter {
+                work in
+                return work.userId != user.id
+            }
+            tableView.reloadData()
+        }
+    }
+
     internal func comment(didCommentOnWork changedWork: Work) {
         if let index = works.index(where: {
             work in
@@ -247,6 +267,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         guard let indexPath = tableView.indexPath(forView: sender) else {
             return
         }
+        performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
     }
 
     @IBAction func more(_ sender: UIButton) {

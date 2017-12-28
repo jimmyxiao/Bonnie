@@ -177,6 +177,7 @@ struct Identifier {
 }
 
 struct Segue {
+    static let ACCOUNT = "accountSegue"
     static let ACCOUNT_EDIT = "accountEditSegue"
     static let SETTING = "settingSegue"
     static let PASSWORD = "passwordSegue"

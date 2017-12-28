@@ -48,6 +48,10 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         if navigationBar.items?.first?.titleView == nil {
             navigationBar.items?.first?.titleView = UIImageView(image: UIImage(named: "title_logo"))
         }
+        if work?.userId == UserDefaults.standard.integer(forKey: Default.USER_ID) {
+            profileImage.isUserInteractionEnabled = false
+            profileName.isUserInteractionEnabled = false
+        }
         profileImage.sd_setShowActivityIndicatorView(true)
         profileImage.sd_setIndicatorStyle(.gray)
         profileImage.setImage(with: work?.profileImage)
@@ -197,15 +201,17 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
-        let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
-            action in
-            guard AppDelegate.reachability.connection != .none else {
-                self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
-                return
+        if work?.userId != UserDefaults.standard.integer(forKey: Default.USER_ID) {
+            let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+                self.performSegue(withIdentifier: Segue.REPORT, sender: sender)
             }
-            self.performSegue(withIdentifier: Segue.REPORT, sender: sender)
+            alert.addAction(reportAction)
         }
-        alert.addAction(reportAction)
         let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
         alert.addAction(cancelAction)
         present(alert, animated: true)

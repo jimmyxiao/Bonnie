@@ -243,6 +243,14 @@
             </objects>
             <point key="canvasLocation" x="1762.4000000000001" y="1601.600985221675"/>
         </scene>
+        <!--Account-->
+        <scene sceneID="sU7-d3-pKf">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Account" id="6m7-rv-1Ux" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uBD-eP-bdO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2602" y="1600"/>
+        </scene>
         <!--Home View Controller-->
         <scene sceneID="VaJ-Ar-rsM">
             <objects>
@@ -479,6 +487,7 @@
                         <outlet property="tableView" destination="VNc-7M-hET" id="AE5-BG-8E1"/>
                         <segue destination="R9c-0p-Md0" kind="presentation" identifier="commentSegue" id="dUa-YI-XKB"/>
                         <segue destination="Hoj-RR-fqI" kind="presentation" identifier="reportSegue" animates="NO" modalPresentationStyle="overFullScreen" id="zZU-Ky-cte"/>
+                        <segue destination="6m7-rv-1Ux" kind="show" identifier="accountSegue" id="7Dv-w1-kWC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyz-PE-3Pi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -529,6 +538,7 @@
                                                         <connections>
                                                             <action selector="profile:" destination="gud-V7-B39" eventType="touchUpInside" id="PZN-ML-ADe"/>
                                                             <action selector="profile:" destination="wJn-NR-0b0" eventType="touchUpInside" id="lEx-tw-FLo"/>
+                                                            <segue destination="6m7-rv-1Ux" kind="show" id="o5Q-q8-0bN"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jra-EZ-SBP">
@@ -539,6 +549,7 @@
                                                         <connections>
                                                             <action selector="profile:" destination="gud-V7-B39" eventType="touchUpInside" id="kRD-hG-szh"/>
                                                             <action selector="profile:" destination="wJn-NR-0b0" eventType="touchUpInside" id="rm2-ly-Dm6"/>
+                                                            <segue destination="6m7-rv-1Ux" kind="show" id="WGO-60-ai1"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7LC-MI-PmI">
@@ -990,6 +1001,7 @@
                         <outlet property="tableView" destination="m2f-lW-bPO" id="wyG-kx-tF2"/>
                         <segue destination="R9c-0p-Md0" kind="presentation" identifier="commentSegue" id="obk-S5-QJe"/>
                         <segue destination="Hoj-RR-fqI" kind="presentation" identifier="reportSegue" animates="NO" modalPresentationStyle="overCurrentContext" id="4aL-pI-Agf"/>
+                        <segue destination="6m7-rv-1Ux" kind="show" identifier="accountSegue" id="2Op-Kq-GBM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P8B-1q-Fml" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1719,8 +1731,9 @@
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="GKN-31-Thb"/>
+        <segue reference="4aL-pI-Agf"/>
         <segue reference="YCJ-BW-acg"/>
-        <segue reference="ycB-24-dRO"/>
+        <segue reference="2Op-Kq-GBM"/>
+        <segue reference="obk-S5-QJe"/>
     </inferredMetricsTieBreakers>
 </document>
