@@ -15,7 +15,6 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBOutlet weak var canvas: JotView!
     @IBOutlet weak var thumbnail: UIImageView?
     @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var profileImage: UIButton!
     @IBOutlet weak var profileName: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
@@ -45,10 +44,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         collect.setImage(UIImage(named: collect.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
         thumbnail?.sd_setShowActivityIndicatorView(true)
         thumbnail?.sd_setIndicatorStyle(.gray)
-        if navigationBar.items?.first?.titleView == nil {
-            navigationBar.items?.first?.titleView = UIImageView(image: UIImage(named: "title_logo"))
-        }
-        if work?.userId == UserDefaults.standard.integer(forKey: Default.USER_ID) {
+        navigationItem.titleView = UIImageView(image: UIImage(named: "title_logo"))
+        if work?.userId == UserDefaults.standard.integer(forKey: Default.USER_ID) || delegate is AccountViewController {
             profileImage.isUserInteractionEnabled = false
             profileName.isUserInteractionEnabled = false
         }
@@ -82,7 +79,11 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? CommentViewController {
+        if let controller = segue.destination as? AccountViewController {
+            if let work = work {
+                controller.user = User(withWork: work)
+            }
+        } else if let controller = segue.destination as? CommentViewController {
             controller.work = work
         } else if let controller = segue.destination as? ReportViewController {
             controller.work = work

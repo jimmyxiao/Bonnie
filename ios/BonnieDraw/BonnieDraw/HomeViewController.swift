@@ -67,15 +67,22 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else if let controller = segue.destination as? ReportViewController,
                   let indexPath = sender as? IndexPath {
             controller.work = works[indexPath.row]
-        } else if let controller = segue.destination as? WorkViewController,
+        } else if let navigationController = segue.destination as? UINavigationController,
                   let indexPath = tableView.indexPathForSelectedRow {
-            controller.delegate = self
-            controller.work = tableViewWorks[indexPath.row]
+            if segue.identifier == Segue.COMMENT {
+                if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.COMMENT) as? CommentViewController {
+                    controller.delegate = self
+                    controller.work = tableViewWorks[indexPath.row]
+                    navigationController.setViewControllers([controller], animated: false)
+                }
+            } else {
+                if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController {
+                    controller.delegate = self
+                    controller.work = tableViewWorks[indexPath.row]
+                    navigationController.setViewControllers([controller], animated: false)
+                }
+            }
             tableView.deselectRow(at: indexPath, animated: true)
-        } else if let controller = segue.destination as? CommentViewController,
-                  let indexPath = sender as? IndexPath {
-            controller.delegate = self
-            controller.work = tableViewWorks[indexPath.row]
         }
     }
 
@@ -539,5 +546,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
+
     func home(enableMenuGesture enable: Bool)
 }

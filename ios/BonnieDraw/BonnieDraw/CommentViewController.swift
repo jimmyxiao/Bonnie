@@ -10,7 +10,6 @@ import UIKit
 import Alamofire
 
 class CommentViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
-    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -27,7 +26,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     var work: Work?
 
     override func viewDidLoad() {
-        navigationBar.items?.first?.rightBarButtonItem = UIBarButtonItem(customView: indicator)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: indicator)
         formatter.dateFormat = "yyyy/MM/dd"
         if work?.messages.isEmpty ?? true {
             emptyLabel.isHidden = false

@@ -14,26 +14,18 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--workViewController-->
+        <!--navigationViewController-->
         <scene sceneID="0HK-1O-Oxd">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="workViewController" id="ejn-eQ-DAk" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="navigationViewController" id="ejn-eQ-DAk" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="edE-Xs-Gro" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1877" y="1989"/>
         </scene>
-        <!--commentViewController-->
-        <scene sceneID="DoI-j5-nzh">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="commentViewController" id="sR0-Wc-RSr" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AK6-76-3gG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1878" y="2274"/>
-        </scene>
-        <!--reportController-->
+        <!--reportViewController-->
         <scene sceneID="Ttj-ai-fJq">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="reportController" id="SwJ-DG-QyH" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="reportViewController" id="SwJ-DG-QyH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eX9-h0-nb0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1878" y="2565"/>
@@ -546,7 +538,7 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="thumbnail" destination="ht3-bn-ons" id="Eje-DJ-pJ5"/>
-                                            <segue destination="ejn-eQ-DAk" kind="presentation" id="JhG-Wq-Xxo"/>
+                                            <segue destination="ejn-eQ-DAk" kind="presentation" identifier="workSegue" id="JhG-Wq-Xxo"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="accountListCell" id="AAq-N3-aLy" customClass="AccountListCollectionViewCell" customModule="BonnieDraw" customModuleProvider="target">
@@ -690,12 +682,12 @@
                                             <outlet property="profileName" destination="YKL-zc-59Z" id="Q7J-3l-1FD"/>
                                             <outlet property="thumbnail" destination="deq-C0-ibR" id="99K-gu-35m"/>
                                             <outlet property="title" destination="ccz-Vo-hcy" id="aso-uU-cFT"/>
-                                            <segue destination="ejn-eQ-DAk" kind="presentation" id="r42-p5-bz4"/>
+                                            <segue destination="ejn-eQ-DAk" kind="presentation" identifier="workSegue" id="r42-p5-bz4"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="accountHeaderCell" id="3Ba-c8-F3X" customClass="AccountHeaderCollectionReusableView" customModule="BonnieDraw" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="270.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="270.32999999999998"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dXX-aM-32b">
@@ -972,9 +964,9 @@
                             <nil key="action"/>
                         </segue>
                         <segue destination="XQV-AK-LI5" kind="show" identifier="recommendSegue" id="aOL-8Y-jWt"/>
-                        <segue destination="sR0-Wc-RSr" kind="presentation" identifier="commentSegue" id="MnZ-nn-NEI"/>
                         <segue destination="SwJ-DG-QyH" kind="presentation" identifier="reportSegue" animates="NO" modalPresentationStyle="overFullScreen" id="umM-so-OMn"/>
                         <segue destination="mlI-Uy-vuT" kind="presentation" identifier="accountEditSegue" id="bMc-sh-nso"/>
+                        <segue destination="ejn-eQ-DAk" kind="presentation" identifier="commentSegue" id="Quk-BV-Nkw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rzZ-2D-a9F" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -7482,6 +7474,6 @@ AAWCzQAFgtUABYLYAAWC6gAFgu0ABYLyAAAAAAAABAEAAAAAAAAAQQAAAAAAAAAAAAAAAAAFgvQ
         <segue reference="jOp-Sf-yFO"/>
         <segue reference="NR2-Gu-ETV"/>
         <segue reference="bMc-sh-nso"/>
-        <segue reference="r42-p5-bz4"/>
+        <segue reference="Quk-BV-Nkw"/>
     </inferredMetricsTieBreakers>
 </document>

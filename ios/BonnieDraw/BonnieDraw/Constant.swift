@@ -172,8 +172,10 @@ struct Identifier {
     static let PARENT = "parentViewController"
     static let HOME = "homeViewController"
     static let FOLLOW = "followViewController"
-    static let NOTIFICATION = "notificationController"
-    static let REPORT = "reportController"
+    static let NOTIFICATION = "notificationViewController"
+    static let REPORT = "reportViewController"
+    static let WORK = "workViewController"
+    static let COMMENT = "commentViewController"
 }
 
 struct Segue {
@@ -192,6 +194,7 @@ struct Segue {
     static let FAN = "fanSegue"
     static let FOLLOW = "followSegue"
     static let BACKGROUND_COLOR = "backgroundColorSegue"
+    static let WORK = "workSegue"
     static let COMMENT = "commentSegue"
     static let REPORT = "reportSegue"
 }
