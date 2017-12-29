@@ -198,22 +198,14 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                 }
             });
 
-            final String parseURL = workImgUrl;
             holder.imgBtnShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String title = GlobalVariable.API_LINK_SHARE_LINK + uid;
-                    Uri uri = Uri.parse(parseURL);
+                    String title = GlobalVariable.API_LINK_SHARE_LINK + wid;
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    if (uri != null) {
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                        shareIntent.setType("image/*");
-                        //當用戶選擇短信時使用sms_body取得文字
-                        shareIntent.putExtra("sms_body", title);
-                    } else {
-                        shareIntent.setType("text/plain");
-                    }
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, title);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "BonnieDraw");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT,title);
                     //自定義選擇框的標題
                     shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.uc_share)));

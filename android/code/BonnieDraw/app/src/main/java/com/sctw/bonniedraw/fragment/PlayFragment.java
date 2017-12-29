@@ -267,16 +267,11 @@ public class PlayFragment extends DialogFragment {
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String title = GlobalVariable.API_LINK_SHARE_LINK + wid;
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                if (Uri.parse(imgUrl) != null) {
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(imgUrl));
-                    shareIntent.setType("image/*");
-                    //當用戶選擇短信時使用sms_body取得文字
-                    shareIntent.putExtra("sms_body", mTvWorkName.getText().toString());
-                } else {
-                    shareIntent.setType("text/plain");
-                }
-                shareIntent.putExtra(Intent.EXTRA_TEXT, mTvWorkName.getText().toString());
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "BonnieDraw");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,title);
                 //自定義選擇框的標題
                 shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(Intent.createChooser(shareIntent, getContext().getString(R.string.uc_share)));
