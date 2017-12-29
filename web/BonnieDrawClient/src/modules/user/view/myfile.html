@@ -82,11 +82,11 @@
 								</a>
 								<div class="foll-r col-md-4 col-sm-4 col-xs-6 col-xs-offset-1">
 									<a href="#/userfile/{{data.userId}}">
-										<p class="file-num">{{data.userName}}</p>
+										<p class="file-num ellipsis" data-toggle="tooltip" title="{{data.userName}}">{{data.userName}}</p>
 									</a>
 									<div class="foll-but">
-										<button ng-if="!data.following" class="btn btn-snd-black" ng-click="clickFollow(data)">追蹤</button>
-										<button ng-if="data.following" class="btn btn-snd-black" ng-click="clickFollow(data)">取消追蹤</button>
+										<button ng-if="!data.following" class="btn btn-snd-black user-follor-btu" ng-click="clickFollow(data)">追蹤</button>
+										<button ng-if="data.following" class="btn btn-snd-black user-follor-btu" ng-click="clickFollow(data)">取消追蹤</button>
 									</div>
 								</div>
 							</div>

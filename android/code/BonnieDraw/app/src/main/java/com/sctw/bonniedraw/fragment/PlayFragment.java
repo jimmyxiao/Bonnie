@@ -42,6 +42,7 @@ import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
+import android.app.Dialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -257,8 +258,9 @@ public class PlayFragment extends DialogFragment {
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            mHandlerTimerPlay.removeCallbacks(rb_play);
-            PlayFragment.this.dismiss();
+                if(mHandlerTimerPlay !=null)
+                    mHandlerTimerPlay.removeCallbacks(rb_play);
+                PlayFragment.this.dismiss();
             }
         });
 
@@ -948,4 +950,19 @@ public class PlayFragment extends DialogFragment {
             }
         });
     }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new Dialog(getActivity(), getTheme()){
+            @Override
+            public void onBackPressed() {
+                if(mHandlerTimerPlay !=null)
+                    mHandlerTimerPlay.removeCallbacks(rb_play);
+                PlayFragment.this.dismiss();
+            }
+        };
+    }
+
+
+
 }
