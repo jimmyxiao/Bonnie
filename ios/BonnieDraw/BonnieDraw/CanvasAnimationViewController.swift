@@ -85,18 +85,21 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
                     if !drawPoints.isEmpty {
                         self.readHandle = readHandle
                         draw(instantly: false)
+                        UIApplication.shared.isIdleTimerDisabled = true
+                    } else {
+                        readHandle.closeFile()
                     }
                 } catch {
                     Logger.d("\(#function): \(error.localizedDescription)")
                 }
             } else {
                 draw(instantly: false)
+                UIApplication.shared.isIdleTimerDisabled = true
             }
             sender.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
             sender.isSelected = true
             previousStep.isEnabled = false
             nextStep.isEnabled = false
-            UIApplication.shared.isIdleTimerDisabled = true
         }
     }
 
@@ -226,6 +229,7 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
                 handler(true)
             }
         } else {
+            UIApplication.shared.isIdleTimerDisabled = false
             play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
             play.isSelected = false
             previousStep.isEnabled = true
