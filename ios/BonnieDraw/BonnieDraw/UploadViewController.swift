@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import DropDown
 
-class UploadViewController: BackButtonViewController, UITextViewDelegate, UITextFieldDelegate {
+class UploadViewController: BackButtonViewController, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var thumbnail: UIImageView!
@@ -217,12 +217,8 @@ class UploadViewController: BackButtonViewController, UITextViewDelegate, UIText
         }
     }
 
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
+    @IBAction func didTapBackground(_ sender: Any) {
+        view.endEditing(false)
     }
 
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {

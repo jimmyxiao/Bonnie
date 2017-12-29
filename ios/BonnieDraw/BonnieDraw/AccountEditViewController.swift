@@ -15,7 +15,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var summery: UITextField!
+    @IBOutlet weak var summery: UITextView!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var phone: UITextField!
     @IBOutlet weak var gender: UIButton!
@@ -393,6 +393,10 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         }
     }
 
+    @IBAction func didTapBackground(_ sender: Any) {
+        view.endEditing(false)
+    }
+
     private func setViewData() {
         name.text = profile?.name
         summery.text = profile?.description
@@ -421,5 +425,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
 protocol AccountEditViewControllerDelegate {
     func accountEdit(profileDidChange profile: Profile)
+
     func accountEdit(imageDidChange image: UIImage)
 }
