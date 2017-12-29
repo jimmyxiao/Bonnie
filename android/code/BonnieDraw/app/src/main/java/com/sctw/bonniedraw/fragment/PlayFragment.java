@@ -257,7 +257,8 @@ public class PlayFragment extends DialogFragment {
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PlayFragment.this.dismiss();
+            mHandlerTimerPlay.removeCallbacks(rb_play);
+            PlayFragment.this.dismiss();
             }
         });
 
