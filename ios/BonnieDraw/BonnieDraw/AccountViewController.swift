@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 
 class AccountViewController:
-        UIViewController,
+        BackButtonViewController,
         UICollectionViewDataSource,
         UICollectionViewDelegate,
         UICollectionViewDelegateFlowLayout,
@@ -42,6 +42,9 @@ class AccountViewController:
 
     override func viewDidLoad() {
         collectionView.refreshControl = refreshControl
+        if user == nil {
+            navigationItem.setLeftBarButton(nil, animated: false)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -57,10 +60,6 @@ class AccountViewController:
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
-    }
-
-    @IBAction func didSelectAccount(_ sender: Any) {
-        collectionView.setContentOffset(.zero, animated: true)
     }
 
     @IBAction func didSelectSetting(_ sender: Any) {
@@ -178,7 +177,6 @@ class AccountViewController:
                         for work in works {
                             self.works.append(Work(withDictionary: work))
                         }
-                        self.navigationItem.leftBarButtonItem?.title = self.profile?.name
                         self.collectionView.reloadSections([0])
                         self.footerView?.indicator.stopAnimating()
                         self.footerView?.label.text = self.works.isEmpty ? "empty_data".localized : nil
@@ -232,7 +230,7 @@ class AccountViewController:
                 headerView.fanButton.isUserInteractionEnabled = false
                 headerView.followButton.isUserInteractionEnabled = false
             }
-            headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.IMAGE))
+            headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.IMAGE), placeholderImage: UIImage(named: "photo-square"))
             headerView.profileName.text = profile?.name
             headerView.profileDescription.text = profile?.description
             headerView.worksCount.text = "\(profile?.worksCount ?? 0)"
@@ -309,7 +307,6 @@ class AccountViewController:
 
     internal func settings(profileDidChange profile: Profile) {
         self.profile = profile
-        navigationItem.leftBarButtonItem?.title = profile.name
         collectionView.reloadSections([0])
     }
 
@@ -327,7 +324,6 @@ class AccountViewController:
 
     internal func accountEdit(profileDidChange profile: Profile) {
         self.profile = profile
-        navigationItem.leftBarButtonItem?.title = profile.name
         collectionView.reloadSections([0])
     }
 
