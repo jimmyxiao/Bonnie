@@ -3,11 +3,11 @@
 // localhost
 var locationIP='http://localhost:8080/';
 // var locationIP='http://www.bonniedraw.com:8080/';
-var rootUrl = locationIP + 'BonnieDrawService/';
+ var rootUrl = locationIP + 'BonnieDrawService/';
 
 // release
- // var locationIP='https://www.bonniedraw.com/';
- // var rootUrl = locationIP + 'bonniedraw_service/';
+// var locationIP='https://www.bonniedraw.com/';
+// var rootUrl = locationIP + 'bonniedraw_service/';
 
 var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
@@ -414,7 +414,7 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
    		var url = $location.path();
    		$rootScope.nowUrl = url;
 
-		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete' && url !== '/about' && url !== '/privacy' && url !== '/terms') && (!$rootScope.rg_gl || !$rootScope.rg_gl.currentUser)) {
+		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete' && url !== '/about' && url !== '/privacy' && url !== '/terms' && url !== '/about_app' && url !== '/privacy_app' && url !== '/terms_app') && (!$rootScope.rg_gl || !$rootScope.rg_gl.currentUser)) {
 	        event.preventDefault();
 	        $state.go('login');
 	    }else if( ($rootScope.rg_gl && $rootScope.rg_gl.currentUser) && (url == '/login' && url == '/singup' && url == '/forget' && url == '/complete')){
