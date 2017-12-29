@@ -582,7 +582,10 @@
  	then true else false end as isLike,
  	case when exists 
  	(select works_collection_id from works_collection where collection_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
- 	then true else false end as isCollection
+ 	then true else false end as isCollection,
+    case when exists 
+  (select FOLLOWING_ID from following where USER_ID = #{userId, jdbcType=INTEGER} and FOLLOWING_USER_ID = wk.USER_ID) 
+  then 1 else 0 end as isFollowing
     from works wk 
     left outer join user_info ur on ur.USER_ID = wk.USER_ID
     left join (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
