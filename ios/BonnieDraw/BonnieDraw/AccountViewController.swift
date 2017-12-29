@@ -159,8 +159,10 @@ class AccountViewController:
                     return
                 }
                 self.profile = Profile(withDictionary: data)
-                UserDefaults.standard.set(self.profile?.image, forKey: Default.IMAGE)
-                UserDefaults.standard.set(self.profile?.name, forKey: Default.NAME)
+                if self.user == nil {
+                    UserDefaults.standard.set(self.profile?.image, forKey: Default.IMAGE)
+                    UserDefaults.standard.set(self.profile?.name, forKey: Default.NAME)
+                }
                 self.dataRequest = Alamofire.request(
                         Service.standard(withPath: Service.WORK_LIST),
                         method: .post,
@@ -238,7 +240,9 @@ class AccountViewController:
                 headerView.fanButton.isUserInteractionEnabled = false
                 headerView.followButton.isUserInteractionEnabled = false
             }
-            headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.IMAGE), placeholderImage: UIImage(named: "photo-square"))
+            if user == nil {
+                headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.IMAGE), placeholderImage: UIImage(named: "photo-square"))
+            }
             headerView.profileName.text = profile?.name
             headerView.profileDescription.text = profile?.description
             headerView.worksCount.text = "\(profile?.worksCount ?? 0)"
