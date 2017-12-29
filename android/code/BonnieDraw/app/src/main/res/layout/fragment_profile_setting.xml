@@ -78,14 +78,14 @@
 
 
             <Button
-                android:id="@+id/btn_profile_description"
+                android:id="@+id/btn_profile_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/White"
                 android:drawableEnd="@drawable/ic_chevron_right_selector"
                 android:paddingEnd="24dp"
                 android:paddingStart="24dp"
-                android:text="@string/u06_04_help_center"
+                android:text="@string/u06_04_about_bonniedraw"
                 android:textAlignment="viewStart" />
 
 

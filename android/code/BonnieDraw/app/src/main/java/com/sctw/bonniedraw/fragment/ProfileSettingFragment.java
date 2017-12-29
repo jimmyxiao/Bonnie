@@ -22,7 +22,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class ProfileSettingFragment extends DialogFragment {
     ImageButton mImgBtnBack;
-    Button mImgBtnEdit, mImgBtnUpdatePwd, mImgDescription, mImgBtnPrivacyPolicy, mImgBtnTermsOfUse;
+    Button mImgBtnEdit, mImgBtnUpdatePwd, mImgBtnAbout, mImgBtnPrivacyPolicy, mImgBtnTermsOfUse;
     SharedPreferences prefs;
 
     @Override
@@ -46,7 +46,7 @@ public class ProfileSettingFragment extends DialogFragment {
         mImgBtnBack = view.findViewById(R.id.imgBtn_profile_back);
         mImgBtnEdit = view.findViewById(R.id.btn_profile_edit);
         mImgBtnUpdatePwd = view.findViewById(R.id.btn_profile_update_pwd);
-        mImgDescription = view.findViewById(R.id.btn_profile_description);
+        mImgBtnAbout = view.findViewById(R.id.btn_profile_about);
         mImgBtnPrivacyPolicy = view.findViewById(R.id.btn_profile_privacy_policy);
         mImgBtnTermsOfUse = view.findViewById(R.id.btn_profile_terms_of_use);
 
@@ -61,6 +61,17 @@ public class ProfileSettingFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 EditProfileFragment fragment = new EditProfileFragment();
+                fragment.show(getChildFragmentManager(), "TAG");
+            }
+        });
+
+        mImgBtnAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PublicFragment fragment = new PublicFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("type", 0);
+                fragment.setArguments(bundle);
                 fragment.show(getChildFragmentManager(), "TAG");
             }
         });

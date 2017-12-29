@@ -116,7 +116,7 @@ public class LoadMoreFooter implements View.OnClickListener {
                 case STATE_FAILED:
                     mProgressBar.setVisibility(View.INVISIBLE);
                     mTvHint.setVisibility(View.VISIBLE);
-                    mTvHint.setText("載入失敗");
+                    mTvHint.setText("Fail");
                     mTvHint.setClickable(true);
                     break;
                 default:

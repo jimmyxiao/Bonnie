@@ -15,7 +15,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -70,7 +69,6 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
     private HeaderAndFooterRecyclerView mRecyclerViewHome;
-    private RecyclerView.SmoothScroller mSmoothScroller;
     private Toolbar mToolbar;
     private SearchView mSearchView;
     private SharedPreferences prefs;

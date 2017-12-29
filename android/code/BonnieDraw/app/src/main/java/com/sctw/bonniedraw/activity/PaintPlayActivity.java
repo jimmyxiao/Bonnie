@@ -78,68 +78,65 @@ public class PaintPlayActivity extends AppCompatActivity {
 
     private Runnable rb_play = new Runnable() {
         public void run() {
-            if (!mbStop) {
-                boolean brun = true;
-                if (miPointCount > 0) {
-                    TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
-                    switch (tagpoint.get_iAction() - 1) {
-                        case MotionEvent.ACTION_DOWN:
-                            mbPlaying = true;
-                            if (tagpoint.get_iBrush() == 6) {
-                                mPaintView.setDrawingBgColor(tagpoint.get_iColor());
-                            } else if (tagpoint.get_iBrush() != 0) {
-                                int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
-                                mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
-                            } else {
-                                mPaintView.setBrush(Brushes.get(getApplicationContext())[9]);
-                            }
-                            if (tagpoint.get_iColor() != 0) {
-                                mPaintView.setDrawingColor(tagpoint.get_iColor());
-                            }
-                            if (tagpoint.get_iSize() != 0) {
-                                mPaintView.setDrawingSize((int) PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
-                            }
-                            if (tagpoint.get_iReserved() != 0) {
-                                mPaintView.setDrawingAlpha(tagpoint.get_iReserved() / 100.0f);
-                            }
-                            mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
-                            mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
-                            mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            //開始畫 記錄每一個時間點 即可模擬回去
-                            mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
-                            mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
-                            mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
-                            mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
-                            mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
-                            mListRecordInt.add(miPointCurrent + 1);
-                            mbPlaying = false;
-                            brun = false;
-                            break;
-                    }
-                    miPointCount--;
-                    miPointCurrent++;
-                    showProgress();
-
-                    if (brun) {
-                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-                    } else {
-                        if (mbAutoPlay) {
-                            mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+            boolean brun = true;
+            if (miPointCount > 0) {
+                TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
+                switch (tagpoint.get_iAction() - 1) {
+                    case MotionEvent.ACTION_DOWN:
+                        mbPlaying = true;
+                        if (tagpoint.get_iBrush() == 6) {
+                            mPaintView.setDrawingBgColor(tagpoint.get_iColor());
+                        } else if (tagpoint.get_iBrush() != 0) {
+                            int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
+                            mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
+                        } else {
+                            mPaintView.setBrush(Brushes.get(getApplicationContext())[9]);
                         }
-                    }
-                } else {
-                    mbAutoPlay = false;
-                    mBtnPause.setVisibility(View.GONE);
-                    mBtnAutoPlay.setVisibility(View.VISIBLE);
-                    mImgBtnReplay.setVisibility(View.VISIBLE);
+                        if (tagpoint.get_iColor() != 0) {
+                            mPaintView.setDrawingColor(tagpoint.get_iColor());
+                        }
+                        if (tagpoint.get_iSize() != 0) {
+                            mPaintView.setDrawingSize((int) PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
+                        }
+                        if (tagpoint.get_iReserved() != 0) {
+                            mPaintView.setDrawingAlpha(tagpoint.get_iReserved() / 100.0f);
+                        }
+                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        //開始畫 記錄每一個時間點 即可模擬回去
+                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
+                        mListRecordInt.add(miPointCurrent + 1);
+                        mbPlaying = false;
+                        brun = false;
+                        break;
                 }
-            }
+                miPointCount--;
+                miPointCurrent++;
+                showProgress();
 
+                if (brun) {
+                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                } else {
+                    if (mbAutoPlay) {
+                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    }
+                }
+            } else {
+                mbAutoPlay = false;
+                mBtnPause.setVisibility(View.GONE);
+                mBtnAutoPlay.setVisibility(View.VISIBLE);
+                mImgBtnReplay.setVisibility(View.VISIBLE);
+            }
         }
     };
 
@@ -286,7 +283,8 @@ public class PaintPlayActivity extends AppCompatActivity {
                     mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
                     miPointCount = mPaintView.mListTagPoint.size();
                     miPointCurrent = 0;
-                    if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+                    if (miPointCount > 0)
+                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                     mImgBtnReplay.setVisibility(View.INVISIBLE);
                     mbAutoPlay = true;
                     mListRecordInt.clear();
@@ -309,14 +307,13 @@ public class PaintPlayActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        mHandlerTimerPlay.removeCallbacks(rb_play);
         finish();
     }
 
 
     @Override
     public void onStop() {
-        mbStop = true;
-        mHandlerTimerPlay.removeCallbacks(rb_play);
         super.onStop();
     }
 

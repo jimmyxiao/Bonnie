@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,9 +19,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -69,7 +70,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     private LinearLayout mLlFans, mLlFollow;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRv;
-    private FrameLayout mFrameLayoutLoading;
+    private ProgressBar mProgressBar;
     private SharedPreferences prefs;
     private List<WorkInfoBean> workInfoBeanList;
     private int miUserId;
@@ -80,6 +81,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     private boolean mbGridMode = true, mbFollow = false;
     private FragmentManager fragmentManager;
     private int miStn = 1, miRc = 18;
+    private NestedScrollView mNestedScrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,8 +95,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         super.onViewCreated(view, savedInstanceState);
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         miUserId = getArguments().getInt("userId");
-        mFrameLayoutLoading = view.findViewById(R.id.frameLayout_member);
-        mFrameLayoutLoading.bringToFront();
+        mProgressBar = view.findViewById(R.id.progressBar_member);
+        mProgressBar.bringToFront();
         mTvMemberName = view.findViewById(R.id.textView_member_userName);
         mTvMemberDescription = view.findViewById(R.id.textView_member_user_description);
         mTvMemberWorks = view.findViewById(R.id.textView_member_userworks);
@@ -157,6 +159,8 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                         mTvMemberName.setText(responseJSON.getString("userName"));
 
                                         if (responseJSON.has("description") && !responseJSON.isNull("description")) {
+                                            if (responseJSON.getString("description").length() < 20)
+                                                mTvMemberDescription.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                             mTvMemberDescription.setText(responseJSON.getString("description"));
                                         } else {
                                             mTvMemberDescription.setText("");
@@ -255,7 +259,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             mSwipeRefreshLayout.setRefreshing(false);
         }
 
-        mFrameLayoutLoading.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
@@ -330,6 +334,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             @Override
             public void onRefresh() {
                 getWorksList(REFRESH_WORKS_LIST);
+                getMemberInfo();
             }
         });
 
@@ -591,12 +596,12 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     }
 
     @Override
-    public void onWorkExtraClick(int uid,final int wid) {
+    public void onWorkExtraClick(int uid, final int wid) {
         final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
         Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
-        LinearLayout reportLayout=extraDialog.findViewById(R.id.ll_item_work_report);
+        LinearLayout reportLayout = extraDialog.findViewById(R.id.ll_item_work_report);
 
         extraCopyLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -668,7 +673,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                 extraDialog.dismiss();
             }
         });
-        if(miUserId==uid){
+        if (miUserId == uid) {
             reportLayout.setVisibility(View.GONE);
         }
         extraDialog.show();

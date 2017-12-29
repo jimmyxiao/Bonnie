@@ -19,9 +19,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -70,7 +70,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private List<WorkInfoBean> workInfoBeanList;
     private SwipeRefreshLayout mSwipeLayoutProfile;
     private RecyclerView mRv;
-    private FrameLayout mFrameLayoutLoading;
+    private ProgressBar mProgressBar;
     private WorkAdapterGrid mAdapterGrid;
     private WorkAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
@@ -96,8 +96,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         miUserId = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, "null"));
         imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
-        mFrameLayoutLoading = view.findViewById(R.id.frameLayout_profile);
-        mFrameLayoutLoading.bringToFront();
+        mProgressBar = view.findViewById(R.id.progressBar_profile);
+        mProgressBar.bringToFront();
         mSwipeLayoutProfile = view.findViewById(R.id.swipeLayout_profile);
         mLlFans = (LinearLayout) view.findViewById(R.id.ll_profile_fans);
         mLlFollow = (LinearLayout) view.findViewById(R.id.ll_profile_follow);
@@ -113,12 +113,12 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mImgBtnFriends = (ImageButton) view.findViewById(R.id.imgBtn_profile_friends);
         mBtnEdit = view.findViewById(R.id.btn_profile_edit);
         mRv = view.findViewById(R.id.recyclerview_profile);
+        getWorksList(GET_WORKS_LIST);
         updateProfileInfo();
         setOnClick();
         fragmentManager = getFragmentManager();
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
-        layoutManager = new LinearLayoutManagerWithSmoothScroller(getContext(),LinearLayoutManager.VERTICAL,false);
-        getWorksList(GET_WORKS_LIST);
+        layoutManager = new LinearLayoutManagerWithSmoothScroller(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -225,6 +225,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         mSwipeLayoutProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                updateProfileInfo();
                 getWorksList(REFRESH_WORKS_LIST);
             }
         });
@@ -251,14 +252,14 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                     try {
                                         //Successful
                                         mTextViewUserName.setText(responseJSON.getString("userName"));
-
                                         if (responseJSON.has("description") && !responseJSON.isNull("description")) {
+                                            if (responseJSON.getString("description").length() < 20)
+                                                mTextViewUserdescription.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                             mTextViewUserdescription.setText(responseJSON.getString("description"));
                                         } else {
                                             mTextViewUserdescription.setText("");
                                         }
 
-                                        //if (responseJSON.has("nickName") && !responseJSON.isNull("nickName")) {
                                         mTextViewWorks.setText(responseJSON.getString("worksNum"));
                                         mTextViewFans.setText(responseJSON.getString("fansNum"));
                                         mTextViewFollows.setText(responseJSON.getString("followNum"));
@@ -341,31 +342,31 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             mRv.setLayoutManager(layoutManager);
             mRv.setAdapter(mAdapterList);
         }
-        mFrameLayoutLoading.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
         mSwipeLayoutProfile.setRefreshing(false);
     }
 
     public void refresh(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
         DiffUtil.DiffResult diffResult;
-        if(mbGridMode){
+        if (mbGridMode) {
             diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), false);
             diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterGrid.setData(workInfoBeanList);
-        }else {
+        } else {
             diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), false);
             diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterList.setData(workInfoBeanList);
         }
     }
 
-    private void changeLayout(){
+    private void changeLayout() {
         DiffUtil.DiffResult diffResult;
-        if(mbGridMode){
+        if (mbGridMode) {
             diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), false);
             diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterGrid.setData(workInfoBeanList);
-        }else {
+        } else {
             diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), false);
             diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterList.setData(workInfoBeanList);
@@ -544,12 +545,12 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     }
 
     @Override
-    public void onWorkExtraClick(int uid,final int wid) {
+    public void onWorkExtraClick(int uid, final int wid) {
         final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
         Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
-        LinearLayout reportLayout=extraDialog.findViewById(R.id.ll_item_work_report);
+        LinearLayout reportLayout = extraDialog.findViewById(R.id.ll_item_work_report);
 
         extraCopyLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -605,7 +606,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                 extraDialog.dismiss();
             }
         });
-        if(miUserId==uid){
+        if (miUserId == uid) {
             reportLayout.setVisibility(View.GONE);
         }
         extraDialog.show();
