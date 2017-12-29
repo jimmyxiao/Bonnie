@@ -20,7 +20,6 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
     let dropDown = DropDown()
     var workThumbnail: UIImage?
     var workFileUrl: URL?
-    private var viewOriginY: CGFloat = 0
     private var keyboardOnScreen = false
     private var dataRequest: DataRequest?
     private let dropDownItems: [(access: AccessControl, title: String)] = [(.publicAccess, "access_control_public".localized),
@@ -59,14 +58,13 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
 
     @objc func keyboardWillShow(_ notification: Notification) {
         if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
-            viewOriginY = view.frame.origin.y
             view.frame.origin.y -= keyboardSize.height / 3
         }
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
         if keyboardOnScreen {
-            view.frame.origin.y = viewOriginY
+            view.frame.origin.y = 0
         }
     }
 

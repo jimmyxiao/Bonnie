@@ -18,7 +18,6 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
     private let dropDownItems: [(type: ReportType, title: String)] = [(.sexual, "report_sexual".localized),
                                                                       (.violence, "report_violence".localized),
                                                                       (.other, "report_other".localized)]
-    private var viewOriginY: CGFloat = 0
     private var keyboardOnScreen = false
     private var dataRequest: DataRequest?
     let dropDown = DropDown()
@@ -63,14 +62,13 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
 
     @objc func keyboardWillShow(_ notification: Notification) {
         if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
-            viewOriginY = view.frame.origin.y
             view.frame.origin.y -= keyboardSize.height / 3
         }
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
         if keyboardOnScreen {
-            view.frame.origin.y = viewOriginY
+            view.frame.origin.y = 0
         }
     }
 
