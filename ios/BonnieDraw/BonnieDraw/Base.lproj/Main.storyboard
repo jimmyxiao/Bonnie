@@ -1496,11 +1496,11 @@
             <objects>
                 <viewController storyboardIdentifier="reportViewController" id="Hoj-RR-fqI" customClass="ReportViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gwq-Fd-KAT">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="499"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zgy-rD-DGC">
-                                <rect key="frame" x="16" y="166.5" width="288" height="235"/>
+                                <rect key="frame" x="16" y="132" width="288" height="235"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="FFp-kj-9h1">
                                     <rect key="frame" x="0.0" y="0.0" width="288" height="235"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1734,8 +1734,8 @@
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bBF-8j-5g5"/>
-        <segue reference="GKN-31-Thb"/>
-        <segue reference="o5Q-q8-0bN"/>
+        <segue reference="39j-eH-1du"/>
+        <segue reference="zZU-Ky-cte"/>
+        <segue reference="7Dv-w1-kWC"/>
     </inferredMetricsTieBreakers>
 </document>

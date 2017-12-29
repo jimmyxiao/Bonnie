@@ -68,7 +68,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                   let indexPath = sender as? IndexPath {
             controller.work = works[indexPath.row]
         } else if let navigationController = segue.destination as? UINavigationController,
-                  let indexPath = tableView.indexPathForSelectedRow {
+                  let indexPath = tableView.indexPathForSelectedRow ?? sender as? IndexPath {
             if segue.identifier == Segue.COMMENT {
                 if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.COMMENT) as? CommentViewController {
                     controller.delegate = self

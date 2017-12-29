@@ -92,7 +92,7 @@ class AccountViewController:
                   let indexPath = sender as? IndexPath {
             controller.work = works[indexPath.row]
         } else if let navigationController = segue.destination as? UINavigationController,
-                  let indexPath = collectionView.indexPathsForSelectedItems?.first {
+                  let indexPath = collectionView.indexPathsForSelectedItems?.first ?? sender as? IndexPath {
             if segue.identifier == Segue.COMMENT {
                 if let controller = navigationController.storyboard?.instantiateViewController(withIdentifier: Identifier.COMMENT) as? CommentViewController {
                     controller.delegate = self
