@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var done: UIBarButtonItem!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var progressBar: UIProgressView!
@@ -375,6 +375,11 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+
+    internal func textViewDidChange(_ textView: UITextView) {
+        done.isEnabled = true
+        profile?.description = textView.text
     }
 
     @IBAction func textFieldTextDidChange(_ sender: UITextField) {

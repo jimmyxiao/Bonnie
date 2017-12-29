@@ -154,13 +154,15 @@
                                                     </view>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TFM-lW-gsH">
                                                         <rect key="frame" x="0.0" y="45" width="204" height="132"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="tintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="132" id="clc-0f-uR1"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="mlI-Uy-vuT" id="EsG-bF-Q5c"/>
+                                                        </connections>
                                                     </textView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W1H-4Z-9v8">
                                                         <rect key="frame" x="0.0" y="177" width="204" height="1"/>
@@ -341,7 +343,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2653.5999999999999" y="2272.9064039408868"/>
+            <point key="canvasLocation" x="2653.125" y="2272.1830985915494"/>
         </scene>
         <!--Password View Controller-->
         <scene sceneID="6MX-1K-eW0">
@@ -693,7 +695,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="accountHeaderCell" id="3Ba-c8-F3X" customClass="AccountHeaderCollectionReusableView" customModule="BonnieDraw" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="270.32999999999998"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="270.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dXX-aM-32b">
