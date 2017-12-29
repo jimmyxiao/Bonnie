@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FollowTableViewCell: UITableViewCell {
+class FollowTableViewCell: CustomSelectorTableViewCell {
     @IBOutlet weak var profileImage: UIButton!
     @IBOutlet weak var profileName: UIButton!
     @IBOutlet weak var title: UILabel!

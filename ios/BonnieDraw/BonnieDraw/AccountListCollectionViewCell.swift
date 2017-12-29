@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountListCollectionViewCell: UICollectionViewCell {
+class AccountListCollectionViewCell: CustomSelectorCollectionViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var title: UILabel!
@@ -17,20 +17,6 @@ class AccountListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var likes: UILabel!
     @IBOutlet weak var comments: UILabel!
     @IBOutlet weak var collectButton: UIButton!
-    override var isHighlighted: Bool {
-        willSet {
-            if newValue {
-                backgroundColor = .lightGray
-            }
-        }
-        didSet {
-            if !isHighlighted {
-                UIView.animate(withDuration: 0.4) {
-                    self.backgroundColor = .clear
-                }
-            }
-        }
-    }
 
     override func awakeFromNib() {
         profileImage.sd_setShowActivityIndicatorView(true)

@@ -8,22 +8,8 @@
 
 import UIKit
 
-class ColorPickerCollectionViewCell: UICollectionViewCell {
+class ColorPickerCollectionViewCell: CustomSelectorCollectionViewCell {
     @IBOutlet weak var removeIcon: UIView!
-    override var isHighlighted: Bool {
-        willSet {
-            if newValue {
-                alpha = 0.5
-            }
-        }
-        didSet {
-            if !isHighlighted {
-                UIView.animate(withDuration: 0.4) {
-                    self.alpha = 1
-                }
-            }
-        }
-    }
 
     override func awakeFromNib() {
         layer.cornerRadius = bounds.width / 2

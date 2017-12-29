@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NotificationTableViewCell: UITableViewCell {
+class NotificationTableViewCell: CustomSelectorTableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var date: UILabel!

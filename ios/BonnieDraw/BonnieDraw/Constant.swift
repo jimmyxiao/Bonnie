@@ -150,6 +150,7 @@ struct Service {
     static let REPORT = "/setTurnin"
     static let UPDATE_PASSWORD = "/updatePwd"
     static let LOAD_FILE = "/loadFile"
+    static let SOCIAL_SHARE = "/socialShare"
     static let FOLLOWING_LIST = "/followingList"
     static let TAG_LIST = "/tagList"
     static let ABOUT = "https://www.bonniedraw.com/#/about_app"
@@ -165,6 +166,13 @@ struct Service {
             return ""
         }
         return "\(SCHEME)://\(HOST)\(BASE)\(LOAD_FILE)\(path)"
+    }
+
+    static func sharePath(withId id: Int?) -> String {
+        guard let id = id else {
+            return ""
+        }
+        return "\(SCHEME)://\(HOST)\(BASE)\(SOCIAL_SHARE)?id=\(id)"
     }
 }
 

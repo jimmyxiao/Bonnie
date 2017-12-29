@@ -148,6 +148,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 for work in works {
                     self.works.append(Work(withDictionary: work))
                 }
+                self.works.sort()
                 self.tableViewWorks = self.works
                 self.tableView.reloadSections([0], with: .automatic)
                 self.emptyLabel.isHidden = !self.tableViewWorks.isEmpty
@@ -283,10 +284,14 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = UIColor.getAccentColor()
-        alert.popoverPresentationController?.sourceView = sender
+        if let presentation = alert.popoverPresentationController {
+            presentation.sourceView = sender
+            presentation.sourceRect = sender.bounds
+        }
         let color = UIColor.gray
         let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
             action in
+            UIPasteboard.general.url = URL(string: Service.sharePath(withId: self.tableViewWorks[indexPath.row].id))
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
@@ -382,8 +387,15 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     @IBAction func share(_ sender: UIButton) {
-        if let indexPath = tableView.indexPath(forView: sender) {
-            Logger.d("\(#function) \(indexPath.row)")
+        if let indexPath = tableView.indexPath(forView: sender),
+           let url = URL(string: Service.sharePath(withId: tableViewWorks[indexPath.row].id)) {
+            let controller = UIActivityViewController(activityItems: [url, url.absoluteString], applicationActivities: nil)
+            controller.excludedActivityTypes = [.airDrop, .saveToCameraRoll, .assignToContact, .addToReadingList, .copyToPasteboard, .print]
+            if let presentation = controller.popoverPresentationController {
+                presentation.sourceView = sender
+                presentation.sourceRect = sender.bounds
+            }
+            present(controller, animated: true)
         }
     }
 

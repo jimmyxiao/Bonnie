@@ -171,7 +171,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                                         sender.isEnabled = true
                                                                         return
                                                                     }
-                                                                    self.navigationController?.popViewController(animated: true)
+                                                                    self.navigationController?.dismiss(animated: true)
                                                                 case .failure(let error):
                                                                     if let error = error as? URLError, error.code == .cancelled {
                                                                         return

@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Work {
+class Work: NSObject, Comparable {
     let id: Int?
     let userId: Int?
     let profileImage: URL?
@@ -16,7 +16,8 @@ struct Work {
     let thumbnail: URL?
     let file: URL?
     let title: String?
-    let description: String?
+    let summery: String?
+    let date: Date?
     var isFollow: Bool?
     var isLike: Bool?
     var isCollect: Bool?
@@ -38,12 +39,24 @@ struct Work {
         thumbnail = URL(string: Service.filePath(withSubPath: dictionary["imagePath"] as? String))
         file = URL(string: Service.filePath(withSubPath: dictionary["bdwPath"] as? String))
         title = dictionary["title"] as? String
-        description = dictionary["description"] as? String
+        summery = dictionary["description"] as? String
+        if let date = dictionary["updateDate"] as? Int {
+            self.date = Date(timeIntervalSince1970: Double(date) / 1000)
+        } else {
+            date = nil
+        }
         isFollow = dictionary["isFollowing"] as? Bool
         isLike = dictionary["like"] as? Bool
         isCollect = dictionary["collection"] as? Bool
         likes = dictionary["likeCount"] as? Int
         comments = dictionary["msgCount"] as? Int
         messages = messageList
+    }
+
+    static func <(lhs: Work, rhs: Work) -> Bool {
+        if let lhsDate = lhs.date, let rhsDate = rhs.date {
+            return lhsDate.compare(rhsDate) == .orderedDescending
+        }
+        return false
     }
 }

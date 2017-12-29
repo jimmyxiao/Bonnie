@@ -245,6 +245,10 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
     @IBAction func pickImage(_ sender: Any) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        if let presention = alert.popoverPresentationController {
+            presention.sourceView = profileImage
+            presention.sourceRect = profileImage.bounds
+        }
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alert.addAction(UIAlertAction(title: "image_picker_camera".localized, style: .default) {
                 action in
@@ -269,16 +273,16 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             })
         }
         alert.addAction(UIAlertAction(title: "alert_button_cancel".localized, style: .cancel))
-        if let presention = alert.popoverPresentationController {
-            presention.sourceView = profileImage
-            presention.sourceRect = profileImage.bounds
-        }
         alert.view.tintColor = UIColor.getAccentColor()
         present(alert, animated: true)
     }
 
     @IBAction func pickGender(_ sender: Any) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        if let presention = alert.popoverPresentationController {
+            presention.sourceView = profileImage
+            presention.sourceRect = profileImage.bounds
+        }
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alert.addAction(UIAlertAction(title: "gender_male".localized, style: .default) {
                 action in
@@ -304,10 +308,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             })
         }
         alert.addAction(UIAlertAction(title: "alert_button_cancel".localized, style: .cancel))
-        if let presention = alert.popoverPresentationController {
-            presention.sourceView = profileImage
-            presention.sourceRect = profileImage.bounds
-        }
         alert.view.tintColor = UIColor.getAccentColor()
         present(alert, animated: true)
     }

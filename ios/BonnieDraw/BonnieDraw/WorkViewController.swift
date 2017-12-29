@@ -54,7 +54,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         profileImage.setImage(with: work?.profileImage)
         profileName.setTitle(work?.profileName, for: .normal)
         titleLabel.text = work?.title
-        descriptionLabel.text = work?.description
+        descriptionLabel.text = work?.summery
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -198,10 +198,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBAction func more(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = UIColor.getAccentColor()
-        alert.popoverPresentationController?.sourceView = sender
+        if let presentation = alert.popoverPresentationController {
+            presentation.sourceView = sender
+            presentation.sourceRect = sender.bounds
+        }
         let color = UIColor.gray
         let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
             action in
+            UIPasteboard.general.url = URL(string: Service.sharePath(withId: self.work?.id))
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
@@ -270,7 +274,16 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         }
     }
 
-    @IBAction func share(_ sender: Any) {
+    @IBAction func share(_ sender: UIButton) {
+        if let url = URL(string: Service.sharePath(withId: work?.id)) {
+            let controller = UIActivityViewController(activityItems: [url, url.absoluteString], applicationActivities: nil)
+            controller.excludedActivityTypes = [.airDrop, .saveToCameraRoll, .assignToContact, .addToReadingList, .copyToPasteboard, .print]
+            if let presentation = controller.popoverPresentationController {
+                presentation.sourceView = sender
+                presentation.sourceRect = sender.bounds
+            }
+            present(controller, animated: true)
+        }
     }
 
     @IBAction func collect(_ sender: UIButton) {

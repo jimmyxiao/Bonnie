@@ -94,6 +94,8 @@
 		16BE0F2E1FC67D5700B989CE /* CanvasSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */; };
 		16C013CB1F9F2E3E00238463 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CA1F9F2E3E00238463 /* UserViewController.swift */; };
 		16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CC1F9F321100238463 /* FollowViewController.swift */; };
+		16CB8C731FF62A1100635F39 /* CustomSelectorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CB8C721FF62A1100635F39 /* CustomSelectorTableViewCell.swift */; };
+		16CB8C751FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CB8C741FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift */; };
 		16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */; };
 		16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */; };
 		16D08F1F1FB14D84001D167C /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D08F1E1FB14D84001D167C /* DebugViewController.swift */; };
@@ -201,6 +203,8 @@
 		16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasSettingTableViewController.swift; sourceTree = "<group>"; };
 		16C013CA1F9F2E3E00238463 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		16C013CC1F9F321100238463 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
+		16CB8C721FF62A1100635F39 /* CustomSelectorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSelectorTableViewCell.swift; sourceTree = "<group>"; };
+		16CB8C741FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSelectorCollectionViewCell.swift; sourceTree = "<group>"; };
 		16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButtonViewController.swift; sourceTree = "<group>"; };
 		16D08F1E1FB14D84001D167C /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
@@ -254,6 +258,8 @@
 				163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */,
 				16353D471FCDA57200482807 /* BrushPickerCollectionViewCell.swift */,
 				16E539711FD9698000799E4D /* CommentTableViewCell.swift */,
+				16CB8C721FF62A1100635F39 /* CustomSelectorTableViewCell.swift */,
+				16CB8C741FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -323,6 +329,7 @@
 				1649F2731FD7A43A00B90A1E /* LightStatusBarViewController.swift */,
 				1664F4B81F74ED7700809C32 /* Login */,
 				1664F4B91F74ED8C00809C32 /* Main */,
+				16CB8C711FF6233500635F39 /* Drawing */,
 				16C013C91F9F2D0900238463 /* Account */,
 			);
 			name = Controller;
@@ -341,23 +348,16 @@
 		1664F4B91F74ED8C00809C32 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				1633C0641F9ED4400039E7F6 /* WebViewController.swift */,
-				16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */,
-				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
-				1664F4B61F74E5BB00809C32 /* ParentViewController.swift */,
-				163F65BE1F616C4F00945E04 /* CanvasViewController.swift */,
-				1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */,
-				16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */,
-				164ED2521F7BA45E00E8B910 /* ColorPickerViewController.swift */,
-				16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */,
-				1664F4A21F74AB3000809C32 /* DrawerViewController.swift */,
-				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
-				16332A221F7F3048007857E3 /* UploadViewController.swift */,
+				16D08F1E1FB14D84001D167C /* DebugViewController.swift */,
 				166BDF411F860E7900274C6C /* SplashViewController.swift */,
+				1664F4B61F74E5BB00809C32 /* ParentViewController.swift */,
+				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
+				1664F4A21F74AB3000809C32 /* DrawerViewController.swift */,
+				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
+				16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */,
+				1633C0641F9ED4400039E7F6 /* WebViewController.swift */,
 				16185C7C1F94A13F008F0840 /* WorkViewController.swift */,
 				16C013CC1F9F321100238463 /* FollowViewController.swift */,
-				16D08F1E1FB14D84001D167C /* DebugViewController.swift */,
-				16353D491FCDA61C00482807 /* BrushPickerViewController.swift */,
 				16E5396F1FD965D800799E4D /* CommentViewController.swift */,
 				1694F2711FF355640063F9E9 /* ReportViewController.swift */,
 			);
@@ -376,6 +376,20 @@
 				16C013CA1F9F2E3E00238463 /* UserViewController.swift */,
 			);
 			name = Account;
+			sourceTree = "<group>";
+		};
+		16CB8C711FF6233500635F39 /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				163F65BE1F616C4F00945E04 /* CanvasViewController.swift */,
+				1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */,
+				16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */,
+				16332A221F7F3048007857E3 /* UploadViewController.swift */,
+				16353D491FCDA61C00482807 /* BrushPickerViewController.swift */,
+				164ED2521F7BA45E00E8B910 /* ColorPickerViewController.swift */,
+				16076EB91F7CA142009E1E49 /* SizePickerViewController.swift */,
+			);
+			name = Drawing;
 			sourceTree = "<group>";
 		};
 		16D439611F66A97400FF5878 /* Utility */ = {
@@ -622,6 +636,7 @@
 				16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */,
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
 				16303BA91FD1494E00C42783 /* Brush.swift in Sources */,
+				16CB8C731FF62A1100635F39 /* CustomSelectorTableViewCell.swift in Sources */,
 				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
 				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
 				1649F2741FD7A43A00B90A1E /* LightStatusBarViewController.swift in Sources */,
@@ -646,6 +661,7 @@
 				165E1B5F1F9DE49F0050A7BB /* LanguageViewController.swift in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
 				16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */,
+				16CB8C751FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift in Sources */,
 				16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */,
 				16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */,
 				169490F61FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift in Sources */,

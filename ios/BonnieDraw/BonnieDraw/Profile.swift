@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Profile: Comparable {
+class Profile {
     let type: UserType?
     var name: String?
     var email: String?
@@ -31,17 +31,5 @@ class Profile: Comparable {
         fansCount = dictionary["fansNum"] as? Int
         followsCount = dictionary["followNum"] as? Int
         image = URL(string: Service.filePath(withSubPath: dictionary["profilePicture"] as? String))
-    }
-
-    static func <(lhs: Profile, rhs: Profile) -> Bool {
-        return false
-    }
-
-    static func ==(lhs: Profile, rhs: Profile) -> Bool {
-        return lhs.name == rhs.name &&
-                lhs.description == rhs.description &&
-                lhs.email == rhs.email &&
-                lhs.phone == rhs.phone &&
-                lhs.gender == rhs.gender
     }
 }
