@@ -76,7 +76,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
                 for notification in notificationList {
                     self.notifications.append(Notification(
                             id: notification["notiMsgId"] as? Int,
-                            type: NotificationType(rawValue: notification["notiMsgType"] as? Int ?? -1),
+                            type: NotificationType(rawValue: notification["notiMsgType"] as? Int ?? 0),
                             profileImage: URL(string: Service.filePath(withSubPath: notification["profilePicture"] as? String)),
                             profileName: notification["userNameFollow"] as? String,
                             date: self.dateFormatter.date(from: (notification["creationDate"] as? String) ?? ""),

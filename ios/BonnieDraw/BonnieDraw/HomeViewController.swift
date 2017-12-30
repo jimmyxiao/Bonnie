@@ -43,7 +43,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if works.isEmpty {
+        if let id = AppDelegate.pendingWorkId {
+            performSegue(withIdentifier: Segue.WORK, sender: id)
+            AppDelegate.pendingWorkId = nil
+        } else if works.isEmpty {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
             downloadData()
@@ -67,22 +70,27 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else if let controller = segue.destination as? ReportViewController,
                   let indexPath = sender as? IndexPath {
             controller.work = works[indexPath.row]
-        } else if let navigationController = segue.destination as? UINavigationController,
-                  let indexPath = tableView.indexPathForSelectedRow ?? sender as? IndexPath {
-            if segue.identifier == Segue.COMMENT {
-                if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.COMMENT) as? CommentViewController {
-                    controller.delegate = self
-                    controller.work = tableViewWorks[indexPath.row]
-                    navigationController.setViewControllers([controller], animated: false)
+        } else if let navigationController = segue.destination as? UINavigationController {
+            if let indexPath = tableView.indexPathForSelectedRow ?? sender as? IndexPath {
+                if segue.identifier == Segue.COMMENT {
+                    if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.COMMENT) as? CommentViewController {
+                        controller.delegate = self
+                        controller.work = tableViewWorks[indexPath.row]
+                        navigationController.setViewControllers([controller], animated: false)
+                    }
+                } else {
+                    if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController {
+                        controller.delegate = self
+                        controller.work = tableViewWorks[indexPath.row]
+                        navigationController.setViewControllers([controller], animated: false)
+                    }
                 }
-            } else {
-                if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController {
-                    controller.delegate = self
-                    controller.work = tableViewWorks[indexPath.row]
-                    navigationController.setViewControllers([controller], animated: false)
-                }
+                tableView.deselectRow(at: indexPath, animated: true)
+            } else if let id = sender as? Int,
+                      let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController {
+                controller.workId = id
+                navigationController.setViewControllers([controller], animated: false)
             }
-            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 

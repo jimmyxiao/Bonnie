@@ -21,7 +21,7 @@ class Profile {
     let image: URL?
 
     init(withDictionary dictionary: [String: Any]) {
-        type = UserType(rawValue: dictionary["userType"] as? Int ?? -1)
+        type = UserType(rawValue: dictionary["userType"] as? Int ?? 0)
         name = dictionary["userName"] as? String
         email = dictionary["email"] as? String
         description = dictionary["description"] as? String

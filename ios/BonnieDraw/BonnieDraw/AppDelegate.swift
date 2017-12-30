@@ -18,6 +18,7 @@ import FirebaseDatabase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static let reachability = Reachability()!
+    static var pendingWorkId: Int?
     var window: UIWindow?
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
@@ -30,17 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(colors: UIColor.getDefaultColors(), forKey: Default.COLORS)
         }
         return true
-    }
-
-    internal func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
-        var didHandle = SDKApplicationDelegate.shared.application(app, open: url, options: options)
-        if !didHandle {
-            didHandle = TWTRTwitter.sharedInstance().application(app, open: url, options: options)
-        }
-        if !didHandle {
-            didHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-        }
-        return didHandle
     }
 
     internal func applicationDidBecomeActive(_ application: UIApplication) {
@@ -76,6 +66,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    internal func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+           components.host == Service.HOST,
+           components.path == "\(Service.BASE)\(Service.SOCIAL_SHARE)",
+           let queryItems = components.queryItems {
+            for queryItem in queryItems {
+                if queryItem.name == "id" {
+                    if window?.rootViewController is ParentViewController,
+                       let topController = window?.topController() {
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        if let navigationController = storyboard.instantiateViewController(withIdentifier: Identifier.NAVIGATION) as? UINavigationController,
+                           let controller = storyboard.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController {
+                            controller.workId = Int(queryItem.value ?? "")
+                            navigationController.setViewControllers([controller], animated: false)
+                            topController.present(navigationController, animated: true)
+                            return true
+                        }
+                    } else {
+                        AppDelegate.pendingWorkId = Int(queryItem.value ?? "")
+                    }
+                }
+            }
+        }
+        var didHandle = SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        if !didHandle {
+            didHandle = TWTRTwitter.sharedInstance().application(app, open: url, options: options)
+        }
+        if !didHandle {
+            didHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        }
+        return didHandle
+    }
+
     internal func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb,
            let url = userActivity.webpageURL,
@@ -83,7 +106,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            let queryItems = components.queryItems {
             for queryItem in queryItems {
                 if queryItem.name == "id" {
-                    Logger.d("\(#function): \(queryItem.value)")
+                    if window?.rootViewController is ParentViewController,
+                       let topController = window?.topController() {
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        if let navigationController = storyboard.instantiateViewController(withIdentifier: Identifier.NAVIGATION) as? UINavigationController,
+                           let controller = storyboard.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController {
+                            controller.workId = Int(queryItem.value ?? "")
+                            navigationController.setViewControllers([controller], animated: false)
+                            topController.present(navigationController, animated: true)
+                            return true
+                        }
+                    } else {
+                        AppDelegate.pendingWorkId = Int(queryItem.value ?? "")
+                    }
                 }
             }
         }

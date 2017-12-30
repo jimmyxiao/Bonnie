@@ -131,7 +131,7 @@ struct Cell {
 }
 
 struct Service {
-    private static let BASE = "/bonniedraw_service/BDService"
+    static let BASE = "/bonniedraw_service/BDService"
     static let SCHEME = "https"
     static let HOST = "www.bonniedraw.com"
     static let LOGIN = "/login"
@@ -184,6 +184,7 @@ struct Identifier {
     static let REPORT = "reportViewController"
     static let WORK = "workViewController"
     static let COMMENT = "commentViewController"
+    static let NAVIGATION = "navigationViewController"
 }
 
 struct Segue {

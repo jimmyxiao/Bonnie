@@ -52,6 +52,7 @@
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
 		16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */; };
+		164985A11FF79F1F00A1B00E /* WindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164985A01FF79F1F00A1B00E /* WindowExtension.swift */; };
 		1649F2701FD7A09200B90A1E /* CanvasAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */; };
 		1649F2721FD7A0E000B90A1E /* Drawing.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1649F2711FD7A0E000B90A1E /* Drawing.storyboard */; };
 		1649F2741FD7A43A00B90A1E /* LightStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1649F2731FD7A43A00B90A1E /* LightStatusBarViewController.swift */; };
@@ -159,6 +160,7 @@
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
+		164985A01FF79F1F00A1B00E /* WindowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowExtension.swift; sourceTree = "<group>"; };
 		1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasAnimationViewController.swift; sourceTree = "<group>"; };
 		1649F2711FD7A0E000B90A1E /* Drawing.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Drawing.storyboard; sourceTree = "<group>"; };
 		1649F2731FD7A43A00B90A1E /* LightStatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStatusBarViewController.swift; sourceTree = "<group>"; };
@@ -413,6 +415,7 @@
 				166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */,
 				16AD967E1FD3E6370084151D /* TouchExtension.swift */,
 				16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */,
+				164985A01FF79F1F00A1B00E /* WindowExtension.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -693,6 +696,7 @@
 				1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */,
 				169C71CB1F66AFEF00B5D786 /* Constant.swift in Sources */,
 				16D439651F66A9B300FF5878 /* Logger.swift in Sources */,
+				164985A11FF79F1F00A1B00E /* WindowExtension.swift in Sources */,
 				163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */,
 				165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */,
 				163A5E271FA062D500FE70BD /* FollowButton.swift in Sources */,

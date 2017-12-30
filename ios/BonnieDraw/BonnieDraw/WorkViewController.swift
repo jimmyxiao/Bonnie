@@ -35,30 +35,24 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     var delegate: WorkViewControllerDelegate?
     var jotViewStateInkPath = FileUrl.INK.path
     var jotViewStatePlistPath = FileUrl.STATE.path
+    var workId: Int?
     var work: Work?
 
     override func viewDidLoad() {
-        like.isSelected = work?.isLike ?? false
-        collect.isSelected = work?.isCollect ?? false
-        like.setImage(UIImage(named: like.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
-        collect.setImage(UIImage(named: collect.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
+        profileImage.sd_setShowActivityIndicatorView(true)
+        profileImage.sd_setIndicatorStyle(.gray)
         thumbnail?.sd_setShowActivityIndicatorView(true)
         thumbnail?.sd_setIndicatorStyle(.gray)
         navigationItem.titleView = UIImageView(image: UIImage(named: "title_logo"))
-        if work?.userId == UserDefaults.standard.integer(forKey: Default.USER_ID) || delegate is AccountViewController {
-            profileImage.isUserInteractionEnabled = false
-            profileName.isUserInteractionEnabled = false
+        if let work = work {
+            set(viewDataWith: work)
         }
-        profileImage.sd_setShowActivityIndicatorView(true)
-        profileImage.sd_setIndicatorStyle(.gray)
-        profileImage.setImage(with: work?.profileImage)
-        profileName.setTitle(work?.profileName, for: .normal)
-        titleLabel.text = work?.title
-        descriptionLabel.text = work?.summery
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if canvas.state == nil {
+        if work == nil {
+            downloadData()
+        } else if canvas.state == nil {
             canvas.finishInit()
             let stateProxy = JotViewStateProxy(delegate: self)
             stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())
@@ -99,12 +93,87 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         nextStep.isEnabled = true
     }
 
+    private func set(viewDataWith work: Work) {
+        if work.userId == UserDefaults.standard.integer(forKey: Default.USER_ID) || delegate is AccountViewController {
+            profileImage.isUserInteractionEnabled = false
+            profileName.isUserInteractionEnabled = false
+        }
+        like.isSelected = work.isLike ?? false
+        collect.isSelected = work.isCollect ?? false
+        like.setImage(UIImage(named: like.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
+        collect.setImage(UIImage(named: collect.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
+        profileImage.setImage(with: work.profileImage)
+        profileName.setTitle(work.profileName, for: .normal)
+        titleLabel.text = work.title
+        descriptionLabel.text = work.summery
+    }
+
     private func downloadData() {
+        guard AppDelegate.reachability.connection != .none else {
+            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+                success in
+                if success {
+                    self.downloadData()
+                }
+            }
+            return
+        }
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            return
+        }
+        request?.cancel()
+        request = Alamofire.request(
+                Service.standard(withPath: Service.WORK_LIST),
+                method: .post,
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "wid": workId ?? 0],
+                encoding: JSONEncoding.default).validate().responseJSON {
+            response in
+            switch response.result {
+            case .success:
+                guard let data = response.result.value as? [String: Any], let workDictionary = data["work"] as? [String: Any] else {
+                    self.presentConfirmationDialog(
+                            title: "service_download_fail_title".localized,
+                            message: "app_network_unreachable_content".localized) {
+                        success in
+                        if success {
+                            self.downloadData()
+                        }
+                    }
+                    return
+                }
+                let work = Work(withDictionary: workDictionary)
+                self.set(viewDataWith: work)
+                self.work = work
+                if self.canvas.state == nil {
+                    self.canvas.finishInit()
+                    let stateProxy = JotViewStateProxy(delegate: self)
+                    stateProxy?.loadJotStateAsynchronously(false, with: self.canvas.bounds.size, andScale: UIScreen.main.scale, andContext: self.canvas.context, andBufferManager: JotBufferManager.sharedInstance())
+                } else {
+                    self.loading.hide(true)
+                }
+            case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
+                self.presentConfirmationDialog(
+                        title: "service_download_fail_title".localized,
+                        message: error.localizedDescription) {
+                    success in
+                    if success {
+                        self.downloadData()
+                    }
+                }
+            }
+        }
+    }
+
+    private func downloadFile() {
         guard let fileUrl = work?.file else {
             return
         }
         progressBar.progress = 0
         loading.hide(false)
+        request?.cancel()
         request = Alamofire.download(fileUrl) {
             _, _ in
             return (FileUrl.RESULT, [.removePreviousFile, .createIntermediateDirectories])
@@ -119,7 +188,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                         message: "app_network_unreachable_content".localized) {
                     success in
                     if success {
-                        self.downloadData()
+                        self.downloadFile()
                     } else {
                         self.dismiss(animated: true)
                     }
@@ -382,7 +451,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     internal func didLoadState(_ state: JotViewStateProxy!) {
         canvas.loadState(state)
-        downloadData()
+        downloadFile()
     }
 
     internal func didUnloadState(_ state: JotViewStateProxy!) {

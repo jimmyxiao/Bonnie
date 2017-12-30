@@ -40,9 +40,17 @@
 				<string>com.googleusercontent.apps.579888826124-j33ha9056gdu5i9v8n164r3k9rm63qtn</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>bonniedraw</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-    <string>2017123001</string>
+	<string>2017123002</string>
 	<key>Configuration</key>
 	<string>$(CONFIGURATION)</string>
 	<key>FacebookAppID</key>
@@ -58,8 +66,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-    <key>NSCameraUsageDescription</key>
-    <string>BonnieDraw 會把相機照片設為大頭貼</string>
+	<key>NSCameraUsageDescription</key>
+	<string>BonnieDraw 會把相機照片設為大頭貼</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>NSMicrophoneUsageDescription</string>
 	<key>NSPhotoLibraryUsageDescription</key>
