@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>www.bonniedraw.com</string>
+		<string>applinks:www.bonniedraw.com</string>
 	</array>
 </dict>
 </plist>
