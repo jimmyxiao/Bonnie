@@ -276,7 +276,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     @IBAction func share(_ sender: UIButton) {
         if let url = URL(string: Service.sharePath(withId: work?.id)) {
-            let controller = UIActivityViewController(activityItems: [url, url.absoluteString], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [url], applicationActivities: nil)
             controller.excludedActivityTypes = [.airDrop, .saveToCameraRoll, .assignToContact, .addToReadingList, .copyToPasteboard, .print]
             if let presentation = controller.popoverPresentationController {
                 presentation.sourceView = sender

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate {
+class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate, FollowViewControllerDelegate {
     @IBOutlet weak var tabBar: UITabBar!
     var delegate: TabBarViewControllerDelegate?
     var itemHome: (item: UITabBarItem, viewController: UIViewController?)?
@@ -31,6 +31,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
             if let controller = itemFollow?.viewController {
                 controllers.append(controller)
             } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.FOLLOW) as? FollowViewController {
+                controller.delegate = self
                 itemFollow?.viewController = controller
                 controllers.append(controller)
             }
@@ -81,13 +82,26 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         delegate?.tabBarDidTapMenu()
     }
 
+    internal func homeDidTapProfile() {
+        if let item = itemAccount?.item {
+            tabBar.selectedItem = item
+            tabBar(tabBar, didSelect: item)
+        }
+    }
+
     internal func home(enableMenuGesture enable: Bool) {
         delegate?.tabBar(enableMenuGesture: enable)
+    }
+
+    internal func followDidTapProfile() {
+        if let item = itemAccount?.item {
+            tabBar.selectedItem = item
+            tabBar(tabBar, didSelect: item)
+        }
     }
 }
 
 protocol TabBarViewControllerDelegate {
     func tabBarDidTapMenu()
-
     func tabBar(enableMenuGesture enable: Bool)
 }

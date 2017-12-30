@@ -240,9 +240,7 @@ class AccountViewController:
                 headerView.fanButton.isUserInteractionEnabled = false
                 headerView.followButton.isUserInteractionEnabled = false
             }
-            if user == nil {
-                headerView.profileImage.setImage(with: UserDefaults.standard.url(forKey: Default.IMAGE), placeholderImage: UIImage(named: "photo-square"))
-            }
+            headerView.profileImage.setImage(with: profile?.image, placeholderImage: UIImage(named: "photo-square"))
             headerView.profileName.text = profile?.name
             headerView.profileDescription.text = profile?.description
             headerView.worksCount.text = "\(profile?.worksCount ?? 0)"
@@ -527,7 +525,7 @@ class AccountViewController:
     @IBAction func share(_ sender: UIButton) {
         if let indexPath = collectionView.indexPath(forView: sender),
            let url = URL(string: Service.sharePath(withId: works[indexPath.row].id)) {
-            let controller = UIActivityViewController(activityItems: [url, url.absoluteString], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [url], applicationActivities: nil)
             controller.excludedActivityTypes = [.airDrop, .saveToCameraRoll, .assignToContact, .addToReadingList, .copyToPasteboard, .print]
             if let presentation = controller.popoverPresentationController {
                 presentation.sourceView = sender

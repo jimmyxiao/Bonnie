@@ -304,7 +304,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         guard let indexPath = tableView.indexPath(forView: sender) else {
             return
         }
-        performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
+        if UserDefaults.standard.integer(forKey: Default.USER_ID) == tableViewWorks[indexPath.row].userId {
+            delegate?.homeDidTapProfile()
+        } else {
+            performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
+        }
     }
 
     @IBAction func follow(_ sender: FollowButton) {
@@ -482,7 +486,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func share(_ sender: UIButton) {
         if let indexPath = tableView.indexPath(forView: sender),
            let url = URL(string: Service.sharePath(withId: tableViewWorks[indexPath.row].id)) {
-            let controller = UIActivityViewController(activityItems: [url, url.absoluteString], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [url], applicationActivities: nil)
             controller.excludedActivityTypes = [.airDrop, .saveToCameraRoll, .assignToContact, .addToReadingList, .copyToPasteboard, .print]
             if let presentation = controller.popoverPresentationController {
                 presentation.sourceView = sender
@@ -558,6 +562,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
-
+    func homeDidTapProfile()
     func home(enableMenuGesture enable: Bool)
 }
