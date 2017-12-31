@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BrushPickerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class BrushPickerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var decrease: UIButton!
     @IBOutlet weak var stepWidthSlider: UISlider?
     @IBOutlet weak var alphaSlider: UISlider!
@@ -100,6 +100,16 @@ class BrushPickerViewController: UIViewController, UICollectionViewDataSource, U
     internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.brushPicker(didSelectType: brushes[indexPath.row].type)
         dismiss(animated: true)
+    }
+
+    internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
+            let delta = collectionView.bounds.width - layout.itemSize.width * CGFloat(brushes.count)
+            if delta > 0 {
+                return UIEdgeInsets(top: 0, left: delta / 2, bottom: 0, right: delta / 2)
+            }
+        }
+        return .zero
     }
 
     struct Brush {

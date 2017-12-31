@@ -18,7 +18,7 @@ class Profile {
     let worksCount: Int?
     let fansCount: Int?
     var followsCount: Int?
-    let image: URL?
+    var image: URL?
 
     init(withDictionary dictionary: [String: Any]) {
         type = UserType(rawValue: dictionary["userType"] as? Int ?? 0)

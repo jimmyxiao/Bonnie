@@ -17,7 +17,7 @@ class Brush: JotBrushTexture {
     var color = UIColor.black
     var isRotationSupported = false, isForceSupported = false, isVelocitySupported = false
     var stepWidth: CGFloat = 1
-    var smoothness: CGFloat = 0.5
+    var smoothness: CGFloat = 1
     var type: Type {
         didSet {
             switch type {

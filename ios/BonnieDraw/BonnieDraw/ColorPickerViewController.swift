@@ -151,7 +151,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
     @IBAction func add(_ sender: UIButton) {
         stackViewTop.priority = UILayoutPriority(UILayoutPriority.defaultHigh.rawValue + 1)
         preferredContentSize = CGSize(
-                width: UIScreen.main.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.9 : 0.45),
+                width: view.bounds.width,
                 height: 272 + saturationBrightnessView.bounds.height)
         sender.isEnabled = false
     }

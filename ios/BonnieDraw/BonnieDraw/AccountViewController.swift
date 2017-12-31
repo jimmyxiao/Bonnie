@@ -338,7 +338,8 @@ class AccountViewController:
     }
 
     internal func accountEdit(imageDidChange image: UIImage) {
-        collectionView.reloadSections([0])
+        profile?.image = UserDefaults.standard.url(forKey: Default.IMAGE)
+        headerView?.profileImage.image = image
     }
 
     internal func work(didChange changedWork: Work) {
