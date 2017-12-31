@@ -687,7 +687,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="accountHeaderCell" id="3Ba-c8-F3X" customClass="AccountHeaderCollectionReusableView" customModule="BonnieDraw" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="270.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="270.32999999999998"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dXX-aM-32b">
@@ -1054,11 +1054,11 @@
             <objects>
                 <viewController id="U6Y-DR-ifA" customClass="LanguageViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fRn-Em-BLB">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Sl-1G-3YW">
-                                <rect key="frame" x="122" y="273.5" width="76" height="21"/>
+                                <rect key="frame" x="122" y="241.5" width="76" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1079,6 +1079,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oxh-4s-UlF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1233,11 +1234,11 @@
             <objects>
                 <viewController id="Pph-uX-wOV" customClass="WebViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ATy-hz-D2j">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yz-do-ZFD">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -1259,21 +1260,22 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="3Nd-EH-RRU">
                             <view key="customView" contentMode="scaleToFill" id="wU5-hq-d8A">
-                                <rect key="frame" x="227.5" y="5.5" width="83" height="33"/>
+                                <rect key="frame" x="221" y="5.5" width="83" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="m88-Sh-9ju">
-                                        <rect key="frame" x="32" y="6.5" width="20" height="20"/>
+                                        <rect key="frame" x="63" y="6.5" width="20" height="20"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="m88-Sh-9ju" firstAttribute="centerX" secondItem="wU5-hq-d8A" secondAttribute="centerX" id="OEa-Aw-Cba"/>
-                                    <constraint firstItem="m88-Sh-9ju" firstAttribute="centerY" secondItem="wU5-hq-d8A" secondAttribute="centerY" id="j6b-GB-Thg"/>
+                                    <constraint firstItem="m88-Sh-9ju" firstAttribute="centerY" secondItem="wU5-hq-d8A" secondAttribute="centerY" id="0J1-ar-xa7"/>
+                                    <constraint firstAttribute="trailing" secondItem="m88-Sh-9ju" secondAttribute="trailing" id="TZ5-un-ydf"/>
                                 </constraints>
                             </view>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="container" destination="2yz-do-ZFD" id="kec-6W-Tj3"/>
                     </connections>
@@ -1287,11 +1289,11 @@
             <objects>
                 <viewController title="推薦名單" id="XQV-AK-LI5" customClass="RecommendViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pP5-fU-HsO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hBf-4y-d2J">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="rya-Jw-9nP">
                                     <rect key="frame" x="0.0" y="88" width="320" height="44"/>
@@ -1377,13 +1379,13 @@
                                 </connections>
                             </tableView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="尚無資料" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuN-qQ-hqy">
-                                <rect key="frame" x="125" y="36" width="70" height="21"/>
+                                <rect key="frame" x="125" y="16" width="70" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l4Q-Pp-icc" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -1415,6 +1417,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="backButton" destination="Fdw-B1-PBB" id="BQc-9S-b1S"/>
                         <outlet property="emptyLabel" destination="tuN-qQ-hqy" id="Cvf-4d-3U4"/>
