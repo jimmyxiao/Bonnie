@@ -192,12 +192,14 @@ class CanvasViewController:
         presentedViewController?.dismiss(animated: true)
         if let controller = segue.destination as? CanvasSettingTableViewController {
             controller.delegate = self
+            controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             controller.preferredContentSize = CGSize(width: 60, height: DEBUG ? 300 : 240)
         } else if let controller = segue.destination as? SizePickerViewController {
             controller.delegate = self
             controller.value = Float(brush.minSize)
+            controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width * 0.6, height: 76)
@@ -209,6 +211,7 @@ class CanvasViewController:
             if let button = sender as? UIButton {
                 controller.popoverPresentationController?.sourceRect = button.bounds
             }
+            controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width * 0.6, height: DEBUG ? 256 : 208)
@@ -221,6 +224,7 @@ class CanvasViewController:
                 controller.type = .canvas
                 controller.color = brush.color
             }
+            controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             controller.preferredContentSize = CGSize(width: UIScreen.main.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.9 : 0.45), height: 204)
