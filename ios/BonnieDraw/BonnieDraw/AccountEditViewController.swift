@@ -20,6 +20,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     @IBOutlet weak var phone: UITextField!
     @IBOutlet weak var gender: UIButton!
     private var keyboardOnScreen = false
+    private var viewOriginY: CGFloat = 0
     private var dataRequest: DataRequest?
     private var timestamp = Date()
     var delegate: AccountEditViewControllerDelegate?
@@ -37,9 +38,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -62,22 +61,17 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
     @objc func keyboardWillShow(_ notification: Notification) {
         if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
-            view.frame.origin.y -= keyboardSize.height / 2
+            keyboardOnScreen = true
+            viewOriginY = view.frame.origin.y
+            view.frame.origin.y -= keyboardSize.height / 3
         }
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
         if keyboardOnScreen {
-            view.frame.origin.y = 0
+            keyboardOnScreen = false
+            view.frame.origin.y = viewOriginY
         }
-    }
-
-    @objc func keyboardDidShow(_ notification: Notification) {
-        keyboardOnScreen = true
-    }
-
-    @objc func keyboardDidHide(_ notification: Notification) {
-        keyboardOnScreen = false
     }
 
     private func downloadData() {
@@ -277,11 +271,11 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         present(alert, animated: true)
     }
 
-    @IBAction func pickGender(_ sender: Any) {
+    @IBAction func pickGender(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if let presention = alert.popoverPresentationController {
-            presention.sourceView = profileImage
-            presention.sourceRect = profileImage.bounds
+            presention.sourceView = sender
+            presention.sourceRect = CGRect(origin: CGPoint(x: -15, y: 0), size: CGSize(width: 0, height: sender.bounds.height))
         }
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alert.addAction(UIAlertAction(title: "gender_male".localized, style: .default) {
@@ -428,6 +422,5 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
 protocol AccountEditViewControllerDelegate {
     func accountEdit(profileDidChange profile: Profile)
-
     func accountEdit(imageDidChange image: UIImage)
 }

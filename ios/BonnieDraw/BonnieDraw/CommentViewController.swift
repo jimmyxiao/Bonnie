@@ -36,35 +36,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
 
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
-    }
-
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
-            viewBottom.constant = -keyboardSize.height
-            UIView.animate(withDuration: 0.4) {
-                self.view.setNeedsDisplay()
-            }
-        }
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        if keyboardOnScreen {
-            viewBottom.constant = 0
-            UIView.animate(withDuration: 0.4) {
-                self.view.setNeedsDisplay()
-            }
-        }
-    }
-
-    @objc func keyboardDidShow(_ notification: Notification) {
-        keyboardOnScreen = true
-    }
-
-    @objc func keyboardDidHide(_ notification: Notification) {
-        keyboardOnScreen = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -85,6 +57,26 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
 
     override func viewDidDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
+            keyboardOnScreen = true
+            viewBottom.constant = -keyboardSize.height
+            UIView.animate(withDuration: 0.4) {
+                self.view.setNeedsDisplay()
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if keyboardOnScreen {
+            keyboardOnScreen = false
+            viewBottom.constant = 0
+            UIView.animate(withDuration: 0.4) {
+                self.view.setNeedsDisplay()
+            }
+        }
     }
 
     private func downloadData() {

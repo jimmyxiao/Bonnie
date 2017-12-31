@@ -21,6 +21,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
     var workThumbnail: UIImage?
     var workFileUrl: URL?
     private var keyboardOnScreen = false
+    private var viewOriginY: CGFloat = 0
     private var dataRequest: DataRequest?
     private let dropDownItems: [(access: AccessControl, title: String)] = [(.publicAccess, "access_control_public".localized),
                                                                            (.contactAccess, "access_control_contact".localized),
@@ -43,9 +44,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -58,22 +57,17 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
 
     @objc func keyboardWillShow(_ notification: Notification) {
         if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
+            keyboardOnScreen = true
+            viewOriginY = view.frame.origin.y
             view.frame.origin.y -= keyboardSize.height / 3
         }
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
         if keyboardOnScreen {
-            view.frame.origin.y = 0
+            keyboardOnScreen = false
+            view.frame.origin.y = viewOriginY
         }
-    }
-
-    @objc func keyboardDidShow(_ notification: Notification) {
-        keyboardOnScreen = true
-    }
-
-    @objc func keyboardDidHide(_ notification: Notification) {
-        keyboardOnScreen = false
     }
 
     private func showErrorMessage(message: String?) {
