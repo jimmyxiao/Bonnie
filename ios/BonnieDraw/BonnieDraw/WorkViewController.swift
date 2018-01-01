@@ -102,7 +102,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         collect.isSelected = work.isCollect ?? false
         like.setImage(UIImage(named: like.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
         collect.setImage(UIImage(named: collect.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
-        profileImage.setImage(with: work.profileImage)
+        profileImage.setImage(with: work.profileImage, placeholderImage: UIImage(named: "photo-square"))
         profileName.setTitle(work.profileName, for: .normal)
         titleLabel.text = work.title
         descriptionLabel.text = work.summery
