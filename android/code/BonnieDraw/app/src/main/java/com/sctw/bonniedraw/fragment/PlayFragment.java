@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -42,6 +43,7 @@ import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
+
 import android.app.Dialog;
 
 import org.json.JSONException;
@@ -73,6 +75,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class PlayFragment extends DialogFragment {
     private TextView mTvUserName, mTvWorkDescription, mTvWorkName, mTvGoodTotal, mTvMsgTotal, mTvCreateTime, mTvUserFollow, mTextViewPlayProgress, mTvPlaySpeed;
     private ProgressBar mProgressBar;
+    private ProgressBar mProgressBarPlay;
     private ImageView mImgViewWorkImage;
     private CircleImageView mCircleImgUserPhoto;
     private ImageButton mBtnExtra, mBtnGood, mBtnMsg, mBtnShare, mBtnCollection, mBtnPlay, mBtnPause, mBtnNext, mBtnPrevious, mBtnSlow, mBtnFast, mBtnBack;
@@ -81,11 +84,12 @@ public class PlayFragment extends DialogFragment {
     SharedPreferences prefs;
     private int wid, uid, miFollow;
     private static final String PLAY_FILE_BDW = "/temp_play_use.bdw";
-    private Handler mHandlerTimerPlay = new Handler();
+    HandlerThread mHandlerThread = new HandlerThread("rdwPlayHandlerThread");
+    private Handler mHandlerTimerPlay;
     private FrameLayout mFrameLayoutFreePaint;
     private PaintView mPaintView;
     private int miPointCount = 0, miPointCurrent = 0, miAutoPlayIntervalTime = 10, miSpeedCount = 0;
-    private boolean mbPlaying = false, mbAutoPlay = false;
+    private boolean mbPlaying = false, mbAutoPlay = false ,  mbIsNext = false;
     private int miViewWidth, miPrivacyType;
     private File mFileBDW;
     private BDWFileReader mBDWFileReader;
@@ -93,6 +97,8 @@ public class PlayFragment extends DialogFragment {
     private ArrayList<Integer> mListRecordInt;
     private boolean mbLike, mbCollection;
     private String imgUrl;
+    private boolean mIsBDWReaded = false;
+    private int mBDWSize = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,6 +129,7 @@ public class PlayFragment extends DialogFragment {
         mTvPlaySpeed = view.findViewById(R.id.textView_play_speed);
         mTextViewPlayProgress = view.findViewById(R.id.textView_paint_play_title);
         mProgressBar = view.findViewById(R.id.progressBar_single_work);
+        mProgressBarPlay = view.findViewById(R.id.progressBar_play);
         mImgViewWorkImage = view.findViewById(R.id.imgView_single_work_img);
         mCircleImgUserPhoto = view.findViewById(R.id.circleImg_single_work_user_photo);
         mBtnExtra = view.findViewById(R.id.imgBtn_single_work_extra);
@@ -139,9 +146,19 @@ public class PlayFragment extends DialogFragment {
         mBtnBack = view.findViewById(R.id.imgBtn_paint_back);
         mFrameLayoutFreePaint = (FrameLayout) view.findViewById(R.id.frameLayout_single_work);
         miViewWidth = mPaintView.getMiWidth();
+        mImgViewWorkImage.setVisibility(View.GONE);
+
+        mBtnNext.setVisibility(View.GONE);
+        mBtnPrevious.setVisibility(View.GONE);
+        mBtnFast.setVisibility(View.GONE);
+        mBtnSlow.setVisibility(View.GONE);
+
+
         mFileBDW = new File(getActivity().getFilesDir().getPath() + PLAY_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         mListRecordInt = new ArrayList<>();
+        mHandlerThread.start();
+        mHandlerTimerPlay = new Handler(mHandlerThread.getLooper());
         getSingleWork(false);
         setOnClick();
         showSpeed();
@@ -150,61 +167,94 @@ public class PlayFragment extends DialogFragment {
 
     private Runnable rb_play = new Runnable() {
         public void run() {
-            boolean brun = true;
-            if (miPointCount > 0) {
-                TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
-                switch (tagpoint.get_iAction() - 1) {
-                    case MotionEvent.ACTION_DOWN:
-                        mbPlaying = true;
-                        if (tagpoint.get_iBrush() == 6) {
-                            mPaintView.setDrawingBgColor(tagpoint.get_iColor());
-                        } else if (tagpoint.get_iBrush() != 0) {
-                            mPaintView.getBrush().setEraser(false);
-                            int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
-                            mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
-                        }
-                        if (tagpoint.get_iColor() != 0) {
-                            mPaintView.setDrawingColor(tagpoint.get_iColor());
-                        }
-                        if (tagpoint.get_iSize() != 0) {
-                            mPaintView.setDrawingSize((int) PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
-                        }
-                        if (tagpoint.get_iReserved() != 0) {
-                            mPaintView.setDrawingAlpha(tagpoint.get_iReserved() / 100.0f);
-                        }
-                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
-                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
-                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        //開始畫 記錄每一個時間點 即可模擬回去
-                        mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
-                        mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
-                        mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
-                        mListRecordInt.add(miPointCurrent + 1);
-                        mbPlaying = false;
-                        brun = false;
-                        break;
+            //boolean brun = true;
+            if (miPointCount == 0) {
+                if (!checkSketch()) {
+                    //stop and show error
+                    return;
                 }
-                miPointCount--;
-                miPointCurrent++;
-                showProgress();
+            }
 
-                if (brun) {
-                    mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-                } else {
-                    if (mbAutoPlay) {
-                        mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //下載資料
+                    try {
+                        // while (miPointCount > 1) {
+                        if (miPointCount > 0) {
+                            TagPoint tagpoint = mPaintView.mListTagPoint.get(miPointCurrent);
+                            switch (tagpoint.get_iAction() - 1) {
+                                case MotionEvent.ACTION_DOWN:
+                                    mbPlaying = true;
+                                    if (tagpoint.get_iBrush() == 6) {
+                                        mPaintView.setDrawingBgColor(tagpoint.get_iColor());
+                                    } else if (tagpoint.get_iBrush() != 0) {
+                                        mPaintView.getBrush().setEraser(false);
+                                        int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
+                                        mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
+                                    }
+                                    if (tagpoint.get_iColor() != 0) {
+                                        mPaintView.setDrawingColor(tagpoint.get_iColor());
+                                    }
+                                    if (tagpoint.get_iSize() != 0) {
+                                        mPaintView.setDrawingSize((int) PxDpConvert.formatToDisplay(tagpoint.get_iSize(), miViewWidth));
+                                    }
+                                    if (tagpoint.get_iReserved() != 0) {
+                                        mPaintView.setDrawingAlpha(tagpoint.get_iReserved() / 100.0f);
+                                    }
+                                    mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                                    mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                                    mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
+
+                                    break;
+                                case MotionEvent.ACTION_MOVE:
+                                    //開始畫 記錄每一個時間點 即可模擬回去
+                                    mfLastPosX = PxDpConvert.formatToDisplay(tagpoint.get_iPosX(), miViewWidth);
+                                    mfLastPosY = PxDpConvert.formatToDisplay(tagpoint.get_iPosY(), miViewWidth);
+                                    mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
+                                    break;
+                                case MotionEvent.ACTION_UP:
+                                    mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, mfLastPosX, mfLastPosY, 0));
+                                    mListRecordInt.add(miPointCurrent + 1);
+                                    mbPlaying = false;
+                                    mbIsNext = false;
+                                    //brun = false;
+                                    break;
+                            }
+                            miPointCount--;
+                            miPointCurrent++;
+                            //showProgress();
+                        }
+
+                        //播放完畢
+                        if (miPointCount == 0 && mbAutoPlay == true ) {
+                            mbAutoPlay = false;
+                            mBtnPlay.setVisibility(View.VISIBLE);
+                            mBtnPause.setVisibility(View.GONE);
+                            mBtnNext.setVisibility(View.GONE);
+                            mBtnPrevious.setVisibility(View.GONE);
+                            mBtnFast.setVisibility(View.GONE);
+                            mBtnSlow.setVisibility(View.GONE);
+
+                            mFrameLayoutFreePaint.removeAllViews();
+                            // mPaintView = new PaintView(getContext(), true, true);
+                            // mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
+                            mImgViewWorkImage.setVisibility(View.VISIBLE);
+                            mFrameLayoutFreePaint.addView(mImgViewWorkImage);
+
+                        }
+
+                        // }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-            } else {
-                mBtnPause.setVisibility(View.GONE);
-                mBtnPlay.setVisibility(View.VISIBLE);
-                mbAutoPlay = false;
+            });
+            //(mbPlaying && mbIsNext )) => 畫完一筆
+            if ( (miPointCount > 0 && mbAutoPlay )|| (mbPlaying && mbIsNext )) {
+                mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
             }
+
         }
     };
 
@@ -227,7 +277,7 @@ public class PlayFragment extends DialogFragment {
                 try {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
                     if (responseJSON.getInt("res") == 1) {
-                        ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful),true, PxDpConvert.getSystemHight(getContext()) / 3);
+                        ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                         PlayFragment.this.dismiss();
                     }
                 } catch (JSONException e) {
@@ -258,8 +308,9 @@ public class PlayFragment extends DialogFragment {
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mHandlerTimerPlay !=null)
+                if (mHandlerTimerPlay != null)
                     mHandlerTimerPlay.removeCallbacks(rb_play);
+                mHandlerThread.quit();
                 PlayFragment.this.dismiss();
             }
         });
@@ -271,7 +322,7 @@ public class PlayFragment extends DialogFragment {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, "BonnieDraw");
-                shareIntent.putExtra(Intent.EXTRA_TEXT,title);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, title);
                 //自定義選擇框的標題
                 shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(Intent.createChooser(shareIntent, getContext().getString(R.string.uc_share)));
@@ -281,7 +332,7 @@ public class PlayFragment extends DialogFragment {
         mBtnFast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (miSpeedCount < 4) {
+                if (miSpeedCount < 3) {
                     miSpeedCount++;
                     miAutoPlayIntervalTime = miAutoPlayIntervalTime / 2;
                     showSpeed();
@@ -292,7 +343,7 @@ public class PlayFragment extends DialogFragment {
         mBtnSlow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (miSpeedCount > -4) {
+                if (miSpeedCount > -3) {
                     miSpeedCount--;
                     miAutoPlayIntervalTime = miAutoPlayIntervalTime * 2;
                     showSpeed();
@@ -312,7 +363,7 @@ public class PlayFragment extends DialogFragment {
                 Button btnDeleteWork = dialog.findViewById(R.id.btn_extra_delete);
                 Button btnEditWork = dialog.findViewById(R.id.btn_extra_edit_work);
                 Button btnCancel = dialog.findViewById(R.id.btn_extra_cancel);
-                Button btnCopyLink=dialog.findViewById(R.id.btn_extra_copylink);
+                Button btnCopyLink = dialog.findViewById(R.id.btn_extra_copylink);
                 btnEditWork.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -337,12 +388,12 @@ public class PlayFragment extends DialogFragment {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
-                        final FullScreenDialog deleteDialog=new FullScreenDialog(getContext(), R.layout.dialog_base);
-                        FrameLayout layout=deleteDialog.findViewById(R.id.frameLayout_dialog_base);
-                        TextView title=deleteDialog.findViewById(R.id.textView_dialog_base_title);
-                        TextView msg=deleteDialog.findViewById(R.id.textView_dialog_base_msg);
-                        Button yes=deleteDialog.findViewById(R.id.btn_dialog_base_yes);
-                        Button no=deleteDialog.findViewById(R.id.btn_dialog_base_no);
+                        final FullScreenDialog deleteDialog = new FullScreenDialog(getContext(), R.layout.dialog_base);
+                        FrameLayout layout = deleteDialog.findViewById(R.id.frameLayout_dialog_base);
+                        TextView title = deleteDialog.findViewById(R.id.textView_dialog_base_title);
+                        TextView msg = deleteDialog.findViewById(R.id.textView_dialog_base_msg);
+                        Button yes = deleteDialog.findViewById(R.id.btn_dialog_base_yes);
+                        Button no = deleteDialog.findViewById(R.id.btn_dialog_base_no);
                         title.setText(getString(R.string.u02_04_delete_title));
                         msg.setText(getString(R.string.u02_04_delete_content));
                         layout.setOnClickListener(new View.OnClickListener() {
@@ -488,18 +539,42 @@ public class PlayFragment extends DialogFragment {
         mBtnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkSketch() && !mbAutoPlay && miPointCount == 0) {
+
+                if (!mbAutoPlay && miPointCount == 0) {
+                    //從頭開始撥
                     mImgViewWorkImage.setVisibility(View.GONE);
-                    replayStart();
-                    mBtnNext.setVisibility(View.VISIBLE);
-                    mBtnPrevious.setVisibility(View.VISIBLE);
+                    mProgressBarPlay.setVisibility(View.VISIBLE);
+                    mFrameLayoutFreePaint.removeAllViews();
+                    mPaintView = new PaintView(getContext(), true, true);
+                    mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
+                    mFrameLayoutFreePaint.addView(mPaintView);
+                    mbAutoPlay = true;
+                    miPointCurrent = 0;
+                    mBtnNext.setVisibility(View.GONE);
+                    mBtnPrevious.setVisibility(View.GONE);
+                    mBtnFast.setVisibility(View.VISIBLE);
+                    mBtnSlow.setVisibility(View.VISIBLE);
+
                     mBtnPlay.setVisibility(View.GONE);
                     mBtnPause.setVisibility(View.VISIBLE);
-                } else if (miPointCount > 0) {
+                    if (mBDWSize > 0)   // 重新計算
+                    {
+                        miPointCount = mBDWSize;
+                        mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
+                        mProgressBarPlay.setVisibility(View.GONE);
+                    }
+                    mHandlerTimerPlay.post(rb_play);
+                } else if (!mbAutoPlay && miPointCount > 0) {
+                    //暫停後啟動
+                    mbAutoPlay = true;
+                    mBtnNext.setVisibility(View.GONE);
+                    mBtnPrevious.setVisibility(View.GONE);
+                    mBtnFast.setVisibility(View.VISIBLE);
+                    mBtnSlow.setVisibility(View.VISIBLE);
+
                     mBtnPlay.setVisibility(View.GONE);
                     mBtnPause.setVisibility(View.VISIBLE);
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-                    mbAutoPlay = true;
                 }
             }
         });
@@ -510,6 +585,10 @@ public class PlayFragment extends DialogFragment {
                 mbAutoPlay = false;
                 mBtnPlay.setVisibility(View.VISIBLE);
                 mBtnPause.setVisibility(View.GONE);
+                mBtnNext.setVisibility(View.VISIBLE);
+                mBtnPrevious.setVisibility(View.VISIBLE);
+                mBtnFast.setVisibility(View.GONE);
+                mBtnSlow.setVisibility(View.GONE);
             }
         });
 
@@ -519,6 +598,7 @@ public class PlayFragment extends DialogFragment {
                 if (miPointCurrent == 0) {
                     ToastUtil.createToastWindow(getContext(), getString(R.string.u04_05_please_touch_play_start), PxDpConvert.getSystemHight(getContext()) / 3);
                 } else if (miPointCount > 0) {
+                    mbIsNext = true;
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else if (miPointCount == 0) {
                     ToastUtil.createToastWindow(getContext(), getString(R.string.u04_05_play_end), PxDpConvert.getSystemHight(getContext()) / 3);
@@ -529,9 +609,13 @@ public class PlayFragment extends DialogFragment {
         mBtnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 if (mbPlaying) {
                     ToastUtil.createToastWindow(getContext(), getString(R.string.u04_05_wait_this_part_finish), PxDpConvert.getSystemHight(getContext()) / 3);
-                } else if (miPointCurrent > 0) {
+                } else
+
+                    */
+                if (miPointCurrent > 0  && mListRecordInt.size() >0 ) {
                     mPaintView.onClickPrevious();
                     // 兩個UP差異點數 = 減少的點數 在移除最後第一個
                     int count;
@@ -546,7 +630,7 @@ public class PlayFragment extends DialogFragment {
                 } else if (miPointCurrent == 0) {
                     ToastUtil.createToastWindow(getContext(), getString(R.string.uc_undo_limit), PxDpConvert.getSystemHight(getContext()) / 3);
                 }
-                showProgress();
+                //showProgress();
             }
         });
     }
@@ -594,31 +678,32 @@ public class PlayFragment extends DialogFragment {
         dialog.show();
     }
 
-    private void replayStart() {
-        mFrameLayoutFreePaint.removeAllViews();
-        mPaintView = new PaintView(getContext(), true, true);
-        mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
-        mFrameLayoutFreePaint.addView(mPaintView);
-        mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
-        miPointCount = mPaintView.mListTagPoint.size();
-        miPointCurrent = 0;
-        if (miPointCount > 0) mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
-        mbAutoPlay = true;
-    }
 
     private boolean checkSketch() {
-        if (mFileBDW.exists()) {
-            mBDWFileReader.readFromFile(mFileBDW);
-            mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
-            if (mPaintView.mListTagPoint.size() == 0) {
-                ToastUtil.createToastWindow(getContext(), getString(R.string.m02_01_data_parse_error), PxDpConvert.getSystemHight(getContext()) / 3);
+        if (mFileBDW.exists() && !mIsBDWReaded) {
+            // viewSate(1);
+            boolean bIsReadSuccess = mBDWFileReader.readFromFile(mFileBDW);
+            if (bIsReadSuccess != true)
+                return false;
+            try {
+                miPointCurrent = 0;
+                mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
+                miPointCount = mPaintView.mListTagPoint.size();
+                mBDWSize = mPaintView.mListTagPoint.size();
+                viewSate(3);
+                if (mPaintView.mListTagPoint.size() > 0)
+                    mIsBDWReaded = true;
+                else
+                    //ToastUtil.createToastWindow(getContext(), getString(R.string.m02_01_data_parse_error), PxDpConvert.getSystemHight(getContext()) / 3);
+                    return false;
+            } catch (Exception e) {
+                e.printStackTrace();
                 return false;
             }
             return true;
-        } else {
-            ToastUtil.createToastWindow(getContext(), getString(R.string.m02_01_data_parse_error), PxDpConvert.getSystemHight(getContext()) / 3);
-            return false;
         }
+        //ToastUtil.createToastWindow(getContext(), getString(R.string.m02_01_data_parse_error), PxDpConvert.getSystemHight(getContext()) / 3);
+        return false;
     }
 
     private void updateWorkInfo(int privacyType, String title, String description, int worksId) {
@@ -709,6 +794,7 @@ public class PlayFragment extends DialogFragment {
                         fos.write(buf, 0, len);
                     }
                     fos.flush();
+                    viewSate(2);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
@@ -719,6 +805,77 @@ public class PlayFragment extends DialogFragment {
         });
     }
 
+    private void viewSate(int iSatus) {
+        if (iSatus == 1) { //loading
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        mImgViewWorkImage.setVisibility(View.GONE);
+                        mProgressBarPlay.setVisibility(View.VISIBLE);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else if (iSatus == 2) { // finish download
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //下載資料
+                    try {
+                        mImgViewWorkImage.setVisibility(View.VISIBLE);
+                        mProgressBarPlay.setVisibility(View.GONE);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else if (iSatus == 3) { // finish download
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //下載資料
+                    try {
+
+                        mProgressBarPlay.setVisibility(View.GONE);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+    }
+
+    /*
+    private void drawInPaint( int iAction) {
+        if(iAction == MotionEvent.ACTION_DOWN) { //loading
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, tagpoint.get_iTime(), MotionEvent.ACTION_MOVE, mfLastPosX, mfLastPosY, 0));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }else if(iAction == MotionEvent.ACTION_MOVE) { //loading
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        mPaintView.usePlayHnad(MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, mfLastPosX, mfLastPosY, 0));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+*/
     private void setWorkView(JSONObject data, boolean refresh) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.TAIWAN);
@@ -948,16 +1105,16 @@ public class PlayFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new Dialog(getActivity(), getTheme()){
+        return new Dialog(getActivity(), getTheme()) {
             @Override
             public void onBackPressed() {
-                if(mHandlerTimerPlay !=null)
+                if (mHandlerTimerPlay != null)
                     mHandlerTimerPlay.removeCallbacks(rb_play);
+                mHandlerThread.quit();
                 PlayFragment.this.dismiss();
             }
         };
     }
-
 
 
 }

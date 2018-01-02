@@ -20,7 +20,7 @@ public class BDWFileReader {
         int iNetworkType =0;
         long loffset = 0;
         byte[] buf = new byte[4];
-        boolean bres = false;
+        boolean bres = true;
         try
         {
             RandomAccessFile rf_bdwFile = new RandomAccessFile(in_bdwFile,"r");

@@ -1011,6 +1011,7 @@ public class PaintView extends View {
         protected void onTouchUp(float x, float y) {
             //Log.d("PaintView", "onTouchUp");
             PaintView.this.destLineThread();
+            if (mBitmapList.size() > 10) mBitmapList.remove(0);
             mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
         }
     }

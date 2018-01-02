@@ -125,6 +125,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 showProgress();
 
                 if (brun) {
+                    //畫完一筆
                     mHandlerTimerPlay.postDelayed(rb_play, miAutoPlayIntervalTime);
                 } else {
                     if (mbAutoPlay) {
