@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPaintLayout"
+        android:background="@color/White"
         android:minHeight="?attr/actionBarSize"
         android:orientation="horizontal">
 
@@ -20,18 +20,19 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="@color/Transparent"
-            app:srcCompat="@drawable/top_bar_ic_back" />
+            app:srcCompat="@drawable/back_icon" />
 
-        <TextView
-            android:id="@+id/textView_play_speed"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:background="@color/Transparent"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:textColor="@color/White"
-            android:textSize="18sp" />
+
+
+        <ImageView
+            android:id="@+id/toolbar_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            app:srcCompat="@drawable/title_bar_img_logo" />
+
+
 
         <TextView
             android:id="@+id/textView_paint_play_title"
@@ -164,6 +165,16 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
+                    <TextView
+                        android:id="@+id/textView_play_speed"
+                        android:layout_width="80dp"
+                        android:layout_height="fill_parent"
+                        android:background="@color/Transparent"
+                        android:gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:textColor="@color/Black"
+                        android:textSize="20sp"/>
+
                     <ImageButton
                         android:id="@+id/imgBtn_slow"
                         android:layout_width="0dp"
@@ -213,6 +224,16 @@
                         android:layout_weight="1"
                         android:background="@color/Transparent"
                         app:srcCompat="@drawable/ic_drawplay_fast_selector" />
+
+                    <TextView
+                        android:id="@+id/textView_empty"
+                        android:layout_width="80dp"
+                        android:layout_height="fill_parent"
+                        android:background="@color/Transparent"
+                        android:gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:textColor="@color/Black"
+                        android:textSize="20sp"/>
                 </LinearLayout>
 
             </LinearLayout>

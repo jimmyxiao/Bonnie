@@ -153,7 +153,6 @@ public class PlayFragment extends DialogFragment {
         mBtnFast.setVisibility(View.GONE);
         mBtnSlow.setVisibility(View.GONE);
 
-
         mFileBDW = new File(getActivity().getFilesDir().getPath() + PLAY_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         mListRecordInt = new ArrayList<>();
@@ -192,7 +191,10 @@ public class PlayFragment extends DialogFragment {
                                         mPaintView.getBrush().setEraser(false);
                                         int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
                                         mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
+                                    }else {
+                                        mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[9]);
                                     }
+
                                     if (tagpoint.get_iColor() != 0) {
                                         mPaintView.setDrawingColor(tagpoint.get_iColor());
                                     }
@@ -289,10 +291,13 @@ public class PlayFragment extends DialogFragment {
 
     private void showSpeed() {
         int absCount = Math.abs(miSpeedCount);
-        if (miSpeedCount >= 0) {
-            mTvPlaySpeed.setText(getString(R.string.u04_05_play_speed) + (int) Math.pow(2, absCount) + "x");
+
+        if (miSpeedCount > 0) {
+            mTvPlaySpeed.setText( (int) Math.pow(2, absCount) + "x");
         } else if (miSpeedCount < 0) {
-            mTvPlaySpeed.setText(getString(R.string.u04_05_play_speed) + "1/" + (int) Math.pow(2, absCount) + "x");
+            mTvPlaySpeed.setText("1/" +(int) Math.pow(2, absCount) + "x");
+        } else if (absCount == 0) {
+            mTvPlaySpeed.setText("");
         }
     }
 
