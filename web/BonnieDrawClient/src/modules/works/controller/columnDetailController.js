@@ -283,7 +283,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		imgarray[2] = new Image();
 		imgarray[2].src = 'assets/images/BrushImage/SoftPencil_brush_04.png';
-		brush_Alpha[2] = 0.02//0.05;
+		brush_Alpha[2] = 0.2//0.05;
 		brush_imgAlpha[2] = 1;
 		bursh_array[2] = '鉛筆'
 		brush_Composite[2] ='source-over';
@@ -318,7 +318,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			imgBackNew.src = 'assets/images/BrushImage/crayon-texture1.png';
 
 		var firstnum=0;
-		var bgcolord = '';
+		var bgcolord = [];
 
 		function loop(){
 			if(draw_number>=lines.length){
@@ -435,7 +435,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 					//imgdata = changeColor(imgarray[data.brush], data.color);
 					 imgdata = changeColor(imgarray[data.brush], data.color, brush_Alpha[data.brush]);
 				}
-				if(data.brush==0){
+				if(data.brush==0 && bgcolord.length!=0){
 					imgdata = changeColor(imgarray[0], bgcolord, brush_Alpha[data.brush]);
 				}
 			

@@ -47,7 +47,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		background.width = 500;
 		background.height = 500;
 
-		var bgcolord = '';
+		var bgcolord = [];
 
 		$scope.hoverIn = function(){
 			if($scope.pausebol && $scope.playRead){
@@ -221,7 +221,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		imgarray[5].src = 'assets/images/BrushImage/Pastel_brush_05-1.png';
 		
 		var brush_Alpha = [
-			1, 0.4, 0.02, 1, 0.03, 0.4//0, 1, 1, 1, 0.4, 0.034|0, 0.9, 0.02, 1, 0.02, 0.08
+			1, 0.4, 0.2, 1, 0.03, 0.4//0, 1, 1, 1, 0.4, 0.034|0, 0.9, 0.02, 1, 0.02, 0.08
 		];
 		
 		var brush_imgAlpha = [
@@ -334,7 +334,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					imgdata = changeColor(imgarray[0], bgcolord, brush_Alpha[data.brush]);
 				}
 				
-				if(brush != 6){
+				if(brush != 6 && bgcolord.length != 0){
 					cxt.globalAlpha = brush_Alpha[brush] * data.color.color_A;
 					var dist = distanceBetween(previewData, data);
 					var angle = angleBetween(previewData, data);
