@@ -126,12 +126,16 @@
 		"msg05_01_been_sent":"Your report has been sent."
 	},
 	"ABOUT":{
-
+		"about":"The BonnieDraw is an application based on the concept of social drawing, it allows you to publish the drawing process so you can share the joy of drawing with everyone."
 	},
 	"PRIVACY":{
-
+		"privacy01":"Welcome to BonnieDraw . BonnieDraw provides a fast, beautiful and fun way for you to share drawing through our content-sharing platform. ",
+		"privacy02":"Our Privacy Policy explains how we and some of the companies we work with collect, use, share and protect information in relation to our mobile services, web site, and any software provided on or in connection with BonnieDraw  services (collectively, the 'Service'), and your choices about the collection and use of your information.",
+		"privacy03":"By using our Service you understand and agree that we are providing a platform for you to post content, including drawing, comments and other materials ('User Content'), to the Service and to share User Content publicly. This means that other Users may search for, see, use, or share any of your User Content that you make publicly available through the Service, consistent with the terms and conditions of this Privacy Policy and our Terms of Use (which can be found at https://www.bonniedraw.com/#/privacy).",
+		"privacy04":"Our Policy applies to all visitors, users, and others who access the Service ('Users')."
 	},
 	"TERMS":{
-		
+		"terms01":"By accessing or using the BonnieDraw website, the BonnieDraw service, or any applications (including mobile applications) made available by BonnieDraw (together, the 'Service'), however accessed, you agree to be bound by these terms of use ('Terms of Use'). The Service is owned or controlled by BonnieDraw, INC ('BonnieDraw'). These Terms of Use affect your legal rights and obligations. If you do not agree to be bound by all of these Terms of Use, do not access or use the Service.",
+		"terms02":"Although we may attempt to notify you when major changes are made to these Terms of Service, you should periodically review the most up-to-date version https://www.bonniedraw.com/#/terms). BonnieDraw may, in its sole discretion, modify or revise these Terms of Service and policies at any time, and you agree to be bound by such modifications or revisions. Nothing in these Terms of Service shall be deemed to confer any third-party rights or benefits."
 	}
 }
