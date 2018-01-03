@@ -147,7 +147,10 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         Button saveWork = (Button) mFullScreenDialog.findViewById(R.id.btn_save_paint_save);
         ImageButton saveCancel = (ImageButton) mFullScreenDialog.findViewById(R.id.btn_save_paint_back);
         Spinner privacyTypes = (Spinner) mFullScreenDialog.findViewById(R.id.paint_save_work_privacytype);
+       // mPaintView.setDrawingCacheEnabled(true);
+        mPaintView.buildDrawingCache(true);
         Bitmap temp = mPaintView.getDrawingCache(true);
+       // mPaintView.setDrawingCacheEnabled(false);
         workPreview.setImageBitmap(temp);
         //設定公開權限與預設值
         ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
@@ -257,8 +260,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             //上傳圖片
             case 1:
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+                mPaintView.setDrawingCacheEnabled(true);
+                mPaintView.buildDrawingCache(true);
+                Bitmap temp = mPaintView.getDrawingCache(true);
+                temp.compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+
                 bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()));
+                mPaintView.setDrawingCacheEnabled(false);
                 break;
             //上傳BDW檔案
             case 2:
@@ -808,8 +816,11 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 if (!vPath.exists()) vPath.mkdirs();
                 File pngfile = new File(Environment.getExternalStorageDirectory() + "/Screenshots/" + "BDW" + filename + ".png");
                 FileOutputStream fos = new FileOutputStream(pngfile);
+                mPaintView.setDrawingCacheEnabled(true);
+                mPaintView.buildDrawingCache(true);
                 mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.close();
+                mPaintView.setDrawingCacheEnabled(false);
                 ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.u04_01_saved_photo_album), PxDpConvert.getSystemHight(this) / 3);
                 mMenuPopup.dismiss();
             } catch (IOException e) {
