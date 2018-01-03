@@ -1,5 +1,5 @@
 app.controller('collectionListingController', function ($rootScope, $scope, $window ,$location, $http, $filter, $state, $modal, util, worksService) {
-		$rootScope.title = '收藏畫作 | BonnieDRAW';
+		$rootScope.title = 'TITLE.t05_02_work_collection';
 		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();

@@ -1,5 +1,5 @@
 app.controller('trackListController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, worksService) {
-		$rootScope.title = '追蹤清單 | BonnieDRAW';
+		$rootScope.title = 'TITLE.t04_03_follow_sheet';
 		$rootScope.nav = 'track';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();

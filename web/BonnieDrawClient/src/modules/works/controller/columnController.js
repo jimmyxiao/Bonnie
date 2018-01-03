@@ -1,5 +1,5 @@
 app.controller('columnController', function ($rootScope, $scope, $window , $location, $http, $filter, $state, $modal, util, worksService) {
-		$rootScope.title = '我的畫作 | BonnieDRAW';
+		$rootScope.title = 'TITLE.t05_03_my_drawings';
 		$rootScope.nav ='column';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();

@@ -15,8 +15,8 @@
 								<span>{{user.description}}</span>
 							</div>
 							<div class="col-sm-12" style="padding:0">
-								<button type="submit" ng-if="user && !user.follow" ng-click="clickFollow()" class="btn btn-snd-white">追蹤</button>
-								<button type="submit" ng-if="user && user.follow" ng-click="clickFollow()" class="btn btn-snd-orange">追蹤中</button>
+								<button type="submit" ng-if="user && !user.follow" ng-click="clickFollow()" class="btn btn-snd-white">{{'USER.u04_02_follow' | translate}}</button>
+								<button type="submit" ng-if="user && user.follow" ng-click="clickFollow()" class="btn btn-snd-orange">{{'USER.u04_02_following1' | translate}}</button>
 								<button type="submit" class="btn btn-snd-white"><i class="material-icons">more_horiz</i></button>
 							</div>
 						</div>
@@ -27,15 +27,15 @@
 					<div class="vid-container file-box">
 						<div class="col-md-4 col-sm-4 col-xs-4 file-text-line">
 							<p class="file-text">{{user.worksNum}}</p>
-							<p class="file-num">作品數</p>
+							<p class="file-num">{{'USER.u04_02_posts' | translate}}</p>
 						</div>
 						<div class="col-md-4 col-sm-4 col-xs-4 file-text-line">
 							<p class="file-text">{{user.fansNum}}</p>
-							<p class="file-num">粉絲數</p>
+							<p class="file-num">{{'USER.u04_02_followers' | translate}}</p>
 						</div>
 						<div class="col-md-4 col-sm-4 col-xs-4 ">
 							<p class="file-text">{{user.followNum}}</p>
-							<p class="file-num">正在追蹤</p>
+							<p class="file-num">{{'USER.u04_03_following' | translate}}</p>
 						</div>
 					</div>
 				</div>

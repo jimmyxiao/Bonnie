@@ -71,7 +71,7 @@
 													<li><a social-twitter href="" custom-url="{{share_url}}"><i class="fa fa-twitter"></i></a></li>
 													<li><a social-gplus href=""  custom-url="{{share_url}}"><i class="fa fa-google-plus"></i></a></li>
 													<!-- <li><a href=""><i class="fa fa-instagram"></i></a></li> -->
-													<li><a href="" title="檢舉" data-toggle="collapse" data-target="#report" ng-click="clickTurnIn()">
+													<li><a href="" title="{{'WORK.u05_02_report' | translate}}" data-toggle="collapse" data-target="#report" ng-click="clickTurnIn()">
 														<i class="fa fa-info-circle" aria-hidden="true"></i>
 													</a>
 													</li>
@@ -80,26 +80,26 @@
 										</div>
 										<div class="row collapse" id="report">
 											<div class="col-md-12 report-box">
-												<h4 style="margin-bottom:20px">檢舉內容</h4>
+												<h4 style="margin-bottom:20px">{{'WORK.u05_02_report_content' | translate}}</h4>
 												<from>
 													<div class="form-group">
 														<label>
-															<input type="radio" ng-model="turnModel.option" value="1" convert-to-number> {{turnModel.description[0]}}
+															<input type="radio" ng-model="turnModel.option" value="1" convert-to-number> {{turnModel.description[0] | translate}}
 														</label>
 													</div>
 													<div class="form-group">
 														<label>
-															<input type="radio" ng-model="turnModel.option" value="2" convert-to-number> {{turnModel.description[1]}}
+															<input type="radio" ng-model="turnModel.option" value="2" convert-to-number> {{turnModel.description[1] | translate}}
 														</label>
 													</div>
 													<div class="form-group">
 														<label>
-															<input type="radio" ng-model="turnModel.option" value="99" convert-to-number> {{turnModel.description[2]}}
+															<input type="radio" ng-model="turnModel.option" value="99" convert-to-number> {{turnModel.description[2] | translate}}
 														</label>
 													</div>
 												</from>
 												<div class="row" style="margin:30px 0 10px 10px;">
-													<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#report" ng-click="sendTurnIn()">送出</button>
+													<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#report" ng-click="sendTurnIn()">{{'WORK.u05_01_send' | translate}}</button>
 												</div>
 											</div>
 										</div>
@@ -134,7 +134,7 @@
 									<div class="row">
 										<div class="col-md-12">
 											<div class="_4a48i _277v9" ng-if="mainSection.msgList.length==0">
-												<label>目前沒有新的留言</label>
+												<label>{{'WORK.u05_02_no_message' | translate}}</label>
 											</div>
 											<div class="_4a48i _277v9">
 												<ul class="_b0tqa">
@@ -157,14 +157,14 @@
 												</ul>
 											</div>
 											<div ng-if="mainSection.msgList.length>1" class="container" style="margin-bottom:30px;padding-left:0">
-		 										<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">更多留言</button>
+		 										<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">{{'WORK.u05_02_more_message' | translate}}</button>
 		 									</div>
 		 									<div id="comment-frm-container">
 												<form class="comment-form">
 													<div class="row">
 														<div class="col-sm-12">
 															<div class="form-group">
-																<textarea ng-model="textareaModel.text" ng-textarea-enter="textareaAction()" name="comment-user-message" id="cmnt-user-msg" maxlength="200" rows="4" class="form-control" placeholder="留言" style="resize: none;"></textarea>
+																<textarea ng-model="textareaModel.text" ng-textarea-enter="textareaAction()" name="comment-user-message" id="cmnt-user-msg" maxlength="200" rows="4" class="form-control" placeholder="{{'WORK.u05_02_commect' | translate}}" style="resize: none;"></textarea>
 																<div class="input-top-line"></div>
 																<div class="input-bottom-line"></div>
 															</div>
@@ -183,7 +183,7 @@
 						<div class="sidebar">
 							<div class="sidebar-vid most-liked">
 								<!-- <h1 class="sidebar-heading">{{'HOME.USER_LIKE' | translate}}</h1> -->
-								<h1 class="sidebar-heading">相關畫作</h1>
+								<h1 class="sidebar-heading">{{'WORK.u05_02_related_work' | translate}}</h1>
 								<div class="media" ng-repeat="data in secondarySectionArr_userLike track by $index">
 									<div class="media-left">
 										<a ng-href="#/column-detail?id={{data.worksId}}">
@@ -201,7 +201,7 @@
 							</div>
 
 							<div class="sidebar-vid most-viewd">
-								<h1 class="sidebar-heading">{{'HOME.MORE_CREATION' | translate}}</h1>
+								<h1 class="sidebar-heading">{{'WORK.u05_02_related_work' | translate}}</h1>
 								<div class="most-viewd-container" ng-repeat="data in secondarySectionArr_moreCreation track by $index">
 									<div class="most-viewd-img">
 										<a ng-href="#/column-detail?id={{data.worksId}}">

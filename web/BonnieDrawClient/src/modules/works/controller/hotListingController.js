@@ -1,5 +1,5 @@
 app.controller('hotListingController', function ($rootScope, $scope, $window ,$location, $http, $filter, $state, $modal, util, worksService) {
-		$rootScope.title = '熱門畫作 | BonnieDRAW';
+		$rootScope.title = 'TITLE.t05_05_popular';
 		$rootScope.nav = 'hot';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();

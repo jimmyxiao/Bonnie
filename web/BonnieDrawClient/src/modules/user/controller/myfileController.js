@@ -1,5 +1,5 @@
 app.controller('myfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, userService, worksService) {
-		$rootScope.title = '我的帳戶 | BonnieDRAW';
+		$rootScope.title = 'TITLE.t04_02_my_account';
 		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		$scope.workclick =true;//works,Collection follow,fans div切換

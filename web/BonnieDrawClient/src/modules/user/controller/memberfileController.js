@@ -1,5 +1,5 @@
-app.controller('memberfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, Upload, userService, localStorageService) {
-		$rootScope.title = '帳戶設定 | BonnieDRAW';
+app.controller('memberfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, Upload, userService, localStorageService, $translate) {
+		$rootScope.title = 'TITLE.t04_01_edit_profile';
 		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
@@ -31,9 +31,13 @@ app.controller('memberfileController', function ($cookieStore, $rootScope, $scop
             			}else{
                 			$cookieStore.put('rg_gl', $rootScope.rg_gl);
             			}
-						alert('上傳成功');
+						$translate(['MSG.msg04_01_upload_successful']).then(function (MSG) {
+							alert(MSG['MSG.msg04_01_upload_successful']);
+						});
 					}else{
-						alert('上傳失敗');
+						$translate(['MSG.msg04_01_upload_failed']).then(function (MSG) {
+							alert(MSG['MSG.msg04_01_upload_failed']);
+						});
 					}
 				}, function(resp) {
 				}, function(evt) {
@@ -60,7 +64,9 @@ app.controller('memberfileController', function ($cookieStore, $rootScope, $scop
 				            }else{
 				                $cookieStore.put('rg_gl', $rootScope.rg_gl);
 				            }
-	        				alert('更新成功');
+	        				$translate(['MSG.msg04_01_update_successful']).then(function (MSG) {
+								alert(MSG['MSG.msg04_01_update_successful']);
+							});
 	        			}else{
 	        				alert(data.msg);
 	        			}
@@ -85,13 +91,17 @@ app.controller('memberfileController', function ($cookieStore, $rootScope, $scop
 								newPwd:null,
 								confirmPwd:null
 							}
-	        				alert('更新成功');
+	        				$translate(['MSG.msg04_01_update_successful']).then(function (MSG) {
+								alert(MSG['MSG.msg04_01_update_successful']);
+							});
 	        			}else{
 	        				alert(data.msg);
 	        			}
 	        		})
 				}else{
-					alert('密碼不符');
+					$translate(['MSG.msg04_01_pass_invalid']).then(function (MSG) {
+						alert(MSG['MSG.msg04_01_pass_invalid']);
+					});
 				}
 			}
 		}

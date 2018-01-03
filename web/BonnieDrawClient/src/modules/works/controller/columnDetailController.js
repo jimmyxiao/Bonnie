@@ -1,5 +1,5 @@
-app.controller('columnDetailController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, worksService) {
-		$rootScope.title = 'demo畫作 | BonnieDRAW';
+app.controller('columnDetailController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, worksService, $translate) {
+		$rootScope.title = 'TITLE.t05_04_word_demo';
 		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
@@ -602,7 +602,9 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				param.message = $scope.textareaModel.text;
 				worksService.leavemsg(param,function(data, status, headers, config){
 					if(data.res != 1){
-						alert('發送失敗');
+						$translate(['MSG.msg05_01_sending_failed']).then(function (MSG) {
+							alert(MSG['MSG.msg05_01_sending_failed']);
+						});
 					}else{
 						$scope.queryWorks();
 						$scope.textareaModel.text = '';
@@ -619,7 +621,9 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			param.msgId = data.worksMsgId;
 			worksService.leavemsg(param,function(data, status, headers, config){
 				if(data.res != 1){
-					alert('刪除失敗');
+					$translate(['MSG.msg05_01_deleting_failed']).then(function (MSG) {
+						alert(MSG['MSG.msg05_01_deleting_failed']);
+					});
 				}else{
 					$scope.queryWorks();
 				}
@@ -726,7 +730,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 
 		$scope.turnModel = {
 			optin:1,
-			description:['內容不當', '侵犯著作權利', '其它']
+			// description:['內容不當', '侵犯著作權利', '其它']
+			description:['WORK.u05_01_not_inappropriate', 'WORK.u05_01_lnfringe_copyright', 'WORK.c05_01_other']
 		}
 
 		$scope.clickTurnIn = function(){
@@ -744,7 +749,9 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			}
 			worksService.setTurnin(params,function(data, status, headers, config){
 				if(data.res == 1){
-					alert('檢舉已發送');
+					$translate(['MSG.msg05_01_been_sent']).then(function (MSG) {
+						alert(MSG['MSG.msg05_01_been_sent']);
+					});
 				}
 			})
 		}

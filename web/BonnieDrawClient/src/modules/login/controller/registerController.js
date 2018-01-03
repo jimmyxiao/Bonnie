@@ -1,5 +1,5 @@
-app.controller('registerController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, loginService, AuthenticationService) {
-    	$rootScope.title = '註冊 | BonnieDRAW';
+app.controller('registerController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, loginService, AuthenticationService, $translate) {
+    	$rootScope.title = 'TITLE.t02_03_sigin_up';
         $scope.register = {
     		phoneNo:null, userName:null, userCode:null, userPw:null, userType:1 
     	}
@@ -19,15 +19,21 @@ app.controller('registerController', function ($scope, $rootScope, $location, $c
                         params.fn = 2;
 	            		loginService.login(params, function(data, status, headers, config) {
                             if(data.res == 1){
-                                alert('註冊成功,信件已發送!');
+                                $translate(['MSG.msg02_01_check_email']).then(function (MSG) {
+                                    alert(MSG['MSG.msg02_01_check_email']);
+                                });
                                 $state.go('login');
                             }else{
-                                alert('註冊失敗');
+                                $translate(['MSG.msg02_03_registration_filed']).then(function (MSG) {
+                                    alert(MSG['MSG.msg02_03_registration_filed']);
+                                });
                             }
                         })
 	            	}else{
-	            		alert('註冊失敗');
-	            	}
+	            		$translate(['MSG.msg02_03_registration_filed']).then(function (MSG) {
+                            alert(MSG['MSG.msg02_03_registration_filed']);
+                        })
+        	}
 	            })
         	}else{
         	}
@@ -64,7 +70,9 @@ app.controller('registerController', function ($scope, $rootScope, $location, $c
          	            		// util.alert(response.message);
          	            		$scope.dataLoading = false;
          	            		$scope.login_error = true ;
-         	            		alert('登入失敗');
+         	            		$translate(['MSG.msg02_03_login_failed']).then(function (MSG) {
+                                    alert(MSG['MSG.msg02_03_login_failed']);
+                                })
          	                }
          	            })
 
@@ -110,7 +118,9 @@ app.controller('registerController', function ($scope, $rootScope, $location, $c
      	            		// util.alert(response.message);
      	            		$scope.dataLoading = false;
      	            		$scope.login_error = true ;
-     	            		alert('登入失敗');
+     	            		$translate(['MSG.msg02_03_login_failed']).then(function (MSG) {
+                                alert(MSG['MSG.msg02_03_login_failed']);
+                            })
      	                }
      	            })
      	            
@@ -149,7 +159,9 @@ app.controller('registerController', function ($scope, $rootScope, $location, $c
      	            		// util.alert(response.message);
      	            		$scope.dataLoading = false;
      	            		$scope.login_error = true ;
-     	            		alert('登入失敗');
+     	            		$translate(['MSG.msg02_03_login_failed']).then(function (MSG) {
+                                alert(MSG['MSG.msg02_03_login_failed']);
+                            })
      	                }
      	            })
         			 

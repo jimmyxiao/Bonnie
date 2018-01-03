@@ -1,5 +1,5 @@
 app.controller('userfileController', function ($cookieStore, $rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, userService, worksService) {
-		$rootScope.title = '用戶的個人頁 | BonnieDRAW';
+		$rootScope.title = 'TITLE.t04_04_main_page';
 		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();

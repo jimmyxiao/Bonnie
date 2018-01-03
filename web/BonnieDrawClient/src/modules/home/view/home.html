@@ -81,7 +81,7 @@
 					<div class="col-md-9 col-sm-8" ng-class="{true: 'container-full', false: ''}[secondarySectionArr_userLike==null]">
 						<div class="latst-vid secondary-vid">
 							<div class="vid-heading overflow-hidden">
-								<span class="wow fadeInUp" data-wow-duration="0.8s">{{'HOME.NEW_UPLOAD' | translate}}</span>
+								<span class="wow fadeInUp" data-wow-duration="0.8s">{{'HOME.u01_01_latest_upload' | translate}}</span>
 								<div class="hding-bottm-line wow zoomIn" data-wow-duration="0.8s"></div>
 							</div>
 							<div class="row auto-clear">
@@ -167,7 +167,7 @@
  					<div class="col-md-3 col-sm-4" ng-show="secondarySectionArr_userLike!=null">
 						<div class="sidebar">
 							<div class="sidebar-vid most-liked">
-								<h1 class="sidebar-heading">{{'HOME.USER_LIKE' | translate}}</h1>
+								<h1 class="sidebar-heading">{{'HOME.u01_01_your_favorite' | translate}}</h1>
 								<div class="media" ng-repeat="data in secondarySectionArr_userLike track by $index">
 									<div class="media-left">
 										<img ng-src="{{imageLoadUrl}}{{data.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
@@ -199,7 +199,7 @@
 							</div> -->
 
 							<div class="tags">
-								<h1 class="sidebar-heading">{{'HOME.KEYWORD' | translate}}</h1>
+								<h1 class="sidebar-heading">{{'HOME.u01_01_key_word' | translate}}</h1>
 								<ul class="list-inline list-unstyled">
 									<li ng-repeat="data in secondarySectionArr_keyword track by $index">
 										<a href="#/category-listing?type={{covertTag(data.tagName)}}">{{data.tagName}}</a>

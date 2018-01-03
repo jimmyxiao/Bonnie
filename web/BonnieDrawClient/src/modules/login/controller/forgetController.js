@@ -1,5 +1,5 @@
-app.controller('forgetController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, forgetService, vcRecaptchaService) {
-    	$rootScope.title = '忘記密碼 | BonnieDRAW';
+app.controller('forgetController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, forgetService, vcRecaptchaService, $translate) {
+        $rootScope.title = 'TITLE.t02_01_forget_pass';
         $scope.register = {
     		phoneNo:null, userName:null, userCode:null, userPw:null, userType:1 
     	}
@@ -26,12 +26,16 @@ app.controller('forgetController', function ($scope, $rootScope, $location, $coo
 
         $scope.submit = function () {
             if(!$scope.model.email){
-                alert('請輸入Email');
+                $translate(['MSG.msg02_01_email']).then(function (MSG) {
+                    alert(MSG['MSG.msg02_01_email']);
+                });
                 return;
             }
 
             if($scope.response == null || $scope.response ==''){
-                alert('請勾選「我不是機器人」');
+                $translate(['MSG.msg02_01_not_robot']).then(function (MSG) {
+                    alert(MSG['MSG.msg02_01_not_robot']);
+                });
                 return;
             }
             $scope.dataLoading = true;
@@ -47,7 +51,9 @@ app.controller('forgetController', function ($scope, $rootScope, $location, $coo
                     if(valid){
                         forgetService.forgetpwd($scope.model,function(data, status, headers, config){
                             if(data.res == 1){
-                                alert('郵件已寄出，請查看郵件');
+                                $translate(['MSG.msg02_01_check_email']).then(function (MSG) {
+                                    alert(MSG['MSG.msg02_01_check_email']);
+                                });
                             }else{
                                 alert(data.msg);
                             }
@@ -59,7 +65,9 @@ app.controller('forgetController', function ($scope, $rootScope, $location, $coo
                 },
                 error: function(data){
                     $scope.dataLoading = false;
-                    alert('驗證失敗');
+                    $translate(['MSG.msh02_01_validation_failed']).then(function (MSG) {
+                        alert(MSG['MSG.msh02_01_validation_failed']);
+                    });
                 }
             });
         }

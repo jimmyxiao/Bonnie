@@ -7,16 +7,16 @@
 					<div class="row">
 						<div class="col-md-4 visible-lg visible-md">
 							<ul class="mleeu">
-								<li><a href="#/memberfile" ng-click="switchView('profile')" >編輯個人檔案</a></li>
-								<li><a href="#/memberfile?v=2" ng-click="switchView('modifyPwd')" >更改密碼</a></li>
+								<li><a href="#/memberfile" ng-click="switchView('profile')" >{{'USER.u04_01_edir_profile' | translate}}</a></li>
+								<li><a href="#/memberfile?v=2" ng-click="switchView('modifyPwd')" >{{'USER.u04_01_change_password' | translate}}</a></li>
 							</ul>
 						</div>
 						<div class="col-md-8 col-sm-8">
 							<div class="_1eg8c">
 								<div class="_l8yre _5g4e2 col-md-4 col-sm-4 col-xs-4">
-									<button class="_1frkc" title="更換大頭貼照" id="imagePath" type="file" name="imagePathFile" ngf-max-size="2MB" accept="image/png,image/jpg,image/jpeg" ng-model="file.imagePath" ngf-select="upload($file)">
-										<img class="_fya1f" ng-if="user.profilePicture!=null" ng-src="{{imageLoadUrl}}{{user.profilePicture}}" alt="更換大頭貼照">
-										<img class="_fya1f" ng-if="user.profilePicture==null" alt="更換大頭貼照" src="assets/images/avatar/photo-round@3x.png">
+									<button class="_1frkc" title="{{'USER.u04_01_change_picture' | translate}}" id="imagePath" type="file" name="imagePathFile" ngf-max-size="2MB" accept="image/png,image/jpg,image/jpeg" ng-model="file.imagePath" ngf-select="upload($file)">
+										<img class="_fya1f" ng-if="user.profilePicture!=null" ng-src="{{imageLoadUrl}}{{user.profilePicture}}" alt="{{'USER.u04_01_change_picture' | translate}}">
+										<img class="_fya1f" ng-if="user.profilePicture==null" alt="{{'USER.u04_01_change_picture' | translate}}" src="assets/images/avatar/photo-round@3x.png">
 <!-- 										<input id="imagePath" style="display:none;" type="file" name="imagePathFile" ngf-max-size="2MB" accept="image/png,image/jpg,image/jpeg" ng-model="file.imagePath" ngf-select="upload($file, imagePathFile)"/> -->
 									</button>
 								</div>
@@ -30,7 +30,7 @@
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<label class="from-text">姓名</label>
+													<label class="from-text">{{'USER.u04_01_name' | translate}}</label>
 												</div>
 												<div class="col-md-5 col-xs-9">
 													<input type="text" class="form-control" aria-required="false" id="pepName" ng-model="user.userName">
@@ -50,7 +50,7 @@
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<label class="from-text">網站</label>
+													<label class="from-text">{{'USER.u04_01_website' | translate}}</label>
 												</div>
 												<div class="col-md-10 col-xs-9">
 													<input type="text" class="form-control" aria-required="false" id="pepWebsite" ng-model="user.webLink">
@@ -60,7 +60,7 @@
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<label class="from-text">個人簡介</label>
+													<label class="from-text">{{'USER.u04_01_bio' | translate}}</label>
 												</div>
 												<div class="col-md-10 col-xs-9">
 													<textarea class="form-control" id="pepBio" ng-model="user.description" style="resize: none;" maxlength="500"></textarea>
@@ -70,17 +70,17 @@
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<label class="from-text">電子郵件</label>
+													<label class="from-text">{{'USER.u04_01_email' | translate}}</label>
 												</div>
 												<div class="col-md-10 col-xs-9">
-													<input type="email" name="email" class="form-control" id="login-email" 	placeholder="電子郵件" ng-model="user.email" required >
+													<input type="email" name="email" class="form-control" id="login-email" 	placeholder="{{'USER.u04_01_email' | translate}}" ng-model="user.email" required >
 												</div>
 											</div>
 										</div>
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<label class="from-text">電話號碼</label>
+													<label class="from-text">{{'USER.u04_01_phone' | translate}}</label>
 												</div>
 												<div class="col-md-10 col-xs-9">
 													<input type="text" class="form-control" aria-required="false" id="pepPhone Number" ng-model="user.phoneNo" >
@@ -90,13 +90,13 @@
 										<div class="form-group" style="margin-top:20px;">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-												<label class="from-text">性別</label>
+												<label class="from-text">{{'USER.u04_01_gender' | translate}}</label>
 												</div>
 											    <div class="col-md-10 col-xs-9">
 													<select id="pepGender" ng-model="user.gender" convert-to-number>
-														<option value="1">男性</option>
-														<option value="2">女性</option>
-														<option value="">未指定</option>
+														<option value="1">{{'USER.u04_01_male' | translate}}</option>
+														<option value="2">{{'USER.u04_01_female' | translate}}</option>
+														<option value="">{{'USER.u04_01_not_specified' | translate}}</option>
 													</select>
 												</div>
 											</div>
@@ -104,7 +104,7 @@
 								
 										<div class="form-group">
 											<div class="col-md-2 formBut">
-												<button type="submit" value="login" class="btn btn-block btn2-login text-uppercase">確認</button>	
+												<button type="submit" value="login" class="btn btn-block btn2-login text-uppercase">{{'USER.u04_01_confirmed' | translate}}</button>	
 											</div>
 										</div>
 									</form>
@@ -116,7 +116,7 @@
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<label class="from-text">舊密碼</label>
+													<label class="from-text">{{'USER.u04_01_current_password' | translate}}</label>
 												</div>
 												<div class="col-md-10 col-xs-9">
 													<input type="password" ng-model="param.oldPwd" class="form-control" required>
@@ -126,7 +126,7 @@
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<label class="from-text">新密碼</label>
+													<label class="from-text">{{'USER.u04_01_new_password' | translate}}</label>
 												</div>
 												<div class="col-md-10 col-xs-9">
 													<input type="password" ng-model="param.newPwd" class="form-control" required>
@@ -136,7 +136,7 @@
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<label class="from-text">確認密碼</label>
+													<label class="from-text">{{'USER.u04_01_confirm_pass' | translate}}</label>
 												</div>
 												<div class="col-md-10 col-xs-9">
 													<input type="password" ng-model="param.confirmPwd" class="form-control" required>
@@ -146,7 +146,7 @@
 								
 										<div class="form-group">
 											<div class="col-md-2 formBut">
-												<button type="submit" value="login" class="btn btn-block btn2-login text-uppercase">確認</button>	
+												<button type="submit" value="login" class="btn btn-block btn2-login text-uppercase">{{'USER.u04_01_confirmed' | translate}}</button>	
 											</div>
 										</div>
 									</form>

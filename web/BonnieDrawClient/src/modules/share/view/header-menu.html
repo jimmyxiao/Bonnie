@@ -44,7 +44,7 @@
 						</div>
 						<div class="media-body">
 							<p>
-								<a class="login-toggle" href="" ng-click="logout()">登出</a>
+								<a class="login-toggle" href="" ng-click="logout()">{{'SHARE.u03_04_logout' | translate}}</a>
 							</p>
 						</div>
 					</div>									
@@ -62,10 +62,10 @@
 			<div class="col-md-9 col-sm-12">
 				<div id="cssmenu">
 					<ul>
-						<li ng-class="{'active':nav=='hot'}"><a href="#/hot-listing"><i class="fi ion-compose"></i>熱門畫作</a></li>
-						<li ng-class="{'active':nav=='track'}"><a href="#/track-list"><i class="fi ion-android-desktop"></i>追蹤清單</a></li>
-						<li ng-class="{'active':nav=='column'}"><a href="#/column"><i class="fi ion-ios-film-outline"></i>我的畫作</a></li>
-						<li ng-class="{'active':nav=='category'}"><a href=""><i class="fi ion-android-apps"></i>畫作類別</a>
+						<li ng-class="{'active':nav=='hot'}"><a href="#/hot-listing"><i class="fi ion-compose"></i>{{'SHARE.u03_04_popular' | translate}}</a></li>
+						<li ng-class="{'active':nav=='track'}"><a href="#/track-list"><i class="fi ion-android-desktop"></i>{{'SHARE.u03_04_follow_sheet' | translate}}</a></li>
+						<li ng-class="{'active':nav=='column'}"><a href="#/column"><i class="fi ion-ios-film-outline"></i>{{'SHARE.u03_04_my_drawings' | translate}}</a></li>
+						<li ng-class="{'active':nav=='category'}"><a href=""><i class="fi ion-android-apps"></i>{{'SHARE.u03_04_work_category' | translate}}</a>
 							<ul>
 							  	<li ng-repeat="data in tagList track by $index">
 							  		<a href="#/category-listing?type={{covertTag(data.tagName)}}">{{data.tagName}}</a>	

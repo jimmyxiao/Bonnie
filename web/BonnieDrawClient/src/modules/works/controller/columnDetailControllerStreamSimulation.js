@@ -1,5 +1,5 @@
 app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, worksService) {
-		$rootScope.title = 'demo畫作 | BonnieDRAW';
+		$rootScope.title = 'TITLE.t05_04_word_demo';
 		$rootScope.nav = '';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();
@@ -465,7 +465,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			param.wid = wid;
 			param.stn = stream.stn;
 			param.rc = stream.rc;
-			worksService.getDrawingPlayStreamSimulation(param,function(data, status, headers, config){		
+			worksService.getDrawingPlayStreamSimulation(param,function(data, status, headers, config, $translate){		
 				var list = data.pointList;
 				stream.res = data.res;
 				if(list && list.length>0){
@@ -498,7 +498,9 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 				param.message = $scope.textareaModel.text;
 				worksService.leavemsg(param,function(data, status, headers, config){
 					if(data.res != 1){
-						alert('發送失敗');
+						$translate(['MSG.msg05_01_sending_failed']).then(function (MSG) {
+							alert(MSG['MSG.msg05_01_sending_failed']);
+						});
 					}else{
 						$scope.queryWorks();
 						$scope.textareaModel.text = '';
@@ -515,7 +517,9 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			param.msgId = data.worksMsgId;
 			worksService.leavemsg(param,function(data, status, headers, config){
 				if(data.res != 1){
-					alert('刪除失敗');
+					$translate(['MSG.msg05_01_deleting_failed']).then(function (MSG) {
+						alert(MSG['MSG.msg05_01_deleting_failed']);
+					});
 				}else{
 					$scope.queryWorks();
 				}
@@ -622,7 +626,8 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 
 		$scope.turnModel = {
 			optin:1,
-			description:['內容不當', '侵犯著作權利']
+			// description:['內容不當', '侵犯著作權利', '其它']
+			description:['WORK.u05_01_not_inappropriate', 'WORK.u05_01_lnfringe_copyright', 'WORK.c05_01_other']
 		}
 
 		$scope.clickTurnIn = function(){
@@ -640,7 +645,9 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			}
 			worksService.setTurnin(params,function(data, status, headers, config){
 				if(data.res == 1){
-					alert('檢舉已發送');
+					$translate(['MSG.msg05_01_been_sent']).then(function (MSG) {
+						alert(MSG['MSG.msg05_01_been_sent']);
+					});
 				}
 			})
 		}

@@ -1,5 +1,5 @@
 app.controller('categoryListingController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modal, util, worksService) {
-		$rootScope.title = '畫作類別 | BonnieDRAW';
+		$rootScope.title = 'TITLE.t05_01_category';
 		$rootScope.nav = 'category';
 		$('#loader-container').fadeOut("slow");
 		new WOW().init();

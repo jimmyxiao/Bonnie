@@ -1,22 +1,22 @@
-app.controller('aboutController', function ($rootScope,$scope,$window ,$location, $http,$filter,$state,$modal) {
+app.controller('aboutController', function ($rootScope,$scope,$window ,$location, $http,$filter,$state,$modal, $translate) {
 		switch($state.current.name) {
 			case "about":
-				$rootScope.title = '關於我們 | BonnieDRW';
+				$rootScope.title = 'TITLE.t03_01_about_us';
 				break;
 			case "privacy":
-				$rootScope.title = '隱私權條款 | BonnieDRW';
+				$rootScope.title = 'TITLE.t03_01_privacy_policy';
 				break;
 			case "terms":
-				$rootScope.title = '使用條款 | BonnieDRW';
+				$rootScope.title = 'TITLE.t03_01_terms_service';
 				break;
 			case "about_app":
-				$rootScope.title = '關於我們 | BonnieDRW';
+				$rootScope.title = 'TITLE.t03_01_about_us';
 				break;
 			case "privacy_app":
-				$rootScope.title = '隱私權條款 | BonnieDRW';
+				$rootScope.title = 'TITLE.t03_01_privacy_policy';
 				break;
 			case "terms_app":
-				$rootScope.title = '使用條款 | BonnieDRW';
+				$rootScope.title = 'TITLE.t03_01_terms_service';
 				break;
 		}
 

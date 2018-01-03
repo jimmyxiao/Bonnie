@@ -1,9 +1,9 @@
-app.controller('loginController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, AuthenticationService) {
+app.controller('loginController', function ($scope, $rootScope, $location, $cookieStore, $window, $state, $http, AuthenticationService, $translate) {
         if($rootScope.rg_gl && $rootScope.rg_gl.currentUser) {
             $state.go('index');
         }
 
-        $rootScope.title = '登入 | BonnieDRAW';
+        $rootScope.title = 'TITLE.t02_02_login';
     	$scope.loginUser = {
     		uc:null, up:null, ut:1, dt:3, fn:1
     	}
@@ -21,7 +21,9 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
 	            		$scope.error_msg = response.message;
 	            		$scope.dataLoading = false;
 	            		$scope.login_error = true ;
-	            		alert('登入失敗');
+	            		$translate(['MSG.msg02_03_login_failed']).then(function (MSG) {
+                            alert(MSG['MSG.msg02_03_login_failed']);
+                        });
 	                }
 	            })
         	}else{
@@ -60,7 +62,9 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
          	            		// util.alert(response.message);
          	            		$scope.dataLoading = false;
          	            		$scope.login_error = true ;
-         	            		alert('登入失敗');
+         	            		$translate(['MSG.msg02_03_login_failed']).then(function (MSG) {
+                                    alert(MSG['MSG.msg02_03_login_failed']);
+                                });
          	                }
          	            })
 
@@ -106,7 +110,9 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
      	            		// util.alert(response.message);
      	            		$scope.dataLoading = false;
      	            		$scope.login_error = true ;
-     	            		alert('登入失敗');
+     	            		$translate(['MSG.msg02_03_login_failed']).then(function (MSG) {
+                                alert(MSG['MSG.msg02_03_login_failed']);
+                            });
      	                }
      	            })
      	            
@@ -145,7 +151,9 @@ app.controller('loginController', function ($scope, $rootScope, $location, $cook
      	            		// util.alert(response.message);
      	            		$scope.dataLoading = false;
      	            		$scope.login_error = true ;
-     	            		alert('登入失敗');
+     	            		$translate(['MSG.msg02_03_login_failed']).then(function (MSG) {
+                                alert(MSG['MSG.msg02_03_login_failed']);
+                            });
      	                }
      	            })
         			 
