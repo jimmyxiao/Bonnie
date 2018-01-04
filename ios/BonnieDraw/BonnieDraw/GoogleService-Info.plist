@@ -2,39 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>AD_UNIT_ID_FOR_BANNER_TEST</key>
-    <string>ca-app-pub-3940256099942544/2934735716</string>
-    <key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
-    <string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
 	<string>579888826124-j33ha9056gdu5i9v8n164r3k9rm63qtn.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.579888826124-j33ha9056gdu5i9v8n164r3k9rm63qtn</string>
-    <key>API_KEY</key>
-    <string>AIzaSyBQregCabqdurC4IHhiWMMzX1wE0AxH9vk</string>
-    <key>GCM_SENDER_ID</key>
-    <string>579888826124</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBQregCabqdurC4IHhiWMMzX1wE0AxH9vk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>579888826124</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.sctw.bonniedraw</string>
 	<key>PROJECT_ID</key>
 	<string>bonniedraw-177201</string>
-    <key>STORAGE_BUCKET</key>
-    <string>bonniedraw-177201.appspot.com</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bonniedraw-177201.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-    <true/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
-    <key>IS_SIGNIN_ENABLED</key>
-    <false/>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:579888826124:ios:89987981642035d4</string>
-    <key>DATABASE_URL</key>
-    <string>https://bonniedraw-177201.firebaseio.com</string>
+	<key>DATABASE_URL</key>
+	<string>https://bonniedraw-177201.firebaseio.com</string>
 </dict>
 </plist>

@@ -51,6 +51,7 @@
 		163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AA1F61663800945E04 /* AppDelegate.swift */; };
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
+		1645CE101FFE4A29002AC2FD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1645CE0F1FFE4A28002AC2FD /* GoogleService-Info.plist */; };
 		16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */; };
 		164985A11FF79F1F00A1B00E /* WindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164985A01FF79F1F00A1B00E /* WindowExtension.swift */; };
 		1649F2701FD7A09200B90A1E /* CanvasAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */; };
@@ -101,7 +102,6 @@
 		16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */; };
 		16D08F1F1FB14D84001D167C /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D08F1E1FB14D84001D167C /* DebugViewController.swift */; };
 		16D08F241FB169AD001D167C /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16D08F221FB169AC001D167C /* Account.storyboard */; };
-		16D08F261FB16A34001D167C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16D08F251FB16A34001D167C /* GoogleService-Info.plist */; };
 		16D439651F66A9B300FF5878 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439641F66A9B300FF5878 /* Logger.swift */; };
 		16D439681F66AC8200FF5878 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439671F66AC8200FF5878 /* Point.swift */; };
 		16E539701FD965D800799E4D /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5396F1FD965D800799E4D /* CommentViewController.swift */; };
@@ -159,6 +159,7 @@
 		163F65B41F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
+		1645CE0F1FFE4A28002AC2FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		164985A01FF79F1F00A1B00E /* WindowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowExtension.swift; sourceTree = "<group>"; };
 		1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasAnimationViewController.swift; sourceTree = "<group>"; };
@@ -211,7 +212,6 @@
 		16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButtonViewController.swift; sourceTree = "<group>"; };
 		16D08F1E1FB14D84001D167C /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		16D08F231FB169AC001D167C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account.storyboard; sourceTree = "<group>"; };
-		16D08F251FB16A34001D167C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16D439641F66A9B300FF5878 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		16D439671F66AC8200FF5878 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		16E5396F1FD965D800799E4D /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 				163EAED91FD64435003109B3 /* Crayon.png */,
 				163EAED61FD64435003109B3 /* Marker.png */,
 				163EAED71FD64435003109B3 /* Pencil.png */,
-				16D08F251FB16A34001D167C /* GoogleService-Info.plist */,
+				1645CE0F1FFE4A28002AC2FD /* GoogleService-Info.plist */,
 				163F65B61F61663900945E04 /* Info.plist */,
 				1664F4A81F74AD9200809C32 /* Localizable.strings */,
 				1664F4B41F74E3F100809C32 /* Login.storyboard */,
@@ -547,12 +547,12 @@
 				16303BB31FD14D0E00C42783 /* stencil.fsh in Resources */,
 				16303BB41FD14D0E00C42783 /* point.fsh in Resources */,
 				16303BB51FD14D0E00C42783 /* coloredpoint.vsh in Resources */,
-				16D08F261FB16A34001D167C /* GoogleService-Info.plist in Resources */,
 				162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */,
 				163EAEDD1FD64435003109B3 /* Crayon.png in Resources */,
 				163EAEDB1FD64435003109B3 /* Pencil.png in Resources */,
 				163EAEDA1FD64435003109B3 /* Marker.png in Resources */,
 				165A95981FDA3F2600970CE7 /* Texture.png in Resources */,
+				1645CE101FFE4A29002AC2FD /* GoogleService-Info.plist in Resources */,
 				163EAEDC1FD64435003109B3 /* Airbrush.png in Resources */,
 				162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */,
 				162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */,
@@ -585,9 +585,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -600,13 +605,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BonnieDraw-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E582CE5F134C9329393F8078 /* [CP] Embed Pods Frameworks */ = {
@@ -615,9 +623,48 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/DeviceKit/DeviceKit.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/KYDrawerController/KYDrawerController.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KYDrawerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -801,7 +848,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -852,7 +899,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
