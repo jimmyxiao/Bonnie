@@ -62,7 +62,7 @@ public class PushNotificationsServiceImpl implements PushNotificationsService {
 					((ObjectNode) jsonBody).put("operation", "remove");
 					((ObjectNode) jsonBody).put("notification_key_name", groupName);
 					((ObjectNode) jsonBody).put("notification_key", notificationKey);
-					((ObjectNode) jsonBody).putArray("registration_ids").addAll(mapper.valueToTree(registerTokens));				
+					((ObjectNode) jsonBody).putArray("registration_ids").add(mapper.valueToTree(registerTokens));				
 					jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonBody);
 					response = restTemplate.exchange(FIREBASE_GROUP_API_URL, HttpMethod.POST, new HttpEntity<>(jsonString), String.class);
 //					((ObjectNode) jsonBody).put("operation", "create");
