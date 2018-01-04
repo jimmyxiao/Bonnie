@@ -8,8 +8,6 @@
 
 #import "JotHighlighterBrushTexture.h"
 #import "JotSharedBrushTexture.h"
-#import "UIImage+BrushTextures.h"
-
 
 @implementation JotHighlighterBrushTexture
 

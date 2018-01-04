@@ -9,13 +9,8 @@
 #import "CurveToPathElement.h"
 #import "UIColor+JotHelper.h"
 #import "AbstractBezierPathElement-Protected.h"
-#import <OpenGLES/EAGLDrawable.h>
-#import <OpenGLES/EAGL.h>
-#import "JotBufferManager.h"
 #import "JotBufferVBO.h"
 #import "MoveToPathElement.h"
-#import "JotGLContext.h"
-#import "JotTrashManager.h"
 #import "JotGLPointProgram.h"
 #import "JotGLColorlessPointProgram.h"
 #import "JotGLColoredPointProgram.h"

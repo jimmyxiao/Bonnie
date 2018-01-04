@@ -7,8 +7,6 @@
 //
 
 #import "UIColor+JotHelper.h"
-#import <objc/runtime.h>
-
 
 @implementation UIColor (JotHelper)
 

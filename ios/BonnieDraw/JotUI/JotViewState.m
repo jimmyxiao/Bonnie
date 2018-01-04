@@ -8,18 +8,8 @@
 
 #import "JotViewState.h"
 #import "JotImmutableStroke.h"
-#import "NSArray+JotMapReduce.h"
-#import "UIImage+Resize.h"
-#import <QuartzCore/QuartzCore.h>
-#import <OpenGLES/EAGLDrawable.h>
-#import <OpenGLES/EAGL.h>
-#import "JotView.h"
-#import "JotTrashManager.h"
 #import "SegmentSmoother.h"
-#import "AbstractBezierPathElement.h"
 #import "AbstractBezierPathElement-Protected.h"
-#import "NSMutableArray+RemoveSingle.h"
-#import "JotDiskAssetManager.h"
 
 #define kJotDefaultUndoLimit 20
 

@@ -4,7 +4,6 @@
 
 
 #import "JotGLProgram.h"
-#import <GLKit/GLKit.h>
 #import "JotGLContext.h"
 
 #pragma mark Function Pointer Definitions

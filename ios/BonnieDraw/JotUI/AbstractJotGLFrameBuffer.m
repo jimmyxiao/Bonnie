@@ -7,8 +7,6 @@
 //
 
 #import "AbstractJotGLFrameBuffer.h"
-#import "JotUI.h"
-
 
 @implementation AbstractJotGLFrameBuffer {
     // lock to ensure we're only bound in once place

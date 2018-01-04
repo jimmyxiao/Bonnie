@@ -8,9 +8,6 @@
 
 #import "JotFilledPathStroke.h"
 #import "FilledPathElement.h"
-#import "AbstractBezierPathElement.h"
-#import "AbstractBezierPathElement-Protected.h"
-
 
 @implementation JotFilledPathStroke {
     UIBezierPath* path;

@@ -10,12 +10,8 @@
 #import "SegmentSmoother.h"
 #import "AbstractBezierPathElement.h"
 #import "AbstractBezierPathElement-Protected.h"
-#import "JotDefaultBrushTexture.h"
 #import "NSArray+JotMapReduce.h"
 #import "JotBufferVBO.h"
-#import "JotBufferManager.h"
-#import <OpenGLES/EAGLDrawable.h>
-#import <OpenGLES/EAGL.h>
 #import "JotUI.h"
 
 

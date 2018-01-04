@@ -9,9 +9,6 @@
 #import "JotViewImmutableState.h"
 #import "JotStroke.h"
 #import "JotImmutableStroke.h"
-#import "JotViewState.h"
-#import "NSArray+JotMapReduce.h"
-
 
 @implementation JotViewImmutableState {
     NSMutableDictionary* stateDict;

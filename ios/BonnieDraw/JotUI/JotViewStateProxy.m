@@ -8,7 +8,6 @@
 
 #import "JotViewStateProxy.h"
 #import <JotUI/JotUI.h>
-#import "JotViewState.h"
 
 static dispatch_queue_t loadUnloadStateQueue;
 

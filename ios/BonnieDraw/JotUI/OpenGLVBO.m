@@ -8,14 +8,10 @@
 
 #import "OpenGLVBO.h"
 #import "JotUI/JotUI.h"
-#import "UIColor+JotHelper.h"
 #import "AbstractBezierPathElement-Protected.h"
-#import "JotBufferManager.h"
 #import "JotGLContext+Buffers.h"
 #import "JotGLColorlessPointProgram.h"
 #import "JotGLColoredPointProgram.h"
-#include <stddef.h>
-
 
 @interface OpenGLBuffer : NSObject
 

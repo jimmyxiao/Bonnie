@@ -8,11 +8,9 @@
 
 #import "JotBufferManager.h"
 #import "JotTrashManager.h"
-#import "NSArray+JotMapReduce.h"
 #import "JotUI.h"
 #import "OpenGLVBO.h"
 #import "JotBufferVBO.h"
-#import "MMMainOperationQueue.h"
 
 /**
  * the JotBufferManager will help allocate

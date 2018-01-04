@@ -8,9 +8,6 @@
 
 #import "JotGLTextureBackedFrameBuffer.h"
 #import "JotUI.h"
-#import <OpenGLES/EAGL.h>
-#import "JotGLLayerBackedFrameBuffer.h"
-#import "JotGLTextureBackedFrameBuffer+Private.h"
 
 dispatch_queue_t importExportTextureQueue;
 

@@ -7,8 +7,6 @@
 //
 
 #import "JotTextureCache.h"
-#import "JotGLContext.h"
-
 
 @interface JotGLTexture (Lock)
 

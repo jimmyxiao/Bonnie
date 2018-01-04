@@ -8,7 +8,6 @@
 
 #import "JotBufferVBO.h"
 #import "AbstractBezierPathElement.h"
-#import "JotBufferManager.h"
 #import "JotUI.h"
 
 static NSUInteger staticAllocOrder = 0;

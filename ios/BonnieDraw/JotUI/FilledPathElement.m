@@ -8,8 +8,6 @@
 
 #import "FilledPathElement.h"
 #import "AbstractBezierPathElement-Protected.h"
-#import <MessageUI/MFMailComposeViewController.h>
-
 
 @implementation FilledPathElement {
     // cache the hash, since it's expenseive to calculate
