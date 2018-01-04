@@ -20,7 +20,7 @@ static UIImage* circleBrush;
         UIGraphicsPushContext(defBrushTextureContext);
 
         size_t num_locations = 3;
-        CGFloat locations[3] = {0.0, 0.2, 1.0};
+        CGFloat locations[3] = {0.0, 0.8, 1.0};
         CGFloat components[12] = {1.0, 1.0, 1.0, 1.0,
                                   1.0, 1.0, 1.0, 1.0,
                                   1.0, 1.0, 1.0, 0.0};

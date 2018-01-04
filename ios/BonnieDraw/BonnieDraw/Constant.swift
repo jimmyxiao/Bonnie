@@ -32,8 +32,8 @@ enum Type: UInt8 {
     case crayon
     case pencil
     case pen
-    case airbrush
     case marker
+    case airbrush
     case background
 }
 

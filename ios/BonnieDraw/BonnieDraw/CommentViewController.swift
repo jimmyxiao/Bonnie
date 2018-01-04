@@ -22,6 +22,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     private let refreshControl = UIRefreshControl()
     private let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     private var keyboardOnScreen = false
+    private let placeholderImage = UIImage(named: "photo-square")
     var delegate: CommentViewControllerDelegate?
     var work: Work?
 
@@ -144,6 +145,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = work?.messages[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.COMMENT, for: indexPath) as! CommentTableViewCell
+        cell.profileImage.setImage(with: message?.userProfile, placeholderImage: placeholderImage)
         cell.profileName.text = message?.userName
         cell.message.text = message?.message
         if let date = message?.date {
