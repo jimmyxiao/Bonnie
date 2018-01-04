@@ -17,15 +17,15 @@
 // kGIDSignInButtonStyleWide:     312 x 48
 // kGIDSignInButtonStyleIconOnly: 48 x 48 (no text, fixed size)
 typedef NS_ENUM(NSInteger, GIDSignInButtonStyle) {
-    kGIDSignInButtonStyleStandard = 0,
-    kGIDSignInButtonStyleWide = 1,
-    kGIDSignInButtonStyleIconOnly = 2
+  kGIDSignInButtonStyleStandard = 0,
+  kGIDSignInButtonStyleWide = 1,
+  kGIDSignInButtonStyleIconOnly = 2
 };
 
 // The various color schemes supported by the GIDSignInButton.
 typedef NS_ENUM(NSInteger, GIDSignInButtonColorScheme) {
-    kGIDSignInButtonColorSchemeDark = 0,
-    kGIDSignInButtonColorSchemeLight = 1
+  kGIDSignInButtonColorSchemeDark = 0,
+  kGIDSignInButtonColorSchemeLight = 1
 };
 
 // This class provides the "Sign in with Google" button. You can instantiate this
@@ -34,12 +34,14 @@ typedef NS_ENUM(NSInteger, GIDSignInButtonColorScheme) {
 // implement the delegate methods for |GIDSignIn|, and add this button to your
 // view hierarchy.
 @interface GIDSignInButton : UIControl
+
 // The layout style for the sign-in button.
 // Possible values:
 // - kGIDSignInButtonStyleStandard: 230 x 48 (default)
 // - kGIDSignInButtonStyleWide:     312 x 48
 // - kGIDSignInButtonStyleIconOnly: 48 x 48 (no text, fixed size)
 @property(nonatomic, assign) GIDSignInButtonStyle style;
+
 // The color scheme for the sign-in button.
 // Possible values:
 // - kGIDSignInButtonColorSchemeDark

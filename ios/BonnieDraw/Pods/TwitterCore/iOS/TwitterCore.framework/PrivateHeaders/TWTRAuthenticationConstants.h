@@ -64,6 +64,5 @@ FOUNDATION_EXTERN NSString *const TWTRLoginButtonImageLocation;
 
 #pragma mark - Errors
 FOUNDATION_EXTERN NSString *const TWTRMissingAccessTokenMsg;
-typedef NS_ENUM(NSInteger, TWTRAuthType) {
-    TWTRAuthTypeApp = 1, TWTRAuthTypeGuest = 2, TWTRAuthTypeUser = 3
-};
+
+typedef NS_ENUM(NSInteger, TWTRAuthType) { TWTRAuthTypeApp = 1, TWTRAuthTypeGuest = 2, TWTRAuthTypeUser = 3 };

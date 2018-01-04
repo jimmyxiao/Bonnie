@@ -23,9 +23,8 @@
 #import "TWTRScribeSerializable.h"
 
 NS_ASSUME_NONNULL_BEGIN
-typedef NS_ENUM(NSUInteger, TWTRScribeFilterDetailsType) {
-    TWTRScribeFilterDetailsTypeDefault = 1, TWTRScribeFilterDetailsTypeCompact = 2
-};
+
+typedef NS_ENUM(NSUInteger, TWTRScribeFilterDetailsType) { TWTRScribeFilterDetailsTypeDefault = 1, TWTRScribeFilterDetailsTypeCompact = 2 };
 
 @interface TWTRScribeFilterDetails : NSObject <TWTRScribeSerializable>
 

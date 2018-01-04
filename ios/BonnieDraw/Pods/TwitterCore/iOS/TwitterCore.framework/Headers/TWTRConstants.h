@@ -33,10 +33,12 @@ typedef NS_ENUM(NSInteger, TWTRErrorCode) {
      *  Unknown error.
      */
     TWTRErrorCodeUnknown = -1,
+
     /**
      *  Authentication has not been set up yet. You must call -[TWTRTwitter logInWithCompletion:] or -[TWTRTwitter logInGuestWithCompletion:]
      */
     TWTRErrorCodeNoAuthentication = 0,
+
     /**
      *  Twitter has not been initialized yet. Call +[Fabric with:@[TwitterKit]] or -[TWTRTwitter startWithConsumerKey:consumerSecret:].
      */

@@ -8,12 +8,12 @@
 
 import UIKit
 import SystemConfiguration
+import Photos
 import Firebase
+import FirebaseDatabase
 import FacebookCore
 import TwitterKit
 import Reachability
-import Photos
-import FirebaseDatabase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

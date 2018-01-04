@@ -19,36 +19,36 @@ extern NSString *const kGIDSignInErrorDomain;
 
 // A list of potential error codes returned from the Google Identity SDK.
 typedef NS_ENUM(NSInteger, GIDSignInErrorCode) {
-    // Indicates an unknown error has occured.
-            kGIDSignInErrorCodeUnknown = -1,
-    // Indicates a problem reading or writing to the application keychain.
-            kGIDSignInErrorCodeKeychain = -2,
-    // Indicates no appropriate applications are installed on the user's device which can handle
-    // sign-in. This code will only ever be returned if using webview and switching to browser have
-    // both been disabled.
-            kGIDSignInErrorCodeNoSignInHandlersInstalled = -3,
-    // Indicates there are no auth tokens in the keychain. This error code will be returned by
-    // signInSilently if the user has never signed in before with the given scopes, or if they have
-    // since signed out.
-            kGIDSignInErrorCodeHasNoAuthInKeychain = -4,
-    // Indicates the user canceled the sign in request.
-            kGIDSignInErrorCodeCanceled = -5,
+  // Indicates an unknown error has occured.
+  kGIDSignInErrorCodeUnknown = -1,
+  // Indicates a problem reading or writing to the application keychain.
+  kGIDSignInErrorCodeKeychain = -2,
+  // Indicates no appropriate applications are installed on the user's device which can handle
+  // sign-in. This code will only ever be returned if using webview and switching to browser have
+  // both been disabled.
+  kGIDSignInErrorCodeNoSignInHandlersInstalled = -3,
+  // Indicates there are no auth tokens in the keychain. This error code will be returned by
+  // signInSilently if the user has never signed in before with the given scopes, or if they have
+  // since signed out.
+  kGIDSignInErrorCodeHasNoAuthInKeychain = -4,
+  // Indicates the user canceled the sign in request.
+  kGIDSignInErrorCodeCanceled = -5,
 };
 
 // A protocol implemented by the delegate of |GIDSignIn| to receive a refresh token or an error.
 @protocol GIDSignInDelegate <NSObject>
 
 // The sign-in flow has finished and was successful if |error| is |nil|.
-- (void)  signIn:(GIDSignIn *)signIn
-didSignInForUser:(GIDGoogleUser *)user
-       withError:(NSError *)error;
+- (void)signIn:(GIDSignIn *)signIn
+    didSignInForUser:(GIDGoogleUser *)user
+           withError:(NSError *)error;
 
 @optional
 
 // Finished disconnecting |user| from the app successfully if |error| is |nil|.
-- (void)       signIn:(GIDSignIn *)signIn
-didDisconnectWithUser:(GIDGoogleUser *)user
-            withError:(NSError *)error;
+- (void)signIn:(GIDSignIn *)signIn
+    didDisconnectWithUser:(GIDGoogleUser *)user
+                withError:(NSError *)error;
 
 @end
 
@@ -98,46 +98,54 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 
 // The authentication object for the current user, or |nil| if there is currently no logged in user.
 @property(nonatomic, readonly) GIDGoogleUser *currentUser;
+
 // The object to be notified when authentication is finished.
-@property(nonatomic, weak) id <GIDSignInDelegate> delegate;
+@property(nonatomic, weak) id<GIDSignInDelegate> delegate;
 
 // The object to be notified when sign in dispatch selection is finished.
-@property(nonatomic, weak) id <GIDSignInUIDelegate> uiDelegate;
+@property(nonatomic, weak) id<GIDSignInUIDelegate> uiDelegate;
 
 // The client ID of the app from the Google APIs console.  Must set for sign-in to work.
 @property(nonatomic, copy) NSString *clientID;
+
 // The API scopes requested by the app in an array of |NSString|s.  The default value is |@[]|.
 //
 // This property is optional. If you set it, set it before calling |signIn|.
 @property(nonatomic, copy) NSArray *scopes;
+
 // Whether or not to fetch basic profile data after signing in. The data is saved in the
 // |GIDGoogleUser.profileData| object.
 //
 // Setting the flag will add "email" and "profile" to scopes.
 // Defaults to |YES|.
 @property(nonatomic, assign) BOOL shouldFetchBasicProfile;
+
 // The language for sign-in, in the form of ISO 639-1 language code optionally followed by a dash
 // and ISO 3166-1 alpha-2 region code, such as |@"it"| or |@"pt-PT"|. Only set if different from
 // system default.
 //
 // This property is optional. If you set it, set it before calling |signIn|.
 @property(nonatomic, copy) NSString *language;
+
 // The login hint to the authorization server, for example the user's ID, or email address,
 // to be prefilled if possible.
 //
 // This property is optional. If you set it, set it before calling |signIn|.
 @property(nonatomic, copy) NSString *loginHint;
+
 // The client ID of the home web server.  This will be returned as the |audience| property of the
 // OpenID Connect ID token.  For more info on the ID token:
 // https://developers.google.com/identity/sign-in/ios/backend-auth
 //
 // This property is optional. If you set it, set it before calling |signIn|.
 @property(nonatomic, copy) NSString *serverClientID;
+
 // The OpenID2 realm of the home web server. This allows Google to include the user's OpenID
 // Identifier in the OpenID Connect ID token.
 //
 // This property is optional. If you set it, set it before calling |signIn|.
 @property(nonatomic, copy) NSString *openIDRealm;
+
 // The Google Apps domain to which users must belong to sign in.  To verify, check |GIDGoogleUser|'s
 // |hostedDomain| property.
 //
@@ -151,8 +159,8 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 // |application:openURL:sourceApplication:annotation|.  Returns |YES| if |GIDSignIn| handled this
 // URL.
 - (BOOL)handleURL:(NSURL *)url
-sourceApplication:(NSString *)sourceApplication
-       annotation:(id)annotation;
+    sourceApplication:(NSString *)sourceApplication
+           annotation:(id)annotation;
 
 // Checks whether the user has either currently signed in or has previous authentication saved in
 // keychain.

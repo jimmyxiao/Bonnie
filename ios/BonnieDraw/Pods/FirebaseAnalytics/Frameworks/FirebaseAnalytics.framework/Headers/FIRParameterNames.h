@@ -20,7 +20,7 @@
 ///     };
 /// </pre>
 static NSString *const kFIRParameterAchievementID FIR_SWIFT_NAME(AnalyticsParameterAchievementID) =
-        @"achievement_id";
+    @"achievement_id";
 
 /// Ad Network Click ID (NSString). Used for network-specific click IDs which vary in format.
 /// <pre>
@@ -30,7 +30,7 @@ static NSString *const kFIRParameterAchievementID FIR_SWIFT_NAME(AnalyticsParame
 ///     };
 /// </pre>
 static NSString *const kFIRParameterAdNetworkClickID
-        FIR_SWIFT_NAME(AnalyticsParameterAdNetworkClickID) = @"aclid";
+    FIR_SWIFT_NAME(AnalyticsParameterAdNetworkClickID) = @"aclid";
 
 /// The store or affiliation from which this transaction occurred (NSString).
 /// <pre>
@@ -40,7 +40,7 @@ static NSString *const kFIRParameterAdNetworkClickID
 ///     };
 /// </pre>
 static NSString *const kFIRParameterAffiliation FIR_SWIFT_NAME(AnalyticsParameterAffiliation) =
-        @"affiliation";
+    @"affiliation";
 
 /// The individual campaign name, slogan, promo code, etc. Some networks have pre-defined macro to
 /// capture campaign information, otherwise can be populated by developer. Highly Recommended
@@ -52,7 +52,7 @@ static NSString *const kFIRParameterAffiliation FIR_SWIFT_NAME(AnalyticsParamete
 ///     };
 /// </pre>
 static NSString *const kFIRParameterCampaign FIR_SWIFT_NAME(AnalyticsParameterCampaign) =
-        @"campaign";
+    @"campaign";
 
 /// Character used in game (NSString).
 /// <pre>
@@ -62,7 +62,7 @@ static NSString *const kFIRParameterCampaign FIR_SWIFT_NAME(AnalyticsParameterCa
 ///     };
 /// </pre>
 static NSString *const kFIRParameterCharacter FIR_SWIFT_NAME(AnalyticsParameterCharacter) =
-        @"character";
+    @"character";
 
 /// The checkout step (1..N) (unsigned 64-bit integer as NSNumber).
 /// <pre>
@@ -72,7 +72,7 @@ static NSString *const kFIRParameterCharacter FIR_SWIFT_NAME(AnalyticsParameterC
 ///     };
 /// </pre>
 static NSString *const kFIRParameterCheckoutStep FIR_SWIFT_NAME(AnalyticsParameterCheckoutStep) =
-        @"checkout_step";
+    @"checkout_step";
 
 /// Some option on a step in an ecommerce flow (NSString).
 /// <pre>
@@ -82,7 +82,7 @@ static NSString *const kFIRParameterCheckoutStep FIR_SWIFT_NAME(AnalyticsParamet
 ///     };
 /// </pre>
 static NSString *const kFIRParameterCheckoutOption
-        FIR_SWIFT_NAME(AnalyticsParameterCheckoutOption) = @"checkout_option";
+    FIR_SWIFT_NAME(AnalyticsParameterCheckoutOption) = @"checkout_option";
 
 /// Campaign content (NSString).
 static NSString *const kFIRParameterContent FIR_SWIFT_NAME(AnalyticsParameterContent) = @"content";
@@ -95,7 +95,7 @@ static NSString *const kFIRParameterContent FIR_SWIFT_NAME(AnalyticsParameterCon
 ///     };
 /// </pre>
 static NSString *const kFIRParameterContentType FIR_SWIFT_NAME(AnalyticsParameterContentType) =
-        @"content_type";
+    @"content_type";
 
 /// Coupon code for a purchasable item (NSString).
 /// <pre>
@@ -124,7 +124,7 @@ static NSString *const kFIRParameterCP1 FIR_SWIFT_NAME(AnalyticsParameterCP1) = 
 ///     };
 /// </pre>
 static NSString *const kFIRParameterCreativeName FIR_SWIFT_NAME(AnalyticsParameterCreativeName) =
-        @"creative_name";
+    @"creative_name";
 
 /// The name of a creative slot (NSString).
 /// <pre>
@@ -134,7 +134,7 @@ static NSString *const kFIRParameterCreativeName FIR_SWIFT_NAME(AnalyticsParamet
 ///     };
 /// </pre>
 static NSString *const kFIRParameterCreativeSlot FIR_SWIFT_NAME(AnalyticsParameterCreativeSlot) =
-        @"creative_slot";
+    @"creative_slot";
 
 /// Purchase currency in 3-letter <a href="http://en.wikipedia.org/wiki/ISO_4217#Active_codes">
 /// ISO_4217</a> format (NSString).
@@ -145,7 +145,7 @@ static NSString *const kFIRParameterCreativeSlot FIR_SWIFT_NAME(AnalyticsParamet
 ///     };
 /// </pre>
 static NSString *const kFIRParameterCurrency FIR_SWIFT_NAME(AnalyticsParameterCurrency) =
-        @"currency";
+    @"currency";
 
 /// Flight or Travel destination (NSString).
 /// <pre>
@@ -155,7 +155,7 @@ static NSString *const kFIRParameterCurrency FIR_SWIFT_NAME(AnalyticsParameterCu
 ///     };
 /// </pre>
 static NSString *const kFIRParameterDestination FIR_SWIFT_NAME(AnalyticsParameterDestination) =
-        @"destination";
+    @"destination";
 
 /// The arrival date, check-out date or rental end date for the item. This should be in
 /// YYYY-MM-DD format (NSString).
@@ -175,7 +175,7 @@ static NSString *const kFIRParameterEndDate FIR_SWIFT_NAME(AnalyticsParameterEnd
 ///     };
 /// </pre>
 static NSString *const kFIRParameterFlightNumber FIR_SWIFT_NAME(AnalyticsParameterFlightNumber) =
-        @"flight_number";
+    @"flight_number";
 
 /// Group/clan/guild ID (NSString).
 /// <pre>
@@ -185,6 +185,7 @@ static NSString *const kFIRParameterFlightNumber FIR_SWIFT_NAME(AnalyticsParamet
 ///     };
 /// </pre>
 static NSString *const kFIRParameterGroupID FIR_SWIFT_NAME(AnalyticsParameterGroupID) = @"group_id";
+
 /// Index of an item in a list (signed 64-bit integer as NSNumber).
 /// <pre>
 ///     NSDictionary *params = @{
@@ -202,7 +203,7 @@ static NSString *const kFIRParameterIndex FIR_SWIFT_NAME(AnalyticsParameterIndex
 ///     };
 /// </pre>
 static NSString *const kFIRParameterItemBrand FIR_SWIFT_NAME(AnalyticsParameterItemBrand) =
-        @"item_brand";
+    @"item_brand";
 
 /// Item category (NSString).
 /// <pre>
@@ -212,7 +213,7 @@ static NSString *const kFIRParameterItemBrand FIR_SWIFT_NAME(AnalyticsParameterI
 ///     };
 /// </pre>
 static NSString *const kFIRParameterItemCategory FIR_SWIFT_NAME(AnalyticsParameterItemCategory) =
-        @"item_category";
+    @"item_category";
 
 /// Item ID (NSString).
 /// <pre>
@@ -232,7 +233,7 @@ static NSString *const kFIRParameterItemID FIR_SWIFT_NAME(AnalyticsParameterItem
 ///     };
 /// </pre>
 static NSString *const kFIRParameterItemLocationID
-        FIR_SWIFT_NAME(AnalyticsParameterItemLocationID) = @"item_location_id";
+    FIR_SWIFT_NAME(AnalyticsParameterItemLocationID) = @"item_location_id";
 
 /// Item name (NSString).
 /// <pre>
@@ -242,7 +243,7 @@ static NSString *const kFIRParameterItemLocationID
 ///     };
 /// </pre>
 static NSString *const kFIRParameterItemName FIR_SWIFT_NAME(AnalyticsParameterItemName) =
-        @"item_name";
+    @"item_name";
 
 /// The list in which the item was presented to the user (NSString).
 /// <pre>
@@ -252,7 +253,7 @@ static NSString *const kFIRParameterItemName FIR_SWIFT_NAME(AnalyticsParameterIt
 ///     };
 /// </pre>
 static NSString *const kFIRParameterItemList FIR_SWIFT_NAME(AnalyticsParameterItemList) =
-        @"item_list";
+    @"item_list";
 
 /// Item variant (NSString).
 /// <pre>
@@ -262,7 +263,7 @@ static NSString *const kFIRParameterItemList FIR_SWIFT_NAME(AnalyticsParameterIt
 ///     };
 /// </pre>
 static NSString *const kFIRParameterItemVariant FIR_SWIFT_NAME(AnalyticsParameterItemVariant) =
-        @"item_variant";
+    @"item_variant";
 
 /// Level in game (signed 64-bit integer as NSNumber).
 /// <pre>
@@ -283,7 +284,7 @@ static NSString *const kFIRParameterLevel FIR_SWIFT_NAME(AnalyticsParameterLevel
 ///     };
 /// </pre>
 static NSString *const kFIRParameterLocation FIR_SWIFT_NAME(AnalyticsParameterLocation) =
-        @"location";
+    @"location";
 
 /// The advertising or marketing medium, for example: cpc, banner, email, push. Highly recommended
 /// (NSString).
@@ -303,7 +304,7 @@ static NSString *const kFIRParameterMedium FIR_SWIFT_NAME(AnalyticsParameterMedi
 ///     };
 /// </pre>
 static NSString *const kFIRParameterNumberOfNights
-        FIR_SWIFT_NAME(AnalyticsParameterNumberOfNights) = @"number_of_nights";
+    FIR_SWIFT_NAME(AnalyticsParameterNumberOfNights) = @"number_of_nights";
 
 /// Number of passengers traveling (signed 64-bit integer as NSNumber).
 /// <pre>
@@ -313,7 +314,7 @@ static NSString *const kFIRParameterNumberOfNights
 ///     };
 /// </pre>
 static NSString *const kFIRParameterNumberOfPassengers
-        FIR_SWIFT_NAME(AnalyticsParameterNumberOfPassengers) = @"number_of_passengers";
+    FIR_SWIFT_NAME(AnalyticsParameterNumberOfPassengers) = @"number_of_passengers";
 
 /// Number of rooms for travel events (signed 64-bit integer as NSNumber).
 /// <pre>
@@ -323,7 +324,7 @@ static NSString *const kFIRParameterNumberOfPassengers
 ///     };
 /// </pre>
 static NSString *const kFIRParameterNumberOfRooms FIR_SWIFT_NAME(AnalyticsParameterNumberOfRooms) =
-        @"number_of_rooms";
+    @"number_of_rooms";
 
 /// Flight or Travel origin (NSString).
 /// <pre>
@@ -352,7 +353,7 @@ static NSString *const kFIRParameterPrice FIR_SWIFT_NAME(AnalyticsParameterPrice
 ///     };
 /// </pre>
 static NSString *const kFIRParameterQuantity FIR_SWIFT_NAME(AnalyticsParameterQuantity) =
-        @"quantity";
+    @"quantity";
 
 /// Score in game (signed 64-bit integer as NSNumber).
 /// <pre>
@@ -371,7 +372,7 @@ static NSString *const kFIRParameterScore FIR_SWIFT_NAME(AnalyticsParameterScore
 ///     };
 /// </pre>
 static NSString *const kFIRParameterSearchTerm FIR_SWIFT_NAME(AnalyticsParameterSearchTerm) =
-        @"search_term";
+    @"search_term";
 
 /// Shipping cost (double as NSNumber).
 /// <pre>
@@ -382,7 +383,7 @@ static NSString *const kFIRParameterSearchTerm FIR_SWIFT_NAME(AnalyticsParameter
 ///     };
 /// </pre>
 static NSString *const kFIRParameterShipping FIR_SWIFT_NAME(AnalyticsParameterShipping) =
-        @"shipping";
+    @"shipping";
 
 /// Sign up method (NSString).
 /// <pre>
@@ -392,7 +393,7 @@ static NSString *const kFIRParameterShipping FIR_SWIFT_NAME(AnalyticsParameterSh
 ///     };
 /// </pre>
 static NSString *const kFIRParameterSignUpMethod FIR_SWIFT_NAME(AnalyticsParameterSignUpMethod) =
-        @"sign_up_method";
+    @"sign_up_method";
 
 /// The origin of your traffic, such as an Ad network (for example, google) or partner (urban
 /// airship). Identify the advertiser, site, publication, etc. that is sending traffic to your
@@ -414,7 +415,7 @@ static NSString *const kFIRParameterSource FIR_SWIFT_NAME(AnalyticsParameterSour
 ///     };
 /// </pre>
 static NSString *const kFIRParameterStartDate FIR_SWIFT_NAME(AnalyticsParameterStartDate) =
-        @"start_date";
+    @"start_date";
 
 /// Tax amount (double as NSNumber).
 /// <pre>
@@ -444,7 +445,7 @@ static NSString *const kFIRParameterTerm FIR_SWIFT_NAME(AnalyticsParameterTerm) 
 ///     };
 /// </pre>
 static NSString *const kFIRParameterTransactionID FIR_SWIFT_NAME(AnalyticsParameterTransactionID) =
-        @"transaction_id";
+    @"transaction_id";
 
 /// Travel class (NSString).
 /// <pre>
@@ -454,7 +455,7 @@ static NSString *const kFIRParameterTransactionID FIR_SWIFT_NAME(AnalyticsParame
 ///     };
 /// </pre>
 static NSString *const kFIRParameterTravelClass FIR_SWIFT_NAME(AnalyticsParameterTravelClass) =
-        @"travel_class";
+    @"travel_class";
 
 /// A context-specific numeric value which is accumulated automatically for each event type. This is
 /// a general purpose parameter that is useful for accumulating a key metric that pertains to an
@@ -483,4 +484,4 @@ static NSString *const kFIRParameterValue FIR_SWIFT_NAME(AnalyticsParameterValue
 ///     };
 /// </pre>
 static NSString *const kFIRParameterVirtualCurrencyName
-        FIR_SWIFT_NAME(AnalyticsParameterVirtualCurrencyName) = @"virtual_currency_name";
+    FIR_SWIFT_NAME(AnalyticsParameterVirtualCurrencyName) = @"virtual_currency_name";

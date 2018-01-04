@@ -25,6 +25,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TWTRDictUtil : NSObject
+
 /**
  *  Returns an array for the specified key. Returns nil if the value does not exist for the key or the return type is not an array.
  */

@@ -14,4 +14,4 @@
 
 /// The method used to sign in. For example, "google", "facebook" or "twitter".
 static NSString *const kFIRUserPropertySignUpMethod
-        FIR_SWIFT_NAME(AnalyticsUserPropertySignUpMethod) = @"sign_up_method";
+    FIR_SWIFT_NAME(AnalyticsUserPropertySignUpMethod) = @"sign_up_method";

@@ -23,9 +23,8 @@
 #import "TWTRAPIServiceConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
-typedef NS_ENUM(NSInteger, TWTRAPIServiceConfigType) {
-    TWTRAPIServiceConfigTypeDefault, TWTRAPIServiceConfigTypeCards, TWTRAPIServiceConfigTypeUpload
-};
+
+typedef NS_ENUM(NSInteger, TWTRAPIServiceConfigType) { TWTRAPIServiceConfigTypeDefault, TWTRAPIServiceConfigTypeCards, TWTRAPIServiceConfigTypeUpload };
 
 @interface TWTRAPIServiceConfigRegistry : NSObject
 

@@ -22,8 +22,8 @@
 #import "TWTRNetworking.h"
 
 @interface TWTRUserAPIClient : TWTRNetworking
-- (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig NS_UNAVAILABLE;
 
+- (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig NS_UNAVAILABLE;
 - (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig authToken:(NSString *)authToken authTokenSecret:(NSString *)authTokenSecret;
 
 @end

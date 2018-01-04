@@ -20,6 +20,7 @@
  */
 
 @interface TWTRCoreLanguage : NSObject
+
 + (NSString *)preferredLanguage;
 
 @end

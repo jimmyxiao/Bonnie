@@ -9,4 +9,5 @@
 #else
 #define FIR_SWIFT_NAME(X)  // Intentionally blank.
 #endif  // #ifdef __IPHONE_9_3
+
 #endif  // FIR_SWIFT_NAME

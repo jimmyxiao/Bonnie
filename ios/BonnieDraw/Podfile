@@ -1,13 +1,13 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '10.0'
 project 'BonnieDraw.xcodeproj'
+platform :ios, '10.0'
+
 target 'BonnieDraw' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for BonnieDraw
   pod 'Firebase/Core'
-  pod 'Firebase/Crash'
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
   pod 'Fabric'
@@ -21,4 +21,5 @@ target 'BonnieDraw' do
   pod 'DeviceKit'
   pod 'Alamofire'
   pod 'DropDown'
+
 end

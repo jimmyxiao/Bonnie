@@ -51,7 +51,7 @@
 		163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AA1F61663800945E04 /* AppDelegate.swift */; };
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
-		1645CE101FFE4A29002AC2FD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1645CE0F1FFE4A28002AC2FD /* GoogleService-Info.plist */; };
+		1645CE151FFE5211002AC2FD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1645CE141FFE5210002AC2FD /* GoogleService-Info.plist */; };
 		16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */; };
 		164985A11FF79F1F00A1B00E /* WindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164985A01FF79F1F00A1B00E /* WindowExtension.swift */; };
 		1649F2701FD7A09200B90A1E /* CanvasAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */; };
@@ -159,7 +159,7 @@
 		163F65B41F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
-		1645CE0F1FFE4A28002AC2FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1645CE141FFE5210002AC2FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		164985A01FF79F1F00A1B00E /* WindowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowExtension.swift; sourceTree = "<group>"; };
 		1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasAnimationViewController.swift; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 				163EAED91FD64435003109B3 /* Crayon.png */,
 				163EAED61FD64435003109B3 /* Marker.png */,
 				163EAED71FD64435003109B3 /* Pencil.png */,
-				1645CE0F1FFE4A28002AC2FD /* GoogleService-Info.plist */,
+				1645CE141FFE5210002AC2FD /* GoogleService-Info.plist */,
 				163F65B61F61663900945E04 /* Info.plist */,
 				1664F4A81F74AD9200809C32 /* Localizable.strings */,
 				1664F4B41F74E3F100809C32 /* Login.storyboard */,
@@ -552,7 +552,7 @@
 				163EAEDB1FD64435003109B3 /* Pencil.png in Resources */,
 				163EAEDA1FD64435003109B3 /* Marker.png in Resources */,
 				165A95981FDA3F2600970CE7 /* Texture.png in Resources */,
-				1645CE101FFE4A29002AC2FD /* GoogleService-Info.plist in Resources */,
+				1645CE151FFE5211002AC2FD /* GoogleService-Info.plist in Resources */,
 				163EAEDC1FD64435003109B3 /* Airbrush.png in Resources */,
 				162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */,
 				162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */,
@@ -577,7 +577,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/Fabric/run";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
 		};
 		306D15DA829BDA6EC351F7D6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -830,7 +830,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -887,7 +886,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -916,7 +914,6 @@
 				CODE_SIGN_ENTITLEMENTS = BonnieDraw/BonnieDraw.entitlements;
 				DEVELOPMENT_TEAM = 3MMZ7UBHWG;
 				INFOPLIST_FILE = BonnieDraw/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sctw.bonniedraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BonnieDraw/BonnieDraw-Bridging-Header.h";
@@ -934,7 +931,6 @@
 				CODE_SIGN_ENTITLEMENTS = BonnieDraw/BonnieDraw.entitlements;
 				DEVELOPMENT_TEAM = 3MMZ7UBHWG;
 				INFOPLIST_FILE = BonnieDraw/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sctw.bonniedraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BonnieDraw/BonnieDraw-Bridging-Header.h";

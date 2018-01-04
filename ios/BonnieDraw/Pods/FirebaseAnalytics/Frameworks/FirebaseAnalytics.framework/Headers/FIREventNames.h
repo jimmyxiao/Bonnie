@@ -15,7 +15,7 @@
 /// Add Payment Info event. This event signifies that a user has submitted their payment information
 /// to your app.
 static NSString *const kFIREventAddPaymentInfo FIR_SWIFT_NAME(AnalyticsEventAddPaymentInfo) =
-        @"add_payment_info";
+    @"add_payment_info";
 
 /// E-Commerce Add To Cart event. This event signifies that an item was added to a cart for
 /// purchase. Add this event to a funnel with kFIREventEcommercePurchase to gauge the effectiveness
@@ -55,7 +55,7 @@ static NSString *const kFIREventAddToCart FIR_SWIFT_NAME(AnalyticsEventAddToCart
 ///     <li>@c kFIRParameterValue (double as NSNumber) (optional)</li>
 /// </ul>
 static NSString *const kFIREventAddToWishlist FIR_SWIFT_NAME(AnalyticsEventAddToWishlist) =
-        @"add_to_wishlist";
+    @"add_to_wishlist";
 
 /// App Open event. By logging this event when an App is moved to the foreground, developers can
 /// understand how often users leave and return during the course of a Session. Although Sessions
@@ -86,7 +86,7 @@ static NSString *const kFIREventAppOpen FIR_SWIFT_NAME(AnalyticsEventAppOpen) = 
 ///     <li>@c kFIRParameterTravelClass (NSString) (optional) for travel bookings</li>
 /// </ul>
 static NSString *const kFIREventBeginCheckout FIR_SWIFT_NAME(AnalyticsEventBeginCheckout) =
-        @"begin_checkout";
+    @"begin_checkout";
 
 /// Campaign Detail event. Log this event to supply the referral details of a re-engagement
 /// campaign. Note: you must supply at least one of the required parameters kFIRParameterSource,
@@ -102,7 +102,7 @@ static NSString *const kFIREventBeginCheckout FIR_SWIFT_NAME(AnalyticsEventBegin
 ///     <li>@c kFIRParameterCP1 (NSString) (optional)</li>
 /// </ul>
 static NSString *const kFIREventCampaignDetails FIR_SWIFT_NAME(AnalyticsEventCampaignDetails) =
-        @"campaign_details";
+    @"campaign_details";
 
 /// Checkout progress. Params:
 ///
@@ -111,7 +111,7 @@ static NSString *const kFIREventCampaignDetails FIR_SWIFT_NAME(AnalyticsEventCam
 ///    <li>@c kFIRParameterCheckoutOption (NSString) (optional)</li>
 /// </ul>
 static NSString *const kFIREventCheckoutProgress FIR_SWIFT_NAME(AnalyticsEventCheckoutProgress) =
-        @"checkout_progress";
+    @"checkout_progress";
 
 /// Earn Virtual Currency event. This event tracks the awarding of virtual currency in your app. Log
 /// this along with @c kFIREventSpendVirtualCurrency to better understand your virtual economy.
@@ -122,7 +122,7 @@ static NSString *const kFIREventCheckoutProgress FIR_SWIFT_NAME(AnalyticsEventCh
 ///     <li>@c kFIRParameterValue (signed 64-bit integer or double as NSNumber)</li>
 /// </ul>
 static NSString *const kFIREventEarnVirtualCurrency
-        FIR_SWIFT_NAME(AnalyticsEventEarnVirtualCurrency) = @"earn_virtual_currency";
+    FIR_SWIFT_NAME(AnalyticsEventEarnVirtualCurrency) = @"earn_virtual_currency";
 
 /// E-Commerce Purchase event. This event signifies that an item was purchased by a user. Note:
 /// This is different from the in-app purchase event, which is reported automatically for App
@@ -151,7 +151,7 @@ static NSString *const kFIREventEarnVirtualCurrency
 ///     <li>@c kFIRParameterTravelClass (NSString) (optional) for travel bookings</li>
 /// </ul>
 static NSString *const kFIREventEcommercePurchase FIR_SWIFT_NAME(AnalyticsEventEcommercePurchase) =
-        @"ecommerce_purchase";
+    @"ecommerce_purchase";
 
 /// Generate Lead event. Log this event when a lead has been generated in the app to understand the
 /// efficacy of your install and re-engagement campaigns. Note: If you supply the
@@ -163,7 +163,7 @@ static NSString *const kFIREventEcommercePurchase FIR_SWIFT_NAME(AnalyticsEventE
 ///     <li>@c kFIRParameterValue (double as NSNumber) (optional)</li>
 /// </ul>
 static NSString *const kFIREventGenerateLead FIR_SWIFT_NAME(AnalyticsEventGenerateLead) =
-        @"generate_lead";
+    @"generate_lead";
 
 /// Join Group event. Log this event when a user joins a group such as a guild, team or family. Use
 /// this event to analyze how popular certain groups or social features are in your app. Params:
@@ -215,7 +215,7 @@ static NSString *const kFIREventPostScore FIR_SWIFT_NAME(AnalyticsEventPostScore
 ///     <li>@c kFIRParameterValue (double as NSNumber) (optional)</li>
 /// </ul>
 static NSString *const kFIREventPresentOffer FIR_SWIFT_NAME(AnalyticsEventPresentOffer) =
-        @"present_offer";
+    @"present_offer";
 
 /// E-Commerce Purchase Refund event. This event signifies that an item purchase was refunded.
 /// Note: If you supply the @c kFIRParameterValue parameter, you must also supply the
@@ -228,7 +228,7 @@ static NSString *const kFIREventPresentOffer FIR_SWIFT_NAME(AnalyticsEventPresen
 ///     <li>@c kFIRParameterTransactionID (NSString) (optional)</li>
 /// </ul>
 static NSString *const kFIREventPurchaseRefund FIR_SWIFT_NAME(AnalyticsEventPurchaseRefund) =
-        @"purchase_refund";
+    @"purchase_refund";
 
 /// Remove from cart event. Params:
 ///
@@ -247,7 +247,7 @@ static NSString *const kFIREventPurchaseRefund FIR_SWIFT_NAME(AnalyticsEventPurc
 ///     <li>@c kFIRParameterEndDate (NSString) (optional)</li>
 /// </ul>
 static NSString *const kFIREventRemoveFromCart FIR_SWIFT_NAME(AnalyticsEventRemoveFromCart) =
-        @"remove_from_cart";
+    @"remove_from_cart";
 
 /// Search event. Apps that support search features can use this event to contextualize search
 /// operations by supplying the appropriate, corresponding parameters. This event can help you
@@ -278,7 +278,7 @@ static NSString *const kFIREventSearch FIR_SWIFT_NAME(AnalyticsEventSearch) = @"
 ///     <li>@c kFIRParameterItemID (NSString)</li>
 /// </ul>
 static NSString *const kFIREventSelectContent FIR_SWIFT_NAME(AnalyticsEventSelectContent) =
-        @"select_content";
+    @"select_content";
 
 /// Set checkout option. Params:
 ///
@@ -287,7 +287,7 @@ static NSString *const kFIREventSelectContent FIR_SWIFT_NAME(AnalyticsEventSelec
 ///    <li>@c kFIRParameterCheckoutOption (NSString)</li>
 /// </ul>
 static NSString *const kFIREventSetCheckoutOption FIR_SWIFT_NAME(AnalyticsEventSetCheckoutOption) =
-        @"set_checkout_option";
+    @"set_checkout_option";
 
 /// Share event. Apps with social features can log the Share event to identify the most viral
 /// content. Params:
@@ -316,19 +316,19 @@ static NSString *const kFIREventSignUp FIR_SWIFT_NAME(AnalyticsEventSignUp) = @"
 ///     <li>@c kFIRParameterValue (signed 64-bit integer or double as NSNumber)</li>
 /// </ul>
 static NSString *const kFIREventSpendVirtualCurrency
-        FIR_SWIFT_NAME(AnalyticsEventSpendVirtualCurrency) = @"spend_virtual_currency";
+    FIR_SWIFT_NAME(AnalyticsEventSpendVirtualCurrency) = @"spend_virtual_currency";
 
 /// Tutorial Begin event. This event signifies the start of the on-boarding process in your app. Use
 /// this in a funnel with kFIREventTutorialComplete to understand how many users complete this
 /// process and move on to the full app experience.
 static NSString *const kFIREventTutorialBegin FIR_SWIFT_NAME(AnalyticsEventTutorialBegin) =
-        @"tutorial_begin";
+    @"tutorial_begin";
 
 /// Tutorial End event. Use this event to signify the user's completion of your app's on-boarding
 /// process. Add this to a funnel with kFIREventTutorialBegin to gauge the completion rate of your
 /// on-boarding process.
 static NSString *const kFIREventTutorialComplete FIR_SWIFT_NAME(AnalyticsEventTutorialComplete) =
-        @"tutorial_complete";
+    @"tutorial_complete";
 
 /// Unlock Achievement event. Log this event when the user has unlocked an achievement in your
 /// game. Since achievements generally represent the breadth of a gaming experience, this event can
@@ -338,7 +338,7 @@ static NSString *const kFIREventTutorialComplete FIR_SWIFT_NAME(AnalyticsEventTu
 ///     <li>@c kFIRParameterAchievementID (NSString)</li>
 /// </ul>
 static NSString *const kFIREventUnlockAchievement FIR_SWIFT_NAME(AnalyticsEventUnlockAchievement) =
-        @"unlock_achievement";
+    @"unlock_achievement";
 
 /// View Item event. This event signifies that some content was shown to the user. This content may
 /// be a product, a webpage or just a simple image or text. Use the appropriate parameters to
@@ -379,7 +379,7 @@ static NSString *const kFIREventViewItem FIR_SWIFT_NAME(AnalyticsEventViewItem) 
 ///     <li>@c kFIRParameterItemCategory (NSString)</li>
 /// </ul>
 static NSString *const kFIREventViewItemList FIR_SWIFT_NAME(AnalyticsEventViewItemList) =
-        @"view_item_list";
+    @"view_item_list";
 
 /// View Search Results event. Log this event when the user has been presented with the results of a
 /// search. Params:
@@ -388,4 +388,4 @@ static NSString *const kFIREventViewItemList FIR_SWIFT_NAME(AnalyticsEventViewIt
 ///     <li>@c kFIRParameterSearchTerm (NSString)</li>
 /// </ul>
 static NSString *const kFIREventViewSearchResults FIR_SWIFT_NAME(AnalyticsEventViewSearchResults) =
-        @"view_search_results";
+    @"view_search_results";
