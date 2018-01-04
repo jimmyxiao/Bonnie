@@ -7,34 +7,17 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import <OpenGLES/EAGLDrawable.h>
 #import <mach/mach_time.h> // for mach_absolute_time() and friends
 
 #import "JotView.h"
-#import "JotStrokeManager.h"
-#import "AbstractBezierPathElement.h"
 #import "AbstractBezierPathElement-Protected.h"
-#import "CurveToPathElement.h"
 #import "UIColor+JotHelper.h"
-#import "MMMainOperationQueue.h"
-#import "JotGLTexture.h"
-#import "JotGLTextureBackedFrameBuffer.h"
-#import "JotDefaultBrushTexture.h"
-#import "JotTrashManager.h"
-#import "JotViewState.h"
-#import "JotViewImmutableState.h"
 #import "SegmentSmoother.h"
 #import "JotFilledPathStroke.h"
-#import "MMWeakTimer.h"
-#import "MMWeakTimerTarget.h"
-#import "JotTextureCache.h"
 #import "NSMutableArray+RemoveSingle.h"
-#import "JotDiskAssetManager.h"
 #import "JotGLLayerBackedFrameBuffer.h"
-#import "UIScreen+PortraitBounds.h"
 #import "JotGLColorlessPointProgram.h"
 #import "JotGLColoredPointProgram.h"
-#import "NSArray+JotMapReduce.h"
 
 #define kJotValidateUndoTimer .06
 
@@ -1448,9 +1431,6 @@ static int undoCounter;
                                  withStepWidth:[self.delegate stepWidthForStroke]];
             }
         }
-        if (!isMultiTouchSupported) {
-            break;
-        }
     }
     [JotGLContext validateEmptyContextStack];
     isOutOfBounds = NO;
@@ -1476,84 +1456,70 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 
 
         JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:touch.hash];
-        [currentStroke lock];
+        if (currentStroke) {
+            [currentStroke lock];
+            for (UITouch *coalescedTouch in coalesced) {
+                @autoreleasepool {
+                    // check for other brands of stylus,
+                    // or process non-Jot touches
+                    //
+                    // for this example, we'll simply draw every touch if
+                    // the jot sdk is not enabled
+                    CGPoint preciseLocInView = [coalescedTouch locationInView:self];
+                    if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
+                        preciseLocInView = [coalescedTouch preciseLocationInView:self];
+                    }
+                    if (CGRectContainsPoint(self.bounds, preciseLocInView)) {
+                        [self.delegate willMoveStrokeWithCoalescedTouch:coalescedTouch fromTouch:touch];
+                        // Convert touch point from UIView referential to OpenGL one (upside-down flip)
+                        CGPoint glPreciseLocInView = preciseLocInView;
+                        glPreciseLocInView.y = self.bounds.size.height - glPreciseLocInView.y;
+                        BOOL shouldSkipSegment = NO;
+                        if ([self.delegate supportsRotation] && [[currentStroke segments] count] < 10) {
+                            CGFloat len = [[[currentStroke segments] jotReduce:^id(AbstractBezierPathElement *ele, NSUInteger index, id accum) {
+                                return @([ele lengthOfElement] + [accum floatValue]);
+                            }] floatValue];
+                            CGPoint start = [[[currentStroke segments] firstObject] startPoint];
+                            CGPoint end = glPreciseLocInView;
+                            CGPoint diff = CGPointMake(end.x - start.x, end.y - start.y);
+                            CGFloat rot = atan2(diff.y, diff.x);
+                            if ([[currentStroke segments] count] == 1 && distanceBetween2(start, end) < 7) {
+                                // if the rotation is off by at least 10 degrees, then updated the rotation on the stroke
+                                // otherwise let the previous rotation stand
+                                [[currentStroke segments] enumerateObjectsUsingBlock:^(AbstractBezierPathElement *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+                                    obj.rotation = rot;
+                                }];
+                                shouldSkipSegment = YES;
+                            }
+                        }
+                        if (currentStroke && !shouldSkipSegment) {
+                            CGPoint preciseLocInView = [coalescedTouch locationInView:self];
+                            if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
+                                preciseLocInView = [coalescedTouch preciseLocationInView:self];
+                            }
 
-        for (UITouch* coalescedTouch in coalesced) {
-            @autoreleasepool {
-                // check for other brands of stylus,
-                // or process non-Jot touches
-                //
-                // for this example, we'll simply draw every touch if
-                // the jot sdk is not enabled
-                CGPoint preciseLocInView = [coalescedTouch locationInView:self];
-                if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
-                    preciseLocInView = [coalescedTouch preciseLocationInView:self];
-                }
-                if (CGRectContainsPoint(self.bounds, preciseLocInView)) {
-                    
-                    [self.delegate willMoveStrokeWithCoalescedTouch:coalescedTouch fromTouch:touch];
-                    // Convert touch point from UIView referential to OpenGL one (upside-down flip)
-                    CGPoint glPreciseLocInView = preciseLocInView;
-                    glPreciseLocInView.y = self.bounds.size.height - glPreciseLocInView.y;
-                    
-                    BOOL shouldSkipSegment = NO;
-                    
-                    if ([self.delegate supportsRotation] && [[currentStroke segments] count] < 10) {
-                        CGFloat len = [[[currentStroke segments] jotReduce:^id(AbstractBezierPathElement* ele, NSUInteger index, id accum) {
-                            return @([ele lengthOfElement] + [accum floatValue]);
-                        }] floatValue];
-                        
-                        CGPoint start = [[[currentStroke segments] firstObject] startPoint];
-                        CGPoint end = glPreciseLocInView;
-                        CGPoint diff = CGPointMake(end.x - start.x, end.y - start.y);
-                        CGFloat rot = atan2(diff.y, diff.x);
-                        
-                        if ([[currentStroke segments] count] == 1 && distanceBetween2(start, end) < 7) {
-                            // if the rotation is off by at least 10 degrees, then updated the rotation on the stroke
-                            // otherwise let the previous rotation stand
-                            [[currentStroke segments] enumerateObjectsUsingBlock:^(AbstractBezierPathElement* _Nonnull obj, NSUInteger idx, BOOL* _Nonnull stop) {
-                                obj.rotation = rot;
-                            }];
-                            shouldSkipSegment = YES;
+                            // find the stroke that we're modifying, and then add an element and render it
+                            [self addLineToAndRenderStroke:currentStroke
+                                                   toPoint:preciseLocInView
+                                                   toWidth:[self.delegate widthForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                                   toColor:[self.delegate colorForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                             andSmoothness:[self.delegate smoothnessForCoalescedTouch:coalescedTouch fromTouch:touch]
+                                             withStepWidth:[self.delegate stepWidthForStroke]];
                         }
+                    } else {
+                        isOutOfBounds = YES;
+                        [state finishCurrentStroke];
+                        [[JotStrokeManager sharedInstance] removeStrokeForHash:touch.hash];
+                        [self.delegate willEndStrokeWithCoalescedTouch:touch fromTouch:touch shortStrokeEnding:YES];
+                        break;
                     }
-                    
-                    if (currentStroke && !shouldSkipSegment) {
-                        CGPoint preciseLocInView = [coalescedTouch locationInView:self];
-                        if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
-                            preciseLocInView = [coalescedTouch preciseLocationInView:self];
-                        }
-                        
-                        // find the stroke that we're modifying, and then add an element and render it
-                        [self addLineToAndRenderStroke:currentStroke
-                                               toPoint:preciseLocInView
-                                               toWidth:[self.delegate widthForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                               toColor:[self.delegate colorForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                         andSmoothness:[self.delegate smoothnessForCoalescedTouch:coalescedTouch fromTouch:touch]
-                                         withStepWidth:[self.delegate stepWidthForStroke]];
-                    }
-                }else{
-                    
-                    isOutOfBounds = YES;
-                    
-                    [state finishCurrentStroke];
-                    
-                    [[JotStrokeManager sharedInstance] removeStrokeForHash:touch.hash];
-                    
-                    [self.delegate willEndStrokeWithCoalescedTouch:touch fromTouch:touch shortStrokeEnding:YES];
-                    
-                    break;
                 }
             }
+            [currentStroke unlock];
         }
-
-        [currentStroke unlock];
         
         if (isOutOfBounds) {
             [self.delegate didEndStrokeWithCoalescedTouch:touch fromTouch:touch];
-        }
-        if (!isMultiTouchSupported) {
-            break;
         }
     }
     [JotGLContext validateEmptyContextStack];
@@ -1570,9 +1536,8 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
         }
         JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:touch.hash];
         BOOL shortStrokeEnding = [currentStroke.segments count] <= 1;
-        
-        [self.delegate willEndStrokeWithCoalescedTouch:touch fromTouch:touch shortStrokeEnding:shortStrokeEnding];
         if (currentStroke) {
+            [self.delegate willEndStrokeWithCoalescedTouch:touch fromTouch:touch shortStrokeEnding:shortStrokeEnding];
             @autoreleasepool {
                 [currentStroke lock];
                 
@@ -1614,9 +1579,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                 [self.delegate didEndStrokeWithCoalescedTouch:touch fromTouch:touch];
             }
         }
-        if (!isMultiTouchSupported) {
-            break;
-        }
     }
     [JotGLContext validateEmptyContextStack];
 }
@@ -1633,9 +1595,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
             if ([[JotStrokeManager sharedInstance] cancelStrokeForHash:touch.hash]) {
                 state.currentStroke = nil;
             }
-        }
-        if (!isMultiTouchSupported) {
-            break;
         }
     }
     // we need to erase the current stroke from the screen, so

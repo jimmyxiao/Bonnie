@@ -38,6 +38,7 @@ class CanvasViewController:
     private var redoPaths = [Path]()
     private var writeHandle: FileHandle?
     private var persistentBackgroundColor: UIColor?
+    private var isDrawing = false
     var jotViewStateInkPath = FileUrl.INK.path
     var jotViewStateThumbnailPath = FileUrl.THUMBNAIL.path
     var jotViewStatePlistPath = FileUrl.STATE.path
@@ -466,15 +467,19 @@ class CanvasViewController:
     }
 
     internal func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
-        paths.append(Path(points: [Point(length: LENGTH_SIZE,
-                function: .draw,
-                position: coalescedTouch.location(in: canvas),
-                color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
-                action: .down,
-                size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
-                type: brush.type,
-                duration: ANIMATION_TIMER)]))
-        return true
+        if !isDrawing {
+            paths.append(Path(points: [Point(length: LENGTH_SIZE,
+                    function: .draw,
+                    position: coalescedTouch.location(in: canvas),
+                    color: brush.color(forCoalescedTouch: coalescedTouch, fromTouch: touch) ?? .clear,
+                    action: .down,
+                    size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
+                    type: brush.type,
+                    duration: ANIMATION_TIMER)]))
+            isDrawing = true
+            return true
+        }
+        return false
     }
 
     internal func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
@@ -508,12 +513,15 @@ class CanvasViewController:
         redoPaths.removeAll()
         saveToCache()
         checkCanvasStatus()
+        isDrawing = false
     }
 
     internal func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
     }
 
     internal func didCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        paths.removeLast()
+        isDrawing = false
     }
 
     internal func didLoadState(_ state: JotViewStateProxy!) {
@@ -591,7 +599,7 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                if try !self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
                     try manager.copyItem(at: FileUrl.CACHE, to: url)
                     let writeHandle = try FileHandle(forWritingTo: url)
                     writeHandle.seekToEndOfFile()

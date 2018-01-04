@@ -24,10 +24,7 @@
 
 @class SegmentSmoother, UIPalmView;
 
-
-@interface JotView : UIView <JotStrokeDelegate> {
-    BOOL isMultiTouchSupported;
-}
+@interface JotView : UIView <JotStrokeDelegate>
 
 @property(readonly) JotViewStateProxy* state;
 @property(nonatomic, weak) IBOutlet NSObject<JotViewDelegate>* delegate;
