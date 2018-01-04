@@ -1,6 +1,9 @@
 package com.sctw.bonniedraw.fragment;
 
 
+import android.content.Intent;
+import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -8,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -54,7 +58,10 @@ public class PublicFragment extends DialogFragment {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+
         mWebView.setWebViewClient(new WebViewClient() {
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
@@ -66,6 +73,13 @@ public class PublicFragment extends DialogFragment {
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 ToastUtil.createToastIsCheck(getContext(), getString(R.string.uc_connection_failed), false, PxDpConvert.getSystemHight(getContext()) / 3);
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                // this will ignore the Ssl error and will go forward to your site
+                handler.proceed();
             }
         });
         Bundle bundle = getArguments();

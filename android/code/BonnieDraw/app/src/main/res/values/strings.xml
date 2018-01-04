@@ -218,5 +218,5 @@
     <!--通用類-->
     <string name="user_permission_fail">使用者拒絕權限 無法存取</string>
     <!--社群雜項-->
-    <string name="download_html">https://drive.google.com/open?id=0BywnwT8B3NHJVHRrTU83ak9UTEE</string>
+    <string name="download_html">https://drive.google.com/file/d/1FyQqeQtlxc-atefL2xKqqvUCmfzlTO33/view?usp=sharing</string>
 </resources>
