@@ -1034,9 +1034,6 @@
                     <connections>
                         <outlet property="tableView" destination="BKq-Yz-Dlx" id="AiR-v7-tze"/>
                         <segue destination="mlI-Uy-vuT" kind="presentation" identifier="accountEditSegue" id="6mJ-Bl-V9p"/>
-                        <segue destination="U6Y-DR-ifA" kind="show" identifier="languageSegue" id="3jn-Nk-wrl">
-                            <nil key="action"/>
-                        </segue>
                         <segue destination="Pph-uX-wOV" kind="show" identifier="webAboutSegue" id="gHb-TA-j0K">
                             <nil key="action"/>
                         </segue>
@@ -1048,42 +1045,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Phf-7M-ioJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4205.6000000000004" y="1489.6551724137933"/>
-        </scene>
-        <!--Language View Controller-->
-        <scene sceneID="oE9-3H-6Wk">
-            <objects>
-                <viewController id="U6Y-DR-ifA" customClass="LanguageViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="fRn-Em-BLB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Sl-1G-3YW">
-                                <rect key="frame" x="149.5" y="291" width="76" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="0Sl-1G-3YW" firstAttribute="centerY" secondItem="fRn-Em-BLB" secondAttribute="centerY" id="12e-7a-58n"/>
-                            <constraint firstItem="0Sl-1G-3YW" firstAttribute="centerX" secondItem="fRn-Em-BLB" secondAttribute="centerX" id="YAX-Uh-5Ge"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="M9w-Rd-t3i"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="j3N-GW-z3e">
-                        <barButtonItem key="leftBarButtonItem" image="back_icon" id="nRM-5D-z7A">
-                            <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="onBackPressed:" destination="U6Y-DR-ifA" id="xFt-Z8-ORU"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Oxh-4s-UlF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4206" y="2275"/>
         </scene>
         <!--User View Controller-->
         <scene sceneID="Hd2-jh-KfB">
@@ -1282,7 +1243,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zFe-d6-08f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5052" y="2274.384236453202"/>
+            <point key="canvasLocation" x="4206" y="2272"/>
         </scene>
         <!--推薦名單-->
         <scene sceneID="4zU-Ct-QOy">
@@ -1427,7 +1388,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gox-zi-hyF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5864.8000000000002" y="2274.384236453202"/>
+            <point key="canvasLocation" x="5052" y="2272"/>
         </scene>
     </scenes>
     <resources>

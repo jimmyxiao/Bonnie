@@ -14,7 +14,7 @@ let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 let SERVICE_DEVICE_TYPE = 2
 let TOKEN_LIFETIME: TimeInterval = Double.greatestFiniteMagnitude
-let UPDATE_INTERVAL: TimeInterval = 600
+let UPDATE_INTERVAL: TimeInterval = Double.greatestFiniteMagnitude
 let ANIMATION_TIMER: TimeInterval = 1.0 / 60.0
 
 enum Function: UInt16 {
@@ -192,7 +192,6 @@ struct Segue {
     static let ACCOUNT_EDIT = "accountEditSegue"
     static let SETTING = "settingSegue"
     static let PASSWORD = "passwordSegue"
-    static let LANGUAGE = "languageSegue"
     static let WEB_ABOUT = "webAboutSegue"
     static let WEB_PRIVACY_POLICY = "webPrivacyPolicySegue"
     static let WEB_TERM_OF_USE = "webTermOfUseSegue"

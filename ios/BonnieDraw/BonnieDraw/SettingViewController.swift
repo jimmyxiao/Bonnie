@@ -20,11 +20,9 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
            type == .email {
             settings.append(Setting(type: .password, title: "setting_change_password".localized, segueId: Segue.PASSWORD))
         }
-        settings.append(contentsOf: [Setting(type: .language, title: "setting_language".localized, segueId: Segue.LANGUAGE),
-                                     Setting(type: .description, title: "setting_about".localized, segueId: Segue.WEB_ABOUT),
+        settings.append(contentsOf: [Setting(type: .about, title: "setting_about".localized, segueId: Segue.WEB_ABOUT),
                                      Setting(type: .privacyPolicy, title: "setting_privacy_policy".localized, segueId: Segue.WEB_PRIVACY_POLICY),
                                      Setting(type: .termOfUse, title: "setting_term_of_use".localized, segueId: Segue.WEB_TERM_OF_USE),
-                                     Setting(type: .clearSearch, title: "setting_clear_search".localized, segueId: nil),
                                      Setting(type: .signOut, title: "menu_sign_out".localized, segueId: nil)])
     }
 
@@ -51,14 +49,13 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let setting = settings[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.BASIC, for: indexPath)
-        cell.textLabel?.text = settings[indexPath.row].title
-        if let item = SettingType(rawValue: indexPath.row) {
-            if item == .clearSearch || item == .signOut {
-                cell.accessoryType = .none
-            } else {
-                cell.accessoryType = .disclosureIndicator
-            }
+        cell.textLabel?.text = setting.title
+        if setting.type == .signOut {
+            cell.accessoryType = .none
+        } else {
+            cell.accessoryType = .disclosureIndicator
         }
         return cell
     }
@@ -68,39 +65,36 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
         if let segueId = setting.segueId {
             performSegue(withIdentifier: segueId, sender: nil)
         } else {
-            if setting.type == .clearSearch {
-            } else {
-                presentConfirmationDialog(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
-                    success in
-                    if success {
-                        let defaults = UserDefaults.standard
-                        if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)) {
-                            switch type {
-                            case .facebook:
-                                LoginManager().logOut()
-                                break
-                            case .google:
-                                GIDSignIn.sharedInstance().signOut()
-                                break
-                            case .twitter:
-                                if let userId = TWTRTwitter.sharedInstance().sessionStore.session()?.userID {
-                                    TWTRTwitter.sharedInstance().sessionStore.logOutUserID(userId)
-                                }
-                                break
-                            default:
-                                break
+            presentConfirmationDialog(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
+                success in
+                if success {
+                    let defaults = UserDefaults.standard
+                    if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)) {
+                        switch type {
+                        case .facebook:
+                            LoginManager().logOut()
+                            break
+                        case .google:
+                            GIDSignIn.sharedInstance().signOut()
+                            break
+                        case .twitter:
+                            if let userId = TWTRTwitter.sharedInstance().sessionStore.session()?.userID {
+                                TWTRTwitter.sharedInstance().sessionStore.logOutUserID(userId)
                             }
+                            break
+                        default:
+                            break
                         }
-                        defaults.removeObject(forKey: Default.TOKEN)
-                        defaults.removeObject(forKey: Default.USER_ID)
-                        defaults.removeObject(forKey: Default.USER_TYPE)
-                        defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
-                        defaults.removeObject(forKey: Default.NAME)
-                        defaults.removeObject(forKey: Default.IMAGE)
-                        defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
-                        if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
-                            UIApplication.shared.replace(rootViewControllerWith: controller)
-                        }
+                    }
+                    defaults.removeObject(forKey: Default.TOKEN)
+                    defaults.removeObject(forKey: Default.USER_ID)
+                    defaults.removeObject(forKey: Default.USER_TYPE)
+                    defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
+                    defaults.removeObject(forKey: Default.NAME)
+                    defaults.removeObject(forKey: Default.IMAGE)
+                    defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
+                    if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
+                        UIApplication.shared.replace(rootViewControllerWith: controller)
                     }
                 }
             }
@@ -117,7 +111,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
     }
 
     enum SettingType: Int {
-        case profile, password, language, description, privacyPolicy, termOfUse, clearSearch, signOut
+        case profile, password, about, privacyPolicy, termOfUse, signOut
     }
 
     struct Setting {

@@ -69,7 +69,6 @@
 		165A95981FDA3F2600970CE7 /* Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 165A95971FDA3F2600970CE7 /* Texture.png */; };
 		165E1B5B1F9DDFA80050A7BB /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E1B5A1F9DDFA80050A7BB /* SettingViewController.swift */; };
 		165E1B5D1F9DE4920050A7BB /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E1B5C1F9DE4920050A7BB /* PasswordViewController.swift */; };
-		165E1B5F1F9DE49F0050A7BB /* LanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E1B5E1F9DE49F0050A7BB /* LanguageViewController.swift */; };
 		165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */; };
 		165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC561F73A46200E32AA5 /* ColorExtension.swift */; };
 		165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC581F73A47C00E32AA5 /* StringExtension.swift */; };
@@ -177,7 +176,6 @@
 		165A95971FDA3F2600970CE7 /* Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Texture.png; sourceTree = "<group>"; };
 		165E1B5A1F9DDFA80050A7BB /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		165E1B5C1F9DE4920050A7BB /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
-		165E1B5E1F9DE49F0050A7BB /* LanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
 		165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordViewController.swift; sourceTree = "<group>"; };
 		165ECC561F73A46200E32AA5 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		165ECC581F73A47C00E32AA5 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -374,7 +372,6 @@
 				165E1B5A1F9DDFA80050A7BB /* SettingViewController.swift */,
 				16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */,
 				165E1B5C1F9DE4920050A7BB /* PasswordViewController.swift */,
-				165E1B5E1F9DE49F0050A7BB /* LanguageViewController.swift */,
 				16C013CA1F9F2E3E00238463 /* UserViewController.swift */,
 			);
 			name = Account;
@@ -711,7 +708,6 @@
 				16083DD71F7E75F0008BBB4B /* NotificationViewController.swift in Sources */,
 				163DDF401FC566F40052DF80 /* Profile.swift in Sources */,
 				16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */,
-				165E1B5F1F9DE49F0050A7BB /* LanguageViewController.swift in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
 				16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */,
 				16CB8C751FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift in Sources */,
