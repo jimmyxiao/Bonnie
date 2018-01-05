@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Point: NSObject {
+class Point {
     let length: UInt16
     let function: Function
     let position: CGPoint

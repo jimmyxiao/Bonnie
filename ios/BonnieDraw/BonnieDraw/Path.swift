@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Path: NSObject {
+class Path {
     var points: [Point]
 
     init(points: [Point]) {

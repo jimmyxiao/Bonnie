@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Work: NSObject, Comparable {
+struct Work: Comparable {
     let id: Int?
     let userId: Int?
     let profileImage: URL?
@@ -58,5 +58,9 @@ class Work: NSObject, Comparable {
             return lhsDate.compare(rhsDate) == .orderedDescending
         }
         return false
+    }
+
+    static func ==(lhs: Work, rhs: Work) -> Bool {
+        return lhs.id == rhs.id
     }
 }

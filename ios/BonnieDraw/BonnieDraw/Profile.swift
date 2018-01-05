@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Profile {
+struct Profile {
     let type: UserType?
     var name: String?
     var email: String?
