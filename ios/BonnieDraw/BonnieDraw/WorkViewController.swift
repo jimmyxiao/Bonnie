@@ -334,10 +334,62 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             alert.addAction(editAction)
             let removeAction = UIAlertAction(title: "more_remove_work".localized, style: .destructive) {
                 action in
-                guard AppDelegate.reachability.connection != .none else {
-                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
-                    return
-                }
+                let alert = UIAlertController(title: "more_remove_work".localized, message: "alert_delete_content".localized, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "alert_button_delete".localized, style: .destructive) {
+                    action in
+                    guard AppDelegate.reachability.connection != .none else {
+                        self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                        return
+                    }
+                    guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+                          let work = self.work,
+                          let id = work.id else {
+                        return
+                    }
+                    self.loading.hide(false)
+                    self.request?.cancel()
+                    self.request = Alamofire.request(
+                            Service.standard(withPath: Service.WORK_DELETE),
+                            method: .post,
+                            parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
+                            encoding: JSONEncoding.default).validate().responseJSON {
+                        response in
+                        switch response.result {
+                        case .success:
+                            self.loading.hide(true)
+                            guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                                self.presentConfirmationDialog(
+                                        title: "service_download_fail_title".localized,
+                                        message: "app_network_unreachable_content".localized) {
+                                    success in
+                                    if success {
+                                        self.downloadData()
+                                    }
+                                }
+                                return
+                            }
+                            if response != 1 {
+                                self.presentDialog(
+                                        title: "service_download_fail_title".localized,
+                                        message: data["msg"] as? String)
+                            } else {
+                                self.delegate?.work(didDelete: work)
+                                self.onBackPressed(sender)
+                            }
+                        case .failure(let error):
+                            self.loading.hide(true)
+                            if let error = error as? URLError, error.code == .cancelled {
+                                return
+                            }
+                            self.presentDialog(
+                                    title: "service_download_fail_title".localized,
+                                    message: error.localizedDescription)
+                        }
+                    }
+                })
+                alert.addAction(UIAlertAction(title: "alert_button_cancel".localized, style: .cancel))
+                alert.view.tintColor = UIColor.getAccentColor()
+                self.present(alert, animated: true)
             }
             alert.addAction(removeAction)
         }
@@ -595,4 +647,5 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
 protocol WorkViewControllerDelegate {
     func work(didChange work: Work)
+    func work(didDelete work: Work)
 }

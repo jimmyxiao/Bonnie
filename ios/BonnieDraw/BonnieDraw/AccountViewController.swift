@@ -20,6 +20,7 @@ class AccountViewController:
         WorkViewControllerDelegate,
         CommentViewControllerDelegate,
         EditViewControllerDelegate {
+    @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     private var headerView: AccountHeaderCollectionReusableView?
     private var footerView: AccountFooterCollectionReusableView?
@@ -151,7 +152,7 @@ class AccountViewController:
         }
         let userId = self.userId ?? UserDefaults.standard.integer(forKey: Default.USER_ID)
         footerView?.indicator.startAnimating()
-        footerView?.label.text = "loading".localized
+        footerView?.label.text = "account_loading".localized
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.USER_INFO_QUERY),
@@ -366,6 +367,17 @@ class AccountViewController:
         }
     }
 
+    internal func work(didDelete deletedWork: Work) {
+        if let index = self.works.index(where: {
+            work in
+            return work.id == deletedWork.id
+        }) {
+            self.works.remove(at: index)
+            self.footerView?.label.text = self.works.isEmpty ? "empty_data".localized : nil
+            self.collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+        }
+    }
+
     internal func comment(didCommentOnWork changedWork: Work) {
         if let index = works.index(where: {
             work in
@@ -490,10 +502,60 @@ class AccountViewController:
             alert.addAction(editAction)
             let removeAction = UIAlertAction(title: "more_remove_work".localized, style: .destructive) {
                 action in
-                guard AppDelegate.reachability.connection != .none else {
-                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
-                    return
-                }
+                let alert = UIAlertController(title: "more_remove_work".localized, message: "alert_delete_content".localized, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "alert_button_delete".localized, style: .destructive) {
+                    action in
+                    guard AppDelegate.reachability.connection != .none else {
+                        self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                        return
+                    }
+                    guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+                          let id = self.works[indexPath.row].id else {
+                        return
+                    }
+                    self.loading.hide(false)
+                    self.dataRequest?.cancel()
+                    self.dataRequest = Alamofire.request(
+                            Service.standard(withPath: Service.WORK_DELETE),
+                            method: .post,
+                            parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
+                            encoding: JSONEncoding.default).validate().responseJSON {
+                        response in
+                        switch response.result {
+                        case .success:
+                            self.loading.hide(true)
+                            guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                                self.presentConfirmationDialog(
+                                        title: "service_download_fail_title".localized,
+                                        message: "app_network_unreachable_content".localized) {
+                                    success in
+                                    if success {
+                                        self.downloadData()
+                                    }
+                                }
+                                return
+                            }
+                            if response != 1 {
+                                self.presentDialog(
+                                        title: "service_download_fail_title".localized,
+                                        message: data["msg"] as? String)
+                            } else {
+                                self.work(didDelete: self.works[indexPath.row])
+                            }
+                        case .failure(let error):
+                            self.loading.hide(true)
+                            if let error = error as? URLError, error.code == .cancelled {
+                                return
+                            }
+                            self.presentDialog(
+                                    title: "service_download_fail_title".localized,
+                                    message: error.localizedDescription)
+                        }
+                    }
+                })
+                alert.addAction(UIAlertAction(title: "alert_button_cancel".localized, style: .cancel))
+                alert.view.tintColor = UIColor.getAccentColor()
+                self.present(alert, animated: true)
             }
             alert.addAction(removeAction)
         }

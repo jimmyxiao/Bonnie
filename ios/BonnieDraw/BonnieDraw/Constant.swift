@@ -139,6 +139,7 @@ struct Service {
     static let NOTIFICATION = "/notiMsg"
     static let WORK_SAVE = "/worksSave"
     static let WORK_LIST = "/worksList"
+    static let WORK_DELETE = "/deleteWork"
     static let FILE_UPLOAD = "/fileUpload"
     static let USER_INFO_QUERY = "/userInfoQuery"
     static let USER_INFO_UPDATE = "/userInfoUpdate"
