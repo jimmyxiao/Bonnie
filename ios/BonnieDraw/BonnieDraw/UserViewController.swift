@@ -51,6 +51,10 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
         dataRequest?.cancel()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        refreshControl.endRefreshing()
+    }
+
     @IBAction func search(_ sender: Any) {
         if navigationItem.titleView != searchBar {
             navigationItem.setLeftBarButton(nil, animated: true)
@@ -148,7 +152,11 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
 
     internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if refreshControl.isRefreshing {
-            downloadData()
+            if navigationItem.titleView != searchBar {
+                downloadData()
+            } else {
+                refreshControl.endRefreshing()
+            }
         }
     }
 

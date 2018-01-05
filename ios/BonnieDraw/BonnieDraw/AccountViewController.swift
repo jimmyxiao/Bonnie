@@ -67,6 +67,10 @@ class AccountViewController:
         dataRequest?.cancel()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        refreshControl.endRefreshing()
+    }
+
     @IBAction func didSelectSetting(_ sender: Any) {
         performSegue(withIdentifier: Segue.SETTING, sender: nil)
     }

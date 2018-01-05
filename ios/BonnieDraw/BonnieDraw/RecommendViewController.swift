@@ -49,6 +49,10 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         dataRequest?.cancel()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        refreshControl.endRefreshing()
+    }
+
     @IBAction func search(_ sender: Any) {
         if navigationItem.titleView != searchBar {
             navigationItem.setLeftBarButton(nil, animated: true)
@@ -143,7 +147,11 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
 
     internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if refreshControl.isRefreshing {
-            downloadData()
+            if navigationItem.titleView != searchBar {
+                downloadData()
+            } else {
+                refreshControl.endRefreshing()
+            }
         }
     }
 
@@ -153,7 +161,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Cell.USER, for: indexPath) as? UserTableViewCell {
-            let item = users[indexPath.row]
+            let item = tableViewUsers[indexPath.row]
             cell.thumbnail.setImage(with: item.profileImage, placeholderImage: placeholderImage)
             cell.title.text = item.profileName
             cell.status.text = item.status

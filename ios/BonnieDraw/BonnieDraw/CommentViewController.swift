@@ -58,6 +58,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     }
 
     override func viewDidDisappear(_ animated: Bool) {
+        refreshControl.endRefreshing()
         NotificationCenter.default.removeObserver(self)
     }
 

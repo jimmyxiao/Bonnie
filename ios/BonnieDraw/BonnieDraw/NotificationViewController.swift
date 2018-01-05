@@ -40,6 +40,10 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         dataRequest?.cancel()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        refreshControl.endRefreshing()
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? AccountViewController,
            let indexPath = sender as? IndexPath {

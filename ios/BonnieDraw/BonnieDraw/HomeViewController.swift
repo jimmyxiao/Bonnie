@@ -62,6 +62,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         delegate?.home(enableMenuGesture: false)
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        refreshControl.endRefreshing()
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? AccountViewController,
            let indexPath = sender as? IndexPath {
@@ -213,7 +217,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if refreshControl.isRefreshing {
-            downloadData()
+            if navigationItem.titleView != searchBar {
+                downloadData()
+            } else {
+                refreshControl.endRefreshing()
+            }
         }
     }
 

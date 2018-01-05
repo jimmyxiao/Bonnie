@@ -59,6 +59,10 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         dataRequest?.cancel()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        refreshControl.endRefreshing()
+    }
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == Default.IMAGE {
             if let url = UserDefaults.standard.url(forKey: Default.IMAGE) {
@@ -160,5 +164,6 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
 
 protocol DrawerViewControllerDelegate {
     func drawerDidTapDismiss()
+
     func drawer(didSelectType type: DrawerViewController.TagType, withTag tag: String?)
 }
