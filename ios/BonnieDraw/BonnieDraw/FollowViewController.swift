@@ -59,7 +59,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         if let controller = segue.destination as? AccountViewController,
            let indexPath = sender as? IndexPath {
             controller.delegate = self
-            controller.user = User(withWork: works[indexPath.row])
+            controller.userId = works[indexPath.row].userId
         } else if let controller = segue.destination as? ReportViewController,
                   let indexPath = sender as? IndexPath {
             controller.work = works[indexPath.row]
@@ -240,17 +240,17 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    internal func account(didFollowUser user: User, follow: Bool) {
+    internal func account(didFollowUserId userId: Int, follow: Bool) {
         if follow {
             downloadData()
         } else {
             works = works.filter {
                 work in
-                return work.userId != user.id
+                return work.userId != userId
             }
             tableViewWorks = tableViewWorks.filter {
                 work in
-                return work.userId != user.id
+                return work.userId != userId
             }
             tableView.reloadData()
         }
@@ -270,6 +270,10 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             tableViewWorks[index] = changedWork
             tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
         }
+    }
+
+    internal func commentDidTapProfile() {
+        delegate?.followDidTapProfile()
     }
 
     @IBAction func profile(_ sender: UIButton) {

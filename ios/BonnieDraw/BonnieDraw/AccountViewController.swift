@@ -36,13 +36,13 @@ class AccountViewController:
     private let collectionImage = UIImage(named: "collect_ic_off")
     private let collectionImageSelected = UIImage(named: "collect_ic_on")
     var delegate: AccountViewControllerDelegate?
-    var user: User?
+    var userId: Int?
     var profile: Profile?
     var works = [Work]()
 
     override func viewDidLoad() {
         collectionView.refreshControl = refreshControl
-        if user == nil {
+        if userId == nil {
             navigationItem.setLeftBarButton(nil, animated: false)
         }
     }
@@ -135,7 +135,7 @@ class AccountViewController:
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
-        let userId = user?.id ?? UserDefaults.standard.integer(forKey: Default.USER_ID)
+        let userId = self.userId ?? UserDefaults.standard.integer(forKey: Default.USER_ID)
         footerView?.indicator.startAnimating()
         footerView?.label.text = "loading".localized
         dataRequest?.cancel()
@@ -159,7 +159,7 @@ class AccountViewController:
                     return
                 }
                 self.profile = Profile(withDictionary: data)
-                if self.user == nil {
+                if self.userId == nil {
                     UserDefaults.standard.set(self.profile?.image, forKey: Default.IMAGE)
                     UserDefaults.standard.set(self.profile?.name, forKey: Default.NAME)
                 }
@@ -235,8 +235,8 @@ class AccountViewController:
     internal func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let headerView = self.headerView ?? collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
-            if let user = user {
-                headerView.editButton.setTitle(user.isFollowing ?? false ? "account_following".localized : "account_follow".localized, for: .normal)
+            if userId != nil {
+                headerView.editButton.setTitle(profile?.isFollowing ?? false ? "account_following".localized : "account_follow".localized, for: .normal)
                 headerView.fanButton.isUserInteractionEnabled = false
                 headerView.followButton.isUserInteractionEnabled = false
             }
@@ -362,15 +362,17 @@ class AccountViewController:
         }
     }
 
+    internal func commentDidTapProfile() {
+    }
+
     @IBAction func headerAction(_ sender: Any) {
-        if let user = user {
+        if let userId = userId {
             guard AppDelegate.reachability.connection != .none else {
                 presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
                 return
             }
             guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
-                  let isFollowing = user.isFollowing,
-                  let id = user.id else {
+                  let isFollowing = profile?.isFollowing else {
                 return
             }
             let follow = !isFollowing
@@ -378,7 +380,7 @@ class AccountViewController:
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.SET_FOLLOW),
                     method: .post,
-                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
+                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": userId],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {
@@ -399,9 +401,11 @@ class AccountViewController:
                                 title: "service_download_fail_title".localized,
                                 message: data["msg"] as? String)
                     } else {
-                        self.user?.isFollowing = follow
+                        self.profile?.isFollowing = follow
                         self.headerView?.editButton.setTitle(follow ? "account_following".localized : "account_follow".localized, for: .normal)
-                        self.delegate?.account(didFollowUser: user, follow: follow)
+                        if let userId = self.userId {
+                            self.delegate?.account(didFollowUserId: userId, follow: follow)
+                        }
                     }
                 case .failure(let error):
                     if let error = error as? URLError, error.code == .cancelled {
@@ -439,7 +443,7 @@ class AccountViewController:
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
-        if user != nil {
+        if userId != nil {
             let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
@@ -591,5 +595,5 @@ class AccountViewController:
 }
 
 protocol AccountViewControllerDelegate {
-    func account(didFollowUser user: User, follow: Bool)
+    func account(didFollowUserId userId: Int, follow: Bool)
 }

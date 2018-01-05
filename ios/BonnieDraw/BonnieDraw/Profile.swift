@@ -18,6 +18,7 @@ struct Profile {
     let worksCount: Int?
     let fansCount: Int?
     var followsCount: Int?
+    var isFollowing: Bool?
     var image: URL?
 
     init(withDictionary dictionary: [String: Any]) {
@@ -30,6 +31,7 @@ struct Profile {
         worksCount = dictionary["worksNum"] as? Int
         fansCount = dictionary["fansNum"] as? Int
         followsCount = dictionary["followNum"] as? Int
+        isFollowing = dictionary["following"] as? Bool
         image = URL(string: Service.filePath(withSubPath: dictionary["profilePicture"] as? String))
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewDelegate, JotViewStateProxyDelegate {
+class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewDelegate, JotViewStateProxyDelegate, CommentViewControllerDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var canvas: JotView!
@@ -18,7 +18,9 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBOutlet weak var profileImage: UIButton!
     @IBOutlet weak var profileName: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var like: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var likes: UILabel!
+    @IBOutlet weak var comments: UILabel!
     @IBOutlet weak var collect: UIButton!
     @IBOutlet weak var play: UIButton!
     @IBOutlet weak var previousStep: UIButton!
@@ -74,10 +76,9 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? AccountViewController {
-            if let work = work {
-                controller.user = User(withWork: work)
-            }
+            controller.userId = work?.userId
         } else if let controller = segue.destination as? CommentViewController {
+            controller.delegate = self
             controller.work = work
         } else if let controller = segue.destination as? ReportViewController {
             controller.work = work
@@ -98,9 +99,21 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             profileImage.isUserInteractionEnabled = false
             profileName.isUserInteractionEnabled = false
         }
-        like.isSelected = work.isLike ?? false
+        likeButton.isSelected = work.isLike ?? false
+        likeButton.setImage(UIImage(named: likeButton.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
+        if let likes = work.likes, likes > 0 {
+            self.likes.text = "\(likes)"
+            self.likes.isHidden = false
+        } else {
+            likes.isHidden = true
+        }
+        if let comments = work.comments, comments > 0 {
+            self.comments.text = "\(comments)"
+            self.comments.isHidden = false
+        } else {
+            comments.isHidden = true
+        }
         collect.isSelected = work.isCollect ?? false
-        like.setImage(UIImage(named: like.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
         collect.setImage(UIImage(named: collect.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
         profileImage.setImage(with: work.profileImage, placeholderImage: UIImage(named: "photo-square"))
         profileName.setTitle(work.profileName, for: .normal)
@@ -202,6 +215,20 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 self.canvas.alpha = 1
             }
         }
+    }
+
+    internal func comment(didCommentOnWork changedWork: Work) {
+        work = changedWork
+        if let comments = changedWork.comments, comments > 0 {
+            self.comments.text = "\(comments)"
+            self.comments.isHidden = false
+        } else {
+            comments.isHidden = true
+        }
+        delegate?.work(didChange: changedWork)
+    }
+
+    internal func commentDidTapProfile() {
     }
 
     @IBAction func play(_ sender: UIButton) {
@@ -327,6 +354,12 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                     self.work?.isLike = sender.isSelected
                     if let likes = self.work?.likes {
                         self.work?.likes = likes + (sender.isSelected ? 1 : -1)
+                    }
+                    if let likes = self.work?.likes, likes > 0 {
+                        self.likes.text = "\(likes)"
+                        self.likes.isHidden = false
+                    } else {
+                        self.likes.isHidden = true
                     }
                     if let work = self.work {
                         self.delegate?.work(didChange: work)

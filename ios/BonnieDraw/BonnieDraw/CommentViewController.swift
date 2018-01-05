@@ -23,6 +23,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     private let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     private var keyboardOnScreen = false
     private let placeholderImage = UIImage(named: "photo-square")
+    private let currentUserId = UserDefaults.standard.integer(forKey: Default.USER_ID)
     var delegate: CommentViewControllerDelegate?
     var work: Work?
 
@@ -77,6 +78,14 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
             UIView.animate(withDuration: 0.4) {
                 self.view.setNeedsDisplay()
             }
+        }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? AccountViewController,
+           let indexPath = tableView.indexPathForSelectedRow {
+            controller.userId = work?.messages[indexPath.row].userId
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 
@@ -145,6 +154,13 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = work?.messages[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.COMMENT, for: indexPath) as! CommentTableViewCell
+        if currentUserId == message?.userId {
+            cell.isUserInteractionEnabled = false
+            cell.isUserInteractionEnabled = false
+        } else {
+            cell.isUserInteractionEnabled = true
+            cell.isUserInteractionEnabled = true
+        }
         cell.profileImage.setImage(with: message?.userProfile, placeholderImage: placeholderImage)
         cell.profileName.text = message?.userName
         cell.message.text = message?.message
@@ -216,4 +232,6 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol CommentViewControllerDelegate {
     func comment(didCommentOnWork work: Work)
+
+    func commentDidTapProfile()
 }

@@ -66,7 +66,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if let controller = segue.destination as? AccountViewController,
            let indexPath = sender as? IndexPath {
             controller.delegate = self
-            controller.user = User(withWork: works[indexPath.row])
+            controller.userId = works[indexPath.row].userId
         } else if let controller = segue.destination as? ReportViewController,
                   let indexPath = sender as? IndexPath {
             controller.work = works[indexPath.row]
@@ -278,14 +278,14 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    internal func account(didFollowUser user: User, follow: Bool) {
+    internal func account(didFollowUserId userId: Int, follow: Bool) {
         for index in 0..<works.count {
-            if works[index].userId == user.id {
+            if works[index].userId == userId {
                 works[index].isFollow = follow
             }
         }
         for index in 0..<tableViewWorks.count {
-            if tableViewWorks[index].userId == user.id {
+            if tableViewWorks[index].userId == userId {
                 tableViewWorks[index].isFollow = follow
                 (tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? HomeTableViewCell)?.followButton.isSelected = follow
             }
@@ -306,6 +306,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             tableViewWorks[index] = changedWork
             tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
         }
+    }
+
+    internal func commentDidTapProfile() {
+        delegate?.homeDidTapProfile()
     }
 
     @IBAction func profile(_ sender: UIButton) {
@@ -570,6 +574,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
+
     func homeDidTapProfile()
+
     func home(enableMenuGesture enable: Bool)
 }
