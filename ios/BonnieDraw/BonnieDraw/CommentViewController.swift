@@ -155,13 +155,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = work?.messages[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.COMMENT, for: indexPath) as! CommentTableViewCell
-        if currentUserId == message?.userId {
-            cell.isUserInteractionEnabled = false
-            cell.isUserInteractionEnabled = false
-        } else {
-            cell.isUserInteractionEnabled = true
-            cell.isUserInteractionEnabled = true
-        }
+        cell.isUserInteractionEnabled = currentUserId != message?.userId
         cell.profileImage.setImage(with: message?.userProfile, placeholderImage: placeholderImage)
         cell.profileName.text = message?.userName
         cell.message.text = message?.message
