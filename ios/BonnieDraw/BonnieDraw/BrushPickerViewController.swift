@@ -9,6 +9,7 @@
 import UIKit
 
 class BrushPickerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    @IBOutlet weak var stepSizeStackView: UIStackView!
     @IBOutlet weak var decrease: UIButton!
     @IBOutlet weak var stepWidthSlider: UISlider?
     @IBOutlet weak var alphaSlider: UISlider!
@@ -24,6 +25,9 @@ class BrushPickerViewController: UIViewController, UICollectionViewDataSource, U
     var delegate: BrushPickerViewControllerDelegate?
 
     override func viewDidLoad() {
+        if !DEBUG {
+            stepSizeStackView.isHidden = true
+        }
         stepWidthSlider?.value = stepWidth
         alphaSlider.value = alpha
         switch type {
@@ -120,6 +124,8 @@ class BrushPickerViewController: UIViewController, UICollectionViewDataSource, U
 
 protocol BrushPickerViewControllerDelegate {
     func brushPicker(didSelectStepWidth delta: CGFloat)
+
     func brushPicker(didSelectAlpha alpha: CGFloat)
+
     func brushPicker(didSelectType type: Type)
 }

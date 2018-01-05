@@ -311,7 +311,7 @@ class AccountViewController:
             let width = collectionView.bounds.width / CGFloat(3)
             return CGSize(width: width, height: width)
         } else {
-            return CGSize(width: collectionView.bounds.width, height: 156 + collectionView.bounds.width * 3 / 4)
+            return CGSize(width: collectionView.bounds.width, height: 156 + collectionView.bounds.width)
         }
     }
 

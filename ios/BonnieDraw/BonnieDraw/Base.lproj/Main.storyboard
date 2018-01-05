@@ -323,15 +323,15 @@
                                                     </constraints>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLu-M5-t7c">
-                                                    <rect key="frame" x="68" y="60" width="221" height="90"/>
+                                                    <rect key="frame" x="68" y="60" width="221" height="10"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0lX-TD-oiP">
-                                                    <rect key="frame" x="0.0" y="158" width="320" height="240"/>
+                                                    <rect key="frame" x="0.0" y="78" width="320" height="320"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="0lX-TD-oiP" secondAttribute="height" multiplier="4:3" id="Fcf-7e-8hH"/>
+                                                        <constraint firstAttribute="width" secondItem="0lX-TD-oiP" secondAttribute="height" multiplier="1:1" id="Fcf-7e-8hH"/>
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NK7-d0-RxR">
@@ -836,15 +836,15 @@
                                                     </constraints>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ho-5I-mTC">
-                                                    <rect key="frame" x="68" y="60" width="221" height="90"/>
+                                                    <rect key="frame" x="68" y="60" width="221" height="10"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZIv-07-8Ku">
-                                                    <rect key="frame" x="0.0" y="158" width="320" height="240"/>
+                                                    <rect key="frame" x="0.0" y="78" width="320" height="320"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="ZIv-07-8Ku" secondAttribute="height" multiplier="4:3" id="WT7-0b-aZs"/>
+                                                        <constraint firstAttribute="width" secondItem="ZIv-07-8Ku" secondAttribute="height" multiplier="1:1" id="WT7-0b-aZs"/>
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="emL-RE-cvQ">

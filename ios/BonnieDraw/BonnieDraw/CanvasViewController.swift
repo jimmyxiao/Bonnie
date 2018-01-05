@@ -44,7 +44,6 @@ class CanvasViewController:
     var jotViewStatePlistPath = FileUrl.STATE.path
 
     override func viewDidLoad() {
-        brush.isForceSupported = true
         canvas.delegate = self
         let size = CGSize(width: 33, height: 33)
         let count = UserDefaults.standard.integer(forKey: Default.GRID)
@@ -196,7 +195,7 @@ class CanvasViewController:
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            controller.preferredContentSize = CGSize(width: 60, height: DEBUG ? 300 : 240)
+            controller.preferredContentSize = CGSize(width: 60, height: DEBUG ? 240 : 180)
         } else if let controller = segue.destination as? SizePickerViewController {
             controller.delegate = self
             controller.value = Float(brush.minSize)
@@ -215,7 +214,7 @@ class CanvasViewController:
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
             controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width * 0.6, height: DEBUG ? 256 : 208)
+            controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width * 0.6, height: DEBUG ? 256 : 212)
         } else if let controller = segue.destination as? ColorPickerViewController {
             controller.delegate = self
             if segue.identifier == Segue.BACKGROUND_COLOR {
@@ -348,8 +347,6 @@ class CanvasViewController:
                             flashView.removeFromSuperview()
                         })
             })
-        case 3:
-            break
         default:
             let controller = UIImagePickerController()
             controller.delegate = self
