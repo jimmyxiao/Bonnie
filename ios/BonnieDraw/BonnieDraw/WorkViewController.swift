@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewDelegate, JotViewStateProxyDelegate, CommentViewControllerDelegate {
+class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewDelegate, JotViewStateProxyDelegate, CommentViewControllerDelegate, EditViewControllerDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var gridView: GridView!
@@ -79,6 +79,9 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         if let controller = segue.destination as? AccountViewController {
             controller.userId = work?.userId
         } else if let controller = segue.destination as? CommentViewController {
+            controller.delegate = self
+            controller.work = work
+        } else if let controller = segue.destination as? EditViewController {
             controller.delegate = self
             controller.work = work
         } else if let controller = segue.destination as? ReportViewController {
@@ -232,6 +235,11 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     internal func commentDidTapProfile() {
     }
 
+    internal func edit(didChange changedWork: Work) {
+        work = changedWork
+        set(viewDataWith: changedWork)
+    }
+
     @IBAction func play(_ sender: UIButton) {
         thumbnail?.removeFromSuperview()
         if sender.isSelected {
@@ -297,14 +305,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             presentation.sourceRect = sender.bounds
         }
         let color = UIColor.gray
-        let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
+        let copyLinkAction = UIAlertAction(title: "more_copy_link".localized, style: .default) {
             action in
             UIPasteboard.general.url = URL(string: Service.sharePath(withId: self.work?.id))
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
         if work?.userId != UserDefaults.standard.integer(forKey: Default.USER_ID) {
-            let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
+            let reportAction = UIAlertAction(title: "more_report".localized, style: .destructive) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
                     self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
@@ -313,6 +321,25 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 self.performSegue(withIdentifier: Segue.REPORT, sender: sender)
             }
             alert.addAction(reportAction)
+        } else {
+            let editAction = UIAlertAction(title: "more_edit_work".localized, style: .default) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+                self.performSegue(withIdentifier: Segue.EDIT, sender: sender)
+            }
+            editAction.setValue(color, forKey: "titleTextColor")
+            alert.addAction(editAction)
+            let removeAction = UIAlertAction(title: "more_remove_work".localized, style: .destructive) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+            }
+            alert.addAction(removeAction)
         }
         let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
         alert.addAction(cancelAction)
@@ -324,14 +351,15 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+              let work = work else {
             return
         }
         request?.cancel()
         request = Alamofire.request(
                 Service.standard(withPath: Service.SET_LIKE),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work.id ?? 0, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -359,9 +387,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                     } else {
                         self.likes.isHidden = true
                     }
-                    if let work = self.work {
-                        self.delegate?.work(didChange: work)
-                    }
+                    self.delegate?.work(didChange: work)
                 }
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {

@@ -269,22 +269,22 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="隱私權設定：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUO-nE-XH6">
-                                                <rect key="frame" x="16" y="371" width="104" height="20.5"/>
+                                                <rect key="frame" x="16" y="367" width="104" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LTs-0s-JOC">
-                                                <rect key="frame" x="128" y="363" width="231" height="36"/>
+                                                <rect key="frame" x="128" y="355" width="231" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="公開" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofl-Pu-R7e">
-                                                        <rect key="frame" x="0.0" y="7" width="195" height="21"/>
+                                                        <rect key="frame" x="0.0" y="11" width="187" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ND4-3M-E4p">
-                                                        <rect key="frame" x="195" y="0.0" width="36" height="36"/>
+                                                        <rect key="frame" x="187" y="0.0" width="44" height="44"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="ND4-3M-E4p" secondAttribute="height" multiplier="1:1" id="FHh-SQ-Lu8"/>
                                                         </constraints>
@@ -299,7 +299,7 @@
                                                     <constraint firstItem="Ofl-Pu-R7e" firstAttribute="centerY" secondItem="LTs-0s-JOC" secondAttribute="centerY" id="Nm6-HD-urU"/>
                                                     <constraint firstItem="Ofl-Pu-R7e" firstAttribute="leading" secondItem="LTs-0s-JOC" secondAttribute="leading" id="PBa-cz-QDj"/>
                                                     <constraint firstAttribute="bottom" secondItem="ND4-3M-E4p" secondAttribute="bottom" id="Wp8-57-tHP"/>
-                                                    <constraint firstAttribute="height" constant="36" id="YhI-jo-6rh"/>
+                                                    <constraint firstAttribute="height" constant="44" id="YhI-jo-6rh"/>
                                                     <constraint firstItem="ND4-3M-E4p" firstAttribute="leading" secondItem="Ofl-Pu-R7e" secondAttribute="trailing" id="cyc-07-Tmm"/>
                                                     <constraint firstItem="ND4-3M-E4p" firstAttribute="top" secondItem="LTs-0s-JOC" secondAttribute="top" id="mMx-us-I8D"/>
                                                 </constraints>
@@ -314,7 +314,7 @@
                                             <constraint firstItem="QUO-nE-XH6" firstAttribute="centerY" secondItem="LTs-0s-JOC" secondAttribute="centerY" id="KZX-iz-C55"/>
                                             <constraint firstItem="ipd-nn-Tg1" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="8" id="Mz2-iQ-dc6"/>
                                             <constraint firstItem="2hX-dX-zkt" firstAttribute="top" secondItem="oIP-Iz-zOu" secondAttribute="top" constant="16" id="NNe-YG-4Tz"/>
-                                            <constraint firstItem="LTs-0s-JOC" firstAttribute="top" secondItem="KOs-j0-FtF" secondAttribute="bottom" constant="8" id="P7z-0F-tQq"/>
+                                            <constraint firstItem="LTs-0s-JOC" firstAttribute="top" secondItem="KOs-j0-FtF" secondAttribute="bottom" id="P7z-0F-tQq"/>
                                             <constraint firstAttribute="bottom" secondItem="LTs-0s-JOC" secondAttribute="bottom" constant="8" id="Pwv-7V-bQN"/>
                                             <constraint firstAttribute="trailing" secondItem="LTs-0s-JOC" secondAttribute="trailing" constant="16" id="Q7u-ze-vze"/>
                                             <constraint firstItem="KOs-j0-FtF" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="8" id="TqN-DT-nyc"/>
@@ -347,8 +347,8 @@
                                     <outletCollection property="gestureRecognizers" destination="Vwb-PO-50s" appends="YES" id="egH-m9-hjf"/>
                                 </connections>
                             </scrollView>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsf-3J-LFb" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bsf-3J-LFb" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="602" width="375" height="1"/>
                                 <subviews>
                                     <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PUi-TC-sMT">
                                         <rect key="frame" x="94" y="332.5" width="187.5" height="2"/>
@@ -526,7 +526,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                         <connections>
-                                            <action selector="textFieldDidChange:" destination="TMN-0X-9sU" eventType="editingChanged" id="ejR-1C-eqT"/>
+                                            <action selector="textFieldTextDidChange:" destination="TMN-0X-9sU" eventType="editingChanged" id="ejR-1C-eqT"/>
                                             <outlet property="delegate" destination="TMN-0X-9sU" id="2Fe-Bd-DpU"/>
                                         </connections>
                                     </textField>

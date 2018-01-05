@@ -15,14 +15,15 @@ struct Work: Comparable {
     let profileName: String?
     let thumbnail: URL?
     let file: URL?
-    let title: String?
-    let summery: String?
+    var title: String?
+    var summery: String?
     let date: Date?
     var isFollow: Bool?
     var isLike: Bool?
     var isCollect: Bool?
     var likes: Int?
     var comments: Int?
+    var accessControl: AccessControl?
     var messages = [Message]()
 
     init(withDictionary dictionary: [String: Any]) {
@@ -50,6 +51,7 @@ struct Work: Comparable {
         isCollect = dictionary["collection"] as? Bool
         likes = dictionary["likeCount"] as? Int
         comments = dictionary["msgCount"] as? Int
+        accessControl = AccessControl(rawValue: (dictionary["privacyType"] as? Int) ?? 0)
         messages = messageList
     }
 

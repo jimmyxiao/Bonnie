@@ -69,10 +69,13 @@
 "alert_permission_required" = "權限需求";
 "alert_permission_photos" = "BonnieDraw 會把圖存進相簿裡";
 "alert_permission_camera" = "BonnieDraw 會把相機照片設為大頭貼";
+"alert_edit_fail_title" = "編輯失敗";
 "image_picker_camera" = "相機";
 "image_picker_album" = "相簿";
 "gender_male" = "男性";
 "gender_female" = "女性";
 "gender_unspecified" = "不提供";
-"copy_link" = "複製連結";
-"report" = "檢舉";
+"more_copy_link" = "複製連結";
+"more_report" = "檢舉";
+"more_edit_work" = "編輯作品";
+"more_remove_work" = "刪除作品";

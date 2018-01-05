@@ -101,6 +101,7 @@
 		16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */; };
 		16D08F1F1FB14D84001D167C /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D08F1E1FB14D84001D167C /* DebugViewController.swift */; };
 		16D08F241FB169AD001D167C /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16D08F221FB169AC001D167C /* Account.storyboard */; };
+		16D42FD91FFFB694000944E5 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D42FD81FFFB693000944E5 /* EditViewController.swift */; };
 		16D439651F66A9B300FF5878 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439641F66A9B300FF5878 /* Logger.swift */; };
 		16D439681F66AC8200FF5878 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D439671F66AC8200FF5878 /* Point.swift */; };
 		16E539701FD965D800799E4D /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5396F1FD965D800799E4D /* CommentViewController.swift */; };
@@ -210,6 +211,7 @@
 		16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButtonViewController.swift; sourceTree = "<group>"; };
 		16D08F1E1FB14D84001D167C /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		16D08F231FB169AC001D167C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account.storyboard; sourceTree = "<group>"; };
+		16D42FD81FFFB693000944E5 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		16D439641F66A9B300FF5878 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		16D439671F66AC8200FF5878 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		16E5396F1FD965D800799E4D /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 				16C013CC1F9F321100238463 /* FollowViewController.swift */,
 				16E5396F1FD965D800799E4D /* CommentViewController.swift */,
 				1694F2711FF355640063F9E9 /* ReportViewController.swift */,
+				16D42FD81FFFB693000944E5 /* EditViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -728,6 +731,7 @@
 				163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */,
 				166C41241F90964F00A98385 /* DataExtension.swift in Sources */,
 				165996DA1FB4429200AAE7B3 /* SaturationBrightnessView.swift in Sources */,
+				16D42FD91FFFB694000944E5 /* EditViewController.swift in Sources */,
 				16A82D0E1FB1B564007D6128 /* RecommendViewController.swift in Sources */,
 				164ED24D1F7B379200E8B910 /* AccountViewController.swift in Sources */,
 				16816AA71FAFF8DD00855104 /* ShadowView.swift in Sources */,

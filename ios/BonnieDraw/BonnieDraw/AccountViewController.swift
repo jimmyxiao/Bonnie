@@ -18,7 +18,8 @@ class AccountViewController:
         UserViewControllerDelegate,
         AccountEditViewControllerDelegate,
         WorkViewControllerDelegate,
-        CommentViewControllerDelegate {
+        CommentViewControllerDelegate,
+        EditViewControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     private var headerView: AccountHeaderCollectionReusableView?
     private var footerView: AccountFooterCollectionReusableView?
@@ -97,6 +98,10 @@ class AccountViewController:
         } else if let controller = segue.destination as? AccountEditViewController {
             controller.delegate = self
             controller.profile = profile
+        } else if let controller = segue.destination as? EditViewController,
+                  let indexPath = sender as? IndexPath {
+            controller.delegate = self
+            controller.work = works[indexPath.row]
         } else if let controller = segue.destination as? ReportViewController,
                   let indexPath = sender as? IndexPath {
             controller.work = works[indexPath.row]
@@ -374,6 +379,16 @@ class AccountViewController:
     internal func commentDidTapProfile() {
     }
 
+    internal func edit(didChange changedWork: Work) {
+        if let index = works.index(where: {
+            work in
+            return work.id == changedWork.id
+        }) {
+            works[index] = changedWork
+            collectionView.reloadSections([0])
+        }
+    }
+
     @IBAction func headerAction(_ sender: Any) {
         if let userId = userId {
             guard AppDelegate.reachability.connection != .none else {
@@ -446,14 +461,14 @@ class AccountViewController:
             presentation.sourceRect = sender.bounds
         }
         let color = UIColor.gray
-        let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
+        let copyLinkAction = UIAlertAction(title: "more_copy_link".localized, style: .default) {
             action in
             UIPasteboard.general.url = URL(string: Service.sharePath(withId: self.works[indexPath.row].id))
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
         if userId != nil {
-            let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
+            let reportAction = UIAlertAction(title: "more_report".localized, style: .destructive) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
                     self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
@@ -462,6 +477,25 @@ class AccountViewController:
                 self.performSegue(withIdentifier: Segue.REPORT, sender: indexPath)
             }
             alert.addAction(reportAction)
+        } else {
+            let editAction = UIAlertAction(title: "more_edit_work".localized, style: .default) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+                self.performSegue(withIdentifier: Segue.EDIT, sender: indexPath)
+            }
+            editAction.setValue(color, forKey: "titleTextColor")
+            alert.addAction(editAction)
+            let removeAction = UIAlertAction(title: "more_remove_work".localized, style: .destructive) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+            }
+            alert.addAction(removeAction)
         }
         let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
         alert.addAction(cancelAction)

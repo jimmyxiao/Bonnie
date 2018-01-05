@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate, AccountViewControllerDelegate, CommentViewControllerDelegate {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, WorkViewControllerDelegate, AccountViewControllerDelegate, CommentViewControllerDelegate, EditViewControllerDelegate {
     @IBOutlet var menuButton: UIBarButtonItem!
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var loading: LoadingIndicatorView!
@@ -71,6 +71,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
            let indexPath = sender as? IndexPath {
             controller.delegate = self
             controller.userId = works[indexPath.row].userId
+        } else if let controller = segue.destination as? EditViewController,
+                  let indexPath = sender as? IndexPath {
+            controller.delegate = self
+            controller.work = works[indexPath.row]
         } else if let controller = segue.destination as? ReportViewController,
                   let indexPath = sender as? IndexPath {
             controller.work = works[indexPath.row]
@@ -320,6 +324,22 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         delegate?.homeDidTapProfile()
     }
 
+    internal func edit(didChange changedWork: Work) {
+        if let index = works.index(where: {
+            work in
+            return work.id == changedWork.id
+        }) {
+            works[index] = changedWork
+        }
+        if let index = tableViewWorks.index(where: {
+            work in
+            return work.id == changedWork.id
+        }) {
+            tableViewWorks[index] = changedWork
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        }
+    }
+
     @IBAction func profile(_ sender: UIButton) {
         guard let indexPath = tableView.indexPath(forView: sender) else {
             return
@@ -406,21 +426,42 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             presentation.sourceRect = sender.bounds
         }
         let color = UIColor.gray
-        let copyLinkAction = UIAlertAction(title: "copy_link".localized, style: .default) {
+        let copyLinkAction = UIAlertAction(title: "more_copy_link".localized, style: .default) {
             action in
             UIPasteboard.general.url = URL(string: Service.sharePath(withId: self.tableViewWorks[indexPath.row].id))
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
-        let reportAction = UIAlertAction(title: "report".localized, style: .destructive) {
-            action in
-            guard AppDelegate.reachability.connection != .none else {
-                self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
-                return
+        if tableViewWorks[indexPath.row].userId != UserDefaults.standard.integer(forKey: Default.USER_ID) {
+            let reportAction = UIAlertAction(title: "more_report".localized, style: .destructive) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+                self.performSegue(withIdentifier: Segue.REPORT, sender: indexPath)
             }
-            self.performSegue(withIdentifier: Segue.REPORT, sender: indexPath)
+            alert.addAction(reportAction)
+        } else {
+            let editAction = UIAlertAction(title: "more_edit_work".localized, style: .default) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+                self.performSegue(withIdentifier: Segue.EDIT, sender: indexPath)
+            }
+            editAction.setValue(color, forKey: "titleTextColor")
+            alert.addAction(editAction)
+            let removeAction = UIAlertAction(title: "more_remove_work".localized, style: .destructive) {
+                action in
+                guard AppDelegate.reachability.connection != .none else {
+                    self.presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                    return
+                }
+            }
+            alert.addAction(removeAction)
         }
-        alert.addAction(reportAction)
         let cancelAction = UIAlertAction(title: "alert_button_cancel".localized, style: .cancel)
         alert.addAction(cancelAction)
         present(alert, animated: true)
@@ -582,8 +623,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
-
     func homeDidTapProfile()
-
     func home(enableMenuGesture enable: Bool)
 }

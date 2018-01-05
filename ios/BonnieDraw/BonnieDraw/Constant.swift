@@ -205,6 +205,7 @@ struct Segue {
     static let WORK = "workSegue"
     static let COMMENT = "commentSegue"
     static let REPORT = "reportSegue"
+    static let EDIT = "editSegue"
 }
 
 struct Default {

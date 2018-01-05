@@ -20,7 +20,15 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="navigationViewController" id="ejn-eQ-DAk" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="edE-Xs-Gro" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1877" y="1989"/>
+            <point key="canvasLocation" x="1945" y="1984"/>
+        </scene>
+        <!--editViewController-->
+        <scene sceneID="5Sl-Wf-8zV">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="editViewController" id="gzP-T7-yLg" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ohx-qM-G1u" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1944" y="2271"/>
         </scene>
         <!--reportViewController-->
         <scene sceneID="Ttj-ai-fJq">
@@ -28,7 +36,7 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="reportViewController" id="SwJ-DG-QyH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eX9-h0-nb0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1878" y="2565"/>
+            <point key="canvasLocation" x="1944" y="2561"/>
         </scene>
         <!--Account Edit View Controller-->
         <scene sceneID="8WD-4d-0G9">
@@ -967,6 +975,7 @@
                         <segue destination="SwJ-DG-QyH" kind="presentation" identifier="reportSegue" animates="NO" modalPresentationStyle="overFullScreen" id="umM-so-OMn"/>
                         <segue destination="mlI-Uy-vuT" kind="presentation" identifier="accountEditSegue" id="bMc-sh-nso"/>
                         <segue destination="ejn-eQ-DAk" kind="presentation" identifier="commentSegue" id="Quk-BV-Nkw"/>
+                        <segue destination="gzP-T7-yLg" kind="presentation" identifier="editSegue" animates="NO" modalPresentationStyle="overFullScreen" id="AiD-XD-vSf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rzZ-2D-a9F" userLabel="First Responder" sceneMemberID="firstResponder"/>

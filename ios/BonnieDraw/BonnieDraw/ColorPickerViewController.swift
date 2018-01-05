@@ -68,7 +68,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         return string.isEmpty || ((textField.text?.count ?? 0) + string.count <= 6 && colorExpression.firstMatch(in: string, options: [], range: NSMakeRange(0, string.count)) != nil)
     }
 
-    @IBAction func textFieldDidChange(_ sender: UITextField) {
+    @IBAction func textFieldTextDidChange(_ sender: UITextField) {
         if let string = sender.text,
            string.count == 6,
            let color = UIColor(hex: string) {
