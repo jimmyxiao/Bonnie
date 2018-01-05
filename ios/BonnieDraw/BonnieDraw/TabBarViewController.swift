@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate, FollowViewControllerDelegate {
+class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate, FollowViewControllerDelegate, NotificationViewControllerDelegate {
     @IBOutlet weak var tabBar: UITabBar!
     var delegate: TabBarViewControllerDelegate?
     var itemHome: (item: UITabBarItem, viewController: UIViewController?)?
@@ -39,6 +39,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
             if let controller = itemNotification?.viewController {
                 controllers.append(controller)
             } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.NOTIFICATION) as? NotificationViewController {
+                controller.delegate = self
                 itemNotification?.viewController = controller
                 controllers.append(controller)
             }
@@ -83,10 +84,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
     }
 
     internal func homeDidTapProfile() {
-        if let item = itemAccount?.item {
-            tabBar.selectedItem = item
-            tabBar(tabBar, didSelect: item)
-        }
+        selectAccountTab()
     }
 
     internal func home(enableMenuGesture enable: Bool) {
@@ -94,6 +92,14 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
     }
 
     internal func followDidTapProfile() {
+        selectAccountTab()
+    }
+
+    internal func notificationDidTapProfile() {
+        selectAccountTab()
+    }
+
+    private func selectAccountTab() {
         if let item = itemAccount?.item {
             tabBar.selectedItem = item
             tabBar(tabBar, didSelect: item)
@@ -103,5 +109,6 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
 
 protocol TabBarViewControllerDelegate {
     func tabBarDidTapMenu()
+
     func tabBar(enableMenuGesture enable: Bool)
 }

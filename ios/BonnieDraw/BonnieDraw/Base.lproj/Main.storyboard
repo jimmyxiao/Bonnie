@@ -786,6 +786,7 @@
                         <outlet property="profileImage" destination="L7w-h8-JyL" id="Siv-l3-KgD"/>
                         <outlet property="profileName" destination="jra-EZ-SBP" id="H1L-5z-Qi0"/>
                         <outlet property="progressBar" destination="yxQ-Ni-VLM" id="Yl8-Ky-lmu"/>
+                        <outlet property="scrollView" destination="joQ-M3-DBe" id="eKq-5Y-1aG"/>
                         <outlet property="thumbnail" destination="onf-D7-UIT" id="xEV-db-9fI"/>
                         <outlet property="titleLabel" destination="Cka-qb-CIQ" id="01w-WI-eaS"/>
                         <segue destination="Hoj-RR-fqI" kind="presentation" identifier="reportSegue" animates="NO" modalPresentationStyle="overCurrentContext" id="GKN-31-Thb"/>
@@ -793,7 +794,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-sx-Edr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1762.5" y="1599.2957746478874"/>
+            <point key="canvasLocation" x="1763" y="1600"/>
         </scene>
         <!--Follow View Controller-->
         <scene sceneID="3iE-eI-gSs">
@@ -1106,7 +1107,7 @@
                                             <outlet property="profileImage" destination="CET-4l-4Ng" id="ytC-el-Svk"/>
                                             <outlet property="profileName" destination="Qag-UD-sMC" id="RGV-CH-NGB"/>
                                             <outlet property="thumbnail" destination="gM0-9w-7lz" id="PFF-Fc-gsu"/>
-                                            <segue destination="wJn-NR-0b0" kind="show" id="agJ-gg-Yi9"/>
+                                            <segue destination="qCL-XZ-s9R" kind="presentation" id="efq-1z-K0j"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1526,11 +1527,11 @@
             <objects>
                 <viewController storyboardIdentifier="reportViewController" id="Hoj-RR-fqI" customClass="ReportViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gwq-Fd-KAT">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zgy-rD-DGC">
-                                <rect key="frame" x="16" y="132" width="288" height="235"/>
+                                <rect key="frame" x="16" y="166.5" width="288" height="235"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="FFp-kj-9h1">
                                     <rect key="frame" x="0.0" y="0.0" width="288" height="235"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -7818,8 +7819,8 @@ AAAAAAAAAAAAAAAAAAWIqA
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="39j-eH-1du"/>
-        <segue reference="zZU-Ky-cte"/>
+        <segue reference="efq-1z-K0j"/>
+        <segue reference="4aL-pI-Agf"/>
         <segue reference="28q-dZ-TbL"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -18,6 +18,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     private var notifications = [Notification]()
     private let dateFormatter = DateFormatter()
     private let placeholderImage = UIImage(named: "photo-square")
+    var delegate: NotificationViewControllerDelegate?
 
     override func viewDidLoad() {
         tableView.refreshControl = refreshControl
@@ -43,9 +44,11 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         if let controller = segue.destination as? AccountViewController,
            let indexPath = sender as? IndexPath {
             controller.userId = notifications[indexPath.row].userId
-        } else if let controller = segue.destination as? WorkViewController,
+        } else if let navigationController = segue.destination as? UINavigationController,
+                  let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController,
                   let indexPath = tableView.indexPathForSelectedRow {
             controller.workId = notifications[indexPath.row].workId
+            navigationController.setViewControllers([controller], animated: false)
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
@@ -114,7 +117,9 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         guard let indexPath = tableView.indexPath(forView: sender) else {
             return
         }
-        if UserDefaults.standard.integer(forKey: Default.USER_ID) != notifications[indexPath.row].userId {
+        if UserDefaults.standard.integer(forKey: Default.USER_ID) == notifications[indexPath.row].userId {
+            delegate?.notificationDidTapProfile()
+        } else {
             performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
         }
     }
@@ -176,4 +181,8 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
             thumbnail = URL(string: Service.filePath(withSubPath: dictionary["imagePath"] as? String))
         }
     }
+}
+
+protocol NotificationViewControllerDelegate {
+    func notificationDidTapProfile()
 }

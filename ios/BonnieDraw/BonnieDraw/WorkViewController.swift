@@ -11,6 +11,7 @@ import Alamofire
 
 class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewDelegate, JotViewStateProxyDelegate, CommentViewControllerDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var canvas: JotView!
     @IBOutlet weak var thumbnail: UIImageView?
