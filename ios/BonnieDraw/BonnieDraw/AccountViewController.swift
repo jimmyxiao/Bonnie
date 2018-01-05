@@ -44,6 +44,11 @@ class AccountViewController:
         collectionView.refreshControl = refreshControl
         if userId == nil {
             navigationItem.setLeftBarButton(nil, animated: false)
+        } else {
+            navigationItem.setRightBarButtonItems(navigationItem.rightBarButtonItems?.filter() {
+                item in
+                return item.tag == 0
+            }, animated: false)
         }
     }
 

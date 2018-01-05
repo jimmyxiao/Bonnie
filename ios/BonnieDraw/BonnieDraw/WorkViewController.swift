@@ -288,9 +288,6 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         checkSpeedButtons()
     }
 
-    @IBAction func profile(_ sender: UIButton) {
-    }
-
     @IBAction func more(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = UIColor.getAccentColor()

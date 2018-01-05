@@ -936,12 +936,12 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem image="personal_ic_shape" id="Ije-Qa-z1M">
+                            <barButtonItem tag="1" image="personal_ic_shape" id="Ije-Qa-z1M">
                                 <connections>
                                     <action selector="didSelectSetting:" destination="baU-bA-93J" id="9Me-aD-ATG"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="recommend_icon" id="QDa-m9-QsS">
+                            <barButtonItem tag="1" image="recommend_icon" id="QDa-m9-QsS">
                                 <connections>
                                     <action selector="didSelectRecommend:" destination="baU-bA-93J" id="ENw-qN-ncH"/>
                                 </connections>

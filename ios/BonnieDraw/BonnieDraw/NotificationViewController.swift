@@ -39,6 +39,17 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         dataRequest?.cancel()
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? AccountViewController,
+           let indexPath = sender as? IndexPath {
+            controller.userId = notifications[indexPath.row].userId
+        } else if let controller = segue.destination as? WorkViewController,
+                  let indexPath = tableView.indexPathForSelectedRow {
+            controller.workId = notifications[indexPath.row].workId
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+
     private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
             presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
@@ -74,13 +85,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
                 }
                 self.notifications.removeAll()
                 for notification in notificationList {
-                    self.notifications.append(Notification(
-                            id: notification["notiMsgId"] as? Int,
-                            type: NotificationType(rawValue: notification["notiMsgType"] as? Int ?? 0),
-                            profileImage: URL(string: Service.filePath(withSubPath: notification["profilePicture"] as? String)),
-                            profileName: notification["userNameFollow"] as? String,
-                            date: self.dateFormatter.date(from: (notification["creationDate"] as? String) ?? ""),
-                            thumbnail: URL(string: Service.filePath(withSubPath: notification["imagePath"] as? String))))
+                    self.notifications.append(Notification(withDictionary: notification, dateFormatter: self.dateFormatter))
                 }
                 self.tableView.reloadSections([0], with: .automatic)
                 self.emptyLabel.isHidden = !self.notifications.isEmpty
@@ -105,6 +110,15 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         }
     }
 
+    @IBAction func profile(_ sender: UIButton) {
+        guard let indexPath = tableView.indexPath(forView: sender) else {
+            return
+        }
+        if UserDefaults.standard.integer(forKey: Default.USER_ID) != notifications[indexPath.row].userId {
+            performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
+        }
+    }
+
     internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if refreshControl.isRefreshing {
             downloadData()
@@ -119,7 +133,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         let notification = notifications[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.NOTIFICATION, for: indexPath) as! NotificationTableViewCell
         cell.profileImage.setImage(with: notification.profileImage, placeholderImage: placeholderImage)
-        cell.profileName.text = notification.profileName
+        cell.profileName.setTitle(notification.profileName, for: .normal)
         if let date = notification.date {
             cell.date.text = dateFormatter.string(from: date)
         }
@@ -143,10 +157,23 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
 
     struct Notification {
         let id: Int?
+        let userId: Int?
         let type: NotificationType?
         let profileImage: URL?
         let profileName: String?
+        let workId: Int?
         let date: Date?
         let thumbnail: URL?
+
+        init(withDictionary dictionary: [String: Any], dateFormatter: DateFormatter) {
+            id = dictionary["notiMsgId"] as? Int
+            userId = dictionary["userIdFollow"] as? Int
+            type = NotificationType(rawValue: dictionary["notiMsgType"] as? Int ?? 0)
+            profileImage = URL(string: Service.filePath(withSubPath: dictionary["profilePicture"] as? String))
+            profileName = dictionary["userNameFollow"] as? String
+            workId = dictionary["worksId"] as? Int
+            date = dateFormatter.date(from: (dictionary["creationDate"] as? String) ?? "")
+            thumbnail = URL(string: Service.filePath(withSubPath: dictionary["imagePath"] as? String))
+        }
     }
 }
