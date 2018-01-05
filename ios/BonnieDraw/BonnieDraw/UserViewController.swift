@@ -158,7 +158,7 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Cell.USER, for: indexPath) as? UserTableViewCell {
-            let item = users[indexPath.row]
+            let item = tableViewUsers[indexPath.row]
             cell.thumbnail.setImage(with: item.profileImage, placeholderImage: placeholderImage)
             cell.title.text = item.profileName
             cell.status.text = item.status
