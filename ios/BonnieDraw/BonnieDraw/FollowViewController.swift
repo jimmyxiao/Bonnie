@@ -44,10 +44,11 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         if works.isEmpty {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+            loading.hide(false)
             downloadData()
         } else {
-            emptyLabel.isHidden = true
             loading.hide(true)
+            emptyLabel.isHidden = true
         }
     }
 
@@ -402,14 +403,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                         case .success:
                             self.loading.hide(true)
                             guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                                self.presentConfirmationDialog(
-                                        title: "service_download_fail_title".localized,
-                                        message: "app_network_unreachable_content".localized) {
-                                    success in
-                                    if success {
-                                        self.downloadData()
-                                    }
-                                }
+                                self.presentDialog(title: "alert_delete_fail_title".localized, message: "app_network_unreachable_content".localized)
                                 return
                             }
                             if response != 1 {
@@ -424,9 +418,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                             if let error = error as? URLError, error.code == .cancelled {
                                 return
                             }
-                            self.presentDialog(
-                                    title: "service_download_fail_title".localized,
-                                    message: error.localizedDescription)
+                            self.presentDialog(title: "alert_delete_fail_title".localized, message: error.localizedDescription)
                         }
                     }
                 })

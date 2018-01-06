@@ -525,14 +525,7 @@ class AccountViewController:
                         case .success:
                             self.loading.hide(true)
                             guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                                self.presentConfirmationDialog(
-                                        title: "service_download_fail_title".localized,
-                                        message: "app_network_unreachable_content".localized) {
-                                    success in
-                                    if success {
-                                        self.downloadData()
-                                    }
-                                }
+                                self.presentDialog(title: "alert_delete_fail_title".localized, message: "app_network_unreachable_content".localized)
                                 return
                             }
                             if response != 1 {
@@ -547,9 +540,7 @@ class AccountViewController:
                             if let error = error as? URLError, error.code == .cancelled {
                                 return
                             }
-                            self.presentDialog(
-                                    title: "service_download_fail_title".localized,
-                                    message: error.localizedDescription)
+                            self.presentDialog(title: "alert_delete_fail_title".localized, message: error.localizedDescription)
                         }
                     }
                 })

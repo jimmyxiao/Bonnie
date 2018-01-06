@@ -21,6 +21,7 @@
 "alert_permission_required" = "權限需求";
 "alert_report_fail_description_empty" = "檢舉原因不可空白";
 "alert_report_fail_title" = "檢舉失敗";
+"alert_delete_fail_title" = "刪除失敗";
 "alert_reset_content" = "重設後會無法還原畫作";
 "alert_reset_title" = "重設";
 "alert_save_fail_description_empty" = "說明不可空白";

@@ -45,10 +45,11 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         if work?.messages.isEmpty ?? true {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+            loading.hide(false)
             downloadData()
         } else {
-            emptyLabel.isHidden = true
             loading.hide(true)
+            emptyLabel.isHidden = true
             textField.isEnabled = true
         }
     }
@@ -227,6 +228,5 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol CommentViewControllerDelegate {
     func comment(didCommentOnWork work: Work)
-
     func commentDidTapProfile()
 }

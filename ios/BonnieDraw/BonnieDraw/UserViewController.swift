@@ -40,10 +40,11 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
         if users.isEmpty {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+            loading.hide(false)
             downloadData()
         } else {
-            emptyLabel.isHidden = true
             loading.hide(true)
+            emptyLabel.isHidden = true
         }
     }
 

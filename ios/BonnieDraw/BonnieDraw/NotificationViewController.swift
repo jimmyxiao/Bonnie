@@ -29,10 +29,11 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         if notifications.isEmpty {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+            loading.hide(false)
             downloadData()
         } else {
-            emptyLabel.isHidden = true
             loading.hide(true)
+            emptyLabel.isHidden = true
         }
     }
 

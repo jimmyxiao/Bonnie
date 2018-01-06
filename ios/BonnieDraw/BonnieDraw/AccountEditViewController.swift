@@ -45,6 +45,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         if profile == nil {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
+            loading.hide(false)
             downloadData()
         } else {
             loading.hide(true)
