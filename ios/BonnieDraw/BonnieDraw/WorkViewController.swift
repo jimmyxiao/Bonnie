@@ -62,7 +62,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         } else {
             loading.hide(true)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: .UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: .UIApplicationWillResignActive, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,7 +89,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         }
     }
 
-    @objc func applicationDidEnterBackground(notification: Notification) {
+    @objc func applicationWillResignActive(notification: Notification) {
         UIApplication.shared.isIdleTimerDisabled = false
         timer?.invalidate()
         play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)

@@ -67,20 +67,16 @@ class CanvasViewController:
         } else {
             loading.hide(true)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: .UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: .UIApplicationWillResignActive, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
-    }
-
-    @objc func applicationDidEnterBackground(notification: Notification) {
         saveToDraft()
     }
 
-    override func onBackPressed(_ sender: Any) {
+    @objc func applicationWillResignActive(notification: Notification) {
         saveToDraft()
-        super.onBackPressed(sender)
     }
 
     @IBAction func undo(_ sender: Any) {

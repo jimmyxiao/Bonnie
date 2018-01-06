@@ -38,7 +38,7 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             let stateProxy = JotViewStateProxy(delegate: self)
             stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: .UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: .UIApplicationWillResignActive, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -50,7 +50,7 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
         NotificationCenter.default.removeObserver(self)
     }
 
-    @objc func applicationDidEnterBackground(notification: Notification) {
+    @objc func applicationWillResignActive(notification: Notification) {
         UIApplication.shared.isIdleTimerDisabled = false
         timer?.invalidate()
         play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
