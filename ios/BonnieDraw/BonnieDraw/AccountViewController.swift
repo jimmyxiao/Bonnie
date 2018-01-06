@@ -206,7 +206,6 @@ class AccountViewController:
                         for work in works {
                             self.works.append(Work(withDictionary: work))
                         }
-                        self.works.sort()
                         self.collectionView.reloadSections([0])
                         self.footerView?.indicator.stopAnimating()
                         self.footerView?.label.text = self.works.isEmpty ? "empty_data".localized : nil

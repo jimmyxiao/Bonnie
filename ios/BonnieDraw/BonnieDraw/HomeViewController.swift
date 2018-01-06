@@ -209,7 +209,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 for work in works {
                     self.works.append(Work(withDictionary: work))
                 }
-                self.works.sort()
                 self.tableViewWorks = self.works
                 self.tableView.reloadSections([0], with: .automatic)
                 self.emptyLabel.isHidden = !self.tableViewWorks.isEmpty
