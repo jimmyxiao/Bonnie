@@ -57,6 +57,13 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
 
     override func viewDidDisappear(_ animated: Bool) {
         refreshControl.endRefreshing()
+        if navigationItem.titleView != titleView {
+            navigationItem.titleView = titleView
+            searchBar.text = nil
+            tableViewWorks = works
+            tableView.reloadSections([0], with: .automatic)
+            emptyLabel.isHidden = !tableViewWorks.isEmpty
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

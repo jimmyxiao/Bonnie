@@ -11,10 +11,10 @@ import UIKit
 class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate, FollowViewControllerDelegate, NotificationViewControllerDelegate {
     @IBOutlet weak var tabBar: UITabBar!
     var delegate: TabBarViewControllerDelegate?
-    var itemHome: (item: UITabBarItem, viewController: UIViewController?)?
-    var itemFollow: (item: UITabBarItem, viewController: UIViewController?)?
-    var itemNotification: (item: UITabBarItem, viewController: UIViewController?)?
-    var itemAccount: (item: UITabBarItem, viewController: UIViewController?)?
+    var itemHome: (item: UITabBarItem, viewController: HomeViewController?)?
+    var itemFollow: (item: UITabBarItem, viewController: FollowViewController?)?
+    var itemNotification: (item: UITabBarItem, viewController: NotificationViewController?)?
+    var itemAccount: (item: UITabBarItem, viewController: AccountViewController?)?
     var customNavigationController: UINavigationController?
 
     internal func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
@@ -22,6 +22,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         if item == itemHome?.item {
             if let controller = itemHome?.viewController {
                 controllers.append(controller)
+                controller.setTag(type: .popularWork, tag: nil)
             } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.HOME) as? HomeViewController {
                 controller.delegate = self
                 itemHome?.viewController = controller
@@ -64,7 +65,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
                     switch i {
                     case 0:
                         tabBar.selectedItem = items[i]
-                        itemHome = (items[i], navigationController.viewControllers.first)
+                        itemHome = (items[i], navigationController.viewControllers.first as? HomeViewController)
                     case 1:
                         itemFollow = (items[i], nil)
                     case 3:
@@ -109,6 +110,5 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
 
 protocol TabBarViewControllerDelegate {
     func tabBarDidTapMenu()
-
     func tabBar(enableMenuGesture enable: Bool)
 }

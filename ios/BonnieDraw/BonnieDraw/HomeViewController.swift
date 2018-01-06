@@ -28,6 +28,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let collectionImage = UIImage(named: "collect_ic_off")
     private let collectionImageSelected = UIImage(named: "collect_ic_on")
     private var postData: [String: Any] = ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128]
+    private var lastWorkType = 2
 
     override func viewDidLoad() {
         navigationItem.titleView = titleView
@@ -64,6 +65,16 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidDisappear(_ animated: Bool) {
         refreshControl.endRefreshing()
+        if navigationItem.titleView != titleView {
+            delegate?.home(enableMenuGesture: true)
+            navigationItem.setLeftBarButton(menuButton, animated: true)
+            navigationItem.titleView = titleView
+            searchBar.text = nil
+            works.removeAll()
+            tableViewWorks.removeAll()
+            loading.hide(false)
+            postData["wt"] = lastWorkType
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -120,6 +131,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     internal func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let lastWorkType = postData["wt"] as? Int {
+            self.lastWorkType = lastWorkType
+        }
         postData["wt"] = 9
         postData["search"] = searchBar.text
         downloadData()
