@@ -31,7 +31,7 @@ struct Profile {
         worksCount = dictionary["worksNum"] as? Int
         fansCount = dictionary["fansNum"] as? Int
         followsCount = dictionary["followNum"] as? Int
-        isFollowing = dictionary["following"] as? Bool
+        isFollowing = dictionary["follow"] as? Bool
         image = URL(string: Service.filePath(withSubPath: dictionary["profilePicture"] as? String))
     }
 }

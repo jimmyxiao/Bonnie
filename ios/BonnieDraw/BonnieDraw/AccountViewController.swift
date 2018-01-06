@@ -150,14 +150,19 @@ class AccountViewController:
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
-        let userId = self.userId ?? UserDefaults.standard.integer(forKey: Default.USER_ID)
+        let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
+        var postData: [String: Any] = ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE]
+        if let userId = self.userId {
+            postData["type"] = 1
+            postData["queryId"] = userId
+        }
         footerView?.indicator.startAnimating()
         footerView?.label.text = "account_loading".localized
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.USER_INFO_QUERY),
                 method: .post,
-                parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                parameters: postData,
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
