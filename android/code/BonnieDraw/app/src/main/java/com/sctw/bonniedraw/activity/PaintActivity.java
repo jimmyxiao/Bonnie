@@ -642,7 +642,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         switch (mPaintView.miPaintNum) {
             case 1:
                 findViewById(R.id.imgBtn_paint_type1).setSelected(true);
-                mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_1));
+                mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_3));
                 break;
             case 2:
                 findViewById(R.id.imgBtn_paint_type2).setSelected(true);
@@ -650,7 +650,8 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 break;
             case 3:
                 findViewById(R.id.imgBtn_paint_type3).setSelected(true);
-                mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_3));
+                mBtnChangePaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.draw_pen_ic_1));
+
                 break;
             case 4:
                 findViewById(R.id.imgBtn_paint_type4).setSelected(true);
