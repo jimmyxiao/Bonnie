@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16BA1B522000C2B600BCD7B7 /* JotAirbrushBrushTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BA1B4C2000C2B400BCD7B7 /* JotAirbrushBrushTexture.m */; };
+		16BA1B532000C2B600BCD7B7 /* JotCrayonBrushTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 16BA1B4D2000C2B500BCD7B7 /* JotCrayonBrushTexture.h */; };
+		16BA1B542000C2B600BCD7B7 /* JotAirbrushBrushTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 16BA1B4E2000C2B500BCD7B7 /* JotAirbrushBrushTexture.h */; };
+		16BA1B552000C2B600BCD7B7 /* JotCrayonBrushTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BA1B4F2000C2B500BCD7B7 /* JotCrayonBrushTexture.m */; };
+		16BA1B562000C2B600BCD7B7 /* JotPencilBrushTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 16BA1B502000C2B500BCD7B7 /* JotPencilBrushTexture.h */; };
+		16BA1B572000C2B600BCD7B7 /* JotPencilBrushTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BA1B512000C2B600BCD7B7 /* JotPencilBrushTexture.m */; };
 		66018A4819F61F4400228A0D /* DeleteAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 66018A4719F61F4400228A0D /* DeleteAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6658ABD01A7B1A1F00F32506 /* JotGLLayerBackedFrameBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6658ABCE1A7B1A1F00F32506 /* JotGLLayerBackedFrameBuffer.h */; };
 		6658ABD11A7B1A1F00F32506 /* JotGLLayerBackedFrameBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6658ABCF1A7B1A1F00F32506 /* JotGLLayerBackedFrameBuffer.m */; };
@@ -101,8 +107,8 @@
 		C50C0D681C3C9FF400DFC079 /* JotGLColoredPointProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = C50C0D661C3C9FF400DFC079 /* JotGLColoredPointProgram.m */; };
 		C518C8761C841C1B00F1895C /* UIImage+BrushTextures.h in Headers */ = {isa = PBXBuildFile; fileRef = C518C8741C841C1B00F1895C /* UIImage+BrushTextures.h */; };
 		C518C8771C841C1B00F1895C /* UIImage+BrushTextures.m in Sources */ = {isa = PBXBuildFile; fileRef = C518C8751C841C1B00F1895C /* UIImage+BrushTextures.m */; };
-		C518C87A1C841E5500F1895C /* JotHighlighterBrushTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = C518C8781C841E5500F1895C /* JotHighlighterBrushTexture.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C518C87B1C841E5500F1895C /* JotHighlighterBrushTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = C518C8791C841E5500F1895C /* JotHighlighterBrushTexture.m */; };
+		C518C87A1C841E5500F1895C /* JotMarkerBrushTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = C518C8781C841E5500F1895C /* JotMarkerBrushTexture.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C518C87B1C841E5500F1895C /* JotMarkerBrushTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = C518C8791C841E5500F1895C /* JotMarkerBrushTexture.m */; };
 		C518C87D1C841F0700F1895C /* highlighter.png in Resources */ = {isa = PBXBuildFile; fileRef = C518C87C1C841F0700F1895C /* highlighter.png */; };
 		C51F68701C3B7C3E003C046F /* JotGLProgram.h in Headers */ = {isa = PBXBuildFile; fileRef = C51F686E1C3B7C3E003C046F /* JotGLProgram.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C51F68711C3B7C3E003C046F /* JotGLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = C51F686F1C3B7C3E003C046F /* JotGLProgram.m */; };
@@ -123,6 +129,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		16BA1B4C2000C2B400BCD7B7 /* JotAirbrushBrushTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotAirbrushBrushTexture.m; sourceTree = "<group>"; };
+		16BA1B4D2000C2B500BCD7B7 /* JotCrayonBrushTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotCrayonBrushTexture.h; sourceTree = "<group>"; };
+		16BA1B4E2000C2B500BCD7B7 /* JotAirbrushBrushTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotAirbrushBrushTexture.h; sourceTree = "<group>"; };
+		16BA1B4F2000C2B500BCD7B7 /* JotCrayonBrushTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotCrayonBrushTexture.m; sourceTree = "<group>"; };
+		16BA1B502000C2B500BCD7B7 /* JotPencilBrushTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotPencilBrushTexture.h; sourceTree = "<group>"; };
+		16BA1B512000C2B600BCD7B7 /* JotPencilBrushTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotPencilBrushTexture.m; sourceTree = "<group>"; };
 		66018A4719F61F4400228A0D /* DeleteAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteAssets.h; sourceTree = "<group>"; };
 		6622F9D11774E72400C06825 /* JotViewState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotViewState.h; sourceTree = "<group>"; };
 		6622F9D21774E72400C06825 /* JotViewState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotViewState.m; sourceTree = "<group>"; };
@@ -223,8 +235,8 @@
 		C50C0D661C3C9FF400DFC079 /* JotGLColoredPointProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotGLColoredPointProgram.m; sourceTree = "<group>"; };
 		C518C8741C841C1B00F1895C /* UIImage+BrushTextures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BrushTextures.h"; sourceTree = "<group>"; };
 		C518C8751C841C1B00F1895C /* UIImage+BrushTextures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BrushTextures.m"; sourceTree = "<group>"; };
-		C518C8781C841E5500F1895C /* JotHighlighterBrushTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotHighlighterBrushTexture.h; sourceTree = "<group>"; };
-		C518C8791C841E5500F1895C /* JotHighlighterBrushTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotHighlighterBrushTexture.m; sourceTree = "<group>"; };
+		C518C8781C841E5500F1895C /* JotMarkerBrushTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotMarkerBrushTexture.h; sourceTree = "<group>"; };
+		C518C8791C841E5500F1895C /* JotMarkerBrushTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotMarkerBrushTexture.m; sourceTree = "<group>"; };
 		C518C87C1C841F0700F1895C /* highlighter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlighter.png; sourceTree = "<group>"; };
 		C51F686E1C3B7C3E003C046F /* JotGLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotGLProgram.h; sourceTree = "<group>"; };
 		C51F686F1C3B7C3E003C046F /* JotGLProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotGLProgram.m; sourceTree = "<group>"; };
@@ -480,6 +492,14 @@
 		66BF7F1E176675CE003F4F67 /* Brush Texture */ = {
 			isa = PBXGroup;
 			children = (
+				16BA1B4D2000C2B500BCD7B7 /* JotCrayonBrushTexture.h */,
+				16BA1B4F2000C2B500BCD7B7 /* JotCrayonBrushTexture.m */,
+				16BA1B502000C2B500BCD7B7 /* JotPencilBrushTexture.h */,
+				16BA1B512000C2B600BCD7B7 /* JotPencilBrushTexture.m */,
+				16BA1B4E2000C2B500BCD7B7 /* JotAirbrushBrushTexture.h */,
+				16BA1B4C2000C2B400BCD7B7 /* JotAirbrushBrushTexture.m */,
+				C518C8781C841E5500F1895C /* JotMarkerBrushTexture.h */,
+				C518C8791C841E5500F1895C /* JotMarkerBrushTexture.m */,
 				C518C87C1C841F0700F1895C /* highlighter.png */,
 				66BF7F1F176675E0003F4F67 /* JotBrushTexture.h */,
 				66BF7F20176675E0003F4F67 /* JotBrushTexture.m */,
@@ -487,8 +507,6 @@
 				667C9F6D19FEF2C900708632 /* JotSharedBrushTexture.m */,
 				66BF7F2317667663003F4F67 /* JotDefaultBrushTexture.h */,
 				66BF7F2417667663003F4F67 /* JotDefaultBrushTexture.m */,
-				C518C8781C841E5500F1895C /* JotHighlighterBrushTexture.h */,
-				C518C8791C841E5500F1895C /* JotHighlighterBrushTexture.m */,
 				C518C8741C841C1B00F1895C /* UIImage+BrushTextures.h */,
 				C518C8751C841C1B00F1895C /* UIImage+BrushTextures.m */,
 			);
@@ -574,6 +592,7 @@
 				66F1F1E418079BD700B8CE3B /* UIImage+Alpha.h in Headers */,
 				66F1F1E518079BD700B8CE3B /* NSMutableSet+Extras.h in Headers */,
 				66F1F1E618079BD700B8CE3B /* UIColor+JotHelper.h in Headers */,
+				16BA1B542000C2B600BCD7B7 /* JotAirbrushBrushTexture.h in Headers */,
 				66F1F1E718079BD700B8CE3B /* NSArray+JotMapReduce.h in Headers */,
 				66C6AAE718A2E4D50036F4BB /* JotFilledPathStroke.h in Headers */,
 				66F1F1E818079BD700B8CE3B /* JotTrashManager.h in Headers */,
@@ -587,6 +606,7 @@
 				66F1F1EE18079BD700B8CE3B /* JotDefaultBrushTexture.h in Headers */,
 				66F1F1EF18079BD700B8CE3B /* JotGLTexture.h in Headers */,
 				667C9F6E19FEF2C900708632 /* JotSharedBrushTexture.h in Headers */,
+				16BA1B562000C2B600BCD7B7 /* JotPencilBrushTexture.h in Headers */,
 				66F1F1F118079BD700B8CE3B /* JotGLContext.h in Headers */,
 				66F1F1F218079BD700B8CE3B /* JotStroke.h in Headers */,
 				66F1F1F318079BD700B8CE3B /* JotStrokeDelegate.h in Headers */,
@@ -606,10 +626,11 @@
 				66C6AAEB18A2E78E0036F4BB /* FilledPathElement.h in Headers */,
 				66B498831AA1481F00D48094 /* JotGLContext+Buffers.h in Headers */,
 				66B498811AA131D300D48094 /* JotGLTypes.h in Headers */,
+				16BA1B532000C2B600BCD7B7 /* JotCrayonBrushTexture.h in Headers */,
 				66A575AB1B6D536B00F599FC /* MMMainOperationQueue.h in Headers */,
 				66F1F1F018079BD700B8CE3B /* JotGLTextureBackedFrameBuffer.h in Headers */,
 				C51F68701C3B7C3E003C046F /* JotGLProgram.h in Headers */,
-				C518C87A1C841E5500F1895C /* JotHighlighterBrushTexture.h in Headers */,
+				C518C87A1C841E5500F1895C /* JotMarkerBrushTexture.h in Headers */,
 				C535AA631C3B99F10032D688 /* JotGLPointProgram.h in Headers */,
 				66A575A61B6D4CC700F599FC /* MMWeakTimer.h in Headers */,
 				C535AA5E1C3B98BD0032D688 /* JotGLQuadProgram.h in Headers */,
@@ -762,6 +783,7 @@
 				66B7E0531A0B4D94000797E4 /* UIScreen+PortraitBounds.m in Sources */,
 				667C9F6F19FEF2C900708632 /* JotSharedBrushTexture.m in Sources */,
 				66AC156C18079B27005315C8 /* OpenGLVBO.m in Sources */,
+				16BA1B522000C2B600BCD7B7 /* JotAirbrushBrushTexture.m in Sources */,
 				6658ABD51A7B1ED500F32506 /* AbstractJotGLFrameBuffer.m in Sources */,
 				C50C0D681C3C9FF400DFC079 /* JotGLColoredPointProgram.m in Sources */,
 				66AC156D18079B27005315C8 /* JotBrushTexture.m in Sources */,
@@ -771,6 +793,7 @@
 				66AC157118079B27005315C8 /* JotGLContext.m in Sources */,
 				667EC03C1A01F4F60069FF33 /* JotDiskAssetManager.m in Sources */,
 				C584F82B1C37B38C00413840 /* shaderUtil.c in Sources */,
+				16BA1B552000C2B600BCD7B7 /* JotCrayonBrushTexture.m in Sources */,
 				66AC157218079B27005315C8 /* JotStroke.m in Sources */,
 				C50C0D621C3C965300DFC079 /* JotGLColorlessPointProgram.m in Sources */,
 				66AC157318079B27005315C8 /* JotStrokeManager.m in Sources */,
@@ -783,7 +806,8 @@
 				66AC157818079B27005315C8 /* CurveToPathElement.m in Sources */,
 				66AC157918079B27005315C8 /* JotViewState.m in Sources */,
 				66A575A71B6D4CC700F599FC /* MMWeakTimer.m in Sources */,
-				C518C87B1C841E5500F1895C /* JotHighlighterBrushTexture.m in Sources */,
+				16BA1B572000C2B600BCD7B7 /* JotPencilBrushTexture.m in Sources */,
+				C518C87B1C841E5500F1895C /* JotMarkerBrushTexture.m in Sources */,
 				66A575AC1B6D536B00F599FC /* MMMainOperationQueue.m in Sources */,
 				66AC157A18079B27005315C8 /* JotViewImmutableState.m in Sources */,
 				66AC157B18079B27005315C8 /* JotView.m in Sources */,

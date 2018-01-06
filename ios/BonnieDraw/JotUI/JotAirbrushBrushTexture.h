@@ -1,5 +1,5 @@
 //
-//  JotHighlighterBrushTexture.h
+//  JotAirbrushBrushTexture.h
 //  JotUI
 //
 //  Created by Adam Wulf on 2/29/16.
@@ -8,9 +8,7 @@
 
 #import <JotUI/JotUI.h>
 
-
-@interface JotHighlighterBrushTexture : JotBrushTexture
-
-+ (JotBrushTexture*)sharedInstance;
+@interface JotAirbrushBrushTexture : JotBrushTexture
++ (JotBrushTexture *)sharedInstance;
 
 @end

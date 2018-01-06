@@ -47,7 +47,10 @@
 #import <JotUI/JotGLProgram.h>
 #import <JotUI/JotBrushTexture.h>
 #import <JotUI/JotDefaultBrushTexture.h>
-#import <JotUI/JotHighlighterBrushTexture.h>
+#import <JotUI/JotCrayonBrushTexture.h>
+#import <JotUI/JotPencilBrushTexture.h>
+#import <JotUI/JotAirbrushBrushTexture.h>
+#import <JotUI/JotMarkerBrushTexture.h>
 #import <JotUI/JotSharedBrushTexture.h>
 
 typedef struct {

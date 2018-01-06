@@ -11,7 +11,6 @@ class Brush: JotBrushTexture {
     private var velocity: CGFloat = 0
     private var lastPoint = CGPoint.zero
     private var lastTimestamp = Date()
-    private var textureName: String?
     var textureCache: UIImage?
     var minSize: CGFloat {
         didSet {
@@ -20,25 +19,11 @@ class Brush: JotBrushTexture {
     }
     var maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
     var color = UIColor.black
-    var isRotationSupported = false, isForceSupported = false, isVelocitySupported = false
+    var isRotationSupported = true, isForceSupported = false, isVelocitySupported = false
     var stepWidth: CGFloat = 1
     var smoothness: CGFloat = 1
     var type: Type {
         didSet {
-            switch type {
-            case .crayon:
-                textureName = "Crayon"
-            case .pencil:
-                textureName = "Pencil"
-            case .pen:
-                textureName = nil
-            case .airbrush:
-                textureName = "Airbrush"
-            case .marker:
-                textureName = "Marker"
-            default:
-                return
-            }
             calculateStepWidth()
             if textureCache != nil {
                 textureCache = nil
@@ -172,28 +157,25 @@ class Brush: JotBrushTexture {
     }
 
     private func brushTexture() -> JotBrushTexture {
-        if type != .eraser {
-            if let context = JotGLContext.current() as? JotGLContext {
-                if let image = textureCache {
-                    if let texture = JotSharedBrushTexture(image: image) {
-                        context.contextProperties[""] = texture
-                        return texture
-                    } else {
-                        return JotDefaultBrushTexture.sharedInstance()
-                    }
-                } else {
-                    if let texture = context.contextProperties[textureName] as? JotSharedBrushTexture {
-                        return texture
-                    } else if let imageName = textureName, let texture = JotSharedBrushTexture(image: UIImage(named: imageName)) {
-                        context.contextProperties[imageName] = texture
-                        return texture
-                    } else {
-                        return JotDefaultBrushTexture.sharedInstance()
-                    }
-                }
+        if let image = textureCache,
+           let context = JotGLContext.current() as? JotGLContext {
+            if let texture = context.contextProperties[""] as? JotBrushTexture {
+                return texture
+            } else if let texture = JotSharedBrushTexture(image: image) {
+                context.contextProperties[-1] = texture
+                return texture
             }
-            return self
-        } else {
+        }
+        switch type {
+        case .crayon:
+            return JotCrayonBrushTexture.sharedInstance()
+        case .pencil:
+            return JotPencilBrushTexture.sharedInstance()
+        case .airbrush:
+            return JotAirbrushBrushTexture.sharedInstance()
+        case .marker:
+            return JotMarkerBrushTexture.sharedInstance()
+        default:
             return JotDefaultBrushTexture.sharedInstance()
         }
     }

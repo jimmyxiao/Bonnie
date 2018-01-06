@@ -1,36 +1,34 @@
 //
-//  JotHighlighterBrushTexture.m
+//  JotAirbrushBrushTexture.m
 //  JotUI
 //
 //  Created by Adam Wulf on 2/29/16.
 //  Copyright © 2016 Milestone Made. All rights reserved.
 //
 
-#import "JotHighlighterBrushTexture.h"
+#import "JotAirbrushBrushTexture.h"
 #import "JotSharedBrushTexture.h"
 
-@implementation JotHighlighterBrushTexture
-
+@implementation JotAirbrushBrushTexture
 #pragma mark - PlistSaving
 
-- (NSDictionary*)asDictionary {
+- (NSDictionary *)asDictionary {
     return [NSDictionary dictionaryWithObject:NSStringFromClass([self class]) forKey:@"class"];
 }
 
-- (id)initFromDictionary:(NSDictionary*)dictionary {
-    NSString* className = [dictionary objectForKey:@"class"];
+- (id)initFromDictionary:(NSDictionary *)dictionary {
+    NSString *className = [dictionary objectForKey:@"class"];
     Class clz = NSClassFromString(className);
     return [[clz alloc] init];
 }
 
-
 #pragma mark - Singleton
 
-- (UIImage*)texture {
+- (UIImage *)texture {
     return [[self brushTexture] texture];
 }
 
-- (NSString*)name {
+- (NSString *)name {
     return [[self brushTexture] name];
 }
 
@@ -39,14 +37,14 @@
 }
 
 - (void)unbind {
-    JotGLContext* currContext = (JotGLContext*)[JotGLContext currentContext];
+    JotGLContext *currContext = (JotGLContext *) [JotGLContext currentContext];
     if (!currContext) {
         @throw [NSException exceptionWithName:@"NilGLContextException" reason:@"Cannot bind texture to nil gl context" userInfo:nil];
     }
     if (![currContext isKindOfClass:[JotGLContext class]]) {
         @throw [NSException exceptionWithName:@"JotGLContextException" reason:@"Current GL Context must be JotGLContext" userInfo:nil];
     }
-    JotBrushTexture* texture = [currContext.contextProperties objectForKey:@"highlighterTexture"];
+    JotBrushTexture *texture = [currContext.contextProperties objectForKey:NSStringFromClass([self class])];
     if (!texture) {
         @throw [NSException exceptionWithName:@"JotGLContextException" reason:@"Cannot unbind unbuilt brush texture" userInfo:nil];
     }
@@ -54,8 +52,7 @@
 }
 
 #pragma mark - Singleton
-
-static JotHighlighterBrushTexture* _instance = nil;
+static JotAirbrushBrushTexture *_instance = nil;
 
 - (id)init {
     if (_instance)
@@ -66,30 +63,27 @@ static JotHighlighterBrushTexture* _instance = nil;
     return _instance;
 }
 
-+ (JotBrushTexture*)sharedInstance {
++ (JotBrushTexture *)sharedInstance {
     if (!_instance) {
-        _instance = [[JotHighlighterBrushTexture alloc] init];
+        _instance = [[JotAirbrushBrushTexture alloc] init];
     }
     return _instance;
 }
 
-
 #pragma mark - Private
 
-- (JotSharedBrushTexture*)brushTexture {
-    JotGLContext* currContext = (JotGLContext*)[JotGLContext currentContext];
+- (JotSharedBrushTexture *)brushTexture {
+    JotGLContext *currContext = (JotGLContext *) [JotGLContext currentContext];
     if (!currContext) {
         @throw [NSException exceptionWithName:@"NilGLContextException" reason:@"Cannot bind texture to nil gl context" userInfo:nil];
     }
     if (![currContext isKindOfClass:[JotGLContext class]]) {
         @throw [NSException exceptionWithName:@"JotGLContextException" reason:@"Current GL Context must be JotGLContext" userInfo:nil];
     }
-    JotSharedBrushTexture* texture = [currContext.contextProperties objectForKey:@"highlighterTexture"];
+    JotSharedBrushTexture *texture = [currContext.contextProperties objectForKey:NSStringFromClass([self class])];
     if (!texture) {
-        NSBundle* bundle = [NSBundle bundleForClass:[JotView class]];
-        UIImage* highlighter = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"highlighter" ofType:@"png"]];
-        texture = [[JotSharedBrushTexture alloc] initWithImage:highlighter];
-        [currContext.contextProperties setObject:texture forKey:@"highlighterTexture"];
+        texture = [[JotSharedBrushTexture alloc] initWithImage:[UIImage imageNamed:@"Airbrush"]];
+        [currContext.contextProperties setObject:texture forKey:NSStringFromClass([self class])];
     }
     return texture;
 }
