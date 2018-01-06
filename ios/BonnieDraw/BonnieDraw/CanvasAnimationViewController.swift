@@ -198,7 +198,6 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
                         self.brush.type = point.type
                         self.brush.minSize = point.size
                         self.brush.maxSize = point.size * 1.5
-                        self.brush.stepWidth = point.size * 0.1
                         self.canvas.drawBegan(point.position,
                                 width: point.size,
                                 color: point.type != .eraser ? point.color : nil,

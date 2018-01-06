@@ -13,7 +13,12 @@ class Brush: JotBrushTexture {
     private var lastTimestamp = Date()
     private var textureName: String?
     var textureCache: UIImage?
-    var minSize: CGFloat, maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
+    var minSize: CGFloat {
+        didSet {
+            calculateStepWidth()
+        }
+    }
+    var maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
     var color = UIColor.black
     var isRotationSupported = false, isForceSupported = false, isVelocitySupported = false
     var stepWidth: CGFloat = 1
@@ -34,6 +39,7 @@ class Brush: JotBrushTexture {
             default:
                 return
             }
+            calculateStepWidth()
             if textureCache != nil {
                 textureCache = nil
             }
@@ -56,6 +62,23 @@ class Brush: JotBrushTexture {
         self.minAlpha = minAlpha
         self.maxAlpha = maxAlpha
         super.init()
+    }
+
+    private func calculateStepWidth() {
+        switch type {
+        case .crayon:
+            stepWidth = minSize * 0.4
+        case .pencil:
+            stepWidth = minSize * 0.3
+        case .pen:
+            stepWidth = minSize * 0.1
+        case .airbrush:
+            stepWidth = minSize * 0.1
+        case .marker:
+            stepWidth = minSize * 0.1
+        default:
+            return
+        }
     }
 
     private func velocity(forTouch touch: UITouch) -> CGFloat {
