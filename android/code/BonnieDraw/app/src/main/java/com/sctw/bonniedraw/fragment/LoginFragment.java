@@ -664,6 +664,7 @@ public class LoginFragment extends Fragment {
     public void transferMainPage() {
         Intent it = new Intent();
         it.setClass(getActivity(), MainActivity.class);
+        it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(it);
         getActivity().finish();
     }

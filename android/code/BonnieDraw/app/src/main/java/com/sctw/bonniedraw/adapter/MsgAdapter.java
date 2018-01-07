@@ -58,7 +58,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
         }
         Glide.with(context).load(IMG_URL).apply(GlideAppModule.getUserOptions()).into(holder.mCircleUserImg);
         holder.mTvTime.setText(DateFormatString.getDate(context,Long.valueOf(data.get(position).getCreationDate())));
-
+        final int uid = data.get(holder.getAdapterPosition()).getUserId();
         final int wid = data.get(holder.getAdapterPosition()).getWorksId();
         final int worksMsgId = data.get(holder.getAdapterPosition()).getWorksMsgId();
         if (data.get(holder.getAdapterPosition()).getUserId() == ownUid) {
@@ -71,6 +71,22 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
         } else {
             holder.mBtnExtra.setVisibility(View.INVISIBLE);
         }
+
+        holder.mTvUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onUserClick(uid);
+            }
+        });
+
+
+        holder.mCircleUserImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onUserClick(uid);
+            }
+        });
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -96,10 +112,14 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
 
     public interface OnClickMsgPublish {
         void onClickExtra(int position, int msgId);
+
+        void onUserClick(int uid);
     }
 
     public void deleteMsg(int position) {
         data.remove(position);
         notifyDataSetChanged();
     }
+
+
 }

@@ -225,7 +225,8 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
                             });
                             dialog.show();
                         } finally {
-                            transferMainPage();
+                            //重覆開啟
+                            //transferMainPage();
                         }
                     }
                 });
@@ -246,6 +247,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
     public void transferMainPage() {
         Intent it = new Intent();
         it.setClass(this, MainActivity.class);
+        it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(it);
         finish();
     }

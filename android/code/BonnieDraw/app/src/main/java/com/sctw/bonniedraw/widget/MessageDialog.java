@@ -2,10 +2,12 @@ package com.sctw.bonniedraw.widget;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +27,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sctw.bonniedraw.R;
+import com.sctw.bonniedraw.activity.MainActivity;
 import com.sctw.bonniedraw.adapter.MsgAdapter;
 import com.sctw.bonniedraw.bean.MsgBean;
+import com.sctw.bonniedraw.fragment.MemberFragment;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -299,5 +303,27 @@ public class MessageDialog extends DialogFragment implements View.OnClickListene
                 }
             }
         });
+    }
+
+    @Override
+    public void onUserClick(int uid) {
+
+        Intent it = new Intent();
+        it.setClass(getActivity(), MainActivity.class);
+        it.putExtra("fn",5);
+        it.putExtra("uid",uid);
+        startActivity(it);
+
+
+/*
+        Bundle bundle = new Bundle();
+        bundle.putInt("page", function);
+        bundle.putString("query", query);
+        fragment.setArguments(bundle);
+        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
+        fragmentTransaction.commit();
+        */
     }
 }

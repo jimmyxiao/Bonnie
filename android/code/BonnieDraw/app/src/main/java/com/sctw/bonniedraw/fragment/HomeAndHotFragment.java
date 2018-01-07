@@ -2,6 +2,7 @@ package com.sctw.bonniedraw.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -136,6 +137,16 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mLoadMoreFooter = new LoadMoreFooter(getContext(), mRecyclerViewHome, this);
         mLoadMoreFooter.setState(LoadMoreFooter.STATE_DISABLED);
+
+        Intent intent = this.getActivity().getIntent();
+        int fn = intent.getIntExtra("fn",0);
+        if(fn == 5 ){
+            int iUid =  intent.getIntExtra("uid",0);
+            this.getActivity().getIntent().removeExtra("fn");
+            this.getActivity().getIntent().removeExtra("uid");
+            openMemberFragment(iUid);
+        }
+
     }
 
     @Override
@@ -568,6 +579,11 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
 
     @Override
     public void onUserClick(int uid) {
+        openMemberFragment( uid);
+    }
+
+    public void openMemberFragment(int uid) {
+
         MemberFragment memberFragment = new MemberFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("userId", uid);
@@ -577,6 +593,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
 
     @Override
     public void onWorkCollectionClick(int position, boolean isCollection, int wid) {

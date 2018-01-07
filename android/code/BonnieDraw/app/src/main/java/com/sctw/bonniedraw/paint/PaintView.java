@@ -246,16 +246,21 @@ public class PaintView extends View {
     }
 
     public void onCheckSketch() {
-        if (mFileBDW.exists() && mFilePNG.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(mFilePNG.getAbsolutePath()).copy(Bitmap.Config.ARGB_8888, true);
-            mSketchLayer = bitmap;
-            this.mMergedLayer = Bitmap.createBitmap(bitmap);
-            this.mMergedLayerCanvas.setBitmap(mMergedLayer);
-            mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
-            mBDWReader.readFromFile(mFileBDW);
-            mListTagPoint = new ArrayList<>(mBDWReader.m_tagArray);
-            invalidate();
+        try {
+            if (mFileBDW.exists() && mFilePNG.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(mFilePNG.getAbsolutePath()).copy(Bitmap.Config.ARGB_8888, true);
+                mSketchLayer = bitmap;
+                this.mMergedLayer = Bitmap.createBitmap(bitmap);
+                this.mMergedLayerCanvas.setBitmap(mMergedLayer);
+                mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
+                mBDWReader.readFromFile(mFileBDW);
+                mListTagPoint = new ArrayList<>(mBDWReader.m_tagArray);
+                invalidate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     private int getWidthSize(Context c) {
@@ -928,6 +933,8 @@ public class PaintView extends View {
 
             openLine();
             while (getXYVAtDistance(this.mLastDrawDistance, this.mTempXYV)) {
+                if(Float.isNaN(this.mLastDrawDistance))
+                    break;
                 float tipSpeedScale;
                 float tipSpeedAlpha;
                 float px = this.mTempXYV[0];
@@ -984,6 +991,8 @@ public class PaintView extends View {
 
             openLine();
             while (getXYVAtDistance(this.mLastDrawDistance, this.mTempXYV)) {
+                if(Float.isNaN(this.mLastDrawDistance))
+                    break;
                 float tipSpeedScale;
                 float tipSpeedAlpha;
                 float px = this.mTempXYV[0];

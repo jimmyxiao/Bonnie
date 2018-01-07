@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout_actitivy, fragment);
         fragmentTransaction.commit();
+
     }
 
     private void changeFragmentWithBundle(Fragment fragment, int function, String query) {
@@ -201,6 +202,12 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.ic_btn_home:
+                   /*
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        */
+
                         if (mBottomNavigationViewEx.getCurrentItem() == 0 && mbFirst) {
                             callFragmentToTop();
                             return false;
@@ -208,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                         mbFirst = true;
                         if (miFn == 0) miFn = 2;
                         changeFragmentWithBundle(new HomeAndHotFragment(), miFn, mSquery);
+
                         return true;
                     case R.id.ic_btn_hot:
                         if (mBottomNavigationViewEx.getCurrentItem() == 1) {

@@ -29,6 +29,9 @@ import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkAdapterList;
+import com.sctw.bonniedraw.adapter.WorkProfileAdapterGrid;
+import com.sctw.bonniedraw.adapter.WorkProfileAdapterList;
+import com.sctw.bonniedraw.bean.UserInfoBean;
 import com.sctw.bonniedraw.bean.WorkInfoBean;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.DiffCallBack;
@@ -60,7 +63,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, WorkAdapterGrid.WorkGridOnClickListener {
+public class ProfileFragment extends Fragment implements WorkProfileAdapterList.WorkListOnClickListener, WorkProfileAdapterGrid.WorkGridOnClickListener {
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
     private CircleImageView imgPhoto;
@@ -71,8 +74,8 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private SwipeRefreshLayout mSwipeLayoutProfile;
     private RecyclerView mRv;
     private ProgressBar mProgressBar;
-    private WorkAdapterGrid mAdapterGrid;
-    private WorkAdapterList mAdapterList;
+    private WorkProfileAdapterGrid mAdapterGrid;
+    private WorkProfileAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
     private LinearLayout mLlFans, mLlFollow;
     private LinearLayoutManagerWithSmoothScroller layoutManager;
@@ -82,6 +85,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     private boolean mbGridMode = true;
     private int miUserId;
     private int miStn = 1, miRc = 18;
+    private UserInfoBean mUserInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,6 +97,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mUserInfo = new UserInfoBean();
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         miUserId = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, "null"));
         imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
@@ -118,6 +123,17 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
         setOnClick();
         fragmentManager = getFragmentManager();
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(position == 0)
+                    return 3;
+                else
+                    return 1;
+            }
+        });
+
+
         layoutManager = new LinearLayoutManagerWithSmoothScroller(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -206,6 +222,7 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             @Override
             public void onClick(View view) {
                 mRv.setLayoutManager(gridLayoutManager);
+                mRv.setHasFixedSize(true);
                 mRv.setAdapter(mAdapterGrid);
                 mbGridMode = true;
                 changeLayout();
@@ -250,6 +267,28 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                 @Override
                                 public void run() {
                                     try {
+
+                                        mUserInfo.setUserName(responseJSON.getString("userName"));
+                                        mUserInfo.setDescription(responseJSON.getString("description"));
+                                        mUserInfo.setFansNum(responseJSON.getInt("fansNum"));
+                                        mUserInfo.setWorksNum(responseJSON.getInt("worksNum"));
+                                        mUserInfo.setFollowNum(responseJSON.getInt("followNum"));
+
+                                        String profileUrl = "";
+                                        if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
+                                            profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
+                                        }
+                                        mUserInfo.setProfilePicture(profileUrl);
+
+                                        if (responseJSON.has("description") && !responseJSON.isNull("description")) {
+                                            if (responseJSON.getString("description").length() < 20)
+                                                mTextViewUserdescription.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                            mUserInfo.setDescription(responseJSON.getString("description"));
+                                        } else {
+
+                                            mUserInfo.setDescription("");
+                                        }
+
                                         //Successful
                                         mTextViewUserName.setText(responseJSON.getString("userName"));
                                         if (responseJSON.has("description") && !responseJSON.isNull("description")) {
@@ -264,10 +303,6 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
                                         mTextViewFans.setText(responseJSON.getString("fansNum"));
                                         mTextViewFollows.setText(responseJSON.getString("followNum"));
 
-                                        String profileUrl = "";
-                                        if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
-                                            profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
-                                        }
                                         Glide.with(getContext())
                                                 .load(profileUrl)
                                                 .apply(GlideAppModule.getUserOptions())
@@ -331,9 +366,9 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
     public void getWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
-        mAdapterGrid = new WorkAdapterGrid(getContext(), workInfoBeanList, this);
+        mAdapterGrid = new WorkProfileAdapterGrid(getContext(), workInfoBeanList, mUserInfo, this);
 
-        mAdapterList = new WorkAdapterList(getContext(), workInfoBeanList, this, false);
+        mAdapterList = new WorkProfileAdapterList(getContext(), workInfoBeanList,mUserInfo, this, false);
 
         if (mbGridMode) {
             mRv.setLayoutManager(gridLayoutManager);
@@ -656,6 +691,40 @@ public class ProfileFragment extends Fragment implements WorkAdapterList.WorkLis
             setFollow(position, 0, uid);
         }
     }
+
+    @Override
+    public void onProfileEditClickListener() {
+        EditProfileFragment fragment = new EditProfileFragment();
+        fragment.show(getFragmentManager(), "TAG");
+    }
+
+    @Override
+    public void onFansClickListener() {
+        Bundle bundle = new Bundle();
+        // 2=fans   1=follow
+        bundle.putInt("fn", 2);
+        bundle.putInt("uid", miUserId);
+        FansOrFollowFragment fansOrFollowFragment = new FansOrFollowFragment();
+        fansOrFollowFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onFansFollowsListener() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("fn", 1);
+        bundle.putInt("uid", miUserId);
+        FansOrFollowFragment fansOrFollowFragment = new FansOrFollowFragment();
+        fansOrFollowFragment.setArguments(bundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 
     @Override
     public void onResume() {
