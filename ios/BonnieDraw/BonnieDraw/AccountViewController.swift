@@ -186,7 +186,7 @@ class AccountViewController:
                 self.dataRequest = Alamofire.request(
                         Service.standard(withPath: Service.WORK_LIST),
                         method: .post,
-                        parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 5, "stn": 1, "rc": 128],
+                        parameters: ["ui": self.userId ?? userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 5, "stn": 1, "rc": 128],
                         encoding: JSONEncoding.default).validate().responseJSON {
                     response in
                     switch response.result {
