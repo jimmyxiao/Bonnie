@@ -84,11 +84,11 @@ class CanvasViewController:
         redoPaths.append(path)
         if path.points.first?.type == .background {
             var backgroundColor: UIColor? = nil
-            for path in paths {
-                for point in path.points {
-                    if point.type == .background {
-                        backgroundColor = point.color
-                    }
+            for path in paths.reversed() {
+                if let first = path.points.first,
+                   first.type == .background {
+                    backgroundColor = first.color
+                    break
                 }
             }
             gridView.backgroundColor = backgroundColor ?? persistentBackgroundColor ?? .white
@@ -557,12 +557,11 @@ class CanvasViewController:
         var pointsToSave = [Point]()
         while paths.count > canvas.state.undoLimit {
             let path = paths.removeFirst()
-            for point in path.points {
-                pointsToSave.append(point)
-                if point.type == .background {
-                    persistentBackgroundColor = point.color
-                }
+            if let first = path.points.first,
+               first.type == .background {
+                persistentBackgroundColor = first.color
             }
+            pointsToSave.append(contentsOf: path.points)
         }
         if !pointsToSave.isEmpty {
             writeHandle?.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
@@ -597,9 +596,7 @@ class CanvasViewController:
                     writeHandle.seekToEndOfFile()
                     var pointsToSave = [Point]()
                     for path in self.paths {
-                        for point in path.points {
-                            pointsToSave.append(point)
-                        }
+                        pointsToSave.append(contentsOf: path.points)
                     }
                     if !pointsToSave.isEmpty {
                         writeHandle.write(DataConverter.parse(pointsToData: pointsToSave, withScale: (CGFloat(UInt16.max) + 1) / min(bounds.width, bounds.height)))

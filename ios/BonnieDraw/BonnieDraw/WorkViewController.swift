@@ -24,17 +24,22 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBOutlet weak var comments: UILabel!
     @IBOutlet weak var collect: UIButton!
     @IBOutlet weak var play: UIButton!
-    @IBOutlet weak var previousStep: UIButton!
-    @IBOutlet weak var nextStep: UIButton!
-    @IBOutlet weak var decreaseSpeed: UIButton!
-    @IBOutlet weak var increaseSpeed: UIButton!
+    @IBOutlet weak var decrement: UIButton!
+    @IBOutlet weak var increment: UIButton!
     @IBOutlet weak var descriptionLabel: UILabel!
     private var brush = Brush()
+    private var persistentBackgroundColor: UIColor?
+    private var paths = [Path]()
     private var drawPoints = [Point]()
     private var readHandle: FileHandle?
-    private var timer: Timer?
-    private var animationSpeed = 1.0
     private var request: Request?
+    private var timer: Timer?
+    private var isIncrementStep = false
+    private var animationSpeed = 1.0 {
+        didSet {
+            title = "\("canvas_animation_title".localized) x\(1 / animationSpeed)"
+        }
+    }
     var delegate: WorkViewControllerDelegate?
     var jotViewStateInkPath = FileUrl.INK.path
     var jotViewStatePlistPath = FileUrl.STATE.path
@@ -94,8 +99,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         timer?.invalidate()
         play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
         play.isSelected = false
-        previousStep.isEnabled = true
-        nextStep.isEnabled = true
+        setActionButtons()
     }
 
     private func set(viewDataWith work: Work) {
@@ -241,18 +245,22 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     }
 
     @IBAction func play(_ sender: UIButton) {
-        thumbnail?.removeFromSuperview()
         if sender.isSelected {
             UIApplication.shared.isIdleTimerDisabled = false
             timer?.invalidate()
             sender.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
             sender.isSelected = false
-            previousStep.isEnabled = true
-            nextStep.isEnabled = true
+            setActionButtons()
         } else {
+            sender.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
+            sender.isSelected = true
+            isIncrementStep = false
+            animationSpeed = 1
+            setActionButtons()
             if drawPoints.isEmpty {
-                gridView.backgroundColor = .white
+                thumbnail?.removeFromSuperview()
                 canvas.clear(true)
+                gridView.backgroundColor = .white
                 do {
                     let readHandle = try FileHandle(forReadingFrom: FileUrl.RESULT)
                     drawPoints.append(
@@ -274,27 +282,86 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 draw(instantly: false)
                 UIApplication.shared.isIdleTimerDisabled = true
             }
-            sender.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
-            sender.isSelected = true
-            previousStep.isEnabled = false
-            nextStep.isEnabled = false
         }
     }
 
-    @IBAction func previousStep(_ sender: Any) {
+    @IBAction func decrement(_ sender: Any) {
+        if play.isSelected {
+            animationSpeed *= 2
+            checkSpeedButtons()
+        } else {
+            let points = paths.removeLast().points
+            drawPoints.insert(contentsOf: points, at: 0)
+            if points.first?.type == .background {
+                var backgroundColor: UIColor? = nil
+                for path in paths.reversed() {
+                    if let first = path.points.first,
+                       first.type == .background {
+                        backgroundColor = first.color
+                        break
+                    }
+                }
+                gridView.backgroundColor = backgroundColor ?? persistentBackgroundColor ?? .white
+            } else if canvas.state.currentStroke != nil {
+                canvas.drawCancelled()
+            } else {
+                canvas.undo()
+            }
+            checkStepButtons()
+        }
     }
 
-    @IBAction func nextStep(_ sender: Any) {
+    @IBAction func increment(_ sender: Any) {
+        if play.isSelected {
+            animationSpeed /= 2
+            checkSpeedButtons()
+        } else {
+            play.setImage(UIImage(named: "drawplay_ic_timeout"), for: .normal)
+            play.isSelected = true
+            isIncrementStep = true
+            animationSpeed = 1
+            setActionButtons()
+            if !drawPoints.isEmpty {
+                draw(instantly: false)
+            } else {
+                thumbnail?.removeFromSuperview()
+                canvas.clear(true)
+                gridView.backgroundColor = .white
+                do {
+                    let readHandle = try FileHandle(forReadingFrom: FileUrl.RESULT)
+                    drawPoints.append(
+                            contentsOf: DataConverter.parse(
+                                    dataToPoints:
+                                    readHandle.readData(ofLength: Int(POINT_BUFFER_COUNT * LENGTH_SIZE)),
+                                    withScale: (CGFloat(UInt16.max) + 1) / min(canvas.bounds.width, canvas.bounds.height)))
+                    if !drawPoints.isEmpty {
+                        self.readHandle = readHandle
+                        draw(instantly: false)
+                        UIApplication.shared.isIdleTimerDisabled = true
+                    } else {
+                        readHandle.closeFile()
+                    }
+                } catch {
+                    Logger.d("\(#function): \(error.localizedDescription)")
+                }
+            }
+        }
     }
 
-    @IBAction func decreaseSpeed(_ sender: Any) {
-        animationSpeed *= 2
-        checkSpeedButtons()
-    }
-
-    @IBAction func increaseSpeed(_ sender: Any) {
-        animationSpeed /= 2
-        checkSpeedButtons()
+    private func setActionButtons() {
+        if play.isSelected {
+            decrement.setImage(UIImage(named: "drawplay_ic_down_on"), for: .normal)
+            decrement.setImage(UIImage(named: "drawplay_ic_down_off"), for: .disabled)
+            increment.setImage(UIImage(named: "drawplay_ic_doble_on"), for: .normal)
+            increment.setImage(UIImage(named: "drawplay_ic_doble_off"), for: .disabled)
+            checkSpeedButtons()
+        } else {
+            decrement.setImage(UIImage(named: "drawplay_ic_prev_on"), for: .normal)
+            decrement.setImage(UIImage(named: "drawplay_ic_prev_off"), for: .disabled)
+            increment.setImage(UIImage(named: "drawplay_ic_next_on"), for: .normal)
+            increment.setImage(UIImage(named: "drawplay_ic_next_off"), for: .disabled)
+            checkStepButtons()
+        }
     }
 
     @IBAction func more(_ sender: UIButton) {
@@ -569,6 +636,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                             color: point.type != .eraser ? point.color : nil,
                             smoothness: self.brush.smoothness,
                             stepWidth: self.brush.stepWidth)
+                    self.paths.last?.points.append(point)
                 case .up:
                     if point.type != .background {
                         self.canvas.drawEnded(point.position,
@@ -577,6 +645,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                                 smoothness: self.brush.smoothness,
                                 stepWidth: self.brush.stepWidth)
                     }
+                    self.paths.last?.points.append(point)
                 case .down:
                     if point.type != .background {
                         self.brush.type = point.type
@@ -590,6 +659,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                     } else {
                         self.gridView.backgroundColor = point.color
                     }
+                    while self.paths.count >= self.canvas.state.undoLimit {
+                        let path = self.paths.removeFirst()
+                        if let first = path.points.first,
+                           first.type == .background {
+                            self.persistentBackgroundColor = first.color
+                        }
+                    }
+                    self.paths.append(Path(points: [point]))
                 }
                 if let readHandle = self.readHandle, self.drawPoints.count < POINT_BUFFER_COUNT / 2 {
                     let maxByteCount = Int(POINT_BUFFER_COUNT * LENGTH_SIZE)
@@ -599,6 +676,13 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                         readHandle.closeFile()
                         self.readHandle = nil
                     }
+                }
+                if point.action == .up && self.isIncrementStep {
+                    UIApplication.shared.isIdleTimerDisabled = false
+                    self.play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+                    self.play.isSelected = false
+                    self.setActionButtons()
+                    return
                 }
                 self.draw(instantly: instantly)
             }
@@ -615,22 +699,25 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             UIApplication.shared.isIdleTimerDisabled = false
             play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
             play.isSelected = false
-            previousStep.isEnabled = true
-            nextStep.isEnabled = true
+            setActionButtons()
         }
     }
 
+    private func checkStepButtons() {
+        decrement.isEnabled = !paths.isEmpty
+        increment.isEnabled = !drawPoints.isEmpty
+    }
+
     private func checkSpeedButtons() {
-        title = "\("canvas_animation_title".localized) x\(1 / animationSpeed)"
         if animationSpeed >= 4 {
-            decreaseSpeed.isEnabled = false
-            increaseSpeed.isEnabled = true
+            decrement.isEnabled = false
+            increment.isEnabled = true
         } else if animationSpeed <= 0.25 {
-            decreaseSpeed.isEnabled = true
-            increaseSpeed.isEnabled = false
+            decrement.isEnabled = true
+            increment.isEnabled = false
         } else {
-            decreaseSpeed.isEnabled = true
-            increaseSpeed.isEnabled = true
+            decrement.isEnabled = true
+            increment.isEnabled = true
         }
     }
 }

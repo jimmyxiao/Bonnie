@@ -980,46 +980,30 @@
                                     <outlet property="delegate" destination="mfc-of-Eyd" id="b1B-yx-yEe"/>
                                 </connections>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="8r3-RJ-i4v">
-                                <rect key="frame" x="56" y="497" width="263" height="62"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="8r3-RJ-i4v">
+                                <rect key="frame" x="98" y="497" width="179" height="62"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1k-f3-97e">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1k-f3-97e">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="62"/>
-                                        <state key="normal" image="drawplay_ic_down_on"/>
-                                        <state key="disabled" image="drawplay_ic_down_off"/>
-                                        <connections>
-                                            <action selector="decreaseSpeed:" destination="mfc-of-Eyd" eventType="touchUpInside" id="6TP-Bj-Bhe"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o8L-q8-4Lu">
-                                        <rect key="frame" x="50" y="0.0" width="42" height="62"/>
                                         <state key="normal" image="drawplay_ic_prev_on"/>
                                         <state key="disabled" image="drawplay_ic_prev_off"/>
                                         <connections>
-                                            <action selector="previousStep:" destination="mfc-of-Eyd" eventType="touchUpInside" id="okh-tJ-SNw"/>
+                                            <action selector="decrement:" destination="mfc-of-Eyd" eventType="touchUpInside" id="6TP-Bj-Bhe"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ee7-p1-59l">
-                                        <rect key="frame" x="100" y="0.0" width="63" height="62"/>
+                                        <rect key="frame" x="58" y="0.0" width="63" height="62"/>
                                         <state key="normal" image="drawplay_ic_play"/>
                                         <connections>
                                             <action selector="play:" destination="mfc-of-Eyd" eventType="touchUpInside" id="IGq-nd-M0H"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avP-hH-Ph8">
-                                        <rect key="frame" x="171" y="0.0" width="42" height="62"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBK-ni-wdv">
+                                        <rect key="frame" x="137" y="0.0" width="42" height="62"/>
                                         <state key="normal" image="drawplay_ic_next_on"/>
                                         <state key="disabled" image="drawplay_ic_next_off"/>
                                         <connections>
-                                            <action selector="nextStep:" destination="mfc-of-Eyd" eventType="touchUpInside" id="YdM-gj-l2F"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBK-ni-wdv">
-                                        <rect key="frame" x="221" y="0.0" width="42" height="62"/>
-                                        <state key="normal" image="drawplay_ic_doble_on"/>
-                                        <state key="disabled" image="drawplay_ic_doble_off"/>
-                                        <connections>
-                                            <action selector="increaseSpeed:" destination="mfc-of-Eyd" eventType="touchUpInside" id="RHO-Fx-xak"/>
+                                            <action selector="increment:" destination="mfc-of-Eyd" eventType="touchUpInside" id="RHO-Fx-xak"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1049,12 +1033,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="canvas" destination="Q0S-Et-Ve8" id="T0U-oM-tt2"/>
-                        <outlet property="decreaseSpeed" destination="u1k-f3-97e" id="9XH-30-bxN"/>
+                        <outlet property="decrement" destination="u1k-f3-97e" id="9XH-30-bxN"/>
                         <outlet property="gridView" destination="O9D-4B-sXA" id="Z7U-fA-80P"/>
-                        <outlet property="increaseSpeed" destination="oBK-ni-wdv" id="rLl-2V-sdZ"/>
-                        <outlet property="nextStep" destination="avP-hH-Ph8" id="GvJ-6t-eOf"/>
+                        <outlet property="increment" destination="oBK-ni-wdv" id="rLl-2V-sdZ"/>
                         <outlet property="play" destination="ee7-p1-59l" id="eOn-Jm-CKm"/>
-                        <outlet property="previousStep" destination="o8L-q8-4Lu" id="TFW-6r-js4"/>
                         <outlet property="thumbnail" destination="bW2-Ls-snD" id="wCH-nu-uFk"/>
                     </connections>
                 </viewController>
@@ -1069,10 +1051,6 @@
         <image name="draw_ic_erase" width="27" height="35"/>
         <image name="draw_ic_new" width="26" height="33"/>
         <image name="draw_pen_ic_1" width="11" height="51"/>
-        <image name="drawplay_ic_doble_off" width="42" height="42"/>
-        <image name="drawplay_ic_doble_on" width="42" height="42"/>
-        <image name="drawplay_ic_down_off" width="42" height="42"/>
-        <image name="drawplay_ic_down_on" width="42" height="42"/>
         <image name="drawplay_ic_next_off" width="42" height="42"/>
         <image name="drawplay_ic_next_on" width="42" height="42"/>
         <image name="drawplay_ic_play" width="63" height="62"/>

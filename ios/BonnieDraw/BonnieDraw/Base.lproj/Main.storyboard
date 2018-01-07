@@ -573,46 +573,30 @@
                                                     <outlet property="delegate" destination="wJn-NR-0b0" id="EC3-F5-X5A"/>
                                                 </connections>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1hW-UI-a2o">
-                                                <rect key="frame" x="28" y="404" width="263" height="62"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="1hW-UI-a2o">
+                                                <rect key="frame" x="70" y="404" width="179" height="62"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XgX-1G-MTl">
+                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pd-6K-MPG">
                                                         <rect key="frame" x="0.0" y="0.0" width="42" height="62"/>
-                                                        <state key="normal" image="drawplay_ic_down_on"/>
-                                                        <state key="disabled" image="drawplay_ic_down_off"/>
-                                                        <connections>
-                                                            <action selector="decreaseSpeed:" destination="wJn-NR-0b0" eventType="touchUpInside" id="8Sc-Xl-aYQ"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKs-KV-iox">
-                                                        <rect key="frame" x="50" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_prev_on"/>
                                                         <state key="disabled" image="drawplay_ic_prev_off"/>
                                                         <connections>
-                                                            <action selector="previousStep:" destination="wJn-NR-0b0" eventType="touchUpInside" id="v2h-4H-gty"/>
+                                                            <action selector="decrement:" destination="wJn-NR-0b0" eventType="touchUpInside" id="TKF-z2-e6g"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugb-3u-Zzs">
-                                                        <rect key="frame" x="100" y="0.0" width="63" height="62"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BF5-D1-cxd">
+                                                        <rect key="frame" x="58" y="0.0" width="63" height="62"/>
                                                         <state key="normal" image="drawplay_ic_play"/>
                                                         <connections>
-                                                            <action selector="play:" destination="wJn-NR-0b0" eventType="touchUpInside" id="4wA-gT-aV1"/>
+                                                            <action selector="play:" destination="wJn-NR-0b0" eventType="touchUpInside" id="2G4-jP-QO1"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcu-ob-Xqy">
-                                                        <rect key="frame" x="171" y="0.0" width="42" height="62"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWJ-GM-iZ1">
+                                                        <rect key="frame" x="137" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_next_on"/>
                                                         <state key="disabled" image="drawplay_ic_next_off"/>
                                                         <connections>
-                                                            <action selector="nextStep:" destination="wJn-NR-0b0" eventType="touchUpInside" id="G5A-vd-1KI"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJd-B2-4j8">
-                                                        <rect key="frame" x="221" y="0.0" width="42" height="62"/>
-                                                        <state key="normal" image="drawplay_ic_doble_on"/>
-                                                        <state key="disabled" image="drawplay_ic_doble_off"/>
-                                                        <connections>
-                                                            <action selector="increaseSpeed:" destination="wJn-NR-0b0" eventType="touchUpInside" id="VUJ-fL-i2W"/>
+                                                            <action selector="increment:" destination="wJn-NR-0b0" eventType="touchUpInside" id="QdT-Fd-yNW"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -774,16 +758,14 @@
                         <outlet property="canvas" destination="PyN-mC-Mya" id="4bJ-gc-H2d"/>
                         <outlet property="collect" destination="wCi-JF-cK1" id="ckc-Z3-LQC"/>
                         <outlet property="comments" destination="shp-4N-qWj" id="LbK-il-p3r"/>
-                        <outlet property="decreaseSpeed" destination="XgX-1G-MTl" id="VmO-jN-Dd4"/>
+                        <outlet property="decrement" destination="0pd-6K-MPG" id="FhU-Zi-3Ai"/>
                         <outlet property="descriptionLabel" destination="Pde-9J-2hI" id="hFd-qj-w3P"/>
                         <outlet property="gridView" destination="hHV-lQ-Dfn" id="1Xs-F8-f8j"/>
-                        <outlet property="increaseSpeed" destination="VJd-B2-4j8" id="aPR-wP-EBc"/>
+                        <outlet property="increment" destination="bWJ-GM-iZ1" id="pqr-b2-xJO"/>
                         <outlet property="likeButton" destination="fj6-1w-OAi" id="MEJ-im-jFI"/>
                         <outlet property="likes" destination="mie-rN-LQc" id="aeY-J8-CEz"/>
                         <outlet property="loading" destination="yDy-IQ-Hwa" id="Z6b-UP-RHk"/>
-                        <outlet property="nextStep" destination="hcu-ob-Xqy" id="UXz-fC-YKH"/>
-                        <outlet property="play" destination="ugb-3u-Zzs" id="T0g-Ap-PhB"/>
-                        <outlet property="previousStep" destination="dKs-KV-iox" id="2IA-GC-GMZ"/>
+                        <outlet property="play" destination="BF5-D1-cxd" id="l1i-PY-tCr"/>
                         <outlet property="profileImage" destination="L7w-h8-JyL" id="Siv-l3-KgD"/>
                         <outlet property="profileName" destination="jra-EZ-SBP" id="H1L-5z-Qi0"/>
                         <outlet property="progressBar" destination="yxQ-Ni-VLM" id="Yl8-Ky-lmu"/>
@@ -2000,10 +1982,6 @@
         <image name="bottom_bar_ic_notice" width="25" height="25"/>
         <image name="bottom_bar_ic_user" width="22" height="25"/>
         <image name="collect_ic_off" width="17" height="22"/>
-        <image name="drawplay_ic_doble_off" width="42" height="42"/>
-        <image name="drawplay_ic_doble_on" width="42" height="42"/>
-        <image name="drawplay_ic_down_off" width="42" height="42"/>
-        <image name="drawplay_ic_down_on" width="42" height="42"/>
         <image name="drawplay_ic_next_off" width="42" height="42"/>
         <image name="drawplay_ic_next_on" width="42" height="42"/>
         <image name="drawplay_ic_play" width="63" height="62"/>
@@ -8077,6 +8055,6 @@ AAAAAAAAAAAAAAAAAAWIqA
         <segue reference="efq-1z-K0j"/>
         <segue reference="Kc0-Wa-PEp"/>
         <segue reference="GKN-31-Thb"/>
-        <segue reference="28q-dZ-TbL"/>
+        <segue reference="Bfd-12-kZe"/>
     </inferredMetricsTieBreakers>
 </document>
