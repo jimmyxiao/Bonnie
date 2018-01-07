@@ -458,10 +458,10 @@
                                             <action selector="decrease:" destination="H5o-Gk-z39" eventType="touchUpInside" id="Jnr-hN-vbx"/>
                                         </connections>
                                     </button>
-                                    <slider opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="32" translatesAutoresizingMaskIntoConstraints="NO" id="LiB-uZ-bYg">
+                                    <slider opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="32" translatesAutoresizingMaskIntoConstraints="NO" id="LiB-uZ-bYg" customClass="ASValueTrackingSlider">
                                         <rect key="frame" x="95.5" y="0.0" width="209.5" height="33"/>
                                         <color key="minimumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="thumbTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="thumbTintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="sliderValueChanged:" destination="H5o-Gk-z39" eventType="valueChanged" id="Tdf-zd-et8"/>
                                         </connections>
@@ -814,7 +814,7 @@
                                             <slider opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Tdz-6H-tdt">
                                                 <rect key="frame" x="43" y="7" width="302" height="31"/>
                                                 <color key="minimumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="thumbTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="thumbTintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
                                                     <action selector="alphaSliderValueChanged:" destination="h4s-f1-Ps3" eventType="valueChanged" id="M8K-5q-g1M"/>
                                                     <action selector="sliderValueChanged:" destination="H5o-Gk-z39" eventType="valueChanged" id="20q-AB-U1g"/>
@@ -844,10 +844,10 @@
                                                     <action selector="decrease:" destination="H5o-Gk-z39" eventType="touchUpInside" id="ZpL-A6-MYH"/>
                                                 </connections>
                                             </button>
-                                            <slider opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.80000001192092896" minValue="0.20000000298023224" maxValue="0.80000001192092896" translatesAutoresizingMaskIntoConstraints="NO" id="C0s-wI-yJ8">
+                                            <slider opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.80000000000000004" minValue="0.20000000000000001" maxValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="C0s-wI-yJ8">
                                                 <rect key="frame" x="120" y="7.5" width="185" height="31"/>
                                                 <color key="minimumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="thumbTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="thumbTintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
                                                     <action selector="alphaSliderValueChanged:" destination="h4s-f1-Ps3" eventType="valueChanged" id="I7V-ax-fY0"/>
                                                     <action selector="sliderValueChanged:" destination="H5o-Gk-z39" eventType="valueChanged" id="FJE-Rv-dcq"/>

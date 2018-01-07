@@ -7,17 +7,24 @@
 //
 
 import UIKit
+import ASValueTrackingSlider
 
 class SizePickerViewController: UIViewController {
     @IBOutlet weak var decrease: UIButton!
-    @IBOutlet weak var slider: UISlider!
+    @IBOutlet weak var slider: ASValueTrackingSlider!
     @IBOutlet weak var increase: UIButton!
     var value: Float = 1
     var delegate: SizePickerViewControllerDelegate?
 
     override func viewDidLoad() {
+        slider.popUpViewColor = UIColor.getAccentColor()
+        slider.minimumTrackTintColor = .lightGray
         slider.value = value
         checkValue()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        view.superview?.clipsToBounds = false
     }
 
     @IBAction func decrease(_ sender: Any) {
