@@ -17,9 +17,6 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
     @IBOutlet weak var workTitle: UITextField!
     @IBOutlet weak var workDescription: UITextView!
     @IBOutlet weak var accessLabel: UILabel!
-    let dropDown = DropDown()
-    var workThumbnail: UIImage?
-    var workFileUrl: URL?
     private var keyboardOnScreen = false
     private var viewOriginY: CGFloat = 0
     private var dataRequest: DataRequest?
@@ -27,6 +24,10 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                                            (.contactAccess, "access_control_contact".localized),
                                                                            (.privateAccess, "access_control_private".localized)]
     private var accessControl = AccessControl.publicAccess
+    let dropDown = DropDown()
+    var delegate: UploadViewControllerDelegate?
+    var workThumbnail: UIImage?
+    var workFileUrl: URL?
 
     override func viewDidLoad() {
         dropDown.dataSource = dropDownItems.map() {
@@ -165,6 +166,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                                         sender.isEnabled = true
                                                                         return
                                                                     }
+                                                                    self.delegate?.uploadDidFinishUpload()
                                                                     self.navigationController?.dismiss(animated: true)
                                                                 case .failure(let error):
                                                                     if let error = error as? URLError, error.code == .cancelled {
@@ -217,4 +219,8 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+}
+
+protocol UploadViewControllerDelegate {
+    func uploadDidFinishUpload()
 }

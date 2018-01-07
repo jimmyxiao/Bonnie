@@ -13,6 +13,7 @@ class CanvasViewController:
         UIPopoverPresentationControllerDelegate,
         JotViewDelegate,
         JotViewStateProxyDelegate,
+        UploadViewControllerDelegate,
         CanvasSettingTableViewControllerDelegate,
         SizePickerViewControllerDelegate,
         BrushPickerViewControllerDelegate,
@@ -72,11 +73,15 @@ class CanvasViewController:
 
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
-        saveToDraft()
     }
 
     @objc func applicationWillResignActive(notification: Notification) {
         saveToDraft()
+    }
+
+    override func onBackPressed(_ sender: Any) {
+        saveToDraft()
+        super.onBackPressed(sender)
     }
 
     @IBAction func undo(_ sender: Any) {
@@ -261,6 +266,10 @@ class CanvasViewController:
 
     internal func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
+    }
+
+    internal func uploadDidFinishUpload() {
+        saveToDraft()
     }
 
     internal func canvasSetting(didSelectRowAt indexPath: IndexPath) {
@@ -590,7 +599,7 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                if try !self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
                     try manager.copyItem(at: FileUrl.CACHE, to: url)
                     let writeHandle = try FileHandle(forWritingTo: url)
                     writeHandle.seekToEndOfFile()
