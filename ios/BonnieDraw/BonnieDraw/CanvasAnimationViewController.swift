@@ -28,7 +28,6 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
         }
     }
     var workThumbnail: UIImage?
-    var workFileUrl: URL?
     var jotViewStateInkPath = FileUrl.INK.path
     var jotViewStatePlistPath = FileUrl.STATE.path
 
@@ -77,14 +76,11 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             animationSpeed = 1
             setActionButtons()
             if drawPoints.isEmpty {
-                guard let workFileUrl = workFileUrl else {
-                    return
-                }
                 thumbnail?.removeFromSuperview()
                 canvas.clear(true)
                 gridView.backgroundColor = .white
                 do {
-                    let readHandle = try FileHandle(forReadingFrom: workFileUrl)
+                    let readHandle = try FileHandle(forReadingFrom: FileUrl.DRAFT)
                     drawPoints.append(
                             contentsOf: DataConverter.parse(
                                     dataToPoints:
@@ -146,14 +142,11 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             if !drawPoints.isEmpty {
                 draw(instantly: false)
             } else {
-                guard let workFileUrl = workFileUrl else {
-                    return
-                }
                 thumbnail?.removeFromSuperview()
                 canvas.clear(true)
                 gridView.backgroundColor = .white
                 do {
-                    let readHandle = try FileHandle(forReadingFrom: workFileUrl)
+                    let readHandle = try FileHandle(forReadingFrom: FileUrl.DRAFT)
                     drawPoints.append(
                             contentsOf: DataConverter.parse(
                                     dataToPoints:

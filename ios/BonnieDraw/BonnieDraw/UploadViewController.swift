@@ -25,9 +25,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                                            (.privateAccess, "access_control_private".localized)]
     private var accessControl = AccessControl.publicAccess
     let dropDown = DropDown()
-    var delegate: UploadViewControllerDelegate?
     var workThumbnail: UIImage?
-    var workFileUrl: URL?
 
     override func viewDidLoad() {
         dropDown.dataSource = dropDownItems.map() {
@@ -88,7 +86,6 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
         }
         guard let workThumbnail = workThumbnail,
               let workThumbnailData = UIImageJPEGRepresentation(workThumbnail, 1),
-              let workFileUrl = workFileUrl,
               let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
@@ -147,7 +144,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                             Alamofire.upload(
                                                     multipartFormData: {
                                                         multipartFormData in
-                                                        multipartFormData.append(workFileUrl, withName: "file", fileName: "\(workId).bdw", mimeType: "")
+                                                        multipartFormData.append(FileUrl.DRAFT, withName: "file", fileName: "\(workId).bdw", mimeType: "")
                                                     },
                                                     to: Service.standard(withPath: Service.FILE_UPLOAD) + "?ui=\(userId)&lk=\(token)&dt=\(SERVICE_DEVICE_TYPE)&fn=1&wid=\(workId)&ftype=\(FileType.bdw.rawValue)",
                                                     encodingCompletion: {
@@ -166,7 +163,6 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                                         sender.isEnabled = true
                                                                         return
                                                                     }
-                                                                    self.delegate?.uploadDidFinishUpload()
                                                                     self.navigationController?.dismiss(animated: true)
                                                                 case .failure(let error):
                                                                     if let error = error as? URLError, error.code == .cancelled {
@@ -219,8 +215,4 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-}
-
-protocol UploadViewControllerDelegate {
-    func uploadDidFinishUpload()
 }

@@ -13,7 +13,6 @@ class CanvasViewController:
         UIPopoverPresentationControllerDelegate,
         JotViewDelegate,
         JotViewStateProxyDelegate,
-        UploadViewControllerDelegate,
         CanvasSettingTableViewControllerDelegate,
         SizePickerViewControllerDelegate,
         BrushPickerViewControllerDelegate,
@@ -148,31 +147,20 @@ class CanvasViewController:
         loading.hide(false)
         let bounds = canvas.bounds
         let color = gridView.backgroundColor ?? .white
-        save(cacheToUrl: FileUrl.RESULT) {
-            url in
-            if url != nil {
-                DispatchQueue.main.async {
-                    self.canvas.exportToImage(
-                            onComplete: {
-                                image in
-                                DispatchQueue.main.async {
-                                    UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
-                                    color.setFill()
-                                    UIBezierPath(rect: bounds).fill()
-                                    image?.draw(in: bounds)
-                                    let image = UIGraphicsGetImageFromCurrentImageContext()
-                                    UIGraphicsEndImageContext()
-                                    if let image = image {
-                                        self.performSegue(withIdentifier: sender == self.playButton ? Segue.ANIMATION : Segue.UPLOAD, sender: image)
-                                    } else {
-                                        self.loading.hide(true)
-                                    }
-                                }
-                            },
-                            withScale: UIScreen.main.scale)
+        saveToDraft() {
+            image in
+            DispatchQueue.main.async {
+                UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+                color.setFill()
+                UIBezierPath(rect: bounds).fill()
+                image?.draw(in: bounds)
+                let image = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                if let image = image {
+                    self.performSegue(withIdentifier: sender == self.playButton ? Segue.ANIMATION : Segue.UPLOAD, sender: image)
+                } else {
+                    self.loading.hide(true)
                 }
-            } else {
-                self.loading.hide(true)
             }
         }
     }
@@ -232,11 +220,9 @@ class CanvasViewController:
         } else if let controller = segue.destination as? CanvasAnimationViewController,
                   let image = sender as? UIImage {
             controller.workThumbnail = image
-            controller.workFileUrl = FileUrl.RESULT
         } else if let controller = segue.destination as? UploadViewController,
                   let image = sender as? UIImage {
             controller.workThumbnail = image
-            controller.workFileUrl = FileUrl.RESULT
         }
     }
 
@@ -266,10 +252,6 @@ class CanvasViewController:
 
     internal func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
-    }
-
-    internal func uploadDidFinishUpload() {
-        saveToDraft()
     }
 
     internal func canvasSetting(didSelectRowAt indexPath: IndexPath) {
@@ -579,7 +561,7 @@ class CanvasViewController:
 
     private func saveToDraft(completionHandler: ((UIImage?) -> Void)? = nil) {
         let color = gridView.backgroundColor
-        save(cacheToUrl: FileUrl.DRAFT) {
+        saveBdw(toUrl: FileUrl.DRAFT) {
             url in
             if url != nil {
                 self.canvas.exportImage(to: self.jotViewStateInkPath, andThumbnailTo: self.jotViewStateThumbnailPath, andStateTo: self.jotViewStatePlistPath, withThumbnailScale: UIScreen.main.scale) {
@@ -591,7 +573,7 @@ class CanvasViewController:
         }
     }
 
-    private func save(cacheToUrl url: URL, completionHandler: ((URL?) -> Void)? = nil) {
+    private func saveBdw(toUrl url: URL, completionHandler: ((URL?) -> Void)? = nil) {
         let bounds = canvas.bounds
         DispatchQueue.global().async {
             do {
@@ -599,7 +581,7 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                if try !self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
                     try manager.copyItem(at: FileUrl.CACHE, to: url)
                     let writeHandle = try FileHandle(forWritingTo: url)
                     writeHandle.seekToEndOfFile()
