@@ -45,7 +45,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         if profile == nil {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-            loading.hide(false)
             downloadData()
         } else {
             loading.hide(true)
@@ -221,6 +220,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                         if let error = error as? URLError, error.code == .cancelled {
                             return
                         }
+                        self.loading.hide(true)
                         self.presentConfirmationDialog(
                                 title: "alert_account_update_fail_title".localized,
                                 message: error.localizedDescription) {
@@ -229,7 +229,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                 self.done(sender)
                             } else {
                                 sender.isEnabled = true
-                                self.loading.hide(true)
                             }
                         }
                     }
@@ -423,5 +422,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
 protocol AccountEditViewControllerDelegate {
     func accountEdit(profileDidChange profile: Profile)
+
     func accountEdit(imageDidChange image: UIImage)
 }

@@ -14,6 +14,7 @@ class AccountViewController:
         UICollectionViewDataSource,
         UICollectionViewDelegate,
         UICollectionViewDelegateFlowLayout,
+        AccountHeaderCollectionReusableViewDelegate,
         SettingViewControllerDelegate,
         UserViewControllerDelegate,
         AccountEditViewControllerDelegate,
@@ -43,6 +44,8 @@ class AccountViewController:
     var works = [Work]()
 
     override func viewDidLoad() {
+        navigationItem.hidesBackButton = true
+        collectionView.register(UINib(nibName: "AccountHeaderCollectionReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: Cell.ACCOUNT_HEADER)
         collectionView.refreshControl = refreshControl
         if userId == nil {
             navigationItem.setLeftBarButton(nil, animated: false)
@@ -254,6 +257,7 @@ class AccountViewController:
     internal func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let headerView = self.headerView ?? collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
+            headerView.delegate = self
             if userId != nil {
                 headerView.editButton.setTitle(profile?.isFollowing ?? false ? "account_following".localized : "account_follow".localized, for: .normal)
                 headerView.fanButton.isUserInteractionEnabled = false
@@ -275,10 +279,10 @@ class AccountViewController:
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let headerView = self.headerView ?? collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: IndexPath(row: 0, section: section)) as! AccountHeaderCollectionReusableView
+        let headerView = self.headerView ?? Bundle.main.loadView(from: "AccountHeaderCollectionReusableView") as! AccountHeaderCollectionReusableView
         headerView.profileName.text = profile?.name
         headerView.profileDescription.text = profile?.description
-        return headerView.root.systemLayoutSizeFitting(UILayoutFittingExpandedSize)
+        return headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize)
     }
 
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -331,6 +335,67 @@ class AccountViewController:
             return CGSize(width: width, height: width)
         } else {
             return CGSize(width: collectionView.bounds.width, height: 156 + collectionView.bounds.width)
+        }
+    }
+
+    internal func accountHeaderAction(_ sender: Any) {
+        if let userId = userId {
+            guard AppDelegate.reachability.connection != .none else {
+                presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+                return
+            }
+            guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+                  let isFollowing = profile?.isFollowing else {
+                return
+            }
+            let follow = !isFollowing
+            dataRequest?.cancel()
+            dataRequest = Alamofire.request(
+                    Service.standard(withPath: Service.SET_FOLLOW),
+                    method: .post,
+                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": userId],
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                        self.presentConfirmationDialog(
+                                title: "service_download_fail_title".localized,
+                                message: "app_network_unreachable_content".localized) {
+                            success in
+                            if success {
+                                self.downloadData()
+                            }
+                        }
+                        return
+                    }
+                    if response != 1 {
+                        self.presentDialog(
+                                title: "service_download_fail_title".localized,
+                                message: data["msg"] as? String)
+                    } else {
+                        self.profile?.isFollowing = follow
+                        self.headerView?.editButton.setTitle(follow ? "account_following".localized : "account_follow".localized, for: .normal)
+                        if let userId = self.userId {
+                            self.delegate?.account(didFollowUserId: userId, follow: follow)
+                        }
+                    }
+                case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
+                    self.presentConfirmationDialog(
+                            title: "service_download_fail_title".localized,
+                            message: error.localizedDescription) {
+                        success in
+                        if success {
+                            self.downloadData()
+                        }
+                    }
+                }
+            }
+        } else {
+            performSegue(withIdentifier: Segue.ACCOUNT_EDIT, sender: sender)
         }
     }
 
@@ -402,67 +467,6 @@ class AccountViewController:
         }) {
             works[index] = changedWork
             collectionView.reloadSections([0])
-        }
-    }
-
-    @IBAction func headerAction(_ sender: Any) {
-        if let userId = userId {
-            guard AppDelegate.reachability.connection != .none else {
-                presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
-                return
-            }
-            guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
-                  let isFollowing = profile?.isFollowing else {
-                return
-            }
-            let follow = !isFollowing
-            dataRequest?.cancel()
-            dataRequest = Alamofire.request(
-                    Service.standard(withPath: Service.SET_FOLLOW),
-                    method: .post,
-                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": userId],
-                    encoding: JSONEncoding.default).validate().responseJSON {
-                response in
-                switch response.result {
-                case .success:
-                    guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.presentConfirmationDialog(
-                                title: "service_download_fail_title".localized,
-                                message: "app_network_unreachable_content".localized) {
-                            success in
-                            if success {
-                                self.downloadData()
-                            }
-                        }
-                        return
-                    }
-                    if response != 1 {
-                        self.presentDialog(
-                                title: "service_download_fail_title".localized,
-                                message: data["msg"] as? String)
-                    } else {
-                        self.profile?.isFollowing = follow
-                        self.headerView?.editButton.setTitle(follow ? "account_following".localized : "account_follow".localized, for: .normal)
-                        if let userId = self.userId {
-                            self.delegate?.account(didFollowUserId: userId, follow: follow)
-                        }
-                    }
-                case .failure(let error):
-                    if let error = error as? URLError, error.code == .cancelled {
-                        return
-                    }
-                    self.presentConfirmationDialog(
-                            title: "service_download_fail_title".localized,
-                            message: error.localizedDescription) {
-                        success in
-                        if success {
-                            self.downloadData()
-                        }
-                    }
-                }
-            }
-        } else {
-            performSegue(withIdentifier: Segue.ACCOUNT_EDIT, sender: sender)
         }
     }
 

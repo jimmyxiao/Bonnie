@@ -9,20 +9,28 @@
 import UIKit
 
 class AccountHeaderCollectionReusableView: UICollectionReusableView {
-    @IBOutlet weak var root: UIView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var profileDescription: UILabel!
     @IBOutlet weak var fanButton: UIButton!
     @IBOutlet weak var followButton: UIButton!
-    @IBOutlet weak var profileDescription: UILabel!
     @IBOutlet weak var worksCount: UILabel!
     @IBOutlet weak var fansCount: UILabel!
     @IBOutlet weak var followsCount: UILabel!
+    var delegate: AccountHeaderCollectionReusableViewDelegate?
 
     override func awakeFromNib() {
         profileImage.sd_setShowActivityIndicatorView(true)
         profileImage.sd_setIndicatorStyle(.gray)
         editButton.layer.borderColor = UIColor.darkGray.cgColor
     }
+
+    @IBAction func headerAction(_ sender: Any) {
+        delegate?.accountHeaderAction(sender)
+    }
+}
+
+protocol AccountHeaderCollectionReusableViewDelegate {
+    func accountHeaderAction(_ sender: Any)
 }

@@ -38,7 +38,6 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         if users.isEmpty {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-            loading.hide(false)
             downloadData()
         } else {
             loading.hide(true)
@@ -101,6 +100,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
+        loading.hide(false)
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
@@ -121,7 +121,6 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                     }
                     return
                 }
-                //                    self.items.removeAll()
                 self.tableViewUsers = self.users
                 self.tableView.reloadSections([0], with: .automatic)
                 self.emptyLabel.isHidden = !self.tableViewUsers.isEmpty

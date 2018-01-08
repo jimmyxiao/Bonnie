@@ -28,6 +28,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
     var delegate: FollowViewControllerDelegate?
 
     override func viewDidLoad() {
+        navigationItem.hidesBackButton = true
         navigationItem.titleView = titleView
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
@@ -44,7 +45,6 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         if works.isEmpty {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-            loading.hide(false)
             downloadData()
         } else {
             loading.hide(true)
@@ -141,6 +141,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             }
             return
         }
+        loading.hide(false)
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),

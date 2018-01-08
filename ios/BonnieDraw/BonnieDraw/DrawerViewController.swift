@@ -100,6 +100,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
             completionHandler(nil)
             return
         }
+        loading.hide(false)
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.TAG_LIST),

@@ -50,7 +50,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else if works.isEmpty {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-            loading.hide(false)
             downloadData()
         } else {
             loading.hide(true)
@@ -73,7 +72,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             searchBar.text = nil
             works.removeAll()
             tableViewWorks.removeAll()
-            loading.hide(false)
             postData["wt"] = lastWorkType
         }
     }
@@ -185,6 +183,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             return
         }
+        loading.hide(false)
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
@@ -695,6 +694,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
+
     func homeDidTapProfile()
+
     func home(enableMenuGesture enable: Bool)
 }

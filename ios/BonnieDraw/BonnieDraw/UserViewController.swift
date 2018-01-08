@@ -40,7 +40,6 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
         if users.isEmpty {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-            loading.hide(false)
             downloadData()
         } else {
             loading.hide(true)
@@ -103,6 +102,7 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
+        loading.hide(false)
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.FOLLOWING_LIST),

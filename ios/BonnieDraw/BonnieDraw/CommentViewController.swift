@@ -45,7 +45,6 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         if work?.messages.isEmpty ?? true {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-            loading.hide(false)
             downloadData()
         } else {
             loading.hide(true)
@@ -101,6 +100,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
             }
             return
         }
+        loading.hide(false)
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
@@ -228,5 +228,6 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol CommentViewControllerDelegate {
     func comment(didCommentOnWork work: Work)
+
     func commentDidTapProfile()
 }

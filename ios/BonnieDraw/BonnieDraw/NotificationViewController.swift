@@ -21,6 +21,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     var delegate: NotificationViewControllerDelegate?
 
     override func viewDidLoad() {
+        navigationItem.hidesBackButton = true
         tableView.refreshControl = refreshControl
         dateFormatter.dateFormat = "yyyy-MM-dd"
     }
@@ -29,7 +30,6 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         if notifications.isEmpty {
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
-            loading.hide(false)
             downloadData()
         } else {
             loading.hide(true)
@@ -71,6 +71,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
+        loading.hide(false)
         dataRequest?.cancel()
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.NOTIFICATION),

@@ -68,8 +68,8 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
             }
         default:
             if let tabBarController = mainViewController as? TabBarViewController,
-               let homeController = tabBarController.itemHome?.viewController as? HomeViewController {
-                homeController.setTag(type: type, tag: tag)
+               let controller = tabBarController.itemHome?.viewController {
+                controller.setTag(type: type, tag: tag)
             }
         }
         setDrawerState(.closed, animated: true)
