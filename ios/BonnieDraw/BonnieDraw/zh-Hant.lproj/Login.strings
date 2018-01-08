@@ -1,0 +1,63 @@
+
+/* Class = "UIButton"; normalTitle = "忘記密碼?"; ObjectID = "1qB-7J-UsU"; */
+"1qB-7J-UsU.normalTitle" = "忘記密碼?";
+
+/* Class = "UILabel"; text = "請輸入註冊的E-MAIL，系統將密碼至您的信箱。"; ObjectID = "2MR-f2-R1J"; */
+"2MR-f2-R1J.text" = "請輸入註冊的E-MAIL，系統將密碼至您的信箱。";
+
+/* Class = "UITextField"; placeholder = "使用密碼"; ObjectID = "4xS-mF-9sQ"; */
+"4xS-mF-9sQ.placeholder" = "使用密碼";
+
+/* Class = "UIButton"; normalTitle = "Google+"; ObjectID = "9Mc-PQ-sAX"; */
+"9Mc-PQ-sAX.normalTitle" = "Google+";
+
+/* Class = "UILabel"; text = "您還沒有帳號？"; ObjectID = "A16-PD-v9Y"; */
+"A16-PD-v9Y.text" = "您還沒有帳號？";
+
+/* Class = "UILabel"; text = "您還沒有帳號？"; ObjectID = "BSV-Z0-Fez"; */
+"BSV-Z0-Fez.text" = "您還沒有帳號？";
+
+/* Class = "UITextField"; placeholder = "使用密碼"; ObjectID = "E2r-aO-dH5"; */
+"E2r-aO-dH5.placeholder" = "使用密碼";
+
+/* Class = "UIButton"; normalTitle = "註冊"; ObjectID = "E4d-LC-JK2"; */
+"E4d-LC-JK2.normalTitle" = "註冊";
+
+/* Class = "UIButton"; normalTitle = "Twitter"; ObjectID = "Kk0-uF-NbW"; */
+"Kk0-uF-NbW.normalTitle" = "Twitter";
+
+/* Class = "UIButton"; normalTitle = "註冊"; ObjectID = "NsT-Qg-B4m"; */
+"NsT-Qg-B4m.normalTitle" = "註冊";
+
+/* Class = "UIButton"; normalTitle = "註冊"; ObjectID = "ReV-i1-cOF"; */
+"ReV-i1-cOF.normalTitle" = "註冊";
+
+/* Class = "UIButton"; normalTitle = "登入"; ObjectID = "TLu-WF-l3N"; */
+"TLu-WF-l3N.normalTitle" = "登入";
+
+/* Class = "UILabel"; text = "已經有帳號？"; ObjectID = "UeR-Ms-nZX"; */
+"UeR-Ms-nZX.text" = "已經有帳號？";
+
+/* Class = "UILabel"; text = "或"; ObjectID = "bVP-fc-tiv"; */
+"bVP-fc-tiv.text" = "或";
+
+/* Class = "UITextField"; placeholder = "全名"; ObjectID = "cIy-7H-gDi"; */
+"cIy-7H-gDi.placeholder" = "全名";
+
+/* Class = "UIButton"; normalTitle = "發送"; ObjectID = "duy-Lq-8K3"; */
+"duy-Lq-8K3.normalTitle" = "發送";
+
+/* Class = "UITextField"; placeholder = "帳號(E-mail)"; ObjectID = "eGj-dE-lgG"; */
+"eGj-dE-lgG.placeholder" = "帳號(E-mail)";
+
+/* Class = "UITextField"; placeholder = "帳號(E-mail)"; ObjectID = "gzE-Be-Usa"; */
+"gzE-Be-Usa.placeholder" = "帳號(E-mail)";
+
+/* Class = "UIButton"; normalTitle = "登入"; ObjectID = "m2S-vl-9lL"; */
+"m2S-vl-9lL.normalTitle" = "登入";
+
+/* Class = "UITextField"; placeholder = "帳號(E-mail)"; ObjectID = "mHG-yE-dh1"; */
+"mHG-yE-dh1.placeholder" = "帳號(E-mail)";
+
+/* Class = "UIButton"; normalTitle = "Facebook"; ObjectID = "uCL-iL-uur"; */
+"uCL-iL-uur.normalTitle" = "Facebook";

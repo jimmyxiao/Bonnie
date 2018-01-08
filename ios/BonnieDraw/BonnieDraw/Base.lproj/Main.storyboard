@@ -261,7 +261,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="44" id="fet-i0-VcU"/>
                                                             </constraints>
-                                                            <state key="normal" title="Button" image="photo-square"/>
+                                                            <state key="normal" image="photo-square"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                                     <integer key="value" value="22"/>
@@ -338,14 +338,14 @@
                                                                 <action selector="like:" destination="gud-V7-B39" eventType="touchUpInside" id="qCd-Ub-x3s"/>
                                                             </connections>
                                                         </button>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyx-3S-AEg">
-                                                            <rect key="frame" x="44" y="0.0" width="10.5" height="44"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyx-3S-AEg">
+                                                            <rect key="frame" x="44" y="0.0" width="0.0" height="44"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dM-G2-ack">
-                                                            <rect key="frame" x="54.5" y="0.0" width="44" height="44"/>
+                                                            <rect key="frame" x="44" y="0.0" width="44" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="44" id="82G-iW-yDl"/>
                                                             </constraints>
@@ -354,14 +354,14 @@
                                                                 <action selector="comment:" destination="gud-V7-B39" eventType="touchUpInside" id="kcE-P4-vMH"/>
                                                             </connections>
                                                         </button>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HL8-uf-P3d">
-                                                            <rect key="frame" x="98.5" y="0.0" width="10.5" height="44"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HL8-uf-P3d">
+                                                            <rect key="frame" x="88" y="0.0" width="112" height="44"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="skI-2G-h4o">
-                                                            <rect key="frame" x="109" y="0.0" width="44" height="44"/>
+                                                            <rect key="frame" x="200" y="0.0" width="44" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="44" id="S2I-4O-VwT"/>
                                                             </constraints>
@@ -371,7 +371,7 @@
                                                             </connections>
                                                         </button>
                                                         <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="itJ-ja-Kak">
-                                                            <rect key="frame" x="153" y="0.0" width="91" height="44"/>
+                                                            <rect key="frame" x="244" y="0.0" width="0.0" height="44"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NHf-Ty-ORG">
@@ -500,7 +500,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="44" id="MvR-1E-2SJ"/>
                                                         </constraints>
-                                                        <state key="normal" title="Button" image="photo-square"/>
+                                                        <state key="normal" image="photo-square"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                                 <integer key="value" value="22"/>
@@ -615,14 +615,14 @@
                                                             <action selector="like:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="uld-2J-gyQ"/>
                                                         </connections>
                                                     </button>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mie-rN-LQc">
-                                                        <rect key="frame" x="44" y="0.0" width="10.5" height="44"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mie-rN-LQc">
+                                                        <rect key="frame" x="44" y="0.0" width="0.0" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gRu-gq-nZo">
-                                                        <rect key="frame" x="54.5" y="0.0" width="44" height="44"/>
+                                                        <rect key="frame" x="44" y="0.0" width="44" height="44"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="44" id="nRN-tg-V8d"/>
                                                         </constraints>
@@ -632,14 +632,14 @@
                                                             <segue destination="R9c-0p-Md0" kind="show" id="b8y-5B-FFo"/>
                                                         </connections>
                                                     </button>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shp-4N-qWj">
-                                                        <rect key="frame" x="98.5" y="0.0" width="10.5" height="44"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shp-4N-qWj">
+                                                        <rect key="frame" x="88" y="0.0" width="112" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6c-mc-ULJ">
-                                                        <rect key="frame" x="109" y="0.0" width="44" height="44"/>
+                                                        <rect key="frame" x="200" y="0.0" width="44" height="44"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="44" id="yrU-nr-RyM"/>
                                                         </constraints>
@@ -650,7 +650,7 @@
                                                         </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Pmh-F8-WR3">
-                                                        <rect key="frame" x="153" y="0.0" width="91" height="44"/>
+                                                        <rect key="frame" x="244" y="0.0" width="0.0" height="44"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCi-JF-cK1">
@@ -807,7 +807,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="44" id="Gv1-HX-JeV"/>
                                                             </constraints>
-                                                            <state key="normal" title="Button" image="photo-square"/>
+                                                            <state key="normal" image="photo-square"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                                     <integer key="value" value="22"/>
@@ -864,14 +864,14 @@
                                                                 <action selector="like:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="GrD-Yj-R2h"/>
                                                             </connections>
                                                         </button>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r8q-mw-OHf">
-                                                            <rect key="frame" x="44" y="0.0" width="10.5" height="44"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r8q-mw-OHf">
+                                                            <rect key="frame" x="44" y="0.0" width="0.0" height="44"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="or0-pE-1mB">
-                                                            <rect key="frame" x="54.5" y="0.0" width="44" height="44"/>
+                                                            <rect key="frame" x="44" y="0.0" width="44" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="44" id="fP6-GM-363"/>
                                                             </constraints>
@@ -880,14 +880,14 @@
                                                                 <action selector="comment:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="sZe-xK-eYl"/>
                                                             </connections>
                                                         </button>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BxE-69-EYD">
-                                                            <rect key="frame" x="98.5" y="0.0" width="10.5" height="44"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BxE-69-EYD">
+                                                            <rect key="frame" x="88" y="0.0" width="112" height="44"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5s8-Iv-6aC">
-                                                            <rect key="frame" x="109" y="0.0" width="44" height="44"/>
+                                                            <rect key="frame" x="200" y="0.0" width="44" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="44" id="utg-GH-Cet"/>
                                                             </constraints>
@@ -897,7 +897,7 @@
                                                             </connections>
                                                         </button>
                                                         <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Zmy-S5-jkR">
-                                                            <rect key="frame" x="153" y="0.0" width="91" height="44"/>
+                                                            <rect key="frame" x="244" y="0.0" width="0.0" height="44"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wxC-1P-Ynl">
@@ -1027,7 +1027,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="CET-4l-4Ng" secondAttribute="height" multiplier="1:1" id="xgR-zf-DWi"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button" image="photo-square"/>
+                                                    <state key="normal" image="photo-square"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="22"/>
@@ -1496,7 +1496,7 @@
             <objects>
                 <viewController storyboardIdentifier="reportViewController" id="Hoj-RR-fqI" customClass="ReportViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gwq-Fd-KAT">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="499"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zgy-rD-DGC">
@@ -1698,7 +1698,7 @@
             <objects>
                 <viewController storyboardIdentifier="editViewController" id="uTq-VR-1BZ" customClass="EditViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="H64-15-AAr">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="499"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMh-Dr-qna">
@@ -8053,8 +8053,8 @@ AAAAAAAAAAAAAAAAAAWIqA
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="efq-1z-K0j"/>
-        <segue reference="Kc0-Wa-PEp"/>
-        <segue reference="GKN-31-Thb"/>
-        <segue reference="Bfd-12-kZe"/>
+        <segue reference="ssD-gC-Z13"/>
+        <segue reference="zZU-Ky-cte"/>
+        <segue reference="WGO-60-ai1"/>
     </inferredMetricsTieBreakers>
 </document>

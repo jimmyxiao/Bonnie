@@ -49,11 +49,12 @@
 		163F65AB1F61663800945E04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65AA1F61663800945E04 /* AppDelegate.swift */; };
 		163F65B21F61663900945E04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 163F65B11F61663900945E04 /* Assets.xcassets */; };
 		163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163F65BE1F616C4F00945E04 /* CanvasViewController.swift */; };
+		16450EC1200319BF00BF8D6D /* Drawing.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16450EBD200319BF00BF8D6D /* Drawing.storyboard */; };
+		16450EC2200319BF00BF8D6D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16450EBF200319BF00BF8D6D /* Login.storyboard */; };
 		1645CE151FFE5211002AC2FD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1645CE141FFE5210002AC2FD /* GoogleService-Info.plist */; };
 		16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */; };
 		164985A11FF79F1F00A1B00E /* WindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164985A01FF79F1F00A1B00E /* WindowExtension.swift */; };
 		1649F2701FD7A09200B90A1E /* CanvasAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */; };
-		1649F2721FD7A0E000B90A1E /* Drawing.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1649F2711FD7A0E000B90A1E /* Drawing.storyboard */; };
 		1649F2741FD7A43A00B90A1E /* LightStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1649F2731FD7A43A00B90A1E /* LightStatusBarViewController.swift */; };
 		164AEC241FC69CCF00542354 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AEC231FC69CCE00542354 /* ViewControllerExtension.swift */; };
 		164CA76C1F99E24C007F9374 /* AccountListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */; };
@@ -71,7 +72,6 @@
 		165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC581F73A47C00E32AA5 /* StringExtension.swift */; };
 		165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */; };
 		1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4A21F74AB3000809C32 /* DrawerViewController.swift */; };
-		1664F4B51F74E3F100809C32 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1664F4B41F74E3F100809C32 /* Login.storyboard */; };
 		1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4B61F74E5BB00809C32 /* ParentViewController.swift */; };
 		1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4BC1F75123C00809C32 /* TabBarViewController.swift */; };
 		16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */; };
@@ -156,11 +156,17 @@
 		163F65B41F61663900945E04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		163F65B61F61663900945E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
+		16450EBE200319BF00BF8D6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawing.storyboard; sourceTree = "<group>"; };
+		16450EC0200319BF00BF8D6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
+		16450ECA20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		16450ECB20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login.strings"; sourceTree = "<group>"; };
+		16450ECC20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing.strings"; sourceTree = "<group>"; };
+		16450ECD20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account.strings"; sourceTree = "<group>"; };
+		16450ECE20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1645CE141FFE5210002AC2FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		164985A01FF79F1F00A1B00E /* WindowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowExtension.swift; sourceTree = "<group>"; };
 		1649F26F1FD7A09200B90A1E /* CanvasAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasAnimationViewController.swift; sourceTree = "<group>"; };
-		1649F2711FD7A0E000B90A1E /* Drawing.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Drawing.storyboard; sourceTree = "<group>"; };
 		1649F2731FD7A43A00B90A1E /* LightStatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStatusBarViewController.swift; sourceTree = "<group>"; };
 		164AEC231FC69CCE00542354 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		164CA76B1F99E24C007F9374 /* AccountListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -180,7 +186,6 @@
 		1664F4A21F74AB3000809C32 /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		1664F4A91F74AD9200809C32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1664F4AF1F74B2EF00809C32 /* BonnieDraw-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BonnieDraw-Bridging-Header.h"; sourceTree = "<group>"; };
-		1664F4B41F74E3F100809C32 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Login.storyboard; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		1664F4B61F74E5BB00809C32 /* ParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentViewController.swift; sourceTree = "<group>"; };
 		1664F4BC1F75123C00809C32 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEditViewController.swift; sourceTree = "<group>"; };
@@ -310,9 +315,9 @@
 				1645CE141FFE5210002AC2FD /* GoogleService-Info.plist */,
 				163F65B61F61663900945E04 /* Info.plist */,
 				1664F4A81F74AD9200809C32 /* Localizable.strings */,
-				1664F4B41F74E3F100809C32 /* Login.storyboard */,
 				163F65AE1F61663900945E04 /* Main.storyboard */,
-				1649F2711FD7A0E000B90A1E /* Drawing.storyboard */,
+				16450EBF200319BF00BF8D6D /* Login.storyboard */,
+				16450EBD200319BF00BF8D6D /* Drawing.storyboard */,
 				16D08F221FB169AC001D167C /* Account.storyboard */,
 				163F65B31F61663900945E04 /* LaunchScreen.storyboard */,
 				163F65B11F61663900945E04 /* Assets.xcassets */,
@@ -522,6 +527,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = 163F659E1F61663800945E04;
 			productRefGroup = 163F65A81F61663800945E04 /* Products */;
@@ -546,14 +552,14 @@
 				16303BB41FD14D0E00C42783 /* point.fsh in Resources */,
 				16303BB51FD14D0E00C42783 /* coloredpoint.vsh in Resources */,
 				162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */,
+				16450EC2200319BF00BF8D6D /* Login.storyboard in Resources */,
 				163EAEDA1FD64435003109B3 /* Marker.png in Resources */,
 				1645CE151FFE5211002AC2FD /* GoogleService-Info.plist in Resources */,
 				163EAEDC1FD64435003109B3 /* Airbrush.png in Resources */,
 				162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */,
 				162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */,
+				16450EC1200319BF00BF8D6D /* Drawing.storyboard in Resources */,
 				16D08F241FB169AD001D167C /* Account.storyboard in Resources */,
-				1664F4B51F74E3F100809C32 /* Login.storyboard in Resources */,
-				1649F2721FD7A0E000B90A1E /* Drawing.storyboard in Resources */,
 				163F65B21F61663900945E04 /* Assets.xcassets in Resources */,
 				16BA1B4B200094CE00BCD7B7 /* Crayon.png in Resources */,
 			);
@@ -767,6 +773,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				163F65AF1F61663900945E04 /* Base */,
+				16450ECA20031D2F00BF8D6D /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -779,10 +786,29 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		16450EBD200319BF00BF8D6D /* Drawing.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16450EBE200319BF00BF8D6D /* Base */,
+				16450ECC20031D2F00BF8D6D /* zh-Hant */,
+			);
+			name = Drawing.storyboard;
+			sourceTree = "<group>";
+		};
+		16450EBF200319BF00BF8D6D /* Login.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16450EC0200319BF00BF8D6D /* Base */,
+				16450ECB20031D2F00BF8D6D /* zh-Hant */,
+			);
+			name = Login.storyboard;
+			sourceTree = "<group>";
+		};
 		1664F4A81F74AD9200809C32 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1664F4A91F74AD9200809C32 /* Base */,
+				16450ECE20031D2F00BF8D6D /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -791,6 +817,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				16D08F231FB169AC001D167C /* Base */,
+				16450ECD20031D2F00BF8D6D /* zh-Hant */,
 			);
 			name = Account.storyboard;
 			sourceTree = "<group>";

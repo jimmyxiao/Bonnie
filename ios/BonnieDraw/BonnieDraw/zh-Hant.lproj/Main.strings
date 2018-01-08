@@ -1,0 +1,69 @@
+
+/* Class = "UIViewController"; title = "通知"; ObjectID = "0iz-lF-Ckq"; */
+"0iz-lF-Ckq.title" = "通知";
+
+/* Class = "UILabel"; text = "作品名稱："; ObjectID = "5Uw-hT-jFg"; */
+"5Uw-hT-jFg.text" = "作品名稱：";
+
+/* Class = "UILabel"; text = "檢舉作品"; ObjectID = "8P5-dK-oBG"; */
+"8P5-dK-oBG.text" = "檢舉作品";
+
+/* Class = "UILabel"; text = "隱私權設定："; ObjectID = "BXk-Y2-5Df"; */
+"BXk-Y2-5Df.text" = "隱私權設定：";
+
+/* Class = "UIButton"; normalTitle = "追蹤"; ObjectID = "CvL-gT-48P"; */
+"CvL-gT-48P.normalTitle" = "追蹤";
+
+/* Class = "UIButton"; selectedTitle = "追蹤中"; ObjectID = "CvL-gT-48P"; */
+"CvL-gT-48P.selectedTitle" = "追蹤中";
+
+/* Class = "UIButton"; normalTitle = "確認"; ObjectID = "D1h-gf-W6V"; */
+"D1h-gf-W6V.normalTitle" = "確認";
+
+/* Class = "UIButton"; normalTitle = "取消"; ObjectID = "EM8-yx-hLp"; */
+"EM8-yx-hLp.normalTitle" = "取消";
+
+/* Class = "UILabel"; text = "內容色情"; ObjectID = "HQw-F7-Skv"; */
+"HQw-F7-Skv.text" = "內容色情";
+
+/* Class = "UILabel"; text = "檢舉原因："; ObjectID = "P48-Po-1g4"; */
+"P48-Po-1g4.text" = "檢舉原因：";
+
+/* Class = "UIViewController"; title = "留言"; ObjectID = "R9c-0p-Md0"; */
+"R9c-0p-Md0.title" = "留言";
+
+/* Class = "UIButton"; normalTitle = "確認"; ObjectID = "Rjk-uC-AgV"; */
+"Rjk-uC-AgV.normalTitle" = "確認";
+
+/* Class = "UILabel"; text = "作品說明："; ObjectID = "XvK-UU-WOb"; */
+"XvK-UU-WOb.text" = "作品說明：";
+
+/* Class = "UILabel"; text = "尚無資料"; ObjectID = "ZcB-TW-sA6"; */
+"ZcB-TW-sA6.text" = "尚無資料";
+
+/* Class = "UILabel"; text = "檢舉類別："; ObjectID = "cmQ-Wg-ACz"; */
+"cmQ-Wg-ACz.text" = "檢舉類別：";
+
+/* Class = "UIButton"; normalTitle = "取消"; ObjectID = "cwJ-ow-hSA"; */
+"cwJ-ow-hSA.normalTitle" = "取消";
+
+/* Class = "UILabel"; text = "尚無資料"; ObjectID = "dkW-bQ-vtQ"; */
+"dkW-bQ-vtQ.text" = "尚無資料";
+
+/* Class = "UILabel"; text = "成為第一個留言"; ObjectID = "ffx-vH-WbV"; */
+"ffx-vH-WbV.text" = "成為第一個留言";
+
+/* Class = "UIButton"; normalTitle = "發佈"; ObjectID = "gUC-4a-DLA"; */
+"gUC-4a-DLA.normalTitle" = "發佈";
+
+/* Class = "UINavigationItem"; title = "留言"; ObjectID = "lhD-db-0rE"; */
+"lhD-db-0rE.title" = "留言";
+
+/* Class = "UILabel"; text = "尚無資料"; ObjectID = "pct-gg-31m"; */
+"pct-gg-31m.text" = "尚無資料";
+
+/* Class = "UILabel"; text = "公開"; ObjectID = "rW2-iw-jb7"; */
+"rW2-iw-jb7.text" = "公開";
+
+/* Class = "UILabel"; text = "© 2017 SourceCode 原碼數位科技版權所有"; ObjectID = "yG4-4g-qZw"; */
+"yG4-4g-qZw.text" = "© 2017 SourceCode 原碼數位科技版權所有";

@@ -1,0 +1,30 @@
+
+/* Class = "UILabel"; text = "筆刷大小"; ObjectID = "3qT-Wa-K2b"; */
+"3qT-Wa-K2b.text" = "筆刷大小";
+
+/* Class = "UIBarButtonItem"; title = "發佈"; ObjectID = "85a-p9-JUC"; */
+"85a-p9-JUC.title" = "發佈";
+
+/* Class = "UILabel"; text = "公開"; ObjectID = "Ofl-Pu-R7e"; */
+"Ofl-Pu-R7e.text" = "公開";
+
+/* Class = "UILabel"; text = "隱私權設定："; ObjectID = "QUO-nE-XH6"; */
+"QUO-nE-XH6.text" = "隱私權設定：";
+
+/* Class = "UIViewController"; title = "分享作品"; ObjectID = "WrP-vG-tzf"; */
+"WrP-vG-tzf.title" = "分享作品";
+
+/* Class = "UILabel"; text = "筆刷不透明度"; ObjectID = "eSd-rf-xR8"; */
+"eSd-rf-xR8.text" = "筆刷不透明度";
+
+/* Class = "UILabel"; text = "作品名稱："; ObjectID = "odl-qc-S4c"; */
+"odl-qc-S4c.text" = "作品名稱：";
+
+/* Class = "UILabel"; text = "點間距"; ObjectID = "scb-ks-hb9"; */
+"scb-ks-hb9.text" = "點間距";
+
+/* Class = "UIButton"; normalTitle = "新增色標"; ObjectID = "w8a-C6-MKr"; */
+"w8a-C6-MKr.normalTitle" = "新增色標";
+
+/* Class = "UILabel"; text = "作品說明："; ObjectID = "zNb-RJ-08y"; */
+"zNb-RJ-08y.text" = "作品說明：";
