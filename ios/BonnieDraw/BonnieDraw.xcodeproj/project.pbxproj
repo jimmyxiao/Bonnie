@@ -106,7 +106,7 @@
 		16E539701FD965D800799E4D /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5396F1FD965D800799E4D /* CommentViewController.swift */; };
 		16E539721FD9698000799E4D /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E539711FD9698000799E4D /* CommentTableViewCell.swift */; };
 		16ECCD6D1FECD3B9009C053E /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */; };
-		16FAA145200347870031AF28 /* AccountHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16FAA144200347870031AF28 /* AccountHeaderCollectionReusableView.xib */; };
+		16FAA146200366590031AF28 /* AccountHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16FAA148200366590031AF28 /* AccountHeaderCollectionReusableView.xib */; };
 		16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FC10231F6963B3008A6A92 /* ViewExtension.swift */; };
 		C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */; };
 /* End PBXBuildFile section */
@@ -159,11 +159,6 @@
 		163F65BE1F616C4F00945E04 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		16450EBE200319BF00BF8D6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawing.storyboard; sourceTree = "<group>"; };
 		16450EC0200319BF00BF8D6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
-		16450ECA20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
-		16450ECB20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login.strings"; sourceTree = "<group>"; };
-		16450ECC20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing.strings"; sourceTree = "<group>"; };
-		16450ECD20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account.strings"; sourceTree = "<group>"; };
-		16450ECE20031D2F00BF8D6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1645CE141FFE5210002AC2FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16492BD11F972ABB00E45D96 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		164985A01FF79F1F00A1B00E /* WindowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowExtension.swift; sourceTree = "<group>"; };
@@ -221,7 +216,13 @@
 		16E5396F1FD965D800799E4D /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		16E539711FD9698000799E4D /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
-		16FAA144200347870031AF28 /* AccountHeaderCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountHeaderCollectionReusableView.xib; sourceTree = "<group>"; };
+		16FAA147200366590031AF28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccountHeaderCollectionReusableView.xib; sourceTree = "<group>"; };
+		16FAA149200366700031AF28 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AccountHeaderCollectionReusableView.strings"; sourceTree = "<group>"; };
+		16FAA14A200366700031AF28 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		16FAA14B200366700031AF28 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login.strings"; sourceTree = "<group>"; };
+		16FAA14C200366700031AF28 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing.strings"; sourceTree = "<group>"; };
+		16FAA14D200366710031AF28 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account.strings"; sourceTree = "<group>"; };
+		16FAA14E200366710031AF28 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		16FC10231F6963B3008A6A92 /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.release.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.release.xcconfig"; sourceTree = "<group>"; };
 		F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.debug.xcconfig"; sourceTree = "<group>"; };
@@ -317,7 +318,7 @@
 				1645CE141FFE5210002AC2FD /* GoogleService-Info.plist */,
 				163F65B61F61663900945E04 /* Info.plist */,
 				1664F4A81F74AD9200809C32 /* Localizable.strings */,
-				16FAA144200347870031AF28 /* AccountHeaderCollectionReusableView.xib */,
+				16FAA148200366590031AF28 /* AccountHeaderCollectionReusableView.xib */,
 				163F65AE1F61663900945E04 /* Main.storyboard */,
 				16450EBF200319BF00BF8D6D /* Login.storyboard */,
 				16450EBD200319BF00BF8D6D /* Drawing.storyboard */,
@@ -555,7 +556,7 @@
 				16303BB41FD14D0E00C42783 /* point.fsh in Resources */,
 				16303BB51FD14D0E00C42783 /* coloredpoint.vsh in Resources */,
 				162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */,
-				16FAA145200347870031AF28 /* AccountHeaderCollectionReusableView.xib in Resources */,
+				16FAA146200366590031AF28 /* AccountHeaderCollectionReusableView.xib in Resources */,
 				16450EC2200319BF00BF8D6D /* Login.storyboard in Resources */,
 				163EAEDA1FD64435003109B3 /* Marker.png in Resources */,
 				1645CE151FFE5211002AC2FD /* GoogleService-Info.plist in Resources */,
@@ -777,7 +778,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				163F65AF1F61663900945E04 /* Base */,
-				16450ECA20031D2F00BF8D6D /* zh-Hant */,
+				16FAA14A200366700031AF28 /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -794,7 +795,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				16450EBE200319BF00BF8D6D /* Base */,
-				16450ECC20031D2F00BF8D6D /* zh-Hant */,
+				16FAA14C200366700031AF28 /* zh-Hant */,
 			);
 			name = Drawing.storyboard;
 			sourceTree = "<group>";
@@ -803,7 +804,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				16450EC0200319BF00BF8D6D /* Base */,
-				16450ECB20031D2F00BF8D6D /* zh-Hant */,
+				16FAA14B200366700031AF28 /* zh-Hant */,
 			);
 			name = Login.storyboard;
 			sourceTree = "<group>";
@@ -812,7 +813,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1664F4A91F74AD9200809C32 /* Base */,
-				16450ECE20031D2F00BF8D6D /* zh-Hant */,
+				16FAA14E200366710031AF28 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -821,9 +822,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				16D08F231FB169AC001D167C /* Base */,
-				16450ECD20031D2F00BF8D6D /* zh-Hant */,
+				16FAA14D200366710031AF28 /* zh-Hant */,
 			);
 			name = Account.storyboard;
+			sourceTree = "<group>";
+		};
+		16FAA148200366590031AF28 /* AccountHeaderCollectionReusableView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16FAA147200366590031AF28 /* Base */,
+				16FAA149200366700031AF28 /* zh-Hant */,
+			);
+			name = AccountHeaderCollectionReusableView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

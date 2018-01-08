@@ -1,0 +1,21 @@
+
+/* Class = "UIButton"; normalTitle = "追蹤中"; ObjectID = "560-Wk-gju"; */
+"560-Wk-gju.normalTitle" = "追蹤中";
+
+/* Class = "UIButton"; normalTitle = "編輯個人檔案"; ObjectID = "AA5-ce-Gbb"; */
+"AA5-ce-Gbb.normalTitle" = "編輯個人檔案";
+
+/* Class = "UIButton"; normalTitle = "粉絲數"; ObjectID = "CFk-bn-XPx"; */
+"CFk-bn-XPx.normalTitle" = "粉絲數";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "KVF-dA-AKU"; */
+"KVF-dA-AKU.text" = "0";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "Ph1-aP-KnO"; */
+"Ph1-aP-KnO.text" = "0";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "dyz-xW-rlV"; */
+"dyz-xW-rlV.text" = "0";
+
+/* Class = "UIButton"; normalTitle = "作品數"; ObjectID = "tgC-4y-yKG"; */
+"tgC-4y-yKG.normalTitle" = "作品數";

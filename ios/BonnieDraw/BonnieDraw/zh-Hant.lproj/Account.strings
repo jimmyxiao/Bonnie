@@ -38,12 +38,6 @@
 /* Class = "UIButton"; selectedTitle = "追蹤中"; ObjectID = "Oyk-xI-w7E"; */
 "Oyk-xI-w7E.selectedTitle" = "追蹤中";
 
-/* Class = "UIButton"; normalTitle = "粉絲數"; ObjectID = "TJq-PB-n9m"; */
-"TJq-PB-n9m.normalTitle" = "粉絲數";
-
-/* Class = "UIButton"; normalTitle = "作品數"; ObjectID = "UvF-8A-7gw"; */
-"UvF-8A-7gw.normalTitle" = "作品數";
-
 /* Class = "UILabel"; text = "姓名"; ObjectID = "VO3-EG-zNU"; */
 "VO3-EG-zNU.text" = "姓名";
 
@@ -58,12 +52,6 @@
 
 /* Class = "UINavigationItem"; title = "編輯個人檔案"; ObjectID = "cdT-Xk-mYE"; */
 "cdT-Xk-mYE.title" = "編輯個人檔案";
-
-/* Class = "UIButton"; normalTitle = "追蹤中"; ObjectID = "cgN-OI-hmC"; */
-"cgN-OI-hmC.normalTitle" = "追蹤中";
-
-/* Class = "UIButton"; normalTitle = "編輯個人檔案"; ObjectID = "lbS-Zz-4gz"; */
-"lbS-Zz-4gz.normalTitle" = "編輯個人檔案";
 
 /* Class = "UITextField"; placeholder = "再次輸入新密碼"; ObjectID = "sRl-d2-wXp"; */
 "sRl-d2-wXp.placeholder" = "再次輸入新密碼";
