@@ -447,7 +447,7 @@
         <item name="lineEndAlphaScale">0.09534207</item>
         <item name="lineEndFadeLength">0</item>
         <item name="lineEndSizeScale">1.0</item>
-        <item name="lineEndSpeedLength">42.0</item>
+        <item name="lineEndSpeedLength">0</item>
         <item name="lineTaperFadeLength">0</item>
         <item name="lineTaperStartLength">0</item>
         <item name="maskImageArray0">@drawable/brush_45</item>
