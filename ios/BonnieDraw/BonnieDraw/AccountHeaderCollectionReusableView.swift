@@ -29,8 +29,18 @@ class AccountHeaderCollectionReusableView: UICollectionReusableView {
     @IBAction func headerAction(_ sender: Any) {
         delegate?.accountHeaderAction(sender)
     }
+
+    @IBAction func fans(_ sender: Any) {
+        delegate?.accountHeaderFans(sender)
+    }
+
+    @IBAction func followings(_ sender: Any) {
+        delegate?.accountHeaderFollowings(sender)
+    }
 }
 
 protocol AccountHeaderCollectionReusableViewDelegate {
     func accountHeaderAction(_ sender: Any)
+    func accountHeaderFans(_ sender: Any)
+    func accountHeaderFollowings(_ sender: Any)
 }

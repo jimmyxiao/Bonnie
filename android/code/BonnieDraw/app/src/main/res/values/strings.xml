@@ -10,9 +10,9 @@
     <string name="u01_01_fb_not_email">This account can not be logged in without your email information.</string>
     <string name="u01_01_forgot_password">Forgot your password</string>
     <string name="u01_01_have_not_account">Don\'t have an account?</string>
-    <string name="u01_01_login">Login is failed.</string>
     <string name="u01_01_login">Login</string>
     <string name="u01_01_login_data_error">The login information has error</string>
+    <string name="u01_01_login_fail">Login is failed.</string>
     <string name="u01_01_login_fail_id_pwd_error">The account or password is not valid. Please log in again or press "Forgot your password."</string>
     <string name="u01_01_not_signin">This account has not been applied yet.</string>
     <string name="u01_01_or">or</string>
@@ -42,12 +42,14 @@
     <string name="u02_01_settings">SETTINGS</string>
     <string name="u02_02_content_other">Others</string>
     <string name="u02_02_cop_link">Copy Link</string>
+    <string name="u02_02_reason_report">Reason to Report</string>
     <string name="u02_02_report">Report</string>
     <string name="u02_02_report_fail">Report is failed; please try it again.</string>
     <string name="u02_02_report_reason_empty">Please fill in the reason.</string>
     <string name="u02_02_report_successful">Report is successful.</string>
     <string name="u02_02_report_work_title">Report Drawing</string>
     <string name="u02_02_share">Share</string>
+    <string name="u02_02_type_report">Type of Report</string>
     <string name="u02_03_add_comment">Add a comment ...</string>
     <string name="u02_03_add_comment_fail">Comment is failed to be made.</string>
     <string name="u02_03_add_comment_hint">Make a comment</string>
@@ -122,6 +124,7 @@
     <string name="u06_03_gender_no_specified">No Specified</string>
     <string name="u06_03_phone_number">Phone number</string>
     <string name="u06_03_select_image">Select Picture</string>
+    <string name="u06_04_about_bonniedraw">About</string>
     <string name="u06_04_account_setting_option">Account Setting Selection</string>
     <string name="u06_04_change_password">Change Password</string>
     <string name="u06_04_help_center">Help Center</string>
@@ -151,7 +154,6 @@
     <string name="uc_day_before_yesterday">The day before yesterday</string>
     <string name="uc_delete">Delete</string>
     <string name="uc_email">Email</string>
-    <string name="uc_email">E-mail Address</string>
     <string name="uc_follow">Follow</string>
     <string name="uc_following">Following</string>
     <string name="uc_hour">Hour</string>
@@ -161,7 +163,6 @@
     <string name="uc_min">Minutes</string>
     <string name="uc_password_empty">Password cannot be blank</string>
     <string name="uc_password_invalid">Password requires 6 characters at least.</string>
-    <string name="uc_password_unmatch">New password is not same as the verification.</string>
     <string name="uc_password_unmatch">New password is not same as the verification.</string>
     <string name="uc_publish">Post</string>
     <string name="uc_redo_limit">Redo frequency is up limit.</string>
@@ -173,7 +174,6 @@
     <string name="uc_update_fail">Update is failed.</string>
     <string name="uc_update_successful">Update is successful.</string>
     <string name="uc_username">UserName</string>
-    <string name="uc_username">User Name</string>
     <string name="uc_username_empty">User name cannot be blank.</string>
     <string name="uc_yesterday">Yesterday</string>
     <string name="work_class">Type of Report</string>

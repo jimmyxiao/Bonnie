@@ -35,10 +35,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AA5-ce-Gbb">
-                    <rect key="frame" x="133.5" y="160" width="108" height="34"/>
+                    <rect key="frame" x="142" y="160" width="91" height="34"/>
                     <color key="backgroundColor" red="0.3221077919" green="0.3220981658" blue="0.32210364940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                    <state key="normal" title="編輯個人檔案">
+                    <state key="normal" title="Edit Profile">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <userDefinedRuntimeAttributes>
@@ -86,8 +86,8 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tgC-4y-yKG">
-                                    <rect key="frame" x="37" y="20.5" width="46" height="30"/>
-                                    <state key="normal" title="作品數">
+                                    <rect key="frame" x="41" y="20.5" width="38" height="30"/>
+                                    <state key="normal" title="Posts">
                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
@@ -107,10 +107,13 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CFk-bn-XPx">
-                                    <rect key="frame" x="37" y="20.5" width="46" height="30"/>
-                                    <state key="normal" title="粉絲數">
+                                    <rect key="frame" x="43.5" y="20.5" width="33" height="30"/>
+                                    <state key="normal" title="Fans">
                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="fans:" destination="cwb-iR-pyk" eventType="touchUpInside" id="mok-cG-c8h"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
@@ -128,10 +131,13 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="560-Wk-gju">
-                                    <rect key="frame" x="36.5" y="20.5" width="46" height="30"/>
-                                    <state key="normal" title="追蹤中">
+                                    <rect key="frame" x="27" y="20.5" width="65" height="30"/>
+                                    <state key="normal" title="Following">
                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="followings:" destination="cwb-iR-pyk" eventType="touchUpInside" id="9cl-kb-p5X"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>

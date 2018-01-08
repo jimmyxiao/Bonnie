@@ -318,12 +318,12 @@
 				1645CE141FFE5210002AC2FD /* GoogleService-Info.plist */,
 				163F65B61F61663900945E04 /* Info.plist */,
 				1664F4A81F74AD9200809C32 /* Localizable.strings */,
-				16FAA148200366590031AF28 /* AccountHeaderCollectionReusableView.xib */,
+				163F65B31F61663900945E04 /* LaunchScreen.storyboard */,
 				163F65AE1F61663900945E04 /* Main.storyboard */,
 				16450EBF200319BF00BF8D6D /* Login.storyboard */,
 				16450EBD200319BF00BF8D6D /* Drawing.storyboard */,
 				16D08F221FB169AC001D167C /* Account.storyboard */,
-				163F65B31F61663900945E04 /* LaunchScreen.storyboard */,
+				16FAA148200366590031AF28 /* AccountHeaderCollectionReusableView.xib */,
 				163F65B11F61663900945E04 /* Assets.xcassets */,
 			);
 			name = Resource;

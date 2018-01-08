@@ -1,69 +1,23 @@
-
-/* Class = "UILabel"; text = "個人簡介"; ObjectID = "33S-ad-LxZ"; */
 "33S-ad-LxZ.text" = "個人簡介";
-
-/* Class = "UINavigationItem"; title = "密碼"; ObjectID = "34t-73-Kmm"; */
 "34t-73-Kmm.title" = "密碼";
-
-/* Class = "UILabel"; text = "讀取中..."; ObjectID = "45Z-6C-gEE"; */
 "45Z-6C-gEE.text" = "讀取中...";
-
-/* Class = "UILabel"; text = "電子郵件"; ObjectID = "9de-I5-87O"; */
 "9de-I5-87O.text" = "電子郵件";
-
-/* Class = "UILabel"; text = "新密碼"; ObjectID = "BaH-mh-ab3"; */
 "BaH-mh-ab3.text" = "新密碼";
-
-/* Class = "UILabel"; text = "性別"; ObjectID = "Box-W9-7ze"; */
 "Box-W9-7ze.text" = "性別";
-
-/* Class = "UILabel"; text = "電話"; ObjectID = "DcU-xk-z3n"; */
-"DcU-xk-z3n.text" = "電話";
-
-/* Class = "UITextField"; placeholder = "新密碼"; ObjectID = "Iw2-v8-pXs"; */
-"Iw2-v8-pXs.placeholder" = "新密碼";
-
-/* Class = "UIButton"; normalTitle = "追蹤"; ObjectID = "LIs-eb-QtJ"; */
-"LIs-eb-QtJ.normalTitle" = "追蹤";
-
-/* Class = "UIButton"; selectedTitle = "追蹤中"; ObjectID = "LIs-eb-QtJ"; */
-"LIs-eb-QtJ.selectedTitle" = "追蹤中";
-
-/* Class = "UITextField"; placeholder = "目前密碼"; ObjectID = "Lpi-D2-2WR"; */
-"Lpi-D2-2WR.placeholder" = "目前密碼";
-
-/* Class = "UIButton"; normalTitle = "追蹤"; ObjectID = "Oyk-xI-w7E"; */
-"Oyk-xI-w7E.normalTitle" = "追蹤";
-
-/* Class = "UIButton"; selectedTitle = "追蹤中"; ObjectID = "Oyk-xI-w7E"; */
-"Oyk-xI-w7E.selectedTitle" = "追蹤中";
-
-/* Class = "UILabel"; text = "姓名"; ObjectID = "VO3-EG-zNU"; */
-"VO3-EG-zNU.text" = "姓名";
-
-/* Class = "UIViewController"; title = "推薦名單"; ObjectID = "XQV-AK-LI5"; */
-"XQV-AK-LI5.title" = "推薦名單";
-
-/* Class = "UILabel"; text = "目前密碼"; ObjectID = "XzV-KD-Je8"; */
-"XzV-KD-Je8.text" = "目前密碼";
-
-/* Class = "UIViewController"; title = "帳號設定選項"; ObjectID = "bTs-G1-KZ1"; */
 "bTs-G1-KZ1.title" = "帳號設定選項";
-
-/* Class = "UINavigationItem"; title = "編輯個人檔案"; ObjectID = "cdT-Xk-mYE"; */
 "cdT-Xk-mYE.title" = "編輯個人檔案";
-
-/* Class = "UITextField"; placeholder = "再次輸入新密碼"; ObjectID = "sRl-d2-wXp"; */
+"DcU-xk-z3n.text" = "電話";
+"Iw2-v8-pXs.placeholder" = "新密碼";
+"LIs-eb-QtJ.normalTitle" = "追蹤";
+"LIs-eb-QtJ.selectedTitle" = "追蹤中";
+"Lpi-D2-2WR.placeholder" = "目前密碼";
+"Oyk-xI-w7E.normalTitle" = "追蹤";
+"Oyk-xI-w7E.selectedTitle" = "追蹤中";
 "sRl-d2-wXp.placeholder" = "再次輸入新密碼";
-
-/* Class = "UILabel"; text = "尚無資料"; ObjectID = "tuN-qQ-hqy"; */
 "tuN-qQ-hqy.text" = "尚無資料";
-
-/* Class = "UILabel"; text = "尚無資料"; ObjectID = "vpZ-kg-sjp"; */
+"VO3-EG-zNU.text" = "姓名";
 "vpZ-kg-sjp.text" = "尚無資料";
-
-/* Class = "UILabel"; text = "驗證"; ObjectID = "yr0-tM-YgT"; */
+"XQV-AK-LI5.title" = "推薦名單";
+"XzV-KD-Je8.text" = "目前密碼";
 "yr0-tM-YgT.text" = "驗證";
-
-/* Class = "UIButton"; normalTitle = "更換大頭貼"; ObjectID = "zB1-4z-BU4"; */
 "zB1-4z-BU4.normalTitle" = "更換大頭貼";

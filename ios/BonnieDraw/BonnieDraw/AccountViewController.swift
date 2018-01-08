@@ -399,6 +399,14 @@ class AccountViewController:
         }
     }
 
+    internal func accountHeaderFans(_ sender: Any) {
+        performSegue(withIdentifier: Segue.FAN, sender: sender)
+    }
+
+    internal func accountHeaderFollowings(_ sender: Any) {
+        performSegue(withIdentifier: Segue.FOLLOW, sender: sender)
+    }
+
     internal func settings(profileDidChange profile: Profile) {
         self.profile = profile
         collectionView.reloadSections([0])

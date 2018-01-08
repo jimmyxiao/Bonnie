@@ -11,9 +11,9 @@
     <string name="u01_01_fb_not_email">這個帳戶沒有電子郵件的資訊，無法登入</string>
     <string name="u01_01_forgot_password">忘記密碼</string>
     <string name="u01_01_have_not_account">你還沒有帳號？</string>
-    <string name="u01_01_login">登入失敗</string>
     <string name="u01_01_login">登入</string>
     <string name="u01_01_login_data_error">登入資料異常</string>
+    <string name="u01_01_login_fail">登入失敗</string>
     <string name="u01_01_login_fail_id_pwd_error">帳號或密碼錯誤，請重新輸入或按忘記密碼</string>
     <string name="u01_01_not_signin">此帳號尚未申請</string>
     <string name="u01_01_or">或</string>
@@ -43,12 +43,14 @@
     <string name="u02_01_settings">帳號設定</string>
     <string name="u02_02_content_other">其他</string>
     <string name="u02_02_cop_link">複製連結</string>
+    <string name="u02_02_reason_report">檢舉原因：</string>
     <string name="u02_02_report">檢舉</string>
     <string name="u02_02_report_fail">檢舉失敗，請再試一次</string>
     <string name="u02_02_report_reason_empty">請填寫原因</string>
     <string name="u02_02_report_successful">檢舉成功</string>
     <string name="u02_02_report_work_title">檢舉作品</string>
     <string name="u02_02_share">分享</string>
+    <string name="u02_02_type_report">檢舉類別 :</string>
     <string name="u02_03_add_comment">留言</string>
     <string name="u02_03_add_comment_fail">留言失敗</string>
     <string name="u02_03_add_comment_hint">留言...</string>
@@ -123,6 +125,7 @@
     <string name="u06_03_gender_no_specified">沒有指定</string>
     <string name="u06_03_phone_number">電話</string>
     <string name="u06_03_select_image">選擇圖片</string>
+    <string name="u06_04_about_bonniedraw">關於BonnieDraw</string>
     <string name="u06_04_account_setting_option">帳號設定選項</string>
     <string name="u06_04_change_password">更改密碼</string>
     <string name="u06_04_help_center">使用說明</string>
@@ -152,7 +155,6 @@
     <string name="uc_day_before_yesterday">前天</string>
     <string name="uc_delete">刪除</string>
     <string name="uc_email">電子郵件</string>
-    <string name="uc_email">帳號(E-mail)</string>
     <string name="uc_follow">追蹤</string>
     <string name="uc_following">追蹤中</string>
     <string name="uc_hour">點</string>
@@ -163,7 +165,6 @@
     <string name="uc_password_empty">密碼不可空白</string>
     <string name="uc_password_invalid">密碼至少需要6個字元</string>
     <string name="uc_password_unmatch">密碼不一致</string>
-    <string name="uc_password_unmatch">密碼不一致</string>
     <string name="uc_publish">發佈</string>
     <string name="uc_redo_limit">重作次數到達上限</string>
     <string name="uc_share">分享</string>
@@ -173,7 +174,6 @@
     <string name="uc_update">更新</string>
     <string name="uc_update_fail">更新失敗</string>
     <string name="uc_update_successful">更新成功</string>
-    <string name="uc_username">用戶名稱</string>
     <string name="uc_username">用戶名稱</string>
     <string name="uc_username_empty">用戶名稱不可空白</string>
     <string name="uc_yesterday">昨天</string>
