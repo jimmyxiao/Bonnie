@@ -1,222 +1,180 @@
-<resources xmlns:android="http://schemas.android.com/tools">
-    <string name="app_name">BonnieDraw</string>
-    <string name="facebook_app_id">1376883092359322</string>
-    <string name="fb_login_protocol_scheme">fb1376883092359322</string>
-
-    <string name="open">open</string>
-    <string name="close">close</string>
-
-    <string name="server_client_id">579888826124-32hn4mff2f1gmvo5kk6ep9u40hcoqv46.apps.googleusercontent.com</string>
-
-    <string name="title_activity_paint">PaintActivity</string>
-    <string name="com.twitter.sdk.android.CONSUMER_KEY">HcXL8RV5wlnL1eM3OWSPcvN1N</string>
-    <string name="com.twitter.sdk.android.CONSUMER_SECRET" translatable="false">1efRU1i8Bz1aPzpPvnfP6RrM1MviYNJAtGDawpHQnAFuKYdTmO</string>
-    <item name="visible" type="id" />
-    <item name="masked" type="id" />
-
-    <!--uc 共用，重複用到兩次以上-->
-    <!--登入、註冊、更新資料、忘記密碼共用-->
-    <string name="uc_email_empty">請輸入電子郵件</string>
-    <string name="uc_email_invalid">電子郵件格式不正確</string>
-    <string name="uc_username_empty">請輸入用戶名稱</string>
-    <string name="uc_password_empty">請輸入密碼</string>
-    <string name="uc_password_invalid">密碼至少需要6個字元</string>
-    <string name="uc_password_unmatch">密碼不一致</string>
-    <string name="uc_update_successful">更新成功</string>
-    <string name="uc_update_fail">更新失敗</string>
-    <string name="uc_publish">發佈</string>
-    <!--通用名稱、詞彙-->
-    <string name="uc_cancel">取消</string>
-    <string name="uc_commit">確認</string>
-    <string name="uc_following">追蹤中</string>
-    <string name="uc_follow">追蹤</string>
-    <string name="uc_share">分享</string>
-    <string name="uc_username">用戶名稱</string>
-    <string name="uc_email">電子郵件</string>
-    <string name="uc_alert_yes">是</string>
-    <string name="uc_alert_no">否</string>
-    <!--時間類別-->
-    <string name="uc_a_few_days_ago">天前</string>
-    <string name="uc_a_few_hours_ago">小時前</string>
-    <string name="uc_a_few_minutes_ago">分鐘前</string>
-    <string name="uc_a_few_seconds_ago">數秒前</string>
-    <string name="uc_time_am">上午</string>
-    <string name="uc_time_pm">下午</string>
-    <string name="uc_yesterday">昨天</string>
-    <string name="uc_day_before_yesterday">前天</string>
-    <string name="uc_date_format">yyyy年MM月dd日 ahh:mm</string>
-    <string name="uc_hour">點</string>
-    <string name="uc_min">分</string>
-    <string name="uc_just_now">剛才</string>
-    <string name="uc_undo_limit">復原次數到達上限</string>
-    <string name="uc_redo_limit">重作次數到達上限</string>
-    <string name="uc_logout_title">登出？</string>
-    <string name="uc_logout_msg">確定要登出？</string>
-    <string name="uc_delete">刪除</string>
-    <string name="uc_update">儲存</string>
-    <string name="uc_connect_failed_title">連線失敗</string>
-    <string name="uc_connection_failed">請檢查您的網路連線狀態後重試</string>
-    <string name="uc_block">封鎖</string>
-    <!--01-01 登入頁面-->
-    <string name="u01_01_account">帳號(E-mail)</string>
-    <string name="u01_01_password">使用者密碼</string>
-    <string name="u01_01_forgot_password">忘記密碼?</string>
-    <string name="u01_01_login">登入</string>
-    <string name="u01_01_have_not_account">你還沒有帳號?</string>
-    <string name="u01_01_login_fail">登入失敗</string>
-    <string name="u01_01_not_signin">此帳號尚未申請</string>
-    <string name="u01_01_fb_not_email">這個帳戶沒有電子郵件的資訊，無法登入</string>
-    <string name="u01_01_login_fail_id_pwd_error">帳號或密碼錯誤，請重新輸入或按忘記密碼</string>
-    <string name="u01_01_or">或</string>
-    <string name="u01_01_login_data_error">登入資料異常</string>
-    <!--01-02 註冊頁面-->
-    <string name="u01_02_sign_up">註冊</string>
-    <string name="u01_02_not_account">已經有帳號?</string>
-    <string name="u01_02_repassword">確認密碼</string>
-    <string name="u01_02_alert_sign_up_fail_title">註冊失敗</string>
-    <string name="u01_02_alert_sign_up_success_title">註冊成功</string>
-    <string name="u01_02_activate_account">請於30分鐘內至您的電子郵件啟用帳號，即可登入使用各項功能。</string>
-    <string name="u01_02_sign_up_check_fail_title">請確認註冊資料</string>
-    <string name="u01_02_sign_up_check_fail_content">您的註冊資料有誤或未填寫。</string>
-    <string name="u01_02_sign_up_email_fail_content">這個Email已使用過，請換另一個</string>
-    <string name="u01_02_sign_up_repassword_empty">請再次輸入密碼</string>
-    <!--01-03 忘記密碼-->
-    <string name="u01_03_send">送出</string>
-    <string name="u01_03_enter_email">請輸入註冊的E-mail，系統將密碼寄到您的信箱。</string>
-    <string name="u01_03_search_fail_no_account">查無此帳號</string>
-    <string name="u01_03_alert_forget_password_content">請至您的電子郵件來獲得新密碼</string>
-    <!--02-01-->
-    <string name="u02_01_popular">熱門畫作</string>
-    <string name="u02_01_newest">最新畫作</string>
-    <string name="u02_01_my_drawings">我的畫作</string>
-    <string name="u02_01_collections">我的收藏</string>
-    <string name="u02_01_settings">帳號設定</string>
-    <string name="u02_01_logout">登出</string>
-    <string name="u02_01_copyright">© 2017 SourceCode 原碼數位科技版權所有</string>
-    <!--02-02 檢舉頁面-->
-    <string name="u02_02_cop_link">複製連結</string>
-    <string name="u02_02_report">檢舉</string>
-    <string name="u02_02_report_work_title">檢舉作品</string>
-    <string name="u02_02_type_report">檢舉類別：</string>
-    <string name="u02_02_reason_report">檢舉原因：</string>
-    <string name="u02_02_content_pornography">內容色情</string>
-    <string name="u02_02_content_violance">內容暴力</string>
-    <string name="u02_02_content_other">其他</string>
-    <string name="u02_02_report_successful">檢舉成功</string>
-    <string name="u02_02_report_fail">檢舉失敗，請再試一次</string>
-    <string name="u02_02_report_reason_empty">請填寫原因</string>
-    <!--02-03-->
-    <string name="u02_03_add_comment">留言</string>
-    <string name="u02_03_add_comment_hint">留言…</string>
-    <string name="u02_03_first_comment">成為第一個留言的人</string>
-    <string name="u02_03_add_comment_fail">留言失敗，請再試一次</string>
-    <!--02-04-->
-    <string name="u02_04_date">發佈日期: %s</string>
-    <string name="u02_04_delete_title">刪除作品</string>
-    <string name="u02_04_delete_content">確認要刪除這個作品嗎?</string>
-    <string name="u02_04_delete_successful">刪除作品成功</string>
-    <string name="u02_04_edit_work">編輯作品</string>
-    <!--02-05-->
-    <string name="u02_05_search">搜尋作品 or 作者</string>
-    <string name="u02_05_not_match_work">沒有找到相關的作品</string>
-    <!--04-01 主繪圖部分-->
-    <string name="u04_01_press_below_button">現在不能使用其他功能唷!\n只能進行縮放 長按可恢復原狀\n要繼續畫圖請再點縮放按鈕</string>
-    <string name="u04_01_new_color_swatch">新增色票</string>
-    <string name="u04_01_brush_opacity">筆刷不透明度</string>
-    <string name="u04_01_brush_size">筆刷大小</string>
-    <string name="u04_01_saved_photo_album">以儲存至相簿</string>
-    <string name="u04_01_grid_line_no_grid">無格線</string>
-    <string name="u04_01_grid_line_3x3">3x3格線</string>
-    <string name="u04_01_grid_line_6x6">6x6格線</string>
-    <string name="u04_01_grid_line_10x10">10x10格線</string>
-    <string name="u04_01_grid_line_20x20">20x20格線</string>
-    <string name="u04_01_press_play_with_empty">請畫些東西吧！</string>
-    <string name="u04_01_exit_ask_save_sketch_title">是否要儲存草稿</string>
-    <string name="u04_01_exit_ask_update_sketch_title">是否要更新草稿</string>
-    <string name="u04_01_exit_ask_sketch_content">按下「是」，可以儲存現在的草稿。</string>
-    <string name="u04_01_exit_ask_sketch_successful">草稿儲存成功</string>
-    <string name="u04_01_color_ticket_not_select">請選擇色票再移除</string>
-    <string name="u04_01_color_ticket_is_full">色票滿囉，請先刪掉一些</string>
-    <string name="u04_01_color_ticket_current_list">顏色列表：%d/3</string>
-    <string name="u04_01_bgcolor_ticket_current_list">背景顏色列表：%d/3</string>
-    <!--04-02-->
-    <string name="u04_02_share">分享作品</string>
-    <string name="u04_02_work_description">作品說明：</string>
-    <string name="u04_02_enter_description">新增作品說明 請輸入作品簡短說明，並再說明後加上「#」，例:#BonnieDraw</string>
-    <string name="u04_02_enter_empty">請輸入作品的內容</string>
-    <!--04-03-->
-    <string name="u04_03_work_title">作品名稱：</string>
-    <string name="u04_03_privacy_setting">隱私權設定：</string>
-    <string name="u04_03_public">公開</string>
-    <string name="u04_03_private">不公開</string>
-    <string name="u04_03_public_friends">只限朋友</string>
-    <!--04-04-->
-    <string name="u04_04_post_successful">已發佈成功</string>
-    <string name="u04_04_post_fail">發佈失敗</string>
-    <string name="u04_04_clear_status_title">是否清除目前畫面?</string>
-    <string name="u04_04_clear_status">按下清除會將畫面及草稿全部清除。</string>
-    <string name="u04_04_clear">清除</string>
-    <string name="u04_04_clear_finish">草稿已清除</string>
-    <!--04-05-->
-    <string name="u04_05_play_speed">撥放速度：</string>
-    <string name="u04_05_play_end">播放完畢</string>
-    <string name="u04_05_wait_this_part_finish">請等畫完這一段再按</string>
-    <string name="u04_05_please_touch_play_start">請按撥放鍵開始撥放</string>
-    <!--03-01-->
-    <string name="u03_01_notice_title">通知</string>
-    <string name="u03_01_set_like">對你的作品按讚</string>
-    <string name="u03_01_set_following">開始追蹤你</string>
-    <string name="u03_01_set_fb_friend">你的好友，加入BonnieDraw</string>
-    <string name="u03_01_set_comment">對你的作品留言：</string>
-    <string name="u03_01_set_share">分享一則新作品</string>
-    <string name="u03_01_not_notice">您沒有任何訊息</string>
-    <!--06-01-->
-    <string name="u06_01_posts">作品數</string>
-    <string name="u06_01_followers">粉絲數</string>
-    <string name="u06_01_fan">粉絲</string>
-    <string name="u06_01_search_user">搜尋特定的使用者</string>
-    <!--06-02-->
-    <string name="u06_02_suggested">推薦名單</string>
-    <string name="u06_02_not_suggested_friend">沒有推薦的好友名單</string>
-    <string name="u06_02_only_fb_or_twitter">只有 Facebook 或 Twitter 的用戶 \n才可使用推薦好友名單</string>
-    <!--06-03-->
-    <string name="u06_03_edit_profile">編輯個人檔案</string>
-    <string name="u06_03_change_picture">更換大頭貼照</string>
-    <string name="u06_03_bio">個人簡介</string>
-    <string name="u06_03_phone_number">電話號碼</string>
-    <string name="u06_03_gender">性別</string>
-    <string name="u06_03_gender_male">男性</string>
-    <string name="u06_03_gender_female">女性</string>
-    <string name="u06_03_gender_no_specified">沒有指定</string>
-    <string name="u06_03_alert_save_fail_name_empty">用戶名稱不得空白</string>
-    <string name="u06_03_alert_save_length_max">上限為 50 個字</string>
-    <string name="u06_03_select_image">選擇圖片</string>
-    <!--06-04-->
-    <string name="u06_04_account_setting_option">帳號設定選項</string>
-    <string name="u06_04_change_password">更改密碼</string>
-    <string name="u06_04_help_center">使用說明</string>
-    <string name="u06_04_privacy_policy">隱私政策</string>
-    <string name="u06_04_terms_of_service">使用條款</string>
-    <string name="u06_04_about_bonniedraw">關於BonnieDraw</string>
-    <!--06-05-->
-    <string name="u06_05_current_password">目前密碼</string>
-    <string name="u06_05_new_password">新密碼</string>
-    <string name="u06_05_verify">驗證</string>
-    <string name="u06_05_new_password_again">再次輸入新密碼</string>
-    <string name="u06_05_old_password_empty">請輸入舊密碼</string>
-    <string name="u06_05_new_password_empty">請輸入新密碼</string>
-    <string name="u06_05_old_password_unmatch">"舊密碼錯誤"</string>
-    <string name="u06_05_password_update_successful">密碼已更新完成，確認後回到登入畫面。</string>
-    <string name="u06_05_password_update_fail">更新密碼失敗</string>
-    <!--m01_01-->
-    <string name="m01_01_start_follow">開始追蹤</string>
-    <string name="m01_01_not_follow_anyone">你沒有追蹤任何的使用者</string>
-    <string name="m01_01_not_collection">您沒有收藏的作品</string>
-    <string name="m01_01_please_login">請先登入後再操作</string>
-    <string name="m01_01_copylink_successful">複製成功</string>
-    <string name="m02_01_data_parse_error">讀取錯誤</string>
-    <!--通用類-->
-    <string name="user_permission_fail">使用者拒絕權限 無法存取</string>
-    <!--社群雜項-->
-    <string name="download_html">https://drive.google.com/file/d/1FyQqeQtlxc-atefL2xKqqvUCmfzlTO33/view?usp=sharing</string>
+<resources>
+    <string name="content_pornography">Content with Pornography</string>
+    <string name="content_violence">Content with Violance</string>
+    <string name="m01_01_not_collection">You do not have any collections.</string>
+    <string name="m01_01_not_follow_anyone">You do not follow any users.</string>
+    <string name="m01_01_please_login">Please operate after log in.</string>
+    <string name="m01_01_start_follow">Start to follow</string>
+    <string name="m02_01_data_parse_error">Lodding failed</string>
+    <string name="report_reason">Reason to Report</string>
+    <string name="u01_01_fb_not_email">This account can not be logged in without your email information.</string>
+    <string name="u01_01_forgot_password">Forgot your password</string>
+    <string name="u01_01_have_not_account">Don\'t have an account?</string>
+    <string name="u01_01_login">Login is failed.</string>
+    <string name="u01_01_login">Login</string>
+    <string name="u01_01_login_data_error">The login information has error</string>
+    <string name="u01_01_login_fail_id_pwd_error">The account or password is not valid. Please log in again or press "Forgot your password."</string>
+    <string name="u01_01_not_signin">This account has not been applied yet.</string>
+    <string name="u01_01_or">or</string>
+    <string name="u01_01_password">Password</string>
+    <string name="u01_02_activate_account">Please activate your account by your email address within 30 minutes; free to use all functions after you log in.</string>
+    <string name="u01_02_alert_email_empty">Email cannot be blank</string>
+    <string name="u01_02_alert_sign_up_fail_title">Sign Up is failed.</string>
+    <string name="u01_02_alert_sign_up_success_title">Sign Up is successful.</string>
+    <string name="u01_02_email_invalid">Invalid email address</string>
+    <string name="u01_02_not_account">Already have an account?</string>
+    <string name="u01_02_repassword">Confirm Password</string>
+    <string name="u01_02_sign_up">Sign Up</string>
+    <string name="u01_02_sign_up_check_fail_content">The information of Sign Up is wrong or has not been filled.</string>
+    <string name="u01_02_sign_up_check_fail_title">Please confirm your Sign Up information.</string>
+    <string name="u01_02_sign_up_connection_fail_error">Connection is discordant; please try it later.</string>
+    <string name="u01_02_sign_up_email_fail_content">The Email Address has been used; please change it to another one.</string>
+    <string name="u01_03_alert_forget_password_content">Please get your new password from your email address.</string>
+    <string name="u01_03_enter_email">Enter your email address assoiciated with your account</string>
+    <string name="u01_03_search_fail_no_account">The account is invalid.</string>
+    <string name="u01_03_send">Send</string>
+    <string name="u02_01_collections">COLLECTIONS</string>
+    <string name="u02_01_copyright">Copyright © 2018 Sourcecode.tw Inc. All rights reserved</string>
+    <string name="u02_01_logout">Logout</string>
+    <string name="u02_01_my_drawings">MY DRAWINGS</string>
+    <string name="u02_01_newest">NEWEST</string>
+    <string name="u02_01_popular">POPULAR</string>
+    <string name="u02_01_settings">SETTINGS</string>
+    <string name="u02_02_content_other">Others</string>
+    <string name="u02_02_cop_link">Copy Link</string>
+    <string name="u02_02_report">Report</string>
+    <string name="u02_02_report_fail">Report is failed; please try it again.</string>
+    <string name="u02_02_report_reason_empty">Please fill in the reason.</string>
+    <string name="u02_02_report_successful">Report is successful.</string>
+    <string name="u02_02_report_work_title">Report Drawing</string>
+    <string name="u02_02_share">Share</string>
+    <string name="u02_03_add_comment">Add a comment ...</string>
+    <string name="u02_03_add_comment_fail">Comment is failed to be made.</string>
+    <string name="u02_03_add_comment_hint">Make a comment</string>
+    <string name="u02_03_delete_comment">Delete</string>
+    <string name="u02_03_first_comment">First to make a comment</string>
+    <string name="u02_04_date">Date</string>
+    <string name="u02_04_delete_content">Delete this drawing?</string>
+    <string name="u02_04_delete_successful">Delete successfully</string>
+    <string name="u02_04_delete_title">Delete</string>
+    <string name="u02_04_edit_work">Edit your drawing</string>
+    <string name="u02_05_not_match_work">No result found</string>
+    <string name="u02_05_search">Search</string>
+    <string name="u03_01_not_notice">You do not have any message.</string>
+    <string name="u03_01_notice_title">Notice</string>
+    <string formatted="false" name="u03_01_set_comment">%s commented : %s</string>
+    <string formatted="false" name="u03_01_set_fb_friend">Your Facebook friend %s on Instagram</string>
+    <string formatted="false" name="u03_01_set_following">%s  started following you.</string>
+    <string formatted="false" name="u03_01_set_like">%s thumbed up to your drawing.</string>
+    <string formatted="false" name="u03_01_set_share">%s share a drawing</string>
+    <string name="u04_01_bgcolor_ticket_current_list">Background Color List</string>
+    <string name="u04_01_brush_opacity">Brush Opacity</string>
+    <string name="u04_01_brush_size">Brush Size</string>
+    <string name="u04_01_color_ticket_current_list">Color List</string>
+    <string name="u04_01_color_ticket_is_full">Color swatch storage is full. Please delete some of them.</string>
+    <string name="u04_01_color_ticket_not_select">Please select color swatch and then remove it.</string>
+    <string name="u04_01_exit_ask_save_sketch_title">Save your draft?</string>
+    <string name="u04_01_exit_ask_sketch_content">Press "Yes", and the draft can be saved</string>
+    <string name="u04_01_exit_ask_sketch_successful">Draft is saved successfully.</string>
+    <string name="u04_01_exit_ask_update_sketch_title">Update your draft?</string>
+    <string name="u04_01_grid_line_10x10">10 x 10 Grid</string>
+    <string name="u04_01_grid_line_20x20">20 x 20 Grid</string>
+    <string name="u04_01_grid_line_3x3">3 x 3 Grid</string>
+    <string name="u04_01_grid_line_6x6">6 x 6 Grid</string>
+    <string name="u04_01_grid_line_no_grid">Blank</string>
+    <string name="u04_01_new_color_swatch">New Color Swatch</string>
+    <string name="u04_01_press_below_button">Hey~Drawing is not available now, only can magnify your drawing board! Press the below button if you will keep drawing.</string>
+    <string name="u04_01_press_play_with_empty">Please start to draw!</string>
+    <string name="u04_01_saved_photo_album">Saved to Photo Album</string>
+    <string name="u04_02_enter_description">Please enter brief description about your work; Add 「#」behind your description. Ex.</string>
+    <string name="u04_02_enter_empty">Work description cannot be blank.</string>
+    <string name="u04_02_share">Share</string>
+    <string name="u04_02_work_description">Work Description</string>
+    <string name="u04_03_privacy_setting">Privacy Setting</string>
+    <string name="u04_03_private">Private</string>
+    <string name="u04_03_public">Public</string>
+    <string name="u04_03_public_friends">Public Only to Friends</string>
+    <string name="u04_03_work_title">Work Title</string>
+    <string name="u04_04_clear">Clear</string>
+    <string name="u04_04_clear_finish">Draft has been cleared.</string>
+    <string name="u04_04_clear_status">Press "Clear" and all the current motions will be deleted.</string>
+    <string name="u04_04_clear_status_title">Do you want to clear the status?</string>
+    <string name="u04_04_post_fail">Post failed</string>
+    <string name="u04_04_post_successful">Post has been Successful</string>
+    <string name="u04_05_play_end">Play Over</string>
+    <string name="u04_05_play_speed">Playing Speed</string>
+    <string name="u04_05_please_touch_play_start">Please press "PLAY" and then start to play.</string>
+    <string name="u04_05_wait_this_part_finish">Please press it until finish the current stage.</string>
+    <string name="u06_01_fan">Fans</string>
+    <string name="u06_01_followers">Followers</string>
+    <string name="u06_01_posts">Posts</string>
+    <string name="u06_02_not_suggested_friend">No recommended friends\' list</string>
+    <string name="u06_02_only_fb_or_twitter">"Recommend Friends\' List" is only available for accounts of Facebook or Twitter.</string>
+    <string name="u06_02_suggested">SUGGESTED</string>
+    <string name="u06_03_alert_save_fail_name_empty">User name cannot be blank.</string>
+    <string name="u06_03_alert_save_length_max">The limit is 50 words.</string>
+    <string name="u06_03_bio">Bio</string>
+    <string name="u06_03_change_picture">Change Profile Picture</string>
+    <string name="u06_03_edit_profile">Edit Profile</string>
+    <string name="u06_03_gender">Gender</string>
+    <string name="u06_03_gender_female">Female</string>
+    <string name="u06_03_gender_male">Male</string>
+    <string name="u06_03_gender_no_specified">No Specified</string>
+    <string name="u06_03_phone_number">Phone number</string>
+    <string name="u06_03_select_image">Select Picture</string>
+    <string name="u06_04_account_setting_option">Account Setting Selection</string>
+    <string name="u06_04_change_password">Change Password</string>
+    <string name="u06_04_help_center">Help Center</string>
+    <string name="u06_04_privacy_policy">Privacy Policy</string>
+    <string name="u06_04_terms_of_service">Terms of Service</string>
+    <string name="u06_05_current_password">Current password</string>
+    <string name="u06_05_new_password">New password</string>
+    <string name="u06_05_new_password_again">New password again</string>
+    <string name="u06_05_new_password_empty">Please enter new password</string>
+    <string name="u06_05_old_password_empty">Please enter old password</string>
+    <string name="u06_05_old_password_unmatch">Old password is incorrect.</string>
+    <string name="u06_05_password_update_fail">Password update is failed.</string>
+    <string name="u06_05_password_update_successful">Password has been updated. Please back to log in page.</string>
+    <string name="u06_05_verify">Verify</string>
+    <string name="uc_a_few_days_ago">Days ago</string>
+    <string name="uc_a_few_hours_ago">Hours ago</string>
+    <string name="uc_a_few_minutes_ago">Minutes ago</string>
+    <string name="uc_a_few_seconds_ago">Seconds ago</string>
+    <string name="uc_alert_no">No</string>
+    <string name="uc_alert_yes">Yes</string>
+    <string name="uc_block">Block</string>
+    <string name="uc_cancel">Cancel</string>
+    <string name="uc_commit">OK</string>
+    <string name="uc_connect_failed_title">Connection is failed.</string>
+    <string name="uc_connection_failed">Please check your internet connection and then try it again.</string>
+    <string name="uc_date_format">XX Year XX Month XX Date HH:MM</string>
+    <string name="uc_day_before_yesterday">The day before yesterday</string>
+    <string name="uc_delete">Delete</string>
+    <string name="uc_email">Email</string>
+    <string name="uc_email">E-mail Address</string>
+    <string name="uc_follow">Follow</string>
+    <string name="uc_following">Following</string>
+    <string name="uc_hour">Hour</string>
+    <string name="uc_just_now">Just now</string>
+    <string name="uc_logout_msg">Confirm to log out?</string>
+    <string name="uc_logout_title">Log out</string>
+    <string name="uc_min">Minutes</string>
+    <string name="uc_password_empty">Password cannot be blank</string>
+    <string name="uc_password_invalid">Password requires 6 characters at least.</string>
+    <string name="uc_password_unmatch">New password is not same as the verification.</string>
+    <string name="uc_password_unmatch">New password is not same as the verification.</string>
+    <string name="uc_publish">Post</string>
+    <string name="uc_redo_limit">Redo frequency is up limit.</string>
+    <string name="uc_share">Share</string>
+    <string name="uc_time_am">Morning</string>
+    <string name="uc_time_pm">Afternoon</string>
+    <string name="uc_undo_limit">Revert frequency is up limit.</string>
+    <string name="uc_update">Update</string>
+    <string name="uc_update_fail">Update is failed.</string>
+    <string name="uc_update_successful">Update is successful.</string>
+    <string name="uc_username">UserName</string>
+    <string name="uc_username">User Name</string>
+    <string name="uc_username_empty">User name cannot be blank.</string>
+    <string name="uc_yesterday">Yesterday</string>
+    <string name="work_class">Type of Report</string>
 </resources>
