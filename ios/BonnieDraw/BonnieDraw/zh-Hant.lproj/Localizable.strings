@@ -7,6 +7,7 @@
 "account_loading" = "讀取中...";
 "alert_account_update_fail_title" = "更新失敗";
 "alert_button_cancel" = "取消";
+"alert_button_clear" = "清除";
 "alert_button_confirm" = "確定";
 "alert_button_delete" = "刪除";
 "alert_delete_content" = "確認要刪除這個作品嗎?";
@@ -23,7 +24,7 @@
 "alert_report_fail_description_empty" = "檢舉原因不可空白";
 "alert_report_fail_title" = "檢舉失敗，請再試一次";
 "alert_reset_content" = "按下清除會將畫面及草稿全部清除。";
-"alert_reset_title" = "清除";
+"alert_reset_title" = "清除畫布";
 "alert_save_fail_description_empty" = "作品說明不可空白";
 "alert_save_fail_name_empty" = "用戶名稱不可空白";
 "alert_save_fail_title" = "儲存失敗";

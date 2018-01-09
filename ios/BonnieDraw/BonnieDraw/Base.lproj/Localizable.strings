@@ -7,6 +7,7 @@
 "account_loading" = "Loading...";
 "alert_account_update_fail_title" = "Update failed";
 "alert_button_cancel" = "Cancel";
+"alert_button_clear" = "Clear";
 "alert_button_confirm" = "OK";
 "alert_button_delete" = "Delete";
 "alert_delete_content" = "Delete drawing?";
@@ -23,7 +24,7 @@
 "alert_report_fail_description_empty" = "Report reason should not be empty.";
 "alert_report_fail_title" = "Report is failed; please try it again.";
 "alert_reset_content" = "Press \"Clear\" and all the current motions will be deleted.";
-"alert_reset_title" = "Clear";
+"alert_reset_title" = "Reset Canvas";
 "alert_save_fail_description_empty" = "Work description cannot be blank.";
 "alert_save_fail_name_empty" = "User name cannot be blank.";
 "alert_save_fail_title" = "Save failed";

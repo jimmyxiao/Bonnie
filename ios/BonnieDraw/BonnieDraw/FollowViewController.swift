@@ -213,9 +213,11 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         cell.thumbnail?.setImage(with: work.thumbnail)
         if let isLike = work.isLike {
             if isLike {
+                cell.likeButton.isUserInteractionEnabled = false
                 cell.likeButton.isSelected = true
                 cell.likeButton.setImage(likeImageSelected, for: .normal)
             } else {
+                cell.likeButton.isUserInteractionEnabled = true
                 cell.likeButton.isSelected = false
                 cell.likeButton.setImage(likeImage, for: .normal)
             }

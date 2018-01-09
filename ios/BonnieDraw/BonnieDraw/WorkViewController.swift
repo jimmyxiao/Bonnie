@@ -107,7 +107,13 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             profileImage.isUserInteractionEnabled = false
             profileName.isUserInteractionEnabled = false
         }
-        likeButton.isSelected = work.isLike ?? false
+        if work.isLike ?? false {
+            likeButton.isUserInteractionEnabled = false
+            likeButton.isSelected = true
+        } else {
+            likeButton.isUserInteractionEnabled = true
+            likeButton.isSelected = false
+        }
         likeButton.setImage(UIImage(named: likeButton.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
         if let likes = work.likes, likes > 0 {
             self.likes.text = "\(likes)"
@@ -724,5 +730,6 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
 protocol WorkViewControllerDelegate {
     func work(didChange work: Work)
+
     func work(didDelete work: Work)
 }
