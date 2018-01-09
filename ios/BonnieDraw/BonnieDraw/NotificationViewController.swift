@@ -154,6 +154,8 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
                 cell.message.text = "notification_user_followed".localized
             case .commented:
                 cell.message.text = "notification_user_commented".localized
+            case .posted:
+                cell.message.text = "notification_user_posted".localized
             case .liked:
                 cell.message.text = "notification_user_liked".localized
             default:

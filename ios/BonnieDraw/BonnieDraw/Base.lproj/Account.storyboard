@@ -285,7 +285,7 @@
                                                 <action selector="onBackPressed:" destination="mlI-Uy-vuT" id="hS2-is-GU6"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="done" id="lz2-za-OXe">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="lz2-za-OXe">
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="done:" destination="mlI-Uy-vuT" id="WDm-Iu-1ru"/>

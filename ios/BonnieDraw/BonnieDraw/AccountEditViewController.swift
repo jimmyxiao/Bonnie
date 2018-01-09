@@ -23,10 +23,12 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     private var viewOriginY: CGFloat = 0
     private var dataRequest: DataRequest?
     private var timestamp = Date()
-    var delegate: AccountEditViewControllerDelegate?
+    private var oldProfile: Profile?
     var profile: Profile?
+    var delegate: AccountEditViewControllerDelegate?
 
     override func viewDidLoad() {
+        oldProfile = profile
         profileImage.sd_setShowActivityIndicatorView(true)
         profileImage.sd_setIndicatorStyle(.gray)
         phone.addInputAccessoryView()
@@ -88,7 +90,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             return
         }
         loading.hide(false)
-        done.isEnabled = false
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.USER_INFO_QUERY),
                 method: .post,
@@ -132,6 +133,10 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     }
 
     @IBAction func done(_ sender: UIBarButtonItem) {
+        guard oldProfile != profile else {
+            onBackPressed(sender)
+            return
+        }
         guard AppDelegate.reachability.connection != .none else {
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
@@ -280,7 +285,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alert.addAction(UIAlertAction(title: "gender_male".localized, style: .default) {
                 action in
-                self.done.isEnabled = true
                 self.profile?.gender = .male
                 self.gender.setTitle(action.title, for: .normal)
             })
@@ -288,7 +292,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             alert.addAction(UIAlertAction(title: "gender_female".localized, style: .default) {
                 action in
-                self.done.isEnabled = true
                 self.profile?.gender = .female
                 self.gender.setTitle(action.title, for: .normal)
             })
@@ -296,7 +299,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             alert.addAction(UIAlertAction(title: "gender_unspecified".localized, style: .default) {
                 action in
-                self.done.isEnabled = true
                 self.profile?.gender = .unspecified
                 self.gender.setTitle(action.title, for: .normal)
             })
@@ -370,12 +372,10 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     }
 
     internal func textViewDidChange(_ textView: UITextView) {
-        done.isEnabled = true
-        profile?.description = textView.text
+        profile?.description = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     @IBAction func textFieldTextDidChange(_ sender: UITextField) {
-        done.isEnabled = true
         switch sender {
         case name:
             profile?.name = sender.text
@@ -422,6 +422,5 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
 protocol AccountEditViewControllerDelegate {
     func accountEdit(profileDidChange profile: Profile)
-
     func accountEdit(imageDidChange image: UIImage)
 }

@@ -42,6 +42,7 @@ class AccountViewController:
     var userId: Int?
     var profile: Profile?
     var works = [Work]()
+    var shouldRefreshHeader = false
 
     override func viewDidLoad() {
         navigationItem.hidesBackButton = true
@@ -54,6 +55,12 @@ class AccountViewController:
                 item in
                 return item.tag == 0
             }, animated: false)
+        }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        if shouldRefreshHeader {
+            shouldRefreshHeader = false
         }
     }
 
@@ -415,7 +422,8 @@ class AccountViewController:
     }
 
     internal func settings(imageDidChange image: UIImage) {
-        collectionView.reloadSections([0])
+        profile?.image = UserDefaults.standard.url(forKey: Default.IMAGE)
+        headerView?.profileImage.image = image
     }
 
     internal func user(didFollowUser follow: Bool) {

@@ -67,7 +67,7 @@
     <string formatted="false" name="u03_01_set_fb_friend">Your Facebook friend %s on Instagram</string>
     <string name="u03_01_set_following">Has become a fan.</string>
     <string name="u03_01_set_like">Liked your drawing.</string>
-    <string formatted="false" name="u03_01_set_share">%s share a drawing</string>
+    <string name="u03_01_set_share">Posted new drawing</string>
     <string name="u04_01_bgcolor_ticket_current_list">Background Color List</string>
     <string name="u04_01_brush_opacity">Brush Opacity</string>
     <string name="u04_01_brush_size">Brush Size</string>

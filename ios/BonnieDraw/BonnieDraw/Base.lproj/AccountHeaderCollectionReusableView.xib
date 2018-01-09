@@ -76,17 +76,17 @@
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="p3M-CN-o8W">
                     <rect key="frame" x="8" y="215" width="359" height="50.5"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0B1-2F-Trj">
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0B1-2F-Trj">
                             <rect key="frame" x="0.0" y="0.0" width="119.5" height="50.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ph1-aP-KnO">
-                                    <rect key="frame" x="8" y="0.0" width="103.5" height="20.5"/>
+                                    <rect key="frame" x="8" y="0.0" width="103.5" height="25.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tgC-4y-yKG">
-                                    <rect key="frame" x="41" y="20.5" width="38" height="30"/>
+                                    <rect key="frame" x="8" y="25.5" width="103.5" height="25"/>
                                     <state key="normal" title="Posts">
                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -95,19 +95,21 @@
                             <constraints>
                                 <constraint firstItem="Ph1-aP-KnO" firstAttribute="leading" secondItem="0B1-2F-Trj" secondAttribute="leading" constant="8" id="9kC-8a-wxz"/>
                                 <constraint firstAttribute="trailing" secondItem="Ph1-aP-KnO" secondAttribute="trailing" constant="8" id="Y2i-GT-ubq"/>
+                                <constraint firstAttribute="trailing" secondItem="tgC-4y-yKG" secondAttribute="trailing" constant="8" id="b8G-xh-ejj"/>
+                                <constraint firstItem="tgC-4y-yKG" firstAttribute="leading" secondItem="0B1-2F-Trj" secondAttribute="leading" constant="8" id="ltw-dg-1Og"/>
                             </constraints>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Mr1-Dn-pbY">
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Mr1-Dn-pbY">
                             <rect key="frame" x="119.5" y="0.0" width="120" height="50.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KVF-dA-AKU">
-                                    <rect key="frame" x="8" y="0.0" width="104" height="20.5"/>
+                                    <rect key="frame" x="8" y="0.0" width="104" height="25.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CFk-bn-XPx">
-                                    <rect key="frame" x="43.5" y="20.5" width="33" height="30"/>
+                                    <rect key="frame" x="8" y="25.5" width="104" height="25"/>
                                     <state key="normal" title="Fans">
                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -117,21 +119,23 @@
                                 </button>
                             </subviews>
                             <constraints>
+                                <constraint firstAttribute="trailing" secondItem="CFk-bn-XPx" secondAttribute="trailing" constant="8" id="1Co-b7-N80"/>
                                 <constraint firstItem="KVF-dA-AKU" firstAttribute="leading" secondItem="Mr1-Dn-pbY" secondAttribute="leading" constant="8" id="6nW-G4-f8U"/>
                                 <constraint firstAttribute="trailing" secondItem="KVF-dA-AKU" secondAttribute="trailing" constant="8" id="e8I-bR-FYk"/>
+                                <constraint firstItem="CFk-bn-XPx" firstAttribute="leading" secondItem="Mr1-Dn-pbY" secondAttribute="leading" constant="8" id="y63-Kt-uzc"/>
                             </constraints>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ASc-SJ-239">
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ASc-SJ-239">
                             <rect key="frame" x="239.5" y="0.0" width="119.5" height="50.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dyz-xW-rlV">
-                                    <rect key="frame" x="8" y="0.0" width="103.5" height="20.5"/>
+                                    <rect key="frame" x="8" y="0.0" width="103.5" height="25.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="560-Wk-gju">
-                                    <rect key="frame" x="27" y="20.5" width="65" height="30"/>
+                                    <rect key="frame" x="8" y="25.5" width="103.5" height="25"/>
                                     <state key="normal" title="Following">
                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -143,6 +147,8 @@
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="dyz-xW-rlV" secondAttribute="trailing" constant="8" id="CBl-Bz-0wA"/>
                                 <constraint firstItem="dyz-xW-rlV" firstAttribute="leading" secondItem="ASc-SJ-239" secondAttribute="leading" constant="8" id="DYQ-00-8Pe"/>
+                                <constraint firstItem="560-Wk-gju" firstAttribute="leading" secondItem="ASc-SJ-239" secondAttribute="leading" constant="8" id="Fti-IX-lEM"/>
+                                <constraint firstAttribute="trailing" secondItem="560-Wk-gju" secondAttribute="trailing" constant="8" id="Zud-pu-er0"/>
                             </constraints>
                         </stackView>
                     </subviews>

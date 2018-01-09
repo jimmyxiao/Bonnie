@@ -58,7 +58,7 @@ enum NotificationType: Int {
     case followed = 1
     case joined
     case commented
-    case messaged
+    case posted
     case liked
 }
 

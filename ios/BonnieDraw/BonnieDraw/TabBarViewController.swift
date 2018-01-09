@@ -22,7 +22,6 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         if item == itemHome?.item {
             if let controller = customNavigationController?.viewControllers.last as? HomeViewController {
                 controller.setTag(type: .popularWork, tag: nil)
-                return
             }
             if let controller = itemHome?.viewController {
                 controllers.append(controller)
@@ -32,9 +31,6 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
                 controllers.append(controller)
             }
         } else if item == itemFollow?.item {
-            if customNavigationController?.viewControllers.last is FollowViewController {
-                return
-            }
             if let controller = itemFollow?.viewController {
                 controllers.append(controller)
             } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.FOLLOW) as? FollowViewController {
@@ -43,9 +39,6 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
                 controllers.append(controller)
             }
         } else if item == itemNotification?.item {
-            if customNavigationController?.viewControllers.last is NotificationViewController {
-                return
-            }
             if let controller = itemNotification?.viewController {
                 controllers.append(controller)
             } else if let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.NOTIFICATION) as? NotificationViewController {
@@ -54,9 +47,6 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
                 controllers.append(controller)
             }
         } else if item == itemAccount?.item {
-            if customNavigationController?.viewControllers.last is AccountViewController {
-                return
-            }
             if let controller = itemAccount?.viewController {
                 controllers.append(controller)
             } else if let controller = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController() as? AccountViewController {
@@ -122,6 +112,5 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
 
 protocol TabBarViewControllerDelegate {
     func tabBarDidTapMenu()
-
     func tabBar(enableMenuGesture enable: Bool)
 }

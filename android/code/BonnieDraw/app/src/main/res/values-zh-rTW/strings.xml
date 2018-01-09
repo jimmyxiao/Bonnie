@@ -68,7 +68,7 @@
     <string formatted="false" name="u03_01_set_fb_friend">facebook 朋友 %s 加入BonnieDraw</string>
     <string name="u03_01_set_following">成為你的粉絲</string>
     <string name="u03_01_set_like">對你的作品按讚</string>
-    <string formatted="false" name="u03_01_set_share">你追蹤的 %s 分享一則作品</string>
+    <string name="u03_01_set_share">發佈一則新作品</string>
     <string name="u04_01_bgcolor_ticket_current_list">背景顏色列表</string>
     <string name="u04_01_brush_opacity">筆刷不透明度</string>
     <string name="u04_01_brush_size">筆刷大小</string>

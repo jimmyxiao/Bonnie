@@ -135,6 +135,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         postData["wt"] = 9
         postData["search"] = searchBar.text
+        tableView.setContentOffset(.zero, animated: true)
         downloadData()
         searchBar.resignFirstResponder()
     }
@@ -170,6 +171,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         default:
             return
         }
+        tableView.setContentOffset(.zero, animated: true)
         downloadData()
     }
 
@@ -696,8 +698,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
-
     func homeDidTapProfile()
-
     func home(enableMenuGesture enable: Bool)
 }

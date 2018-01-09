@@ -66,6 +66,7 @@
 "notification_user_commented" = "在你的作品留言";
 "notification_user_followed" = "成為你的粉絲";
 "notification_user_liked" = "對你的作品按讚";
+"notification_user_posted" = "發佈一則新作品";
 "report_other" = "其他";
 "report_sexual" = "內容色情";
 "report_violence" = "內容暴力";
