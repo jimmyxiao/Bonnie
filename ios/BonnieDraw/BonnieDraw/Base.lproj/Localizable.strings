@@ -62,9 +62,9 @@
 "more_edit_work" = "Edit your drawing";
 "more_remove_work" = "Delete";
 "more_report" = "Report";
+"notification_user_commented" = "Commented on your work.";
 "notification_user_followed" = "Has become a fan.";
 "notification_user_liked" = "Liked your drawing.";
-"notification_user_messaged" = "Commented on your work.";
 "report_other" = "Others";
 "report_sexual" = "Sexual content";
 "report_violence" = "Violent content";
