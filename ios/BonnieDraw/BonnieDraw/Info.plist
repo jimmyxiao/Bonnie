@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-    <string>2018010901</string>
+	<string>2018010902</string>
 	<key>Configuration</key>
 	<string>$(CONFIGURATION)</string>
 	<key>FacebookAppID</key>
@@ -67,11 +67,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-    <string>BonnieDraw will set the photo as your profile picture.</string>
+	<string>BonnieDraw will set the photo as your profile picture.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>NSMicrophoneUsageDescription</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>BonnieDraw will save the picture to your album.</string>
+	<string>BonnieDraw will save the picture to your album.</string>
 	<key>TwitterConsumerKey</key>
 	<string>HcXL8RV5wlnL1eM3OWSPcvN1N</string>
 	<key>TwitterConsumerSecret</key>

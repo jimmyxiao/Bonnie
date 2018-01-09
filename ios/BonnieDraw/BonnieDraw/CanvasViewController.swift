@@ -115,7 +115,7 @@ class CanvasViewController:
 
     @IBAction func reset(_ sender: Any) {
         presentedViewController?.dismiss(animated: true)
-        presentConfirmationDialog(title: "alert_reset_title".localized, message: "alert_reset_content".localized) {
+        presentConfirmationDialog(title: "alert_reset_title".localized, message: "alert_reset_content".localized, positiveTitle: "alert_button_clear".localized) {
             success in
             if success {
                 self.persistentBackgroundColor = nil
