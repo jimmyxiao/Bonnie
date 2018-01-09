@@ -268,6 +268,13 @@
                                     <outletCollection property="gestureRecognizers" destination="uSc-yd-m1H" appends="YES" id="kwi-wD-cO9"/>
                                 </connections>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tCU-4l-Rii" customClass="StatusBarBackgroundView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="TMF-8T-69P"/>
+                                </constraints>
+                            </view>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gjy-hC-gkm">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <items>
@@ -310,14 +317,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="tCU-4l-Rii" secondAttribute="trailing" id="9kg-5E-kDa"/>
                             <constraint firstItem="cO7-O5-KuZ" firstAttribute="trailing" secondItem="A9d-zf-IP5" secondAttribute="trailing" id="DVy-CX-JMr"/>
-                            <constraint firstItem="Gjy-hC-gkm" firstAttribute="top" secondItem="A9d-zf-IP5" secondAttribute="top" id="Emh-5S-ufI"/>
                             <constraint firstItem="cO7-O5-KuZ" firstAttribute="leading" secondItem="A9d-zf-IP5" secondAttribute="leading" id="FHb-og-T5T"/>
                             <constraint firstItem="A9d-zf-IP5" firstAttribute="trailing" secondItem="eYv-rg-Igv" secondAttribute="trailing" id="HYj-ut-644"/>
                             <constraint firstAttribute="bottom" secondItem="cO7-O5-KuZ" secondAttribute="bottom" id="MIp-gX-A6m"/>
                             <constraint firstItem="Gjy-hC-gkm" firstAttribute="leading" secondItem="A9d-zf-IP5" secondAttribute="leading" id="Mxu-pv-7mF"/>
+                            <constraint firstItem="Gjy-hC-gkm" firstAttribute="top" secondItem="tCU-4l-Rii" secondAttribute="bottom" id="PC2-Hg-637"/>
+                            <constraint firstItem="tCU-4l-Rii" firstAttribute="top" secondItem="9pu-XP-WLe" secondAttribute="top" id="QhG-A7-5eD"/>
                             <constraint firstItem="eYv-rg-Igv" firstAttribute="leading" secondItem="A9d-zf-IP5" secondAttribute="leading" id="SuK-Qx-Noo"/>
                             <constraint firstItem="cO7-O5-KuZ" firstAttribute="top" secondItem="Gjy-hC-gkm" secondAttribute="bottom" id="YQp-zZ-Xp5"/>
+                            <constraint firstItem="tCU-4l-Rii" firstAttribute="leading" secondItem="9pu-XP-WLe" secondAttribute="leading" id="asZ-ce-woj"/>
                             <constraint firstAttribute="bottom" secondItem="eYv-rg-Igv" secondAttribute="bottom" id="eaH-l7-4ER"/>
                             <constraint firstItem="Gjy-hC-gkm" firstAttribute="trailing" secondItem="A9d-zf-IP5" secondAttribute="trailing" id="ol1-tC-T2J"/>
                             <constraint firstItem="eYv-rg-Igv" firstAttribute="top" secondItem="Gjy-hC-gkm" secondAttribute="bottom" id="siB-ME-Jpl"/>
@@ -343,7 +353,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2653" y="2337"/>
+            <point key="canvasLocation" x="2651.25" y="2336.6197183098593"/>
         </scene>
         <!--Password View Controller-->
         <scene sceneID="6MX-1K-eW0">
@@ -356,7 +366,7 @@
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l9O-qt-fVH">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <items>
-                                    <navigationItem title="密碼" id="34t-73-Kmm">
+                                    <navigationItem title="Password" id="34t-73-Kmm">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="C0u-jx-w8e">
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
@@ -792,10 +802,10 @@
             </objects>
             <point key="canvasLocation" x="3420" y="1533"/>
         </scene>
-        <!--Account Setting Selection-->
+        <!--Account Settings-->
         <scene sceneID="1gu-xe-sIM">
             <objects>
-                <viewController title="Account Setting Selection" id="bTs-G1-KZ1" customClass="SettingViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Account Settings" id="bTs-G1-KZ1" customClass="SettingViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TR0-k9-Fb0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -960,8 +970,8 @@
                                     <outlet property="delegate" destination="yes-be-jNb" id="Dxr-Fu-lBC"/>
                                 </connections>
                             </tableView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No information is found." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpZ-kg-sjp">
-                                <rect key="frame" x="68.5" y="16" width="183" height="21"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpZ-kg-sjp">
+                                <rect key="frame" x="130" y="16" width="60.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1066,10 +1076,10 @@
             </objects>
             <point key="canvasLocation" x="4206" y="2336"/>
         </scene>
-        <!--SUGGESTED-->
+        <!--Recommended-->
         <scene sceneID="4zU-Ct-QOy">
             <objects>
-                <viewController title="SUGGESTED" id="XQV-AK-LI5" customClass="RecommendViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Recommended" id="XQV-AK-LI5" customClass="RecommendViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pP5-fU-HsO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1160,8 +1170,8 @@
                                     <outlet property="delegate" destination="XQV-AK-LI5" id="dL7-tK-8Ky"/>
                                 </connections>
                             </tableView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No information is found." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuN-qQ-hqy">
-                                <rect key="frame" x="68.5" y="16" width="183" height="21"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuN-qQ-hqy">
+                                <rect key="frame" x="130" y="16" width="60.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>

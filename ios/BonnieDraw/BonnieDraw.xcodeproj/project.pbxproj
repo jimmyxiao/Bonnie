@@ -65,6 +65,7 @@
 		165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165710FE1F6BAB63004A8DD8 /* Path.swift */; };
 		165996DA1FB4429200AAE7B3 /* SaturationBrightnessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165996D81FB4429200AAE7B3 /* SaturationBrightnessView.swift */; };
 		165996DB1FB4429200AAE7B3 /* HueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165996D91FB4429200AAE7B3 /* HueView.swift */; };
+		165A01302004678A000FF4B4 /* StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165A012F20046789000FF4B4 /* StatusBarBackgroundView.swift */; };
 		165E1B5B1F9DDFA80050A7BB /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E1B5A1F9DDFA80050A7BB /* SettingViewController.swift */; };
 		165E1B5D1F9DE4920050A7BB /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E1B5C1F9DE4920050A7BB /* PasswordViewController.swift */; };
 		165ECC531F73947C00E32AA5 /* ForgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */; };
@@ -174,6 +175,7 @@
 		165710FE1F6BAB63004A8DD8 /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		165996D81FB4429200AAE7B3 /* SaturationBrightnessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaturationBrightnessView.swift; sourceTree = "<group>"; };
 		165996D91FB4429200AAE7B3 /* HueView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HueView.swift; sourceTree = "<group>"; };
+		165A012F20046789000FF4B4 /* StatusBarBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarBackgroundView.swift; sourceTree = "<group>"; };
 		165E1B5A1F9DDFA80050A7BB /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		165E1B5C1F9DE4920050A7BB /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 		16FC10221F695C62008A6A92 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				165A012F20046789000FF4B4 /* StatusBarBackgroundView.swift */,
 				1619E93F1FEA88C6009CFE08 /* HomeBarBackgroundView.swift */,
 				16BE0F2B1FC67A1500B989CE /* GridView.swift */,
 				165996D91FB4429200AAE7B3 /* HueView.swift */,
@@ -752,6 +755,7 @@
 				164ED2531F7BA45E00E8B910 /* ColorPickerViewController.swift in Sources */,
 				165E1B5B1F9DDFA80050A7BB /* SettingViewController.swift in Sources */,
 				16AD967F1FD3E6370084151D /* TouchExtension.swift in Sources */,
+				165A01302004678A000FF4B4 /* StatusBarBackgroundView.swift in Sources */,
 				16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */,
 				163DDF3E1FC5526D0052DF80 /* NotificationTableViewCell.swift in Sources */,
 				1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */,
