@@ -225,7 +225,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             self.thumbnail?.setImage(with: self.work?.thumbnail)
             self.loading.hide(true)
             self.canvas.isHidden = false
-            UIView.animate(withDuration: 0.4) {
+            UIView.animate(withDuration: 0.3) {
                 self.canvas.alpha = 1
             }
         }

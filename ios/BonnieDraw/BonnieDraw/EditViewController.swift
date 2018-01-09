@@ -100,7 +100,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     }
 
     @IBAction func cancel(_ sender: Any) {
-        UIView.animate(withDuration: 0.4, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.view.alpha = 0
         }) {
             finished in

@@ -17,7 +17,7 @@ class CustomSelectorCollectionViewCell: UICollectionViewCell {
         }
         didSet {
             if !isHighlighted {
-                UIView.animate(withDuration: 0.4) {
+                UIView.animate(withDuration: 0.3) {
                     self.alpha = 1
                 }
             }

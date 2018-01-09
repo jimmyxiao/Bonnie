@@ -16,7 +16,7 @@ extension UIButton {
                 Logger.p("\(#function): \(error.localizedDescription)")
             } else if type == .none {
                 self.alpha = 0
-                UIView.animate(withDuration: 0.4) {
+                UIView.animate(withDuration: 0.3) {
                     self.alpha = 1
                 }
             }

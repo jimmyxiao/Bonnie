@@ -13,7 +13,7 @@ class CustomSelectorTableViewCell: UITableViewCell {
         if highlighted {
             alpha = 0.5
         } else {
-            UIView.animate(withDuration: 0.4) {
+            UIView.animate(withDuration: 0.3) {
                 self.alpha = 1
             }
         }

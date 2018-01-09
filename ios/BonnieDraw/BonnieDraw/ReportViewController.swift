@@ -85,7 +85,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func cancel(_ sender: Any) {
-        UIView.animate(withDuration: 0.4, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.view.alpha = 0
         }) {
             finished in
@@ -126,7 +126,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
                         return
                     }
                     if response == 1 {
-                        UIView.animate(withDuration: 0.4, animations: {
+                        UIView.animate(withDuration: 0.3, animations: {
                             self.view.alpha = 0
                         }) {
                             finished in

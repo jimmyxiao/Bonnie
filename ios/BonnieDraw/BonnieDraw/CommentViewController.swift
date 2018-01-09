@@ -66,7 +66,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
             keyboardOnScreen = true
             viewBottom.constant = -keyboardSize.height
-            UIView.animate(withDuration: 0.4) {
+            UIView.animate(withDuration: 0.3) {
                 self.view.setNeedsDisplay()
             }
         }
@@ -76,7 +76,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         if keyboardOnScreen {
             keyboardOnScreen = false
             viewBottom.constant = 0
-            UIView.animate(withDuration: 0.4) {
+            UIView.animate(withDuration: 0.3) {
                 self.view.setNeedsDisplay()
             }
         }

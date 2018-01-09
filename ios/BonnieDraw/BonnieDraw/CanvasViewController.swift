@@ -534,7 +534,7 @@ class CanvasViewController:
                 self.canvas.loadState(state)
                 self.canvas.isHidden = false
                 self.loading.hide(true)
-                UIView.animate(withDuration: 0.4) {
+                UIView.animate(withDuration: 0.3) {
                     self.canvas.alpha = 1
                 }
             }

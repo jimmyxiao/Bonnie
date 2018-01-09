@@ -38,7 +38,7 @@ class LoadingIndicatorView: UIView {
 
     func hide(_ hide: Bool) {
         if hide {
-            UIView.animate(withDuration: 0.4, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.alpha = 0
             }) {
                 finished in
@@ -46,7 +46,7 @@ class LoadingIndicatorView: UIView {
             }
         } else {
             isHidden = hide
-            UIView.animate(withDuration: 0.4) {
+            UIView.animate(withDuration: 0.3) {
                 self.alpha = 1
             }
         }
