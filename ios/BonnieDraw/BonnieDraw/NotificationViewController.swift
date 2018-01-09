@@ -51,10 +51,9 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
             controller.userId = notifications[indexPath.row].userId
         } else if let navigationController = segue.destination as? UINavigationController,
                   let controller = storyboard?.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController,
-                  let indexPath = tableView.indexPathForSelectedRow {
+                  let indexPath = sender as? IndexPath {
             controller.workId = notifications[indexPath.row].workId
             navigationController.setViewControllers([controller], animated: false)
-            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 
@@ -164,6 +163,16 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         }
         cell.thumbnail.setImage(with: notification.thumbnail)
         return cell
+    }
+
+    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if notifications[indexPath.row].workId != nil {
+            performSegue(withIdentifier: Segue.WORK, sender: indexPath)
+        } else if notifications[indexPath.row].userId != UserDefaults.standard.integer(forKey: Default.USER_ID) {
+            performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
+        } else {
+            delegate?.notificationDidTapProfile()
+        }
     }
 
     struct Notification {

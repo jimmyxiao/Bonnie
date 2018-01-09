@@ -1094,7 +1094,6 @@
                                             <outlet property="profileImage" destination="CET-4l-4Ng" id="ytC-el-Svk"/>
                                             <outlet property="profileName" destination="Qag-UD-sMC" id="RGV-CH-NGB"/>
                                             <outlet property="thumbnail" destination="gM0-9w-7lz" id="PFF-Fc-gsu"/>
-                                            <segue destination="qCL-XZ-s9R" kind="presentation" id="efq-1z-K0j"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1135,6 +1134,7 @@
                         <outlet property="loading" destination="hdI-dF-gke" id="IkB-n6-kfJ"/>
                         <outlet property="tableView" destination="TBo-Ho-Wan" id="QJL-cA-opY"/>
                         <segue destination="6m7-rv-1Ux" kind="show" identifier="accountSegue" id="28q-dZ-TbL"/>
+                        <segue destination="qCL-XZ-s9R" kind="presentation" identifier="workSegue" id="LLV-OV-k36"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5e3-Xf-zpr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -8054,9 +8054,9 @@ AAAAAAAAAAAAAAAAAAWIqA
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="efq-1z-K0j"/>
+        <segue reference="LLV-OV-k36"/>
         <segue reference="Kc0-Wa-PEp"/>
         <segue reference="GKN-31-Thb"/>
-        <segue reference="1sg-vk-6Jn"/>
+        <segue reference="28q-dZ-TbL"/>
     </inferredMetricsTieBreakers>
 </document>
