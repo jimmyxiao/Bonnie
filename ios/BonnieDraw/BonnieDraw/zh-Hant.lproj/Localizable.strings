@@ -23,7 +23,7 @@
 "alert_report_fail_description_empty" = "檢舉原因不可空白";
 "alert_report_fail_title" = "檢舉失敗，請再試一次";
 "alert_reset_content" = "按下清除會將畫面及草稿全部清除。";
-"alert_reset_title" = "重設";
+"alert_reset_title" = "清除";
 "alert_save_fail_description_empty" = "作品說明不可空白";
 "alert_save_fail_name_empty" = "用戶名稱不可空白";
 "alert_save_fail_title" = "儲存失敗";
@@ -36,7 +36,7 @@
 "alert_sign_in_fail_title" = "登入失敗";
 "alert_sign_out_content" = "確定要登出？";
 "alert_sign_up_fail_title" = "註冊失敗";
-"alert_sign_up_success_content" = "請於30分鐘內至您的電子信箱啟用帳號，即可登入使用各項功能。";
+"alert_sign_up_success_content" = "請於30分鐘內至您的電子信箱啟用帳號。";
 "alert_sign_up_success_title" = "註冊成功";
 "app_network_unreachable_content" = "請檢查您的網路連線狀態後重試";
 "app_network_unreachable_title" = "無網路連線";
@@ -62,16 +62,15 @@
 "more_edit_work" = "編輯作品";
 "more_remove_work" = "刪除作品";
 "more_report" = "檢舉";
-"notification_user_commented" = "在你的作品上留言";
-"notification_user_followed" = "開始追蹤你";
+"notification_user_followed" = "成為你的粉絲";
 "notification_user_liked" = "對你的作品按讚";
-"notification_user_messaged" = "發訊息給你";
+"notification_user_messaged" = "在你的作品留言";
 "report_other" = "其他";
 "report_sexual" = "內容色情";
 "report_violence" = "內容暴力";
 "service_download_fail_title" = "下載失敗";
 "service_leave_message_fail_title" = "留言失敗";
-"setting_about" = "關於 BonnieDRAW";
+"setting_about" = "關於 BonnieDraw";
 "setting_change_password" = "更改密碼";
 "setting_edit_profile" = "編輯個人檔案";
 "setting_privacy_policy" = "隱私政策";

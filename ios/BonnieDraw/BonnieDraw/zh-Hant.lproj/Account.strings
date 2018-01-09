@@ -4,8 +4,6 @@
 "9de-I5-87O.text" = "電子郵件";
 "BaH-mh-ab3.text" = "新密碼";
 "Box-W9-7ze.text" = "性別";
-"bTs-G1-KZ1.title" = "帳號設定選項";
-"cdT-Xk-mYE.title" = "編輯個人檔案";
 "DcU-xk-z3n.text" = "電話";
 "Iw2-v8-pXs.placeholder" = "新密碼";
 "LIs-eb-QtJ.normalTitle" = "追蹤";
@@ -13,11 +11,13 @@
 "Lpi-D2-2WR.placeholder" = "目前密碼";
 "Oyk-xI-w7E.normalTitle" = "追蹤";
 "Oyk-xI-w7E.selectedTitle" = "追蹤中";
-"sRl-d2-wXp.placeholder" = "再次輸入新密碼";
-"tuN-qQ-hqy.text" = "尚無資料";
 "VO3-EG-zNU.text" = "姓名";
-"vpZ-kg-sjp.text" = "尚無資料";
 "XQV-AK-LI5.title" = "推薦名單";
 "XzV-KD-Je8.text" = "目前密碼";
+"bTs-G1-KZ1.title" = "帳號設定選項";
+"cdT-Xk-mYE.title" = "編輯個人檔案";
+"sRl-d2-wXp.placeholder" = "再次輸入新密碼";
+"tuN-qQ-hqy.text" = "尚無資料";
+"vpZ-kg-sjp.text" = "尚無資料";
 "yr0-tM-YgT.text" = "驗證";
 "zB1-4z-BU4.normalTitle" = "更換大頭貼";

@@ -152,14 +152,12 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
             switch type {
             case .followed:
                 cell.message.text = "notification_user_followed".localized
-            case .joined:
-                break
             case .commented:
                 cell.message.text = "notification_user_commented".localized
-            case .messaged:
-                cell.message.text = "notification_user_messaged".localized
             case .liked:
                 cell.message.text = "notification_user_liked".localized
+            default:
+                break
             }
         }
         cell.thumbnail.setImage(with: notification.thumbnail)

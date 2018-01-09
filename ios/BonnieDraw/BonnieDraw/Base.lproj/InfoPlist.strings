@@ -1,0 +1,2 @@
+NSCameraUsageDescription = "BonnieDraw will set the photo as your profile picture.";
+NSPhotoLibraryUsageDescription = "BonnieDraw will save the picture to your album.";

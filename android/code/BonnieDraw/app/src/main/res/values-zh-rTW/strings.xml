@@ -1,12 +1,10 @@
 <resources>
-    <string name="content_pornography">內容色情</string>
-    <string name="content_violence">內容暴力</string>
+    <string name="m01_01_copylink_successful">複製成功</string>
     <string name="m01_01_not_collection">您沒有收藏的作品</string>
     <string name="m01_01_not_follow_anyone">你沒有追蹤任何的使用者</string>
     <string name="m01_01_please_login">請先登入後再操作</string>
     <string name="m01_01_start_follow">開始追蹤</string>
     <string name="m02_01_data_parse_error">讀取錯誤</string>
-    <string name="report_reason">檢舉原因</string>
     <string name="u01_01_account">帳號</string>
     <string name="u01_01_fb_not_email">這個帳戶沒有電子郵件的資訊，無法登入</string>
     <string name="u01_01_forgot_password">忘記密碼</string>
@@ -18,11 +16,9 @@
     <string name="u01_01_not_signin">此帳號尚未申請</string>
     <string name="u01_01_or">或</string>
     <string name="u01_01_password">密碼</string>
-    <string name="u01_02_activate_account">請於30分鐘內至您的電子信箱啟用帳號，即可登入使用各項功能。</string>
-    <string name="u01_02_alert_email_empty">電子郵件不可空白</string>
+    <string name="u01_02_activate_account">請於30分鐘內至您的電子信箱啟用帳號。</string>
     <string name="u01_02_alert_sign_up_fail_title">註冊失敗</string>
     <string name="u01_02_alert_sign_up_success_title">註冊成功</string>
-    <string name="u01_02_email_invalid">電子郵件格式不正確</string>
     <string name="u01_02_not_account">已經有帳號？</string>
     <string name="u01_02_repassword">確認密碼</string>
     <string name="u01_02_sign_up">註冊</string>
@@ -30,6 +26,7 @@
     <string name="u01_02_sign_up_check_fail_title">請確認註冊資料</string>
     <string name="u01_02_sign_up_connection_fail_error">連接異常，請稍後再試</string>
     <string name="u01_02_sign_up_email_fail_content">這個Email已使用過，請換另一個</string>
+    <string name="u01_02_sign_up_repassword_empty">請再次輸入密碼</string>
     <string name="u01_03_alert_forget_password_content">請至您的電子信箱來獲得新密碼</string>
     <string name="u01_03_enter_email">請輸入註冊的E-MAIL，系統將密碼至您的信箱</string>
     <string name="u01_03_search_fail_no_account">查無此帳號</string>
@@ -42,15 +39,17 @@
     <string name="u02_01_popular">熱門畫作</string>
     <string name="u02_01_settings">帳號設定</string>
     <string name="u02_02_content_other">其他</string>
+    <string name="u02_02_content_pornography">內容色情</string>
+    <string name="u02_02_content_violance">內容暴力</string>
     <string name="u02_02_cop_link">複製連結</string>
-    <string name="u02_02_reason_report">檢舉原因：</string>
+    <string name="u02_02_reason_report">檢舉原因</string>
     <string name="u02_02_report">檢舉</string>
     <string name="u02_02_report_fail">檢舉失敗，請再試一次</string>
     <string name="u02_02_report_reason_empty">請填寫原因</string>
     <string name="u02_02_report_successful">檢舉成功</string>
     <string name="u02_02_report_work_title">檢舉作品</string>
     <string name="u02_02_share">分享</string>
-    <string name="u02_02_type_report">檢舉類別 :</string>
+    <string name="u02_02_type_report">檢舉類別</string>
     <string name="u02_03_add_comment">留言</string>
     <string name="u02_03_add_comment_fail">留言失敗</string>
     <string name="u02_03_add_comment_hint">留言...</string>
@@ -65,10 +64,10 @@
     <string name="u02_05_search">搜尋作品 or 作者</string>
     <string name="u03_01_not_notice">您沒有任何訊息</string>
     <string name="u03_01_notice_title">通知</string>
-    <string formatted="false" name="u03_01_set_comment">%s 在你的作品留言: %s</string>
+    <string name="u03_01_set_comment">在你的作品留言</string>
     <string formatted="false" name="u03_01_set_fb_friend">facebook 朋友 %s 加入BonnieDraw</string>
-    <string formatted="false" name="u03_01_set_following">%s 開始追蹤你</string>
-    <string formatted="false" name="u03_01_set_like">%s 對你的作品按讚</string>
+    <string name="u03_01_set_following">成為你的粉絲</string>
+    <string name="u03_01_set_like">對你的作品按讚</string>
     <string formatted="false" name="u03_01_set_share">你追蹤的 %s 分享一則作品</string>
     <string name="u04_01_bgcolor_ticket_current_list">背景顏色列表</string>
     <string name="u04_01_brush_opacity">筆刷不透明度</string>
@@ -111,6 +110,7 @@
     <string name="u06_01_fan">粉絲</string>
     <string name="u06_01_followers">粉絲數</string>
     <string name="u06_01_posts">作品數</string>
+    <string name="u06_01_search_user">搜尋特定的使用者</string>
     <string name="u06_02_not_suggested_friend">沒有推薦的好友名單</string>
     <string name="u06_02_only_fb_or_twitter">只有 Facebook 或 Twitter 的用戶 才可使用推薦好友名單</string>
     <string name="u06_02_suggested">推薦名單</string>
@@ -125,7 +125,7 @@
     <string name="u06_03_gender_no_specified">沒有指定</string>
     <string name="u06_03_phone_number">電話</string>
     <string name="u06_03_select_image">選擇圖片</string>
-    <string name="u06_04_about_bonniedraw">關於BonnieDraw</string>
+    <string name="u06_04_about_bonniedraw">關於 BonnieDraw</string>
     <string name="u06_04_account_setting_option">帳號設定選項</string>
     <string name="u06_04_change_password">更改密碼</string>
     <string name="u06_04_help_center">使用說明</string>
@@ -155,6 +155,8 @@
     <string name="uc_day_before_yesterday">前天</string>
     <string name="uc_delete">刪除</string>
     <string name="uc_email">電子郵件</string>
+    <string name="uc_email_empty">電子郵件不可空白</string>
+    <string name="uc_email_invalid">電子郵件格式不正確</string>
     <string name="uc_follow">追蹤</string>
     <string name="uc_following">追蹤中</string>
     <string name="uc_hour">點</string>
@@ -177,5 +179,4 @@
     <string name="uc_username">用戶名稱</string>
     <string name="uc_username_empty">用戶名稱不可空白</string>
     <string name="uc_yesterday">昨天</string>
-    <string name="work_class">檢舉類別</string>
 </resources>

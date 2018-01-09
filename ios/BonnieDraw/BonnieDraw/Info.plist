@@ -67,11 +67,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>BonnieDraw 會把相機照片設為大頭貼</string>
+    <string>BonnieDraw will set the photo as your profile picture.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>NSMicrophoneUsageDescription</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>BonnieDraw 會把圖存進相簿裡</string>
+    <string>BonnieDraw will save the picture to your album.</string>
 	<key>TwitterConsumerKey</key>
 	<string>HcXL8RV5wlnL1eM3OWSPcvN1N</string>
 	<key>TwitterConsumerSecret</key>

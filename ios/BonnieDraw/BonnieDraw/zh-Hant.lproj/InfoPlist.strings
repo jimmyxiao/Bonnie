@@ -1,0 +1,2 @@
+NSCameraUsageDescription = "BonnieDraw 會把相機照片設為大頭貼";
+NSPhotoLibraryUsageDescription = "BonnieDraw 會把圖存進相簿裡";
