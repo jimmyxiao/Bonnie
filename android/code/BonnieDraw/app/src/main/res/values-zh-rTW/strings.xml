@@ -81,7 +81,7 @@
     <string name="u04_01_exit_ask_update_sketch_title">是否要更新草稿</string>
     <string name="u04_01_grid_line_10x10">10 x 10 格線</string>
     <string name="u04_01_grid_line_20x20">20 x 20 格線</string>
-    <string name="u04_01_grid_line_3x3">service_download_fail_title</string>
+    <string name="u04_01_grid_line_3x3">3 x 3 格線</string>
     <string name="u04_01_grid_line_6x6">6 x 6 格線</string>
     <string name="u04_01_grid_line_no_grid">無格線</string>
     <string name="u04_01_new_color_swatch">新增色票</string>
