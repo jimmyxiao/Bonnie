@@ -25,7 +25,8 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.colorpick.ColorBean;
 import com.sctw.bonniedraw.colorpick.ColorPanelView;
 import com.sctw.bonniedraw.colorpick.ColorPickerView;
-import com.sctw.bonniedraw.colorpick.ColorTicket;
+import com.sctw.bonniedraw.colorpick.ColorRecyclerView;
+import com.sctw.bonniedraw.colorpick.ColorTicketAdapter;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.utility.TicketGridLayoutManger;
 
@@ -38,15 +39,16 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
-        ColorPickerView.OnColorChangedListener, TextWatcher, ColorTicket.OnItemListener {
+        ColorPickerView.OnColorChangedListener, TextWatcher, ColorTicketAdapter.OnItemListener {
 
     private View conentView;
     private Context context;
     private SharedPreferences mPref;
     private Button mBtnAddTicket;
-    private ImageButton mBtnOpen, mBtnRemove, mBtnLeftList, mBtnRightList;
-    private RecyclerView mRv;
-    private ColorTicket mAdapterTicket;
+    private ImageButton mBtnOpen, mBtnRemove;
+    //private ImageButton  mBtnLeftList, mBtnRightList;
+    private ColorRecyclerView mColorRv;
+    private ColorTicketAdapter mAdapterTicket;
     private ColorPickerView mColorPicker;
     private ColorPanelView mColorPanel;
     private EditText mEditTextHex;
@@ -152,24 +154,22 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
         mColorPanel = (ColorPanelView) conentView.findViewById(R.id.cpv_colorpanel);
         mEditTextHex = (EditText) conentView.findViewById(R.id.editText_hex_color);
         mBtnAddTicket = (Button) conentView.findViewById(R.id.btn_add_ticket);
-        mBtnLeftList = conentView.findViewById(R.id.imgBtn_color_list_left);
-        mBtnRightList = conentView.findViewById(R.id.imgBtn_color_list_right);
+        //mBtnLeftList = conentView.findViewById(R.id.imgBtn_color_list_left);
+        //mBtnRightList = conentView.findViewById(R.id.imgBtn_color_list_right);
         mColorPicker = (ColorPickerView) conentView.findViewById(R.id.cpv_colorpicker);
         mBtnOpen = (ImageButton) conentView.findViewById(R.id.imgBtn_colorpick_open);
         mBtnRemove = (ImageButton) conentView.findViewById(R.id.imgBtn_ticket_remove);
-        mRv = (RecyclerView) conentView.findViewById(R.id.recyclerView_color_tickets);
+        mColorRv = (ColorRecyclerView) conentView.findViewById(R.id.recyclerView_color_tickets);
         mColorPicker.setColor(color, true);
         mColorPanel.setColor(color);
-        mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_bgcolor_ticket_current_list), miPoint));
+        //mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_bgcolor_ticket_current_list), miPoint));
+        mTvColorListHint.setText("");
         setHex(color);
         conentView.setOnTouchListener(this);
         mColorPicker.setOnColorChangedListener(this);
         mEditTextHex.addTextChangedListener(this);
-        TicketGridLayoutManger gridLayoutManager = new TicketGridLayoutManger(context, 9, LinearLayoutManager.VERTICAL, false);
-        gridLayoutManager.setScrollEnabled(false);
-        mAdapterTicket = new ColorTicket(getCurrentColorList(), this);
-        mRv.setAdapter(mAdapterTicket);
-        mRv.setLayoutManager(gridLayoutManager);
+        mAdapterTicket = new ColorTicketAdapter(getCurrentColorList(), this);
+        mColorRv.setAdapter(mAdapterTicket);
         mEditTextHex.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -215,6 +215,8 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
     }
 
     private void setOnClick() {
+        //左右按鈕先隱藏
+        /*
         mBtnLeftList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -223,9 +225,10 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
                     miPoint = 3;
                 }
                 mAdapterTicket.removeAllTrace();
-                mAdapterTicket = new ColorTicket(getCurrentColorList(), BgColorPopup.this);
+                mAdapterTicket = new ColorTicketAdapter(getCurrentColorList(), BgColorPopup.this);
                 mRv.setAdapter(mAdapterTicket);
-                mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_bgcolor_ticket_current_list), miPoint));
+                //mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_bgcolor_ticket_current_list), miPoint));
+
             }
         });
         mBtnRightList.setOnClickListener(new View.OnClickListener() {
@@ -236,11 +239,12 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
                     miPoint = 1;
                 }
                 mAdapterTicket.removeAllTrace();
-                mAdapterTicket = new ColorTicket(getCurrentColorList(), BgColorPopup.this);
+                mAdapterTicket = new ColorTicketAdapter(getCurrentColorList(), BgColorPopup.this);
                 mRv.setAdapter(mAdapterTicket);
-                mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_bgcolor_ticket_current_list), miPoint));
+                //mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_bgcolor_ticket_current_list), miPoint));
             }
         });
+        */
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

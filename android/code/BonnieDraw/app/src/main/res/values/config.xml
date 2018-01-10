@@ -1,0 +1,18 @@
+<resources>
+
+    <string name="app_name">BonnieDraw</string>
+    <string name="facebook_app_id">1376883092359322</string>
+    <string name="fb_login_protocol_scheme">fb1376883092359322</string>
+
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+    <string name="server_client_id">579888826124-32hn4mff2f1gmvo5kk6ep9u40hcoqv46.apps.googleusercontent.com</string>
+
+    <string name="title_activity_paint">PaintActivity</string>
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">HcXL8RV5wlnL1eM3OWSPcvN1N</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET" translatable="false">1efRU1i8Bz1aPzpPvnfP6RrM1MviYNJAtGDawpHQnAFuKYdTmO</string>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+    <string name="download_html">https://drive.google.com/drive/folders/188s49Eyy6pTZfNOUikmUj8MnesVQwu2g?usp=sharing</string>
+</resources>

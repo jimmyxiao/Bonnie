@@ -235,7 +235,7 @@
                 app:srcCompat="@drawable/icon_paint_left" />
 
             <ImageButton
-                android:id="@+id/imgBtn_paint_type1"
+                android:id="@+id/imgBtn_paint_type3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -244,7 +244,7 @@
                 android:paddingBottom="24dp"
                 android:paddingTop="8dp"
                 android:rotation="30"
-                app:srcCompat="@drawable/icon_paint_pen1" />
+                app:srcCompat="@drawable/icon_paint_pen3" />
 
             <ImageButton
                 android:id="@+id/imgBtn_paint_type2"
@@ -259,7 +259,7 @@
                 app:srcCompat="@drawable/icon_paint_pen2" />
 
             <ImageButton
-                android:id="@+id/imgBtn_paint_type3"
+                android:id="@+id/imgBtn_paint_type1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -268,7 +268,7 @@
                 android:paddingBottom="24dp"
                 android:paddingTop="8dp"
                 android:rotation="30"
-                app:srcCompat="@drawable/icon_paint_pen3" />
+                app:srcCompat="@drawable/icon_paint_pen1" />
 
             <ImageButton
                 android:id="@+id/imgBtn_paint_type4"

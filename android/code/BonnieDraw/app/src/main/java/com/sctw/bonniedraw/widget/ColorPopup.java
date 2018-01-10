@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,7 +23,8 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.colorpick.ColorBean;
 import com.sctw.bonniedraw.colorpick.ColorPanelView;
 import com.sctw.bonniedraw.colorpick.ColorPickerView;
-import com.sctw.bonniedraw.colorpick.ColorTicket;
+import com.sctw.bonniedraw.colorpick.ColorRecyclerView;
+import com.sctw.bonniedraw.colorpick.ColorTicketAdapter;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.utility.TicketGridLayoutManger;
 
@@ -38,15 +37,16 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class ColorPopup extends PopupWindow implements View.OnTouchListener,
-        ColorPickerView.OnColorChangedListener, TextWatcher, ColorTicket.OnItemListener {
+        ColorPickerView.OnColorChangedListener, TextWatcher, ColorTicketAdapter.OnItemListener {
 
     private View conentView;
     private Context context;
     private SharedPreferences mPref;
     private Button mBtnAddTicket;
-    private ImageButton mBtnOpen, mBtnRemove, mBtnLeftList, mBtnRightList;
-    private RecyclerView mRv;
-    private ColorTicket mAdapterTicket;
+    private ImageButton mBtnOpen, mBtnRemove;
+    //private ImageButton mBtnLeftList, mBtnRightList;
+    private ColorRecyclerView mColorRv;
+    private ColorTicketAdapter mAdapterTicket;
     private ColorPickerView mColorPicker;
     private ColorPanelView mColorPanel;
     private EditText mEditTextHex;
@@ -152,24 +152,32 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
         mColorPanel = (ColorPanelView) conentView.findViewById(R.id.cpv_colorpanel);
         mEditTextHex = (EditText) conentView.findViewById(R.id.editText_hex_color);
         mBtnAddTicket = (Button) conentView.findViewById(R.id.btn_add_ticket);
-        mBtnLeftList = conentView.findViewById(R.id.imgBtn_color_list_left);
-        mBtnRightList = conentView.findViewById(R.id.imgBtn_color_list_right);
+        //左右按鈕先隱藏
+        //mBtnLeftList = conentView.findViewById(R.id.imgBtn_color_list_left);
+        //mBtnRightList = conentView.findViewById(R.id.imgBtn_color_list_right);
         mColorPicker = (ColorPickerView) conentView.findViewById(R.id.cpv_colorpicker);
         mBtnOpen = (ImageButton) conentView.findViewById(R.id.imgBtn_colorpick_open);
         mBtnRemove = (ImageButton) conentView.findViewById(R.id.imgBtn_ticket_remove);
-        mRv = (RecyclerView) conentView.findViewById(R.id.recyclerView_color_tickets);
+        mColorRv = (ColorRecyclerView) conentView.findViewById(R.id.recyclerView_color_tickets);
         mColorPicker.setColor(color, true);
         mColorPanel.setColor(color);
-        mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_color_ticket_current_list), miPoint));
+        //mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_color_ticket_current_list), miPoint));
+        //顯示共幾頁在第幾頁 暫不處理
+        mTvColorListHint.setText("");
         setHex(color);
         conentView.setOnTouchListener(this);
         mColorPicker.setOnColorChangedListener(this);
         mEditTextHex.addTextChangedListener(this);
-        TicketGridLayoutManger gridLayoutManager = new TicketGridLayoutManger(context, 9, LinearLayoutManager.VERTICAL, false);
-        gridLayoutManager.setScrollEnabled(false);
-        mAdapterTicket = new ColorTicket(getCurrentColorList(), this);
-        mRv.setAdapter(mAdapterTicket);
-        mRv.setLayoutManager(gridLayoutManager);
+        //TicketGridLayoutManger gridLayoutManager = new TicketGridLayoutManger(context, 9, LinearLayoutManager.VERTICAL, false);
+        //gridLayoutManager.setScrollEnabled(false);
+        mAdapterTicket = new ColorTicketAdapter(getCurrentColorList(), this);
+        mColorRv.setAdapter(mAdapterTicket);
+        // mRv.setLayoutManager(gridLayoutManager);
+        // 设置行数和列数
+        mColorRv.setPageSize(2, 9);
+        // 设置页间距
+        mColorRv.setPageMargin(30);
+
         mEditTextHex.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -215,19 +223,25 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     }
 
     private void setOnClick() {
+        /*
         mBtnLeftList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 miPoint--;
                 if (miPoint == 0) {
                     miPoint = 3;
                 }
                 mAdapterTicket.removeAllTrace();
-                mAdapterTicket = new ColorTicket(getCurrentColorList(), ColorPopup.this);
-                mRv.setAdapter(mAdapterTicket);
-                mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_color_ticket_current_list), miPoint));
+                mAdapterTicket = new ColorTicketAdapter(getCurrentColorList(), ColorPopup.this);
+                mColorRv.setAdapter(mAdapterTicket);
+                //mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_color_ticket_current_list), miPoint));
+
+
             }
         });
+        */
+        /*
         mBtnRightList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -236,11 +250,13 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                     miPoint = 1;
                 }
                 mAdapterTicket.removeAllTrace();
-                mAdapterTicket = new ColorTicket(getCurrentColorList(), ColorPopup.this);
-                mRv.setAdapter(mAdapterTicket);
-                mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_color_ticket_current_list), miPoint));
+                mAdapterTicket = new ColorTicketAdapter(getCurrentColorList(), ColorPopup.this);
+                mColorRv.setAdapter(mAdapterTicket);
+                //mTvColorListHint.setText(String.format(context.getString(R.string.u04_01_color_ticket_current_list), miPoint));
             }
         });
+        */
+
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,13 +283,16 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
         mBtnAddTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAdapterTicket.getItemCount() <= 17) {
+                //if (mAdapterTicket.getItemCount() <= 17) {
                     mAdapterTicket.set_mSelectedPos(0);
                     mAdapterTicket.addNewColor(new ColorBean(color, true));
                     mAdapterTicket.notifyDataSetChanged();
-                } else {
-                    ToastUtil.createToastWindow(context, context.getString(R.string.u04_01_color_ticket_is_full), PxDpConvert.getSystemHight(context) / 4);
-                }
+                    mAdapterTicket.notifyItemInserted(mAdapterTicket.getItemCount());
+                    mColorRv.getLayoutManager().scrollToPosition(mAdapterTicket.getItemCount()-1);
+                    //mColorRv.scrollToPosition(mAdapterTicket.getItemCount());
+                    //} else {
+                 //   ToastUtil.createToastWindow(context, context.getString(R.string.u04_01_color_ticket_is_full), PxDpConvert.getSystemHight(context) / 4);
+               // }
             }
         });
     }
