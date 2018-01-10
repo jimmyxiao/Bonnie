@@ -54,7 +54,7 @@
     <string name="u02_03_add_comment_hint">Make a comment</string>
     <string name="u02_03_delete_comment">Delete</string>
     <string name="u02_03_first_comment">Be first to comment</string>
-    <string name="u02_04_date">Date</string>
+    <string name="u02_04_date">Date : %s</string>
     <string name="u02_04_delete_content">Delete drawing?</string>
     <string name="u02_04_delete_successful">Delete successful</string>
     <string name="u02_04_delete_title">Delete</string>

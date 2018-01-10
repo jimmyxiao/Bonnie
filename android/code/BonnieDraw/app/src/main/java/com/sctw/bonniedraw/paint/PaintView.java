@@ -679,7 +679,7 @@ public class PaintView extends View {
 
 
     private void beforeLine(float x, float y) {
-        Brush brush = mBrush;
+        //Brush brush = mBrush;
         mLineColor = mColor;
     }
 
@@ -755,20 +755,27 @@ public class PaintView extends View {
     }
 
     private void mergeWithAlpha(float alpha, Paint paint, RectF rectF) {
-        if (mBrush.useSingleLayerStroke) {
-            paint.setAlpha((int) (255.0f * alpha));
-        } else {
-            paint.setAlpha(255);
-        }
-        this.mMergedLayerCanvas.save();
-        this.mMergedLayerCanvas.clipRect(rectF);
-        this.mMergedLayerCanvas.drawBitmap(this.mDrawingLayer, 0.0f, 0.0f, paint);
-        this.mMergedLayerCanvas.restore();
-        clearDrawingLayer(rectF);
-        if (!(this.mIsBatchDraw)) {
-            Rect rect = new Rect();
-            rectF.round(rect);
-            invalidate(rect);
+       if(this.mMergedLayerCanvas ==null)
+           return;
+
+        try {
+            if (mBrush.useSingleLayerStroke) {
+                paint.setAlpha((int) (255.0f * alpha));
+            } else {
+                paint.setAlpha(255);
+            }
+            this.mMergedLayerCanvas.save();
+            this.mMergedLayerCanvas.clipRect(rectF);
+            this.mMergedLayerCanvas.drawBitmap(this.mDrawingLayer, 0.0f, 0.0f, paint);
+            this.mMergedLayerCanvas.restore();
+            clearDrawingLayer(rectF);
+            if (!(this.mIsBatchDraw)) {
+                Rect rect = new Rect();
+                rectF.round(rect);
+                invalidate(rect);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -804,15 +811,20 @@ public class PaintView extends View {
     private void drawBrushWithScale(float x, float y, float tipScale) {
 
         this.mNormalPaint.setAlpha(255);
-
-        if (tipScale == 1.0f) {
-            mDrawingLayerCanvas.drawBitmap(mPathLayer, x - mPathWidthHalf, y - mPathWidthHalf, mNormalPaint);
-        } else {
-            mDrawingLayerCanvas.save();
-            mDrawingLayerCanvas.translate(x, y);
-            mDrawingLayerCanvas.scale(tipScale, tipScale);
-            mDrawingLayerCanvas.drawBitmap(mPathLayer, -mPathWidthHalf, -mPathWidthHalf, mNormalPaint);
-            mDrawingLayerCanvas.restore();
+        if(mDrawingLayerCanvas == null)
+            return;
+        try {
+            if (tipScale == 1.0f) {
+                mDrawingLayerCanvas.drawBitmap(mPathLayer, x - mPathWidthHalf, y - mPathWidthHalf, mNormalPaint);
+            } else {
+                mDrawingLayerCanvas.save();
+                mDrawingLayerCanvas.translate(x, y);
+                mDrawingLayerCanvas.scale(tipScale, tipScale);
+                mDrawingLayerCanvas.drawBitmap(mPathLayer, -mPathWidthHalf, -mPathWidthHalf, mNormalPaint);
+                mDrawingLayerCanvas.restore();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -1019,9 +1031,13 @@ public class PaintView extends View {
         @Override
         protected void onTouchUp(float x, float y) {
             //Log.d("PaintView", "onTouchUp");
-            PaintView.this.destLineThread();
-            if (mBitmapList.size() > 10) mBitmapList.remove(0);
-            mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
+            try {
+                PaintView.this.destLineThread();
+                if (mBitmapList.size() > 10) mBitmapList.remove(0);
+                mBitmapList.add(Bitmap.createBitmap(getForegroundBitmap()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

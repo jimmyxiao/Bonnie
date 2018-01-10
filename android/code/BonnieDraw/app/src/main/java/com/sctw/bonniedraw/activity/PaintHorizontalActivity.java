@@ -118,7 +118,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
         mFrameLayoutFreePaint.addView(mPaintView);
         //********Init Brush*******
         mSeekbarOpacity.setProgress(100);
-        mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
+        mPaintView.initDefaultBrush(Brushes.getNewOneBrush(mCurrentBrushId));
         mSeekbarPopup = new SizePopup(this, this, (int) mPaintView.getBrush().getMaxSize(), (int) mPaintView.getBrush().getMinSize());
         mPaintView.setDrawingAlpha(100 / 100.0f);
         int lastColor = getSharedPreferences("colors", MODE_PRIVATE).getInt("lastColor", Color.BLACK);
@@ -762,7 +762,7 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
 
     private void setBrush(int brushID) {
         int tempSize = mPaintView.getBrush().getSize();
-        Brush brush = Brushes.get(getApplicationContext())[brushID];
+        Brush brush = Brushes.getNewOneBrush(brushID);
         mPaintView.setBrush(brush);
         mPaintView.setDrawingSize(tempSize);
     }

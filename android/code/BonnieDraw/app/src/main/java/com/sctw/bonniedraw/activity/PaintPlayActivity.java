@@ -70,7 +70,7 @@ public class PaintPlayActivity extends AppCompatActivity {
         mFileBDW = new File(getFilesDir().getPath() + BACKUP_FILE_BDW);
         mBDWFileReader = new BDWFileReader();
         if (mFileBDW.exists()) mBDWFileReader.readFromFile(mFileBDW);
-        Brush brush = Brushes.get(getApplicationContext())[mCurrentBrushId];
+        Brush brush = Brushes.getNewOneBrush(mCurrentBrushId);
         mPaintView.initDefaultBrush(brush);
         setImgBtnOnClick();
         showSpeed();
@@ -88,9 +88,9 @@ public class PaintPlayActivity extends AppCompatActivity {
                             mPaintView.setDrawingBgColor(tagpoint.get_iColor());
                         } else if (tagpoint.get_iBrush() != 0) {
                             int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
-                            mPaintView.setBrush(Brushes.get(getApplicationContext())[paintId]);
+                            mPaintView.setBrush(Brushes.getNewOneBrush(paintId));
                         } else {
-                            mPaintView.setBrush(Brushes.get(getApplicationContext())[9]);
+                            mPaintView.setBrush(Brushes.getNewOneBrush(9));
                         }
                         if (tagpoint.get_iColor() != 0) {
                             mPaintView.setDrawingColor(tagpoint.get_iColor());
@@ -122,7 +122,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 }
                 miPointCount--;
                 miPointCurrent++;
-                showProgress();
+                //showProgress();
 
                 if (brun) {
                     //畫完一筆
@@ -243,7 +243,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 } else if (miPointCount == 0) {
                     ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.u04_05_play_end), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                 }
-                showProgress();
+                //showProgress();
             }
         });
 
@@ -268,7 +268,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 } else if (miPointCurrent == 0) {
                     ToastUtil.createToastWindow(PaintPlayActivity.this, getString(R.string.uc_undo_limit), PxDpConvert.getSystemHight(getApplicationContext()) / 3);
                 }
-                showProgress();
+                //showProgress();
             }
         });
 
@@ -279,7 +279,7 @@ public class PaintPlayActivity extends AppCompatActivity {
                 if (miPointCount == 0) {
                     mFrameLayoutFreePaint.removeAllViews();
                     mPaintView = mPaintView = new PaintView(PaintPlayActivity.this, true, true);
-                    mPaintView.initDefaultBrush(Brushes.get(getApplicationContext())[mCurrentBrushId]);
+                    mPaintView.initDefaultBrush(Brushes.getNewOneBrush(mCurrentBrushId));
                     mFrameLayoutFreePaint.addView(mPaintView);
                     mPaintView.mListTagPoint = new ArrayList<>(mBDWFileReader.m_tagArray);
                     miPointCount = mPaintView.mListTagPoint.size();
@@ -308,6 +308,7 @@ public class PaintPlayActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        miPointCount=0;
         mHandlerTimerPlay.removeCallbacks(rb_play);
         finish();
     }

@@ -161,7 +161,9 @@ public class PlayFragment extends DialogFragment {
         getSingleWork(false);
         setOnClick();
         showSpeed();
-        mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
+        //mPaintView.initDefaultBrush(Brushes.get(getActivity().getApplicationContext())[0]);
+        mPaintView.initDefaultBrush(Brushes.getNewOneBrush(0));
+
     }
 
     private Runnable rb_play = new Runnable() {
@@ -190,9 +192,9 @@ public class PlayFragment extends DialogFragment {
                                     } else if (tagpoint.get_iBrush() != 0) {
                                         mPaintView.getBrush().setEraser(false);
                                         int paintId = mPaintView.selectPaint(tagpoint.get_iBrush());
-                                        mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[paintId]);
+                                        mPaintView.setBrush(Brushes.getNewOneBrush(paintId));
                                     }else {
-                                        mPaintView.setBrush(Brushes.get(getActivity().getApplicationContext())[9]);
+                                        mPaintView.setBrush(Brushes.getNewOneBrush(9));
                                     }
 
                                     if (tagpoint.get_iColor() != 0) {

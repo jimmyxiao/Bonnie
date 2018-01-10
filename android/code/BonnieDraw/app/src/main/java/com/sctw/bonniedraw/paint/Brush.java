@@ -8,7 +8,7 @@ import com.sctw.bonniedraw.R;
 /**
  * Created by marco.granatiero on 07/08/2014.
  */
-public class Brush {
+public class Brush implements Cloneable {
 
     private static int[] BRUSH_MASK_IMAGE_ARRAY_STYLEABLE = null;
     public static final int BRUSH_TYPE_PHOTO = 1;
@@ -59,6 +59,13 @@ public class Brush {
     public boolean useSmudging;
     public boolean useSingleLayerStroke;
 
+
+    public Object clone() throws CloneNotSupportedException {
+       // Brush newBrush = new Brush(this.id);
+       // return  newBrush;
+        return super.clone();
+    }
+
     static {
         BRUSH_MASK_IMAGE_ARRAY_STYLEABLE = new int[]{R.styleable.Brush_maskImageArray0,
                 R.styleable.Brush_maskImageArray1, R.styleable.Brush_maskImageArray2,
@@ -72,7 +79,7 @@ public class Brush {
         this.id = id;
     }
 
-    private void loadFromTypedArray(TypedArray a) {
+    public void loadFromTypedArray(TypedArray a) {
         this.angle = a.getFloat(R.styleable.Brush_angle, 0.0f);
         this.angleJitter = a.getFloat(R.styleable.Brush_angleJitter, 0.0f);
         this.autoStrokeCount = a.getInt(R.styleable.Brush_autoStrokeCount, 0);
@@ -121,19 +128,11 @@ public class Brush {
         this.defaultColor = a.getColor(R.styleable.Brush_defaultColor, 0);
     }
 
-    public static Brush[] parseStyleData(Context context, int[] styleArray) {
-        Brush[] brushes = new Brush[styleArray.length];
-        int i = 0;
-        while (i < brushes.length) {
-            Brush brush = new Brush(i);
-            TypedArray a = context.obtainStyledAttributes(styleArray[i], R.styleable.Brush);
-            brush.loadFromTypedArray(a);
-            a.recycle();
-            brushes[i] = brush;
-            i++;
-        }
-        return brushes;
-    }
+
+
+
+
+
 
     public int getBrushType() {
         return this.coloringType == 0 ? COLORING_TYPE_NORMAL : COLORING_TYPE_REF_IMAGE_ALL_TIME;

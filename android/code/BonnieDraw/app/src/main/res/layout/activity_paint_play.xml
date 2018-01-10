@@ -53,6 +53,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textAlignment="center"
+            android:visibility="gone"
             android:textColor="@color/White" />
 
         <ImageButton

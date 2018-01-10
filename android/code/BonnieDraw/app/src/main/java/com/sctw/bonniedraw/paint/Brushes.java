@@ -1,6 +1,7 @@
 package com.sctw.bonniedraw.paint;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.SystemClock;
 
 import java.util.ArrayList;
@@ -44,10 +45,24 @@ public class Brushes {
         return mBrushList;
     }
 
+    public static Brush getNewOneBrush(int ipos) {
+        if (mBrushList != null && mBrushList.length>0) {
+            Brush brush = null;
+            try {
+                brush = (Brush) mBrushList[ipos].clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            return brush;
+        }
+        return null;
+    }
+
+
     public static final void loadBrushList(Context context) {
         if (mBrushList == null) {
             long t1 = SystemClock.elapsedRealtime();
-            mBrushList = Brush.parseStyleData(context, BRUSH_STYLES);
+            mBrushList = parseStyleData(context, BRUSH_STYLES);
             long t2 = SystemClock.elapsedRealtime();
             Brush[] arr$ = mBrushList;
             int len$ = arr$.length;
@@ -63,4 +78,20 @@ public class Brushes {
             }
         }
     }
+
+    public static Brush[] parseStyleData(Context context, int[] styleArray) {
+        Brush[] brushes = new Brush[styleArray.length];
+        int i = 0;
+        while (i < brushes.length) {
+            Brush brush = new Brush(i);
+            TypedArray a = context.obtainStyledAttributes(styleArray[i], R.styleable.Brush);
+            brush.loadFromTypedArray(a);
+            a.recycle();
+            brushes[i] = brush;
+            i++;
+        }
+        return brushes;
+    }
+
+
 }
