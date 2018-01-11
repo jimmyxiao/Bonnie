@@ -183,14 +183,14 @@ class CanvasViewController:
             controller.delegate = self
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
-            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.4)
             controller.preferredContentSize = CGSize(width: 60, height: DEBUG ? 240 : 180)
         } else if let controller = segue.destination as? SizePickerViewController {
             controller.delegate = self
             controller.value = Float(brush.minSize)
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
-            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.4)
             controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width * 0.6, height: 76)
         } else if let controller = segue.destination as? BrushPickerViewController {
             controller.delegate = self
@@ -202,7 +202,7 @@ class CanvasViewController:
             }
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
-            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.4)
             controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width * 0.6, height: DEBUG ? 256 : 212)
         } else if let controller = segue.destination as? ColorPickerViewController {
             controller.delegate = self
@@ -215,7 +215,7 @@ class CanvasViewController:
             }
             controller.popoverPresentationController?.delegate = self
             controller.popoverPresentationController?.canOverlapSourceViewRect = true
-            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            controller.popoverPresentationController?.backgroundColor = UIColor.black.withAlphaComponent(0.4)
             controller.preferredContentSize = CGSize(width: UIScreen.main.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.9 : 0.45), height: 204)
         } else if let controller = segue.destination as? CanvasAnimationViewController,
                   let image = sender as? UIImage {
