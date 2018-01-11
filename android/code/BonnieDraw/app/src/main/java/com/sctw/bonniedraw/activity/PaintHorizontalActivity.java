@@ -780,9 +780,9 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
             case MenuPopup.PAINT_SETTING_SAVE:
                 savePicture();
                 break;
-            case MenuPopup.PAINT_SETTING_EXTRA:
+          //  case MenuPopup.PAINT_SETTING_EXTRA:
                 //saveBdw();
-                break;
+          //      break;
         }
         mMenuPopupLand.dismiss();
     }

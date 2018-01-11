@@ -63,7 +63,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements WorkProfileAdapterList.WorkListOnClickListener, WorkProfileAdapterGrid.WorkGridOnClickListener {
+public class ProfileFragment extends Fragment implements WorkProfileAdapterList.WorkListOnClickListener, WorkProfileAdapterGrid.WorkGridOnClickListener ,PlayFragment.OnPlayFragmentListener {
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
     private CircleImageView imgPhoto;
@@ -86,6 +86,7 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
     private int miUserId;
     private int miStn = 1, miRc = 18;
     private UserInfoBean mUserInfo;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -383,15 +384,17 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
 
     public void refresh(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
-        DiffUtil.DiffResult diffResult;
+       // DiffUtil.DiffResult diffResult;
         if (mbGridMode) {
-            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), false);
-            diffResult.dispatchUpdatesTo(mAdapterGrid);
+             //   diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), true);
+           // diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterGrid.setData(workInfoBeanList);
+            mAdapterGrid.notifyDataSetChanged();
         } else {
-            diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), false);
-            diffResult.dispatchUpdatesTo(mAdapterGrid);
+            //diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterList.getData(), workInfoBeanList), true);
+           // diffResult.dispatchUpdatesTo(mAdapterGrid);
             mAdapterList.setData(workInfoBeanList);
+            mAdapterList.notifyDataSetChanged();
         }
     }
 
@@ -571,7 +574,8 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
         bundle.putInt("wid", wid);
         PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
-        playFragment.show(getFragmentManager(), "TAG");
+        playFragment.setTargetFragment(this, 0);
+        playFragment.show(getFragmentManager(), "play fragment");
     }
 
     @Override
@@ -741,5 +745,14 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
 
     public void showViewToTop() {
         mRv.smoothScrollToPosition(0);
+    }
+
+
+    @Override
+    public void onDeleteWorkSuccess() {
+        // reload works
+        updateProfileInfo();
+        getWorksList(REFRESH_WORKS_LIST);
+
     }
 }

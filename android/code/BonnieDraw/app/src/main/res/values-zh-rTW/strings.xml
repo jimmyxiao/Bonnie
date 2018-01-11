@@ -151,7 +151,7 @@
     <string name="uc_commit">確定</string>
     <string name="uc_connect_failed_title">連線失敗</string>
     <string name="uc_connection_failed">請檢查您的網路連線狀態後重試</string>
-    <string name="uc_date_format">XX年XX月XX日 HH:MM</string>
+    <string name="uc_date_format">yyyy年MM月dd日 ahh:mm</string>
     <string name="uc_day_before_yesterday">前天</string>
     <string name="uc_delete">刪除</string>
     <string name="uc_email">電子郵件</string>

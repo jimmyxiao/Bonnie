@@ -33,6 +33,7 @@ import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
+import com.sctw.bonniedraw.utility.SingleMediaScanner;
 import com.sctw.bonniedraw.widget.BgColorPopup;
 import com.sctw.bonniedraw.widget.ColorPopup;
 import com.sctw.bonniedraw.widget.MenuPopup;
@@ -782,9 +783,9 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             case MenuPopup.PAINT_SETTING_SAVE:
                 savePicture();
                 break;
-            case MenuPopup.PAINT_SETTING_EXTRA:
+           // case MenuPopup.PAINT_SETTING_EXTRA:
                 //saveBdw();
-                break;
+            //    break;
         }
         mMenuPopup.dismiss();
     }
@@ -813,9 +814,9 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         String filename = formatter.format(curDate);
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             try {
-                File vPath = new File(Environment.getExternalStorageDirectory() + "/Screenshots");
+                File vPath = new File(Environment.getExternalStorageDirectory() + "/BonnieDraw");
                 if (!vPath.exists()) vPath.mkdirs();
-                File pngfile = new File(Environment.getExternalStorageDirectory() + "/Screenshots/" + "BDW" + filename + ".png");
+                File pngfile = new File(Environment.getExternalStorageDirectory() + "/BonnieDraw/" + "BDW" + filename + ".png");
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.setDrawingCacheEnabled(true);
                 mPaintView.buildDrawingCache(true);
@@ -824,6 +825,9 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 mPaintView.setDrawingCacheEnabled(false);
                 ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.u04_01_saved_photo_album), PxDpConvert.getSystemHight(this) / 3);
                 mMenuPopup.dismiss();
+
+                new SingleMediaScanner(this, pngfile);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

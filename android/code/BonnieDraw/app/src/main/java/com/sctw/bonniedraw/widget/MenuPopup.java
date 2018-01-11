@@ -20,7 +20,7 @@ public class MenuPopup extends BasePopupWindow implements View.OnClickListener {
     public static final int PAINT_SETTING_GRID = 1;
     public static final int PAINT_SETTING_BG_COLOR = 2;
     public static final int PAINT_SETTING_SAVE = 3;
-    public static final int PAINT_SETTING_EXTRA = 4;
+    //public static final int PAINT_SETTING_EXTRA = 4;   //paint setting 先不處理
     private MenuPopupOnClick listener;
     private boolean isLand;
 
@@ -33,7 +33,7 @@ public class MenuPopup extends BasePopupWindow implements View.OnClickListener {
         findViewById(R.id.imgBtn_paint_setting_grid).setOnClickListener(this);
         findViewById(R.id.imgBtn_paint_setting_bg_color).setOnClickListener(this);
         findViewById(R.id.imgBtn_paint_setting_save).setOnClickListener(this);
-        findViewById(R.id.imgBtn_paint_setting_extra).setOnClickListener(this);
+        //findViewById(R.id.imgBtn_paint_setting_extra).setOnClickListener(this);
         this.listener = listener;
     }
 
@@ -93,9 +93,9 @@ public class MenuPopup extends BasePopupWindow implements View.OnClickListener {
             case R.id.imgBtn_paint_setting_save:
                 listener.onPopupClick(PAINT_SETTING_SAVE);
                 break;
-            case R.id.imgBtn_paint_setting_extra:
-                listener.onPopupClick(PAINT_SETTING_EXTRA);
-                break;
+        //    case R.id.imgBtn_paint_setting_extra:
+        //        listener.onPopupClick(PAINT_SETTING_EXTRA);
+       //         break;
             default:
                 break;
         }

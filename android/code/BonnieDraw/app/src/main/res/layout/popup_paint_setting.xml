@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:background="@color/Transparent"
             android:padding="8dp"
+            android:visibility="gone"
             app:srcCompat="@drawable/system_icon" />
     </LinearLayout>
 </RelativeLayout>
