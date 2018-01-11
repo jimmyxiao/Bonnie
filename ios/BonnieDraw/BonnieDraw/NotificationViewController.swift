@@ -173,6 +173,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         } else {
             delegate?.notificationDidTapProfile()
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     struct Notification {

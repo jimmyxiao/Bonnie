@@ -29,7 +29,6 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let indexPath = tableView.indexPathForSelectedRow {
             segue.destination.title = settings[indexPath.row].title
-            tableView.deselectRow(at: indexPath, animated: true)
         }
         if let controller = segue.destination as? AccountEditViewController {
             controller.delegate = self
@@ -98,8 +97,8 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                     }
                 }
             }
-            tableView.deselectRow(at: indexPath, animated: true)
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     internal func accountEdit(profileDidChange profile: Profile) {
