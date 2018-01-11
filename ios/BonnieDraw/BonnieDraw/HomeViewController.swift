@@ -29,6 +29,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let collectionImageSelected = UIImage(named: "collect_ic_on")
     private var postData: [String: Any] = ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128]
     private var lastWorkType = 2
+    private var shouldReload = false
+    private var originContentOffset: CGPoint?
 
     override func viewDidLoad() {
         navigationItem.titleView = titleView
@@ -48,6 +50,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             performSegue(withIdentifier: Segue.WORK, sender: id)
             AppDelegate.pendingWorkId = nil
         } else if works.isEmpty {
+            if originContentOffset == nil {
+                originContentOffset = tableView.contentOffset
+            }
             downloadData()
         } else if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 > UPDATE_INTERVAL {
             downloadData()
@@ -171,8 +176,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         default:
             return
         }
-        tableView.setContentOffset(.zero, animated: true)
-        downloadData()
+        if tableView.contentOffset != originContentOffset && !tableViewWorks.isEmpty {
+            shouldReload = true
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        } else {
+            downloadData()
+        }
     }
 
     private func downloadData() {
@@ -231,6 +240,13 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     }
                 }
             }
+        }
+    }
+
+    internal func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        if shouldReload {
+            shouldReload = false
+            downloadData()
         }
     }
 
@@ -698,6 +714,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
+
     func homeDidTapProfile()
+
     func home(enableMenuGesture enable: Bool)
 }
