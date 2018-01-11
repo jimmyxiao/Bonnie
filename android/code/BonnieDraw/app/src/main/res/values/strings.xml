@@ -150,7 +150,7 @@
     <string name="uc_commit">OK</string>
     <string name="uc_connect_failed_title">Connection failed</string>
     <string name="uc_connection_failed">Please check your internet connection and try again.</string>
-    <string name="uc_date_format">XX Year XX Month XX Date HH:MM</string>
+    <string name="uc_date_format">yyyy年MM月dd日 ahh:mm</string>
     <string name="uc_day_before_yesterday">The day before yesterday</string>
     <string name="uc_delete">Delete</string>
     <string name="uc_email">Email</string>
