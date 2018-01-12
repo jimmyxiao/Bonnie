@@ -31,6 +31,7 @@ import com.sctw.bonniedraw.utility.BDWFileWriter;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.ImageUtil;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.utility.SingleMediaScanner;
@@ -150,9 +151,11 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         Spinner privacyTypes = (Spinner) mFullScreenDialog.findViewById(R.id.paint_save_work_privacytype);
        // mPaintView.setDrawingCacheEnabled(true);
         mPaintView.buildDrawingCache(true);
-        Bitmap temp = mPaintView.getDrawingCache(true);
-       // mPaintView.setDrawingCacheEnabled(false);
-        workPreview.setImageBitmap(temp);
+        Bitmap bmpView = mPaintView.getDrawingCache(true);
+        if(bmpView == null)
+            bmpView = ImageUtil.getViewBitmap(mPaintView);
+
+        workPreview.setImageBitmap(bmpView);
         //設定公開權限與預設值
         ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
                 this, R.array.privacies, R.layout.item_spinner);
@@ -263,8 +266,11 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 mPaintView.setDrawingCacheEnabled(true);
                 mPaintView.buildDrawingCache(true);
-                Bitmap temp = mPaintView.getDrawingCache(true);
-                temp.compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+                Bitmap bmpView = mPaintView.getDrawingCache(true);
+                if(bmpView == null)
+                    bmpView = ImageUtil.getViewBitmap(mPaintView);
+
+                bmpView.compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
 
                 bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()));
                 mPaintView.setDrawingCacheEnabled(false);
@@ -820,8 +826,20 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                 FileOutputStream fos = new FileOutputStream(pngfile);
                 mPaintView.setDrawingCacheEnabled(true);
                 mPaintView.buildDrawingCache(true);
-                mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.close();
+                Bitmap bmpView = mPaintView.getDrawingCache();
+                if(bmpView == null)
+                    bmpView = ImageUtil.getViewBitmap(mPaintView);
+
+                if(bmpView != null) {
+                    bmpView.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
+                }
+                else {
+                    fos.close();
+                    // show error message
+                    return ;
+                }
+
                 mPaintView.setDrawingCacheEnabled(false);
                 ToastUtil.createToastWindow(PaintActivity.this, getString(R.string.u04_01_saved_photo_album), PxDpConvert.getSystemHight(this) / 3);
                 mMenuPopup.dismiss();

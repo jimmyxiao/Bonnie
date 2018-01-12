@@ -1,8 +1,6 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.content.Intent;
-import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -106,7 +106,7 @@ public class PlayFragment extends DialogFragment {
     private OnPlayFragmentListener callbackDeleteWork;
 
     public interface OnPlayFragmentListener {
-        public void onDeleteWorkSuccess();
+        void onDeleteWorkSuccess();
     }
 
 

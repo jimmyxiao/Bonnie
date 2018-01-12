@@ -34,6 +34,7 @@ import com.sctw.bonniedraw.utility.BDWFileWriter;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.ImageUtil;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.BgColorPopup;
@@ -154,8 +155,12 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
         Button saveWork = (Button) mFullScreenDialog.findViewById(R.id.btn_save_paint_save);
         ImageButton saveCancel = (ImageButton) mFullScreenDialog.findViewById(R.id.btn_save_paint_back);
         Spinner privacyTypes = (Spinner) mFullScreenDialog.findViewById(R.id.paint_save_work_privacytype);
-        Bitmap temp = mPaintView.getDrawingCache(true);
-        workPreview.setImageBitmap(temp);
+        Bitmap bmpView = mPaintView.getDrawingCache(true);
+
+        if(bmpView == null)
+            bmpView = ImageUtil.getViewBitmap(mPaintView);
+
+        workPreview.setImageBitmap(bmpView);
         //設定公開權限與預設值
         ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
                 this, R.array.privacies, R.layout.item_spinner);
@@ -264,7 +269,14 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
             //上傳圖片
             case 1:
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+                Bitmap bmpView = mPaintView.getDrawingCache();
+                if(bmpView == null)
+                    bmpView = ImageUtil.getViewBitmap(mPaintView);
+
+                if(bmpView != null) {
+                    bmpView.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                }
+
                 bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()));
                 break;
             //上傳BDW檔案
@@ -815,7 +827,20 @@ public class PaintHorizontalActivity extends AppCompatActivity implements MenuPo
                 if (!vPath.exists()) vPath.mkdirs();
                 File pngfile = new File(Environment.getExternalStorageDirectory() + "/Screenshots/" + "BDW" + filename + ".png");
                 FileOutputStream fos = new FileOutputStream(pngfile);
-                mPaintView.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
+
+                Bitmap bmpView = mPaintView.getDrawingCache();
+                if(bmpView == null)
+                    bmpView = ImageUtil.getViewBitmap(mPaintView);
+
+                if(bmpView != null) {
+                    bmpView.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
+                }
+                else {
+                    fos.close();
+                    return ;
+                }
+
                 fos.close();
                 ToastUtil.createToastWindow(PaintHorizontalActivity.this, getString(R.string.u04_01_saved_photo_album), PxDpConvert.getSystemHight(this) / 3);
                 mMenuPopupLand.dismiss();

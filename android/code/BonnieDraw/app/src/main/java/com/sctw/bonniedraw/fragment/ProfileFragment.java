@@ -23,12 +23,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 import com.sctw.bonniedraw.R;
-import com.sctw.bonniedraw.adapter.WorkAdapterGrid;
-import com.sctw.bonniedraw.adapter.WorkAdapterList;
 import com.sctw.bonniedraw.adapter.WorkProfileAdapterGrid;
 import com.sctw.bonniedraw.adapter.WorkProfileAdapterList;
 import com.sctw.bonniedraw.bean.UserInfoBean;
@@ -43,33 +38,25 @@ import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
 import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements WorkProfileAdapterList.WorkListOnClickListener, WorkProfileAdapterGrid.WorkGridOnClickListener ,PlayFragment.OnPlayFragmentListener {
+public class ProfileFragment extends Fragment implements WorkProfileAdapterList.WorkListOnClickListener, WorkProfileAdapterGrid.WorkGridOnClickListener ,PlayFragment.OnPlayFragmentListener , EditProfileFragment.onEditProfileSuccess {
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
-    private CircleImageView imgPhoto;
-    private TextView mTextViewUserName, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
     private ImageButton mImgBtnBookmark, mImgBtnSetting, mImgBtnGrid, mImgBtnList, mImgBtnFriends;
-    private Button mBtnEdit;
     private List<WorkInfoBean> workInfoBeanList;
     private SwipeRefreshLayout mSwipeLayoutProfile;
     private RecyclerView mRv;
@@ -77,7 +64,6 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
     private WorkProfileAdapterGrid mAdapterGrid;
     private WorkProfileAdapterList mAdapterList;
     private GridLayoutManager gridLayoutManager;
-    private LinearLayout mLlFans, mLlFollow;
     private LinearLayoutManagerWithSmoothScroller layoutManager;
     private SharedPreferences prefs;
     private FragmentManager fragmentManager;
@@ -86,7 +72,6 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
     private int miUserId;
     private int miStn = 1, miRc = 18;
     private UserInfoBean mUserInfo;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,23 +86,14 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
         mUserInfo = new UserInfoBean();
         prefs = getActivity().getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
         miUserId = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, "null"));
-        imgPhoto = (CircleImageView) view.findViewById(R.id.circleImg_profile_photo);
         mProgressBar = view.findViewById(R.id.progressBar_profile);
         mProgressBar.bringToFront();
         mSwipeLayoutProfile = view.findViewById(R.id.swipeLayout_profile);
-        mLlFans = (LinearLayout) view.findViewById(R.id.ll_profile_fans);
-        mLlFollow = (LinearLayout) view.findViewById(R.id.ll_profile_follow);
-        mTextViewUserName = (TextView) view.findViewById(R.id.textView_profile_userName);
-        mTextViewUserdescription = view.findViewById(R.id.textView_profile_user_description);
-        mTextViewWorks = (TextView) view.findViewById(R.id.textView_profile_userworks);
-        mTextViewFollows = (TextView) view.findViewById(R.id.textView_profile_follows);
-        mTextViewFans = (TextView) view.findViewById(R.id.textView_profile_fans);
         mImgBtnBookmark = (ImageButton) view.findViewById(R.id.imgBtn_profile_bookmark);
         mImgBtnSetting = (ImageButton) view.findViewById(R.id.imgBtn_profile_setting);
         mImgBtnGrid = (ImageButton) view.findViewById(R.id.imgBtn_profile_grid);
         mImgBtnList = (ImageButton) view.findViewById(R.id.imgBtn_profile_list);
         mImgBtnFriends = (ImageButton) view.findViewById(R.id.imgBtn_profile_friends);
-        mBtnEdit = view.findViewById(R.id.btn_profile_edit);
         mRv = view.findViewById(R.id.recyclerview_profile);
         getWorksList(GET_WORKS_LIST);
         updateProfileInfo();
@@ -133,7 +109,6 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
                     return 1;
             }
         });
-
 
         layoutManager = new LinearLayoutManagerWithSmoothScroller(getContext(), LinearLayoutManager.VERTICAL, false);
         mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -164,36 +139,6 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
             }
         });
 
-        mLlFans.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                // 2=fans   1=follow
-                bundle.putInt("fn", 2);
-                bundle.putInt("uid", miUserId);
-                FansOrFollowFragment fansOrFollowFragment = new FansOrFollowFragment();
-                fansOrFollowFragment.setArguments(bundle);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-
-        mLlFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("fn", 1);
-                bundle.putInt("uid", miUserId);
-                FansOrFollowFragment fansOrFollowFragment = new FansOrFollowFragment();
-                fansOrFollowFragment.setArguments(bundle);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
 
         mImgBtnBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,14 +152,6 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
             @Override
             public void onClick(View view) {
                 ProfileSettingFragment fragment = new ProfileSettingFragment();
-                fragment.show(getFragmentManager(), "TAG");
-            }
-        });
-
-        mBtnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditProfileFragment fragment = new EditProfileFragment();
                 fragment.show(getFragmentManager(), "TAG");
             }
         });
@@ -268,46 +205,16 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
                                 @Override
                                 public void run() {
                                     try {
-
                                         mUserInfo.setUserName(responseJSON.getString("userName"));
                                         mUserInfo.setDescription(responseJSON.getString("description"));
                                         mUserInfo.setFansNum(responseJSON.getInt("fansNum"));
                                         mUserInfo.setWorksNum(responseJSON.getInt("worksNum"));
                                         mUserInfo.setFollowNum(responseJSON.getInt("followNum"));
-
                                         String profileUrl = "";
                                         if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                             profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                         }
                                         mUserInfo.setProfilePicture(profileUrl);
-
-                                        if (responseJSON.has("description") && !responseJSON.isNull("description")) {
-                                            if (responseJSON.getString("description").length() < 20)
-                                                mTextViewUserdescription.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                                            mUserInfo.setDescription(responseJSON.getString("description"));
-                                        } else {
-
-                                            mUserInfo.setDescription("");
-                                        }
-
-                                        //Successful
-                                        mTextViewUserName.setText(responseJSON.getString("userName"));
-                                        if (responseJSON.has("description") && !responseJSON.isNull("description")) {
-                                            if (responseJSON.getString("description").length() < 20)
-                                                mTextViewUserdescription.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                                            mTextViewUserdescription.setText(responseJSON.getString("description"));
-                                        } else {
-                                            mTextViewUserdescription.setText("");
-                                        }
-
-                                        mTextViewWorks.setText(responseJSON.getString("worksNum"));
-                                        mTextViewFans.setText(responseJSON.getString("fansNum"));
-                                        mTextViewFollows.setText(responseJSON.getString("followNum"));
-
-                                        Glide.with(getContext())
-                                                .load(profileUrl)
-                                                .apply(GlideAppModule.getUserOptions())
-                                                .into(imgPhoto);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -698,8 +605,9 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
 
     @Override
     public void onProfileEditClickListener() {
-        EditProfileFragment fragment = new EditProfileFragment();
-        fragment.show(getFragmentManager(), "TAG");
+        EditProfileFragment editFragment = new EditProfileFragment();
+        editFragment.setTargetFragment(this, 0);
+        editFragment.show(getFragmentManager(), "TAG");
     }
 
     @Override
@@ -753,6 +661,15 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
         // reload works
         //updateProfileInfo();
         ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+        getWorksList(REFRESH_WORKS_LIST);
+
+    }
+
+    @Override
+    public void onEditProfileSuccess() {
+        // reload ProfileInfo
+        updateProfileInfo();
+        ToastUtil.createToastWindow(getContext(), getString(R.string.uc_update_successful), PxDpConvert.getSystemHight(getContext()) / 3);
         getWorksList(REFRESH_WORKS_LIST);
 
     }
