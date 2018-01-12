@@ -66,7 +66,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, SwipeRefreshLayout.OnRefreshListener, LoadMoreFooter.OnLoadMoreListener {
+public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, SwipeRefreshLayout.OnRefreshListener, LoadMoreFooter.OnLoadMoreListener ,PlayFragment.OnPlayFragmentListener {
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
     private HeaderAndFooterRecyclerView mRecyclerViewHome;
@@ -473,6 +473,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         bundle.putInt("wid", wid);
         PlayFragment playFragment = new PlayFragment();
         playFragment.setArguments(bundle);
+        playFragment.setTargetFragment(this, 0);
         playFragment.show(getFragmentManager(), "TAG");
     }
 
@@ -631,5 +632,13 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             miRc += 10;
             getWorksList(REFRESH_WORKS_LIST);
         }
+    }
+
+    @Override
+    public void onDeleteWorkSuccess() {
+        // reload works
+        ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+        getWorksList(REFRESH_WORKS_LIST);
+
     }
 }

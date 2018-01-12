@@ -285,7 +285,8 @@ public class PaintView extends View {
         try {
             File pngfile = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_PNG);
             FileOutputStream fos = new FileOutputStream(pngfile);
-            this.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
+            getViewBitmap(this).compress(Bitmap.CompressFormat.PNG, 100, fos);
+            //this.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -293,6 +294,15 @@ public class PaintView extends View {
         BDWFileWriter bdwFileWriter = new BDWFileWriter();
         return bdwFileWriter.WriteToFile(this.mListTagPoint, getContext().getFilesDir().getPath() + SKETCH_FILE_BDW);
     }
+
+
+    public static Bitmap getViewBitmap(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
+
 
     public boolean saveTempBdw() {
         BDWFileWriter bdwFileWriter = new BDWFileWriter();

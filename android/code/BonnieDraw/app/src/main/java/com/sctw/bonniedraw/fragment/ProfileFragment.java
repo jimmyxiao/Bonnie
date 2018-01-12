@@ -751,7 +751,8 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
     @Override
     public void onDeleteWorkSuccess() {
         // reload works
-        updateProfileInfo();
+        //updateProfileInfo();
+        ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
         getWorksList(REFRESH_WORKS_LIST);
 
     }
