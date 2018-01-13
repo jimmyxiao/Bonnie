@@ -525,6 +525,7 @@ class CanvasViewController:
                     }
                 } else {
                     manager.createFile(atPath: FileUrl.CACHE.path, contents: nil, attributes: nil)
+                    self.writeHandle = try FileHandle(forWritingTo: FileUrl.CACHE)
                 }
             } catch {
                 Logger.d("\(#function): \(error.localizedDescription)")
@@ -581,7 +582,7 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                if try !self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
                     try manager.copyItem(at: FileUrl.CACHE, to: url)
                     let writeHandle = try FileHandle(forWritingTo: url)
                     writeHandle.seekToEndOfFile()
