@@ -31,6 +31,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var lastWorkType = 2
     private var shouldReload = false
     private var originContentOffset: CGPoint?
+    private let currentUserId = UserDefaults.standard.integer(forKey: Default.USER_ID)
 
     override func viewDidLoad() {
         navigationItem.titleView = titleView
@@ -269,6 +270,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.HOME, for: indexPath) as! HomeTableViewCell
         cell.profileImage.setImage(with: work.profileImage, placeholderImage: placeholderImage)
         cell.profileName.setTitle(work.profileName, for: .normal)
+        cell.followButton.isHidden = currentUserId == work.userId
         cell.followButton.isSelected = work.isFollow ?? false
         cell.title.text = work.title
         cell.thumbnail?.setImage(with: work.thumbnail)
@@ -394,7 +396,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         guard let indexPath = tableView.indexPath(forView: sender) else {
             return
         }
-        if UserDefaults.standard.integer(forKey: Default.USER_ID) == tableViewWorks[indexPath.row].userId {
+        if currentUserId == tableViewWorks[indexPath.row].userId {
             delegate?.homeDidTapProfile()
         } else {
             performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
@@ -416,7 +418,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.SET_FOLLOW),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
+                parameters: ["ui": currentUserId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -482,7 +484,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
-        if tableViewWorks[indexPath.row].userId != UserDefaults.standard.integer(forKey: Default.USER_ID) {
+        if tableViewWorks[indexPath.row].userId != currentUserId {
             let reportAction = UIAlertAction(title: "more_report".localized, style: .destructive) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
@@ -521,7 +523,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     self.dataRequest = Alamofire.request(
                             Service.standard(withPath: Service.WORK_DELETE),
                             method: .post,
-                            parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
+                            parameters: ["ui": self.currentUserId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
                             encoding: JSONEncoding.default).validate().responseJSON {
                         response in
                         switch response.result {
@@ -573,7 +575,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.SET_LIKE),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": like ? 1 : 0, "worksId": id, "likeType": 1],
+                parameters: ["ui": currentUserId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": like ? 1 : 0, "worksId": id, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -663,7 +665,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.SET_COLLECTION),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": collect ? 1 : 0, "worksId": id],
+                parameters: ["ui": currentUserId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": collect ? 1 : 0, "worksId": id],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -714,8 +716,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
-
     func homeDidTapProfile()
-
     func home(enableMenuGesture enable: Bool)
 }
