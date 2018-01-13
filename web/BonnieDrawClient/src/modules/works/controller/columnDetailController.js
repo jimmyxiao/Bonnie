@@ -10,6 +10,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 		$scope.playRead = false;
 		$scope.loading =false;
 		$scope.notfile = true;
+		$scope.image = true;
 
 
 		$scope.funcol = false;
@@ -326,7 +327,8 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 				var imgendData=cxt.getImageData(0, 0,canvas_width, canvas_height);
 				//can.style.backgroundColor = "#ffffff";
 		    	cxt.clearRect(0, 0, canvas_width, canvas_height);
-		    	cxt.putImageData(imgendData,0,0);
+		    	$scope.image = false;
+		    	// cxt.putImageData(imgendData,0,0);
 		    	draw_number=0;
 		    	$scope.isnext = false;
 		    	$scope.islast = false;
@@ -351,6 +353,7 @@ app.controller('columnDetailController', function ($rootScope, $scope, $window, 
 			    	}else{
 			    		var sett = lines[draw_number].time;
 			    }*/
+			    $scope.image = true;
 			    var sett = $scope.fastnum;
 				setTimeout(function(){
 			    	drawDot();

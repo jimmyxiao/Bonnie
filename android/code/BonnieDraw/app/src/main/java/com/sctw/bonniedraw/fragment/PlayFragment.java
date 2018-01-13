@@ -106,7 +106,7 @@ public class PlayFragment extends DialogFragment {
     private OnPlayFragmentListener callbackDeleteWork;
 
     public interface OnPlayFragmentListener {
-        public void onDeleteWorkSuccess();
+        void onDeleteWorkSuccess();
     }
 
 
@@ -299,9 +299,8 @@ public class PlayFragment extends DialogFragment {
                     final JSONObject responseJSON = new JSONObject(response.body().string());
                     if (responseJSON.getInt("res") == 1) {
 
-
-                        ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
-                        callbackDeleteWork.onDeleteWorkSuccess();
+                        if(callbackDeleteWork !=null)
+                            callbackDeleteWork.onDeleteWorkSuccess();
                         PlayFragment.this.dismiss();
                     }
                 } catch (JSONException e) {

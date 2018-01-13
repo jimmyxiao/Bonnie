@@ -1,8 +1,6 @@
 package com.sctw.bonniedraw.fragment;
 
 
-import android.content.Intent;
-import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +21,8 @@ import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ToastUtil;
+
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,22 +84,26 @@ public class PublicFragment extends DialogFragment {
         });
         Bundle bundle = getArguments();
         if (bundle != null) {
+            String lang = Locale.getDefault().getLanguage();
+            if(lang.equals("zh"))
+                lang = "zh-tw";
             int item = bundle.getInt("type");
-            String title = "";
+            String title = "" , url_link="";
             switch (item) {
                 case 0:
                     title = getString(R.string.u06_04_about_bonniedraw);
-                    mWebView.loadUrl(GlobalVariable.HTML_ABOUT_LINK);
+                    url_link = GlobalVariable.HTML_ABOUT_LINK + "?lang=" + lang;
                     break;
                 case 1:
                     title = getString(R.string.u06_04_privacy_policy);
-                    mWebView.loadUrl(GlobalVariable.HTML_PRIVACY_LINK);
+                    url_link = GlobalVariable.HTML_PRIVACY_LINK + "?lang=" + lang;
                     break;
                 case 2:
                     title = getString(R.string.u06_04_terms_of_service);
-                    mWebView.loadUrl(GlobalVariable.HTML_TERMS_LINK);
+                    url_link = GlobalVariable.HTML_TERMS_LINK + "?lang=" + lang;
                     break;
             }
+            mWebView.loadUrl(url_link);
             mTextViewTitle.setText(title);
         }
 

@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.utility.BDWFileReader;
 import com.sctw.bonniedraw.utility.BDWFileWriter;
+import com.sctw.bonniedraw.utility.ImageUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ToastUtil;
 
@@ -285,8 +286,19 @@ public class PaintView extends View {
         try {
             File pngfile = new File(getContext().getFilesDir().getPath() + SKETCH_FILE_PNG);
             FileOutputStream fos = new FileOutputStream(pngfile);
-            this.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
+
+            Bitmap bmpView = this.getDrawingCache();
+            if(bmpView == null)
+                bmpView = ImageUtil.getViewBitmap(this);
+
+            if(bmpView != null) {
+                bmpView.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.close();
+            }
+            else {
+                fos.close();
+                return false;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -561,14 +573,18 @@ public class PaintView extends View {
 
         releaseViewSizeBitmaps();
 
-        mDrawingLayer = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        mDrawingLayerCanvas.setBitmap(mDrawingLayer);
-        this.mMergedLayer = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        this.mMergedLayerCanvas.setBitmap(this.mMergedLayer);
-        this.mTextureLayer = Bitmap.createBitmap(w, h, Bitmap.Config.ALPHA_8);
-        this.mTextureLayerCanvas.setBitmap(this.mTextureLayer);
-        this.mTextureDrawable.setBounds(0, 0, w, h);
-        this.mTextureDrawable.draw(this.mTextureLayerCanvas);
+        try {
+            mDrawingLayer = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            mDrawingLayerCanvas.setBitmap(mDrawingLayer);
+            this.mMergedLayer = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            this.mMergedLayerCanvas.setBitmap(this.mMergedLayer);
+            this.mTextureLayer = Bitmap.createBitmap(w, h, Bitmap.Config.ALPHA_8);
+            this.mTextureLayerCanvas.setBitmap(this.mTextureLayer);
+            this.mTextureDrawable.setBounds(0, 0, w, h);
+            this.mTextureDrawable.draw(this.mTextureLayerCanvas);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -920,6 +936,7 @@ public class PaintView extends View {
             this.mTextureLayer.recycle();
             this.mTextureLayer = null;
         }
+        System.gc();
     }
 
     private class MyTouchDistanceResampler extends TouchDistanceResampler {

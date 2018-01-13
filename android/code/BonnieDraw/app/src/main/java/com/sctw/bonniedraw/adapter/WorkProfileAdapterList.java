@@ -108,8 +108,6 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
                         .apply(GlideAppModule.getUserOptions())
                         .into(viewHolder_profile.imgPhoto);
 
-
-
                 viewHolder_profile.mBtnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -131,6 +129,19 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                 });
 
+                viewHolder_profile.mLayoutFans.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onFansClickListener();
+                    }
+                });
+
+                viewHolder_profile.mLayoutFollows.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onFansFollowsListener();
+                    }
+                });
                 break;
 
             case 1:
@@ -160,7 +171,6 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
                     if (!data.get(position-1).getUserImgPath().equals("null")) {
                         userImgUrl = GlobalVariable.API_LINK_GET_FILE + data.get(position-1).getUserImgPath();
                     }
-
 
                     GlideApp.with(mContext)
                             .asBitmap()
@@ -391,6 +401,7 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
         CircleImageView imgPhoto;
 
         TextView mTextViewUserName, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
+        LinearLayout mLayoutFans ,mLayoutFollows;
         private Button mBtnEdit;
 
         ViewHolder_profile(View view) {
@@ -402,6 +413,8 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
             mTextViewWorks = (TextView) view.findViewById(R.id.textView_profile_userworks);
             mTextViewFans = (TextView) view.findViewById(R.id.textView_profile_fans);
             mTextViewFollows = (TextView) view.findViewById(R.id.textView_profile_follows);
+            mLayoutFans = (LinearLayout) view.findViewById(R.id.ll_profile_fans);
+            mLayoutFollows = (LinearLayout) view.findViewById(R.id.ll_profile_follow);
         }
     }
 

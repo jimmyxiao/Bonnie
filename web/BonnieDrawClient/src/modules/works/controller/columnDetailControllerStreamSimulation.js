@@ -10,6 +10,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		$scope.playRead = false;
 		$scope.loading =false;
 		$scope.notfile = true;
+		$scope.image = true;
 
 		$scope.funcol = false;
 		$scope.funcolStop = false;
@@ -265,7 +266,8 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 					var imgendData = cxt.getImageData(0, 0, canvas_width, canvas_height);
 					
 			    	cxt.clearRect(0, 0, canvas_width, canvas_height);
-			    	cxt.putImageData(imgendData, 0, 0);
+			    	// cxt.putImageData(imgendData, 0, 0);
+			    	$scope.image = false;
 			    	$scope.isnext = false;
 			    	$scope.islast = false;
 			    	$scope.funcolStop = true;
@@ -276,6 +278,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 			    	}
 				}
 			}else{
+				$scope.image = true;
 				setTimeout(function(){
 			    	drawDot();
 			    }, $scope.fastnum);

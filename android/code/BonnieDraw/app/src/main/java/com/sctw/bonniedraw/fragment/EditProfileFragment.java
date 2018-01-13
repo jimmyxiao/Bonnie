@@ -28,6 +28,7 @@ import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
+import com.sctw.bonniedraw.utility.ImageUtil;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.ToastUtil;
@@ -64,6 +65,12 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
     SharedPreferences prefs;
     Integer mIntGender;
 
+    private onEditProfileSuccess callbacknEditProfile;
+
+    public interface onEditProfileSuccess {
+         void onEditProfileSuccess();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +81,12 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        try {
+            callbacknEditProfile = (onEditProfileSuccess) getTargetFragment();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return inflater.inflate(R.layout.fragment_edit_profile, container, false);
     }
 
@@ -287,7 +300,8 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                         try {
                             JSONObject responseJSON = new JSONObject(responseStr);
                             if (responseJSON.getInt("res") == 1) {
-                                ToastUtil.createToastWindow(getContext(), getString(R.string.uc_update_successful), PxDpConvert.getSystemHight(getContext()) / 3);
+                                if(callbacknEditProfile !=null)
+                                    callbacknEditProfile.onEditProfileSuccess();
                                 EditProfileFragment.this.dismiss();
                             } else {
                                 ToastUtil.createToastWindow(getContext(), getString(R.string.uc_update_fail), PxDpConvert.getSystemHight(getContext()) / 3);
@@ -323,7 +337,14 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                 .addFormDataPart("fn", "2")
                 .addFormDataPart("ftype", "1");
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        mImgViewPhoto.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, bos); //bm is the bitmap object
+        Bitmap bmpView = mImgViewPhoto.getDrawingCache();
+        if(bmpView == null)
+            bmpView = ImageUtil.getViewBitmap(mImgViewPhoto);
+
+        if(bmpView != null) {
+            bmpView.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        }
+
         bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.png\""), RequestBody.create(MediaType.parse("image/png"), bos.toByteArray()));
 
         Request request = new Request.Builder()

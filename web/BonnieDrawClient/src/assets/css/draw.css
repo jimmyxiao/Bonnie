@@ -92,6 +92,7 @@
 	top: calc(250px - 64px);
 	left: calc(50% - 64px);
 	bottom: 0px;
+	z-index: 5;
 }
 .pasue-stop-img a{
 	position: absolute;
