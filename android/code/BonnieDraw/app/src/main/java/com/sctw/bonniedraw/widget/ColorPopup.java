@@ -127,11 +127,25 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
             list = gson.fromJson(json, new TypeToken<ArrayList<ColorBean>>() {
             }.getType());
         } else {
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Red)));
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Amber)));
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Yellow)));
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Green)));
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Blue)));
+            //加入預設顏色
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor1)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor2)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor3)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor4)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor5)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor6)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor7)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor8)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor9)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor10)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor11)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor12)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor13)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor14)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor15)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor16)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor17)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor18)));
         }
         return list;
     }

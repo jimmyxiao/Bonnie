@@ -91,7 +91,7 @@ public class ColorTicketAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         });
 
         //每個item 的width 設故定
-        holder.itemView.getLayoutParams().width = 200 ;
+        holder.itemView.getLayoutParams().width = 150 ;
 
 
         //做分頁計算用,暫先不處理

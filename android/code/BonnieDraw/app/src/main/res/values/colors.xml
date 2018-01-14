@@ -34,4 +34,24 @@
     <color name="GridLineColor">#FFEEEEEE</color>
     <color name="PaintSettingBg">#4A4A4A</color>
     <color name="HyperLinkColor">#0497fb</color>
+
+    <color name="DefaultColor1">#FF1100</color>
+    <color name="DefaultColor2">#E91E63</color>
+    <color name="DefaultColor3">#9C27B0</color>
+    <color name="DefaultColor4">#673AB7</color>
+    <color name="DefaultColor5">#3F51B5</color>
+    <color name="DefaultColor6">#2196F3</color>
+    <color name="DefaultColor7">#03A9F4</color>
+    <color name="DefaultColor8">#00BCD4</color>
+    <color name="DefaultColor9">#009688</color>
+    <color name="DefaultColor10">#4CAF50</color>
+    <color name="DefaultColor11">#8BC34A</color>
+    <color name="DefaultColor12">#CDDC39</color>
+    <color name="DefaultColor13">#FFEB3B</color>
+    <color name="DefaultColor14">#FFC107</color>
+    <color name="DefaultColor15">#FF9800</color>
+    <color name="DefaultColor16">#FF5722</color>
+    <color name="DefaultColor17">#000000</color>
+    <color name="DefaultColor18">#FFFFFF</color>
+
 </resources>
