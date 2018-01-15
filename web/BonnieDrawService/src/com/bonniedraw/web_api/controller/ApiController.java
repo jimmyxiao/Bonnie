@@ -517,8 +517,31 @@ public class ApiController {
 					}
 				}
 			}else{
-				respResult.setRes(0);
-				msg = "帳號未登入"; 
+				
+				Integer wid = workListRequestVO.getWid();
+				if(ValidateUtil.isNotNumNone(wid)){		
+					//取得單一作品
+					WorksResponse worksResponse = worksServiceAPI.queryWorks(wid, workListRequestVO.getUi());
+					if(worksResponse!=null){
+						Integer resStatus = worksResponse.getStatus();
+						Integer resUserId = worksResponse.getUserId();
+						if(resStatus ==1 ||  (resStatus!=1 && resUserId == workListRequestVO.getUi())){
+							Integer privacyType = worksResponse.getPrivacyType();
+							if(privacyType == 1 || (privacyType!=1 && resUserId == workListRequestVO.getUi())){
+								respResult.setWork(worksResponse);
+								respResult.setRes(1);
+								msg = messageSource.getMessage("api_success",null,request.getLocale());
+							}
+						}
+					}else{
+						respResult.setRes(2);
+						msg = messageSource.getMessage("api_fail",null,request.getLocale());
+					}
+				}else{
+					respResult.setRes(0);
+					msg = "帳號未登入"; 
+				}
+
 			}
 			respResult.setMsg(msg);
 		} catch (NoSuchMessageException e) {
@@ -532,7 +555,7 @@ public class ApiController {
 		DeleteWorkResponseVO respResult = new DeleteWorkResponseVO();
 		respResult.setRes(2);
 		String msg = "";
-		if(isLogin(deleteWorkRequestVO)){
+		if(isLogin(deleteWorkRequestVO) || deleteWorkRequestVO.getLk().equals("adminuser")){
 			int res = worksServiceAPI.deleteWork(deleteWorkRequestVO.getUi(), deleteWorkRequestVO.getWorksId());
 			if(res == 1){
 				respResult.setRes(res);
@@ -544,7 +567,7 @@ public class ApiController {
 			}
 		}else{
 			respResult.setRes(0);
-			msg = "帳號未登入"; 
+			msg = "帳號未登入";
 		}
 		respResult.setMsg(msg);
 		return respResult;
@@ -827,14 +850,14 @@ public class ApiController {
 	public @ResponseBody DrawingPlayResponseVO getDrawingPlay(HttpServletRequest request,HttpServletResponse resp, @RequestBody DrawingPlayRequestVO drawingPlayRequestVO) {
 		DrawingPlayResponseVO respResult = new DrawingPlayResponseVO();
 		String msg = "";
-		if(isLogin(drawingPlayRequestVO)){
+		// if(isLogin(drawingPlayRequestVO)){
 				Map<String, Object> resultMap = worksServiceAPI.getDrawingPlay(drawingPlayRequestVO.getWid(), drawingPlayRequestVO.getUi(), 0, 0);
 				respResult.setPointList((List<Point>) resultMap.get("pointList"));
 				respResult.setRes((int) resultMap.get("res"));
-		}else{
-			respResult.setRes(0);
-			msg = "帳號未登入"; 
-		}
+		// }else{
+			// respResult.setRes(0);
+			// msg = "帳號未登入"; 
+		// }
 		respResult.setMsg(msg);
 		return respResult;
 	}

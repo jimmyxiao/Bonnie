@@ -1,13 +1,13 @@
 'use strict';
 
 // localhost
-var locationIP='http://localhost:8080/';
+//var locationIP='http://localhost:8080/';
 // var locationIP='http://www.bonniedraw.com:8080/';
- var rootUrl = locationIP + 'BonnieDrawService/';
+// var rootUrl = locationIP + 'BonnieDrawService/'
 
 // release
-// var locationIP='https://www.bonniedraw.com/';
-// var rootUrl = locationIP + 'bonniedraw_service/';
+ var locationIP='https://www.bonniedraw.com/';
+ var rootUrl = locationIP + 'bonniedraw_service/';
 
 var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
@@ -297,6 +297,14 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 	        	templateUrl: 'modules/share/view/footer.html'
 	        }
       	}
+  	}).state('column-detail-nologin', {
+      	url: '/column-detail-nologin?id',
+	    views: {
+	        "layout": {
+	            templateUrl: 'modules/works/view/column-detail-nologin.html',
+	            controller:'columnDetailNologinController'
+	        }
+	    }
   	}).state('columnDetailStreamSimulation', {
       	url: '/column-detail-StreamSimulation?id',
       	views: {
@@ -414,9 +422,13 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
    		var url = $location.path();
    		$rootScope.nowUrl = url;
 
-		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete' && url !== '/about' && url !== '/privacy' && url !== '/terms' && url !== '/about_app' && url !== '/privacy_app' && url !== '/terms_app') && (!$rootScope.rg_gl || !$rootScope.rg_gl.currentUser)) {
+		if ((url !== '/login' && url !== '/singup' && url !== '/forget' && url !== '/complete' && url !== '/about' && url !== '/privacy' && url !== '/terms' && url !== '/about_app' && url !== '/privacy_app' && url !== '/terms_app' && url !== '/column-detail-nologin') && (!$rootScope.rg_gl || !$rootScope.rg_gl.currentUser)) {
 	        event.preventDefault();
-	        $state.go('login');
+	        if(url == '/column-detail'){
+				$state.go('column-detail-nologin', {id:$location.search()['id']});
+	        }else{
+	        	$state.go('login');
+	        }
 	    }else if( ($rootScope.rg_gl && $rootScope.rg_gl.currentUser) && (url == '/login' && url == '/singup' && url == '/forget' && url == '/complete')){
 	    	event.preventDefault();
 	    	$state.go('index');
@@ -530,7 +542,7 @@ window.googleAsyncInit = function() {
 
 //twitter
 hello.init({
-	twitter: "HcXL8RV5wlnL1eM3OWSPcvN1N"
+	twitter: "HcXL8RV5wlnL1eM3OWSPcvN1N" 
 }, {
 	//oauth_proxy: 'http://www.bonniedraw.com:8080/proxy'
 	scope: "email"

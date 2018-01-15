@@ -22,11 +22,19 @@
 			                            	<img class="loadingimg"   src="assets/images/no-file.jpg">
 			                            </div>
 
+			                            <div class="loading" ng-hide="image">
+			                            	<!--<div class="loader"></div>-->
+			                            	<img class="loadingimg" ng-src="{{imageLoadUrl}}{{mainSection.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
+			                            </div>
+
 			                            <canvas id="jsonCanvas"  ng-click="pasue()" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()"  ng-show="canvasStop" width="500" height="500"></canvas>
 			                            
 			                            <div class="pasue-stop-img circleimg" ng-show="funcolStop">
 			                        		<a href="" ng-click="pasue()"><i class="fa fa-play-circle"></i></a>
 			                        	</div>
+			                        	<!-- <div class="pasue-stop-img circleimg" ng-show="funcolStop">
+							            	<img class="loadingimg" ng-click="pasue()" src="assets/images/no-file.jpg">
+							            </div> -->
 			                        	<div class="pasue-back" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ng-show="funcol">
 			                        	<span class="speennum">{{(fastiPow)}}X</span>
 			                        	<!--<div class="pasue-back" ng-hide=pausebol>-->

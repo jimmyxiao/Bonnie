@@ -8,6 +8,9 @@ app.factory('workService', function(baseHttp) {
 		},
 		queryWorkDetail: function(params,callback){
 			return baseHttp.service('work/queryWorkDetail',params,callback);
+		},
+		deleteWork: function(params,callback){
+			return baseHttp.service('BDService/deleteWork',params,callback);
 		}
     }
 })
@@ -47,6 +50,9 @@ app.factory('workService', function(baseHttp) {
 					'<button name="detail" class="btn btn-primary btn-sm" value="'+ row +'"><i class="ace-icon fa fa-pencil bigger-130"></i>明細</button>' +
 					'&nbsp;'+
 					statusBtn +
+					'&nbsp;'+
+					'<button name="delete" class="btn btn-default btn-sm" value="'+ row +'"><i class="ace-icon fa fa-times bigger-130"></i>刪除</button>' +
+					'&nbsp;'+
 					'</div>'
 					return btnStr;
 				}
@@ -63,6 +69,11 @@ app.factory('workService', function(baseHttp) {
 	$('#dynamic-table tbody').on( 'click', 'button[name="status"]',function() {			   
 		var index = $(this).context.value;
 		$scope.changeStatus(index);
+	});
+
+	$('#dynamic-table tbody').on( 'click', 'button[name="delete"]',function() {			   
+		var index = $(this).context.value;
+		$scope.deleteWork(index);
 	});
 
 	$scope.changeStatus = function(index){
@@ -103,5 +114,23 @@ app.factory('workService', function(baseHttp) {
 		})
 	}
 	// $scope.queryWorkList();
+
+	$scope.deleteWork = function(index){
+		var params ={
+			ui:$scope.workInfoList[index].userId,
+			lk:"adminuser",
+			worksId:$scope.workInfoList[index].worksId
+		}
+		
+		workService.deleteWork(params,function(data, status, headers, config){
+		 	if(data.res == 1){
+		 		util.alert('刪除成功');
+		 	}else{
+		 		console.log(data.msg);
+		 		util.alert('刪除失敗');
+		 	}
+		 	$state.go('worksManager', {}, { reload: true });
+		})
+	}
 	
 })
