@@ -90,7 +90,6 @@
 		16AD54EC1FDA91EF00EA498B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD54EB1FDA91EF00EA498B /* Message.swift */; };
 		16AD967F1FD3E6370084151D /* TouchExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD967E1FD3E6370084151D /* TouchExtension.swift */; };
 		16BA1B4A200094CE00BCD7B7 /* Pencil.png in Resources */ = {isa = PBXBuildFile; fileRef = 16BA1B48200094CE00BCD7B7 /* Pencil.png */; };
-		16BA1B4B200094CE00BCD7B7 /* Crayon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16BA1B49200094CE00BCD7B7 /* Crayon.png */; };
 		16BC73721F96001800A872A8 /* AccountHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */; };
 		16BE0F2C1FC67A1500B989CE /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2B1FC67A1500B989CE /* GridView.swift */; };
 		16BE0F2E1FC67D5700B989CE /* CanvasSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */; };
@@ -100,6 +99,7 @@
 		16CB8C751FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CB8C741FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift */; };
 		16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */; };
 		16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */; };
+		16CF01F0200CE4FA00C6CF0B /* Crayon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16CF01EF200CE4F900C6CF0B /* Crayon.png */; };
 		16D08F1F1FB14D84001D167C /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D08F1E1FB14D84001D167C /* DebugViewController.swift */; };
 		16D08F241FB169AD001D167C /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16D08F221FB169AC001D167C /* Account.storyboard */; };
 		16D42FD91FFFB694000944E5 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D42FD81FFFB693000944E5 /* EditViewController.swift */; };
@@ -209,7 +209,6 @@
 		16AD54EB1FDA91EF00EA498B /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		16AD967E1FD3E6370084151D /* TouchExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchExtension.swift; sourceTree = "<group>"; };
 		16BA1B48200094CE00BCD7B7 /* Pencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pencil.png; sourceTree = "<group>"; };
-		16BA1B49200094CE00BCD7B7 /* Crayon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Crayon.png; sourceTree = "<group>"; };
 		16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		16BE0F2B1FC67A1500B989CE /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasSettingTableViewController.swift; sourceTree = "<group>"; };
@@ -219,6 +218,7 @@
 		16CB8C741FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSelectorCollectionViewCell.swift; sourceTree = "<group>"; };
 		16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButtonViewController.swift; sourceTree = "<group>"; };
+		16CF01EF200CE4F900C6CF0B /* Crayon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Crayon.png; sourceTree = "<group>"; };
 		16D08F1E1FB14D84001D167C /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		16D08F231FB169AC001D167C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account.storyboard; sourceTree = "<group>"; };
 		16D42FD81FFFB693000944E5 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
@@ -316,7 +316,7 @@
 		163F65BC1F61673100945E04 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				16BA1B49200094CE00BCD7B7 /* Crayon.png */,
+				16CF01EF200CE4F900C6CF0B /* Crayon.png */,
 				16BA1B48200094CE00BCD7B7 /* Pencil.png */,
 				163EAED81FD64435003109B3 /* Airbrush.png */,
 				163EAED61FD64435003109B3 /* Marker.png */,
@@ -560,6 +560,7 @@
 				16303BB21FD14D0E00C42783 /* quad.fsh in Resources */,
 				16303BB31FD14D0E00C42783 /* stencil.fsh in Resources */,
 				16BA1B4A200094CE00BCD7B7 /* Pencil.png in Resources */,
+				16CF01F0200CE4FA00C6CF0B /* Crayon.png in Resources */,
 				16303BB41FD14D0E00C42783 /* point.fsh in Resources */,
 				16303BB51FD14D0E00C42783 /* coloredpoint.vsh in Resources */,
 				162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */,
@@ -574,7 +575,6 @@
 				16450EC1200319BF00BF8D6D /* Drawing.storyboard in Resources */,
 				16D08F241FB169AD001D167C /* Account.storyboard in Resources */,
 				163F65B21F61663900945E04 /* Assets.xcassets in Resources */,
-				16BA1B4B200094CE00BCD7B7 /* Crayon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
