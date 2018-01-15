@@ -11,7 +11,7 @@ class Brush: JotBrushTexture {
     private var velocity: CGFloat = 0
     private var lastPoint = CGPoint.zero
     private var lastTimestamp = Date()
-    var textureCache: UIImage?
+    var customBrush: JotBrushTexture?
     var minSize: CGFloat {
         didSet {
             calculateStepWidth()
@@ -25,8 +25,8 @@ class Brush: JotBrushTexture {
     var type: Type {
         didSet {
             calculateStepWidth()
-            if textureCache != nil {
-                textureCache = nil
+            if customBrush != nil {
+                customBrush = nil
             }
         }
     }
@@ -157,14 +157,8 @@ class Brush: JotBrushTexture {
     }
 
     private func brushTexture() -> JotBrushTexture {
-        if let image = textureCache,
-           let context = JotGLContext.current() as? JotGLContext {
-            if let texture = context.contextProperties[""] as? JotBrushTexture {
-                return texture
-            } else if let texture = JotSharedBrushTexture(image: image) {
-                context.contextProperties[-1] = texture
-                return texture
-            }
+        if let brush = customBrush {
+            return brush
         }
         switch type {
         case .crayon:
