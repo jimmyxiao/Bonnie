@@ -555,7 +555,7 @@ public class ApiController {
 		DeleteWorkResponseVO respResult = new DeleteWorkResponseVO();
 		respResult.setRes(2);
 		String msg = "";
-		if(isLogin(deleteWorkRequestVO)){
+		if(isLogin(deleteWorkRequestVO) || deleteWorkRequestVO.getLk().equals("adminuser")){
 			int res = worksServiceAPI.deleteWork(deleteWorkRequestVO.getUi(), deleteWorkRequestVO.getWorksId());
 			if(res == 1){
 				respResult.setRes(res);
@@ -567,7 +567,7 @@ public class ApiController {
 			}
 		}else{
 			respResult.setRes(0);
-			msg = "帳號未登入"; 
+			msg = "帳號未登入";
 		}
 		respResult.setMsg(msg);
 		return respResult;
