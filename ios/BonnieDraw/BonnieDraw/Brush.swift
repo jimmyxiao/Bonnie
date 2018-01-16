@@ -55,14 +55,8 @@ class Brush: JotBrushTexture {
             stepWidth = minSize * 0.4
         case .pencil:
             stepWidth = minSize * 0.3
-        case .pen:
-            stepWidth = minSize * 0.1
-        case .airbrush:
-            stepWidth = minSize * 0.1
-        case .marker:
-            stepWidth = minSize * 0.1
         default:
-            return
+            stepWidth = minSize * 0.1
         }
     }
 

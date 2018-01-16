@@ -716,6 +716,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
+
     func homeDidTapProfile()
+
     func home(enableMenuGesture enable: Bool)
 }
