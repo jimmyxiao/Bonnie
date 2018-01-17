@@ -54,7 +54,8 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     private int color;
     private boolean fromEditText;
     private TextView mTvColorListHint;
-    private ArrayList<ColorBean> colorsList1, colorsList2, colorsList3;
+    private ArrayList<ColorBean> colorsList1;
+    //, colorsList2, colorsList3;
     private OnPopupColorPick listener;
     private int miPoint;
 
@@ -78,6 +79,8 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
         //迴圈依序讀取
         miPoint = mPref.getInt("colorsDefault", 1); //讀不到就強制選一
         color = mPref.getInt("lastColor", Color.BLACK);
+        colorsList1 = readPreferencesColorByType(1);
+        /*
         for (int x = 1; x <= 3; x++) {
             switch (x) {
                 case 1:
@@ -91,13 +94,17 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                     break;
             }
         }
+        */
     }
 
     private void savePreferencesColor() {
         mPref.edit().clear().apply();
+        Gson gson = new Gson();
+        String json = "";
+        json = gson.toJson(colorsList1);
+        mPref.edit().putString("colorsInfo1", json).apply();
+               /*
         for (int x = 1; x <= 3; x++) {
-            Gson gson = new Gson();
-            String json = "";
             switch (x) {
                 case 1:
                     json = gson.toJson(colorsList1);
@@ -113,6 +120,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
                     break;
             }
         }
+        */
         mPref.edit()
                 .putInt("colorsDefault", miPoint)
                 .putInt("lastColor", color)
@@ -204,6 +212,8 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
     }
 
     private ArrayList<ColorBean> getCurrentColorList() {
+        return colorsList1;
+        /*
         switch (miPoint) {
             case 1:
                 return colorsList1;
@@ -214,6 +224,7 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
             default:
                 return colorsList1;
         }
+        */
     }
 
     public boolean isPanelOpen() {
@@ -298,15 +309,15 @@ public class ColorPopup extends PopupWindow implements View.OnTouchListener,
             @Override
             public void onClick(View v) {
                 //if (mAdapterTicket.getItemCount() <= 17) {
-                    mAdapterTicket.set_mSelectedPos(0);
-                    mAdapterTicket.addNewColor(new ColorBean(color, true));
-                    mAdapterTicket.notifyDataSetChanged();
-                    mAdapterTicket.notifyItemInserted(mAdapterTicket.getItemCount());
-                    mColorRv.getLayoutManager().scrollToPosition(mAdapterTicket.getItemCount()-1);
-                    //mColorRv.scrollToPosition(mAdapterTicket.getItemCount());
-                    //} else {
-                 //   ToastUtil.createToastWindow(context, context.getString(R.string.u04_01_color_ticket_is_full), PxDpConvert.getSystemHight(context) / 4);
-               // }
+                mAdapterTicket.set_mSelectedPos(0);
+                mAdapterTicket.addNewColor(new ColorBean(color, true));
+                mAdapterTicket.notifyDataSetChanged();
+                mAdapterTicket.notifyItemInserted(mAdapterTicket.getItemCount());
+                mColorRv.getLayoutManager().scrollToPosition(mAdapterTicket.getItemCount()-1);
+                //mColorRv.scrollToPosition(mAdapterTicket.getItemCount());
+                //} else {
+                //   ToastUtil.createToastWindow(context, context.getString(R.string.u04_01_color_ticket_is_full), PxDpConvert.getSystemHight(context) / 4);
+                // }
             }
         });
     }

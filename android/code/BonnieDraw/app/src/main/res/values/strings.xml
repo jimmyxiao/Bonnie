@@ -5,6 +5,7 @@
     <string name="m01_01_please_login">Please operate after log in.</string>
     <string name="m01_01_start_follow">Start to follow</string>
     <string name="m02_01_data_parse_error">Loading failed</string>
+    <string name="u01_01_account">Account</string>
     <string name="u01_01_fb_not_email">This account can not be logged in without your email information.</string>
     <string name="u01_01_forgot_password">Forgot password</string>
     <string name="u01_01_have_not_account">Don\'t have an account?</string>

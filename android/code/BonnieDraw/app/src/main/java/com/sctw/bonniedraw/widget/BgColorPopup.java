@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sctw.bonniedraw.R;
@@ -28,10 +25,7 @@ import com.sctw.bonniedraw.colorpick.ColorPickerView;
 import com.sctw.bonniedraw.colorpick.ColorRecyclerView;
 import com.sctw.bonniedraw.colorpick.ColorTicketAdapter;
 import com.sctw.bonniedraw.utility.PxDpConvert;
-import com.sctw.bonniedraw.utility.TicketGridLayoutManger;
-
 import java.util.ArrayList;
-
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -56,7 +50,8 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
     private int color;
     private boolean fromEditText;
     private TextView mTvColorListHint;
-    private ArrayList<ColorBean> colorsList1, colorsList2, colorsList3;
+    private ArrayList<ColorBean> colorsList1;
+    //, colorsList2, colorsList3;
     private OnBgPopupColorPick listener;
     private int miPoint;
 
@@ -80,6 +75,8 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
         //迴圈依序讀取
         this.miPoint = mPref.getInt("bgColorsDefault", 1); //讀不到就強制選一
         this.color = mPref.getInt("lastBgColor", Color.BLACK);
+        colorsList1 = readPreferencesColorByType(1);
+        /*
         for (int x = 1; x <= 3; x++) {
             switch (x) {
                 case 1:
@@ -93,10 +90,16 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
                     break;
             }
         }
+        */
     }
 
     private void savePreferencesColor() {
         mPref.edit().clear().apply();
+        Gson gson = new Gson();
+        String json = "";
+        json = gson.toJson(colorsList1);
+        mPref.edit().putString("bgColorsInfo1", json).apply();
+        /*
         for (int x = 1; x <= 3; x++) {
             Gson gson = new Gson();
             String json = "";
@@ -115,6 +118,7 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
                     break;
             }
         }
+        */
         mPref.edit()
                 .putInt("bgColorsDefault", miPoint)
                 .putInt("lastBgColor", color)
@@ -129,11 +133,25 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
             list = gson.fromJson(json, new TypeToken<ArrayList<ColorBean>>() {
             }.getType());
         } else {
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Red)));
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Amber)));
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Yellow)));
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Green)));
-            list.add(new ColorBean(ContextCompat.getColor(context, R.color.Blue)));
+            //加入預設顏色
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor1)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor2)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor3)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor4)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor5)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor6)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor7)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor8)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor9)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor10)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor11)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor12)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor13)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor14)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor15)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor16)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor17)));
+            list.add(new ColorBean(ContextCompat.getColor(context, R.color.DefaultColor18)));
         }
         return list;
     }
@@ -182,6 +200,8 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
     }
 
     private ArrayList<ColorBean> getCurrentColorList() {
+        return colorsList1;
+        /*
         switch (miPoint) {
             case 1:
                 return colorsList1;
@@ -192,6 +212,7 @@ public class BgColorPopup extends PopupWindow implements View.OnTouchListener,
             default:
                 return colorsList1;
         }
+        */
     }
 
     public boolean isPanelOpen() {
