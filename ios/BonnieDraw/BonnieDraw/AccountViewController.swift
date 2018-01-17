@@ -612,6 +612,7 @@ class AccountViewController:
                             title: "service_download_fail_title".localized,
                             message: data["msg"] as? String)
                 } else {
+                    sender.isUserInteractionEnabled = like
                     if let index = self.works.index(where: {
                         work in
                         return work.id == id
@@ -622,6 +623,7 @@ class AccountViewController:
                         }
                         if let cell = self.collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? AccountListCollectionViewCell {
                             cell.likeButton.isSelected = like
+                            cell.likeButton.isUserInteractionEnabled = !like
                             cell.likeButton.setImage(like ? self.likeImageSelected : self.likeImage, for: .normal)
                             if let likes = self.works[index].likes, likes > 0 {
                                 cell.likes.text = "\(likes)"

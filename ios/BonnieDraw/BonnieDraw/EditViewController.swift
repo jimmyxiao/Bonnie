@@ -113,8 +113,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
-              let work = work else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
@@ -140,10 +139,10 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                                  "lk": token,
                                  "dt": SERVICE_DEVICE_TYPE,
                                  "ac": 2,
-                                 "privacyType": work.accessControl?.rawValue ?? 0,
+                                 "privacyType": work?.accessControl?.rawValue ?? 0,
                                  "title": title,
                                  "description": description,
-                                 "worksId": work.id ?? 0],
+                                 "worksId": work?.id ?? 0],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {
@@ -155,8 +154,10 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                     if response != 1 {
                         self.showErrorMessage(message: data["msg"] as? String)
                     } else {
-                        self.delegate?.edit(didChange: work)
                         self.cancel(sender)
+                        if let work = self.work {
+                            self.delegate?.edit(didChange: work)
+                        }
                     }
                 case .failure(let error):
                     if let error = error as? URLError, error.code == .cancelled {

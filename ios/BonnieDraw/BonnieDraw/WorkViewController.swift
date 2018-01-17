@@ -467,15 +467,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
-              let work = work else {
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
             return
         }
         request?.cancel()
         request = Alamofire.request(
                 Service.standard(withPath: Service.SET_LIKE),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work.id ?? 0, "likeType": 1],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -492,6 +491,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                             message: data["msg"] as? String)
                 } else {
                     sender.isSelected = !sender.isSelected
+                    sender.isUserInteractionEnabled = !sender.isSelected
                     sender.setImage(UIImage(named: sender.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
                     self.work?.isLike = sender.isSelected
                     if let likes = self.work?.likes {
@@ -503,7 +503,9 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                     } else {
                         self.likes.isHidden = true
                     }
-                    self.delegate?.work(didChange: work)
+                    if let work = self.work {
+                        self.delegate?.work(didChange: work)
+                    }
                 }
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {

@@ -610,6 +610,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         }
                         if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? HomeTableViewCell {
                             cell.likeButton.isSelected = like
+                            cell.likeButton.isUserInteractionEnabled = !like
                             cell.likeButton.setImage(like ? self.likeImageSelected : self.likeImage, for: .normal)
                             if let likes = self.tableViewWorks[index].likes, likes > 0 {
                                 cell.likes.text = "\(likes)"
