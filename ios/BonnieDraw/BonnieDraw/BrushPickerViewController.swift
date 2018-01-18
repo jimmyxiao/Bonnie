@@ -52,6 +52,10 @@ class BrushPickerViewController: UIViewController, UICollectionViewDataSource, U
         checkValue()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        view.superview?.clipsToBounds = false
+    }
+
     @IBAction func decrease(_ sender: Any) {
         let value = alphaSlider.value - 10
         alphaSlider.setValue(value, animated: true)
