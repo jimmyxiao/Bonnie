@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import ASValueTrackingSlider
 
 class BrushPickerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var stepSizeStackView: UIStackView!
     @IBOutlet weak var decrease: UIButton!
-    @IBOutlet weak var stepWidthSlider: UISlider?
-    @IBOutlet weak var alphaSlider: UISlider!
+    @IBOutlet weak var stepWidthSlider: ASValueTrackingSlider?
+    @IBOutlet weak var alphaSlider: ASValueTrackingSlider!
     @IBOutlet weak var increase: UIButton!
     private var brushes = [Brush(type: .pen, imageName: "draw_pen_off_1"),
                            Brush(type: .pencil, imageName: "draw_pen_off_2"),
@@ -28,8 +29,12 @@ class BrushPickerViewController: UIViewController, UICollectionViewDataSource, U
         if !DEBUG {
             stepSizeStackView.isHidden = true
         }
+        stepWidthSlider?.popUpViewColor = UIColor.getAccentColor()
+        stepWidthSlider?.minimumTrackTintColor = .lightGray
         stepWidthSlider?.value = stepWidth
-        alphaSlider.value = alpha
+        alphaSlider.popUpViewColor = UIColor.getAccentColor()
+        alphaSlider.minimumTrackTintColor = .lightGray
+        alphaSlider.value = alpha * alphaSlider.maximumValue
         switch type {
         case .crayon?:
             brushes[2].imageName = "draw_pen_on_3"
@@ -48,9 +53,9 @@ class BrushPickerViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     @IBAction func decrease(_ sender: Any) {
-        let value = alphaSlider.value - 0.1
+        let value = alphaSlider.value - 10
         alphaSlider.setValue(value, animated: true)
-        delegate?.brushPicker(didSelectAlpha: CGFloat(alphaSlider.value))
+        delegate?.brushPicker(didSelectAlpha: CGFloat(alphaSlider.value / alphaSlider.maximumValue))
         checkValue()
     }
 
@@ -59,14 +64,14 @@ class BrushPickerViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     @IBAction func alphaSliderValueChanged(_ sender: UISlider) {
-        delegate?.brushPicker(didSelectAlpha: CGFloat(sender.value))
+        delegate?.brushPicker(didSelectAlpha: CGFloat(sender.value / sender.maximumValue))
         checkValue()
     }
 
     @IBAction func increase(_ sender: Any) {
-        let value = alphaSlider.value + 0.1
+        let value = alphaSlider.value + 10
         alphaSlider.setValue(value, animated: true)
-        delegate?.brushPicker(didSelectAlpha: CGFloat(alphaSlider.value))
+        delegate?.brushPicker(didSelectAlpha: CGFloat(alphaSlider.value / alphaSlider.maximumValue))
         checkValue()
     }
 
@@ -124,8 +129,6 @@ class BrushPickerViewController: UIViewController, UICollectionViewDataSource, U
 
 protocol BrushPickerViewControllerDelegate {
     func brushPicker(didSelectStepWidth delta: CGFloat)
-
     func brushPicker(didSelectAlpha alpha: CGFloat)
-
     func brushPicker(didSelectType type: Type)
 }

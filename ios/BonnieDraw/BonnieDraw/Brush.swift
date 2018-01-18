@@ -85,7 +85,7 @@ class Brush: JotBrushTexture {
             } else if isForceSupported {
                 return color.withAlphaComponent(minAlpha + (maxAlpha - minAlpha) * touch.force)
             } else {
-                return color.withAlphaComponent(maxAlpha)
+                return color.withAlphaComponent(minAlpha)
             }
         } else {
             return nil

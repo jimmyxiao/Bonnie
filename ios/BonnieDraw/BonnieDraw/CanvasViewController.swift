@@ -355,7 +355,7 @@ class CanvasViewController:
 
     internal func sizePicker(didSelect size: CGFloat) {
         brush.minSize = size
-        brush.maxSize = size * 1.5
+        brush.maxSize = size
         let rect = CGSize(width: 33, height: 33)
         UIGraphicsBeginImageContextWithOptions(rect, false, UIScreen.main.scale)
         UIBezierPath(arcCenter: CGPoint(x: rect.width / 2, y: rect.height / 2), radius: brush.minSize / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
@@ -368,7 +368,8 @@ class CanvasViewController:
     }
 
     internal func brushPicker(didSelectAlpha alpha: CGFloat) {
-        brush.minAlpha = alpha - 0.2
+        Logger.d(alpha)
+        brush.minAlpha = alpha
         brush.maxAlpha = alpha
     }
 

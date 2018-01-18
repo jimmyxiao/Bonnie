@@ -19,8 +19,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var phone: UITextField!
     @IBOutlet weak var gender: UIButton!
-    private var keyboardOnScreen = false
-    private var viewOriginY: CGFloat = 0
+    private var viewOriginCenterY: CGFloat?
     private var dataRequest: DataRequest?
     private var timestamp = Date()
     private var oldProfile: Profile?
@@ -62,17 +61,28 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {
-        if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
-            keyboardOnScreen = true
-            viewOriginY = view.frame.origin.y
-            view.frame.origin.y -= keyboardSize.height / 3
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size,
+           let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
+           let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber {
+            if viewOriginCenterY == nil {
+                viewOriginCenterY = view.center.y
+            }
+            UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIViewAnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
+                if let viewOriginCenterY = self.viewOriginCenterY {
+                    self.view.center.y = viewOriginCenterY - keyboardSize.height / 3
+                }
+            })
         }
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
-        if keyboardOnScreen {
-            keyboardOnScreen = false
-            view.frame.origin.y = viewOriginY
+        if let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
+           let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber {
+            UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIViewAnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
+                if let viewOriginCenterY = self.viewOriginCenterY {
+                    self.view.center.y = viewOriginCenterY
+                }
+            })
         }
     }
 

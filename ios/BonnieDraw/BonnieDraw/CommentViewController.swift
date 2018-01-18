@@ -21,7 +21,6 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     private var timestamp = Date()
     private let refreshControl = UIRefreshControl()
     private let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-    private var keyboardOnScreen = false
     private let placeholderImage = UIImage(named: "photo-square")
     private let currentUserId = UserDefaults.standard.integer(forKey: Default.USER_ID)
     var delegate: CommentViewControllerDelegate?
@@ -63,22 +62,23 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {
-        if !keyboardOnScreen, let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size {
-            keyboardOnScreen = true
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size,
+           let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
+           let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber {
             viewBottom.constant = -keyboardSize.height
-            UIView.animate(withDuration: 0.3) {
-                self.view.setNeedsDisplay()
-            }
+            UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIViewAnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
+                self.view.layoutIfNeeded()
+            })
         }
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
-        if keyboardOnScreen {
-            keyboardOnScreen = false
+        if let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
+           let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber {
             viewBottom.constant = 0
-            UIView.animate(withDuration: 0.3) {
-                self.view.setNeedsDisplay()
-            }
+            UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIViewAnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
+                self.view.layoutIfNeeded()
+            })
         }
     }
 
@@ -228,6 +228,5 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol CommentViewControllerDelegate {
     func comment(didCommentOnWork work: Work)
-
     func commentDidTapProfile()
 }
