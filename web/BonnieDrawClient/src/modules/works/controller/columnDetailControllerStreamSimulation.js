@@ -65,6 +65,7 @@ app.controller('columnDetailControllerStreamSimulation', function ($rootScope, $
 		$scope.pasue = function(){
 			$scope.fasti =0;
 			$scope.fastnum = 100;
+			$scope.fastiPow = Math.pow(2,$scope.fasti);
 			if(!paused){
 				$scope.pausebol = false;
 				paused = true;

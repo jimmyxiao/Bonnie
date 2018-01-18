@@ -5,7 +5,10 @@
 		<link rel="shortcut icon" href="favicon.ico">
 		<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 		<!-- <title ng-bind="title"></title> -->
-		<title >{{title | translate}} | BonnieDRAW</title>
+		<title ng-bind="(title | translate)"></title>
+		<!-- <title >{{title | translate}} | BonnieDRAW</title> -->
+		<meta property="og:title" content="BonnieDRAW" />
+		<meta property="og:image" content="https://www.bonniedraw.com/Icon-App-76x76@3x.png" />
 		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/ionicons.min.css">

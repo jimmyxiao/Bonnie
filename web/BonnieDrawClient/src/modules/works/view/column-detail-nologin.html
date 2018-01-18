@@ -1,0 +1,147 @@
+<div id="wrapper">
+	<div id="main-content">
+	<!-- Main Bar-->
+	<div id="main-bar">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 ">
+					<div class="logo">
+						<a href="#/">
+							<img class="img-responsive" src="assets/images/logo.png" alt="Logo">	
+						</a>
+					</div>					
+				</div>
+				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"  style="padding-top:10px">
+					<a href="{{iTunesStoreUrl}}" target="_blank">
+						<img class="app-icon" src="assets/images/apple-store.png" alt="AppleStore" style="float: right">
+					</a>
+					<a href="{{googlePlayStoreUrl}}" target="_blank">
+						<img class="app-icon" src="assets/images/GooglePlay.png" alt="GooglePlay" style="float: right">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="drwa-play nologplay" style="margin-bottom: 25px;margin-top: 25px;">
+			<div class="loading nolog" ng-hide="loading">
+            	<img class="loadingimg"   src="assets/images/loading.gif">
+            </div>
+
+            <div class="loading nolog" ng-hide="notfile">
+            	<img class="loadingimg"   src="assets/images/no-file.jpg">
+            </div>
+
+            <div class="loading nolog" ng-hide="image">
+            	<img class="loadingimg" ng-src="{{imageLoadUrl}}{{mainSection.imagePath}}" on-error-src="assets/images/image-not-found.png" alt="image">
+            </div>
+
+			<canvas id="jsonCanvas"  ng-click="pasue()" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()"  ng-show="canvasStop" width="500" height="500"></canvas>
+
+			<div class="pasue-stop-img circleimg" ng-show="funcolStop">
+	    		<a href="" ng-click="pasue()"><i class="fa fa-play-circle"></i></a>
+	    	</div> 
+
+	    	<!-- <div class="loadingStop nolog" ng-show="funcolStop">
+            	<img class="loadingimg" ng-click="pasue()" src="assets/images/no-file.jpg">
+            </div> -->
+
+	    	<div class="pasue-back" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ng-show="funcol">
+        		<span class="speennum">{{(fastiPow)}}X</span>
+        		<div class="forward-img">
+        			<a href="" ng-class="{true: '', false: 'imgchag'}[forwarded]" ng-click="fast('forward')"><i class="material-icons" >fast_forward</i></a>
+        		</div>
+        		<div class="next-img circleimg">
+        			<a href=""  ng-class="{true: '', false: 'imgchag'}[isnext]" ng-click="next()"><i class="fa fa-chevron-circle-right"></i></a>
+        		</div>
+        		<div class="pasue-img circleimg">
+        			<a href=""  ng-click="pasue()"><i ng-class="{true: 'fa fa-pause-circle', false: 'fa fa-play-circle'}[pausebol]"></i></a>
+        		</div>
+        		<div class="last-img circleimg">
+        			<a href=""  ng-class="{true: '', false: 'imgchag'}[islast]" ng-click="last()"><i class="fa fa-chevron-circle-left"></i></a>
+        		</div>
+        		<div class="rewind-img">
+        			<a href="" ng-class="{true: '', false: 'imgchag'}[rewinded]" ng-click="fast('rewind')"><i class="material-icons" >fast_rewind</i></a>
+        		</div>
+        		
+        	</div>
+		</div>
+	</div>
+
+	<div id="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-xs-12 text-center" ng-controller="footerController">
+					<ul class="footer-menu">
+						<li><a href="#/about">{{'SHARE.u03_03_about' | translate}}BonnieDRAW</a></li>
+						<li><a href="#/privacy">{{'SHARE.u03_03_privacy_policy' | translate}}</a></li>
+						<li><a href="#/terms">{{'SHARE.u03_03_termS_servicr' | translate}}</a></li>
+						<li>
+							<span class="pqycz">
+							{{'SHARE.u03_03_language' | translate}}
+							<select class="fsoey" ng-options="ln.dictionaryCode as ln.dictionaryName for ln in dictionaryList" ng-model="language" ng-change="switchLanguage(language)"></select>
+							<!-- <select class="fsoey" ng-model="language" ng-change="switchLanguage(language)"> -->
+							<!--<option value="af">Afrikaans</option>
+							<option value="cs">Čeština</option>
+							<option value="da">Dansk</option>
+							<option value="de">Deutsch</option>
+							<option value="el">Ελληνικά</option> -->
+							<!-- <option value="en" >English</option> -->
+							<!--<option value="es">Español</option>
+							<option value="fi">Suomi</option>
+							<option value="fr">Français</option>
+							<option value="id">Bahasa Indonesia</option>
+							<option value="it">Italiano</option>
+							<option value="ja">日本語</option>
+							<option value="ko">한국어</option>
+							<option value="ms">Bahasa Melayu</option>
+							<option value="nb">Norsk</option>
+							<option value="nl">Nederlands</option>
+							<option value="pl">Polski</option>
+							<option value="pt-br">Português (Brasil)</option>
+							<option value="pt">Português (Portugal)</option>
+							<option value="ru">Русский</option>
+							<option value="sv">Svenska</option>
+							<option value="th">ภาษาไทย</option>
+							<option value="tl">Filipino</option>
+							<option value="tr">Türkçe</option>
+							<option value="zh-cn">中文(简体)</option> -->
+							<!-- <option value="zh-tw">中文(台灣)</option> -->
+	<!-- 							<option value="bn">বাংলা</option>
+							<option value="gu">ગુજરાતી</option>
+							<option value="hi">हिन्दी</option>
+							<option value="hr">Hrvatski</option>
+							<option value="hu">Magyar</option>
+							<option value="kn">ಕನ್ನಡ</option>
+							<option value="ml">മലയാളം</option>
+							<option value="mr">मराठी</option>
+							<option value="ne">नेपाली</option>
+							<option value="pa">ਪੰਜਾਬੀ</option>
+							<option value="si">සිංහල</option>
+							<option value="sk">Slovenčina</option>
+							<option value="ta">தமிழ்</option>
+							<option value="te">తెలుగు</option>
+							<option value="ur">اردو</option>
+							<option value="vi">Tiếng Việt</option>
+							<option value="zh-hk">中文(香港)</option>
+							<option value="bg">Български</option>
+							<option value="fr-ca">Français (Canada)</option>
+							<option value="ro">Română</option>
+							<option value="sr">Српски</option> -->
+						<!-- </select> -->
+							</span>
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-6 col-xs-12 text-center">
+					<p>	© 2017 <a href="http://www.sourcecode.tw">SourceCode</a></p>  
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	
+	
