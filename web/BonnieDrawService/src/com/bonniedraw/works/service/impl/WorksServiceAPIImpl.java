@@ -51,6 +51,8 @@ import com.bonniedraw.works.model.WorksMsg;
 import com.bonniedraw.works.model.WorksTag;
 import com.bonniedraw.works.service.WorksServiceAPI;
 
+import com.bonniedraw.notification.dao.NotificationMsgMapper;
+
 @Service
 public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI {
 
@@ -86,7 +88,10 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	
 	@Autowired
 	UserInfoMapper userInfoMapper;
-	
+
+	@Autowired
+	NotificationMsgMapper notificationMsgMapper;
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Integer worksSave(WorksSaveRequestVO worksSaveRequestVO) {
@@ -616,6 +621,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				worksMsgMapper.deleteByWorksId(worksId);
 				worksTagMapper.deleteByWorksId(worksId);
 				worksCollectionMapper.deleteByWorksId(worksId);
+				notificationMsgMapper.deleteByWorksId(worksId);
 			}else{
 				return 3;
 			}

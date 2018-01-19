@@ -20,4 +20,6 @@ public interface NotificationMsgMapper {
     int updateByPrimaryKey(NotificationMsg record);
     
     List<NotiMsgResponse> getNotiMsgList(Map<String, Object> paramMap);
+
+    int deleteByWorksId(int worksId);
 }
