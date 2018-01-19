@@ -226,6 +226,7 @@ struct Default {
     static let IMAGE = "image"
     static let THIRD_PARTY_ID = "thirdPartyId"
     static let THIRD_PARTY_EMAIL = "thirdPartyEmail"
+    static let THIRD_PARTY_TOKEN = "thirdPartyToken"
 }
 
 struct Url {

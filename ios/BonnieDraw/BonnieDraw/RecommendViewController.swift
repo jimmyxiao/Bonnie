@@ -187,11 +187,41 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                 }
             }
         case .google:
-            completionHandler(list)
+            guard let accessToken = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_TOKEN) else {
+                completionHandler(list)
+                return
+            }
+            dataRequest?.cancel()
+            dataRequest = Alamofire.request(
+                    "https://people.googleapis.com/v1/people/me/connections?personFields=metadata&pageSize=2000&access_token=\(accessToken)",
+                    method: .get,
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    if let data = response.result.value as? [String: Any],
+                       let connections = data["connections"] as? [[String: Any]] {
+                        for connection in connections {
+                            if let metadata = connection["metadata"] as? [String: Any],
+                               let sources = metadata["sources"] as? [[String: Any]] {
+                                for source in sources {
+                                    if source["type"] as? String == "ACCOUNT",
+                                       let id = source["id"] as? String {
+                                        list.append(id)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    Logger.d("\(#function): \(error.localizedDescription)")
+                }
+                completionHandler(list)
+            }
         case .twitter:
             let client = TWTRAPIClient(userID: userId)
             let request = client.urlRequest(withMethod: "GET",
-                    urlString: "https://api.twitter.com/1.1/friends/ids.json",
+                    urlString: "https://api.twitter.com/1.1/friends/ids.json?count=5000",
                     parameters: nil,
                     error: nil)
             client.sendTwitterRequest(request) {

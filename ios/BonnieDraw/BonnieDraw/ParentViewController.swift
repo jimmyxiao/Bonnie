@@ -57,10 +57,12 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
                     defaults.removeObject(forKey: Default.TOKEN)
                     defaults.removeObject(forKey: Default.USER_ID)
                     defaults.removeObject(forKey: Default.USER_TYPE)
+                    defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
+                    defaults.removeObject(forKey: Default.THIRD_PARTY_TOKEN)
                     defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
+                    defaults.removeObject(forKey: Default.THIRD_PARTY_EMAIL)
                     defaults.removeObject(forKey: Default.NAME)
                     defaults.removeObject(forKey: Default.IMAGE)
-                    defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
                     if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
                         UIApplication.shared.replace(rootViewControllerWith: controller)
                     }

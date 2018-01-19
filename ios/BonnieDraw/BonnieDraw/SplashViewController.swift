@@ -25,8 +25,8 @@ class SplashViewController: UIViewController {
                     postData["uc"] = defaults.string(forKey: Default.EMAIL)
                     postData["up"] = defaults.string(forKey: Default.PASSWORD)
                 } else {
-                    postData["uc"] = defaults.string(forKey: Default.THIRD_PARTY_ID)
                     postData["un"] = defaults.string(forKey: Default.NAME)
+                    postData["uc"] = defaults.string(forKey: Default.THIRD_PARTY_ID)
                     postData["thirdEmail"] = defaults.string(forKey: Default.THIRD_PARTY_EMAIL)
                 }
                 Alamofire.request(

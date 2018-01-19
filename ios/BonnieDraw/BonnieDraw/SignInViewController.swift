@@ -147,7 +147,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         LoginManager().logIn(readPermissions: [.publicProfile, .userFriends, .email], viewController: self) {
             result in
             switch result {
-            case .success(_, _, _):
+            case .success(_, _, let accessToken):
                 GraphRequest(graphPath: "me", parameters: ["fields": "name,email"]).start() {
                     response, result in
                     switch result {
@@ -170,7 +170,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                     }
                                     self.completionHandler = {
                                         token in
-                                        self.signInThirdParty(withRemoteToken: token, type: .facebook, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
+                                        self.signInThirdParty(withRemoteToken: token, thirdPartyAccessToken: accessToken.authenticationToken, type: .facebook, userId: facebookId, name: facebookName, email: facebookEmail, imageUrl: imageUrl)
                                     }
                                     self.registerForRemoteNotification()
                                 case .failed(let error):
@@ -220,7 +220,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             user, error in
                             self.completionHandler = {
                                 token in
-                                self.signInThirdParty(withRemoteToken: token, type: .twitter, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: URL(string: user?.profileImageLargeURL ?? ""))
+                                self.signInThirdParty(withRemoteToken: token, thirdPartyAccessToken: session!.authToken, type: .twitter, userId: session!.userID, name: user?.name ?? session!.userName, email: email!, imageUrl: URL(string: user?.profileImageLargeURL ?? ""))
                             }
                             self.registerForRemoteNotification()
                         }
@@ -232,6 +232,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 
     @IBAction func google(_ sender: Any) {
         loading.hide(false)
+        GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/contacts.readonly"]
         GIDSignIn.sharedInstance().signIn()
     }
 
@@ -244,7 +245,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         } else {
             self.completionHandler = {
                 token in
-                self.signInThirdParty(withRemoteToken: token, type: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128))
+                self.signInThirdParty(withRemoteToken: token, thirdPartyAccessToken: user.authentication.accessToken, type: .google, userId: user.userID, name: user.profile.name, email: user.profile.email, imageUrl: user.profile.imageURL(withDimension: 128))
             }
             self.registerForRemoteNotification()
         }
@@ -280,7 +281,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         completionHandler?(notification.object as? String)
     }
 
-    private func signInThirdParty(withRemoteToken token: String?, type: UserType, userId id: String, name: String, email: String, imageUrl: URL?) {
+    private func signInThirdParty(withRemoteToken remoteToken: String?, thirdPartyAccessToken accessToken: String, type: UserType, userId id: String, name: String, email: String, imageUrl: URL?) {
         var postData: [String: Any] = ["uc": id, "un": name, "ut": type.rawValue, "dt": SERVICE_DEVICE_TYPE, "fn": 1, "thirdEmail": email]
         let locale = Locale.current
         if let languageCode = locale.languageCode {
@@ -292,7 +293,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         if let deviceId = UIDevice.current.identifierForVendor?.uuidString {
             postData["deviceId"] = deviceId
         }
-        if let token = token {
+        if let token = remoteToken {
             postData["token"] = token
         }
         if let imageUrl = imageUrl {
@@ -328,15 +329,16 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             defaults.set(token, forKey: Default.TOKEN)
                             defaults.set(userId, forKey: Default.USER_ID)
                             defaults.set(type.rawValue, forKey: Default.USER_TYPE)
+                            defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                            defaults.set(accessToken, forKey: Default.THIRD_PARTY_TOKEN)
                             defaults.set(id, forKey: Default.THIRD_PARTY_ID)
-                            defaults.set(name, forKey: Default.NAME)
                             defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
+                            defaults.set(name, forKey: Default.NAME)
                             if let imageUrl = profile.image {
                                 defaults.set(imageUrl, forKey: Default.IMAGE)
                             } else {
                                 defaults.set(imageUrl, forKey: Default.IMAGE)
                             }
-                            defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
                             self.launchMain()
                         case .failure(let error):
                             if let error = error as? URLError, error.code == .cancelled {
