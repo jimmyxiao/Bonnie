@@ -26,6 +26,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     var delegate: RecommendViewControllerDelegate?
 
     override func viewDidLoad() {
+        navigationItem.title = title
         navigationItem.hidesBackButton = true
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal

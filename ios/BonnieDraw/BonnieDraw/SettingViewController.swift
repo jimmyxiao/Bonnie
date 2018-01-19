@@ -16,6 +16,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
     var delegate: SettingViewControllerDelegate?
 
     override func viewDidLoad() {
+        navigationItem.title = title
         if let type = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)),
            type == .email {
             settings.append(Setting(type: .password, title: "setting_change_password".localized, segueId: Segue.PASSWORD))
