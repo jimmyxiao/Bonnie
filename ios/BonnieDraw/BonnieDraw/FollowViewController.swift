@@ -60,6 +60,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         refreshControl.endRefreshing()
         if navigationItem.titleView != titleView {
             navigationItem.titleView = titleView
+            navigationItem.rightBarButtonItem?.tintColor = nil
             searchBar.text = nil
             tableViewWorks = works
             tableView.reloadSections([0], with: .automatic)
@@ -98,12 +99,14 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    @IBAction func search(_ sender: Any) {
+    @IBAction func search(_ sender: UIBarButtonItem) {
         if navigationItem.titleView == titleView {
+            sender.tintColor = UIColor.getAccentColor()
             navigationItem.setLeftBarButton(nil, animated: true)
             navigationItem.titleView = searchBar
             searchBar.becomeFirstResponder()
         } else {
+            sender.tintColor = nil
             navigationItem.titleView = titleView
             searchBar.text = nil
             tableViewWorks = works

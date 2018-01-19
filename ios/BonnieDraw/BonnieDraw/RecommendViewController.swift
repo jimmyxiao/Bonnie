@@ -56,12 +56,14 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         refreshControl.endRefreshing()
     }
 
-    @IBAction func search(_ sender: Any) {
+    @IBAction func search(_ sender: UIBarButtonItem) {
         if navigationItem.titleView != searchBar {
+            sender.tintColor = UIColor.getAccentColor()
             navigationItem.setLeftBarButton(nil, animated: true)
             navigationItem.titleView = searchBar
             searchBar.becomeFirstResponder()
         } else {
+            sender.tintColor = nil
             navigationItem.setLeftBarButton(backButton, animated: true)
             navigationItem.titleView = nil
             searchBar.text = nil

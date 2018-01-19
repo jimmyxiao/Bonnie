@@ -75,6 +75,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             delegate?.home(enableMenuGesture: true)
             navigationItem.setLeftBarButton(menuButton, animated: true)
             navigationItem.titleView = titleView
+            navigationItem.rightBarButtonItem?.tintColor = nil
             searchBar.text = nil
             works.removeAll()
             tableViewWorks.removeAll()
@@ -118,13 +119,15 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    @IBAction func search(_ sender: Any) {
+    @IBAction func search(_ sender: UIBarButtonItem) {
         if navigationItem.titleView == titleView {
+            sender.tintColor = UIColor.getAccentColor()
             delegate?.home(enableMenuGesture: false)
             navigationItem.setLeftBarButton(nil, animated: true)
             navigationItem.titleView = searchBar
             searchBar.becomeFirstResponder()
         } else {
+            sender.tintColor = nil
             delegate?.home(enableMenuGesture: true)
             navigationItem.setLeftBarButton(menuButton, animated: true)
             navigationItem.titleView = titleView
@@ -717,8 +720,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
-
     func homeDidTapProfile()
-
     func home(enableMenuGesture enable: Bool)
 }
