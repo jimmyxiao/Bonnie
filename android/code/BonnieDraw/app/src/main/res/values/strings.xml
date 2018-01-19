@@ -179,4 +179,5 @@
     <string name="uc_username">User name</string>
     <string name="uc_username_empty">User name cannot be blank.</string>
     <string name="uc_yesterday">Yesterday</string>
+    <string name="uc_loading">Loading...</string>
 </resources>

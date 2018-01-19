@@ -58,6 +58,7 @@ public class PaintView extends View {
     public File mFileBDW, mFilePNG;
     public BDWFileReader mBDWReader = new BDWFileReader();
     public int miPaintNum = 3;
+    private int mPaintStatus = 0 ; // 1: down 2: move 3:up
 
     //********  Brush  ******************
 
@@ -953,10 +954,36 @@ public class PaintView extends View {
             PaintView.this.moveToThread(x, y);
             //**add TagPoint
             onTouchDownTagPoint(x, y);
+            mPaintStatus = 1;
         }
 
         @Override
         protected void onTouchMove(float x, float y, float t) {
+            if(mPaintStatus == 3)
+                return;
+            if(x<0 || y<0 || x>miWidth || y>miWidth)
+            {
+                if(mListTagPoint.size()>0)
+                {
+                    if(mListTagPoint.get(mListTagPoint.size()-1).get_iAction()!=2){
+                        TagPoint last_point = mListTagPoint.get(mListTagPoint.size()-1);
+                        TagPoint tag_point = new TagPoint();
+                        tag_point.set_iAction(2);
+                        tag_point.set_iBrush(last_point.get_iBrush());
+                        tag_point.set_iColor(last_point.get_iColor());
+                        tag_point.set_iPosX(last_point.get_iPosX());
+                        tag_point.set_iPosY(last_point.get_iPosY());
+                        tag_point.set_iReserved(last_point.get_iReserved());
+                        tag_point.set_iSize(last_point.get_iSize());
+                        tag_point.set_iTime(last_point.get_iTime());
+                        mListTagPoint.add(tag_point);
+                        PaintView.this.destLineThread();
+                        mPaintStatus =3;
+                    }
+                }
+                return;
+            }
+            mPaintStatus = 2;
             //Log.d("PaintView", "onTouchMove");
             Brush brush = PaintView.this.mBrush;
 
@@ -992,6 +1019,13 @@ public class PaintView extends View {
 
         @Override
         protected void onTouchUp(float x, float y) {
+            if(mPaintStatus == 3)
+                return;
+            if(x<0 || y<0 || x>miWidth || y>miWidth)
+            {
+                return;
+            }
+            mPaintStatus = 3;
             //Log.d("PaintView", "onTouchUp");
             PaintView.this.destLineThread();
             //**add TagPoint
@@ -1087,11 +1121,19 @@ public class PaintView extends View {
         tagpoint.set_iBrush(miPaintNum);
         tagpoint.set_iTime((int) t);
         tagpoint.set_iColor(mColor);
+        if (mBrush.isEraser) {
+            tagpoint.set_iBrush(0);
+        }
         tagpoint.set_iAction(MotionEvent.ACTION_MOVE + 1);
         mListTagPoint.add(tagpoint);
     }
 
     private void onTouchUpTagPoint(float x, float y) {
+        if(x<0 || y<0 || x>miWidth || y>miWidth)
+        {
+            return;
+        }
+
         TagPoint tagpoint = new TagPoint();
         tagpoint.set_iPosX(PxDpConvert.displayToFormat(x, miWidth));
         tagpoint.set_iPosY(PxDpConvert.displayToFormat(y, miWidth));

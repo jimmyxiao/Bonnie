@@ -289,7 +289,12 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.uc_connect_failed_title), false, 0);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.createToastIsCheck(getApplicationContext(), getString(R.string.uc_connect_failed_title), false, 0);
+                    }
+                });
             }
 
             @Override

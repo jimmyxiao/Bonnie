@@ -179,4 +179,5 @@
     <string name="uc_username">用戶名稱</string>
     <string name="uc_username_empty">用戶名稱不可空白</string>
     <string name="uc_yesterday">昨天</string>
+    <string name="uc_loading">載入中...</string>
 </resources>

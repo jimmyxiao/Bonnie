@@ -14,5 +14,5 @@
     <string name="com.twitter.sdk.android.CONSUMER_SECRET" translatable="false">1efRU1i8Bz1aPzpPvnfP6RrM1MviYNJAtGDawpHQnAFuKYdTmO</string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />
-    <string name="download_html">https://drive.google.com/drive/folders/188s49Eyy6pTZfNOUikmUj8MnesVQwu2g?usp=sharing</string>
+    <string name="download_html">https://drive.google.com/open?id=188s49Eyy6pTZfNOUikmUj8MnesVQwu2g</string>
 </resources>
