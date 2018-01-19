@@ -144,7 +144,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 
     @IBAction func facebook(_ sender: Any) {
         loading.hide(false)
-        LoginManager().logIn(readPermissions: [.publicProfile, .email], viewController: self) {
+        LoginManager().logIn(readPermissions: [.publicProfile, .userFriends, .email], viewController: self) {
             result in
             switch result {
             case .success(_, _, _):

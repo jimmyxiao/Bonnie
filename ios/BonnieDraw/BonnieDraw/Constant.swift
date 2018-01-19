@@ -154,6 +154,7 @@ struct Service {
     static let SOCIAL_SHARE = "/socialShare"
     static let FOLLOWING_LIST = "/followingList"
     static let TAG_LIST = "/tagList"
+    static let FRIEND_LIST = "/friendsList"
     static let ABOUT = "https://www.bonniedraw.com/#/about_app"
     static let PRIVACY_POLICY = "https://www.bonniedraw.com/#/privacy_app"
     static let TERM_OF_USE = "https://www.bonniedraw.com/#/terms_app"

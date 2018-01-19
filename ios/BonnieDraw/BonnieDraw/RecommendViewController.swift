@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FacebookCore
+import TwitterKit
 import Alamofire
 
 class RecommendViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
@@ -101,46 +103,109 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
             return
         }
         loading.hide(false)
-        dataRequest?.cancel()
-        dataRequest = Alamofire.request(
-                Service.standard(withPath: Service.WORK_LIST),
-                method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128],
-                encoding: JSONEncoding.default).validate().responseJSON {
-            response in
-            switch response.result {
-            case .success:
-                guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
+        getFriendList() {
+            userIds in
+            self.dataRequest?.cancel()
+            self.dataRequest = Alamofire.request(
+                    Service.standard(withPath: Service.FRIEND_LIST),
+                    method: .post,
+                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID),
+                                 "lk": token,
+                                 "dt": SERVICE_DEVICE_TYPE,
+                                 "thirdPlatform": UserDefaults.standard.integer(forKey: Default.USER_TYPE),
+                                 "uidList": userIds],
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let userList = data["friendList"] as? [[String: Any]] else {
+                        self.presentConfirmationDialog(
+                                title: "service_download_fail_title".localized,
+                                message: "app_network_unreachable_content".localized) {
+                            success in
+                            if success {
+                                self.downloadData()
+                            }
+                        }
+                        return
+                    }
+                    self.users.removeAll()
+                    for user in userList {
+                        self.users.append(User(withDictionary: user))
+                    }
+                    self.tableViewUsers = self.users
+                    self.tableView.reloadSections([0], with: .automatic)
+                    self.emptyLabel.isHidden = !self.tableViewUsers.isEmpty
+                    if !self.loading.isHidden {
+                        self.loading.hide(true)
+                    }
+                    self.timestamp = Date()
+                    self.refreshControl.endRefreshing()
+                case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
                     self.presentConfirmationDialog(
                             title: "service_download_fail_title".localized,
-                            message: "app_network_unreachable_content".localized) {
+                            message: error.localizedDescription) {
                         success in
                         if success {
                             self.downloadData()
                         }
                     }
-                    return
                 }
-                self.tableViewUsers = self.users
-                self.tableView.reloadSections([0], with: .automatic)
-                self.emptyLabel.isHidden = !self.tableViewUsers.isEmpty
-                if !self.loading.isHidden {
-                    self.loading.hide(true)
-                }
-                self.timestamp = Date()
-                self.refreshControl.endRefreshing()
-            case .failure(let error):
-                if let error = error as? URLError, error.code == .cancelled {
-                    return
-                }
-                self.presentConfirmationDialog(
-                        title: "service_download_fail_title".localized,
-                        message: error.localizedDescription) {
-                    success in
-                    if success {
-                        self.downloadData()
+            }
+        }
+    }
+
+    private func getFriendList(completionHandler: @escaping ([String]) -> Void) {
+        var list = [String]()
+        guard let userType = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)),
+              let userId = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_ID) else {
+            completionHandler(list)
+            return
+        }
+        switch userType {
+        case .email:
+            completionHandler(list)
+        case .facebook:
+            GraphRequest(graphPath: "\(userId)/friends").start() {
+                response, result in
+                switch result {
+                case .success(let response):
+                    if let users = response.dictionaryValue?["data"] as? [[String: Any]] {
+                        for user in users {
+                            if let id = user["id"] as? String {
+                                list.append(id)
+                            }
+                        }
                     }
+                    completionHandler(list)
+                case .failed(let error):
+                    Logger.d("\(#function): \(error.localizedDescription)")
+                    completionHandler(list)
                 }
+            }
+        case .google:
+            completionHandler(list)
+        case .twitter:
+            let client = TWTRAPIClient(userID: userId)
+            let request = client.urlRequest(withMethod: "GET",
+                    urlString: "https://api.twitter.com/1.1/friends/ids.json",
+                    parameters: nil,
+                    error: nil)
+            client.sendTwitterRequest(request) {
+                response, data, error in
+                do {
+                    if let data = data,
+                       let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
+                       let ids = json["ids"] as? [String] {
+                        list.append(contentsOf: ids)
+                    }
+                } catch let error {
+                    Logger.d("\(#function): \(error.localizedDescription)")
+                }
+                completionHandler(list)
             }
         }
     }
