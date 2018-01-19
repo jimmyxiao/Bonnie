@@ -1054,27 +1054,31 @@ public class PaintView extends View {
 
             openLine();
             while (getXYVAtDistance(this.mLastDrawDistance, this.mTempXYV)) {
-                if(Float.isNaN(this.mLastDrawDistance))
-                    break;
-                float tipSpeedScale;
-                float tipSpeedAlpha;
-                float px = this.mTempXYV[0];
-                float py = this.mTempXYV[1];
-                float pv = this.mTempXYV[2];
-                if (brush.lineEndSpeedLength > 0.0f) {
-                    float velocityLevel;
-                    velocityLevel = pv > PaintView.this.mMaxVelocityScale ? 1.0f : pv / PaintView.this.mMaxVelocityScale;
-                    tipSpeedScale = brush.lineEndSizeScale + (1.0f - velocityLevel) * (1.0f - brush.lineEndSizeScale);
-                    tipSpeedAlpha = brush.lineEndAlphaScale + (1.0f - velocityLevel) * (1.0f - brush.lineEndAlphaScale);
-                } else {
-                    tipSpeedScale = 1.0f;
-                    tipSpeedAlpha = 1.0f;
+                try {
+                    if (Float.isNaN(this.mLastDrawDistance))
+                        break;
+                    float tipSpeedScale;
+                    float tipSpeedAlpha;
+                    float px = this.mTempXYV[0];
+                    float py = this.mTempXYV[1];
+                    float pv = this.mTempXYV[2];
+                    if (brush.lineEndSpeedLength > 0.0f) {
+                        float velocityLevel;
+                        velocityLevel = pv > PaintView.this.mMaxVelocityScale ? 1.0f : pv / PaintView.this.mMaxVelocityScale;
+                        tipSpeedScale = brush.lineEndSizeScale + (1.0f - velocityLevel) * (1.0f - brush.lineEndSizeScale);
+                        tipSpeedAlpha = brush.lineEndAlphaScale + (1.0f - velocityLevel) * (1.0f - brush.lineEndAlphaScale);
+                    } else {
+                        tipSpeedScale = 1.0f;
+                        tipSpeedAlpha = 1.0f;
+                    }
+                    if (this.mLastDrawDistance > 0.0f) {
+                        //Log.d("PaintView", "onTouchMove " + px + ", " + py);
+                        PaintView.this.addSpot(px, py, tipSpeedScale, tipSpeedAlpha);
+                    }
+                    this.mLastDrawDistance += PaintView.this.mSpacing * tipSpeedScale;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                if (this.mLastDrawDistance > 0.0f) {
-                    //Log.d("PaintView", "onTouchMove " + px + ", " + py);
-                    PaintView.this.addSpot(px, py, tipSpeedScale, tipSpeedAlpha);
-                }
-                this.mLastDrawDistance += PaintView.this.mSpacing * tipSpeedScale;
             }
             closeLine();
         }

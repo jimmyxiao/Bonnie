@@ -542,11 +542,13 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         Brush brush = mPaintView.getBrush();
                         int color = mPaintView.getDrawingColor();
                         float brusnSize = mPaintView.getDrawingScaledSize();
+                        int paintNum = mPaintView.miPaintNum;
                         mPaintView = new PaintView(getApplicationContext(),true);
                         mPaintView.initDefaultBrush(brush);
                         mPaintView.setBrush(brush);
                         mPaintView.setDrawingColor(color);
                         mPaintView.setDrawingScaledSize(brusnSize);
+                        mPaintView.miPaintNum = paintNum;
                         mFrameLayoutFreePaint.addView(mPaintView);
                         dialog.dismiss();
                     }
