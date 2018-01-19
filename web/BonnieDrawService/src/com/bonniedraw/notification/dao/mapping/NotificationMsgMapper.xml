@@ -159,5 +159,10 @@
 	</if>
 	order by nm.creation_date desc
   </select>
-  
+
+  <delete id="deleteByWorksId" parameterType="java.lang.Integer">
+    delete from notification_msg
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </delete>
+
 </mapper>

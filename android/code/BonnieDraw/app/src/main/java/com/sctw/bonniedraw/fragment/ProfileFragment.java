@@ -38,6 +38,8 @@ import com.sctw.bonniedraw.utility.OkHttpUtil;
 import com.sctw.bonniedraw.utility.PxDpConvert;
 import com.sctw.bonniedraw.widget.MessageDialog;
 import com.sctw.bonniedraw.widget.ToastUtil;
+import com.takwolf.android.hfrecyclerview.HeaderAndFooterRecyclerView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +61,7 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
     private ImageButton mImgBtnBookmark, mImgBtnSetting, mImgBtnGrid, mImgBtnList, mImgBtnFriends;
     private List<WorkInfoBean> workInfoBeanList;
     private SwipeRefreshLayout mSwipeLayoutProfile;
-    private RecyclerView mRv;
+    private HeaderAndFooterRecyclerView mRv;
     private ProgressBar mProgressBar;
     private WorkProfileAdapterGrid mAdapterGrid;
     private WorkProfileAdapterList mAdapterList;
@@ -95,6 +97,8 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
         mImgBtnList = (ImageButton) view.findViewById(R.id.imgBtn_profile_list);
         mImgBtnFriends = (ImageButton) view.findViewById(R.id.imgBtn_profile_friends);
         mRv = view.findViewById(R.id.recyclerview_profile);
+        mRv.setHasFixedSize(true);
+        mRv.smoothScrollToPosition(0);
         getWorksList(GET_WORKS_LIST);
         updateProfileInfo();
         setOnClick();
@@ -274,6 +278,27 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
     public void getWorks(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
 
+        // for test
+        /*
+        WorkInfoBean work_Info = workInfoBeanList.get(workInfoBeanList.size()-1);
+        for(int i=0 ; i<500 ; i++)
+        {
+            WorkInfoBean workInfo = new WorkInfoBean();
+            workInfo.setWorkId(String.valueOf(i+1000));
+            workInfo.setUserId(work_Info.getUserId());
+            workInfo.setUserName(work_Info.getUserName());
+            workInfo.setTitle(work_Info.getTitle());
+            workInfo.setDescription(work_Info.getDescription());
+            workInfo.setImagePath(work_Info.getImagePath());
+            workInfo.setIsFollowing(work_Info.getIsFollowing());
+            workInfo.setUserImgPath(work_Info.getImagePath());
+            workInfo.setLikeCount(work_Info.getLikeCount());
+            workInfo.setMsgCount(work_Info.getMsgCount());
+            workInfo.setLike(work_Info.isLike());
+            workInfo.setCollection(work_Info.isCollection());
+            workInfoBeanList.add(workInfo);
+        }
+*/
         mAdapterGrid = new WorkProfileAdapterGrid(getContext(), workInfoBeanList, mUserInfo, this);
 
         mAdapterList = new WorkProfileAdapterList(getContext(), workInfoBeanList,mUserInfo, this, false);
@@ -291,6 +316,27 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
 
     public void refresh(JSONArray data) {
         workInfoBeanList = WorkInfoBean.generateInfoList(data);
+        // for test
+        /*
+        WorkInfoBean work_Info = workInfoBeanList.get(workInfoBeanList.size()-1);
+        for(int i=0 ; i<500 ; i++)
+        {
+            WorkInfoBean workInfo = new WorkInfoBean();
+            workInfo.setWorkId(String.valueOf(i+1000));
+            workInfo.setUserId(work_Info.getUserId());
+            workInfo.setUserName(work_Info.getUserName());
+            workInfo.setTitle(work_Info.getTitle());
+            workInfo.setDescription(work_Info.getDescription());
+            workInfo.setImagePath(work_Info.getImagePath());
+            workInfo.setIsFollowing(work_Info.getIsFollowing());
+            workInfo.setUserImgPath(work_Info.getImagePath());
+            workInfo.setLikeCount(work_Info.getLikeCount());
+            workInfo.setMsgCount(work_Info.getMsgCount());
+            workInfo.setLike(work_Info.isLike());
+            workInfo.setCollection(work_Info.isCollection());
+            workInfoBeanList.add(workInfo);
+        }
+        */
        // DiffUtil.DiffResult diffResult;
         if (mbGridMode) {
              //   diffResult = DiffUtil.calculateDiff(new DiffCallBack(mAdapterGrid.getData(), workInfoBeanList), true);
@@ -660,7 +706,13 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
     public void onDeleteWorkSuccess() {
         // reload works
         //updateProfileInfo();
-        ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+            }
+        });
+
         getWorksList(REFRESH_WORKS_LIST);
 
     }

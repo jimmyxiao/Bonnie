@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -103,14 +104,30 @@ public class WorkProfileAdapterGrid extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                 });
 
-                viewHolder_profile.mTextViewFans.setOnClickListener(new View.OnClickListener() {
+//                viewHolder_profile.mTextViewFans.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        mListner.onFansClickListener();
+//                    }
+//                });
+
+                viewHolder_profile.layoutFans.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mListner.onFansClickListener();
                     }
                 });
 
-                viewHolder_profile.mTextViewFollows.setOnClickListener(new View.OnClickListener() {
+
+
+//                viewHolder_profile.mTextViewFollows.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        mListner.onFansFollowsListener();
+//                    }
+//                });
+
+                viewHolder_profile.layoutFollows.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mListner.onFansFollowsListener();
@@ -169,6 +186,8 @@ public class WorkProfileAdapterGrid extends RecyclerView.Adapter<RecyclerView.Vi
         CircleImageView imgPhoto;
 
         TextView mTextViewUserName, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
+        LinearLayout layoutFans ,layoutFollows;
+
         private Button mBtnEdit;
 
         ViewHolder_profile(View view) {
@@ -180,6 +199,8 @@ public class WorkProfileAdapterGrid extends RecyclerView.Adapter<RecyclerView.Vi
             mTextViewWorks = (TextView) view.findViewById(R.id.textView_profile_userworks);
             mTextViewFans = (TextView) view.findViewById(R.id.textView_profile_fans);
             mTextViewFollows = (TextView) view.findViewById(R.id.textView_profile_follows);
+            layoutFans = (LinearLayout) view.findViewById(R.id.ll_profile_fans);
+            layoutFollows = (LinearLayout) view.findViewById(R.id.ll_profile_follow);
         }
     }
 

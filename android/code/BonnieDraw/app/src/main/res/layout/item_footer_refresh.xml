@@ -25,7 +25,7 @@
             android:textColor="@color/HintColor"
             android:visibility="gone"
             android:padding="8dp"
-            android:text="載入中..." />
+            android:text="@string/uc_loading" />
 
     </LinearLayout>
 
