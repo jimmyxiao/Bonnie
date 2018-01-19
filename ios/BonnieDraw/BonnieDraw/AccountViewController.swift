@@ -16,8 +16,9 @@ class AccountViewController:
         UICollectionViewDelegateFlowLayout,
         AccountHeaderCollectionReusableViewDelegate,
         SettingViewControllerDelegate,
-        UserViewControllerDelegate,
+        RecommendViewControllerDelegate,
         AccountEditViewControllerDelegate,
+        UserViewControllerDelegate,
         WorkViewControllerDelegate,
         CommentViewControllerDelegate,
         EditViewControllerDelegate {
@@ -105,6 +106,8 @@ class AccountViewController:
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? SettingViewController {
+            controller.delegate = self
+        } else if let controller = segue.destination as? RecommendViewController {
             controller.delegate = self
         } else if let controller = segue.destination as? AccountEditViewController {
             controller.delegate = self
@@ -414,6 +417,14 @@ class AccountViewController:
 
     internal func accountHeaderFollowings(_ sender: Any) {
         performSegue(withIdentifier: Segue.FOLLOW, sender: sender)
+    }
+
+    internal func recommend(didFollowUser follow: Bool) {
+        if var followsCount = profile?.followsCount {
+            followsCount += (follow ? 1 : -1)
+            profile?.followsCount = followsCount
+            collectionView.reloadSections([0])
+        }
     }
 
     internal func settings(profileDidChange profile: Profile) {

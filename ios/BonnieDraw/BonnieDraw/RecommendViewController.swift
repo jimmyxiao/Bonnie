@@ -23,6 +23,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     private let searchBar = UISearchBar()
     private let refreshControl = UIRefreshControl()
     private let placeholderImage = UIImage(named: "photo-square")
+    var delegate: RecommendViewControllerDelegate?
 
     override func viewDidLoad() {
         navigationItem.hidesBackButton = true
@@ -267,9 +268,75 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
     }
 
     @IBAction func follow(_ sender: FollowButton) {
-        sender.isSelected = !sender.isSelected
-        if let indexPath = tableView.indexPath(forView: sender) {
-            users[indexPath.row].isFollowing = sender.isSelected
+        guard AppDelegate.reachability.connection != .none else {
+            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            return
+        }
+        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+              let indexPath = tableView.indexPath(forView: sender),
+              let id = tableViewUsers[indexPath.row].id else {
+            return
+        }
+        let follow = !sender.isSelected
+        dataRequest?.cancel()
+        dataRequest = Alamofire.request(
+                Service.standard(withPath: Service.SET_FOLLOW),
+                method: .post,
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
+                encoding: JSONEncoding.default).validate().responseJSON {
+            response in
+            switch response.result {
+            case .success:
+                guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
+                    self.presentConfirmationDialog(
+                            title: "service_download_fail_title".localized,
+                            message: "app_network_unreachable_content".localized) {
+                        success in
+                        if success {
+                            self.downloadData()
+                        }
+                    }
+                    return
+                }
+                if response != 1 {
+                    self.presentDialog(
+                            title: "service_download_fail_title".localized,
+                            message: data["msg"] as? String)
+                } else {
+                    if let index = self.users.index(where: {
+                        user in
+                        return user.id == id
+                    }) {
+                        self.users[index].isFollowing = follow
+                    }
+                    if let index = self.tableViewUsers.index(where: {
+                        user in
+                        return user.id == id
+                    }) {
+                        self.tableViewUsers[index].isFollowing = follow
+                        if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? UserTableViewCell {
+                            cell.follow.isSelected = follow
+                            self.delegate?.recommend(didFollowUser: follow)
+                        }
+                    }
+                }
+            case .failure(let error):
+                if let error = error as? URLError, error.code == .cancelled {
+                    return
+                }
+                self.presentConfirmationDialog(
+                        title: "service_download_fail_title".localized,
+                        message: error.localizedDescription) {
+                    success in
+                    if success {
+                        self.downloadData()
+                    }
+                }
+            }
         }
     }
+}
+
+protocol RecommendViewControllerDelegate {
+    func recommend(didFollowUser follow: Bool)
 }
