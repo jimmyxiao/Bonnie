@@ -696,7 +696,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             }
             if !instantly {
                 timer?.invalidate()
-                timer = Timer.scheduledTimer(withTimeInterval: ANIMATION_TIMER * animationSpeed, repeats: false) {
+                timer = Timer.scheduledTimer(withTimeInterval: point.duration * animationSpeed, repeats: false) {
                     timer in
                     handler(false)
                 }
@@ -720,7 +720,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         if animationSpeed >= 4 {
             decrement.isEnabled = false
             increment.isEnabled = true
-        } else if animationSpeed <= 0.25 {
+        } else if animationSpeed <= 0.0625 {
             decrement.isEnabled = true
             increment.isEnabled = false
         } else {
@@ -732,6 +732,5 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
 protocol WorkViewControllerDelegate {
     func work(didChange work: Work)
-
     func work(didDelete work: Work)
 }

@@ -39,6 +39,7 @@ class CanvasViewController:
     private var writeHandle: FileHandle?
     private var persistentBackgroundColor: UIColor?
     private var isDrawing = false
+    var lastTimestamp = ANIMATION_TIMER
     var jotViewStateInkPath = FileUrl.INK.path
     var jotViewStateThumbnailPath = FileUrl.THUMBNAIL.path
     var jotViewStatePlistPath = FileUrl.STATE.path
@@ -460,6 +461,7 @@ class CanvasViewController:
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
                     duration: ANIMATION_TIMER)]))
+            lastTimestamp = coalescedTouch.timestamp
             isDrawing = true
             return true
         }
@@ -474,7 +476,8 @@ class CanvasViewController:
                 action: .move,
                 size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                 type: brush.type,
-                duration: ANIMATION_TIMER))
+                duration: coalescedTouch.timestamp - lastTimestamp))
+        lastTimestamp = coalescedTouch.timestamp
     }
 
     internal func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
@@ -487,7 +490,8 @@ class CanvasViewController:
                     action: .up,
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
-                    duration: ANIMATION_TIMER))
+                    duration: coalescedTouch.timestamp - lastTimestamp))
+            lastTimestamp = coalescedTouch.timestamp
         } else {
             paths.last?.points.last?.action = .up
         }
