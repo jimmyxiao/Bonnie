@@ -108,8 +108,12 @@
 		16E539701FD965D800799E4D /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5396F1FD965D800799E4D /* CommentViewController.swift */; };
 		16E539721FD9698000799E4D /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E539711FD9698000799E4D /* CommentTableViewCell.swift */; };
 		16ECCD6D1FECD3B9009C053E /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */; };
+		16EE49E220163E9600C46ED3 /* Login_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16EE49E120163E9600C46ED3 /* Login_iPad.storyboard */; };
+		16EE49E420163EAF00C46ED3 /* Drawing_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16EE49E320163EAF00C46ED3 /* Drawing_iPad.storyboard */; };
+		16EE49E620163F3C00C46ED3 /* Account_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16EE49E520163F3C00C46ED3 /* Account_iPad.storyboard */; };
 		16FAA146200366590031AF28 /* AccountHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16FAA148200366590031AF28 /* AccountHeaderCollectionReusableView.xib */; };
 		16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FC10231F6963B3008A6A92 /* ViewExtension.swift */; };
+		16FC7CAB20163D2F005D199C /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16FC7CAA20163D2F005D199C /* Main_iPad.storyboard */; };
 		C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */; };
 /* End PBXBuildFile section */
 
@@ -227,8 +231,12 @@
 		16E5396F1FD965D800799E4D /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		16E539711FD9698000799E4D /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
+		16EE49E120163E9600C46ED3 /* Login_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login_iPad.storyboard; sourceTree = "<group>"; };
+		16EE49E320163EAF00C46ED3 /* Drawing_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Drawing_iPad.storyboard; sourceTree = "<group>"; };
+		16EE49E520163F3C00C46ED3 /* Account_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account_iPad.storyboard; sourceTree = "<group>"; };
 		16FAA147200366590031AF28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccountHeaderCollectionReusableView.xib; sourceTree = "<group>"; };
 		16FC10231F6963B3008A6A92 /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		16FC7CAA20163D2F005D199C /* Main_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPad.storyboard; sourceTree = "<group>"; };
 		388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.release.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.release.xcconfig"; sourceTree = "<group>"; };
 		F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -330,6 +338,10 @@
 				16450EBD200319BF00BF8D6D /* Drawing.storyboard */,
 				16D08F221FB169AC001D167C /* Account.storyboard */,
 				16FAA148200366590031AF28 /* AccountHeaderCollectionReusableView.xib */,
+				16FC7CAA20163D2F005D199C /* Main_iPad.storyboard */,
+				16EE49E120163E9600C46ED3 /* Login_iPad.storyboard */,
+				16EE49E320163EAF00C46ED3 /* Drawing_iPad.storyboard */,
+				16EE49E520163F3C00C46ED3 /* Account_iPad.storyboard */,
 				163F65B11F61663900945E04 /* Assets.xcassets */,
 			);
 			name = Resource;
@@ -555,11 +567,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16EE49E620163F3C00C46ED3 /* Account_iPad.storyboard in Resources */,
 				16303BB01FD14D0E00C42783 /* quad.vsh in Resources */,
 				16303BB11FD14D0E00C42783 /* colorlesspoint.vsh in Resources */,
 				16303BB21FD14D0E00C42783 /* quad.fsh in Resources */,
 				16303BB31FD14D0E00C42783 /* stencil.fsh in Resources */,
 				16BA1B4A200094CE00BCD7B7 /* Pencil.png in Resources */,
+				16EE49E420163EAF00C46ED3 /* Drawing_iPad.storyboard in Resources */,
 				16CF01F0200CE4FA00C6CF0B /* Crayon.png in Resources */,
 				16303BB41FD14D0E00C42783 /* point.fsh in Resources */,
 				16303BB51FD14D0E00C42783 /* coloredpoint.vsh in Resources */,
@@ -567,9 +581,11 @@
 				16FAA146200366590031AF28 /* AccountHeaderCollectionReusableView.xib in Resources */,
 				16786F16200456FF00335BA1 /* InfoPlist.strings in Resources */,
 				16450EC2200319BF00BF8D6D /* Login.storyboard in Resources */,
+				16FC7CAB20163D2F005D199C /* Main_iPad.storyboard in Resources */,
 				163EAEDA1FD64435003109B3 /* Marker.png in Resources */,
 				1645CE151FFE5211002AC2FD /* GoogleService-Info.plist in Resources */,
 				163EAEDC1FD64435003109B3 /* Airbrush.png in Resources */,
+				16EE49E220163E9600C46ED3 /* Login_iPad.storyboard in Resources */,
 				162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */,
 				162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */,
 				16450EC1200319BF00BF8D6D /* Drawing.storyboard in Resources */,
