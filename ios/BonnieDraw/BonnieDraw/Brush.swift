@@ -28,7 +28,6 @@ class Brush: JotBrushTexture {
             if customBrush != nil {
                 customBrush = nil
             }
-            isRotationSupported = type == .pencil || type == .crayon || type == .marker
         }
     }
 
