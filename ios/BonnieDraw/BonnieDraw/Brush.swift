@@ -51,10 +51,10 @@ class Brush: JotBrushTexture {
 
     private func calculateStepWidth() {
         switch type {
-        case .crayon:
-            stepWidth = minSize * 0.4
-        case .pencil, .airbrush:
-            stepWidth = minSize * 0.3
+        case .crayon, .airbrush:
+            stepWidth = minSize * 0.35
+        case .pencil:
+            stepWidth = minSize * 0.25
         default:
             stepWidth = minSize * 0.1
         }
