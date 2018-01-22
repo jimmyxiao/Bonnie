@@ -119,6 +119,7 @@ public class PaintView extends View {
     private ArrayList<Bitmap> mBitmapUndoList;
     private Bitmap mSketchLayer;
     private boolean mbDirection = true;
+    private float mHistoricalTime = 0f;
 
 
     public PaintView(Context c, boolean direction) {
@@ -955,6 +956,7 @@ public class PaintView extends View {
             //**add TagPoint
             onTouchDownTagPoint(x, y);
             mPaintStatus = 1;
+            mHistoricalTime = 0 ;
         }
 
         @Override
@@ -1014,11 +1016,16 @@ public class PaintView extends View {
             }
             closeLine();
             //**add TagPoint
-            onTouchMoveTagPoint(x, y, t);
+            if(t>mHistoricalTime)
+                onTouchMoveTagPoint(x, y, t-mHistoricalTime);
+            else
+                onTouchMoveTagPoint(x, y, 0);
+                mHistoricalTime = t;
         }
 
         @Override
         protected void onTouchUp(float x, float y) {
+            mHistoricalTime = 0;
             if(mPaintStatus == 3)
                 return;
             if(x<0 || y<0 || x>miWidth || y>miWidth)
