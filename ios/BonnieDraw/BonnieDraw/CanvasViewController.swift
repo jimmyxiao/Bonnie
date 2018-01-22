@@ -39,6 +39,7 @@ class CanvasViewController:
     private var writeHandle: FileHandle?
     private var persistentBackgroundColor: UIColor?
     private var isDrawing = false
+    var lastTimestamp = ANIMATION_TIMER
     var jotViewStateInkPath = FileUrl.INK.path
     var jotViewStateThumbnailPath = FileUrl.THUMBNAIL.path
     var jotViewStatePlistPath = FileUrl.STATE.path
@@ -460,6 +461,7 @@ class CanvasViewController:
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
                     duration: ANIMATION_TIMER)]))
+            lastTimestamp = coalescedTouch.timestamp
             isDrawing = true
             return true
         }
@@ -467,6 +469,7 @@ class CanvasViewController:
     }
 
     internal func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        let duration = coalescedTouch.timestamp - lastTimestamp
         paths.last?.points.append(Point(length: LENGTH_SIZE,
                 function: .draw,
                 position: coalescedTouch.location(in: canvas),
@@ -474,11 +477,13 @@ class CanvasViewController:
                 action: .move,
                 size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                 type: brush.type,
-                duration: ANIMATION_TIMER))
+                duration: duration > 0 ? duration : ANIMATION_TIMER))
+        lastTimestamp = coalescedTouch.timestamp
     }
 
     internal func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
         let position = coalescedTouch.location(in: canvas)
+        let duration = coalescedTouch.timestamp - lastTimestamp
         if canvas.bounds.contains(position) {
             paths.last?.points.append(Point(length: LENGTH_SIZE,
                     function: .draw,
@@ -487,7 +492,8 @@ class CanvasViewController:
                     action: .up,
                     size: brush.width(forCoalescedTouch: coalescedTouch, fromTouch: touch),
                     type: brush.type,
-                    duration: ANIMATION_TIMER))
+                    duration: duration > 0 ? duration : ANIMATION_TIMER))
+            lastTimestamp = coalescedTouch.timestamp
         } else {
             paths.last?.points.last?.action = .up
         }

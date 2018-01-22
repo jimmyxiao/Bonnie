@@ -19,7 +19,7 @@ class Brush: JotBrushTexture {
     }
     var maxSize: CGFloat, minAlpha: CGFloat, maxAlpha: CGFloat
     var color = UIColor.black
-    var isRotationSupported = true, isForceSupported = false, isVelocitySupported = false
+    var isRotationSupported = false, isForceSupported = false, isVelocitySupported = false
     var stepWidth: CGFloat = 1
     var smoothness: CGFloat = 1
     var type: Type {
@@ -28,6 +28,7 @@ class Brush: JotBrushTexture {
             if customBrush != nil {
                 customBrush = nil
             }
+            isRotationSupported = type == .pencil || type == .crayon || type == .marker
         }
     }
 
@@ -51,10 +52,10 @@ class Brush: JotBrushTexture {
 
     private func calculateStepWidth() {
         switch type {
-        case .crayon:
-            stepWidth = minSize * 0.4
+        case .crayon, .airbrush:
+            stepWidth = minSize * 0.35
         case .pencil:
-            stepWidth = minSize * 0.3
+            stepWidth = minSize * 0.25
         default:
             stepWidth = minSize * 0.1
         }

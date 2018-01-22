@@ -300,7 +300,7 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             }
             if !instantly {
                 timer?.invalidate()
-                timer = Timer.scheduledTimer(withTimeInterval: ANIMATION_TIMER * animationSpeed, repeats: false) {
+                timer = Timer.scheduledTimer(withTimeInterval: point.duration * animationSpeed, repeats: false) {
                     timer in
                     handler(false)
                 }
@@ -324,7 +324,7 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
         if animationSpeed >= 4 {
             decrement.isEnabled = false
             increment.isEnabled = true
-        } else if animationSpeed <= 0.25 {
+        } else if animationSpeed <= 0.0625 {
             decrement.isEnabled = true
             increment.isEnabled = false
         } else {

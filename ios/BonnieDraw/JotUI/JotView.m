@@ -1409,12 +1409,10 @@ static int undoCounter;
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
-
     for (UITouch* touch in touches) {
         @autoreleasepool {
             if ([self.delegate willBeginStrokeWithCoalescedTouch:touch fromTouch:touch]) {
                 NSAssert([self.delegate textureForStroke] != nil, @"somehow got nil texture");
-
                 JotStroke* newStroke = [[JotStrokeManager sharedInstance] makeStrokeForHash:touch.hash andTexture:[self.delegate textureForStroke] andBufferManager:state.bufferManager];
                 newStroke.delegate = self;
                 state.currentStroke = newStroke;
@@ -1447,14 +1445,11 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 - (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state || isOutOfBounds)
         return;
-
     for (UITouch* touch in touches) {
         NSArray<UITouch*>* coalesced = [event coalescedTouchesForTouch:touch];
         if (![coalesced count]) {
             coalesced = @[touch];
         }
-
-
         JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:touch.hash];
         if (currentStroke) {
             [currentStroke lock];
@@ -1476,9 +1471,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                         glPreciseLocInView.y = self.bounds.size.height - glPreciseLocInView.y;
                         BOOL shouldSkipSegment = NO;
                         if ([self.delegate supportsRotation] && [[currentStroke segments] count] < 10) {
-                            CGFloat len = [[[currentStroke segments] jotReduce:^id(AbstractBezierPathElement *ele, NSUInteger index, id accum) {
-                                return @([ele lengthOfElement] + [accum floatValue]);
-                            }] floatValue];
                             CGPoint start = [[[currentStroke segments] firstObject] startPoint];
                             CGPoint end = glPreciseLocInView;
                             CGPoint diff = CGPointMake(end.x - start.x, end.y - start.y);
@@ -1497,7 +1489,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                             if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
                                 preciseLocInView = [coalescedTouch preciseLocationInView:self];
                             }
-
                             // find the stroke that we're modifying, and then add an element and render it
                             [self addLineToAndRenderStroke:currentStroke
                                                    toPoint:preciseLocInView
@@ -1517,7 +1508,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
             }
             [currentStroke unlock];
         }
-        
         if (isOutOfBounds) {
             [self.delegate didEndStrokeWithCoalescedTouch:touch fromTouch:touch];
         }
@@ -1528,7 +1518,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state || isOutOfBounds)
         return;
-    
     for (UITouch* touch in touches) {
         NSArray<UITouch*>* coalesced = [event coalescedTouchesForTouch:touch];
         if (![coalesced count]) {
@@ -1540,16 +1529,13 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
             [self.delegate willEndStrokeWithCoalescedTouch:touch fromTouch:touch shortStrokeEnding:shortStrokeEnding];
             @autoreleasepool {
                 [currentStroke lock];
-                
                 // now line to the end of the stroke
                 for (UITouch* coalescedTouch in coalesced) {
                     // now line to the end of the stroke
-                    
                     CGPoint preciseLocInView = [coalescedTouch locationInView:self];
                     if ([coalescedTouch respondsToSelector:@selector(preciseLocationInView:)]) {
                         preciseLocInView = [coalescedTouch preciseLocationInView:self];
                     }
-                    
                     // the while loop ensures we get at least a dot from the touch
                     while (![self addLineToAndRenderStroke:currentStroke
                                                    toPoint:preciseLocInView
@@ -1560,7 +1546,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                         // noop, the [addLineToAndRenderStroke:] will return YES after enough segments have been added
                         // to ensure at least 1 point will render.
                     }
-                    
                     // this stroke is now finished, so add it to our completed strokes stack
                     // and remove it from the current strokes, and reset our undo state if any
                     if ([currentStroke.segments count] == 1 && [[currentStroke.segments firstObject] isKindOfClass:[MoveToPathElement class]]) {
@@ -1569,13 +1554,9 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                         [currentStroke empty];
                     }
                 }
-                
                 [state finishCurrentStroke];
-                
                 [[JotStrokeManager sharedInstance] removeStrokeForHash:touch.hash];
-                
                 [currentStroke unlock];
-                
                 [self.delegate didEndStrokeWithCoalescedTouch:touch fromTouch:touch];
             }
         }
@@ -1587,7 +1568,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     CheckMainThread;
     if (!state)
         return;
-
     for (UITouch* touch in touches) {
         @autoreleasepool {
             // If appropriate, add code necessary to save the state of the application.
@@ -2012,10 +1992,8 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 - (void)drawBegan:(CGPoint)point width:(CGFloat)width color:(UIColor*)color smoothness:(CGFloat)smoothness stepWidth:(CGFloat)stepWidth {
     if (!state)
         return;
-    
     @autoreleasepool {
         NSAssert([self.delegate textureForStroke] != nil, @"somehow got nil texture");
-        
         JotStroke* newStroke = [[JotStrokeManager sharedInstance] makeStrokeForHash:0 andTexture:[self.delegate textureForStroke] andBufferManager:state.bufferManager];
         newStroke.delegate = self;
         state.currentStroke = newStroke;
@@ -2037,19 +2015,12 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     @autoreleasepool {
         CGPoint glPreciseLocInView = point;
         glPreciseLocInView.y = self.bounds.size.height - glPreciseLocInView.y;
-        
         BOOL shouldSkipSegment = NO;
-        
         if ([self.delegate supportsRotation] && [[currentStroke segments] count] < 10) {
-            CGFloat len = [[[currentStroke segments] jotReduce:^id(AbstractBezierPathElement* ele, NSUInteger index, id accum) {
-                return @([ele lengthOfElement] + [accum floatValue]);
-            }] floatValue];
-            
             CGPoint start = [[[currentStroke segments] firstObject] startPoint];
             CGPoint end = glPreciseLocInView;
             CGPoint diff = CGPointMake(end.x - start.x, end.y - start.y);
             CGFloat rot = atan2(diff.y, diff.x);
-            
             if ([[currentStroke segments] count] == 1 && distanceBetween2(start, end) < 7) {
                 // if the rotation is off by at least 10 degrees, then updated the rotation on the stroke
                 // otherwise let the previous rotation stand
@@ -2059,7 +2030,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                 shouldSkipSegment = YES;
             }
         }
-        
         if (currentStroke && !shouldSkipSegment) {
             [self addLineToAndRenderStroke:currentStroke
                                    toPoint:point
@@ -2069,7 +2039,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
                              withStepWidth:stepWidth];
         }
     }
-    
     [currentStroke unlock];
     [JotGLContext validateEmptyContextStack];
 }
@@ -2078,7 +2047,6 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     if (!state)
         return;
     JotStroke* currentStroke = [[JotStrokeManager sharedInstance] getStrokeForHash:0];
-    BOOL shortStrokeEnding = [currentStroke.segments count] <= 1;
     if (currentStroke) {
         @autoreleasepool {
             [currentStroke lock];
