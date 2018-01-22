@@ -29,7 +29,7 @@ class DataConverter: NSObject {
                                 red: CGFloat(bytes.removeFirst()) / byteMax,
                                 alpha: CGFloat(bytes.removeFirst()) / byteMax),
                         action: Action(rawValue: bytes.removeFirst()) ?? .move,
-                        size: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) * 2 / scale,
+                        size: CGFloat(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / scale,
                         type: Type(rawValue: bytes.removeFirst()) ?? .pen,
                         duration: TimeInterval(Double(UInt16(bytes.removeFirst()) + UInt16(bytes.removeFirst()) << 8) / 1000)))
                 bytes.removeFirst()
@@ -60,7 +60,7 @@ class DataConverter: NSObject {
                 bytes.append(UInt8(ciColor.red * byteMax))
                 bytes.append(UInt8(ciColor.alpha * byteMax))
                 bytes.append(point.action.rawValue)
-                let scaledSize = UInt16(CGFloat(point.size / 2) * scale)
+                let scaledSize = UInt16(point.size * scale)
                 bytes.append(UInt8(scaledSize & 0x00ff))
                 bytes.append(UInt8(scaledSize >> 8))
                 bytes.append(point.type.rawValue)

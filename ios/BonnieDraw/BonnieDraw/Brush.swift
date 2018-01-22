@@ -53,7 +53,7 @@ class Brush: JotBrushTexture {
         switch type {
         case .crayon:
             stepWidth = minSize * 0.4
-        case .pencil:
+        case .pencil, .airbrush:
             stepWidth = minSize * 0.3
         default:
             stepWidth = minSize * 0.1
