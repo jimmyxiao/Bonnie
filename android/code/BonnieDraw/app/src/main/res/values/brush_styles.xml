@@ -462,7 +462,7 @@
         <item name="traceMode">false</item>
         <item name="useDeviceAngle">true</item>
         <item name="useFirstJitter">false</item>
-        <item name="useFlowingAngle">true</item>
+        <item name="useFlowingAngle">false</item>
         <item name="useSmudging">false</item>
         <item name="useSingleLayerStroke">true</item>
         <item name="defaultColor">#ffc51e1e</item>
