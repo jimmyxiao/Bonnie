@@ -1,13 +1,13 @@
 'use strict';
 
 // localhost
-//var locationIP='http://localhost:8080/';
+var locationIP='http://localhost:8080/';
 // var locationIP='http://www.bonniedraw.com:8080/';
-// var rootUrl = locationIP + 'BonnieDrawService/'
+ var rootUrl = locationIP + 'BonnieDrawService/';
 
 // release
- var locationIP='https://www.bonniedraw.com/';
- var rootUrl = locationIP + 'bonniedraw_service/';
+// var locationIP='https://www.bonniedraw.com/';
+// var rootUrl = locationIP + 'bonniedraw_service/';
 
 var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
@@ -392,14 +392,19 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
       	}
   	})
 }])
-
+var languageArray = ["en","zh-tw"];
 app.config(['$translateProvider', function($translateProvider){
 	$translateProvider.useStaticFilesLoader({
 		prefix: 'messages/',
 		suffix: '.json'
 	});
-
-	$translateProvider.preferredLanguage('zh-tw');
+	// $translateProvider.preferredLanguage('zh-tw');
+	if(languageArray.indexOf(navigator.language.toLowerCase())==-1){
+		$translateProvider.preferredLanguage('en');
+	}else{
+		$translateProvider.preferredLanguage(navigator.language.toLowerCase());
+	}
+	
 }])
 
 app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $filter, $translate, localStorageService){
@@ -472,7 +477,12 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 		return str;
 	}
 
-	$rootScope.language = 'zh-tw';
+	// $rootScope.language = 'zh-tw';
+	if(languageArray.indexOf(navigator.language.toLowerCase())==-1){
+		$rootScope.language = 'en';
+	}else{
+		$rootScope.language = navigator.language.toLowerCase();
+	}
 	$rootScope.switchLanguage = function(langKey) {
 		$translate.use(langKey);
 	}
