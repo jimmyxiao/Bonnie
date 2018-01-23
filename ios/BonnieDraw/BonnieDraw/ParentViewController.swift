@@ -10,6 +10,7 @@ import UIKit
 import KYDrawerController
 import FacebookLogin
 import TwitterKit
+import DeviceKit
 
 class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, TabBarViewControllerDelegate {
     override var prefersStatusBarHidden: Bool {
@@ -63,7 +64,7 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
                     defaults.removeObject(forKey: Default.THIRD_PARTY_EMAIL)
                     defaults.removeObject(forKey: Default.NAME)
                     defaults.removeObject(forKey: Default.IMAGE)
-                    if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
+                    if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
                         UIApplication.shared.replace(rootViewControllerWith: controller)
                     }
                 }

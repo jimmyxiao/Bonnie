@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DeviceKit
 
 class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate, FollowViewControllerDelegate, NotificationViewControllerDelegate {
     @IBOutlet weak var tabBar: UITabBar!
@@ -49,7 +50,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         } else if item == itemAccount?.item {
             if let controller = itemAccount?.viewController {
                 controllers.append(controller)
-            } else if let controller = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController() as? AccountViewController {
+            } else if let controller = UIStoryboard(name: Device().isPad ? "Account_iPad" : "Account", bundle: nil).instantiateInitialViewController() as? AccountViewController {
                 itemAccount?.viewController = controller
                 controllers.append(controller)
             }
@@ -112,5 +113,6 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
 
 protocol TabBarViewControllerDelegate {
     func tabBarDidTapMenu()
+
     func tabBar(enableMenuGesture enable: Bool)
 }

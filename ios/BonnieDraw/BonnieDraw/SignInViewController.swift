@@ -112,13 +112,14 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                     }
                                     let profile = Profile(withDictionary: data)
                                     let defaults = UserDefaults.standard
-                                    defaults.set(profile.image, forKey: Default.IMAGE)
-                                    defaults.set(profile.name, forKey: Default.NAME)
                                     defaults.set(token, forKey: Default.TOKEN)
                                     defaults.set(userId, forKey: Default.USER_ID)
                                     defaults.set(email, forKey: Default.EMAIL)
                                     defaults.set(securePassword, forKey: Default.PASSWORD)
+                                    defaults.set(UserType.email.rawValue, forKey: Default.USER_TYPE)
                                     defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                                    defaults.set(profile.image, forKey: Default.IMAGE)
+                                    defaults.set(profile.name, forKey: Default.NAME)
                                     self.launchMain()
                                 case .failure(let error):
                                     if let error = error as? URLError, error.code == .cancelled {
@@ -258,7 +259,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     @objc private func launchMain() {
-        UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
+        UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
     }
 
     private func registerForRemoteNotification() {

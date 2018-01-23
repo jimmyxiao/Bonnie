@@ -14,6 +14,7 @@ import FirebaseDatabase
 import FacebookCore
 import TwitterKit
 import Reachability
+import DeviceKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let timestamp = UserDefaults.standard.object(forKey: Default.TOKEN_TIMESTAMP)
         if timestamp != nil, let timestamp = timestamp as? Date,
            Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 >= TOKEN_LIFETIME,
-           let controller = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() {
+           let controller = UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil).instantiateInitialViewController() {
             UIApplication.shared.replace(rootViewControllerWith: controller)
         }
     }
@@ -75,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if queryItem.name == "id" {
                     if window?.rootViewController is ParentViewController,
                        let topController = window?.topController() {
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let storyboard = UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil)
                         if let navigationController = storyboard.instantiateViewController(withIdentifier: Identifier.NAVIGATION) as? UINavigationController,
                            let controller = storyboard.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController {
                             controller.workId = Int(queryItem.value ?? "")
@@ -108,7 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if queryItem.name == "id" {
                     if window?.rootViewController is ParentViewController,
                        let topController = window?.topController() {
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let storyboard = UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil)
                         if let navigationController = storyboard.instantiateViewController(withIdentifier: Identifier.NAVIGATION) as? UINavigationController,
                            let controller = storyboard.instantiateViewController(withIdentifier: Identifier.WORK) as? WorkViewController {
                             controller.workId = Int(queryItem.value ?? "")

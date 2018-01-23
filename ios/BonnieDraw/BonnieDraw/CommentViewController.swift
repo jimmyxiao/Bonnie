@@ -15,7 +15,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var send: UIButton!
-    @IBOutlet weak var viewBottom: NSLayoutConstraint!
+    @IBOutlet weak var viewBottom: NSLayoutConstraint?
     private let formatter = DateFormatter()
     private var dataRequest: DataRequest?
     private var timestamp = Date()
@@ -65,7 +65,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size,
            let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
            let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber {
-            viewBottom.constant = -keyboardSize.height
+            viewBottom?.constant = -keyboardSize.height
             UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIViewAnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
                 self.view.layoutIfNeeded()
             })
@@ -75,7 +75,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
     @objc func keyboardWillHide(_ notification: Notification) {
         if let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
            let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber {
-            viewBottom.constant = 0
+            viewBottom?.constant = 0
             UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIViewAnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
                 self.view.layoutIfNeeded()
             })
@@ -228,5 +228,6 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol CommentViewControllerDelegate {
     func comment(didCommentOnWork work: Work)
+
     func commentDidTapProfile()
 }

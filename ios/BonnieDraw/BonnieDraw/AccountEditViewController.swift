@@ -33,6 +33,8 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         phone.addInputAccessoryView()
         if let url = UserDefaults.standard.url(forKey: Default.IMAGE) {
             profileImage.setImage(with: url)
+        } else {
+            profileImage.setImage(with: profile?.image, placeholderImage: UIImage(named: "photo-square"))
         }
         setViewData()
     }
@@ -69,7 +71,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             }
             UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIViewAnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
                 if let viewOriginCenterY = self.viewOriginCenterY {
-                    self.view.center.y = viewOriginCenterY - keyboardSize.height / 3
+                    self.view.center.y = viewOriginCenterY - keyboardSize.height / 2
                 }
             })
         }
@@ -120,7 +122,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                     return
                 }
                 self.profile = Profile(withDictionary: data)
-                self.profileImage.setImage(with: self.profile?.image)
+                self.profileImage.setImage(with: self.profile?.image, placeholderImage: UIImage(named: "photo-square"))
                 self.setViewData()
                 self.loading.hide(true)
                 self.timestamp = Date()
@@ -432,5 +434,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
 protocol AccountEditViewControllerDelegate {
     func accountEdit(profileDidChange profile: Profile)
+
     func accountEdit(imageDidChange image: UIImage)
 }

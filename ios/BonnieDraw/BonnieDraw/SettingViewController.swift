@@ -9,6 +9,7 @@
 import UIKit
 import FacebookLogin
 import TwitterKit
+import DeviceKit
 
 class SettingViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate, AccountEditViewControllerDelegate {
     @IBOutlet weak var tableView: UITableView!
@@ -95,7 +96,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                     defaults.removeObject(forKey: Default.THIRD_PARTY_EMAIL)
                     defaults.removeObject(forKey: Default.NAME)
                     defaults.removeObject(forKey: Default.IMAGE)
-                    if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
+                    if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
                         UIApplication.shared.replace(rootViewControllerWith: controller)
                     }
                 }
@@ -125,5 +126,6 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol SettingViewControllerDelegate {
     func settings(profileDidChange profile: Profile)
+
     func settings(imageDidChange image: UIImage)
 }

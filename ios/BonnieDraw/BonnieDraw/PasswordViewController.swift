@@ -103,6 +103,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                         }
                         if response == 1 {
                             UserDefaults.standard.set(newSecurePassword, forKey: Default.PASSWORD)
+                            self.onBackPressed(sender)
                         } else {
                             self.showErrorMessage(message: data["msg"] as? String)
                         }

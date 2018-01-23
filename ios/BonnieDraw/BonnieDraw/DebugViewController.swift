@@ -10,6 +10,7 @@ import UIKit
 import Crashlytics
 import FacebookLogin
 import TwitterKit
+import DeviceKit
 
 class DebugViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let items = ["Sign out", "Crash"]
@@ -54,7 +55,7 @@ class DebugViewController: UIViewController, UITableViewDataSource, UITableViewD
             defaults.removeObject(forKey: Default.THIRD_PARTY_EMAIL)
             defaults.removeObject(forKey: Default.NAME)
             defaults.removeObject(forKey: Default.IMAGE)
-            if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
+            if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
                 UIApplication.shared.replace(rootViewControllerWith: controller)
             }
         case 1:

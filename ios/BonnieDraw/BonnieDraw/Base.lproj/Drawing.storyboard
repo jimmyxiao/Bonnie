@@ -106,7 +106,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="H4Z-CE-rPX" firstAttribute="centerY" secondItem="dka-sY-uM6" secondAttribute="centerY" id="58m-Xp-sia"/>
                             <constraint firstItem="rUb-KC-Knq" firstAttribute="bottom" secondItem="H4Z-CE-rPX" secondAttribute="bottom" id="8Ys-N1-lK1"/>
@@ -1009,13 +1009,13 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="O9D-4B-sXA" firstAttribute="top" secondItem="Q0S-Et-Ve8" secondAttribute="top" id="4S1-IX-aa0"/>
                             <constraint firstItem="Q0S-Et-Ve8" firstAttribute="leading" secondItem="OuC-O3-tvW" secondAttribute="leading" id="77E-3C-L9F"/>
                             <constraint firstItem="8r3-RJ-i4v" firstAttribute="centerX" secondItem="IdJ-MC-6rZ" secondAttribute="centerX" id="C3E-cR-0sT"/>
+                            <constraint firstItem="8r3-RJ-i4v" firstAttribute="top" secondItem="Q0S-Et-Ve8" secondAttribute="bottom" constant="8" id="Dua-rg-Jez"/>
                             <constraint firstItem="Q0S-Et-Ve8" firstAttribute="trailing" secondItem="OuC-O3-tvW" secondAttribute="trailing" id="FNx-xO-v1p"/>
-                            <constraint firstItem="8r3-RJ-i4v" firstAttribute="top" secondItem="O9D-4B-sXA" secondAttribute="bottom" constant="8" id="Jdp-rK-h9A"/>
                             <constraint firstItem="O9D-4B-sXA" firstAttribute="trailing" secondItem="Q0S-Et-Ve8" secondAttribute="trailing" id="Qxa-2s-mWB"/>
                             <constraint firstItem="Q0S-Et-Ve8" firstAttribute="centerY" secondItem="OuC-O3-tvW" secondAttribute="centerY" id="Rei-5I-4kF"/>
                             <constraint firstItem="Q0S-Et-Ve8" firstAttribute="width" secondItem="Q0S-Et-Ve8" secondAttribute="height" multiplier="1:1" id="fS4-XV-HFh"/>

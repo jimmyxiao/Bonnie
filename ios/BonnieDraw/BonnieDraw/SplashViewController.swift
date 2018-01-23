@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Alamofire
+import DeviceKit
 
 class SplashViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
@@ -96,11 +97,11 @@ class SplashViewController: UIViewController {
     }
 
     func launchMain() {
-        UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
+        UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
     }
 
     func launchLogin() {
-        if let controller = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
+        if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
             UIApplication.shared.replace(rootViewControllerWith: controller)
         }
     }
