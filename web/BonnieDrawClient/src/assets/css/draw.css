@@ -89,10 +89,10 @@
 .pasue-stop-img{
 	position: absolute;
 	height: 128px;
-	top: calc(250px - 64px);
-	left: calc(50% - 64px);
-	/* top: 0px;
-	left: calc(50% - 250px); */
+	/* top: calc(250px - 64px);
+	left: calc(50% - 64px); */
+	top: 0px;
+	left: calc(50% - 250px);
 	bottom: 0px;
 	z-index: 5;
 }
