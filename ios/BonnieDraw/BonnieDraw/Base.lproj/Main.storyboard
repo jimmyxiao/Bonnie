@@ -612,7 +612,6 @@
                                                         <state key="normal" image="work_ic_like"/>
                                                         <connections>
                                                             <action selector="like:" destination="wJn-NR-0b0" eventType="touchUpInside" id="Rlp-Dq-xg6"/>
-                                                            <action selector="like:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="uld-2J-gyQ"/>
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mie-rN-LQc">
@@ -633,26 +632,27 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shp-4N-qWj">
-                                                        <rect key="frame" x="88" y="0.0" width="112" height="44"/>
+                                                        <rect key="frame" x="88" y="0.0" width="0.0" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6c-mc-ULJ">
-                                                        <rect key="frame" x="200" y="0.0" width="44" height="44"/>
+                                                        <rect key="frame" x="88" y="0.0" width="44" height="44"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="44" id="yrU-nr-RyM"/>
                                                         </constraints>
                                                         <state key="normal" image="share_icon"/>
                                                         <connections>
                                                             <action selector="share:" destination="wJn-NR-0b0" eventType="touchUpInside" id="FYA-Du-88d"/>
-                                                            <action selector="share:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="pg3-1a-Tzo"/>
                                                         </connections>
                                                     </button>
-                                                    <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Pmh-F8-WR3">
-                                                        <rect key="frame" x="244" y="0.0" width="0.0" height="44"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OJ-6j-Xzy">
+                                                        <rect key="frame" x="132" y="0.0" width="112" height="44"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCi-JF-cK1">
                                                         <rect key="frame" x="244" y="0.0" width="44" height="44"/>
                                                         <constraints>
@@ -660,7 +660,6 @@
                                                         </constraints>
                                                         <state key="normal" image="collect_ic_off"/>
                                                         <connections>
-                                                            <action selector="collect:" destination="YPx-0H-Cfd" eventType="touchUpInside" id="PrO-K8-cgm"/>
                                                             <action selector="collect:" destination="wJn-NR-0b0" eventType="touchUpInside" id="e5v-sV-TZ8"/>
                                                         </connections>
                                                     </button>
@@ -710,8 +709,8 @@
                                     <constraint firstItem="IMJ-jP-hJb" firstAttribute="top" secondItem="joQ-M3-DBe" secondAttribute="top" id="R4B-kY-D6B"/>
                                 </constraints>
                             </scrollView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yDy-IQ-Hwa" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yDy-IQ-Hwa" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="2"/>
                                 <subviews>
                                     <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-Ni-VLM">
                                         <rect key="frame" x="80" y="283" width="160" height="2"/>
@@ -778,7 +777,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-sx-Edr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1763" y="1600"/>
+            <point key="canvasLocation" x="1762.5" y="1599.2957746478874"/>
         </scene>
         <!--Follow View Controller-->
         <scene sceneID="3iE-eI-gSs">
