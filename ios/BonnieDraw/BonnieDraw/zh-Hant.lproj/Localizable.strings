@@ -19,6 +19,7 @@
 "alert_old_password_unmatch" = "舊密碼錯誤";
 "alert_password_update_fail" = "更新密碼失敗";
 "alert_permission_camera" = "BonnieDraw 會把相機照片設為大頭貼";
+"alert_permission_notification" = "BonnieDraw 會需要顯示通知";
 "alert_permission_photos" = "BonnieDraw 會把圖存進相簿裡";
 "alert_permission_required" = "權限需求";
 "alert_report_fail_description_empty" = "檢舉原因不可空白";

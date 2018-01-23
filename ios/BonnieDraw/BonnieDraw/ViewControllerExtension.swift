@@ -115,7 +115,7 @@ extension UIViewController {
                         if success {
                             successHandler?()
                         } else {
-                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "".localized) {
+                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_notification".localized) {
                                 success in
                                 if success {
                                     AppDelegate.openSettings()
