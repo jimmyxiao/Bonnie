@@ -233,7 +233,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lQa-gb-8Sv" customClass="ShadowView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="192.5" y="32" width="640" height="640"/>
+                                <rect key="frame" x="192" y="32" width="640" height="640"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2hX-dX-zkt">
                                         <rect key="frame" x="255.5" y="16" width="128" height="128"/>
@@ -468,11 +468,11 @@
             <objects>
                 <viewController id="H5o-Gk-z39" customClass="SizePickerViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="h1c-7U-Xa0">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bE4-S3-93G">
-                                <rect key="frame" x="16" y="317.5" width="343" height="32"/>
+                                <rect key="frame" x="16" y="248" width="343" height="32"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brush Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3qT-Wa-K2b">
                                         <rect key="frame" x="0.0" y="0.0" width="60.5" height="32"/>
@@ -531,11 +531,11 @@
             <objects>
                 <viewController id="TMN-0X-9sU" customClass="ColorPickerViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9h1-sh-jqc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1lz-l8-vdU">
-                                <rect key="frame" x="16" y="120" width="343" height="44"/>
+                                <rect key="frame" x="16" y="-19" width="343" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WVW-NS-rbB">
                                         <rect key="frame" x="0.0" y="0.0" width="109" height="44"/>
@@ -585,21 +585,21 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7l9-9Z-v5Z" customClass="SaturationBrightnessView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="16" y="172" width="291" height="291"/>
+                                <rect key="frame" x="16" y="33" width="291" height="291"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="7l9-9Z-v5Z" secondAttribute="height" multiplier="1:1" id="vJ9-X1-eme"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HO8-N6-aqo" customClass="HueView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="315" y="172" width="44" height="291"/>
+                                <rect key="frame" x="315" y="33" width="44" height="291"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="6Ir-80-XV1"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="p6s-pS-Nf8">
-                                <rect key="frame" x="143.5" y="471" width="88" height="44"/>
+                                <rect key="frame" x="143.5" y="332" width="88" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gm0-ct-fWw">
                                         <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
@@ -623,7 +623,7 @@
                                 </constraints>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PR8-Qp-NxJ">
-                                <rect key="frame" x="0.0" y="523" width="375" height="128"/>
+                                <rect key="frame" x="0.0" y="384" width="375" height="128"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -714,7 +714,7 @@
             <objects>
                 <tableViewController id="gfV-fO-s2t" customClass="CanvasSettingTableViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" delaysContentTouches="NO" dataMode="static" style="plain" separatorStyle="none" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Gjm-VU-AfR">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <sections>
@@ -728,7 +728,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grid_line_icon" translatesAutoresizingMaskIntoConstraints="NO" id="wkx-4F-tqk">
-                                                    <rect key="frame" x="157.5" y="0.0" width="60" height="60"/>
+                                                    <rect key="frame" x="270" y="0.0" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="wkx-4F-tqk" secondAttribute="height" multiplier="1:1" id="hbs-xb-28N"/>
                                                     </constraints>
@@ -750,7 +750,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="color_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Xq1-px-pDE">
-                                                    <rect key="frame" x="157.5" y="0.0" width="60" height="60"/>
+                                                    <rect key="frame" x="270" y="0.0" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Xq1-px-pDE" secondAttribute="height" multiplier="1:1" id="mh0-M5-8Av"/>
                                                     </constraints>
@@ -772,7 +772,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="save_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ojI-jT-H2g">
-                                                    <rect key="frame" x="157.5" y="0.0" width="60" height="60"/>
+                                                    <rect key="frame" x="270" y="0.0" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="ojI-jT-H2g" secondAttribute="height" multiplier="1:1" id="8Hw-Cd-8oS"/>
                                                     </constraints>
@@ -794,7 +794,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_android_white" translatesAutoresizingMaskIntoConstraints="NO" id="WZ4-s9-yau">
-                                                    <rect key="frame" x="157.5" y="0.0" width="60" height="60"/>
+                                                    <rect key="frame" x="270" y="0.0" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="WZ4-s9-yau" secondAttribute="height" multiplier="1:1" id="Swi-cG-whU"/>
                                                     </constraints>
@@ -826,17 +826,17 @@
             <objects>
                 <viewController id="h4s-f1-Ps3" customClass="BrushPickerViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="akU-IQ-aUS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="BGW-dI-3mv">
-                                <rect key="frame" x="0.0" y="217.5" width="375" height="232.5"/>
+                                <rect key="frame" x="0.0" y="148" width="375" height="232.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="SMV-yp-tjg">
                                         <rect key="frame" x="16" y="0.0" width="343" height="44"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step Width" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="scb-ks-hb9">
-                                                <rect key="frame" x="0.0" y="15" width="63" height="14.5"/>
+                                                <rect key="frame" x="0.0" y="14.5" width="63" height="14.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -866,7 +866,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ebx-Ea-he4">
-                                                <rect key="frame" x="88" y="6.5" width="32" height="32"/>
+                                                <rect key="frame" x="88" y="6" width="32" height="32"/>
                                                 <state key="normal" image="less_icon_on"/>
                                                 <state key="disabled" image="less_icon_off"/>
                                                 <connections>
@@ -875,7 +875,7 @@
                                                 </connections>
                                             </button>
                                             <slider opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="80" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="C0s-wI-yJ8" customClass="ASValueTrackingSlider">
-                                                <rect key="frame" x="126" y="7.5" width="179" height="31"/>
+                                                <rect key="frame" x="126" y="7" width="179" height="31"/>
                                                 <color key="minimumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="thumbTintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
@@ -884,7 +884,7 @@
                                                 </connections>
                                             </slider>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E4M-w9-kDv">
-                                                <rect key="frame" x="311" y="6.5" width="32" height="32"/>
+                                                <rect key="frame" x="311" y="6" width="32" height="32"/>
                                                 <state key="normal" image="plus_icon_on"/>
                                                 <state key="disabled" image="plus_icon_off"/>
                                                 <connections>

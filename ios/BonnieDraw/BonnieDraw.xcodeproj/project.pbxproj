@@ -13,6 +13,10 @@
 		16185C7D1F94A13F008F0840 /* WorkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16185C7C1F94A13F008F0840 /* WorkViewController.swift */; };
 		16185C7F1F94A264008F0840 /* Work.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16185C7E1F94A264008F0840 /* Work.swift */; };
 		1619E9401FEA88C6009CFE08 /* HomeBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1619E93F1FEA88C6009CFE08 /* HomeBarBackgroundView.swift */; };
+		1622703B20172ED9004ACD95 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1622703D20172ED9004ACD95 /* Main_iPad.storyboard */; };
+		1622703E20172EE2004ACD95 /* Login_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1622704020172EE2004ACD95 /* Login_iPad.storyboard */; };
+		1622704120172EE7004ACD95 /* Drawing_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1622704320172EE7004ACD95 /* Drawing_iPad.storyboard */; };
+		1622704420172EF0004ACD95 /* Account_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1622704620172EF0004ACD95 /* Account_iPad.storyboard */; };
 		162AC4AB1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162AC4AA1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift */; };
 		162BEC1F1F7CCCBD00BB78BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1664F4A81F74AD9200809C32 /* Localizable.strings */; };
 		162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163F65AE1F61663900945E04 /* Main.storyboard */; };
@@ -108,12 +112,8 @@
 		16E539701FD965D800799E4D /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5396F1FD965D800799E4D /* CommentViewController.swift */; };
 		16E539721FD9698000799E4D /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E539711FD9698000799E4D /* CommentTableViewCell.swift */; };
 		16ECCD6D1FECD3B9009C053E /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */; };
-		16EE49E220163E9600C46ED3 /* Login_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16EE49E120163E9600C46ED3 /* Login_iPad.storyboard */; };
-		16EE49E420163EAF00C46ED3 /* Drawing_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16EE49E320163EAF00C46ED3 /* Drawing_iPad.storyboard */; };
-		16EE49E620163F3C00C46ED3 /* Account_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16EE49E520163F3C00C46ED3 /* Account_iPad.storyboard */; };
 		16FAA146200366590031AF28 /* AccountHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16FAA148200366590031AF28 /* AccountHeaderCollectionReusableView.xib */; };
 		16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FC10231F6963B3008A6A92 /* ViewExtension.swift */; };
-		16FC7CAB20163D2F005D199C /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16FC7CAA20163D2F005D199C /* Main_iPad.storyboard */; };
 		C48327DB3369377881C37AFE /* Pods_BonnieDraw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3A98691CFA6F344DA806E4 /* Pods_BonnieDraw.framework */; };
 /* End PBXBuildFile section */
 
@@ -125,6 +125,21 @@
 		16185C7C1F94A13F008F0840 /* WorkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkViewController.swift; sourceTree = "<group>"; };
 		16185C7E1F94A264008F0840 /* Work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Work.swift; sourceTree = "<group>"; };
 		1619E93F1FEA88C6009CFE08 /* HomeBarBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBarBackgroundView.swift; sourceTree = "<group>"; };
+		1622703C20172ED9004ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		1622703F20172EE2004ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login_iPad.storyboard; sourceTree = "<group>"; };
+		1622704220172EE7004ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawing_iPad.storyboard; sourceTree = "<group>"; };
+		1622704520172EF0004ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account_iPad.storyboard; sourceTree = "<group>"; };
+		1622704720172F11004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		1622704820172F11004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login.strings"; sourceTree = "<group>"; };
+		1622704920172F11004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing.strings"; sourceTree = "<group>"; };
+		1622704A20172F12004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account.strings"; sourceTree = "<group>"; };
+		1622704B20172F12004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main_iPad.strings"; sourceTree = "<group>"; };
+		1622704C20172F12004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login_iPad.strings"; sourceTree = "<group>"; };
+		1622704D20172F12004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing_iPad.strings"; sourceTree = "<group>"; };
+		1622704E20172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account_iPad.strings"; sourceTree = "<group>"; };
+		1622704F20172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AccountHeaderCollectionReusableView.strings"; sourceTree = "<group>"; };
+		1622705020172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		1622705120172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		162AC4AA1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountGridCollectionViewCell.swift; sourceTree = "<group>"; };
 		16303BA71FD147A400C42783 /* JotUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JotUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16303BA81FD1494E00C42783 /* Brush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Brush.swift; sourceTree = "<group>"; };
@@ -195,13 +210,6 @@
 		166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		166BDF411F860E7900274C6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		166C41231F90964F00A98385 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
-		16786F0E200456D300335BA1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
-		16786F0F200456D400335BA1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login.strings"; sourceTree = "<group>"; };
-		16786F10200456D400335BA1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing.strings"; sourceTree = "<group>"; };
-		16786F11200456D400335BA1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account.strings"; sourceTree = "<group>"; };
-		16786F12200456D400335BA1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AccountHeaderCollectionReusableView.strings"; sourceTree = "<group>"; };
-		16786F13200456D400335BA1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		16786F17200456FF00335BA1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		16786F192004570500335BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleNavigationViewController.swift; sourceTree = "<group>"; };
 		16816AA61FAFF8DD00855104 /* ShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
@@ -231,12 +239,8 @@
 		16E5396F1FD965D800799E4D /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		16E539711FD9698000799E4D /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		16ECCD6C1FECD3B9009C053E /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
-		16EE49E120163E9600C46ED3 /* Login_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login_iPad.storyboard; sourceTree = "<group>"; };
-		16EE49E320163EAF00C46ED3 /* Drawing_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Drawing_iPad.storyboard; sourceTree = "<group>"; };
-		16EE49E520163F3C00C46ED3 /* Account_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account_iPad.storyboard; sourceTree = "<group>"; };
 		16FAA147200366590031AF28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccountHeaderCollectionReusableView.xib; sourceTree = "<group>"; };
 		16FC10231F6963B3008A6A92 /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
-		16FC7CAA20163D2F005D199C /* Main_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPad.storyboard; sourceTree = "<group>"; };
 		388AE756E7807DDA04B29841 /* Pods-BonnieDraw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.release.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.release.xcconfig"; sourceTree = "<group>"; };
 		F1E64C6A95DC11CFE0EF1A63 /* Pods-BonnieDraw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonnieDraw.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BonnieDraw/Pods-BonnieDraw.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -337,11 +341,11 @@
 				16450EBF200319BF00BF8D6D /* Login.storyboard */,
 				16450EBD200319BF00BF8D6D /* Drawing.storyboard */,
 				16D08F221FB169AC001D167C /* Account.storyboard */,
+				1622703D20172ED9004ACD95 /* Main_iPad.storyboard */,
+				1622704020172EE2004ACD95 /* Login_iPad.storyboard */,
+				1622704320172EE7004ACD95 /* Drawing_iPad.storyboard */,
+				1622704620172EF0004ACD95 /* Account_iPad.storyboard */,
 				16FAA148200366590031AF28 /* AccountHeaderCollectionReusableView.xib */,
-				16FC7CAA20163D2F005D199C /* Main_iPad.storyboard */,
-				16EE49E120163E9600C46ED3 /* Login_iPad.storyboard */,
-				16EE49E320163EAF00C46ED3 /* Drawing_iPad.storyboard */,
-				16EE49E520163F3C00C46ED3 /* Account_iPad.storyboard */,
 				163F65B11F61663900945E04 /* Assets.xcassets */,
 			);
 			name = Resource;
@@ -567,13 +571,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16EE49E620163F3C00C46ED3 /* Account_iPad.storyboard in Resources */,
+				1622704420172EF0004ACD95 /* Account_iPad.storyboard in Resources */,
 				16303BB01FD14D0E00C42783 /* quad.vsh in Resources */,
 				16303BB11FD14D0E00C42783 /* colorlesspoint.vsh in Resources */,
 				16303BB21FD14D0E00C42783 /* quad.fsh in Resources */,
 				16303BB31FD14D0E00C42783 /* stencil.fsh in Resources */,
 				16BA1B4A200094CE00BCD7B7 /* Pencil.png in Resources */,
-				16EE49E420163EAF00C46ED3 /* Drawing_iPad.storyboard in Resources */,
+				1622704120172EE7004ACD95 /* Drawing_iPad.storyboard in Resources */,
 				16CF01F0200CE4FA00C6CF0B /* Crayon.png in Resources */,
 				16303BB41FD14D0E00C42783 /* point.fsh in Resources */,
 				16303BB51FD14D0E00C42783 /* coloredpoint.vsh in Resources */,
@@ -581,11 +585,11 @@
 				16FAA146200366590031AF28 /* AccountHeaderCollectionReusableView.xib in Resources */,
 				16786F16200456FF00335BA1 /* InfoPlist.strings in Resources */,
 				16450EC2200319BF00BF8D6D /* Login.storyboard in Resources */,
-				16FC7CAB20163D2F005D199C /* Main_iPad.storyboard in Resources */,
+				1622703B20172ED9004ACD95 /* Main_iPad.storyboard in Resources */,
 				163EAEDA1FD64435003109B3 /* Marker.png in Resources */,
 				1645CE151FFE5211002AC2FD /* GoogleService-Info.plist in Resources */,
 				163EAEDC1FD64435003109B3 /* Airbrush.png in Resources */,
-				16EE49E220163E9600C46ED3 /* Login_iPad.storyboard in Resources */,
+				1622703E20172EE2004ACD95 /* Login_iPad.storyboard in Resources */,
 				162BEC211F7CCCBD00BB78BA /* LaunchScreen.storyboard in Resources */,
 				162BEC201F7CCCBD00BB78BA /* Main.storyboard in Resources */,
 				16450EC1200319BF00BF8D6D /* Drawing.storyboard in Resources */,
@@ -799,11 +803,47 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1622703D20172ED9004ACD95 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1622703C20172ED9004ACD95 /* Base */,
+				1622704B20172F12004ACD95 /* zh-Hant */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		1622704020172EE2004ACD95 /* Login_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1622703F20172EE2004ACD95 /* Base */,
+				1622704C20172F12004ACD95 /* zh-Hant */,
+			);
+			name = Login_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		1622704320172EE7004ACD95 /* Drawing_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1622704220172EE7004ACD95 /* Base */,
+				1622704D20172F12004ACD95 /* zh-Hant */,
+			);
+			name = Drawing_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		1622704620172EF0004ACD95 /* Account_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1622704520172EF0004ACD95 /* Base */,
+				1622704E20172F13004ACD95 /* zh-Hant */,
+			);
+			name = Account_iPad.storyboard;
+			sourceTree = "<group>";
+		};
 		163F65AE1F61663900945E04 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				163F65AF1F61663900945E04 /* Base */,
-				16786F0E200456D300335BA1 /* zh-Hant */,
+				1622704720172F11004ACD95 /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -820,7 +860,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				16450EBE200319BF00BF8D6D /* Base */,
-				16786F10200456D400335BA1 /* zh-Hant */,
+				1622704920172F11004ACD95 /* zh-Hant */,
 			);
 			name = Drawing.storyboard;
 			sourceTree = "<group>";
@@ -829,7 +869,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				16450EC0200319BF00BF8D6D /* Base */,
-				16786F0F200456D400335BA1 /* zh-Hant */,
+				1622704820172F11004ACD95 /* zh-Hant */,
 			);
 			name = Login.storyboard;
 			sourceTree = "<group>";
@@ -838,7 +878,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1664F4A91F74AD9200809C32 /* Base */,
-				16786F13200456D400335BA1 /* zh-Hant */,
+				1622705120172F13004ACD95 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -846,8 +886,8 @@
 		16786F18200456FF00335BA1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				16786F17200456FF00335BA1 /* zh-Hant */,
 				16786F192004570500335BA1 /* Base */,
+				1622705020172F13004ACD95 /* zh-Hant */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -856,7 +896,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				16D08F231FB169AC001D167C /* Base */,
-				16786F11200456D400335BA1 /* zh-Hant */,
+				1622704A20172F12004ACD95 /* zh-Hant */,
 			);
 			name = Account.storyboard;
 			sourceTree = "<group>";
@@ -865,7 +905,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				16FAA147200366590031AF28 /* Base */,
-				16786F12200456D400335BA1 /* zh-Hant */,
+				1622704F20172F13004ACD95 /* zh-Hant */,
 			);
 			name = AccountHeaderCollectionReusableView.xib;
 			sourceTree = "<group>";
