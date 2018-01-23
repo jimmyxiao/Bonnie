@@ -48,8 +48,8 @@ public abstract class TouchResampler {
                 //Log.d("TouchResampler", "ACTION_MOVE");
                 int i = 0;
                 while (i < event.getHistorySize()) {
-                   // addToPath(event.getHistoricalX(i), event.getHistoricalY(i), event.getHistoricalEventTime(i) - event.getDownTime(), true);
-                    addToPath(event.getHistoricalX(i), event.getHistoricalY(i), event.getHistoricalEventTime(i) , true);
+                    addToPath(event.getHistoricalX(i), event.getHistoricalY(i), event.getHistoricalEventTime(i) - event.getDownTime(), true);
+                   // addToPath(event.getHistoricalX(i), event.getHistoricalY(i), event.getHistoricalEventTime(i) , true);
                     i++;
                 }
                 addToPath(x, y, t, true);

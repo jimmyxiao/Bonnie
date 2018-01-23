@@ -1019,7 +1019,7 @@ public class PaintView extends View {
             if(t>mHistoricalTime)
                 onTouchMoveTagPoint(x, y, t-mHistoricalTime);
             else
-                onTouchMoveTagPoint(x, y, 0);
+                onTouchMoveTagPoint(x, y, 0f);
                 mHistoricalTime = t;
         }
 
