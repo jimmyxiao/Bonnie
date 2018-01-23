@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bonniedraw.commodityinfo.dao.CommodityInfoMapper">
+  <resultMap id="BaseResultMap" type="com.bonniedraw.commodityinfo.model.CommodityInfo">
+    <id column="COMMODITY_ID" jdbcType="INTEGER" property="commodityId" />
+    <result column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
+    <result column="COMMODITY_URL" jdbcType="VARCHAR" property="commodityUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    COMMODITY_ID, WORKS_ID, COMMODITY_URL
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from commodity_info
+    where COMMODITY_ID = #{commodityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from commodity_info
+    where COMMODITY_ID = #{commodityId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bonniedraw.commodityinfo.model.CommodityInfo">
+    insert into commodity_info (COMMODITY_ID, WORKS_ID, COMMODITY_URL
+      )
+    values (#{commodityId,jdbcType=INTEGER}, #{worksId,jdbcType=INTEGER}, #{commodityUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bonniedraw.commodityinfo.model.CommodityInfo">
+    insert into commodity_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commodityId != null">
+        COMMODITY_ID,
+      </if>
+      <if test="worksId != null">
+        WORKS_ID,
+      </if>
+      <if test="commodityUrl != null">
+        COMMODITY_URL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="worksId != null">
+        #{worksId,jdbcType=INTEGER},
+      </if>
+      <if test="commodityUrl != null">
+        #{commodityUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bonniedraw.commodityinfo.model.CommodityInfo">
+    update commodity_info
+    <set>
+      <if test="worksId != null">
+        WORKS_ID = #{worksId,jdbcType=INTEGER},
+      </if>
+      <if test="commodityUrl != null">
+        COMMODITY_URL = #{commodityUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COMMODITY_ID = #{commodityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bonniedraw.commodityinfo.model.CommodityInfo">
+    update commodity_info
+    set WORKS_ID = #{worksId,jdbcType=INTEGER},
+      COMMODITY_URL = #{commodityUrl,jdbcType=VARCHAR}
+    where COMMODITY_ID = #{commodityId,jdbcType=INTEGER}
+  </update>
+</mapper>

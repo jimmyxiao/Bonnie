@@ -52,6 +52,8 @@ import com.bonniedraw.works.model.WorksTag;
 import com.bonniedraw.works.service.WorksServiceAPI;
 
 import com.bonniedraw.notification.dao.NotificationMsgMapper;
+import com.bonniedraw.commodityinfo.model.CommodityInfo;
+import com.bonniedraw.commodityinfo.dao.CommodityInfoMapper;
 
 @Service
 public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI {
@@ -92,6 +94,9 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	@Autowired
 	NotificationMsgMapper notificationMsgMapper;
 
+	@Autowired
+	CommodityInfoMapper commodityInfoMapper;
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Integer worksSave(WorksSaveRequestVO worksSaveRequestVO) {
@@ -100,6 +105,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 		int ac = worksSaveRequestVO.getAc();
 		int userId = worksSaveRequestVO.getUi();
 		Works works = new Works();
+		CommodityInfo commodityInfo = new CommodityInfo();
 		works.setUserId(userId);
 		works.setDeviceType(worksSaveRequestVO.getDt());
 		works.setPrivacyType(worksSaveRequestVO.getPrivacyType());
@@ -120,6 +126,12 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				works.setCreationDate(nowDate);
 				worksMapper.insert(works);
 				wid = works.getWorksId();
+				if(ValidateUtil.isNotBlank(worksSaveRequestVO.getCommodityUrl())){
+					commodityInfo.setWorksId(wid);
+					commodityInfo.setCommodityUrl(worksSaveRequestVO.getCommodityUrl());
+					commodityInfoMapper.insert(commodityInfo);
+				}
+
 				if(ValidateUtil.isNotEmptyAndSize(categoryList)){
 					insertWorksCatrgorList(categoryList, wid);
 				}

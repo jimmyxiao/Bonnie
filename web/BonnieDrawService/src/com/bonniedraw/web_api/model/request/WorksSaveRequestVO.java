@@ -14,6 +14,7 @@ public class WorksSaveRequestVO extends ApiRequestVO{
 	private String languageCode;
 	private String countryCode;
 	private List<CategoryInfo> categoryList;
+	private String commodityUrl;
 
 	public int getAc() {
 		return ac;
@@ -79,4 +80,11 @@ public class WorksSaveRequestVO extends ApiRequestVO{
 		this.categoryList = categoryList;
 	}
 
+	public String getCommodityUrl() {
+        return commodityUrl;
+    }
+
+    public void setCommodityUrl(String commodityUrl) {
+        this.commodityUrl = commodityUrl == null ? null : commodityUrl.trim();
+    }
 }
