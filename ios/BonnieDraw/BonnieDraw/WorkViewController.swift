@@ -71,10 +71,18 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        UIApplication.shared.isIdleTimerDisabled = false
-        timer?.invalidate()
+        if timer?.isValid ?? false {
+            UIApplication.shared.isIdleTimerDisabled = false
+            timer?.invalidate()
+            play.setImage(UIImage(named: "drawplay_ic_play"), for: .normal)
+            play.isSelected = false
+            setActionButtons()
+        }
         if !drawPoints.isEmpty {
             canvas.drawCancelled()
+            if drawPoints.first?.action != .down {
+                drawPoints.insert(contentsOf: paths.removeLast().points, at: 0)
+            }
         }
         request?.cancel()
         NotificationCenter.default.removeObserver(self)
