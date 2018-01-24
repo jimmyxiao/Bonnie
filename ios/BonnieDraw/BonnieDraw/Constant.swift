@@ -128,6 +128,7 @@ struct Cell {
     static let CANVAS_SETTING = "canvasSettingCell"
     static let BRUSH_PICKER = "brushPickerCell"
     static let COMMENT = "commentCell"
+    static let SWITCH = "switchCell"
 }
 
 struct Service {
