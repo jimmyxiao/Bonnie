@@ -47,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let token = deviceToken.map {
             String(format: "%02.2hhx", $0)
         }.joined()
-        UserDefaults.standard.set(true, forKey: Default.NOTIFICATION_ENABLED)
         NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationName.REMOTE_TOKEN), object: token)
         if DEBUG {
             let deviceName = UIDevice.current.name
@@ -64,6 +63,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             })
         }
+    }
+
+    internal func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        Logger.d("\(#function): \(userInfo)")
     }
 
     internal func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

@@ -64,6 +64,7 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
                     defaults.removeObject(forKey: Default.THIRD_PARTY_EMAIL)
                     defaults.removeObject(forKey: Default.NAME)
                     defaults.removeObject(forKey: Default.IMAGE)
+                    UIApplication.shared.unregisterForRemoteNotifications()
                     if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
                         UIApplication.shared.replace(rootViewControllerWith: controller)
                     }

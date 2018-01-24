@@ -217,7 +217,6 @@ struct Default {
     static let TOKEN_TIMESTAMP = "tokenTimestamp"
     static let TOKEN = "token"
     static let REMOTE_TOKEN = "remoteToken"
-    static let NOTIFICATION_ENABLED = "notificationEnabled"
     static let USER_ID = "userId"
     static let USER_TYPE = "userType"
     static let NAME = "name"

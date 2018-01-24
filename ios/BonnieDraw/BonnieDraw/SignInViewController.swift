@@ -253,6 +253,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     private func showErrorMessage(message: String?) {
+        UIApplication.shared.unregisterForRemoteNotifications()
         presentDialog(title: "alert_sign_in_fail_title".localized, message: message)
         loading.hide(true)
         password.text = nil
