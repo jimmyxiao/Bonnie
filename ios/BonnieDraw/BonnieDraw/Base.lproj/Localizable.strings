@@ -54,11 +54,11 @@
 "gender_unspecified" = "Unspecified";
 "image_picker_album" = "Album";
 "image_picker_camera" = "Camera";
-"menu_account" = "SETTINGS";
-"menu_my_collection" = "COLLECTIONS";
-"menu_my_works" = "MY DRAWINGS";
-"menu_new_works" = "NEWEST";
-"menu_popular_works" = "POPULAR";
+"menu_account" = "Settings";
+"menu_my_collection" = "Collections";
+"menu_my_works" = "My Drawings";
+"menu_new_works" = "Newest";
+"menu_popular_works" = "Popular";
 "menu_sign_out" = "Sign out";
 "more_copy_link" = "Copy Link";
 "more_edit_work" = "Edit your drawing";
