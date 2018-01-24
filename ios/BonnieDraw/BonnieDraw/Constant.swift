@@ -156,8 +156,8 @@ struct Service {
     static let TAG_LIST = "/tagList"
     static let FRIEND_LIST = "/friendsList"
     static let ABOUT = "https://www.bonniedraw.com/#/about_app"
-    static let PRIVACY_POLICY = "https://www.bonniedraw.com/#/privacy_app"
-    static let TERM_OF_USE = "https://www.bonniedraw.com/#/terms_app"
+    static let PRIVACY_POLICY = "https://www.bonniedraw.com/BonnieDrawClient/#/privacy_app"
+    static let TERM_OF_USE = "https://www.bonniedraw.com/BonnieDrawClient/#/terms_app"
 
     static func standard(withPath path: String) -> String {
         return "\(SCHEME)://\(HOST)\(BASE)\(path)"

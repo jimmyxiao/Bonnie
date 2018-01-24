@@ -36,17 +36,22 @@ extension UIViewController {
         if PHPhotoLibrary.authorizationStatus() == .authorized {
             successHandler?()
         } else {
+            let showAlert = PHPhotoLibrary.authorizationStatus() != .notDetermined
             PHPhotoLibrary.requestAuthorization() {
                 status in
                 DispatchQueue.main.async {
                     if status == .authorized {
                         successHandler?()
                     } else {
-                        self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_photos".localized) {
-                            success in
-                            if success {
-                                AppDelegate.openSettings()
+                        if showAlert {
+                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_photos".localized) {
+                                success in
+                                if success {
+                                    AppDelegate.openSettings()
+                                }
+                                failHandler?()
                             }
+                        } else {
                             failHandler?()
                         }
                     }
@@ -59,17 +64,22 @@ extension UIViewController {
         if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) == .authorized {
             successHandler?()
         } else {
+            let showAlert = AVCaptureDevice.authorizationStatus(for: AVMediaType.video) != .notDetermined
             AVCaptureDevice.requestAccess(for: AVMediaType.video) {
                 status in
                 DispatchQueue.main.async {
                     if status {
                         successHandler?()
                     } else {
-                        self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "".localized) {
-                            success in
-                            if success {
-                                AppDelegate.openSettings()
+                        if showAlert {
+                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_camera".localized) {
+                                success in
+                                if success {
+                                    AppDelegate.openSettings()
+                                }
+                                failHandler?()
                             }
+                        } else {
                             failHandler?()
                         }
                     }
@@ -82,17 +92,22 @@ extension UIViewController {
         if AVAudioSession.sharedInstance().recordPermission() == .granted {
             successHandler?()
         } else {
+            let showAlert = AVAudioSession.sharedInstance().recordPermission() != .undetermined
             AVAudioSession.sharedInstance().requestRecordPermission() {
                 status in
                 DispatchQueue.main.async {
                     if status {
                         successHandler?()
                     } else {
-                        self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_camera".localized) {
-                            success in
-                            if success {
-                                AppDelegate.openSettings()
+                        if showAlert {
+                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_camera".localized) {
+                                success in
+                                if success {
+                                    AppDelegate.openSettings()
+                                }
+                                failHandler?()
                             }
+                        } else {
                             failHandler?()
                         }
                     }
@@ -109,17 +124,22 @@ extension UIViewController {
                     successHandler?()
                 }
             } else {
+                let showAlert = settings.authorizationStatus != .notDetermined
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) {
                     success, error in
                     DispatchQueue.main.async {
                         if success {
                             successHandler?()
                         } else {
-                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_notification".localized) {
-                                success in
-                                if success {
-                                    AppDelegate.openSettings()
+                            if showAlert {
+                                self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_notification".localized) {
+                                    success in
+                                    if success {
+                                        AppDelegate.openSettings()
+                                    }
+                                    failHandler?()
                                 }
+                            } else {
                                 failHandler?()
                             }
                         }

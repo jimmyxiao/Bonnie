@@ -36,11 +36,11 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
             controller.delegate = self
         } else if let controller = segue.destination as? WebViewController {
             if segue.identifier == Segue.WEB_ABOUT {
-                controller.url = URL(string: Service.ABOUT)
+                controller.url = URL(string: Service.ABOUT + "?lang=\(Locale.current.languageCode ?? "")-\(Locale.current.regionCode ?? "")")
             } else if segue.identifier == Segue.WEB_PRIVACY_POLICY {
-                controller.url = URL(string: Service.PRIVACY_POLICY)
+                controller.url = URL(string: Service.PRIVACY_POLICY + "?lang=\(Locale.current.languageCode ?? "")-\(Locale.current.regionCode ?? "")")
             } else if segue.identifier == Segue.WEB_TERM_OF_USE {
-                controller.url = URL(string: Service.TERM_OF_USE)
+                controller.url = URL(string: Service.TERM_OF_USE + "?lang=\(Locale.current.languageCode ?? "")-\(Locale.current.regionCode ?? "")")
             }
         }
     }
