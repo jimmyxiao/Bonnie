@@ -152,10 +152,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    static func randomColor() -> String {
-        return String(format: "%02x%02x%02x", arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
-    }
-
     private static func fetchAlbum() -> PHAssetCollection? {
         if let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String {
             let collections = PHAssetCollection.fetchTopLevelUserCollections(with: nil)
