@@ -11,27 +11,12 @@ app.controller('aboutController', function ($rootScope,$scope,$window ,$location
 				break;
 			case "about_app":
 				$rootScope.title = 'TITLE.t03_01_about_us';
-				if($location.search()['lang'] == null){
-					$translate.use('en');
-				}else{
-					$translate.use($location.search()['lang']);
-				}
 				break;
 			case "privacy_app":
 				$rootScope.title = 'TITLE.t03_01_privacy_policy';
-				if($location.search()['lang'] == null){
-					$translate.use('en');
-				}else{
-					$translate.use($location.search()['lang']);
-				}
 				break;
 			case "terms_app":
 				$rootScope.title = 'TITLE.t03_01_terms_service';
-				if($location.search()['lang'] == null){
-					$translate.use('en');
-				}else{
-					$translate.use($location.search()['lang']);
-				}
 				break;
 		}
 		$rootScope.nav = '';

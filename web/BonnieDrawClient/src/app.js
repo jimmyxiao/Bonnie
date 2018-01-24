@@ -1,13 +1,13 @@
 'use strict';
 
 // localhost
-var locationIP='http://localhost:8080/';
+// var locationIP='http://localhost:8080/';
 // var locationIP='http://www.bonniedraw.com:8080/';
- var rootUrl = locationIP + 'BonnieDrawService/';
+//  var rootUrl = locationIP + 'BonnieDrawService/';
 
 // release
-// var locationIP='https://www.bonniedraw.com/';
-// var rootUrl = locationIP + 'bonniedraw_service/';
+var locationIP='https://www.bonniedraw.com/';
+var rootUrl = locationIP + 'bonniedraw_service/';
 
 var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
@@ -482,6 +482,13 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 		$rootScope.language = 'en';
 	}else{
 		$rootScope.language = navigator.language.toLowerCase();
+	}
+	if($location.search()['lang'] != null){
+		if(languageArray.indexOf($location.search()['lang'].toLowerCase())==-1){
+		$rootScope.language = 'en';
+		}else{
+			$rootScope.language = $location.search()['lang'].toLowerCase();
+		}
 	}
 	$rootScope.switchLanguage = function(langKey) {
 		$translate.use(langKey);
