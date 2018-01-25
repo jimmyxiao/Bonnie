@@ -91,7 +91,7 @@
     <string name="u04_02_enter_description">請輸入作品簡短說明，並在說明後加上「#」，例：</string>
     <string name="u04_02_enter_empty">作品說明不可空白</string>
     <string name="u04_02_share">分享作品</string>
-    <string name="u04_02_work_description">作品說明</string>
+    <string name="u04_02_work_description">作品說明 : </string>
     <string name="u04_03_privacy_setting">隱私權設定</string>
     <string name="u04_03_private">不公開</string>
     <string name="u04_03_public">公開</string>

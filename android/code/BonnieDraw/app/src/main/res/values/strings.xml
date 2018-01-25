@@ -91,7 +91,7 @@
     <string name="u04_02_enter_description">Please enter brief description about your work; Add 「#」behind your description. Ex.</string>
     <string name="u04_02_enter_empty">Work description cannot be blank.</string>
     <string name="u04_02_share">Share</string>
-    <string name="u04_02_work_description">Work Description</string>
+    <string name="u04_02_work_description">Work Description : </string>
     <string name="u04_03_privacy_setting">Privacy Setting</string>
     <string name="u04_03_private">Private</string>
     <string name="u04_03_public">Public</string>
@@ -151,7 +151,7 @@
     <string name="uc_commit">OK</string>
     <string name="uc_connect_failed_title">Connection failed</string>
     <string name="uc_connection_failed">Please check your internet connection and try again.</string>
-    <string name="uc_date_format">yyyy年MM月dd日 ahh:mm</string>
+    <string name="uc_date_format">yyyy/MM/dd ahh:mm</string>
     <string name="uc_day_before_yesterday">The day before yesterday</string>
     <string name="uc_delete">Delete</string>
     <string name="uc_email">Email</string>
