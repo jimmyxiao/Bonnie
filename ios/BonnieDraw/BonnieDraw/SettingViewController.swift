@@ -81,7 +81,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
         let setting = settings[indexPath.row]
         if let segueId = setting.segueId {
             performSegue(withIdentifier: segueId, sender: nil)
-        } else {
+        } else if setting.type != .notification {
             presentConfirmationDialog(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
                 success in
                 if success {
@@ -222,5 +222,6 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol SettingViewControllerDelegate {
     func settings(profileDidChange profile: Profile)
+
     func settings(imageDidChange image: UIImage)
 }

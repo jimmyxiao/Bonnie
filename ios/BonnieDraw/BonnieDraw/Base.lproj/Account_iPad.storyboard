@@ -926,7 +926,7 @@
                                                     </subviews>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="switchCell" id="0ga-48-lrv" customClass="SwitchTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="switchCell" id="0ga-48-lrv" customClass="SwitchTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="72" width="648" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0ga-48-lrv" id="vde-Y4-3ce">
