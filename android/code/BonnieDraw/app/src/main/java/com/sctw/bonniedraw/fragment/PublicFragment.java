@@ -53,12 +53,14 @@ public class PublicFragment extends DialogFragment {
         mTextViewTitle = view.findViewById(R.id.textView_public_fragment_title);
         mImgBtnBack = view.findViewById(R.id.imgBtn_public_back);
         mWebView = view.findViewById(R.id.public_webview);
+
         mProgressBar = view.findViewById(R.id.progressBar_public);
         mProgressBar.bringToFront();
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
+        mWebView.clearCache(true);
 
         mWebView.setWebViewClient(new WebViewClient() {
             @Override

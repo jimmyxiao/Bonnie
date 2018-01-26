@@ -740,10 +740,17 @@ public class PaintView extends View {
         }
 
         if ((!this.mIsJitterColor) || brush.useFirstJitter) {
+            if(brush.isEraser)
+                color = Color.argb(255, Color.red(mLineColor), Color.green(mLineColor), Color.blue(mLineColor));
+            else
             color = Color.argb((int) ((drawingAlpha * brush.colorPatchAlpha * tipAlpha) * 255.0f), Color.red(mLineColor), Color.green(mLineColor), Color.blue(mLineColor));
         } else {
             int jitterColor = jitterColor(this.mLineColor);
-            color = Color.argb((int) (drawingAlpha * tipAlpha * 255.0f), Color.red(jitterColor), Color.green(jitterColor), Color.blue(jitterColor));
+
+            if(brush.isEraser)
+                color = Color.argb(255, Color.red(jitterColor), Color.green(jitterColor), Color.blue(jitterColor));
+            else
+                color = Color.argb((int) (drawingAlpha * tipAlpha * 255.0f), Color.red(jitterColor), Color.green(jitterColor), Color.blue(jitterColor));
         }
 
         mPathLayerCanvas.drawColor(color, PorterDuff.Mode.SRC);

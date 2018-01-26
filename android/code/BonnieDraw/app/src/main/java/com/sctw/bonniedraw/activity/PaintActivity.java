@@ -543,12 +543,14 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         int color = mPaintView.getDrawingColor();
                         float brusnSize = mPaintView.getDrawingScaledSize();
                         int paintNum = mPaintView.miPaintNum;
+                        float alpha = mPaintView.getDrawingAlpha();
                         mPaintView = new PaintView(getApplicationContext(),true);
                         mPaintView.initDefaultBrush(brush);
                         mPaintView.setBrush(brush);
                         mPaintView.setDrawingColor(color);
                         mPaintView.setDrawingScaledSize(brusnSize);
                         mPaintView.miPaintNum = paintNum;
+                        mPaintView.setDrawingAlpha(alpha);
                         mFrameLayoutFreePaint.addView(mPaintView);
                         dialog.dismiss();
                     }
@@ -614,27 +616,27 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
             case R.id.imgBtn_paint_type1:
                 setBrush(18);
                 mPaintView.miPaintNum = 1;
-                mSeekbarOpacity.setProgress((int) mPaintView.getDrawingAlpha() * 100);
+                mSeekbarOpacity.setProgress((int) (mPaintView.getDrawingAlpha() * 100));
                 break;
             case R.id.imgBtn_paint_type2:
                 setBrush(6);
                 mPaintView.miPaintNum = 2;
-                mSeekbarOpacity.setProgress((int) mPaintView.getDrawingAlpha() * 100);
+                mSeekbarOpacity.setProgress((int) (mPaintView.getDrawingAlpha() * 100));
                 break;
             case R.id.imgBtn_paint_type3:
                 setBrush(3);
                 mPaintView.miPaintNum = 3;
-                mSeekbarOpacity.setProgress((int) mPaintView.getDrawingAlpha() * 100);
+                mSeekbarOpacity.setProgress((int) (mPaintView.getDrawingAlpha() * 100));
                 break;
             case R.id.imgBtn_paint_type4:
                 setBrush(13);
                 mPaintView.miPaintNum = 4;
-                mSeekbarOpacity.setProgress((int) mPaintView.getDrawingAlpha() * 100);
+                mSeekbarOpacity.setProgress((int) (mPaintView.getDrawingAlpha() * 100));
                 break;
             case R.id.imgBtn_paint_type5:
                 setBrush(11);
                 mPaintView.miPaintNum = 5;
-                mSeekbarOpacity.setProgress((int) mPaintView.getDrawingAlpha() * 100);
+                mSeekbarOpacity.setProgress((int) (mPaintView.getDrawingAlpha() * 100));
                 break;
             case R.id.imgBtn_paint_right:
                 if (mPaintView.miPaintNum < 5 && mPaintView.miPaintNum >= 1) {

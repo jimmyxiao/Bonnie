@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -66,12 +67,13 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, SwipeRefreshLayout.OnRefreshListener, LoadMoreFooter.OnLoadMoreListener ,PlayFragment.OnPlayFragmentListener {
+public class HomeAndHotFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, SwipeRefreshLayout.OnRefreshListener, LoadMoreFooter.OnLoadMoreListener, PlayFragment.OnPlayFragmentListener {
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
     private HeaderAndFooterRecyclerView mRecyclerViewHome;
     private Toolbar mToolbar;
     private SearchView mSearchView;
+    private MenuItem mMenuItem;
     private SharedPreferences prefs;
     private List<WorkInfoBean> workInfoBeanList;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -139,9 +141,9 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         mLoadMoreFooter.setState(LoadMoreFooter.STATE_DISABLED);
 
         Intent intent = this.getActivity().getIntent();
-        int fn = intent.getIntExtra("fn",0);
-        if(fn == 5 ){
-            int iUid =  intent.getIntExtra("uid",0);
+        int fn = intent.getIntExtra("fn", 0);
+        if (fn == 5) {
+            int iUid = intent.getIntExtra("uid", 0);
             this.getActivity().getIntent().removeExtra("fn");
             this.getActivity().getIntent().removeExtra("uid");
             openMemberFragment(iUid);
@@ -154,8 +156,8 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_search, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) item.getActionView();
+        mMenuItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) mMenuItem.getActionView();
         mSearchView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_searchview_bg));
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setIconifiedByDefault(false);
@@ -178,7 +180,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 return false;
             }
         });
-        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+        mMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 return true;
@@ -580,7 +582,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
 
     @Override
     public void onUserClick(int uid) {
-        openMemberFragment( uid);
+        openMemberFragment(uid);
     }
 
     public void openMemberFragment(int uid) {
@@ -617,6 +619,22 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
 
     @Override
     public void onRefresh() {
+
+        if(miWt == 9 && mSearchView !=null)
+        {
+            if(mMenuItem !=null){
+
+                MenuItemCompat.collapseActionView(mMenuItem);
+            }
+            /*
+            if (!mSearchView.isIconified()) {
+                mSearchView.setIconified(true);
+            }
+            */
+        }
+
+        getWorksList(REFRESH_WORKS_LIST);
+        /*
         if (miWt != 9) {
             getWorksList(REFRESH_WORKS_LIST);
         } else {
@@ -624,6 +642,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             miRc = 20;
             getQueryWorksList(mStrQuery);
         }
+        */
     }
 
     @Override
