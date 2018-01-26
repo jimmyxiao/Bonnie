@@ -30,6 +30,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             GIDSignIn.sharedInstance().uiDelegate = self
             GIDSignIn.sharedInstance().delegate = self
             GIDSignIn.sharedInstance().clientID = dictionary?.object(forKey: "CLIENT_ID") as? String
+        } else {
+            google.isEnabled = false
         }
     }
 
