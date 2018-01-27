@@ -272,7 +272,6 @@
                     <navigationItem key="navigationItem" id="2tc-lQ-ldz"/>
                     <connections>
                         <outlet property="email" destination="mHG-yE-dh1" id="QqW-yy-WhX"/>
-                        <outlet property="google" destination="9Mc-PQ-sAX" id="KqO-K3-gl9"/>
                         <outlet property="loading" destination="1Vz-cy-5cb" id="FZN-KO-teF"/>
                         <outlet property="password" destination="E2r-aO-dH5" id="eD0-2K-zoq"/>
                     </connections>

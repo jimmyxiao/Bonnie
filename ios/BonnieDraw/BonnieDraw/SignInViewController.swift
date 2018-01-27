@@ -17,7 +17,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var google: UIButton!
     private var dataRequest: DataRequest?
     private var completionHandler: ((String?) -> Void)?
 
@@ -30,8 +29,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             GIDSignIn.sharedInstance().uiDelegate = self
             GIDSignIn.sharedInstance().delegate = self
             GIDSignIn.sharedInstance().clientID = dictionary?.object(forKey: "CLIENT_ID") as? String
-        } else {
-            google.isEnabled = false
         }
     }
 

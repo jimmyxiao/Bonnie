@@ -299,7 +299,6 @@
                     <navigationItem key="navigationItem" id="2tc-lQ-ldz"/>
                     <connections>
                         <outlet property="email" destination="mHG-yE-dh1" id="QqW-yy-WhX"/>
-                        <outlet property="google" destination="9Mc-PQ-sAX" id="KqO-K3-gl9"/>
                         <outlet property="loading" destination="1Vz-cy-5cb" id="FZN-KO-teF"/>
                         <outlet property="password" destination="E2r-aO-dH5" id="eD0-2K-zoq"/>
                     </connections>
@@ -726,6 +725,6 @@
         <image name="back_icon" width="14" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="4WA-1n-7BP"/>
+        <segue reference="wd2-B0-7UG"/>
     </inferredMetricsTieBreakers>
 </document>
