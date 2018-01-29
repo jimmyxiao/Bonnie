@@ -145,6 +145,18 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
         mFullScreenDialog = new FullScreenDialog(this, R.layout.dialog_paint_save);
         final EditText workName = (EditText) mFullScreenDialog.findViewById(R.id.paint_save_work_name);
         final EditText workDescription = (EditText) mFullScreenDialog.findViewById(R.id.paint_save_work_description);
+        final EditText workShoppingInfo = (EditText) mFullScreenDialog.findViewById(R.id.editText_shopping_info);
+        final LinearLayout layout_shopping_info = mFullScreenDialog.findViewById(R.id.layout_shopping_info);
+        final View viewShoppingInfo = mFullScreenDialog.findViewById(R.id.view_shopping_info);
+        String strUserGriup= mPrefs.getString(GlobalVariable.USER_GROUP, "null");
+        if(strUserGriup!=null && strUserGriup.equals("1")){
+            layout_shopping_info.setVisibility(View.VISIBLE);
+            viewShoppingInfo.setVisibility(View.VISIBLE);
+        }else{
+            layout_shopping_info.setVisibility(View.GONE);
+            viewShoppingInfo.setVisibility(View.GONE);
+        }
+
         ImageView workPreview = mFullScreenDialog.findViewById(R.id.save_paint_preview);
         Button saveWork = (Button) mFullScreenDialog.findViewById(R.id.btn_save_paint_save);
         ImageButton saveCancel = (ImageButton) mFullScreenDialog.findViewById(R.id.btn_save_paint_back);
@@ -187,6 +199,7 @@ public class PaintActivity extends AppCompatActivity implements MenuPopup.MenuPo
                         json.put("privacyType", miPrivacyType);
                         json.put("title", workName.getText().toString());
                         json.put("description", workDescription.getText().toString());
+                        json.put("commodityUrl", workShoppingInfo.getText().toString());
                         json.put("languageId", 2);
                         fileUpload(json, GlobalVariable.API_LINK_WORK_SAVE);
                         mFullScreenDialog.dismiss();

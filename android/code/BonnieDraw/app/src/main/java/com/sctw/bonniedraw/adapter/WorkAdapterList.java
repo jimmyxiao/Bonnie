@@ -196,6 +196,14 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                     listener.onWorkMsgClick(wid);
                 }
             });
+            holder.imgBtnWorksShop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onShopInfoClick(wid);
+                }
+            });
+
+
 
             holder.imgBtnShare.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -282,7 +290,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         TextView mTvUserName, mTvWorkName, mTvWorkGoodTotal, mTvWorkMsgTotal, mTvFollow;
         ImageView mImgViewWrok;
         CircleImageView mCircleImageView;
-        ImageButton imgBtnExtra, imgBtnGood, imgBtnMsg, imgBtnShare, imgBtnCollection;
+        ImageButton imgBtnExtra, imgBtnGood, imgBtnMsg, imgBtnShare, imgBtnCollection, imgBtnWorksShop;
 
         ViewHolder(View v) {
             super(v);
@@ -298,6 +306,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             imgBtnShare = (ImageButton) v.findViewById(R.id.imgBtn_works_share);
             imgBtnCollection = (ImageButton) v.findViewById(R.id.imgBtn_works_collection);
             mCircleImageView = v.findViewById(R.id.circleImg_works_user_photo);
+            imgBtnWorksShop = v.findViewById(R.id.imgBtn_works_shop);
         }
     }
 
@@ -356,6 +365,8 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         void onWorkGoodClick(int position, boolean like, int wid);
 
         void onWorkMsgClick(int wid);
+
+        void onShopInfoClick(int position);
 
         void onUserClick(int uid);
 

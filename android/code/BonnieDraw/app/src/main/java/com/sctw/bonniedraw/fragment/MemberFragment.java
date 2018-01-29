@@ -2,7 +2,9 @@ package com.sctw.bonniedraw.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -733,6 +735,16 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
             setFollow(position, 1, uid);
         } else {
             setFollow(position, 0, uid);
+        }
+    }
+
+    @Override
+    public void onShopInfoClick(int position) {
+        String url = mAdapterList.getData().get(position).getCommodityUrl();
+        if(url!=null && !url.equals("")) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         }
     }
 

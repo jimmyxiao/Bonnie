@@ -142,6 +142,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
                                         .putString(GlobalVariable.USER_EMAIL_STR, responseJSON.getJSONObject("userInfo").getString("email"))
                                         .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
+                                        .putString(GlobalVariable.USER_GROUP, responseJSON.getString("userGroup"))
                                         .putString(GlobalVariable.USER_IMG_URL_STR, responseJSON.getJSONObject("userInfo").getString("profilePicture"))
                                         .apply();
                                 transferMainPage();
@@ -187,6 +188,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
                                 prefs.edit()
                                         .putString(GlobalVariable.API_TOKEN, responseJSON.getString("lk"))
                                         .putString(GlobalVariable.API_UID, responseJSON.getString("ui"))
+                                        .putString(GlobalVariable.USER_GROUP, responseJSON.getString("userGroup"))
                                         .putString(GlobalVariable.USER_NAME_STR, responseJSON.getJSONObject("userInfo").getString("userName"))
                                         .putString(GlobalVariable.USER_IMG_URL_STR, responseJSON.getJSONObject("userInfo").getString("profilePicture"))
                                         .apply();

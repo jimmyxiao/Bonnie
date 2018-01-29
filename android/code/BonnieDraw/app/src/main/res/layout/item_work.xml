@@ -127,6 +127,15 @@
             android:background="@color/Transparent"
             app:srcCompat="@drawable/share_icon" />
 
+        <ImageButton
+            android:id="@+id/imgBtn_works_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:background="@color/Transparent"
+            app:srcCompat="@drawable/shop_infor_icon" />
+
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -139,6 +148,8 @@
                 android:background="@color/Transparent"
                 app:srcCompat="@drawable/ic_bookmark_selector" />
         </FrameLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>

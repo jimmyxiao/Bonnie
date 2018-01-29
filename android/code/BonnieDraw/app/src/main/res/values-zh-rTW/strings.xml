@@ -180,4 +180,6 @@
     <string name="uc_username_empty">用戶名稱不可空白</string>
     <string name="uc_yesterday">昨天</string>
     <string name="uc_loading">載入中...</string>
+    <string name="u06_03_website">個人網站</string>
+    <string name="u04_03_work_shopinfo">商品連結</string>
 </resources>

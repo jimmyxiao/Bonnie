@@ -23,13 +23,15 @@
             android:background="@android:color/transparent"
             android:minHeight="?attr/actionBarSize"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <ImageButton
                 android:id="@+id/imgBtn_member_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:gravity="left"
                 android:background="@color/Transparent"
                 app:srcCompat="@drawable/back_icon" />
 
@@ -45,6 +47,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
                 android:background="@color/Transparent"
                 app:srcCompat="@drawable/personal_ic_rectangle" />
 
@@ -53,6 +57,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
                 android:background="@color/Transparent"
                 app:srcCompat="@drawable/personal_ic_list" />
 
@@ -63,6 +69,8 @@
                 android:layout_weight="1"
                 android:background="@color/Transparent"
                 android:visibility="gone"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
                 app:srcCompat="@drawable/recommend_icon" />
 
             <ImageButton
@@ -70,6 +78,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:paddingRight="16dp"
+                android:paddingLeft="8dp"
                 android:background="@color/Transparent"
                 app:srcCompat="@drawable/works_ic_more" />
         </LinearLayout>
@@ -137,6 +147,14 @@
                             android:textColor="@color/Black"
                             android:textIsSelectable="true" />
 
+                        <TextView
+                            android:id="@+id/textView_website"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textAlignment="center"
+                            android:text="https://www.bonniedraw.com"/>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -144,6 +162,7 @@
                             android:baselineAligned="false"
                             android:divider="@drawable/divider_layout"
                             android:orientation="horizontal"
+                            android:layout_marginTop="5dp"
                             android:padding="8dp"
                             android:showDividers="middle|">
 

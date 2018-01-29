@@ -4,6 +4,7 @@ package com.sctw.bonniedraw.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -87,12 +88,14 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private int interWt;  // 1=追蹤 , 2= 熱門
     private String mStrQuery;
     private LoadMoreFooter mLoadMoreFooter;
+    private Context mContext;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
+        mContext = getContext();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -219,9 +222,9 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                     mTvHint.setVisibility(View.INVISIBLE);
                 }
                 if (interWt == 1) {
-                    mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this, false);
+                    mAdapter = new WorkAdapterList(mContext, workInfoBeanList, this, false);
                 } else {
-                    mAdapter = new WorkAdapterList(getContext(), workInfoBeanList, this, true);
+                    mAdapter = new WorkAdapterList(mContext, workInfoBeanList, this, true);
                 }
                 mProgressBar.setVisibility(View.GONE);
                 mRecyclerViewHome.setAdapter(mAdapter);
@@ -380,9 +383,9 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                         public void run() {
                             try {
                                 if (responseJSON.getInt("res") == 1) {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_02_report_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+                                    ToastUtil.createToastIsCheck(mContext, getString(R.string.u02_02_report_successful), true, PxDpConvert.getSystemHight(mContext) / 3);
                                 } else {
-                                    ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_02_report_fail), false, PxDpConvert.getSystemHight(getContext()) / 3);
+                                    ToastUtil.createToastIsCheck(mContext, getString(R.string.u02_02_report_fail), false, PxDpConvert.getSystemHight(mContext) / 3);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -493,7 +496,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                 android.content.ClipData clip = android.content.ClipData.newPlainText("text", GlobalVariable.API_LINK_SHARE_LINK + wid);
                 clipboard.setPrimaryClip(clip);
-                ToastUtil.createToastIsCheck(getContext(), getString(R.string.m01_01_copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+                ToastUtil.createToastIsCheck(mContext, getString(R.string.m01_01_copylink_successful), true, PxDpConvert.getSystemHight(mContext) / 3);
                 extraDialog.dismiss();
             }
         });
@@ -502,13 +505,13 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
             @Override
             public void onClick(View view) {
                 extraDialog.dismiss();
-                final FullScreenDialog reportDialog = new FullScreenDialog(getContext(), R.layout.dialog_work_report);
+                final FullScreenDialog reportDialog = new FullScreenDialog(mContext, R.layout.dialog_work_report);
                 final Spinner spinner = reportDialog.findViewById(R.id.spinner_report);
                 final EditText editText = reportDialog.findViewById(R.id.editText_report);
                 Button btnCancel = reportDialog.findViewById(R.id.btn_report_cancel);
                 Button btnCommit = reportDialog.findViewById(R.id.btn_report_commit);
                 ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
-                        getContext(), R.array.report, R.layout.item_spinner);
+                        mContext, R.array.report, R.layout.item_spinner);
                 nAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
                 spinner.setAdapter(nAdapter);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -521,7 +524,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                     @Override
                     public void onClick(View v) {
                         if (editText.getText().toString().isEmpty()) {
-                            ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_02_report_reason_empty), false, PxDpConvert.getSystemHight(getContext()) / 3);
+                            ToastUtil.createToastIsCheck(mContext, getString(R.string.u02_02_report_reason_empty), false, PxDpConvert.getSystemHight(mContext) / 3);
                         } else {
                             int type = 0;
                             switch (spinner.getSelectedItemPosition()) {
@@ -578,6 +581,16 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     public void onWorkMsgClick(int wid) {
         MessageDialog messageDialog = MessageDialog.newInstance(wid);
         messageDialog.show(fragmentManager, "TAG");
+    }
+
+    @Override
+    public void onShopInfoClick(int position) {
+        String url = mAdapter.getData().get(position).getCommodityUrl();
+        if(url!=null && !url.equals("")) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        }
     }
 
     @Override
@@ -656,7 +669,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     @Override
     public void onDeleteWorkSuccess() {
         // reload works
-        ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+        ToastUtil.createToastIsCheck(mContext, getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(mContext) / 3);
         getWorksList(REFRESH_WORKS_LIST);
 
     }

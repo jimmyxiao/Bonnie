@@ -56,4 +56,5 @@ public class GlobalVariable {
     public static final String HTML_PRIVACY_LINK = "https://www.bonniedraw.com/#/privacy_app";
     public static final String HTML_TERMS_LINK = "https://www.bonniedraw.com/#/terms_app";
 
+    public static final String USER_GROUP = "0";
 }

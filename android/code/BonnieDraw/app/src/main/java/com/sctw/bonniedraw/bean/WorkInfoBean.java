@@ -22,6 +22,8 @@ public class WorkInfoBean {
     private Integer msgCount;
     private boolean like;
     private boolean isCollection;
+    private String commodityUrl;
+
 
     public String getWorkId() {
         return workId;
@@ -119,6 +121,14 @@ public class WorkInfoBean {
         isCollection = collection;
     }
 
+    public String getCommodityUrl() {
+        return commodityUrl;
+    }
+
+    public void setCommodityUrl(String commodityUrl) {
+        this.commodityUrl = commodityUrl;
+    }
+
     public static ArrayList<WorkInfoBean> generateInfoList(JSONArray data) {
         ArrayList<WorkInfoBean> workInfoBeanList = new ArrayList<>();
         try {
@@ -144,6 +154,7 @@ public class WorkInfoBean {
                     workInfoBean.setMsgCount(0);
                 }
                 workInfoBean.setLike(data.getJSONObject(x).getBoolean("like"));
+                workInfoBean.setCommodityUrl(data.getJSONObject(x).getString("commodityUrl"));
                 workInfoBeanList.add(workInfoBean);
             }
         } catch (JSONException e) {
