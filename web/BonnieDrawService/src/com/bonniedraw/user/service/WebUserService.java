@@ -11,4 +11,5 @@ public interface WebUserService {
 	public List<UserInfo> queryUserList(UserInfo searchInfo);
 	public UserInfoQueryResponseVO queryUserDetail(UserInfo searchInfo);
 	public UserInfo changeStatus(UserInfo userInfo);
+	public UserInfo changeUserGroup(UserInfo userInfo);
 }

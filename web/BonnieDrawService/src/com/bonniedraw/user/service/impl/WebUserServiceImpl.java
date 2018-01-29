@@ -158,5 +158,11 @@ public class WebUserServiceImpl extends BaseService implements WebUserService {
 		}
 		return userInfo;
 	}
+
+	@Override
+	public UserInfo changeUserGroup(UserInfo userInfo) {
+		userInfoMapper.updateUserGroupByPrimaryKey(userInfo);
+		return userInfo;
+	}
 	
 }

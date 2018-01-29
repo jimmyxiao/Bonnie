@@ -7,6 +7,8 @@ public class UserInfo{
 
     private Integer userType;
 
+    private Integer userGroup;
+
     private String userCode;
 
     private String userPw;
@@ -79,6 +81,14 @@ public class UserInfo{
 
     public void setUserType(Integer userType) {
         this.userType = userType;
+    }
+
+    public Integer getUserGroup() {
+        return userGroup;
+    }
+
+    public void setUserGroup(Integer userGroup) {
+        this.userGroup = userGroup;
     }
 
     public String getUserCode() {

@@ -8,14 +8,18 @@ app.factory('userService', function(baseHttp) {
 		},
 		queryUserDetail: function(params,callback){
 			return baseHttp.service('user/queryUserDetail',params,callback);
-		}
+		},
+		changeUserGroup: function(params,callback){
+            return baseHttp.service('user/changeUserGroup',params,callback);
+        }
     }
 })
 .controller('userController', function ($rootScope, $scope, $window ,$location, $http, $filter, $state, $modal, userService, util) {
 	$scope.search = {
 		userName:null,
 		email:null,
-		status: 1
+		status: 1,
+		userGroup: 0
 	}
 
 	var opt = {
@@ -56,12 +60,15 @@ app.factory('userService', function(baseHttp) {
 				}else{
 					str = '啟用';
 				}
-				var statusBtn = '<button name="status" class="btn btn-danger btn-sm" value="'+ row +'"><i class="ace-icon fa fa-trash-o bigger-130"></i>' + str + '</button>';
+				var editBtn = '<button name="edit" class="btn btn-primary btn-sm marginbottom4" value="'+ row +'"><i class="ace-icon fa fa-trash-o bigger-130"></i>修改</button>';
+				var statusBtn = '<button name="status" class="btn btn-danger btn-sm marginbottom4" value="'+ row +'"><i class="ace-icon fa fa-trash-o bigger-130"></i>' + str + '</button>';
 				var btnStr =
 					'<div class="hidden-sm hidden-xs action-buttons">' +
-					'<button name="detail" class="btn btn-primary btn-sm" value="'+ row +'"><i class="ace-icon fa fa-pencil bigger-130"></i>明細</button>' +
+					'<button name="detail" class="btn btn-primary btn-sm marginbottom4" value="'+ row +'"><i class="ace-icon fa fa-pencil bigger-130"></i>明細</button>' +
 					'&nbsp;'+
 					statusBtn +
+					'&nbsp;'+
+					editBtn+
 					'</div>'
 					return btnStr;
 				}
@@ -80,6 +87,11 @@ app.factory('userService', function(baseHttp) {
 		$scope.changeStatus(index);
 	});
 
+	$('#dynamic-table tbody').on( 'click', 'button[name="edit"]',function() {              
+        var index = $(this).context.value;
+        $scope.edit(index);
+    });
+
 	$scope.changeStatus = function(index){
 		userService.changeStatus($scope.userInfoList[index],function(data, status, headers, config){
 			if(data.result){
@@ -88,6 +100,21 @@ app.factory('userService', function(baseHttp) {
 			}
 		})
 	}
+
+	$scope.edit = function(index){
+        $scope.loading = false;
+        $scope.editUser = {
+            index:index,
+            data:util.clone($scope.userInfoList[index])
+        }
+        console.log($scope.editUser);
+        var modalInstance = $modal.open({
+            templateUrl : 'modules/user/view/dialog/editUser.html',
+            backdrop:'static',
+            scope:$scope,
+            controller : 'editUserController'
+        })
+    }
 
 	 $scope.queryUserDetail = function(data){
         var modalInstance = $modal.open({
@@ -118,5 +145,36 @@ app.factory('userService', function(baseHttp) {
 		})
 	}
 	$scope.queryUserList();
+
+	$scope.reloadTable = function(){
+        myTable.rows().invalidate();
+    }
 	
+})
+.controller('editUserController', function ($rootScope, $scope, $window, $location, $http, $filter, $state, $modalInstance, util, userService) {
+    $scope.close = function() {
+        $scope.editUser = null;
+        $scope.reloadTable();
+        $modalInstance.dismiss('cancel');
+    }
+
+    $scope.updateCustomTag = function(){
+         if($scope.editUser.data.userGroup<0){
+            util.alert('順序預設至少為0');
+        }else{
+            $scope.loading = true;
+            userService.changeUserGroup($scope.editUser.data,function(data, status, headers, config){
+            	console.log(data);
+                if(data.result){
+                    $scope.queryUserList();
+                    $scope.close();
+                    util.alert('更新成功');
+                }else{
+                    util.alert('更新失敗');
+                }
+                $scope.loading = false;
+            })
+        }
+    }
+   
 })

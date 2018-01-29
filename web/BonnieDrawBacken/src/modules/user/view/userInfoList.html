@@ -29,6 +29,14 @@
 						</select>
 					</div>
 					<div class="form-group">
+						<label class="col-sm-3 control-label"> 所屬群組 </label>
+						<select class="col-xs-3 col-sm-5" ng-model="search.userGroup" convert-to-number>
+							<option value="-1">無限制</option>
+							<option value="0">一般使用者</option>
+							<option value="1">商家</option>
+						</select>
+					</div>
+					<div class="form-group">
 						<span class="control-label col-sm-3"></span>
 						<button type="button" class="btn btn-primary" ng-click="queryUserList()">查詢</button>
 					</div>

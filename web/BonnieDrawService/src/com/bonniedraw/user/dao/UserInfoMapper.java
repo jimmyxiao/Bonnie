@@ -23,6 +23,8 @@ public interface UserInfoMapper {
     int updateByPrimaryKey(UserInfo record);
     
     int updateStatusByPrimaryKey(UserInfo record);
+
+    int updateUserGroupByPrimaryKey(UserInfo record);
     
     UserInfo selectByUserCode(String userCode);
     

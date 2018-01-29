@@ -10,6 +10,7 @@ public class LoginResponseVO extends ApiResponseVO{
 	private String sk;
 	private String appVersionCode;
 	private String appUrl;
+	private int userGroup;
 	
 	// for web	
 	private UserInfo userInfo;
@@ -68,6 +69,14 @@ public class LoginResponseVO extends ApiResponseVO{
 
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
+	}
+
+	public int getUserGroup() {
+		return userGroup;
+	}
+
+	public void setUserGroup(int userGroup) {
+		this.userGroup = userGroup;
 	}
 
 }

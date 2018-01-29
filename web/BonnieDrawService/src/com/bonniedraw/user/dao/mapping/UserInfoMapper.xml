@@ -7,6 +7,7 @@
 <resultMap id="BaseResultMap" type="com.bonniedraw.user.model.UserInfo">
     <id column="USER_ID" jdbcType="INTEGER" property="userId" />
     <result column="USER_TYPE" jdbcType="INTEGER" property="userType" />
+    <result column="USER_GROUP" jdbcType="INTEGER" property="userGroup" />
     <result column="USER_CODE" jdbcType="VARCHAR" property="userCode" />
     <result column="USER_PW" jdbcType="VARCHAR" property="userPw" />
     <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
@@ -38,7 +39,7 @@
     <result column="UPDATED_BY" jdbcType="INTEGER" property="updatedBy" />
   </resultMap>
   <sql id="Base_Column_List">
-    USER_ID, USER_TYPE, USER_CODE, USER_PW, USER_NAME, NICK_NAME, EMAIL, SEC_EMAIL, DESCRIPTION, 
+    USER_ID, USER_TYPE, USER_GROUP, USER_CODE, USER_PW, USER_NAME, NICK_NAME, EMAIL, SEC_EMAIL, DESCRIPTION, 
     WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, GENDER, REG_FACEBOOK_ID, REG_GOOGLE_ID, REG_TWITTER_ID, 
     REG_WECHAT_ID, REG_RES1_ID, REG_RES2_ID, REG_RES3_ID, PROFILE_PICTURE, BIRTHDAY, 
     STATUS, LANGUAGE_CODE, COUNTRY_CODE, REG_DATA, REG_VALID_DATE, CREATION_DATE, CREATED_BY, 
@@ -55,8 +56,8 @@
     where USER_ID = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bonniedraw.user.model.UserInfo" useGeneratedKeys="true" keyProperty="userId">
-    insert into user_info (USER_ID, USER_TYPE, USER_CODE, 
-      USER_PW, USER_NAME, NICK_NAME, 
+    insert into user_info (USER_ID, USER_TYPE, USER_GROUP, 
+      USER_CODE, USER_PW, USER_NAME, NICK_NAME, 
       EMAIL, SEC_EMAIL, DESCRIPTION, 
       WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, 
       GENDER, REG_FACEBOOK_ID, REG_GOOGLE_ID, 
@@ -66,8 +67,8 @@
       COUNTRY_CODE, REG_DATA, REG_VALID_DATE, 
       CREATION_DATE, CREATED_BY, UPDATE_DATE, 
       UPDATED_BY)
-    values (#{userId,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}, 
-      #{userPw,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER}, #{userGroup,jdbcType=INTEGER}, 
+      #{userCode,jdbcType=VARCHAR}, #{userPw,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{secEmail,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{webLink,jdbcType=VARCHAR}, #{phoneCountryCode,jdbcType=VARCHAR}, #{phoneNo,jdbcType=VARCHAR}, 
       #{gender,jdbcType=INTEGER}, #{regFacebookId,jdbcType=VARCHAR}, #{regGoogleId,jdbcType=VARCHAR}, 
@@ -86,6 +87,9 @@
       </if>
       <if test="userType != null">
         USER_TYPE,
+      </if>
+      <if test="userGroup != null">
+        USER_GROUP,
       </if>
       <if test="userCode != null">
         USER_CODE,
@@ -182,6 +186,9 @@
       <if test="userType != null">
         #{userType,jdbcType=INTEGER},
       </if>
+      <if test="userGroup != null">
+        #{userGroup,jdbcType=INTEGER},
+      </if>
       <if test="userCode != null">
         #{userCode,jdbcType=VARCHAR},
       </if>
@@ -277,6 +284,9 @@
       <if test="userType != null">
         USER_TYPE = #{userType,jdbcType=INTEGER},
       </if>
+      <if test="userGroup != null">
+        USER_GROUP = #{userGroup,jdbcType=INTEGER},
+      </if>
       <if test="userCode != null">
         USER_CODE = #{userCode,jdbcType=VARCHAR},
       </if>
@@ -370,6 +380,7 @@
   <update id="updateByPrimaryKey" parameterType="com.bonniedraw.user.model.UserInfo">
     update user_info
     set USER_TYPE = #{userType,jdbcType=INTEGER},
+      USER_GROUP = #{userGroup,jdbcType=INTEGER},
       USER_CODE = #{userCode,jdbcType=VARCHAR},
       USER_PW = #{userPw,jdbcType=VARCHAR},
       USER_NAME = #{userName,jdbcType=VARCHAR},
@@ -407,10 +418,16 @@
     set STATUS = #{status,jdbcType=INTEGER}
     where USER_ID = #{userId,jdbcType=INTEGER}
   </update>
+
+  <update id="updateUserGroupByPrimaryKey" parameterType="com.bonniedraw.user.model.UserInfo">
+    update user_info
+    set USER_GROUP = #{userGroup,jdbcType=INTEGER}
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </update>
   
 	<select id="inspectAppPwd" parameterType="com.bonniedraw.web_api.model.request.LoginRequestVO" resultMap="BaseResultMap">
 		select 
-		USER_ID, USER_TYPE, USER_CODE, USER_NAME, NICK_NAME, EMAIL, SEC_EMAIL, DESCRIPTION, 
+		USER_ID, USER_TYPE, USER_GROUP, USER_CODE, USER_NAME, NICK_NAME, EMAIL, SEC_EMAIL, DESCRIPTION, 
     	WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, GENDER, PROFILE_PICTURE, BIRTHDAY, 
     	STATUS, LANGUAGE_CODE, COUNTRY_CODE
 		from user_info
@@ -467,6 +484,7 @@
     	<if test="userName !=null and userName !='' "> and USER_NAME LIKE CONCAT('%', #{userName, jdbcType=VARCHAR}, '%') </if>
     	<if test="email !=null and email !='' "> and EMAIL = #{email, jdbcType=VARCHAR } </if>
     	<if test="status == 1 or status == 2 "> and STATUS = #{status, jdbcType=INTEGER } </if>
+      <if test="userGroup == 0 or userGroup == 1 "> and USER_GROUP = #{userGroup, jdbcType=INTEGER } </if>
     	limit 100
   	</select>
   	

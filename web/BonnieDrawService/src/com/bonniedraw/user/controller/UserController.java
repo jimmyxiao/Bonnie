@@ -58,4 +58,18 @@ public class UserController extends BaseController {
 		}
 		return baseModel;
 	}
+
+	@RequestMapping(value="/changeUserGroup", produces="application/json")
+	public @ResponseBody BaseModel changeUserGroup(HttpServletRequest request, HttpServletResponse resp, @RequestBody UserInfo userInfo) {
+		BaseModel baseModel = new BaseModel();
+		baseModel.setResult(false);
+		if(userInfo.getUserId()!=null && userInfo.getUserGroup()!=null){
+			UserInfo result = webUserService.changeUserGroup(userInfo);
+			if(result !=null){
+				baseModel.setResult(true);
+				baseModel.setData(result);
+			}
+		}
+		return baseModel;
+	}
 }
