@@ -441,7 +441,7 @@
 	
 	<select id="selectByUserCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     	select 
-    	USER_ID, USER_TYPE, USER_CODE, USER_NAME, NICK_NAME, EMAIL, SEC_EMAIL, DESCRIPTION, 
+    	USER_ID, USER_TYPE, USER_GROUP, USER_CODE, USER_NAME, NICK_NAME, EMAIL, SEC_EMAIL, DESCRIPTION, 
     	WEB_LINK, PHONE_COUNTRY_CODE, PHONE_NO, GENDER, PROFILE_PICTURE, BIRTHDAY, 
     	STATUS, LANGUAGE_CODE, COUNTRY_CODE
     	from user_info
@@ -557,6 +557,5 @@
 			#{item}
 		</foreach>
   	</select>
-  
   
 </mapper>

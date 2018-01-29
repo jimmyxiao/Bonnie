@@ -111,6 +111,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		result.setLk(loginVO.getLoginToken());
 		result.setSk(loginVO.getServiceKey());
 		result.setUserInfo(userInfo);
+		result.setUserGroup(userInfo.getUserGroup());
 	}
 	
 	private void insertUserInfo(LoginResponseVO result, LoginRequestVO loginRequestVO, String ipAddress) throws Exception{

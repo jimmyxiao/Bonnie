@@ -27,6 +27,8 @@ public interface UserInfoMapper {
     int updateUserGroupByPrimaryKey(UserInfo record);
     
     UserInfo selectByUserCode(String userCode);
+
+    UserInfo selectUserGroupByPrimaryKey(UserInfo record);
     
     UserInfo inspectAppPwd(LoginRequestVO loginRequestVO);
     
