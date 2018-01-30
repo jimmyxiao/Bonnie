@@ -252,6 +252,7 @@ public class ApiController {
 		if(userInfo!=null){
 			respResult.setUserType(userInfo.getUserType());
 			respResult.setUserCode(userInfo.getUserCode());
+			respResult.setUserGroup(userInfo.getUserGroup());
 			respResult.setUserName(userInfo.getUserName());
 			respResult.setNickName(userInfo.getNickName());
 			respResult.setEmail(userInfo.getEmail());
@@ -268,6 +269,7 @@ public class ApiController {
 		}else if(otherUserModel !=null){
 			respResult.setUserType(otherUserModel.getUserType());
 			respResult.setUserCode(otherUserModel.getUserCode());
+			respResult.setUserGroup(otherUserModel.getUserGroup());
 			respResult.setUserName(otherUserModel.getUserName());
 			respResult.setNickName(otherUserModel.getNickName());
 			respResult.setEmail(otherUserModel.getEmail());
