@@ -65,7 +65,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class MemberFragment extends Fragment implements WorkAdapterList.WorkListOnClickListener, WorkAdapterGrid.WorkGridOnClickListener {
     private static final int GET_WORKS_LIST = 1;
     private static final int REFRESH_WORKS_LIST = 2;
-    private TextView mTvMemberName, mTvMemberDescription, mTvMemberWorks, mTvMemberFans, mTvMemberFollows;
+    private TextView mTvMemberName, mTvMemberDescription, mTvMemberWorks, mTvMemberFans, mTvMemberFollows,mTvMemberWebsite;
     private Button mBtnFollow;
     private CircleImageView mCircleImg;
     private ImageButton mBtnBack, mBtnGrid, mBtnList, mBtnAdd, mBtnExtra;
@@ -115,6 +115,9 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
         mBtnExtra = view.findViewById(R.id.imgBtn_member_extra);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout_member);
         mRv = view.findViewById(R.id.recyclerview_member);
+
+        mTvMemberWebsite = view.findViewById(R.id.textView_website);
+
         fragmentManager = getFragmentManager();
         setOnClickEvent();
         getMemberInfo();
@@ -179,6 +182,16 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                                         mTvMemberWorks.setText(responseJSON.getString("worksNum"));
                                         mTvMemberFans.setText(responseJSON.getString("fansNum"));
                                         mTvMemberFollows.setText(responseJSON.getString("followNum"));
+
+                                        mTvMemberWebsite.setVisibility(View.GONE);
+                                        if (responseJSON.has("userGroup") && !responseJSON.isNull("userGroup")) {
+                                            if(responseJSON.getInt("userGroup")==1) {
+                                                if (responseJSON.has("webLink") && !responseJSON.isNull("webLink")) {
+                                                    mTvMemberWebsite.setVisibility(View.VISIBLE);
+                                                    mTvMemberWebsite.setText(responseJSON.getString("webLink"));
+                                                }
+                                            }
+                                        }
 
                                         String profileUrl = "";
                                         if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
@@ -375,6 +388,24 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
                 }
             }
         });
+
+        mTvMemberWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url ;
+                try {
+                    url = mTvMemberWebsite.getText().toString();
+                    if(url!=null && !url.equals("")) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     public void setLike(final int position, final int fn, int wid) {

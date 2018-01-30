@@ -196,14 +196,19 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
                     listener.onWorkMsgClick(wid);
                 }
             });
-            holder.imgBtnWorksShop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onShopInfoClick(wid);
-                }
-            });
 
-
+            if(data.get(position).getCommodityUrl() ==null || data.get(position).getCommodityUrl().equals("")){
+                holder.imgBtnWorksShop.setVisibility(View.GONE);
+            }
+            else {
+                holder.imgBtnWorksShop.setVisibility(View.VISIBLE);
+                holder.imgBtnWorksShop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        listener.onShopInfoClick(holder.getAdapterPosition());
+                    }
+                });
+            }
 
             holder.imgBtnShare.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -290,7 +295,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
         TextView mTvUserName, mTvWorkName, mTvWorkGoodTotal, mTvWorkMsgTotal, mTvFollow;
         ImageView mImgViewWrok;
         CircleImageView mCircleImageView;
-        ImageButton imgBtnExtra, imgBtnGood, imgBtnMsg, imgBtnShare, imgBtnCollection, imgBtnWorksShop;
+        ImageButton imgBtnExtra, imgBtnGood, imgBtnMsg, imgBtnShare, imgBtnCollection, imgBtnWorksShop ;
 
         ViewHolder(View v) {
             super(v);

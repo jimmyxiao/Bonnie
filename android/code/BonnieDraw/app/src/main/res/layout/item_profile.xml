@@ -54,6 +54,21 @@
             android:textColor="@color/Black"
             android:textIsSelectable="true" />
 
+        <TextView
+            android:id="@+id/textView_profile_website"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginTop="4dp"
+            android:lineSpacingExtra="4sp"
+            android:maxLines="5"
+            android:padding="4dp"
+            android:textAlignment="viewStart"
+            android:textColor="@color/Blue"
+            android:textIsSelectable="true" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

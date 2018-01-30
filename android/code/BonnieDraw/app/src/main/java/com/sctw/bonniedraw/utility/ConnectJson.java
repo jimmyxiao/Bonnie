@@ -125,7 +125,7 @@ public class ConnectJson {
     }
 
     //更新個人資料用
-    public static JSONObject updateUserInfoJson(SharedPreferences prefs, String userName, String description, String phoneNo, String gender) {
+    public static JSONObject updateUserInfoJson(SharedPreferences prefs, String userName, String description, String phoneNo, String gender ,String webSite) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
@@ -136,6 +136,7 @@ public class ConnectJson {
             json.put("userName", userName);
             json.put("description", description);
             json.put("phoneNo", phoneNo);
+            json.put("webLink", webSite);
             if (!gender.isEmpty()) json.put("gender", String.valueOf(gender));
         } catch (JSONException e) {
             e.printStackTrace();

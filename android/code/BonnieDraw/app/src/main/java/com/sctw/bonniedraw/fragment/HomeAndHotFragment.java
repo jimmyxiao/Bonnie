@@ -585,12 +585,18 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
 
     @Override
     public void onShopInfoClick(int position) {
-        String url = mAdapter.getData().get(position).getCommodityUrl();
-        if(url!=null && !url.equals("")) {
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
+        String url = null;
+        try {
+            url = mAdapter.getData().get(position).getCommodityUrl();
+            if(url!=null && !url.equals("")) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override

@@ -12,6 +12,9 @@ public class UserInfoBean {
     private int fansNum;
     private int followNum;
     private boolean follow;
+    private int userGroup;
+    private String webLink;
+
 
     public String getUserName() {
         return userName;
@@ -67,5 +70,21 @@ public class UserInfoBean {
 
     public void setFollow(boolean follow) {
         this.follow = follow;
+    }
+
+    public String getWebLink() {
+        return webLink;
+    }
+
+    public void setWebLink(String webLink) {
+        this.webLink = webLink;
+    }
+
+    public int getUserGroup() {
+        return userGroup;
+    }
+
+    public void setUserGroup(int userGroup) {
+        this.userGroup = userGroup;
     }
 }

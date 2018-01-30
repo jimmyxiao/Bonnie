@@ -102,6 +102,12 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
                 viewHolder_profile.mTextViewWorks.setText(String.valueOf(mUserInfo.getWorksNum()));
                 viewHolder_profile.mTextViewFans.setText(String.valueOf(mUserInfo.getFansNum()));
                 viewHolder_profile.mTextViewFollows.setText(String.valueOf(mUserInfo.getFollowNum()));
+                if(mUserInfo.getUserGroup() == 1 && mUserInfo.getWebLink() != null) {
+                    viewHolder_profile.mTextViewWebsite.setVisibility(View.VISIBLE);
+                    viewHolder_profile.mTextViewWebsite.setText(mUserInfo.getWebLink());
+                }
+                else
+                    viewHolder_profile.mTextViewWebsite.setVisibility(View.GONE);
 
                 Glide.with(mContext)
                         .load(mUserInfo.getProfilePicture())
@@ -140,6 +146,13 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
                     @Override
                     public void onClick(View v) {
                         listener.onFansFollowsListener();
+                    }
+                });
+
+                viewHolder_profile.mTextViewWebsite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onWebsiteClickListener();
                     }
                 });
                 break;
@@ -400,7 +413,7 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
 
         CircleImageView imgPhoto;
 
-        TextView mTextViewUserName, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows;
+        TextView mTextViewUserName, mTextViewUserdescription, mTextViewWorks, mTextViewFans, mTextViewFollows,mTextViewWebsite;
         LinearLayout mLayoutFans ,mLayoutFollows;
         private Button mBtnEdit;
 
@@ -415,6 +428,7 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
             mTextViewFollows = (TextView) view.findViewById(R.id.textView_profile_follows);
             mLayoutFans = (LinearLayout) view.findViewById(R.id.ll_profile_fans);
             mLayoutFollows = (LinearLayout) view.findViewById(R.id.ll_profile_follow);
+            mTextViewWebsite = view.findViewById(R.id.textView_profile_website);
         }
     }
 
@@ -489,5 +503,7 @@ public class WorkProfileAdapterList extends RecyclerView.Adapter<RecyclerView.Vi
         void onFansClickListener();
 
         void onFansFollowsListener();
+
+        void onWebsiteClickListener();
     }
 }

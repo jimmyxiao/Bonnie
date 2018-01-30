@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -61,9 +62,10 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
     Button mBtnDone, mBtnCancel;
     TextView mTextViewChangePhoto;
     CircleImageView mImgViewPhoto;
-    EditText mEditTextName, mEditTextProfile, mEditTextEmail, mEditPhone, mEditGender;
-    SharedPreferences prefs;
+    EditText mEditTextName, mEditTextProfile, mEditTextEmail, mEditPhone, mEditGender,mEditTextWebsite;
     Integer mIntGender;
+    LinearLayout mLayoutWebsite;
+    private SharedPreferences prefs;
 
     private onEditProfileSuccess callbacknEditProfile;
 
@@ -104,6 +106,16 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
         mEditTextEmail = view.findViewById(R.id.editText_edit_email);
         mEditPhone = view.findViewById(R.id.editText_edit_phone);
         mEditGender = view.findViewById(R.id.editText_edit_gender);
+        mEditTextWebsite = view.findViewById(R.id.editText_website);
+        mLayoutWebsite =  view.findViewById(R.id.layout_website);
+
+        String strUserGriup= prefs.getString(GlobalVariable.USER_GROUP, "null");
+        if(strUserGriup!=null && strUserGriup.equals("1")){
+            mLayoutWebsite.setVisibility(View.VISIBLE);
+        }else{
+            mLayoutWebsite.setVisibility(View.GONE);
+        }
+
         setOnClick();
         getUserInfo();
     }
@@ -224,6 +236,12 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                                     mEditPhone.setHint("");
                                 }
 
+                                if (responseJSON.has("webLink") && !responseJSON.isNull("webLink")) {
+                                    mEditTextWebsite.setText(responseJSON.getString("webLink"));
+                                } else {
+                                    mEditTextWebsite.setHint("");
+                                }
+
                                 if (responseJSON.has("gender") && !responseJSON.isNull("gender")) {
                                     int x = responseJSON.getInt("gender");   //0 not , 1=male, 2=female
                                     switch (x) {
@@ -276,7 +294,9 @@ public class EditProfileFragment extends DialogFragment implements RequestListen
                 mEditTextName.getText().toString(),
                 mEditTextProfile.getText().toString(),
                 mEditPhone.getText().toString(),
-                gender);
+                gender,
+                mEditTextWebsite.getText().toString()
+                );
 
         RequestBody body = RequestBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
         final Request request = new Request.Builder()

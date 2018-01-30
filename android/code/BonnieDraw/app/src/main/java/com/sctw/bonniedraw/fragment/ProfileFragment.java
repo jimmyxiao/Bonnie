@@ -2,7 +2,9 @@ package com.sctw.bonniedraw.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -214,10 +216,17 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
                                         mUserInfo.setFansNum(responseJSON.getInt("fansNum"));
                                         mUserInfo.setWorksNum(responseJSON.getInt("worksNum"));
                                         mUserInfo.setFollowNum(responseJSON.getInt("followNum"));
+                                        if (responseJSON.has("webLink") && !responseJSON.isNull("webLink")) {
+                                            mUserInfo.setWebLink(responseJSON.getString("webLink"));
+                                        }
+                                        if (responseJSON.has("userGroup") && !responseJSON.isNull("userGroup")) {
+                                            mUserInfo.setUserGroup(responseJSON.getInt("userGroup"));
+                                        }
                                         String profileUrl = "";
                                         if (responseJSON.has("profilePicture") && !responseJSON.isNull("profilePicture")) {
                                             profileUrl = GlobalVariable.API_LINK_GET_FILE + responseJSON.getString("profilePicture");
                                         }
+
                                         mUserInfo.setProfilePicture(profileUrl);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -681,6 +690,21 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
         fragmentTransaction.replace(R.id.frameLayout_actitivy, fansOrFollowFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onWebsiteClickListener() {
+            String url ;
+            try {
+                url = mUserInfo.getWebLink();
+                if(url!=null && !url.equals("")) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
 
