@@ -9,6 +9,7 @@ import com.bonniedraw.works.model.WorksMsg;
 
 public class WorksResponse extends Works {
 	private String userName;
+	private String commodityUrl;
 	private String profilePicture;
 	private Integer likeCount;
 	private Integer msgCount;
@@ -26,6 +27,14 @@ public class WorksResponse extends Works {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getCommodityUrl() {
+		return commodityUrl;
+	}
+
+	public void setCommodityUrl(String commodityUrl) {
+		this.commodityUrl = commodityUrl;
 	}
 
 	public String getProfilePicture() {

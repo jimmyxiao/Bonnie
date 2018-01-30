@@ -222,6 +222,7 @@
     <id column="WORKS_ID" jdbcType="INTEGER" property="worksId" />
     <result column="USER_ID" jdbcType="INTEGER" property="userId" />
     <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="COMMODITY_URL" jdbcType="VARCHAR" property="commodityUrl" />
     <result column="PROFILE_PICTURE" jdbcType="VARCHAR" property="profilePicture" />
     <result column="PRIVACY_TYPE" jdbcType="INTEGER" property="privacyType" />
     <result column="DEVICE_TYPE" jdbcType="INTEGER" property="deviceType" />
@@ -270,7 +271,7 @@
     select 
  	wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
- 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE,
+ 	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	ur.USER_NAME, ur.PROFILE_PICTURE,  
  	WORKS_MSG_ID, MSG_WORKS_ID, MSG_USER_ID, MESSAGE, MSG_ORDER, MSG_CREATION_DATE, MSG_USER_NAME,MSG_PROFILE_PICTURE,
  	wc.WORKS_CATEGORY_ID, wc.CATEGORY_ID, wc.WORKS_ID as CATEGORY_WORKS_ID,
@@ -283,6 +284,7 @@
     from works wk 
     left outer join user_info ur on ur.user_id = wk.user_id
     left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left outer join 
     (select 
     wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER,
@@ -296,7 +298,7 @@
   
   <select id="queryAllWorks" parameterType="java.util.Map" resultMap="WorksResponseModule">
     select 
- 	wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
+ 	wk.WORKS_ID, wk.USER_ID, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE,
  	ur.USER_NAME, ur.PROFILE_PICTURE,  
@@ -311,6 +313,7 @@
     from works wk 
     left outer join user_info ur on ur.user_id = wk.user_id
     left outer join works_like as wl on wl.WORKS_ID = wk.WORKS_ID
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left outer join 
     (select 
     wm.WORKS_MSG_ID, wm.WORKS_ID as MSG_WORKS_ID, wm.USER_ID as MSG_USER_ID, wm.MESSAGE, wm.MSG_ORDER,
@@ -574,7 +577,7 @@
   <select id="queryPopularWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
- 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	ifnull(wm.MSG_COUNT,0) as MSG_COUNT,
  	case when exists 
@@ -588,6 +591,7 @@
   then 1 else 0 end as isFollowing
     from works wk 
     left outer join user_info ur on ur.USER_ID = wk.USER_ID
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left join (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
@@ -602,7 +606,7 @@
   <select id="queryNewUploadWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
   select 
   wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
-  wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+  wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
   wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT,
   ifnull(wm.MSG_COUNT,0) as MSG_COUNT,  
   case when exists 
@@ -616,6 +620,7 @@
   then 1 else 0 end as isFollowing 
     from works wk 
     left outer join user_info ur on ur.user_id = wk.user_id
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left outer join (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID) as wl on wl.WORKS_ID = wk.WORKS_ID
     left join (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
   where 1=1 
@@ -628,7 +633,7 @@
   <select id="queryUserWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
- 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	ifnull(wm.MSG_COUNT,0) as MSG_COUNT,
  	case when exists 
@@ -642,6 +647,7 @@
   then 1 else 0 end as isFollowing 
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left join (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
@@ -654,7 +660,7 @@
   <select id="queryOtherUserWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
- 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
@@ -665,6 +671,7 @@
  	then true else false end as isCollection 
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
     left join
@@ -680,7 +687,7 @@
   <select id="queryTrackWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
- 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 1 isFollowing ,
   	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
@@ -691,6 +698,7 @@
  	then true else false end as isCollection 
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     right join following fl on wk.USER_ID = fl.FOLLOWING_USER_ID
     left join
     (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
@@ -707,7 +715,7 @@
   <select id="queryCollectionWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
- 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	case when exists 
  	(select works_id from works_like where like_type=1 and user_id = #{userId, jdbcType=INTEGER} and works_id = wk.WORKS_ID) 
@@ -718,6 +726,7 @@
     from works wk 
     right join (select * from works_collection where user_id = #{userId, jdbcType=INTEGER} and collection_type = 1) wc on wc.works_id = wk.works_id
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left join 
     (select *, count(WORKS_ID) as LIKE_COUNT from works_like where like_type=1 group by WORKS_ID ) as wl on wl.WORKS_ID = wk.WORKS_ID
 	where 1=1 
@@ -730,7 +739,7 @@
   <select id="queryCategoryWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
- 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
@@ -741,6 +750,7 @@
  	then true else false end as isCollection 
     from works wk 
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left join
     (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
@@ -759,7 +769,7 @@
   <select id="queryRelatedTagWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
- 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
@@ -771,6 +781,7 @@
     from works wk 
     right join (select * from works_tag where tag_name = #{tagName, jdbcType=VARCHAR} ) wt on wt.works_id = wk.works_id
     left join user_info ur on ur.USER_ID = wk.USER_ID
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left join
     (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
     left join 
@@ -785,7 +796,7 @@
   <select id="querySearchWorksPager" parameterType="java.util.Map" resultMap="WorksResponseModule">
 	select 
  	wk.WORKS_ID, wk.USER_ID, ur.USER_NAME, ur.PROFILE_PICTURE, wk.PRIVACY_TYPE, wk.DEVICE_TYPE, wk.TITLE, wk.DESCRIPTION,
- 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE,
+ 	wk.IMAGE_PATH, wk.BDW_PATH, wk.LANGUAGE_CODE, wk.COUNTRY_CODE, wk.STATUS, wk.UPDATE_DATE, ifnull(cinfo.COMMODITY_URL,"") as COMMODITY_URL,
  	wl.WORKS_LIKE_ID, wl.WORKS_ID as LIKE_WORKS_ID, wl.USER_ID as LIKE_USER_ID, wl.LIKE_TYPE, ifnull(wl.LIKE_COUNT,0) as LIKE_COUNT, 
  	ifnull(wm.MSG_COUNT,0) as MSG_COUNT, 
  	case when exists 
@@ -796,6 +807,7 @@
  	then true else false end as isCollection 
     from works wk 
     left join works_tag wt on wt.works_id = wk.works_id
+    left join commodity_info cinfo on cinfo.WORKS_ID = wk.WORKS_ID
     left join user_info ur on ur.USER_ID = wk.USER_ID
     left join
     (select *, count(WORKS_MSG_ID) as MSG_COUNT from works_msg group by WORKS_ID ) as wm on wm.WORKS_ID = wk.WORKS_ID
