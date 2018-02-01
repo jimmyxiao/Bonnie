@@ -10,8 +10,10 @@ import UIKit
 
 struct Profile: Comparable {
     let type: UserType?
+    let group: UserGroup?
     var name: String?
     var email: String?
+    var website: String?
     var description: String?
     var phone: String?
     var gender: Gender?
@@ -23,8 +25,10 @@ struct Profile: Comparable {
 
     init(withDictionary dictionary: [String: Any]) {
         type = UserType(rawValue: dictionary["userType"] as? Int ?? 0)
+        group = UserGroup(rawValue: dictionary["userGroup"] as? Int ?? 0)
         name = dictionary["userName"] as? String
         email = dictionary["email"] as? String
+        website = dictionary["webLink"] as? String
         description = dictionary["description"] as? String
         phone = dictionary["phoneNo"] as? String
         gender = Gender(rawValue: dictionary["gender"] as? Int ?? 3)
@@ -41,8 +45,10 @@ struct Profile: Comparable {
 
     static func ==(lhs: Profile, rhs: Profile) -> Bool {
         return lhs.type == rhs.type &&
+                lhs.group == rhs.group &&
                 lhs.name == rhs.name &&
                 lhs.email == rhs.email &&
+                lhs.website == rhs.website &&
                 lhs.description == rhs.description &&
                 lhs.phone == rhs.phone &&
                 lhs.gender == rhs.gender &&

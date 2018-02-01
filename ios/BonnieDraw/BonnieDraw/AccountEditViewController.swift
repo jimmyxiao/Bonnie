@@ -17,6 +17,9 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var summery: UITextView!
     @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var websiteLabel: UILabel!
+    @IBOutlet weak var website: UITextField!
+    @IBOutlet weak var websiteDivider: UIView!
     @IBOutlet weak var phone: UITextField!
     @IBOutlet weak var gender: UIButton!
     private var viewOriginCenterY: CGFloat?
@@ -37,6 +40,11 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             profileImage.setImage(with: profile?.image, placeholderImage: UIImage(named: "photo-square"))
         }
         setViewData()
+        if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+            websiteLabel.isHidden = false
+            website.isHidden = false
+            websiteDivider.isHidden = false
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -160,6 +168,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         let name = profile?.name?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let summery = profile?.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let email = profile?.email?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let website = profile?.website?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let phone = profile?.phone?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let gender = profile?.gender ?? .unspecified
         if name.isEmpty {
@@ -178,75 +187,78 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                 self.email.becomeFirstResponder()
             }
         } else {
-            if email.isEmpty {
-                presentDialog(title: "alert_account_update_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
-                    action in
-                    self.email.becomeFirstResponder()
-                }
-            } else if !email.isValidEmail() {
-                presentDialog(title: "alert_account_update_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
-                    action in
-                    self.email.becomeFirstResponder()
-                }
-            } else {
-                var postData: [String: Any] = ["ui": defaults.integer(forKey: Default.USER_ID),
-                                               "lk": token,
-                                               "dt": SERVICE_DEVICE_TYPE,
-                                               "userName": name,
-                                               "email": email,
-                                               "description": summery,
-                                               "phoneNo": phone,
-                                               "gender": gender.rawValue]
-                if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)),
-                   type == .email {
-                    postData["userCode"] = email
+            var postData: [String: Any] = ["ui": defaults.integer(forKey: Default.USER_ID),
+                                           "lk": token,
+                                           "dt": SERVICE_DEVICE_TYPE,
+                                           "userName": name,
+                                           "email": email,
+                                           "description": summery,
+                                           "phoneNo": phone,
+                                           "gender": gender.rawValue]
+            if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+                if !website.isEmpty {
+                    if let url = URL(string: website), UIApplication.shared.canOpenURL(url) {
+                        postData["webLink"] = url.absoluteString
+                    } else {
+                        presentDialog(title: "alert_account_update_fail_title".localized, message: "alert_account_update_fail_website_invaid".localized) {
+                            action in
+                            self.website.becomeFirstResponder()
+                        }
+                        return
+                    }
                 } else {
-                    postData["userCode"] = defaults.string(forKey: Default.THIRD_PARTY_ID)
+                    postData["webLink"] = website
                 }
-                sender.isEnabled = false
-                loading.hide(false)
-                dataRequest = Alamofire.request(
-                        Service.standard(withPath: Service.USER_INFO_UPDATE),
-                        method: .post,
-                        parameters: postData,
-                        encoding: JSONEncoding.default).validate().responseJSON {
-                    response in
-                    switch response.result {
-                    case .success:
-                        guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                            self.presentConfirmationDialog(
-                                    title: "alert_account_update_fail_title".localized,
-                                    message: "app_network_unreachable_content".localized) {
-                                success in
-                                if success {
-                                    self.done(sender)
-                                } else {
-                                    sender.isEnabled = true
-                                    self.loading.hide(true)
-                                }
-                            }
-                            return
-                        }
-                        defaults.set(name, forKey: Default.NAME)
-                        defaults.set(email, forKey: Default.EMAIL)
-                        if let profile = self.profile {
-                            self.delegate?.accountEdit(profileDidChange: profile)
-                        }
-                        self.onBackPressed(sender)
-                    case .failure(let error):
-                        if let error = error as? URLError, error.code == .cancelled {
-                            return
-                        }
-                        self.loading.hide(true)
+            }
+            if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)),
+               type == .email {
+                postData["userCode"] = email
+            } else {
+                postData["userCode"] = defaults.string(forKey: Default.THIRD_PARTY_ID)
+            }
+            sender.isEnabled = false
+            loading.hide(false)
+            dataRequest = Alamofire.request(
+                    Service.standard(withPath: Service.USER_INFO_UPDATE),
+                    method: .post,
+                    parameters: postData,
+                    encoding: JSONEncoding.default).validate().responseJSON {
+                response in
+                switch response.result {
+                case .success:
+                    guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
                         self.presentConfirmationDialog(
                                 title: "alert_account_update_fail_title".localized,
-                                message: error.localizedDescription) {
+                                message: "app_network_unreachable_content".localized) {
                             success in
                             if success {
                                 self.done(sender)
                             } else {
                                 sender.isEnabled = true
+                                self.loading.hide(true)
                             }
+                        }
+                        return
+                    }
+                    defaults.set(name, forKey: Default.NAME)
+                    defaults.set(email, forKey: Default.EMAIL)
+                    if let profile = self.profile {
+                        self.delegate?.accountEdit(profileDidChange: profile)
+                    }
+                    self.onBackPressed(sender)
+                case .failure(let error):
+                    if let error = error as? URLError, error.code == .cancelled {
+                        return
+                    }
+                    self.loading.hide(true)
+                    self.presentConfirmationDialog(
+                            title: "alert_account_update_fail_title".localized,
+                            message: error.localizedDescription) {
+                        success in
+                        if success {
+                            self.done(sender)
+                        } else {
+                            sender.isEnabled = true
                         }
                     }
                 }
@@ -395,6 +407,8 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             profile?.description = sender.text
         case email:
             profile?.email = sender.text
+        case website:
+            profile?.website = sender.text
         case phone:
             profile?.phone = sender.text
         default:
@@ -410,6 +424,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         name.text = profile?.name
         summery.text = profile?.description
         email.text = profile?.email
+        website.text = profile?.website
         phone.text = profile?.phone
         if let gender = profile?.gender {
             switch gender {
@@ -434,6 +449,5 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
 protocol AccountEditViewControllerDelegate {
     func accountEdit(profileDidChange profile: Profile)
-
     func accountEdit(imageDidChange image: UIImage)
 }

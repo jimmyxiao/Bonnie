@@ -106,6 +106,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                     defaults.removeObject(forKey: Default.TOKEN)
                     defaults.removeObject(forKey: Default.USER_ID)
                     defaults.removeObject(forKey: Default.USER_TYPE)
+                    defaults.removeObject(forKey: Default.USER_GROUP)
                     defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
                     defaults.removeObject(forKey: Default.THIRD_PARTY_TOKEN)
                     defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
@@ -222,6 +223,5 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol SettingViewControllerDelegate {
     func settings(profileDidChange profile: Profile)
-
     func settings(imageDidChange image: UIImage)
 }

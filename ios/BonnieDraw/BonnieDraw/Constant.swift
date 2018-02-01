@@ -44,6 +44,11 @@ enum UserType: Int {
     case twitter
 }
 
+enum UserGroup: Int {
+    case personal
+    case business
+}
+
 enum FileType: Int {
     case png = 1
     case bdw
@@ -220,6 +225,7 @@ struct Default {
     static let REMOTE_TOKEN = "remoteToken"
     static let USER_ID = "userId"
     static let USER_TYPE = "userType"
+    static let USER_GROUP = "userGroup"
     static let NAME = "name"
     static let EMAIL = "email"
     static let PASSWORD = "password"

@@ -276,6 +276,7 @@ class AccountViewController:
             headerView.profileImage.setImage(with: profile?.image, placeholderImage: UIImage(named: "photo-square"))
             headerView.profileName.text = profile?.name
             headerView.profileDescription.text = profile?.description
+            headerView.website.setTitle(profile?.website, for: .normal)
             headerView.worksCount.text = "\(profile?.worksCount ?? 0)"
             headerView.fansCount.text = "\(profile?.fansCount ?? 0)"
             headerView.followsCount.text = "\(profile?.followsCount ?? 0)"
@@ -292,6 +293,7 @@ class AccountViewController:
         let headerView = self.headerView ?? Bundle.main.loadView(from: "AccountHeaderCollectionReusableView") as! AccountHeaderCollectionReusableView
         headerView.profileName.text = profile?.name
         headerView.profileDescription.text = profile?.description
+        headerView.websiteHeight.constant = profile?.website?.isEmpty ?? true ? 0 : 30
         return headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize)
     }
 

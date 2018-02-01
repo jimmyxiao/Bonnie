@@ -59,6 +59,12 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mM6-Va-BCK">
+                    <rect key="frame" x="16" y="202" width="343" height="0.0"/>
+                    <constraints>
+                        <constraint firstAttribute="height" id="ByA-s5-jsz"/>
+                    </constraints>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RQq-eZ-nYI">
                     <rect key="frame" x="4" y="210" width="367" height="1"/>
                     <color key="backgroundColor" white="0.66666666669999997" alpha="0.5" colorSpace="calibratedWhite"/>
@@ -186,14 +192,17 @@
                 <constraint firstItem="p3M-CN-o8W" firstAttribute="leading" secondItem="cwb-iR-pyk" secondAttribute="leading" constant="8" id="cMW-AJ-6yk"/>
                 <constraint firstItem="ePX-c7-VPW" firstAttribute="top" secondItem="p3M-CN-o8W" secondAttribute="bottom" constant="4" id="cyg-GA-Ies"/>
                 <constraint firstItem="ePX-c7-VPW" firstAttribute="leading" secondItem="cwb-iR-pyk" secondAttribute="leading" constant="4" id="dwa-wQ-ieA"/>
+                <constraint firstItem="HcZ-VT-uJJ" firstAttribute="trailing" secondItem="mM6-Va-BCK" secondAttribute="trailing" constant="16" id="e2e-nX-sTQ"/>
                 <constraint firstItem="AA5-ce-Gbb" firstAttribute="top" secondItem="65B-ma-0hp" secondAttribute="bottom" constant="8" id="kmq-fG-1Vr"/>
                 <constraint firstItem="h86-yc-kvi" firstAttribute="top" secondItem="p3M-CN-o8W" secondAttribute="top" id="krj-1q-hGk"/>
+                <constraint firstItem="RQq-eZ-nYI" firstAttribute="top" secondItem="mM6-Va-BCK" secondAttribute="bottom" constant="8" id="nds-7p-X9k"/>
                 <constraint firstAttribute="trailing" secondItem="RQq-eZ-nYI" secondAttribute="trailing" constant="4" id="qaT-8P-Lat"/>
-                <constraint firstItem="RQq-eZ-nYI" firstAttribute="top" secondItem="y21-6W-zIp" secondAttribute="bottom" constant="8" id="qkg-bA-4pc"/>
                 <constraint firstAttribute="trailing" secondItem="ePX-c7-VPW" secondAttribute="trailing" constant="4" id="rWY-cQ-Ns9"/>
+                <constraint firstItem="mM6-Va-BCK" firstAttribute="leading" secondItem="HcZ-VT-uJJ" secondAttribute="leading" constant="16" id="sWA-Ey-4FM"/>
                 <constraint firstAttribute="trailing" secondItem="y21-6W-zIp" secondAttribute="trailing" constant="16" id="uZg-Uy-cEA"/>
                 <constraint firstItem="emb-3P-EaB" firstAttribute="bottom" secondItem="p3M-CN-o8W" secondAttribute="bottom" id="ukO-vp-trL"/>
                 <constraint firstItem="emb-3P-EaB" firstAttribute="trailing" secondItem="Mr1-Dn-pbY" secondAttribute="trailing" id="v4a-si-Xpy"/>
+                <constraint firstItem="mM6-Va-BCK" firstAttribute="top" secondItem="y21-6W-zIp" secondAttribute="bottom" id="vol-nh-coA"/>
                 <constraint firstItem="emb-3P-EaB" firstAttribute="top" secondItem="p3M-CN-o8W" secondAttribute="top" id="wDU-gt-VWq"/>
                 <constraint firstItem="AA5-ce-Gbb" firstAttribute="centerX" secondItem="cwb-iR-pyk" secondAttribute="centerX" id="x0i-uM-K1t"/>
             </constraints>
@@ -208,6 +217,8 @@
                 <outlet property="profileDescription" destination="y21-6W-zIp" id="zow-pc-y24"/>
                 <outlet property="profileImage" destination="Z3b-yV-lU5" id="dBy-F1-bOJ"/>
                 <outlet property="profileName" destination="65B-ma-0hp" id="SXQ-W8-BsT"/>
+                <outlet property="website" destination="mM6-Va-BCK" id="O2p-3W-jF4"/>
+                <outlet property="websiteHeight" destination="ByA-s5-jsz" id="KSQ-jH-0H0"/>
                 <outlet property="worksCount" destination="Ph1-aP-KnO" id="hW2-vP-JiW"/>
             </connections>
             <point key="canvasLocation" x="63.5" y="-128.5"/>
