@@ -64,6 +64,9 @@
                     <constraints>
                         <constraint firstAttribute="height" id="ByA-s5-jsz"/>
                     </constraints>
+                    <connections>
+                        <action selector="website:" destination="cwb-iR-pyk" eventType="touchUpInside" id="F9T-OC-6iM"/>
+                    </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RQq-eZ-nYI">
                     <rect key="frame" x="4" y="210" width="367" height="1"/>

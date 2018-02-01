@@ -32,6 +32,13 @@ class AccountHeaderCollectionReusableView: UICollectionReusableView {
         delegate?.accountHeaderAction(sender)
     }
 
+    @IBAction func website(_ sender: UIButton) {
+        if let url = URL(string: sender.titleLabel?.text ?? ""),
+           UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+
     @IBAction func fans(_ sender: Any) {
         delegate?.accountHeaderFans(sender)
     }
