@@ -16,6 +16,7 @@ class FollowTableViewCell: CustomSelectorTableViewCell {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likes: UILabel!
     @IBOutlet weak var comments: UILabel!
+    @IBOutlet weak var openLink: UIButton!
     @IBOutlet weak var collectButton: UIButton!
 
     override func awakeFromNib() {

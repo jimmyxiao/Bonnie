@@ -1,3 +1,4 @@
+"alert_account_update_fail_website_invaid" = "Invalid web address.";
 "access_control_contact" = "Friends only";
 "access_control_private" = "Private";
 "access_control_public" = "Public";
@@ -6,7 +7,6 @@
 "account_following" = "Following";
 "account_loading" = "Loading...";
 "alert_account_update_fail_title" = "Update failed";
-"alert_account_update_fail_website_invaid" = "Invalid web address.";
 "alert_button_cancel" = "Cancel";
 "alert_button_clear" = "Clear";
 "alert_button_confirm" = "OK";

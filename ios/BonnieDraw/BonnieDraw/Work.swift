@@ -23,6 +23,7 @@ struct Work: Comparable {
     var isCollect: Bool?
     var likes: Int?
     var comments: Int?
+    var link: URL?
     var accessControl: AccessControl?
     var messages = [Message]()
 
@@ -51,6 +52,7 @@ struct Work: Comparable {
         isCollect = dictionary["collection"] as? Bool
         likes = dictionary["likeCount"] as? Int
         comments = dictionary["msgCount"] as? Int
+        link = URL(string: dictionary["commodityUrl"] as? String ?? "")
         accessControl = AccessControl(rawValue: (dictionary["privacyType"] as? Int) ?? 0)
         messages = messageList
     }

@@ -300,6 +300,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             cell.comments.isHidden = true
         }
+        cell.openLink.isHidden = work.link == nil
         if let isCollection = work.isCollect {
             if isCollection {
                 cell.collectButton.isSelected = true
@@ -654,6 +655,14 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    @IBAction func openLink(_ sender: UIButton) {
+        if let indexPath = tableView.indexPath(forView: sender),
+           let link = tableViewWorks[indexPath.row].link,
+           UIApplication.shared.canOpenURL(link) {
+            UIApplication.shared.open(link, options: [:])
+        }
+    }
+
     @IBAction func collect(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
@@ -720,6 +729,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 protocol HomeViewControllerDelegate {
     func homeDidTapMenu()
+
     func homeDidTapProfile()
+
     func home(enableMenuGesture enable: Bool)
 }

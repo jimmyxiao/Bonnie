@@ -239,11 +239,37 @@
                                                     <outlet property="delegate" destination="WrP-vG-tzf" id="Mwi-F8-GIt"/>
                                                 </connections>
                                             </textField>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ipd-nn-Tg1">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SKP-Q9-VgI">
                                                 <rect key="frame" x="8" y="205" width="304" height="1"/>
                                                 <color key="backgroundColor" white="0.66666666669999997" alpha="0.5" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="1" id="3nq-dH-PdD"/>
+                                                    <constraint firstAttribute="height" constant="1" id="RrD-Vn-XMz"/>
+                                                </constraints>
+                                            </view>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work Link:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kux-Wp-boi">
+                                                <rect key="frame" x="16" y="196" width="80.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4XI-Mg-7ac">
+                                                <rect key="frame" x="104.5" y="206" width="199.5" height="0.0"/>
+                                                <color key="tintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" id="gHr-c6-Ifb"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="done" textContentType="url"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="WrP-vG-tzf" id="6o2-Jl-kn8"/>
+                                                </connections>
+                                            </textField>
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ipd-nn-Tg1">
+                                                <rect key="frame" x="8" y="206" width="304" height="0.0"/>
+                                                <color key="backgroundColor" white="0.66666666669999997" alpha="0.5" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" id="3nq-dH-PdD"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work Description:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zNb-RJ-08y">
@@ -308,8 +334,13 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="KOs-j0-FtF" secondAttribute="trailing" constant="8" id="1w6-ag-aBX"/>
                                             <constraint firstAttribute="trailing" secondItem="ZBW-W7-fmZ" secondAttribute="trailing" constant="16" id="38P-Vp-xne"/>
+                                            <constraint firstItem="SKP-Q9-VgI" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="8" id="6yQ-Lb-kNh"/>
+                                            <constraint firstItem="SKP-Q9-VgI" firstAttribute="top" secondItem="ZBW-W7-fmZ" secondAttribute="bottom" id="7bb-Xk-iKe"/>
+                                            <constraint firstItem="Kux-Wp-boi" firstAttribute="centerY" secondItem="4XI-Mg-7ac" secondAttribute="centerY" id="7uZ-tc-Xny"/>
+                                            <constraint firstAttribute="trailing" secondItem="4XI-Mg-7ac" secondAttribute="trailing" constant="16" id="CXX-QD-IpD"/>
                                             <constraint firstAttribute="trailing" secondItem="O2D-g5-11k" secondAttribute="trailing" constant="16" id="EU3-bA-Hfw"/>
                                             <constraint firstItem="LTs-0s-JOC" firstAttribute="leading" secondItem="QUO-nE-XH6" secondAttribute="trailing" constant="8" id="ISm-mn-Aaq"/>
+                                            <constraint firstItem="ipd-nn-Tg1" firstAttribute="top" secondItem="4XI-Mg-7ac" secondAttribute="bottom" id="Jlz-P8-x4A"/>
                                             <constraint firstItem="O2D-g5-11k" firstAttribute="leading" secondItem="zNb-RJ-08y" secondAttribute="trailing" constant="8" id="KYz-Km-jYF"/>
                                             <constraint firstItem="QUO-nE-XH6" firstAttribute="centerY" secondItem="LTs-0s-JOC" secondAttribute="centerY" id="KZX-iz-C55"/>
                                             <constraint firstItem="ipd-nn-Tg1" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="8" id="Mz2-iQ-dc6"/>
@@ -317,13 +348,15 @@
                                             <constraint firstItem="LTs-0s-JOC" firstAttribute="top" secondItem="KOs-j0-FtF" secondAttribute="bottom" id="P7z-0F-tQq"/>
                                             <constraint firstAttribute="bottom" secondItem="LTs-0s-JOC" secondAttribute="bottom" constant="8" id="Pwv-7V-bQN"/>
                                             <constraint firstAttribute="trailing" secondItem="LTs-0s-JOC" secondAttribute="trailing" constant="16" id="Q7u-ze-vze"/>
+                                            <constraint firstItem="Kux-Wp-boi" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="16" id="Tow-Nd-F3j"/>
                                             <constraint firstItem="KOs-j0-FtF" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="8" id="TqN-DT-nyc"/>
                                             <constraint firstItem="O2D-g5-11k" firstAttribute="top" secondItem="ipd-nn-Tg1" secondAttribute="bottom" constant="8" id="UNw-wT-8ZM"/>
-                                            <constraint firstItem="ipd-nn-Tg1" firstAttribute="top" secondItem="ZBW-W7-fmZ" secondAttribute="bottom" id="UWv-4W-jpv"/>
                                             <constraint firstItem="QUO-nE-XH6" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="16" id="bF7-KV-mHZ"/>
                                             <constraint firstItem="2hX-dX-zkt" firstAttribute="centerX" secondItem="oIP-Iz-zOu" secondAttribute="centerX" id="dd1-4n-3BJ"/>
+                                            <constraint firstItem="4XI-Mg-7ac" firstAttribute="top" secondItem="SKP-Q9-VgI" secondAttribute="bottom" id="gBJ-Dt-cE5"/>
                                             <constraint firstItem="ZBW-W7-fmZ" firstAttribute="top" secondItem="l6v-AF-7Pu" secondAttribute="bottom" id="gfy-bu-riB"/>
                                             <constraint firstItem="ZBW-W7-fmZ" firstAttribute="leading" secondItem="odl-qc-S4c" secondAttribute="trailing" constant="8" id="hLQ-iM-WTh"/>
+                                            <constraint firstAttribute="trailing" secondItem="SKP-Q9-VgI" secondAttribute="trailing" constant="8" id="ha5-ge-6NM"/>
                                             <constraint firstAttribute="trailing" secondItem="ipd-nn-Tg1" secondAttribute="trailing" constant="8" id="hhT-35-uDG"/>
                                             <constraint firstItem="zNb-RJ-08y" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="16" id="jwZ-DI-s7E"/>
                                             <constraint firstItem="l6v-AF-7Pu" firstAttribute="top" secondItem="2hX-dX-zkt" secondAttribute="bottom" constant="16" id="kpp-Kj-iXg"/>
@@ -331,6 +364,7 @@
                                             <constraint firstItem="zNb-RJ-08y" firstAttribute="top" secondItem="O2D-g5-11k" secondAttribute="top" constant="8" id="tUe-ye-bt8"/>
                                             <constraint firstItem="l6v-AF-7Pu" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="8" id="uLC-RW-Xfz"/>
                                             <constraint firstItem="odl-qc-S4c" firstAttribute="centerY" secondItem="ZBW-W7-fmZ" secondAttribute="centerY" id="vth-Ig-HY3"/>
+                                            <constraint firstItem="4XI-Mg-7ac" firstAttribute="leading" secondItem="Kux-Wp-boi" secondAttribute="trailing" constant="8" id="wNg-7I-fka"/>
                                             <constraint firstAttribute="trailing" secondItem="l6v-AF-7Pu" secondAttribute="trailing" constant="8" id="xaH-i6-yAU"/>
                                             <constraint firstItem="odl-qc-S4c" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="16" id="zXe-SS-PJD"/>
                                         </constraints>
@@ -347,8 +381,8 @@
                                     <outletCollection property="gestureRecognizers" destination="Vwb-PO-50s" appends="YES" id="egH-m9-hjf"/>
                                 </connections>
                             </scrollView>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsf-3J-LFb" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bsf-3J-LFb" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="-4" width="320" height="0.0"/>
                                 <subviews>
                                     <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PUi-TC-sMT">
                                         <rect key="frame" x="80" y="283" width="160" height="2"/>
@@ -400,6 +434,11 @@
                         <outlet property="progressBar" destination="PUi-TC-sMT" id="7Yj-rD-QFq"/>
                         <outlet property="thumbnail" destination="2hX-dX-zkt" id="ubv-Bw-PNb"/>
                         <outlet property="workDescription" destination="O2D-g5-11k" id="zQ5-tY-nq2"/>
+                        <outlet property="workLink" destination="4XI-Mg-7ac" id="p0Z-Xp-fmD"/>
+                        <outlet property="workLinkDivider" destination="ipd-nn-Tg1" id="Phx-2m-kX4"/>
+                        <outlet property="workLinkDividerHeight" destination="3nq-dH-PdD" id="U0H-ZS-Z78"/>
+                        <outlet property="workLinkHeight" destination="gHr-c6-Ifb" id="7UR-pZ-5rR"/>
+                        <outlet property="workLinkLabel" destination="Kux-Wp-boi" id="Y08-Za-30H"/>
                         <outlet property="workTitle" destination="ZBW-W7-fmZ" id="diV-90-F9R"/>
                     </connections>
                 </viewController>
@@ -410,7 +449,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1008.8" y="804.64767616191909"/>
+            <point key="canvasLocation" x="1008.75" y="803.87323943661977"/>
         </scene>
         <!--Light Status Bar View Controller-->
         <scene sceneID="sqN-8s-hEQ">

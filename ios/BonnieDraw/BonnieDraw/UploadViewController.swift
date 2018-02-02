@@ -15,6 +15,11 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var workTitle: UITextField!
+    @IBOutlet weak var workLinkLabel: UILabel!
+    @IBOutlet weak var workLink: UITextField!
+    @IBOutlet weak var workLinkDivider: UIView!
+    @IBOutlet weak var workLinkHeight: NSLayoutConstraint!
+    @IBOutlet weak var workLinkDividerHeight: NSLayoutConstraint!
     @IBOutlet weak var workDescription: UITextView!
     @IBOutlet weak var accessLabel: UILabel!
     private var viewOriginCenterY: CGFloat?
@@ -38,6 +43,13 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
             self.accessControl = self.dropDownItems[index].access
         }
         thumbnail.image = workThumbnail
+        if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+            workLinkLabel.isHidden = false
+            workLink.isHidden = false
+            workLinkDivider.isHidden = false
+            workLinkHeight.constant = 44
+            workLinkDividerHeight.constant = 1
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -101,8 +113,9 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
             return
         }
         let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
-        let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let title = self.workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let link = workLink.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let description = workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let title = workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if description.isEmpty {
             presentDialog(title: "alert_save_fail_title".localized, message: "alert_save_fail_description_empty".localized) {
                 action in
@@ -114,13 +127,27 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                 self.workTitle.becomeFirstResponder()
             }
         } else {
+            var postData: [String: Any] = ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": accessControl.rawValue, "title": title, "description": description]
+            if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+                if !link.isEmpty {
+                    if let url = URL(string: link), UIApplication.shared.canOpenURL(url) {
+                        postData["commodityUrl"] = url.absoluteString
+                    } else {
+                        presentDialog(title: "alert_save_fail_title".localized, message: "alert_account_update_fail_website_invaid".localized) {
+                            action in
+                            self.workDescription.becomeFirstResponder()
+                        }
+                        return
+                    }
+                }
+            }
             sender.isEnabled = false
             progressBar.progress = 0
             loading.hide(false)
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.WORK_SAVE),
                     method: .post,
-                    parameters: ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": accessControl.rawValue, "title": title, "description": description],
+                    parameters: postData,
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {

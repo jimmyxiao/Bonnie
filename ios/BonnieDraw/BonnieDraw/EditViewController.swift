@@ -15,6 +15,11 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var workTitle: UITextField!
+    @IBOutlet weak var workLinkLabel: UILabel!
+    @IBOutlet weak var workLink: UITextField!
+    @IBOutlet weak var workLinkDivider: UIView!
+    @IBOutlet weak var workLinkHeight: NSLayoutConstraint!
+    @IBOutlet weak var workLinkDividerHeight: NSLayoutConstraint!
     @IBOutlet weak var workDescription: UITextView!
     @IBOutlet weak var accessLabel: UILabel!
     @IBOutlet weak var confirmButton: UIButton!
@@ -43,6 +48,13 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             self.accessLabel.text = text
             self.work?.accessControl = self.dropDownItems[index].access
             self.confirmButton.isEnabled = true
+        }
+        if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+            workLinkLabel.isHidden = false
+            workLink.isHidden = false
+            workLinkDivider.isHidden = false
+            workLinkHeight.constant = 44
+            workLinkDividerHeight.constant = 1
         }
     }
 
@@ -128,6 +140,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             return
         }
         let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
+        let link = workLink.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let title = self.workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if description.isEmpty {
@@ -141,19 +154,33 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                 self.workTitle.becomeFirstResponder()
             }
         } else {
+            var postData: [String: Any] = ["ui": userId,
+                                           "lk": token,
+                                           "dt": SERVICE_DEVICE_TYPE,
+                                           "ac": 2,
+                                           "privacyType": work?.accessControl?.rawValue ?? 0,
+                                           "title": title,
+                                           "description": description,
+                                           "worksId": work?.id ?? 0]
+            if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+                if !link.isEmpty {
+                    if let url = URL(string: link), UIApplication.shared.canOpenURL(url) {
+                        postData["commodityUrl"] = url.absoluteString
+                    } else {
+                        presentDialog(title: "alert_save_fail_title".localized, message: "alert_account_update_fail_website_invaid".localized) {
+                            action in
+                            self.workDescription.becomeFirstResponder()
+                        }
+                        return
+                    }
+                }
+            }
             sender.isEnabled = false
             indicator.startAnimating()
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.WORK_SAVE),
                     method: .post,
-                    parameters: ["ui": userId,
-                                 "lk": token,
-                                 "dt": SERVICE_DEVICE_TYPE,
-                                 "ac": 2,
-                                 "privacyType": work?.accessControl?.rawValue ?? 0,
-                                 "title": title,
-                                 "description": description,
-                                 "worksId": work?.id ?? 0],
+                    parameters: postData,
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {

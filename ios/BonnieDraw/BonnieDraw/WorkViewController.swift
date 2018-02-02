@@ -22,6 +22,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likes: UILabel!
     @IBOutlet weak var comments: UILabel!
+    @IBOutlet weak var openLink: UIButton!
     @IBOutlet weak var collect: UIButton!
     @IBOutlet weak var play: UIButton!
     @IBOutlet weak var decrement: UIButton!
@@ -135,6 +136,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         } else {
             comments.isHidden = true
         }
+        openLink.isHidden = work.link == nil
         collect.isSelected = work.isCollect ?? false
         collect.setImage(UIImage(named: collect.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
         profileImage.setImage(with: work.profileImage, placeholderImage: UIImage(named: "photo-square"))
@@ -538,6 +540,13 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         }
     }
 
+    @IBAction func openLink(_ sender: UIButton) {
+        if let link = work?.link,
+           UIApplication.shared.canOpenURL(link) {
+            UIApplication.shared.open(link, options: [:])
+        }
+    }
+
     @IBAction func collect(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
@@ -740,5 +749,6 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
 protocol WorkViewControllerDelegate {
     func work(didChange work: Work)
+
     func work(didDelete work: Work)
 }

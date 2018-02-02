@@ -695,7 +695,7 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="04c-W1-eLO">
                                                             <rect key="frame" x="16" y="388" width="288" height="44"/>
                                                             <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uCh-Nm-EKt">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uCh-Nm-EKt">
                                                                     <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="44" id="mE9-4b-bnc"/>
@@ -705,14 +705,14 @@
                                                                         <action selector="like:" destination="baU-bA-93J" eventType="touchUpInside" id="xRk-eb-CST"/>
                                                                     </connections>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsr-ss-83M">
-                                                                    <rect key="frame" x="44" y="0.0" width="112" height="44"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsr-ss-83M">
+                                                                    <rect key="frame" x="44" y="0.0" width="68" height="44"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8y0-eU-OS0">
-                                                                    <rect key="frame" x="156" y="0.0" width="44" height="44"/>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8y0-eU-OS0">
+                                                                    <rect key="frame" x="112" y="0.0" width="44" height="44"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="44" id="W9t-eH-1BX"/>
                                                                     </constraints>
@@ -721,14 +721,14 @@
                                                                         <action selector="comment:" destination="baU-bA-93J" eventType="touchUpInside" id="k1R-1v-nV7"/>
                                                                     </connections>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNJ-hm-v7g">
-                                                                    <rect key="frame" x="200" y="0.0" width="0.0" height="44"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNJ-hm-v7g">
+                                                                    <rect key="frame" x="156" y="0.0" width="0.0" height="44"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibk-bA-1Pb">
-                                                                    <rect key="frame" x="200" y="0.0" width="44" height="44"/>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibk-bA-1Pb">
+                                                                    <rect key="frame" x="156" y="0.0" width="44" height="44"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="44" id="cZw-e5-9Hw"/>
                                                                     </constraints>
@@ -737,11 +737,21 @@
                                                                         <action selector="share:" destination="baU-bA-93J" eventType="touchUpInside" id="Dgg-cq-eFT"/>
                                                                     </connections>
                                                                 </button>
-                                                                <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="zj3-zW-7zs">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Gd-Id-JIr">
+                                                                    <rect key="frame" x="200" y="0.0" width="44" height="44"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="44" id="oey-Td-1lD"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="shop_infor_icon"/>
+                                                                    <connections>
+                                                                        <action selector="openLink:" destination="baU-bA-93J" eventType="touchUpInside" id="wMw-U8-IO7"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <view contentMode="scaleToFill" horizontalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="reC-Tr-G50">
                                                                     <rect key="frame" x="244" y="0.0" width="0.0" height="44"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 </view>
-                                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjt-cM-My3">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjt-cM-My3">
                                                                     <rect key="frame" x="244" y="0.0" width="44" height="44"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="44" id="zWU-te-FVL"/>
@@ -780,6 +790,7 @@
                                                     <outlet property="comments" destination="vNJ-hm-v7g" id="pnF-fc-Aba"/>
                                                     <outlet property="likeButton" destination="uCh-Nm-EKt" id="a6z-d5-jwS"/>
                                                     <outlet property="likes" destination="fsr-ss-83M" id="shB-CB-2od"/>
+                                                    <outlet property="openLink" destination="4Gd-Id-JIr" id="gPF-Im-qaH"/>
                                                     <outlet property="profileImage" destination="C9V-Lv-SFa" id="aI1-0C-z2U"/>
                                                     <outlet property="profileName" destination="YKL-zc-59Z" id="Q7J-3l-1FD"/>
                                                     <outlet property="thumbnail" destination="deq-C0-ibR" id="99K-gu-35m"/>
@@ -7521,6 +7532,7 @@ AAWCzQAFgtUABYLYAAWC6gAFgu0ABYLyAAAAAAAABAEAAAAAAAAAQQAAAAAAAAAAAAAAAAAFgvQ
         <image name="photo-square" width="300" height="300"/>
         <image name="recommend_icon" width="24" height="21"/>
         <image name="share_icon" width="20" height="22"/>
+        <image name="shop_infor_icon" width="25" height="25"/>
         <image name="title_bar_ic_search" width="22" height="22"/>
         <image name="work_ic_like" width="22" height="19"/>
         <image name="work_ic_message" width="22" height="22"/>
@@ -7529,7 +7541,7 @@ AAWCzQAFgtUABYLYAAWC6gAFgu0ABYLyAAAAAAAABAEAAAAAAAAAQQAAAAAAAAAAAAAAAAAFgvQ
     <inferredMetricsTieBreakers>
         <segue reference="jOp-Sf-yFO"/>
         <segue reference="hbO-lu-owc"/>
-        <segue reference="6mJ-Bl-V9p"/>
+        <segue reference="bMc-sh-nso"/>
         <segue reference="r42-p5-bz4"/>
     </inferredMetricsTieBreakers>
 </document>

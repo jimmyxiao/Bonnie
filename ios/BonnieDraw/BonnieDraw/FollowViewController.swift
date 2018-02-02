@@ -237,6 +237,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             cell.comments.isHidden = true
         }
+        cell.openLink.isHidden = work.link == nil
         if let isCollection = work.isCollect {
             if isCollection {
                 cell.collectButton.isSelected = true
@@ -526,6 +527,14 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                 presentation.sourceRect = sender.bounds
             }
             present(controller, animated: true)
+        }
+    }
+
+    @IBAction func openLink(_ sender: UIButton) {
+        if let indexPath = tableView.indexPath(forView: sender),
+           let link = tableViewWorks[indexPath.row].link,
+           UIApplication.shared.canOpenURL(link) {
+            UIApplication.shared.open(link, options: [:])
         }
     }
 
