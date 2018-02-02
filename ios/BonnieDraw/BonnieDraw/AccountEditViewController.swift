@@ -64,6 +64,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
+        view.endEditing(true)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -449,5 +450,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
 protocol AccountEditViewControllerDelegate {
     func accountEdit(profileDidChange profile: Profile)
+
     func accountEdit(imageDidChange image: UIImage)
 }

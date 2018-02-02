@@ -61,6 +61,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
 
     override func viewWillDisappear(_ animated: Bool) {
         dataRequest?.cancel()
+        view.endEditing(true)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
