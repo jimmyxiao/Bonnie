@@ -150,7 +150,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" textContentType="name"/>
                                                         <connections>
-                                                            <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="tda-wr-Wjt"/>
+                                                            <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="bJz-Qs-alD"/>
                                                             <outlet property="delegate" destination="mlI-Uy-vuT" id="Kft-tk-LvP"/>
                                                         </connections>
                                                     </textField>
@@ -170,7 +170,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         <connections>
-                                                            <outlet property="delegate" destination="mlI-Uy-vuT" id="EsG-bF-Q5c"/>
+                                                            <outlet property="delegate" destination="mlI-Uy-vuT" id="chK-jl-D3z"/>
                                                         </connections>
                                                     </textView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W1H-4Z-9v8">
@@ -190,7 +190,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="done" textContentType="email"/>
                                                         <connections>
-                                                            <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingDidEnd" id="vNA-aZ-1FF"/>
+                                                            <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="FtC-jI-pF5"/>
                                                             <outlet property="delegate" destination="mlI-Uy-vuT" id="3ic-pN-wdo"/>
                                                         </connections>
                                                     </textField>
@@ -211,7 +211,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="done" textContentType="url"/>
                                                         <connections>
-                                                            <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingDidEnd" id="SUL-aL-mOK"/>
+                                                            <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="CCV-uf-Km5"/>
                                                             <outlet property="delegate" destination="mlI-Uy-vuT" id="ds3-QT-o9u"/>
                                                         </connections>
                                                     </textField>
@@ -232,7 +232,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="phonePad" returnKeyType="done" textContentType="tel"/>
                                                         <connections>
-                                                            <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingDidEnd" id="4oI-jq-kRv"/>
+                                                            <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="gWd-nI-qAt"/>
                                                             <outlet property="delegate" destination="mlI-Uy-vuT" id="FHh-hK-Rnc"/>
                                                         </connections>
                                                     </textField>

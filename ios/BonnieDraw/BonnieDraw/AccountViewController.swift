@@ -330,7 +330,7 @@ class AccountViewController:
             } else {
                 cell.comments.isHidden = true
             }
-            cell.openLink.isHidden = work.link == nil
+            cell.openLink.isHidden = work.link?.isEmpty ?? true
             if let isCollection = work.isCollect {
                 if isCollection {
                     cell.collectButton.isSelected = true
@@ -680,7 +680,7 @@ class AccountViewController:
 
     @IBAction func openLink(_ sender: UIButton) {
         if let indexPath = collectionView.indexPath(forView: sender),
-           let link = works[indexPath.row].link,
+           let link = URL(string: works[indexPath.row].link ?? ""),
            UIApplication.shared.canOpenURL(link) {
             UIApplication.shared.open(link, options: [:])
         }

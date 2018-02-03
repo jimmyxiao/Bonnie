@@ -23,7 +23,7 @@ struct Work: Comparable {
     var isCollect: Bool?
     var likes: Int?
     var comments: Int?
-    var link: URL?
+    var link: String?
     var accessControl: AccessControl?
     var messages = [Message]()
 
@@ -52,7 +52,7 @@ struct Work: Comparable {
         isCollect = dictionary["collection"] as? Bool
         likes = dictionary["likeCount"] as? Int
         comments = dictionary["msgCount"] as? Int
-        link = URL(string: dictionary["commodityUrl"] as? String ?? "")
+        link = dictionary["commodityUrl"] as? String
         accessControl = AccessControl(rawValue: (dictionary["privacyType"] as? Int) ?? 0)
         messages = messageList
     }
@@ -65,6 +65,22 @@ struct Work: Comparable {
     }
 
     static func ==(lhs: Work, rhs: Work) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.id == rhs.id &&
+                lhs.userId == rhs.userId &&
+                lhs.profileImage == rhs.profileImage &&
+                lhs.profileName == rhs.profileName &&
+                lhs.thumbnail == rhs.thumbnail &&
+                lhs.file == rhs.file &&
+                lhs.title == rhs.title &&
+                lhs.summery == rhs.summery &&
+                lhs.date == rhs.date &&
+                lhs.isFollow == rhs.isFollow &&
+                lhs.isLike == rhs.isLike &&
+                lhs.isCollect == rhs.isCollect &&
+                lhs.likes == rhs.likes &&
+                lhs.comments == rhs.comments &&
+                lhs.link == rhs.link &&
+                lhs.accessControl == rhs.accessControl &&
+                lhs.messages == rhs.messages
     }
 }

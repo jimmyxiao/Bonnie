@@ -1759,7 +1759,7 @@
                                                         <action selector="cancel:" destination="uTq-VR-1BZ" eventType="touchUpInside" id="hQP-N4-PZ3"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D1h-gf-W6V">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D1h-gf-W6V">
                                                     <rect key="frame" x="144" y="0.0" width="144" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="Confirm">
@@ -1828,6 +1828,33 @@
                                                 <constraint firstAttribute="height" constant="1" id="Xir-ty-lF3"/>
                                             </constraints>
                                         </view>
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work Link:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ysA-l1-pKt">
+                                            <rect key="frame" x="8" y="197" width="68" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G9U-L8-h8H">
+                                            <rect key="frame" x="84" y="205" width="196" height="0.0"/>
+                                            <color key="tintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" id="ogd-tL-yT3"/>
+                                            </constraints>
+                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                            <connections>
+                                                <action selector="textFieldTextDidChange:" destination="uTq-VR-1BZ" eventType="editingChanged" id="XLk-kG-LUU"/>
+                                                <outlet property="delegate" destination="uTq-VR-1BZ" id="VQE-XR-F2Z"/>
+                                            </connections>
+                                        </textField>
+                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yY4-Qn-Mhv">
+                                            <rect key="frame" x="8" y="205" width="272" height="0.0"/>
+                                            <color key="backgroundColor" white="0.66666666669999997" alpha="0.5" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" id="c6y-Yf-XQk"/>
+                                            </constraints>
+                                        </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work Description:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XvK-UU-WOb">
                                             <rect key="frame" x="8" y="221" width="115.5" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1887,33 +1914,6 @@
                                                 <constraint firstAttribute="height" constant="44" id="b4c-Rv-SxN"/>
                                                 <constraint firstAttribute="bottom" secondItem="NRf-8i-BEa" secondAttribute="bottom" id="maQ-7r-jZF"/>
                                                 <constraint firstAttribute="trailing" secondItem="NRf-8i-BEa" secondAttribute="trailing" id="tfe-Hc-suf"/>
-                                            </constraints>
-                                        </view>
-                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work Link:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ysA-l1-pKt">
-                                            <rect key="frame" x="8" y="197" width="68" height="17"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G9U-L8-h8H">
-                                            <rect key="frame" x="83.5" y="205" width="196" height="0.0"/>
-                                            <color key="tintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" id="ogd-tL-yT3"/>
-                                            </constraints>
-                                            <nil key="textColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                            <connections>
-                                                <action selector="textFieldTextDidChange:" destination="uTq-VR-1BZ" eventType="editingChanged" id="XLk-kG-LUU"/>
-                                                <outlet property="delegate" destination="uTq-VR-1BZ" id="VQE-XR-F2Z"/>
-                                            </connections>
-                                        </textField>
-                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yY4-Qn-Mhv">
-                                            <rect key="frame" x="8" y="205" width="272" height="0.0"/>
-                                            <color key="backgroundColor" white="0.66666666669999997" alpha="0.5" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" id="c6y-Yf-XQk"/>
                                             </constraints>
                                         </view>
                                     </subviews>

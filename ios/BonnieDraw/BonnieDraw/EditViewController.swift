@@ -28,11 +28,13 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     private let dropDownItems: [(access: AccessControl, title: String)] = [(.publicAccess, "access_control_public".localized),
                                                                            (.contactAccess, "access_control_contact".localized),
                                                                            (.privateAccess, "access_control_private".localized)]
+    private var oldWork: Work?
+    var work: Work?
     var delegate: EditViewControllerDelegate?
     let dropDown = DropDown()
-    var work: Work?
 
     override func viewDidLoad() {
+        oldWork = work
         thumbnail.sd_setShowActivityIndicatorView(true)
         thumbnail.sd_setIndicatorStyle(.gray)
         thumbnail.setImage(with: work?.thumbnail)
@@ -47,7 +49,6 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             index, text in
             self.accessLabel.text = text
             self.work?.accessControl = self.dropDownItems[index].access
-            self.confirmButton.isEnabled = true
         }
         if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
             workLinkLabel.isHidden = false
@@ -107,8 +108,14 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     }
 
     @IBAction func textFieldTextDidChange(_ sender: UITextField) {
-        work?.title = sender.text
-        confirmButton.isEnabled = true
+        switch sender {
+        case workTitle:
+            work?.title = sender.text
+        case workLink:
+            work?.link = sender.text
+        default:
+            return
+        }
     }
 
     private func showErrorMessage(message: String?) {
@@ -132,6 +139,10 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     }
 
     @IBAction func confirm(_ sender: UIButton) {
+        guard oldWork != work else {
+            cancel(sender)
+            return
+        }
         guard AppDelegate.reachability.connection != .none else {
             presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
             return
@@ -140,9 +151,9 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             return
         }
         let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
+        let title = self.workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let link = workLink.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let title = self.workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if description.isEmpty {
             presentDialog(title: "alert_edit_fail_title".localized, message: "alert_save_fail_description_empty".localized) {
                 action in
@@ -218,7 +229,6 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
 
     internal func textViewDidChange(_ textView: UITextView) {
         work?.summery = textView.text
-        confirmButton.isEnabled = true
     }
 }
 

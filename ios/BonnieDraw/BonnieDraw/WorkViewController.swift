@@ -136,7 +136,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         } else {
             comments.isHidden = true
         }
-        openLink.isHidden = work.link == nil
+        openLink.isHidden = work.link?.isEmpty ?? true
         collect.isSelected = work.isCollect ?? false
         collect.setImage(UIImage(named: collect.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
         profileImage.setImage(with: work.profileImage, placeholderImage: UIImage(named: "photo-square"))
@@ -541,7 +541,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     }
 
     @IBAction func openLink(_ sender: UIButton) {
-        if let link = work?.link,
+        if let link = URL(string: work?.link ?? ""),
            UIApplication.shared.canOpenURL(link) {
             UIApplication.shared.open(link, options: [:])
         }
@@ -749,6 +749,5 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
 protocol WorkViewControllerDelegate {
     func work(didChange work: Work)
-
     func work(didDelete work: Work)
 }

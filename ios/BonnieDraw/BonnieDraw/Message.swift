@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Message {
+struct Message: Comparable {
     let id: Int?
     let userId: Int?
     let message: String?
@@ -27,5 +27,21 @@ struct Message {
         self.date = date
         userName = dictionary["userName"] as? String
         userProfile = URL(string: Service.filePath(withSubPath: dictionary["profilePicture"] as? String))
+    }
+
+    static func <(lhs: Message, rhs: Message) -> Bool {
+        if let lhsDate = lhs.date, let rhsDate = rhs.date {
+            return lhsDate.compare(rhsDate) == .orderedDescending
+        }
+        return false
+    }
+
+    static func ==(lhs: Message, rhs: Message) -> Bool {
+        return lhs.id == rhs.id &&
+                lhs.userId == rhs.userId &&
+                lhs.message == rhs.message &&
+                lhs.date == rhs.date &&
+                lhs.userName == rhs.userName &&
+                lhs.userProfile == rhs.userProfile
     }
 }

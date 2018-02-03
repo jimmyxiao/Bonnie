@@ -173,7 +173,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" textContentType="name"/>
                                                 <connections>
-                                                    <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="tda-wr-Wjt"/>
+                                                    <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="U8c-3k-RDj"/>
                                                     <outlet property="delegate" destination="mlI-Uy-vuT" id="Kft-tk-LvP"/>
                                                 </connections>
                                             </textField>
@@ -193,7 +193,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <connections>
-                                                    <outlet property="delegate" destination="mlI-Uy-vuT" id="EsG-bF-Q5c"/>
+                                                    <outlet property="delegate" destination="mlI-Uy-vuT" id="3Hg-Tm-lBo"/>
                                                 </connections>
                                             </textView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W1H-4Z-9v8">
@@ -213,7 +213,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="done" textContentType="email"/>
                                                 <connections>
-                                                    <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingDidEnd" id="vNA-aZ-1FF"/>
+                                                    <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="Y8T-TY-jSJ"/>
                                                     <outlet property="delegate" destination="mlI-Uy-vuT" id="3ic-pN-wdo"/>
                                                 </connections>
                                             </textField>
@@ -234,7 +234,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="done" textContentType="url"/>
                                                 <connections>
-                                                    <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingDidEnd" id="f05-FA-5wZ"/>
+                                                    <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="z1o-C9-gKZ"/>
                                                     <outlet property="delegate" destination="mlI-Uy-vuT" id="U1m-5h-ydl"/>
                                                 </connections>
                                             </textField>
@@ -255,7 +255,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="phonePad" returnKeyType="done" textContentType="tel"/>
                                                 <connections>
-                                                    <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingDidEnd" id="4oI-jq-kRv"/>
+                                                    <action selector="textFieldTextDidChange:" destination="mlI-Uy-vuT" eventType="editingChanged" id="km0-zJ-EWT"/>
                                                     <outlet property="delegate" destination="mlI-Uy-vuT" id="FHh-hK-Rnc"/>
                                                 </connections>
                                             </textField>

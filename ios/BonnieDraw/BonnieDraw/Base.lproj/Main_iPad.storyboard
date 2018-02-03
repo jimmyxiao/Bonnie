@@ -1948,7 +1948,7 @@
                                                         <action selector="cancel:" destination="uTq-VR-1BZ" eventType="touchUpInside" id="hQP-N4-PZ3"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D1h-gf-W6V">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D1h-gf-W6V">
                                                     <rect key="frame" x="216" y="0.0" width="216" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="Confirm">
@@ -2032,6 +2032,10 @@
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                            <connections>
+                                                <action selector="textFieldTextDidChange:" destination="uTq-VR-1BZ" eventType="editingChanged" id="dMK-tE-MoN"/>
+                                                <outlet property="delegate" destination="uTq-VR-1BZ" id="8ZJ-Ej-VJ3"/>
+                                            </connections>
                                         </textField>
                                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YhQ-5q-ATX">
                                             <rect key="frame" x="8" y="205" width="416" height="0.0"/>
