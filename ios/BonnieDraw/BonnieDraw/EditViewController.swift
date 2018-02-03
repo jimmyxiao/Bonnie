@@ -39,6 +39,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         thumbnail.sd_setIndicatorStyle(.gray)
         thumbnail.setImage(with: work?.thumbnail)
         workTitle.text = work?.title
+        workLink.text = work?.link
         workDescription.text = work?.summery
         dropDown.dataSource = dropDownItems.map() {
             item in
