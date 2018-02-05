@@ -27,11 +27,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -59,8 +63,10 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -461,6 +467,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                                         e.printStackTrace();
                                     }
                                     mSwipeRefreshLayout.setRefreshing(false);
+                                    mAdapter.notifyDataSetChanged();
                                 }
                             });
                         }
@@ -483,11 +490,155 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     }
 
     @Override
-    public void onWorkExtraClick(int uid, final int wid) {
+    public void onWorkExtraClick(int position,int uid, final int wid) {
+        final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_single_work_extra);
+        final int finalPosition = position;
+        RelativeLayout Rl = dialog.findViewById(R.id.relativeLayout_works_extra);
+        //是自己的要隱藏REPORT，要顯示編輯與刪除
+        LinearLayout llOwn = dialog.findViewById(R.id.ll_single_own);
+        LinearLayout llReport = dialog.findViewById(R.id.ll_single_report);
+        Button btnReportWork = dialog.findViewById(R.id.btn_extra_report);
+        Button btnDeleteWork = dialog.findViewById(R.id.btn_extra_delete);
+        Button btnEditWork = dialog.findViewById(R.id.btn_extra_edit_work);
+        Button btnCancel = dialog.findViewById(R.id.btn_extra_cancel);
+        Button btnCopyLink = dialog.findViewById(R.id.btn_extra_copylink);
+        btnEditWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                editWork(workInfoBeanList.get(finalPosition) );
+            }
+        });
+
+        btnCopyLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                android.content.ClipData clip = android.content.ClipData.newPlainText("text", GlobalVariable.API_LINK_SHARE_LINK + wid);
+                clipboard.setPrimaryClip(clip);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.createToastIsCheck(getContext(), getString(R.string.m01_01_copylink_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+                    }
+                });
+
+                dialog.dismiss();
+            }
+        });
+
+        //刪除作品確認
+        btnDeleteWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                final FullScreenDialog deleteDialog = new FullScreenDialog(getContext(), R.layout.dialog_base);
+                FrameLayout layout = deleteDialog.findViewById(R.id.frameLayout_dialog_base);
+                TextView title = deleteDialog.findViewById(R.id.textView_dialog_base_title);
+                TextView msg = deleteDialog.findViewById(R.id.textView_dialog_base_msg);
+                Button yes = deleteDialog.findViewById(R.id.btn_dialog_base_yes);
+                Button no = deleteDialog.findViewById(R.id.btn_dialog_base_no);
+                title.setText(getString(R.string.u02_04_delete_title));
+                msg.setText(getString(R.string.u02_04_delete_content));
+                layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteDialog.dismiss();
+                    }
+                });
+                yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //dialog.dismiss();
+                        deleteDialog.dismiss();
+                        deleteWork(wid);
+                    }
+                });
+                no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteDialog.dismiss();
+                    }
+                });
+                deleteDialog.show();
+            }
+        });
+
+        btnReportWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                final FullScreenDialog reportDialog = new FullScreenDialog(getContext(), R.layout.dialog_work_report);
+                final Spinner spinner = reportDialog.findViewById(R.id.spinner_report);
+                final EditText editText = reportDialog.findViewById(R.id.editText_report);
+                Button btnCancel = reportDialog.findViewById(R.id.btn_report_cancel);
+                Button btnCommit = reportDialog.findViewById(R.id.btn_report_commit);
+                ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
+                        getContext(), R.array.report, android.R.layout.simple_spinner_item);
+                nAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+                spinner.setAdapter(nAdapter);
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        reportDialog.dismiss();
+                    }
+                });
+                btnCommit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (editText.getText().toString().isEmpty()) {
+                            ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_02_report_reason_empty), false, PxDpConvert.getSystemHight(getContext()) / 3);
+                        } else {
+                            int type = 0;
+                            switch (spinner.getSelectedItemPosition()) {
+                                case 0:
+                                    type = 1;
+                                    break;
+                                case 1:
+                                    type = 2;
+                                    break;
+                                case 2:
+                                    type = 99;
+                                    break;
+                            }
+                            setReport(wid, type, editText.getText().toString());
+                            reportDialog.dismiss();
+                        }
+                    }
+                });
+                reportDialog.show();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        int userUid = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, "null"));
+        if (uid != userUid) {
+            llOwn.setVisibility(View.GONE);
+        } else {
+            llReport.setVisibility(View.GONE);
+        }
+        dialog.show();
+
+
+        /*
         final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
         Button extraCancel = extraDialog.findViewById(R.id.btn_extra_cancel);
+        Button editWork = extraDialog.findViewById(R.id.btn_extra_work_edit);
         LinearLayout reportLayout = extraDialog.findViewById(R.id.ll_item_work_report);
 
         extraCopyLink.setOnClickListener(new View.OnClickListener() {
@@ -498,6 +649,13 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 clipboard.setPrimaryClip(clip);
                 ToastUtil.createToastIsCheck(mContext, getString(R.string.m01_01_copylink_successful), true, PxDpConvert.getSystemHight(mContext) / 3);
                 extraDialog.dismiss();
+            }
+        });
+        editWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                extraDialog.dismiss();
+                editWork();
             }
         });
 
@@ -560,12 +718,158 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
                 extraDialog.dismiss();
             }
         });
+
+
+
+
         int ownUid = Integer.valueOf(prefs.getString(GlobalVariable.API_UID, "null"));
         if (ownUid == uid) {
             reportLayout.setVisibility(View.GONE);
         }
         extraDialog.show();
+        */
     }
+
+    private void editWork(WorkInfoBean workInfoBean){
+        String strWorkName = workInfoBean.getTitle();
+        String strWorkDescription = workInfoBean.getDescription();
+        String strWorkShopInfo = workInfoBean.getCommodityUrl();
+        int iPrivacyType = 1;
+        //String , String strWorkDescription , String strWorkShopInfo ,int iPrivacyType ,int wid ) {
+        final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_work_edit);
+        final EditText workName = (EditText) dialog.findViewById(R.id.editText_work_edit_name);
+        final EditText workDescription = (EditText) dialog.findViewById(R.id.editText_work_edit_description);
+        final EditText workShopInfo = (EditText) dialog.findViewById(R.id.editText_work_shopinfo);
+        final LinearLayout layoutShopInfo = (LinearLayout) dialog.findViewById(R.id.layout_work_edit_shopinfo);
+        final View viewShopInfo = (View) dialog.findViewById(R.id.view_work_edit_shopinfo);
+        final int finalWid = Integer.valueOf(workInfoBean.getWorkId());
+        String strUserGriup= prefs.getString(GlobalVariable.USER_GROUP, "null");
+        if(strUserGriup!=null && strUserGriup.equals("1")){
+            layoutShopInfo.setVisibility(View.VISIBLE);
+            viewShopInfo.setVisibility(View.VISIBLE);
+            workShopInfo.setText(strWorkShopInfo);
+        }else{
+            layoutShopInfo.setVisibility(View.GONE);
+            viewShopInfo.setVisibility(View.GONE);
+        }
+
+        Button saveWork = (Button) dialog.findViewById(R.id.btn_work_edit_save);
+        ImageButton saveCancel = (ImageButton) dialog.findViewById(R.id.btn_work_edit_back);
+        final Spinner privacyTypes = (Spinner) dialog.findViewById(R.id.spinner_work_edit_privacytype);
+
+        ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.privacies, R.layout.item_spinner);
+        nAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+        privacyTypes.setAdapter(nAdapter);
+        //預設值
+        workName.setText(strWorkName);
+        //workDescription.setText(mTvWorkDescription.getText().toString());
+        workDescription.setText(strWorkDescription);
+
+        privacyTypes.setSelection(iPrivacyType - 1);
+
+        privacyTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+             //   privacyTypeSelected = position + 1;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        saveWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int ipType = privacyTypes.getSelectedItemPosition();
+                ipType ++;
+                updateWorkInfo(ipType, workName.getText().toString(), workDescription.getText().toString(),workShopInfo.getText().toString(), finalWid);
+                dialog.dismiss();
+            }
+        });
+        saveCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void deleteWork(int wid) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        JSONObject json = ConnectJson.deleteWork(prefs, wid);
+        RequestBody body = FormBody.create(ConnectJson.MEDIA_TYPE_JSON_UTF8, json.toString());
+        Request request = new Request.Builder()
+                .url(GlobalVariable.API_LINK_DELETE_WORK)
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ToastUtil.createToastWindow(getContext(), getString(R.string.uc_connect_failed_title), PxDpConvert.getSystemHight(getContext()) / 4);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getWorksList(REFRESH_WORKS_LIST);
+                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+                            }
+                        });
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+
+    private void updateWorkInfo(int privacyType, String title, String description, String shopInfo, int worksId) {
+        OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+        Request request = ConnectJson.updateWorksave(prefs, privacyType, title, description,shopInfo, worksId);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ToastUtil.createToastWindow(getContext(), getString(R.string.m02_01_data_parse_error), PxDpConvert.getSystemHight(getContext()) / 3);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject responseJSON = new JSONObject(response.body().string());
+                    if (responseJSON.getInt("res") == 1) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //下載資料
+                                ToastUtil.createToastIsCheck(getContext(), getString(R.string.uc_update_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+                                getWorksList(REFRESH_WORKS_LIST);
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //********
+
+
+
 
     @Override
     public void onWorkGoodClick(int position, boolean like, int wid) {
@@ -677,6 +981,15 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
         // reload works
         ToastUtil.createToastIsCheck(mContext, getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(mContext) / 3);
         getWorksList(REFRESH_WORKS_LIST);
-
     }
+
+    @Override
+    public void onUpdateWorkSuccess() {
+        // reload works
+        ToastUtil.createToastIsCheck(mContext, getString(R.string.uc_update_successful), true, PxDpConvert.getSystemHight(mContext) / 3);
+        getWorksList(REFRESH_WORKS_LIST);
+    }
+
+
+
 }

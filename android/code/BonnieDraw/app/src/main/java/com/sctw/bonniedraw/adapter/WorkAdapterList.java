@@ -177,7 +177,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
             holder.imgBtnExtra.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onWorkExtraClick(uid,wid);
+                    listener.onWorkExtraClick(holder.getAdapterPosition(),uid,wid);
                 }
             });
             holder.imgBtnGood.setOnClickListener(new View.OnClickListener() {
@@ -365,7 +365,7 @@ public class WorkAdapterList extends RecyclerView.Adapter<WorkAdapterList.ViewHo
     public interface WorkListOnClickListener {
         void onWorkImgClick(int wid);
 
-        void onWorkExtraClick(int uid,int wid);
+        void onWorkExtraClick(int position, int uid,int wid);
 
         void onWorkGoodClick(int position, boolean like, int wid);
 

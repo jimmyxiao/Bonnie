@@ -24,7 +24,6 @@ public class WorkInfoBean {
     private boolean isCollection;
     private String commodityUrl;
 
-
     public String getWorkId() {
         return workId;
     }
@@ -154,6 +153,7 @@ public class WorkInfoBean {
                     workInfoBean.setMsgCount(0);
                 }
                 workInfoBean.setLike(data.getJSONObject(x).getBoolean("like"));
+                workInfoBean.setDescription(data.getJSONObject(x).getString("description"));
                 workInfoBean.setCommodityUrl(data.getJSONObject(x).getString("commodityUrl"));
                 workInfoBeanList.add(workInfoBean);
             }

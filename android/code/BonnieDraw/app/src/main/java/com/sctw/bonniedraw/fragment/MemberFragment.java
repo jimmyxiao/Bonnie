@@ -629,7 +629,7 @@ public class MemberFragment extends Fragment implements WorkAdapterList.WorkList
     }
 
     @Override
-    public void onWorkExtraClick(int uid, final int wid) {
+    public void onWorkExtraClick(int position, int uid, final int wid) {
         final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);

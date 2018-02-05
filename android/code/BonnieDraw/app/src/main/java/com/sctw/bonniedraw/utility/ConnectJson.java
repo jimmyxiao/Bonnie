@@ -64,7 +64,7 @@ public class ConnectJson {
     }
 
     //更新作品資料
-    public static Request updateWorksave(SharedPreferences prefs, int privacyType, String title, String description, int worksId) {
+    public static Request updateWorksave(SharedPreferences prefs, int privacyType, String title, String description,String commodityUrl, int worksId) {
         JSONObject json = new JSONObject();
         try {
             json.put("ui", prefs.getString(GlobalVariable.API_UID, "null"));
@@ -75,6 +75,7 @@ public class ConnectJson {
             json.put("title", title);
             json.put("description", description);
             json.put("worksId", worksId);
+            json.put("commodityUrl", commodityUrl);
         } catch (JSONException e) {
             e.printStackTrace();
         }

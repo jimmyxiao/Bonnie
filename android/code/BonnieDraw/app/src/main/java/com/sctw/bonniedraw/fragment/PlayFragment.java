@@ -100,13 +100,15 @@ public class PlayFragment extends DialogFragment {
     private boolean mIsBDWReaded = false;
     private int mBDWSize = 0;
     private String mWorkDescription ="";
-
+    private String mWorkShopInfo ="";
     //刪除work後回傳
 
     private OnPlayFragmentListener callbackDeleteWork;
 
     public interface OnPlayFragmentListener {
         void onDeleteWorkSuccess();
+
+        void onUpdateWorkSuccess();
     }
 
 
@@ -672,6 +674,19 @@ public class PlayFragment extends DialogFragment {
         final FullScreenDialog dialog = new FullScreenDialog(getContext(), R.layout.dialog_work_edit);
         final EditText workName = (EditText) dialog.findViewById(R.id.editText_work_edit_name);
         final EditText workDescription = (EditText) dialog.findViewById(R.id.editText_work_edit_description);
+        final EditText workShopInfo = (EditText) dialog.findViewById(R.id.editText_work_shopinfo);
+        final LinearLayout layoutShopInfo = (LinearLayout) dialog.findViewById(R.id.layout_work_edit_shopinfo);
+        final View viewShopInfo = (View) dialog.findViewById(R.id.view_work_edit_shopinfo);
+
+        String strUserGriup= prefs.getString(GlobalVariable.USER_GROUP, "null");
+        if(strUserGriup!=null && strUserGriup.equals("1")){
+            layoutShopInfo.setVisibility(View.VISIBLE);
+            viewShopInfo.setVisibility(View.VISIBLE);
+            workShopInfo.setText(mWorkShopInfo);
+        }else{
+            layoutShopInfo.setVisibility(View.GONE);
+            viewShopInfo.setVisibility(View.GONE);
+        }
 
         Button saveWork = (Button) dialog.findViewById(R.id.btn_work_edit_save);
         ImageButton saveCancel = (ImageButton) dialog.findViewById(R.id.btn_work_edit_back);
@@ -685,7 +700,6 @@ public class PlayFragment extends DialogFragment {
         workName.setText(mTvWorkName.getText().toString());
         //workDescription.setText(mTvWorkDescription.getText().toString());
         workDescription.setText(mWorkDescription);
-
 
         privacyTypes.setSelection(miPrivacyType - 1);
         privacyTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -702,7 +716,7 @@ public class PlayFragment extends DialogFragment {
         saveWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateWorkInfo(miPrivacyType, workName.getText().toString(), workDescription.getText().toString(), wid);
+                updateWorkInfo(miPrivacyType, workName.getText().toString(), workDescription.getText().toString(),workShopInfo.getText().toString(), wid);
                 dialog.dismiss();
             }
         });
@@ -743,9 +757,9 @@ public class PlayFragment extends DialogFragment {
         return false;
     }
 
-    private void updateWorkInfo(int privacyType, String title, String description, int worksId) {
+    private void updateWorkInfo(int privacyType, String title, String description, String shopInfo, int worksId) {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.updateWorksave(prefs, privacyType, title, description, worksId);
+        Request request = ConnectJson.updateWorksave(prefs, privacyType, title, description,shopInfo,worksId);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -763,6 +777,8 @@ public class PlayFragment extends DialogFragment {
                                 //下載資料
                                 ToastUtil.createToastIsCheck(getContext(), getString(R.string.uc_update_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
                                 getSingleWork(true);
+                                if(callbackDeleteWork !=null)
+                                    callbackDeleteWork.onUpdateWorkSuccess();
                             }
                         });
                     }
@@ -920,6 +936,8 @@ public class PlayFragment extends DialogFragment {
             mTvUserName.setText(data.getString("userName"));
             mTvWorkName.setText(data.getString("title"));
             mWorkDescription = data.getString("description");
+            mWorkShopInfo  = data.getString("commodityUrl");
+
             mTvWorkDescription.setText(getString(R.string.u04_02_work_description) + mWorkDescription);
             if (data.getInt("likeCount") == 0) {
                 mTvGoodTotal.setVisibility(View.GONE);

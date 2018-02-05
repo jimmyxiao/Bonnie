@@ -546,7 +546,7 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
     }
 
     @Override
-    public void onWorkExtraClick(int uid, final int wid) {
+    public void onWorkExtraClick(int position, int uid, final int wid) {
         final FullScreenDialog extraDialog = new FullScreenDialog(getActivity(), R.layout.dialog_work_extra);
         Button extraCopyLink = extraDialog.findViewById(R.id.btn_extra_copylink);
         Button extraReport = extraDialog.findViewById(R.id.btn_extra_report);
@@ -728,18 +728,28 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
 
     @Override
     public void onDeleteWorkSuccess() {
-        // reload works
-        //updateProfileInfo();
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ToastUtil.createToastIsCheck(getContext(), getString(R.string.u02_04_delete_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
             }
         });
-
         getWorksList(REFRESH_WORKS_LIST);
-
     }
+
+
+    @Override
+    public void onUpdateWorkSuccess() {
+        // reload works
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtil.createToastIsCheck(getContext(), getString(R.string.uc_update_successful), true, PxDpConvert.getSystemHight(getContext()) / 3);
+            }
+        });
+        getWorksList(REFRESH_WORKS_LIST);
+    }
+
 
     @Override
     public void onEditProfileSuccess() {
