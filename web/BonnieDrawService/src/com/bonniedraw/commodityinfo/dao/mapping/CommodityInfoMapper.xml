@@ -74,4 +74,11 @@
       COMMODITY_URL = #{commodityUrl,jdbcType=VARCHAR}
     where WORKS_ID = #{worksId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByWorksId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from commodity_info
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </select>
 </mapper>

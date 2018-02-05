@@ -11,6 +11,8 @@ public interface CommodityInfoMapper {
 
     CommodityInfo selectByPrimaryKey(Integer commodityId);
 
+    CommodityInfo selectByWorksId(Integer worksId);
+
     int updateByPrimaryKeySelective(CommodityInfo record);
 
     int updateByPrimaryKey(CommodityInfo record);
