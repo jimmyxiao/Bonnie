@@ -185,6 +185,8 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                         }
                         return
                     }
+                } else {
+                    postData["commodityUrl"] = link
                 }
             }
             sender.isEnabled = false
