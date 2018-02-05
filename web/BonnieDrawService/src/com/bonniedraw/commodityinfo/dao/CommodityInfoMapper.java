@@ -15,5 +15,7 @@ public interface CommodityInfoMapper {
 
     int updateByPrimaryKey(CommodityInfo record);
 
+    int updateByWorskId(CommodityInfo record);
+
     int insertByWorksId(CommodityInfo record);
 }

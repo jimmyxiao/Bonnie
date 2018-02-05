@@ -156,6 +156,10 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				worksMapper.updateByPrimaryKeySelective(works);
 				compareCategory(categoryList, wid);
 				compareWorksTag(sharpTagList, wid);
+
+				commodityInfo.setWorksId(wid);
+				commodityInfo.setCommodityUrl(worksSaveRequestVO.getCommodityUrl());
+				commodityInfoMapper.updateByWorskId(commodityInfo);
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "worksSave has error : " + e);

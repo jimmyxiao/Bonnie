@@ -68,4 +68,10 @@
       COMMODITY_URL = #{commodityUrl,jdbcType=VARCHAR}
     where COMMODITY_ID = #{commodityId,jdbcType=INTEGER}
   </update>
+  <update id="updateByWorskId" parameterType="com.bonniedraw.commodityinfo.model.CommodityInfo">
+    update commodity_info
+    set WORKS_ID = #{worksId,jdbcType=INTEGER},
+      COMMODITY_URL = #{commodityUrl,jdbcType=VARCHAR}
+    where WORKS_ID = #{worksId,jdbcType=INTEGER}
+  </update>
 </mapper>
