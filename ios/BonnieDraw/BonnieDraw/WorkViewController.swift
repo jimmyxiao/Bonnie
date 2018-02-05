@@ -258,7 +258,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     internal func edit(didChange changedWork: Work) {
         work = changedWork
         set(viewDataWith: changedWork)
-        delegate?.work(didChange: work)
+        delegate?.work(didChange: changedWork)
     }
 
     @IBAction func play(_ sender: UIButton) {
