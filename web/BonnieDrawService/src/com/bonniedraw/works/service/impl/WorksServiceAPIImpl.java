@@ -101,6 +101,7 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 	@Transactional(rollbackFor = Exception.class)
 	public Integer worksSave(WorksSaveRequestVO worksSaveRequestVO) {
 		Integer wid = null;
+		Integer worksId = null;
 		Date nowDate = TimerUtil.getNowDate();
 		int ac = worksSaveRequestVO.getAc();
 		int userId = worksSaveRequestVO.getUi();
@@ -152,10 +153,23 @@ public class WorksServiceAPIImpl extends BaseService implements WorksServiceAPI 
 				}
 			}else if(ac==2){
 				wid = worksSaveRequestVO.getWorksId();
+				worksId = worksSaveRequestVO.getWorksId();
 				works.setWorksId(wid);
 				worksMapper.updateByPrimaryKeySelective(works);
 				compareCategory(categoryList, wid);
 				compareWorksTag(sharpTagList, wid);
+
+				
+				CommodityInfo commodityIsnotInfo = commodityInfoMapper.selectByWorksId(worksId);
+				if(ValidateUtil.isNotEmpty(commodityIsnotInfo)){
+					commodityInfo.setWorksId(commodityIsnotInfo.getWorksId());
+					commodityInfo.setCommodityUrl(worksSaveRequestVO.getCommodityUrl());
+					commodityInfoMapper.updateByWorskId(commodityInfo);
+				}else{
+					commodityInfo.setWorksId(wid);
+					commodityInfo.setCommodityUrl(worksSaveRequestVO.getCommodityUrl());
+					commodityInfoMapper.insert(commodityInfo);
+				}
 			}
 		} catch (Exception e) {
 			LogUtils.error(getClass(), "worksSave has error : " + e);
