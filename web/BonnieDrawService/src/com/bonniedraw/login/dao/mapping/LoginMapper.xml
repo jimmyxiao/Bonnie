@@ -212,5 +212,12 @@
 	    where USER_ID = #{userId,jdbcType=INTEGER}
 	    and IS_CURRENT = 1
 	</select>
+
+  <update id="updateCurrentIsFalseByUser" parameterType="com.bonniedraw.login.model.Login">
+      update login
+      set IS_CURRENT = 2
+      where USER_ID = #{userId,jdbcType=INTEGER}
+      and IS_CURRENT = 1
+  </update>
   
 </mapper>

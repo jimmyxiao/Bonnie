@@ -17,12 +17,18 @@ import com.bonniedraw.user.model.UserInfo;
 import com.bonniedraw.user.service.WebUserService;
 import com.bonniedraw.web_api.model.response.UserInfoQueryResponseVO;
 
+import com.bonniedraw.login.dao.LoginMapper;
+import com.bonniedraw.login.model.Login;
+
 @Controller
 @RequestMapping(value="user",produces="application/json")
 public class UserController extends BaseController {
 	
 	@Autowired
 	WebUserService webUserService;
+
+	@Autowired
+	LoginMapper loginMapper;
 	
 	@RequestMapping(value="/queryUserList", produces="application/json")
 	public @ResponseBody BaseModel queryUserList(HttpServletRequest request, HttpServletResponse resp, @RequestBody UserInfo searchInfo) {
@@ -55,6 +61,9 @@ public class UserController extends BaseController {
 				baseModel.setResult(true);
 				baseModel.setData(result);
 			}
+			Login loginVO = new Login();		
+			loginVO.setUserId(userInfo.getUserId());
+			loginMapper.updateCurrentIsFalseByUser(loginVO);
 		}
 		return baseModel;
 	}

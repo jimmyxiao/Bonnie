@@ -117,6 +117,10 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 	private void insertUserInfo(LoginResponseVO result, LoginRequestVO loginRequestVO, String ipAddress) throws Exception{
 		Date nowDate = TimerUtil.getNowDate();
 		UserInfo userInfo = getInitalUserInfo(loginRequestVO, nowDate);
+		if(userInfo.getUserType()!=1){
+			userInfo.setStatus(1);
+		}
+		userInfo.setUserGroup(0);
 		userInfoMapper.insert(userInfo);
 		if(ValidateUtil.isNotBlank(loginRequestVO.getThirdPictureUrl())){
 			StringBuffer path = new StringBuffer();
@@ -170,34 +174,35 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 				if(existUserInfo != null && existUserInfo.getStatus() != null){
 					putLogin(result, loginRequestVO, existUserInfo, ipAddress);
 				}else{
-					String thirdEmail = loginRequestVO.getThirdEmail();
-					if(ValidateUtil.isNotBlank(thirdEmail)){
-						UserInfo emailUserInfo = userInfoMapper.selectByUserCode(thirdEmail);
-						if(emailUserInfo!=null){		// 第三方平台註冊,且已有email帳號,直接更新;反之做第三方平台新註冊
-							Date nowDate = TimerUtil.getNowDate();
-							String id = loginRequestVO.getUc();
-							switch (ut) {
-							case 2:
-								emailUserInfo.setRegFacebookId(id);
-								break;
-							case 3:
-								emailUserInfo.setRegGoogleId(id);
-								break;
-							case 4:
-								emailUserInfo.setRegTwitterId(id);
-								break;
-							}
-							emailUserInfo.setStatus(1);
-							emailUserInfo.setUpdatedBy(0);
-							emailUserInfo.setUpdateDate(nowDate);
-							userInfoMapper.updateByPrimaryKeySelective(emailUserInfo);
-							putLogin(result, loginRequestVO, emailUserInfo, ipAddress);
-						}else{
-							insertUserInfo(result, loginRequestVO, ipAddress);
-						}
-					}else{
-						insertUserInfo(result, loginRequestVO, ipAddress);
-					}
+					// String thirdEmail = loginRequestVO.getThirdEmail();
+					// if(ValidateUtil.isNotBlank(thirdEmail)){
+					// 	UserInfo emailUserInfo = userInfoMapper.selectByUserCode(thirdEmail);
+					// 	if(emailUserInfo!=null){		// 第三方平台註冊,且已有email帳號,直接更新;反之做第三方平台新註冊
+					// 		Date nowDate = TimerUtil.getNowDate();
+					// 		String id = loginRequestVO.getUc();
+					// 		switch (ut) {
+					// 		case 2:
+					// 			emailUserInfo.setRegFacebookId(id);
+					// 			break;
+					// 		case 3:
+					// 			emailUserInfo.setRegGoogleId(id);
+					// 			break;
+					// 		case 4:
+					// 			emailUserInfo.setRegTwitterId(id);
+					// 			break;
+					// 		}
+					// 		emailUserInfo.setStatus(1);
+					// 		emailUserInfo.setUpdatedBy(0);
+					// 		emailUserInfo.setUpdateDate(nowDate);
+					// 		userInfoMapper.updateByPrimaryKeySelective(emailUserInfo);
+					// 		putLogin(result, loginRequestVO, emailUserInfo, ipAddress);
+					// 	}else{
+					// 		insertUserInfo(result, loginRequestVO, ipAddress);
+					// 	}
+					// }else{
+					// 	insertUserInfo(result, loginRequestVO, ipAddress);
+					// }
+					insertUserInfo(result, loginRequestVO, ipAddress);
 				}
 			} catch (Exception e) {
 				LogUtils.error(getClass(), "callLogin has error : " + e);
@@ -392,6 +397,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 					userInfo.setCreationDate(nowDate);
 					userInfo.setUpdatedBy(0);
 					userInfo.setUpdateDate(nowDate);
+					userInfo.setUserGroup(0);
 					userInfoMapper.insert(userInfo);
 					if(EmailProcess.sendValideMail(systemSetupService, userInfo)){
 						result.setRes(1);

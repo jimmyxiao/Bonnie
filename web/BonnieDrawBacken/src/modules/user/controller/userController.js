@@ -18,8 +18,8 @@ app.factory('userService', function(baseHttp) {
 	$scope.search = {
 		userName:null,
 		email:null,
-		status: 1,
-		userGroup: 0
+		status: -1,
+		userGroup: -1
 	}
 
 	var opt = {
@@ -98,6 +98,7 @@ app.factory('userService', function(baseHttp) {
 				$scope.userInfoList[index] = data.data;
 				myTable.row(index).data(data.data).invalidate();
 			}
+			 $window.location.reload();
 		})
 	}
 
@@ -141,6 +142,8 @@ app.factory('userService', function(baseHttp) {
 			if(data.result){
 				$scope.userInfoList = data.data;
 				util.refreshDataTable(myTable,$scope.userInfoList);
+			}else{
+				$scope.reloadTable();
 			}
 		})
 	}

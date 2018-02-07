@@ -20,6 +20,8 @@ public interface LoginMapper {
     
     int updateCurrentIsFalse(Login record);
     
+    int updateCurrentIsFalseByUser(Login record);
+    
     Login inspectLogin(Login record);
     
     List<String> selectTokenByUserIdAndCurrentIsTrue(Integer userId);
