@@ -598,7 +598,7 @@
 	where 1=1 
     and wk.PRIVACY_TYPE = 1
     and wk.STATUS = 1
-    and wk.CREATION_DATE <![CDATA[>= ]]>  CURDATE() - INTERVAL 7 day
+    and wk.CREATION_DATE <![CDATA[>= ]]>  CURDATE() - INTERVAL 30 day
     order by wl.LIKE_COUNT desc, wk.WORKS_ID asc
     LIMIT #{offset, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
   </select>
