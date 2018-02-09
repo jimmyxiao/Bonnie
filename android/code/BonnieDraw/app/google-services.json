@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "579888826124-skle0nfku2ugec1buv71io1gsd5jbht6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sctw.bonniedraw",
+            "certificate_hash": "13dd62b0113c4308c684fc4b927115dfe4b2b78d"
+          }
+        },
+        {
           "client_id": "579888826124-d2h3vojsiun49794g3cghi65iaiv8tgl.apps.googleusercontent.com",
           "client_type": 3
         },
@@ -44,15 +52,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "579888826124-d2h3vojsiun49794g3cghi65iaiv8tgl.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
               "client_id": "579888826124-j33ha9056gdu5i9v8n164r3k9rm63qtn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.sctw.bonniedraw"
               }
+            },
+            {
+              "client_id": "579888826124-d2h3vojsiun49794g3cghi65iaiv8tgl.apps.googleusercontent.com",
+              "client_type": 3
             }
           ]
         },

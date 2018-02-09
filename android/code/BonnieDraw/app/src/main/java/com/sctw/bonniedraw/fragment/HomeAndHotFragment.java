@@ -90,7 +90,7 @@ public class HomeAndHotFragment extends Fragment implements WorkAdapterList.Work
     private WorkAdapterList mAdapter;
     private LinearLayoutManagerWithSmoothScroller mLayoutManager;
     private TextView mTvHint;
-    private int miWt, miStn = 1, miRc = 20; //STN=起始筆數 RC=需求筆數
+    private int miWt, miStn = 1, miRc = 1999; //STN=起始筆數 RC=需求筆數
     private int interWt;  // 1=追蹤 , 2= 熱門
     private String mStrQuery;
     private LoadMoreFooter mLoadMoreFooter;

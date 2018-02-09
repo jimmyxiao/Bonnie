@@ -103,7 +103,7 @@ public class CollectionFragment extends DialogFragment implements WorkAdapterGri
 
     public void getWorksList() {
         OkHttpClient okHttpClient = OkHttpUtil.getInstance();
-        Request request = ConnectJson.queryListWork(prefs, 7, 1, 999);
+        Request request = ConnectJson.queryListWork(prefs, 7, 1, 1999);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

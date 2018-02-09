@@ -47,6 +47,7 @@ import com.sctw.bonniedraw.fragment.ProfileSettingFragment;
 import com.sctw.bonniedraw.utility.BottomNavigationViewEx;
 import com.sctw.bonniedraw.utility.ConnectJson;
 import com.sctw.bonniedraw.utility.ExtraUtil;
+import com.sctw.bonniedraw.utility.ForceUpdateChecker;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlideAppModule;
 import com.sctw.bonniedraw.utility.GlobalVariable;
@@ -70,7 +71,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity implements SideBarAdapter.SideBarClickListener {
+public class MainActivity extends AppCompatActivity implements SideBarAdapter.SideBarClickListener,ForceUpdateChecker.OnUpdateNeededListener {
     private DrawerLayout mDrawerLayout;
     private ImageButton mImgBtnBack, mImgBtnPaint;
     private TextView mTvVersion, mTvDownload;
@@ -93,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        ForceUpdateChecker.with(this).onUpdateNeeded(this).check();
+
+
     }
 
     private void changeFragment(Fragment fragment) {
@@ -128,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
         mBottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomView_layout);
         mTvVersion = (TextView) mNavigationView.findViewById(R.id.textView_version_name);
         mTvDownload = (TextView) mNavigationView.findViewById(R.id.textView_download);
-        mTvVersion.setText("當前版本 " + ExtraUtil.getVersionName(this));
+       // mTvVersion.setText("當前版本 " + ExtraUtil.getVersionName(this));
         mTvDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -593,5 +597,34 @@ public class MainActivity extends AppCompatActivity implements SideBarAdapter.Si
                 ((ProfileFragment) fragment).showViewToTop();
             }
         }
+    }
+
+    //Firebase force update app
+
+    @Override
+    public void onUpdateNeeded(final String updateUrl) {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("New version available")
+                .setMessage("Please, update app to new version to continue reposting.")
+                .setPositiveButton("Update",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                redirectStore(updateUrl);
+                            }
+                        }).setNegativeButton("No, thanks",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).create();
+        dialog.show();
+    }
+
+    private void redirectStore(String updateUrl) {
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

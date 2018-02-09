@@ -1,15 +1,18 @@
 package com.sctw.bonniedraw.activity;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +27,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.sctw.bonniedraw.R;
 import com.sctw.bonniedraw.fragment.LoginFragment;
 import com.sctw.bonniedraw.utility.ConnectJson;
+import com.sctw.bonniedraw.utility.ForceUpdateChecker;
 import com.sctw.bonniedraw.utility.FullScreenDialog;
 import com.sctw.bonniedraw.utility.GlobalVariable;
 import com.sctw.bonniedraw.utility.OkHttpUtil;
@@ -41,7 +45,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LoginActivity extends AppCompatActivity implements Animation.AnimationListener {
+public class LoginActivity extends AppCompatActivity implements Animation.AnimationListener ,ForceUpdateChecker.OnUpdateNeededListener {
     private static final int REQUEST_EXTERNAL_STORAGE = 0;
     SharedPreferences prefs;
     Boolean mbLoginCheck = false;
@@ -55,6 +59,10 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         prefs = getSharedPreferences(GlobalVariable.MEMBER_PREFS, MODE_PRIVATE);
+
+        ForceUpdateChecker.with(this).onUpdateNeeded(this).check();
+
+
         updateFCM();
         mLinearLayout = findViewById(R.id.frameLayout_login_frist);
         mFrameLayout = findViewById(R.id.frameLayout_login);
@@ -310,5 +318,34 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
     @Override
     public void onAnimationRepeat(Animation animation) {
 
+    }
+
+    //Firebase force update app
+
+    @Override
+    public void onUpdateNeeded(final String updateUrl) {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("New version available")
+                .setMessage("Please, update app to new version to continue reposting.")
+                .setPositiveButton("Update",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                redirectStore(updateUrl);
+                            }
+                        }).setNegativeButton("No, thanks",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).create();
+        dialog.show();
+    }
+
+    private void redirectStore(String updateUrl) {
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

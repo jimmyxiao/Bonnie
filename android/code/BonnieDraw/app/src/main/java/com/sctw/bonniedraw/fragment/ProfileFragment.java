@@ -74,7 +74,7 @@ public class ProfileFragment extends Fragment implements WorkProfileAdapterList.
     private FragmentTransaction fragmentTransaction;
     private boolean mbGridMode = true;
     private int miUserId;
-    private int miStn = 1, miRc = 18;
+    private int miStn = 1, miRc = 1999;
     private UserInfoBean mUserInfo;
 
     @Override

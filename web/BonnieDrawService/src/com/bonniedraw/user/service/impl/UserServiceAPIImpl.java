@@ -146,9 +146,9 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		switch (ut) {
 		case 1:		//使用郵件登入
 			try {
-				if(dt == 3){
+				//if(dt == 3){
 					loginRequestVO.setUp((EncryptUtil.convertMD5(loginRequestVO.getUp())));
-				}
+				//}
 				existUserInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
 				if(existUserInfo != null){
 					Integer status = existUserInfo.getStatus();
