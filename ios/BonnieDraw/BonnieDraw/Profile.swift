@@ -17,7 +17,7 @@ struct Profile: Comparable {
     var description: String?
     var phone: String?
     var gender: Gender?
-    let worksCount: Int?
+    var worksCount: Int?
     let fansCount: Int?
     var followsCount: Int?
     var isFollowing: Bool?

@@ -241,4 +241,5 @@ struct Url {
 
 struct NotificationName {
     static let REMOTE_TOKEN = "remoteToken"
+    static let PROFILE_CHANGE = "profileChanged"
 }

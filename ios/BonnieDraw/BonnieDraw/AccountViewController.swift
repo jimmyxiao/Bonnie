@@ -57,6 +57,7 @@ class AccountViewController:
                 return item.tag == 0
             }, animated: false)
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(profileChanged), name: Notification.Name(rawValue: NotificationName.PROFILE_CHANGE), object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -252,6 +253,10 @@ class AccountViewController:
                 }
             }
         }
+    }
+
+    @objc internal func profileChanged(notification: Notification) {
+        downloadData()
     }
 
     internal func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -473,9 +478,14 @@ class AccountViewController:
             work in
             return work.id == deletedWork.id
         }) {
-            self.works.remove(at: index)
-            self.footerView?.label.text = self.works.isEmpty ? "empty_data".localized : nil
-            self.collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+            if let worskCount = profile?.worksCount {
+                let count = worskCount - 1
+                profile?.worksCount = count
+                headerView?.worksCount.text = "\(count)"
+            }
+            works.remove(at: index)
+            footerView?.label.text = self.works.isEmpty ? "empty_data".localized : nil
+            collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
         }
     }
 
@@ -737,6 +747,10 @@ class AccountViewController:
                         message: error.localizedDescription)
             }
         }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

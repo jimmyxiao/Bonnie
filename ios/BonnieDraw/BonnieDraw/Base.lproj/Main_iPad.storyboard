@@ -726,14 +726,14 @@
                                                     <action selector="decrement:" destination="wJn-NR-0b0" eventType="touchUpInside" id="BYy-Gl-qdO"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LOu-BQ-65Q">
+                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LOu-BQ-65Q">
                                                 <rect key="frame" x="58" y="0.0" width="63" height="62"/>
                                                 <state key="normal" image="drawplay_ic_play"/>
                                                 <connections>
                                                     <action selector="play:" destination="wJn-NR-0b0" eventType="touchUpInside" id="D7L-FC-O7h"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NEA-yD-IPx">
+                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NEA-yD-IPx">
                                                 <rect key="frame" x="137" y="0.0" width="42" height="62"/>
                                                 <state key="normal" image="drawplay_ic_next_on"/>
                                                 <state key="disabled" image="drawplay_ic_next_off"/>

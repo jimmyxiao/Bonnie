@@ -595,14 +595,14 @@
                                                             <action selector="decrement:" destination="wJn-NR-0b0" eventType="touchUpInside" id="TKF-z2-e6g"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BF5-D1-cxd">
+                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BF5-D1-cxd">
                                                         <rect key="frame" x="58" y="0.0" width="63" height="62"/>
                                                         <state key="normal" image="drawplay_ic_play"/>
                                                         <connections>
                                                             <action selector="play:" destination="wJn-NR-0b0" eventType="touchUpInside" id="2G4-jP-QO1"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWJ-GM-iZ1">
+                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWJ-GM-iZ1">
                                                         <rect key="frame" x="137" y="0.0" width="42" height="62"/>
                                                         <state key="normal" image="drawplay_ic_next_on"/>
                                                         <state key="disabled" image="drawplay_ic_next_off"/>
