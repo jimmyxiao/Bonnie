@@ -146,9 +146,9 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		switch (ut) {
 		case 1:		//使用郵件登入
 			try {
-				//if(dt == 3){
+				if(dt == 3 || dt == 1){
 					loginRequestVO.setUp((EncryptUtil.convertMD5(loginRequestVO.getUp())));
-				//}
+				}
 				existUserInfo = userInfoMapper.inspectAppPwd(loginRequestVO);
 				if(existUserInfo != null){
 					Integer status = existUserInfo.getStatus();
@@ -304,7 +304,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		userInfo.setPhoneNo(loginRequestVO.getPhoneNo());
 		userInfo.setUserCode(userCode);
 		if(userType==1){
-			if(dt==3){
+			if(dt==3 || dt==1){
 				userInfo.setUserPw(EncryptUtil.convertMD5(loginRequestVO.getUp()));
 			}else{
 				userInfo.setUserPw(loginRequestVO.getUp());
@@ -553,10 +553,10 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 		UserInfo userInfo = new UserInfo();
 		try {
 			userInfo.setUserId(updatePwdRequestVO.getUi());
-			if(updatePwdRequestVO.getDt()==3){
-				userInfo.setUserPw(EncryptUtil.convertMD5(updatePwdRequestVO.getOldPwd()));
-			}else{
+			if(updatePwdRequestVO.getDt()==2){
 				userInfo.setUserPw(updatePwdRequestVO.getOldPwd());
+			}else{
+				userInfo.setUserPw(EncryptUtil.convertMD5(updatePwdRequestVO.getOldPwd()));	
 			}
 			UserInfo resultUserInfo = userInfoMapper.inspectOldPwd(userInfo);
 			if(resultUserInfo == null ){
@@ -566,7 +566,7 @@ public class UserServiceAPIImpl extends BaseService implements UserServiceAPI {
 					success = 3;
 				}else{
 					Date nowDate = TimerUtil.getNowDate();
-					if(updatePwdRequestVO.getDt()==3){
+					if(updatePwdRequestVO.getDt()==3 || updatePwdRequestVO.getDt()==1){
 						userInfo.setUserPw(EncryptUtil.convertMD5(updatePwdRequestVO.getNewPwd()));
 					}else{
 						userInfo.setUserPw(updatePwdRequestVO.getNewPwd());
