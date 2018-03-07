@@ -10,9 +10,9 @@ import UIKit
 import WebKit
 
 class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDelegate {
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var container: UIView!
     let keyPath = "loading"
-    let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     var webView: WKWebView?
     var url: URL?
 
