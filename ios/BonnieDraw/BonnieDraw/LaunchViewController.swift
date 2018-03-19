@@ -1,5 +1,5 @@
 //
-//  SplashViewController.swift
+//  LaunchViewController.swift
 //  BonnieDraw
 //
 //  Created by Professor on 05/10/2017.
@@ -11,7 +11,7 @@ import CoreData
 import Alamofire
 import DeviceKit
 
-class SplashViewController: UIViewController {
+class LaunchViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }

@@ -1201,10 +1201,10 @@
             </objects>
             <point key="canvasLocation" x="1763" y="36"/>
         </scene>
-        <!--Splash View Controller-->
+        <!--Launch View Controller-->
         <scene sceneID="fYN-7y-jDq">
             <objects>
-                <viewController id="yXb-xA-XFY" customClass="SplashViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="yXb-xA-XFY" customClass="LaunchViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6IL-hZ-VAE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -82,7 +82,7 @@
 		1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4BC1F75123C00809C32 /* TabBarViewController.swift */; };
 		16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */; };
 		166889971FBC6802001CBFB3 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */; };
-		166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF411F860E7900274C6C /* SplashViewController.swift */; };
+		166BDF421F860E7900274C6C /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDF411F860E7900274C6C /* LaunchViewController.swift */; };
 		166C41241F90964F00A98385 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C41231F90964F00A98385 /* DataExtension.swift */; };
 		16786F16200456FF00335BA1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16786F18200456FF00335BA1 /* InfoPlist.strings */; };
 		16812ADA1F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */; };
@@ -210,7 +210,7 @@
 		1664F4BC1F75123C00809C32 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEditViewController.swift; sourceTree = "<group>"; };
 		166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
-		166BDF411F860E7900274C6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		166BDF411F860E7900274C6C /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		166C41231F90964F00A98385 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		16786F192004570500335BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleNavigationViewController.swift; sourceTree = "<group>"; };
@@ -382,7 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				16D08F1E1FB14D84001D167C /* DebugViewController.swift */,
-				166BDF411F860E7900274C6C /* SplashViewController.swift */,
+				166BDF411F860E7900274C6C /* LaunchViewController.swift */,
 				1664F4B61F74E5BB00809C32 /* ParentViewController.swift */,
 				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
 				1664F4A21F74AB3000809C32 /* DrawerViewController.swift */,
@@ -732,7 +732,7 @@
 				16303BA91FD1494E00C42783 /* Brush.swift in Sources */,
 				16CB8C731FF62A1100635F39 /* CustomSelectorTableViewCell.swift in Sources */,
 				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
-				166BDF421F860E7900274C6C /* SplashViewController.swift in Sources */,
+				166BDF421F860E7900274C6C /* LaunchViewController.swift in Sources */,
 				1649F2741FD7A43A00B90A1E /* LightStatusBarViewController.swift in Sources */,
 				1694F2721FF355640063F9E9 /* ReportViewController.swift in Sources */,
 				166889971FBC6802001CBFB3 /* UserDefaultsExtension.swift in Sources */,
