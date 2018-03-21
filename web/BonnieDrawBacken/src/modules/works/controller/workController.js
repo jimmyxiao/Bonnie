@@ -35,7 +35,11 @@ app.factory('workService', function(baseHttp) {
 			},
 			{ title: "作者",data: "userName",sWidth:"20%" },
 			{ title: "標題",data: "title",sWidth:"20%" },
-			{ title: "圖檔位置", data: "imagePath", sWidth:"20%" },
+			//{ title: "圖檔位置", data: "imagePath", sWidth:"20%" },
+			{ title: "作品圖", data: "imagePath", sWidth:"10%",render: function(data, type, row, meta) {
+					return '<img src="'+ $rootScope.imageLoadUrl + data + '" style="height:80px; width:80px; display:block; margin:auto;" on-error-src="assets/images/image-not-found.png" alt="image">';
+				}
+			},
 			{data:null,"bSortable": false,sWidth:"30%",render: function(data, type, full, meta) {
 				var row = meta.row;
 				var str = '';
