@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -46,7 +45,7 @@ public class InitApp extends Application {
                 "https://drive.google.com/uc?authuser=0&id=1ouWH0SKgSQXgPG1J0rskRko9A6Qq9CLE&export=download");
 
         firebaseRemoteConfig.setDefaults(remoteConfigDefaults);
-        firebaseRemoteConfig.fetch(60) // fetch every minutes
+        firebaseRemoteConfig.fetch(3600) // fetch every minutes
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
