@@ -1,4 +1,3 @@
-"alert_account_update_fail_website_invaid" = "網站連結格式不正確";
 "access_control_contact" = "只限朋友";
 "access_control_private" = "不公開";
 "access_control_public" = "公開";
@@ -7,10 +6,14 @@
 "account_following" = "追蹤中";
 "account_loading" = "讀取中...";
 "alert_account_update_fail_title" = "更新失敗";
+"alert_account_update_fail_website_invaid" = "網站連結格式不正確";
+"alert_app_update_content" = "已有新版可更新。";
+"alert_app_update_title" = "軟體更新";
 "alert_button_cancel" = "取消";
 "alert_button_clear" = "清除";
 "alert_button_confirm" = "確定";
 "alert_button_delete" = "刪除";
+"alert_button_update" = "更新";
 "alert_delete_content" = "確認要刪除這個作品嗎?";
 "alert_delete_fail_title" = "刪除失敗";
 "alert_edit_fail_title" = "編輯失敗";

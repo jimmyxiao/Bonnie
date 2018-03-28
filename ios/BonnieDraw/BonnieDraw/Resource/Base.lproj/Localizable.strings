@@ -1,4 +1,3 @@
-"alert_account_update_fail_website_invaid" = "Invalid web address.";
 "access_control_contact" = "Friends only";
 "access_control_private" = "Private";
 "access_control_public" = "Public";
@@ -7,10 +6,14 @@
 "account_following" = "Following";
 "account_loading" = "Loading...";
 "alert_account_update_fail_title" = "Update failed";
+"alert_account_update_fail_website_invaid" = "Invalid web address.";
+"alert_app_update_content" = "A new version is available.";
+"alert_app_update_title" = "App Update";
 "alert_button_cancel" = "Cancel";
 "alert_button_clear" = "Clear";
 "alert_button_confirm" = "OK";
 "alert_button_delete" = "Delete";
+"alert_button_update" = "Update";
 "alert_delete_content" = "Delete drawing?";
 "alert_delete_fail_title" = "Delete failed";
 "alert_edit_fail_title" = "Edit failed";

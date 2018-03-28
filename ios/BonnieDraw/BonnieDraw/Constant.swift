@@ -6,7 +6,7 @@
 //  Copyright © 2016 Professor. All rights reserved.
 //
 
-import UIKit
+import FirebaseRemoteConfig
 
 let DEBUG = Bundle.main.infoDictionary?["Configuration"] as? String == "Debug"
 let POINT_BUFFER_COUNT: UInt16 = 512
@@ -14,8 +14,9 @@ let LENGTH_SIZE: UInt16 = 20
 let LENGTH_BYTE_SIZE = 2
 let SERVICE_DEVICE_TYPE = 2
 let TOKEN_LIFETIME: TimeInterval = Double.greatestFiniteMagnitude
-let UPDATE_INTERVAL: TimeInterval = Double.greatestFiniteMagnitude
+let UPDATE_INTERVAL: TimeInterval = 3600
 let ANIMATION_TIMER: TimeInterval = 1.0 / 60.0
+let URL_APP_UPDATE = "https://www.appstore.com"
 
 enum Function: UInt16 {
     case draw = 0xa101
@@ -242,4 +243,10 @@ struct Url {
 struct NotificationName {
     static let REMOTE_TOKEN = "remoteToken"
     static let PROFILE_CHANGE = "profileChanged"
+}
+
+extension RemoteConfig {
+    static let FORCE_UPDATE_REQUIRED = "force_update_required"
+    static let FORCE_UPDATE_CURRENT_VERSION = "force_update_current_version"
+    static let FORCE_UPDATE_STORE_URL = "force_update_store_url"
 }

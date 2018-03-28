@@ -8,6 +8,7 @@
 
 import UIKit
 import DeviceKit
+import FirebaseRemoteConfig
 
 class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate, FollowViewControllerDelegate, NotificationViewControllerDelegate {
     @IBOutlet weak var tabBar: UITabBar!
@@ -17,6 +18,10 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
     var itemNotification: (item: UITabBarItem, viewController: NotificationViewController?)?
     var itemAccount: (item: UITabBarItem, viewController: AccountViewController?)?
     var customNavigationController: UINavigationController?
+
+    override func viewDidAppear(_ animated: Bool) {
+        checkUpdate()
+    }
 
     internal func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         var controllers = [UIViewController]()
@@ -107,6 +112,41 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         if let item = itemAccount?.item {
             tabBar.selectedItem = item
             tabBar(tabBar, didSelect: item)
+        }
+    }
+
+    private func checkUpdate() {
+        if let settings = RemoteConfigSettings(developerModeEnabled: DEBUG) {
+            RemoteConfig.remoteConfig().configSettings = settings
+        }
+        RemoteConfig.remoteConfig().fetch(withExpirationDuration: DEBUG ? 0 : UPDATE_INTERVAL) {
+            status, error in
+            if status == .success {
+                RemoteConfig.remoteConfig().activateFetched()
+                if let current = Version.current,
+                   let latestString = RemoteConfig.remoteConfig()[RemoteConfig.FORCE_UPDATE_CURRENT_VERSION].stringValue {
+                    let latest = Version(version: latestString)
+                    if latest > current,
+                       let url = URL(string: RemoteConfig.remoteConfig()[RemoteConfig.FORCE_UPDATE_STORE_URL].stringValue ?? ""),
+                       UIApplication.shared.canOpenURL(url) {
+                        let alert = UIAlertController(title: "alert_app_update_title".localized, message: "alert_app_update_content".localized, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "alert_button_update".localized, style: .default) {
+                            action in
+                            UIApplication.shared.open(url, options: [:]) {
+                                finised in
+                                exit(0)
+                            }
+                        })
+                        alert.view.tintColor = UIColor.getAccentColor()
+                        if !(RemoteConfig.remoteConfig()[RemoteConfig.FORCE_UPDATE_REQUIRED].boolValue) {
+                            alert.addAction(UIAlertAction(title: "alert_button_cancel".localized, style: .cancel))
+                        }
+                        self.present(alert, animated: true)
+                    }
+                }
+            } else {
+                Logger.d("\(#function): \(error?.localizedDescription ?? "")")
+            }
         }
     }
 }
