@@ -153,12 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return (isReachable && !needsConnection)
     }
 
-    static func openSettings() {
-        if let url = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
-        }
-    }
-
     private static func fetchAlbum() -> PHAssetCollection? {
         if let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String {
             let collections = PHAssetCollection.fetchTopLevelUserCollections(with: nil)

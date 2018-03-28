@@ -25,4 +25,10 @@ extension UIApplication {
             }
         }
     }
+
+    func openSettings() {
+        if let url = URL(string: UIApplicationOpenSettingsURLString), canOpenURL(url) {
+            open(url)
+        }
+    }
 }

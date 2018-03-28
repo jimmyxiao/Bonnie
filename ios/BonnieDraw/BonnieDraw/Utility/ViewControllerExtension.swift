@@ -47,7 +47,7 @@ extension UIViewController {
                             self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_photos".localized) {
                                 success in
                                 if success {
-                                    AppDelegate.openSettings()
+                                    UIApplication.shared.openSettings()
                                 }
                                 failHandler?()
                             }
@@ -75,7 +75,7 @@ extension UIViewController {
                             self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_camera".localized) {
                                 success in
                                 if success {
-                                    AppDelegate.openSettings()
+                                    UIApplication.shared.openSettings()
                                 }
                                 failHandler?()
                             }
@@ -103,7 +103,7 @@ extension UIViewController {
                             self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_camera".localized) {
                                 success in
                                 if success {
-                                    AppDelegate.openSettings()
+                                    UIApplication.shared.openSettings()
                                 }
                                 failHandler?()
                             }
@@ -135,7 +135,7 @@ extension UIViewController {
                                 self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_notification".localized) {
                                     success in
                                     if success {
-                                        AppDelegate.openSettings()
+                                        UIApplication.shared.openSettings()
                                     }
                                     failHandler?()
                                 }
