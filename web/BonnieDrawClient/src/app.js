@@ -1,13 +1,13 @@
 'use strict';
 
 // localhost
-// var locationIP='http://localhost:8080/';
+var locationIP='http://localhost:8080/';
 // var locationIP='http://www.bonniedraw.com:8080/';
-//  var rootUrl = locationIP + 'BonnieDrawService/';
+var rootUrl = locationIP + 'BonnieDrawService/';
 
 // release
-var locationIP='https://www.bonniedraw.com/';
-var rootUrl = locationIP + 'bonniedraw_service/';
+// var locationIP='https://www.bonniedraw.com/';
+// var rootUrl = locationIP + 'bonniedraw_service/';
 
 var rootApi = rootUrl + 'BDService/';
 angular.module('Authentication', []);
@@ -410,7 +410,8 @@ app.config(['$translateProvider', function($translateProvider){
 app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $filter, $translate, localStorageService){
 	$rootScope.title = '';
 	$rootScope.iTunesStoreUrl = 'https://www.apple.com/tw/itunes/charts/free-apps/';
-	$rootScope.googlePlayStoreUrl = 'https://play.google.com/store';
+	// $rootScope.googlePlayStoreUrl = 'https://play.google.com/store';
+	$rootScope.googlePlayStoreUrl = 'https://play.google.com/store/apps/details?id=com.sctw.bonniedraw';
 	$rootScope.nowUrl = '';
 	$rootScope.imageLoadUrl = rootApi + 'loadFile';
 
