@@ -516,6 +516,10 @@ app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, $f
 		}
 	}
 
+	$rootScope.notIos = function() {
+		alert('即將上線, 敬請期待');
+	}
+
 })
 
 
