@@ -133,10 +133,8 @@
 		1622704520172EF0004ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account_iPad.storyboard; sourceTree = "<group>"; };
 		1622704720172F11004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		1622704820172F11004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login.strings"; sourceTree = "<group>"; };
-		1622704920172F11004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing.strings"; sourceTree = "<group>"; };
 		1622704B20172F12004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main_iPad.strings"; sourceTree = "<group>"; };
 		1622704C20172F12004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login_iPad.strings"; sourceTree = "<group>"; };
-		1622704D20172F12004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing_iPad.strings"; sourceTree = "<group>"; };
 		1622704E20172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account_iPad.strings"; sourceTree = "<group>"; };
 		1622704F20172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AccountHeaderCollectionReusableView.strings"; sourceTree = "<group>"; };
 		1622705020172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -214,6 +212,8 @@
 		166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		166BDF411F860E7900274C6C /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		166C41231F90964F00A98385 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
+		166FB2DF207C80E700A05B93 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing.strings"; sourceTree = "<group>"; };
+		166FB2E1207C80F200A05B93 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing_iPad.strings"; sourceTree = "<group>"; };
 		16786F192004570500335BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleNavigationViewController.swift; sourceTree = "<group>"; };
 		16816AA61FAFF8DD00855104 /* ShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
@@ -835,7 +835,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1622704220172EE7004ACD95 /* Base */,
-				1622704D20172F12004ACD95 /* zh-Hant */,
+				166FB2E1207C80F200A05B93 /* zh-Hant */,
 			);
 			name = Drawing_iPad.storyboard;
 			sourceTree = "<group>";
@@ -870,7 +870,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				16450EBE200319BF00BF8D6D /* Base */,
-				1622704920172F11004ACD95 /* zh-Hant */,
+				166FB2DF207C80E700A05B93 /* zh-Hant */,
 			);
 			name = Drawing.storyboard;
 			sourceTree = "<group>";

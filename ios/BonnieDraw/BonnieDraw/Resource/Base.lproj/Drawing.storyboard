@@ -304,7 +304,7 @@
                                                 <rect key="frame" x="143.5" y="355" width="160.5" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Public" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofl-Pu-R7e">
-                                                        <rect key="frame" x="0.0" y="11" width="116.5" height="21"/>
+                                                        <rect key="frame" x="0.0" y="11.5" width="116.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
@@ -369,13 +369,36 @@
                                             <constraint firstItem="odl-qc-S4c" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="16" id="zXe-SS-PJD"/>
                                         </constraints>
                                     </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nw6-4y-MNK">
+                                        <rect key="frame" x="17" y="458" width="287" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="By posting you are agreed to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="P05-hn-Ca4">
+                                                <rect key="frame" x="0.0" y="0.0" width="196" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HaW-4k-Xtz">
+                                                <rect key="frame" x="196" y="0.0" width="91" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <state key="normal" title="Terms of Use"/>
+                                                <connections>
+                                                    <segue destination="L9Z-au-Ps1" kind="show" id="TyT-c1-YIe"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <gestureRecognizers/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Nw6-4y-MNK" secondAttribute="bottom" constant="16" id="0dY-hy-ib7"/>
                                     <constraint firstItem="oIP-Iz-zOu" firstAttribute="leading" secondItem="7M8-Ru-3Cw" secondAttribute="leading" id="9Vo-2U-liz"/>
                                     <constraint firstItem="oIP-Iz-zOu" firstAttribute="top" secondItem="7M8-Ru-3Cw" secondAttribute="top" id="9h8-Lx-dSa"/>
                                     <constraint firstAttribute="trailing" secondItem="oIP-Iz-zOu" secondAttribute="trailing" id="Goe-Uc-5mh"/>
-                                    <constraint firstAttribute="bottom" secondItem="oIP-Iz-zOu" secondAttribute="bottom" id="VJK-2O-29E"/>
+                                    <constraint firstItem="Nw6-4y-MNK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7M8-Ru-3Cw" secondAttribute="leading" constant="16" id="NVP-el-NHI"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Nw6-4y-MNK" secondAttribute="trailing" constant="16" id="NZB-dP-qVw"/>
+                                    <constraint firstItem="Nw6-4y-MNK" firstAttribute="top" relation="greaterThanOrEqual" secondItem="oIP-Iz-zOu" secondAttribute="bottom" constant="16" id="cxl-nb-5Hi"/>
+                                    <constraint firstItem="Nw6-4y-MNK" firstAttribute="centerX" secondItem="7M8-Ru-3Cw" secondAttribute="centerX" id="n4E-fC-a0b"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="Vwb-PO-50s" appends="YES" id="egH-m9-hjf"/>
@@ -412,6 +435,7 @@
                             <constraint firstItem="7M8-Ru-3Cw" firstAttribute="trailing" secondItem="ENM-CZ-rfJ" secondAttribute="trailing" id="XtB-Gm-RSj"/>
                             <constraint firstItem="oIP-Iz-zOu" firstAttribute="width" secondItem="c3i-hn-evM" secondAttribute="width" id="bsu-dv-Hok"/>
                             <constraint firstItem="bsf-3J-LFb" firstAttribute="trailing" secondItem="ENM-CZ-rfJ" secondAttribute="trailing" id="dW4-51-VPV"/>
+                            <constraint firstItem="Nw6-4y-MNK" firstAttribute="bottom" secondItem="ENM-CZ-rfJ" secondAttribute="bottom" constant="-16" id="fWx-fO-bMi"/>
                             <constraint firstItem="bsf-3J-LFb" firstAttribute="leading" secondItem="ENM-CZ-rfJ" secondAttribute="leading" id="y8o-Tg-rPO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ENM-CZ-rfJ"/>
@@ -450,6 +474,14 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1008.75" y="803.87323943661977"/>
+        </scene>
+        <!--WebViewController-->
+        <scene sceneID="xZ2-u1-5au">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Account" referencedIdentifier="WebViewController" id="L9Z-au-Ps1" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="63E-8Z-AsL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1009" y="1280"/>
         </scene>
         <!--Light Status Bar View Controller-->
         <scene sceneID="sqN-8s-hEQ">

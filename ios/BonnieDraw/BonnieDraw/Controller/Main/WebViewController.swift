@@ -24,6 +24,11 @@ class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDel
         container.addAndFill(subView: webView)
         indicator.startAnimating()
         self.webView = webView
+        if navigationController is LightStatusBarViewController {
+            navigationItem.leftBarButtonItem?.tintColor = .white
+            navigationItem.leftBarButtonItem?.image = UIImage(named: "top_bar_ic_back")
+            indicator.color = .white
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
