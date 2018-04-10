@@ -359,8 +359,8 @@
                                             <constraint firstItem="ND4-3M-E4p" firstAttribute="top" secondItem="LTs-0s-JOC" secondAttribute="top" id="mMx-us-I8D"/>
                                         </constraints>
                                     </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0XB-Fi-mfU">
-                                        <rect key="frame" x="176" y="594" width="288" height="30"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="0XB-Fi-mfU">
+                                        <rect key="frame" x="174" y="594" width="292" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="By posting you are agreed to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="joi-Ig-NWU">
                                                 <rect key="frame" x="0.0" y="0.0" width="197" height="30"/>
@@ -369,7 +369,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YSL-cn-Qu7">
-                                                <rect key="frame" x="197" y="0.0" width="91" height="30"/>
+                                                <rect key="frame" x="201" y="0.0" width="91" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <state key="normal" title="Terms of Use"/>
                                                 <connections>

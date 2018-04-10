@@ -369,11 +369,11 @@
                                             <constraint firstItem="odl-qc-S4c" firstAttribute="leading" secondItem="oIP-Iz-zOu" secondAttribute="leading" constant="16" id="zXe-SS-PJD"/>
                                         </constraints>
                                     </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nw6-4y-MNK">
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Nw6-4y-MNK">
                                         <rect key="frame" x="17" y="458" width="287" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="By posting you are agreed to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="P05-hn-Ca4">
-                                                <rect key="frame" x="0.0" y="0.0" width="196" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="192" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
