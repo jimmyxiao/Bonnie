@@ -111,7 +111,8 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 
 app.run(function($rootScope, $location, $cookieStore, $http, $window, $state, locationIP, serviceName, backendName){
 	rootUrl = locationIP + serviceName + '/';
-    loginUrl = locationIP + backendName +'/#/login'; 
+    loginUrl = locationIP + backendName +'/#/login';
+    $rootScope.imageLoadUrl = rootUrl + 'BDService/loadFile'; 
 
     $rootScope.logout = function() {
 		$cookieStore.remove('rg_gl');
