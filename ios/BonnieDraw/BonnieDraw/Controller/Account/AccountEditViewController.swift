@@ -34,13 +34,13 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         profileImage.sd_setShowActivityIndicatorView(true)
         profileImage.sd_setIndicatorStyle(.gray)
         phone.addInputAccessoryView()
-        if let url = UserDefaults.standard.url(forKey: Default.IMAGE) {
+        if let url = UserDefaults.standard.url(forKey: Defaults.IMAGE) {
             profileImage.setImage(with: url)
         } else {
             profileImage.setImage(with: profile?.image, placeholderImage: UIImage(named: "photo-square"))
         }
         setViewData()
-        if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+        if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
             websiteLabel.isHidden = false
             website.isHidden = false
             websiteDivider.isHidden = false
@@ -107,14 +107,14 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             }
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
         loading.hide(false)
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.USER_INFO_QUERY),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -135,8 +135,8 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                 self.setViewData()
                 self.loading.hide(true)
                 self.timestamp = Date()
-                UserDefaults.standard.set(self.profile?.image, forKey: Default.IMAGE)
-                UserDefaults.standard.set(self.profile?.name, forKey: Default.NAME)
+                UserDefaults.standard.set(self.profile?.image, forKey: Defaults.IMAGE)
+                UserDefaults.standard.set(self.profile?.name, forKey: Defaults.NAME)
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {
                     return
@@ -163,7 +163,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             return
         }
         let defaults = UserDefaults.standard
-        guard let token = defaults.string(forKey: Default.TOKEN) else {
+        guard let token = defaults.string(forKey: Defaults.TOKEN) else {
             return
         }
         let name = profile?.name?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -188,7 +188,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                 self.email.becomeFirstResponder()
             }
         } else {
-            var postData: [String: Any] = ["ui": defaults.integer(forKey: Default.USER_ID),
+            var postData: [String: Any] = ["ui": defaults.integer(forKey: Defaults.USER_ID),
                                            "lk": token,
                                            "dt": SERVICE_DEVICE_TYPE,
                                            "userName": name,
@@ -196,7 +196,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                            "description": summery,
                                            "phoneNo": phone,
                                            "gender": gender.rawValue]
-            if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+            if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
                 if !website.isEmpty {
                     if let url = URL(string: website), UIApplication.shared.canOpenURL(url) {
                         postData["webLink"] = url.absoluteString
@@ -211,11 +211,11 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                     postData["webLink"] = website
                 }
             }
-            if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)),
+            if let type = UserType(rawValue: defaults.integer(forKey: Defaults.USER_TYPE)),
                type == .email {
                 postData["userCode"] = email
             } else {
-                postData["userCode"] = defaults.string(forKey: Default.THIRD_PARTY_ID)
+                postData["userCode"] = defaults.string(forKey: Defaults.THIRD_PARTY_ID)
             }
             sender.isEnabled = false
             loading.hide(false)
@@ -241,8 +241,8 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                         }
                         return
                     }
-                    defaults.set(name, forKey: Default.NAME)
-                    defaults.set(email, forKey: Default.EMAIL)
+                    defaults.set(name, forKey: Defaults.NAME)
+                    defaults.set(email, forKey: Defaults.EMAIL)
                     if let profile = self.profile {
                         self.delegate?.accountEdit(profileDidChange: profile)
                     }
@@ -335,11 +335,11 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
     internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+            guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
                 return
             }
             if let imageData = UIImageJPEGRepresentation(image, 0) {
-                let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
+                let userId = UserDefaults.standard.integer(forKey: Defaults.USER_ID)
                 loading.hide(false)
                 progressBar.isHidden = false
                 progressBar.progress = 0
@@ -365,7 +365,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                             return
                                         }
                                         if let imageUrl = URL(string: Service.filePath(withSubPath: data["profilePicture"] as? String)) {
-                                            UserDefaults.standard.set(imageUrl, forKey: Default.IMAGE)
+                                            UserDefaults.standard.set(imageUrl, forKey: Defaults.IMAGE)
                                             self.delegate?.accountEdit(imageDidChange: image)
                                             self.profileImage.image = image
                                             self.loading.hide(true)

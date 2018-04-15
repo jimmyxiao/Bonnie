@@ -103,7 +103,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
             }
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
         loading.hide(false)
@@ -113,10 +113,10 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
             self.dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.FRIEND_LIST),
                     method: .post,
-                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID),
+                    parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID),
                                  "lk": token,
                                  "dt": SERVICE_DEVICE_TYPE,
-                                 "thirdPlatform": UserDefaults.standard.integer(forKey: Default.USER_TYPE),
+                                 "thirdPlatform": UserDefaults.standard.integer(forKey: Defaults.USER_TYPE),
                                  "uidList": userIds],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
@@ -164,8 +164,8 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
 
     private func getFriendList(completionHandler: @escaping ([String]) -> Void) {
         var list = [String]()
-        guard let userType = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)),
-              let userId = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_ID) else {
+        guard let userType = UserType(rawValue: UserDefaults.standard.integer(forKey: Defaults.USER_TYPE)),
+              let userId = UserDefaults.standard.string(forKey: Defaults.THIRD_PARTY_ID) else {
             completionHandler(list)
             return
         }
@@ -191,7 +191,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                 }
             }
         case .google:
-            guard let accessToken = UserDefaults.standard.string(forKey: Default.THIRD_PARTY_TOKEN) else {
+            guard let accessToken = UserDefaults.standard.string(forKey: Defaults.THIRD_PARTY_TOKEN) else {
                 completionHandler(list)
                 return
             }
@@ -275,7 +275,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
               let indexPath = tableView.indexPath(forView: sender),
               let id = tableViewUsers[indexPath.row].id else {
             return
@@ -285,7 +285,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.SET_FOLLOW),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {

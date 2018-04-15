@@ -17,18 +17,18 @@ class LaunchViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if let timestamp = UserDefaults.standard.object(forKey: Default.TOKEN_TIMESTAMP) as? Date,
-           let userType = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)) {
+        if let timestamp = UserDefaults.standard.object(forKey: Defaults.TOKEN_TIMESTAMP) as? Date,
+           let userType = UserType(rawValue: UserDefaults.standard.integer(forKey: Defaults.USER_TYPE)) {
             if Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 >= TOKEN_LIFETIME {
                 var postData: [String: Any] = ["ut": userType.rawValue, "dt": SERVICE_DEVICE_TYPE, "fn": 1]
                 let defaults = UserDefaults.standard
                 if userType == .email {
-                    postData["uc"] = defaults.string(forKey: Default.EMAIL)
-                    postData["up"] = defaults.string(forKey: Default.PASSWORD)
+                    postData["uc"] = defaults.string(forKey: Defaults.EMAIL)
+                    postData["up"] = defaults.string(forKey: Defaults.PASSWORD)
                 } else {
-                    postData["un"] = defaults.string(forKey: Default.NAME)
-                    postData["uc"] = defaults.string(forKey: Default.THIRD_PARTY_ID)
-                    postData["thirdEmail"] = defaults.string(forKey: Default.THIRD_PARTY_EMAIL)
+                    postData["un"] = defaults.string(forKey: Defaults.NAME)
+                    postData["uc"] = defaults.string(forKey: Defaults.THIRD_PARTY_ID)
+                    postData["thirdEmail"] = defaults.string(forKey: Defaults.THIRD_PARTY_EMAIL)
                 }
                 Alamofire.request(
                         Service.standard(withPath: Service.LOGIN),
@@ -63,10 +63,10 @@ class LaunchViewController: UIViewController {
                                     }
                                     let profile = Profile(withDictionary: data)
                                     let defaults = UserDefaults.standard
-                                    defaults.set(profile.image, forKey: Default.IMAGE)
-                                    defaults.set(profile.name, forKey: Default.NAME)
-                                    defaults.set(token, forKey: Default.TOKEN)
-                                    defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
+                                    defaults.set(profile.image, forKey: Defaults.IMAGE)
+                                    defaults.set(profile.name, forKey: Defaults.NAME)
+                                    defaults.set(token, forKey: Defaults.TOKEN)
+                                    defaults.set(Date(), forKey: Defaults.TOKEN_TIMESTAMP)
                                     self.launchMain()
                                 case .failure(let error):
                                     self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {

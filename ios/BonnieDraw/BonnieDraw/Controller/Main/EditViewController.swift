@@ -51,7 +51,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             self.accessLabel.text = text
             self.work?.accessControl = self.dropDownItems[index].access
         }
-        if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+        if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
             workLinkLabel.isHidden = false
             workLink.isHidden = false
             workLinkDivider.isHidden = false
@@ -148,10 +148,10 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
-        let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
+        let userId = UserDefaults.standard.integer(forKey: Defaults.USER_ID)
         let title = self.workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let link = workLink.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -174,7 +174,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                                            "title": title,
                                            "description": description,
                                            "worksId": work?.id ?? 0]
-            if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+            if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
                 if !link.isEmpty {
                     if let url = URL(string: link), UIApplication.shared.canOpenURL(url) {
                         postData["commodityUrl"] = url.absoluteString

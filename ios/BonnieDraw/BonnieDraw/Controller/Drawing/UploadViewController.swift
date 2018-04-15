@@ -43,7 +43,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
             self.accessControl = self.dropDownItems[index].access
         }
         thumbnail.image = workThumbnail
-        if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+        if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
             workLinkLabel.isHidden = false
             workLink.isHidden = false
             workLinkDivider.isHidden = false
@@ -115,10 +115,10 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
         }
         guard let workThumbnail = workThumbnail,
               let workThumbnailData = UIImageJPEGRepresentation(workThumbnail, 1),
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+              let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
-        let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
+        let userId = UserDefaults.standard.integer(forKey: Defaults.USER_ID)
         let link = workLink.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let description = workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let title = workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -134,7 +134,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
             }
         } else {
             var postData: [String: Any] = ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE, "ac": 1, "privacyType": accessControl.rawValue, "title": title, "description": description]
-            if UserDefaults.standard.integer(forKey: Default.USER_GROUP) == 1 {
+            if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
                 if !link.isEmpty {
                     if let url = URL(string: link), UIApplication.shared.canOpenURL(url) {
                         postData["commodityUrl"] = url.absoluteString

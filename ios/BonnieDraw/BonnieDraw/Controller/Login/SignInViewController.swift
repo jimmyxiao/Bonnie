@@ -107,15 +107,15 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                     }
                                     let profile = Profile(withDictionary: data)
                                     let defaults = UserDefaults.standard
-                                    defaults.set(token, forKey: Default.TOKEN)
-                                    defaults.set(userId, forKey: Default.USER_ID)
-                                    defaults.set(email, forKey: Default.EMAIL)
-                                    defaults.set(securePassword, forKey: Default.PASSWORD)
-                                    defaults.set(UserType.email.rawValue, forKey: Default.USER_TYPE)
-                                    defaults.set(profile.group?.rawValue ?? 0, forKey: Default.USER_GROUP)
-                                    defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
-                                    defaults.set(profile.image, forKey: Default.IMAGE)
-                                    defaults.set(profile.name, forKey: Default.NAME)
+                                    defaults.set(token, forKey: Defaults.TOKEN)
+                                    defaults.set(userId, forKey: Defaults.USER_ID)
+                                    defaults.set(email, forKey: Defaults.EMAIL)
+                                    defaults.set(securePassword, forKey: Defaults.PASSWORD)
+                                    defaults.set(UserType.email.rawValue, forKey: Defaults.USER_TYPE)
+                                    defaults.set(profile.group?.rawValue ?? 0, forKey: Defaults.USER_GROUP)
+                                    defaults.set(Date(), forKey: Defaults.TOKEN_TIMESTAMP)
+                                    defaults.set(profile.image, forKey: Defaults.IMAGE)
+                                    defaults.set(profile.name, forKey: Defaults.NAME)
                                     self.launchMain()
                                 case .failure(let error):
                                     if let error = error as? URLError, error.code == .cancelled {
@@ -324,19 +324,19 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             }
                             let profile = Profile(withDictionary: data)
                             let defaults = UserDefaults.standard
-                            defaults.set(token, forKey: Default.TOKEN)
-                            defaults.set(userId, forKey: Default.USER_ID)
-                            defaults.set(type.rawValue, forKey: Default.USER_TYPE)
-                            defaults.set(profile.group?.rawValue ?? 0, forKey: Default.USER_GROUP)
-                            defaults.set(Date(), forKey: Default.TOKEN_TIMESTAMP)
-                            defaults.set(accessToken, forKey: Default.THIRD_PARTY_TOKEN)
-                            defaults.set(id, forKey: Default.THIRD_PARTY_ID)
-                            defaults.set(email, forKey: Default.THIRD_PARTY_EMAIL)
-                            defaults.set(name, forKey: Default.NAME)
+                            defaults.set(token, forKey: Defaults.TOKEN)
+                            defaults.set(userId, forKey: Defaults.USER_ID)
+                            defaults.set(type.rawValue, forKey: Defaults.USER_TYPE)
+                            defaults.set(profile.group?.rawValue ?? 0, forKey: Defaults.USER_GROUP)
+                            defaults.set(Date(), forKey: Defaults.TOKEN_TIMESTAMP)
+                            defaults.set(accessToken, forKey: Defaults.THIRD_PARTY_TOKEN)
+                            defaults.set(id, forKey: Defaults.THIRD_PARTY_ID)
+                            defaults.set(email, forKey: Defaults.THIRD_PARTY_EMAIL)
+                            defaults.set(name, forKey: Defaults.NAME)
                             if let imageUrl = profile.image {
-                                defaults.set(imageUrl, forKey: Default.IMAGE)
+                                defaults.set(imageUrl, forKey: Defaults.IMAGE)
                             } else {
-                                defaults.set(imageUrl, forKey: Default.IMAGE)
+                                defaults.set(imageUrl, forKey: Defaults.IMAGE)
                             }
                             self.launchMain()
                         case .failure(let error):

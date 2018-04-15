@@ -35,12 +35,12 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         if DEBUG {
             navigationBar.items?.first?.leftBarButtonItem = UIBarButtonItem(title: "Debug", style: .plain, target: self, action: #selector(debug))
         }
-        if let url = UserDefaults.standard.url(forKey: Default.IMAGE) {
+        if let url = UserDefaults.standard.url(forKey: Defaults.IMAGE) {
             profileImage.setImage(with: url)
         }
-        profileName.text = UserDefaults.standard.string(forKey: Default.NAME)
-        UserDefaults.standard.addObserver(self, forKeyPath: Default.IMAGE, options: .new, context: nil)
-        UserDefaults.standard.addObserver(self, forKeyPath: Default.NAME, options: .new, context: nil)
+        profileName.text = UserDefaults.standard.string(forKey: Defaults.NAME)
+        UserDefaults.standard.addObserver(self, forKeyPath: Defaults.IMAGE, options: .new, context: nil)
+        UserDefaults.standard.addObserver(self, forKeyPath: Defaults.NAME, options: .new, context: nil)
         tableView.refreshControl = refreshControl
         downloadData()
     }
@@ -64,12 +64,12 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == Default.IMAGE {
-            if let url = UserDefaults.standard.url(forKey: Default.IMAGE) {
+        if keyPath == Defaults.IMAGE {
+            if let url = UserDefaults.standard.url(forKey: Defaults.IMAGE) {
                 profileImage.setImage(with: url)
             }
-        } else if keyPath == Default.NAME {
-            profileName.text = UserDefaults.standard.string(forKey: Default.NAME)
+        } else if keyPath == Defaults.NAME {
+            profileName.text = UserDefaults.standard.string(forKey: Defaults.NAME)
         }
     }
 
@@ -96,7 +96,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
             completionHandler(nil)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             completionHandler(nil)
             return
         }
@@ -105,7 +105,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.TAG_LIST),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             if let data = response.result.value as? [String: Any],
@@ -158,8 +158,8 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     deinit {
-        UserDefaults.standard.removeObserver(self, forKeyPath: Default.IMAGE)
-        UserDefaults.standard.removeObserver(self, forKeyPath: Default.NAME)
+        UserDefaults.standard.removeObserver(self, forKeyPath: Defaults.IMAGE)
+        UserDefaults.standard.removeObserver(self, forKeyPath: Defaults.NAME)
     }
 }
 

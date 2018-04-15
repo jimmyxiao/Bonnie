@@ -161,10 +161,10 @@ class AccountViewController:
             }
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
-        let userId = UserDefaults.standard.integer(forKey: Default.USER_ID)
+        let userId = UserDefaults.standard.integer(forKey: Defaults.USER_ID)
         var postData: [String: Any] = ["ui": userId, "lk": token, "dt": SERVICE_DEVICE_TYPE]
         if let userId = self.userId {
             postData["type"] = 1
@@ -194,8 +194,8 @@ class AccountViewController:
                 }
                 self.profile = Profile(withDictionary: data)
                 if self.userId == nil {
-                    UserDefaults.standard.set(self.profile?.image, forKey: Default.IMAGE)
-                    UserDefaults.standard.set(self.profile?.name, forKey: Default.NAME)
+                    UserDefaults.standard.set(self.profile?.image, forKey: Defaults.IMAGE)
+                    UserDefaults.standard.set(self.profile?.name, forKey: Defaults.NAME)
                 }
                 self.dataRequest = Alamofire.request(
                         Service.standard(withPath: Service.WORK_LIST),
@@ -364,7 +364,7 @@ class AccountViewController:
                 presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                 return
             }
-            guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+            guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
                   let isFollowing = profile?.isFollowing else {
                 return
             }
@@ -373,7 +373,7 @@ class AccountViewController:
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.SET_FOLLOW),
                     method: .post,
-                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": userId],
+                    parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": userId],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {
@@ -441,7 +441,7 @@ class AccountViewController:
     }
 
     internal func settings(imageDidChange image: UIImage) {
-        profile?.image = UserDefaults.standard.url(forKey: Default.IMAGE)
+        profile?.image = UserDefaults.standard.url(forKey: Defaults.IMAGE)
         headerView?.profileImage.image = image
     }
 
@@ -459,7 +459,7 @@ class AccountViewController:
     }
 
     internal func accountEdit(imageDidChange image: UIImage) {
-        profile?.image = UserDefaults.standard.url(forKey: Default.IMAGE)
+        profile?.image = UserDefaults.standard.url(forKey: Defaults.IMAGE)
         headerView?.profileImage.image = image
     }
 
@@ -559,7 +559,7 @@ class AccountViewController:
                         self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                         return
                     }
-                    guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+                    guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
                           let id = self.works[indexPath.row].id else {
                         return
                     }
@@ -568,7 +568,7 @@ class AccountViewController:
                     self.dataRequest = Alamofire.request(
                             Service.standard(withPath: Service.WORK_DELETE),
                             method: .post,
-                            parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
+                            parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
                             encoding: JSONEncoding.default).validate().responseJSON {
                         response in
                         switch response.result {
@@ -610,7 +610,7 @@ class AccountViewController:
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
               let indexPath = collectionView.indexPath(forView: sender),
               let id = works[indexPath.row].id else {
             return
@@ -620,7 +620,7 @@ class AccountViewController:
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.SET_LIKE),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": like ? 1 : 0, "worksId": id, "likeType": 1],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": like ? 1 : 0, "worksId": id, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -701,7 +701,7 @@ class AccountViewController:
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
               let indexPath = collectionView.indexPath(forView: sender),
               let id = works[indexPath.row].id else {
             return
@@ -711,7 +711,7 @@ class AccountViewController:
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.SET_COLLECTION),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": collect ? 1 : 0, "worksId": id],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": collect ? 1 : 0, "worksId": id],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {

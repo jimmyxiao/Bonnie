@@ -32,14 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let dictionary = NSDictionary(contentsOfFile: path)
             GIDSignIn.sharedInstance().clientID = dictionary?.object(forKey: "CLIENT_ID") as? String
         }
-        if UserDefaults.standard.object(forKey: Default.COLORS) == nil {
-            UserDefaults.standard.set(colors: UIColor.getDefaultColors(), forKey: Default.COLORS)
+        if UserDefaults.standard.object(forKey: Defaults.COLORS) == nil {
+            UserDefaults.standard.set(colors: UIColor.getDefaultColors(), forKey: Defaults.COLORS)
         }
         return true
     }
 
     internal func applicationDidBecomeActive(_ application: UIApplication) {
-        let timestamp = UserDefaults.standard.object(forKey: Default.TOKEN_TIMESTAMP)
+        let timestamp = UserDefaults.standard.object(forKey: Defaults.TOKEN_TIMESTAMP)
         if timestamp != nil, let timestamp = timestamp as? Date,
            Date().timeIntervalSince1970 - timestamp.timeIntervalSince1970 >= TOKEN_LIFETIME,
            let controller = UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil).instantiateInitialViewController() {

@@ -24,7 +24,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
     var delegate: ColorPickerViewControllerDelegate?
     var type: ColorType?
     var color = UIColor.black
-    private var colors = UserDefaults.standard.colors(forKey: Default.COLORS) ?? UIColor.getDefaultColors()
+    private var colors = UserDefaults.standard.colors(forKey: Defaults.COLORS) ?? UIColor.getDefaultColors()
     private var isEditingMode = false
     private let colorExpression = try! NSRegularExpression(pattern: "[A-Fa-f0-9]+", options: .caseInsensitive)
 
@@ -100,7 +100,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         if isEditingMode {
             colors.remove(at: indexPath.row)
             collectionView.deleteItems(at: [indexPath])
-            UserDefaults.standard.set(colors: colors, forKey: Default.COLORS)
+            UserDefaults.standard.set(colors: colors, forKey: Defaults.COLORS)
         } else if let color = collectionView.cellForItem(at: indexPath)?.backgroundColor {
             self.color = color
             if type == .canvas {
@@ -116,7 +116,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
 
     internal func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         colors.insert(colors.remove(at: sourceIndexPath.row), at: destinationIndexPath.row)
-        UserDefaults.standard.set(colors: colors, forKey: Default.COLORS)
+        UserDefaults.standard.set(colors: colors, forKey: Defaults.COLORS)
     }
 
     @IBAction func collectionReorderGesture(_ sender: UIGestureRecognizer) {
@@ -138,7 +138,7 @@ class ColorPickerViewController: UIViewController, UITextFieldDelegate, UICollec
         if let color = colorView.backgroundColor {
             colors.append(color)
         }
-        UserDefaults.standard.set(colors: colors, forKey: Default.COLORS)
+        UserDefaults.standard.set(colors: colors, forKey: Defaults.COLORS)
         let indexPath = IndexPath(row: colors.count - 1, section: 0)
         collectionView.performBatchUpdates({
             collectionView.insertItems(at: [indexPath])

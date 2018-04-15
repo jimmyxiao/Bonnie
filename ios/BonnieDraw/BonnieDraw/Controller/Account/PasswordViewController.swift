@@ -73,7 +73,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
         } else {
             let currentSecurePassword = currentPassword.MD5()
             let newSecurePassword = newPassword.MD5()
-            if UserDefaults.standard.string(forKey: Default.PASSWORD) != currentSecurePassword {
+            if UserDefaults.standard.string(forKey: Defaults.PASSWORD) != currentSecurePassword {
                 presentDialog(title: "alert_password_update_fail".localized, message: "alert_old_password_unmatch".localized) {
                     action in
                     self.currentPassword.becomeFirstResponder()
@@ -84,7 +84,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                     self.confirmPassword.becomeFirstResponder()
                 }
             } else {
-                guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+                guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
                     return
                 }
                 view.endEditing(true)
@@ -92,7 +92,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                 dataRequest = Alamofire.request(
                         Service.standard(withPath: Service.UPDATE_PASSWORD),
                         method: .post,
-                        parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "oldPwd": currentSecurePassword, "newPwd": newSecurePassword],
+                        parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "oldPwd": currentSecurePassword, "newPwd": newSecurePassword],
                         encoding: JSONEncoding.default).validate().responseJSON {
                     response in
                     switch response.result {
@@ -102,7 +102,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                             return
                         }
                         if response == 1 {
-                            UserDefaults.standard.set(newSecurePassword, forKey: Default.PASSWORD)
+                            UserDefaults.standard.set(newSecurePassword, forKey: Defaults.PASSWORD)
                             self.onBackPressed(sender)
                         } else {
                             self.showErrorMessage(message: data["msg"] as? String)

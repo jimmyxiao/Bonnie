@@ -110,7 +110,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
             return
         }
         guard let id = work?.id,
-              let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+              let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
         let description = reportContent.text ?? ""
@@ -125,7 +125,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
             dataRequest = Alamofire.request(
                     Service.standard(withPath: Service.SET_TURN_IN),
                     method: .post,
-                    parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id, "turnInType": type.rawValue, "description": description],
+                    parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id, "turnInType": type.rawValue, "description": description],
                     encoding: JSONEncoding.default).validate().responseJSON {
                 response in
                 switch response.result {

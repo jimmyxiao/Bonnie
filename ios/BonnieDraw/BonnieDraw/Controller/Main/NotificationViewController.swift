@@ -67,7 +67,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
             }
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
         loading.hide(false)
@@ -75,7 +75,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.NOTIFICATION),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -122,7 +122,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         guard let indexPath = tableView.indexPath(forView: sender) else {
             return
         }
-        if UserDefaults.standard.integer(forKey: Default.USER_ID) == notifications[indexPath.row].userId {
+        if UserDefaults.standard.integer(forKey: Defaults.USER_ID) == notifications[indexPath.row].userId {
             delegate?.notificationDidTapProfile()
         } else {
             performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
@@ -168,7 +168,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if notifications[indexPath.row].workId != nil {
             performSegue(withIdentifier: Segue.WORK, sender: indexPath)
-        } else if notifications[indexPath.row].userId != UserDefaults.standard.integer(forKey: Default.USER_ID) {
+        } else if notifications[indexPath.row].userId != UserDefaults.standard.integer(forKey: Defaults.USER_ID) {
             performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
         } else {
             delegate?.notificationDidTapProfile()

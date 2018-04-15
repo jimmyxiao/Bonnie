@@ -38,7 +38,7 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
                 success in
                 if success {
                     let defaults = UserDefaults.standard
-                    if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)) {
+                    if let type = UserType(rawValue: defaults.integer(forKey: Defaults.USER_TYPE)) {
                         switch type {
                         case .facebook:
                             LoginManager().logOut()
@@ -55,16 +55,16 @@ class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, Ta
                             break
                         }
                     }
-                    defaults.removeObject(forKey: Default.TOKEN)
-                    defaults.removeObject(forKey: Default.USER_ID)
-                    defaults.removeObject(forKey: Default.USER_TYPE)
-                    defaults.removeObject(forKey: Default.USER_GROUP)
-                    defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
-                    defaults.removeObject(forKey: Default.THIRD_PARTY_TOKEN)
-                    defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
-                    defaults.removeObject(forKey: Default.THIRD_PARTY_EMAIL)
-                    defaults.removeObject(forKey: Default.NAME)
-                    defaults.removeObject(forKey: Default.IMAGE)
+                    defaults.removeObject(forKey: Defaults.TOKEN)
+                    defaults.removeObject(forKey: Defaults.USER_ID)
+                    defaults.removeObject(forKey: Defaults.USER_TYPE)
+                    defaults.removeObject(forKey: Defaults.USER_GROUP)
+                    defaults.removeObject(forKey: Defaults.TOKEN_TIMESTAMP)
+                    defaults.removeObject(forKey: Defaults.THIRD_PARTY_TOKEN)
+                    defaults.removeObject(forKey: Defaults.THIRD_PARTY_ID)
+                    defaults.removeObject(forKey: Defaults.THIRD_PARTY_EMAIL)
+                    defaults.removeObject(forKey: Defaults.NAME)
+                    defaults.removeObject(forKey: Defaults.IMAGE)
                     UIApplication.shared.unregisterForRemoteNotifications()
                     if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
                         UIApplication.shared.replace(rootViewControllerWith: controller)

@@ -112,7 +112,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
     }
 
     private func set(viewDataWith work: Work) {
-        if work.userId == UserDefaults.standard.integer(forKey: Default.USER_ID) || delegate is AccountViewController {
+        if work.userId == UserDefaults.standard.integer(forKey: Defaults.USER_ID) || delegate is AccountViewController {
             profileImage.isUserInteractionEnabled = false
             profileName.isUserInteractionEnabled = false
         }
@@ -155,14 +155,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             }
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
         request?.cancel()
         request = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "wid": workId ?? 0],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "wid": workId ?? 0],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -397,7 +397,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
-        if work?.userId != UserDefaults.standard.integer(forKey: Default.USER_ID) {
+        if work?.userId != UserDefaults.standard.integer(forKey: Defaults.USER_ID) {
             let reportAction = UIAlertAction(title: "more_report".localized, style: .destructive) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
@@ -427,7 +427,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                         self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                         return
                     }
-                    guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+                    guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
                           let work = self.work,
                           let id = work.id else {
                         return
@@ -437,7 +437,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                     self.request = Alamofire.request(
                             Service.standard(withPath: Service.WORK_DELETE),
                             method: .post,
-                            parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
+                            parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
                             encoding: JSONEncoding.default).validate().responseJSON {
                         response in
                         switch response.result {
@@ -480,14 +480,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
         request?.cancel()
         request = Alamofire.request(
                 Service.standard(withPath: Service.SET_LIKE),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -555,14 +555,14 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
         sender.isEnabled = false
         Alamofire.request(
                 Service.standard(withPath: Service.SET_COLLECTION),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": sender.isSelected ? 0 : 1, "worksId": work?.id ?? 0, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             sender.isEnabled = true

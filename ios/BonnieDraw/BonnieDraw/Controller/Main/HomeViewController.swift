@@ -27,11 +27,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let likeImageSelected = UIImage(named: "work_ic_like_on")
     private let collectionImage = UIImage(named: "collect_ic_off")
     private let collectionImageSelected = UIImage(named: "collect_ic_on")
-    private var postData: [String: Any] = ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128]
+    private var postData: [String: Any] = ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": UserDefaults.standard.string(forKey: Defaults.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 2, "stn": 1, "rc": 128]
     private var lastWorkType = 2
     private var shouldReload = false
     private var originContentOffset: CGPoint?
-    private let currentUserId = UserDefaults.standard.integer(forKey: Default.USER_ID)
+    private let currentUserId = UserDefaults.standard.integer(forKey: Defaults.USER_ID)
 
     override func viewDidLoad() {
         navigationItem.titleView = titleView
@@ -412,7 +412,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
               let indexPath = tableView.indexPath(forView: sender),
               let id = tableViewWorks[indexPath.row].userId else {
             return
@@ -518,7 +518,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                         return
                     }
-                    guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+                    guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
                           let id = self.tableViewWorks[indexPath.row].id else {
                         return
                     }
@@ -569,7 +569,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
               let indexPath = tableView.indexPath(forView: sender),
               let id = tableViewWorks[indexPath.row].id else {
             return
@@ -668,7 +668,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
               let indexPath = tableView.indexPath(forView: sender),
               let id = tableViewWorks[indexPath.row].id else {
             return

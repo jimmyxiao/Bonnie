@@ -23,7 +23,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
 
     override func viewDidLoad() {
         navigationItem.title = title
-        if let type = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)),
+        if let type = UserType(rawValue: UserDefaults.standard.integer(forKey: Defaults.USER_TYPE)),
            type == .email {
             settings.append(Setting(type: .password, title: "setting_change_password".localized, segueId: Segue.PASSWORD))
         }
@@ -86,7 +86,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                 success in
                 if success {
                     let defaults = UserDefaults.standard
-                    if let type = UserType(rawValue: defaults.integer(forKey: Default.USER_TYPE)) {
+                    if let type = UserType(rawValue: defaults.integer(forKey: Defaults.USER_TYPE)) {
                         switch type {
                         case .facebook:
                             LoginManager().logOut()
@@ -103,16 +103,16 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                             break
                         }
                     }
-                    defaults.removeObject(forKey: Default.TOKEN)
-                    defaults.removeObject(forKey: Default.USER_ID)
-                    defaults.removeObject(forKey: Default.USER_TYPE)
-                    defaults.removeObject(forKey: Default.USER_GROUP)
-                    defaults.removeObject(forKey: Default.TOKEN_TIMESTAMP)
-                    defaults.removeObject(forKey: Default.THIRD_PARTY_TOKEN)
-                    defaults.removeObject(forKey: Default.THIRD_PARTY_ID)
-                    defaults.removeObject(forKey: Default.THIRD_PARTY_EMAIL)
-                    defaults.removeObject(forKey: Default.NAME)
-                    defaults.removeObject(forKey: Default.IMAGE)
+                    defaults.removeObject(forKey: Defaults.TOKEN)
+                    defaults.removeObject(forKey: Defaults.USER_ID)
+                    defaults.removeObject(forKey: Defaults.USER_TYPE)
+                    defaults.removeObject(forKey: Defaults.USER_GROUP)
+                    defaults.removeObject(forKey: Defaults.TOKEN_TIMESTAMP)
+                    defaults.removeObject(forKey: Defaults.THIRD_PARTY_TOKEN)
+                    defaults.removeObject(forKey: Defaults.THIRD_PARTY_ID)
+                    defaults.removeObject(forKey: Defaults.THIRD_PARTY_EMAIL)
+                    defaults.removeObject(forKey: Defaults.NAME)
+                    defaults.removeObject(forKey: Defaults.IMAGE)
                     UIApplication.shared.unregisterForRemoteNotifications()
                     if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
                         UIApplication.shared.replace(rootViewControllerWith: controller)
@@ -149,16 +149,16 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
     @objc private func didRegisterForRemoteNotifications(notification: Notification) {
         NotificationCenter.default.removeObserver(self)
         if let token = notification.object as? String,
-           let userType = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)) {
+           let userType = UserType(rawValue: UserDefaults.standard.integer(forKey: Defaults.USER_TYPE)) {
             var postData: [String: Any] = ["ut": userType.rawValue, "dt": SERVICE_DEVICE_TYPE, "fn": 1, "token": token]
             let defaults = UserDefaults.standard
             if userType == .email {
-                postData["uc"] = defaults.string(forKey: Default.EMAIL)
-                postData["up"] = defaults.string(forKey: Default.PASSWORD)
+                postData["uc"] = defaults.string(forKey: Defaults.EMAIL)
+                postData["up"] = defaults.string(forKey: Defaults.PASSWORD)
             } else {
-                postData["un"] = defaults.string(forKey: Default.NAME)
-                postData["uc"] = defaults.string(forKey: Default.THIRD_PARTY_ID)
-                postData["thirdEmail"] = defaults.string(forKey: Default.THIRD_PARTY_EMAIL)
+                postData["un"] = defaults.string(forKey: Defaults.NAME)
+                postData["uc"] = defaults.string(forKey: Defaults.THIRD_PARTY_ID)
+                postData["thirdEmail"] = defaults.string(forKey: Defaults.THIRD_PARTY_EMAIL)
             }
             if let deviceId = UIDevice.current.identifierForVendor?.uuidString {
                 postData["deviceId"] = deviceId
@@ -182,8 +182,8 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                     }
                     if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
                         let defaults = UserDefaults.standard
-                        defaults.set(token, forKey: Default.TOKEN)
-                        defaults.set(userId, forKey: Default.USER_ID)
+                        defaults.set(token, forKey: Defaults.TOKEN)
+                        defaults.set(userId, forKey: Defaults.USER_ID)
                     } else {
                         UIApplication.shared.unregisterForRemoteNotifications()
                         self.tableView.reloadRows(at: [IndexPath(row: SettingType.notification.rawValue, section: 0)], with: .automatic)

@@ -47,7 +47,7 @@ class CanvasViewController:
     override func viewDidLoad() {
         canvas.delegate = self
         let size = CGSize(width: 33, height: 33)
-        let count = UserDefaults.standard.integer(forKey: Default.GRID)
+        let count = UserDefaults.standard.integer(forKey: Defaults.GRID)
         gridView.set(horizontalCount: count, verticalCount: count)
         UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
         UIBezierPath(arcCenter: CGPoint(x: size.width / 2, y: size.height / 2), radius: brush.minSize / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true).stroke()
@@ -133,7 +133,7 @@ class CanvasViewController:
                     }
                     if manager.fileExists(atPath: FileUrl.DRAFT.path) {
                         try manager.removeItem(at: FileUrl.DRAFT)
-                        UserDefaults.standard.removeObject(forKey: Default.DRAFT_BACKGROUND_COLOR)
+                        UserDefaults.standard.removeObject(forKey: Defaults.DRAFT_BACKGROUND_COLOR)
                     }
                     manager.createFile(atPath: FileUrl.CACHE.path, contents: nil, attributes: nil)
                     self.writeHandle = try FileHandle(forWritingTo: FileUrl.CACHE)
@@ -265,35 +265,35 @@ class CanvasViewController:
             let noGridAction = UIAlertAction(title: "canvas_no_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 0, verticalCount: 0)
-                UserDefaults.standard.set(0, forKey: Default.GRID)
+                UserDefaults.standard.set(0, forKey: Defaults.GRID)
             }
             noGridAction.setValue(color, forKey: "titleTextColor")
             alert.addAction(noGridAction)
             let threeByThreeAction = UIAlertAction(title: "canvas_three_by_three_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 3, verticalCount: 3)
-                UserDefaults.standard.set(3, forKey: Default.GRID)
+                UserDefaults.standard.set(3, forKey: Defaults.GRID)
             }
             threeByThreeAction.setValue(color, forKey: "titleTextColor")
             alert.addAction(threeByThreeAction)
             let sixBySixAction = UIAlertAction(title: "canvas_six_by_six_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 6, verticalCount: 6)
-                UserDefaults.standard.set(6, forKey: Default.GRID)
+                UserDefaults.standard.set(6, forKey: Defaults.GRID)
             }
             sixBySixAction.setValue(color, forKey: "titleTextColor")
             alert.addAction(sixBySixAction)
             let tenByTenAction = UIAlertAction(title: "canvas_ten_by_ten_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 10, verticalCount: 10)
-                UserDefaults.standard.set(10, forKey: Default.GRID)
+                UserDefaults.standard.set(10, forKey: Defaults.GRID)
             }
             tenByTenAction.setValue(color, forKey: "titleTextColor")
             alert.addAction(tenByTenAction)
             let twentyByTwentyAction = UIAlertAction(title: "canvas_twenty_by_twenty_grid".localized, style: .default) {
                 action in
                 self.gridView.set(horizontalCount: 20, verticalCount: 20)
-                UserDefaults.standard.set(20, forKey: Default.GRID)
+                UserDefaults.standard.set(20, forKey: Defaults.GRID)
             }
             twentyByTwentyAction.setValue(color, forKey: "titleTextColor")
             alert.addAction(twentyByTwentyAction)
@@ -538,7 +538,7 @@ class CanvasViewController:
                 Logger.d("\(#function): \(error.localizedDescription)")
             }
             DispatchQueue.main.async {
-                self.gridView.backgroundColor = UserDefaults.standard.color(forKey: Default.DRAFT_BACKGROUND_COLOR) ?? .white
+                self.gridView.backgroundColor = UserDefaults.standard.color(forKey: Defaults.DRAFT_BACKGROUND_COLOR) ?? .white
                 self.canvas.loadState(state)
                 self.canvas.isHidden = false
                 self.loading.hide(true)
@@ -575,7 +575,7 @@ class CanvasViewController:
                 self.canvas.exportImage(to: self.jotViewStateInkPath, andThumbnailTo: self.jotViewStateThumbnailPath, andStateTo: self.jotViewStatePlistPath, withThumbnailScale: UIScreen.main.scale) {
                     ink, thumbnail, state in
                     completionHandler?(thumbnail)
-                    UserDefaults.standard.set(color: color, forKey: Default.DRAFT_BACKGROUND_COLOR)
+                    UserDefaults.standard.set(color: color, forKey: Defaults.DRAFT_BACKGROUND_COLOR)
                 }
             }
         }
@@ -589,7 +589,7 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                if try !self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
                     try manager.copyItem(at: FileUrl.CACHE, to: url)
                     let writeHandle = try FileHandle(forWritingTo: url)
                     writeHandle.seekToEndOfFile()

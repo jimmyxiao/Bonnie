@@ -149,7 +149,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.WORK_LIST),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": UserDefaults.standard.string(forKey: Default.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 1, "stn": 1, "rc": 128],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": UserDefaults.standard.string(forKey: Defaults.TOKEN) ?? "", "dt": SERVICE_DEVICE_TYPE, "wt": 1, "stn": 1, "rc": 128],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -339,7 +339,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         guard let indexPath = tableView.indexPath(forView: sender) else {
             return
         }
-        if UserDefaults.standard.integer(forKey: Default.USER_ID) == tableViewWorks[indexPath.row].userId {
+        if UserDefaults.standard.integer(forKey: Defaults.USER_ID) == tableViewWorks[indexPath.row].userId {
             delegate?.followDidTapProfile()
         } else {
             performSegue(withIdentifier: Segue.ACCOUNT, sender: indexPath)
@@ -363,7 +363,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         }
         copyLinkAction.setValue(color, forKey: "titleTextColor")
         alert.addAction(copyLinkAction)
-        if tableViewWorks[indexPath.row].userId != UserDefaults.standard.integer(forKey: Default.USER_ID) {
+        if tableViewWorks[indexPath.row].userId != UserDefaults.standard.integer(forKey: Defaults.USER_ID) {
             let reportAction = UIAlertAction(title: "more_report".localized, style: .destructive) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
@@ -393,7 +393,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                         self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                         return
                     }
-                    guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+                    guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
                           let id = self.tableViewWorks[indexPath.row].id else {
                         return
                     }
@@ -402,7 +402,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
                     self.dataRequest = Alamofire.request(
                             Service.standard(withPath: Service.WORK_DELETE),
                             method: .post,
-                            parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
+                            parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "worksId": id],
                             encoding: JSONEncoding.default).validate().responseJSON {
                         response in
                         switch response.result {
@@ -444,7 +444,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
               let indexPath = tableView.indexPath(forView: sender),
               let id = tableViewWorks[indexPath.row].id else {
             return
@@ -454,7 +454,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.SET_LIKE),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": like ? 1 : 0, "worksId": id, "likeType": 1],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": like ? 1 : 0, "worksId": id, "likeType": 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -543,7 +543,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
               let indexPath = tableView.indexPath(forView: sender),
               let id = tableViewWorks[indexPath.row].id else {
             return
@@ -553,7 +553,7 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.SET_COLLECTION),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": collect ? 1 : 0, "worksId": id],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": collect ? 1 : 0, "worksId": id],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {

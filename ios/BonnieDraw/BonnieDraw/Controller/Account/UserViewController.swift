@@ -101,7 +101,7 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
             }
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN) else {
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
             return
         }
         loading.hide(false)
@@ -109,7 +109,7 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.FOLLOWING_LIST),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": type?.rawValue ?? 1],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": type?.rawValue ?? 1],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
@@ -184,7 +184,7 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
-        guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
+        guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
               let indexPath = tableView.indexPath(forView: sender),
               let id = tableViewUsers[indexPath.row].id else {
             return
@@ -194,7 +194,7 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
         dataRequest = Alamofire.request(
                 Service.standard(withPath: Service.SET_FOLLOW),
                 method: .post,
-                parameters: ["ui": UserDefaults.standard.integer(forKey: Default.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
+                parameters: ["ui": UserDefaults.standard.integer(forKey: Defaults.USER_ID), "lk": token, "dt": SERVICE_DEVICE_TYPE, "fn": follow ? 1 : 0, "followingUserId": id],
                 encoding: JSONEncoding.default).validate().responseJSON {
             response in
             switch response.result {
