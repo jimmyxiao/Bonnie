@@ -348,7 +348,6 @@
 				1639862B206927D900578AF9 /* Main */,
 				1639862A206927C200578AF9 /* Login */,
 				16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */,
-				16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */,
 				1649F2731FD7A43A00B90A1E /* LightStatusBarViewController.swift */,
 			);
 			path = Controller;
@@ -357,6 +356,7 @@
 		1639862A206927C200578AF9 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */,
 				165ECC521F73947C00E32AA5 /* ForgetPasswordViewController.swift */,
 				163906FD1F6C083300E5717A /* SignInViewController.swift */,
 				16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */,
