@@ -28,6 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TWTRTwitter.sharedInstance().start(
                 withConsumerKey: Bundle.main.infoDictionary?["TwitterConsumerKey"] as! String,
                 consumerSecret: Bundle.main.infoDictionary?["TwitterConsumerSecret"] as! String)
+        if let path = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") {
+            let dictionary = NSDictionary(contentsOfFile: path)
+            GIDSignIn.sharedInstance().clientID = dictionary?.object(forKey: "CLIENT_ID") as? String
+        }
         if UserDefaults.standard.object(forKey: Default.COLORS) == nil {
             UserDefaults.standard.set(colors: UIColor.getDefaultColors(), forKey: Default.COLORS)
         }

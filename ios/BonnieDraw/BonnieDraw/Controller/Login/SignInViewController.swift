@@ -24,12 +24,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         if DEBUG {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(launchMain))
         }
-        if let path = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") {
-            let dictionary = NSDictionary(contentsOfFile: path)
-            GIDSignIn.sharedInstance().uiDelegate = self
-            GIDSignIn.sharedInstance().delegate = self
-            GIDSignIn.sharedInstance().clientID = dictionary?.object(forKey: "CLIENT_ID") as? String
-        }
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().delegate = self
     }
 
     override func viewWillDisappear(_ animated: Bool) {
