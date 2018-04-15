@@ -22,12 +22,4 @@ struct User {
         status = nil
         isFollowing = dictionary["following"] as? Bool
     }
-
-    init(withWork work: Work) {
-        id = work.userId
-        profileImage = work.profileImage
-        profileName = work.profileName
-        status = nil
-        isFollowing = work.isFollow
-    }
 }
