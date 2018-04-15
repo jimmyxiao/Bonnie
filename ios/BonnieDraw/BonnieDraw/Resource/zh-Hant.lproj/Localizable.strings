@@ -44,8 +44,8 @@
 "alert_sign_up_fail_title" = "註冊失敗";
 "alert_sign_up_success_content" = "請於30分鐘內至您的電子信箱啟用帳號。";
 "alert_sign_up_success_title" = "註冊成功";
-"app_network_unreachable_content" = "請檢查您的網路連線狀態後重試";
-"app_network_unreachable_title" = "無網路連線";
+"alert_network_unreachable_content" = "請檢查您的網路連線狀態後重試";
+"alert_network_unreachable_title" = "無網路連線";
 "canvas_animation_title" = "播放速度";
 "canvas_no_grid" = "無格線";
 "canvas_six_by_six_grid" = "6 x 6 格線";

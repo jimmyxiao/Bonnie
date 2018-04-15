@@ -34,7 +34,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
 
     @IBAction func done(_ sender: UIBarButtonItem) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let currentPassword = self.currentPassword.text ?? ""
@@ -98,7 +98,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                     switch response.result {
                     case .success:
                         guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                            self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                            self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                             return
                         }
                         if response == 1 {

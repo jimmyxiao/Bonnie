@@ -44,8 +44,8 @@
 "alert_sign_up_fail_title" = "Sign up failed";
 "alert_sign_up_success_content" = "Please verify your email address within 30 minutes.";
 "alert_sign_up_success_title" = "Sign up successful";
-"app_network_unreachable_content" = "Please check your internet connection and try again.";
-"app_network_unreachable_title" = "No network connection";
+"alert_network_unreachable_content" = "Please check your internet connection and try again.";
+"alert_network_unreachable_title" = "No network connection";
 "canvas_animation_title" = "Playback Speed";
 "canvas_no_grid" = "Blank";
 "canvas_six_by_six_grid" = "6 x 6 Grid";

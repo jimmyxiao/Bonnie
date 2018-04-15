@@ -39,7 +39,7 @@ class LaunchViewController: UIViewController {
                     switch response.result {
                     case .success:
                         guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized) {
+                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_network_unreachable_content".localized) {
                                 action in
                                 self.launchLogin()
                             }
@@ -55,7 +55,7 @@ class LaunchViewController: UIViewController {
                                 switch response.result {
                                 case .success:
                                     guard let data = response.result.value as? [String: Any] else {
-                                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized) {
+                                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_network_unreachable_content".localized) {
                                             action in
                                             self.launchLogin()
                                         }

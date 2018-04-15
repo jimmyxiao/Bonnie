@@ -125,7 +125,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
 
     @IBAction func toggleNotification(_ sender: UISwitch) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         if sender.isOn {
@@ -175,7 +175,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.presentDialog(title: "service_download_fail_title".localized, message: "app_network_unreachable_content".localized)
+                        self.presentDialog(title: "service_download_fail_title".localized, message: "alert_network_unreachable_content".localized)
                         UIApplication.shared.unregisterForRemoteNotifications()
                         self.tableView.reloadRows(at: [IndexPath(row: SettingType.notification.rawValue, section: 0)], with: .automatic)
                         return

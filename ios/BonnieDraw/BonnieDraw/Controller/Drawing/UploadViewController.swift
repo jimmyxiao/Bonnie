@@ -110,7 +110,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
 
     @IBAction func post(_ sender: UIBarButtonItem) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let workThumbnail = workThumbnail,
@@ -159,7 +159,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workId = data["wid"] as? Int else {
-                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                        self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                         sender.isEnabled = true
                         return
                     }
@@ -181,7 +181,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                         switch response.result {
                                         case .success:
                                             guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                                self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                                self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                                                 sender.isEnabled = true
                                                 return
                                             }
@@ -203,7 +203,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                                 switch response.result {
                                                                 case .success:
                                                                     guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                                                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                                                        self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                                                                         sender.isEnabled = true
                                                                         return
                                                                     }

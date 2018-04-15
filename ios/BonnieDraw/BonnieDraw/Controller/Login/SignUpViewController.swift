@@ -28,7 +28,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
 
     @IBAction func signUp(_ sender: Any) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let name = self.name.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -82,7 +82,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                        self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                         return
                     }
                     if response == 1 {

@@ -99,7 +99,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
     private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+            presentConfirmationDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
                 success in
                 if success {
                     self.downloadData()
@@ -122,7 +122,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                 guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
                     self.presentConfirmationDialog(
                             title: "service_download_fail_title".localized,
-                            message: "app_network_unreachable_content".localized) {
+                            message: "alert_network_unreachable_content".localized) {
                         success in
                         if success {
                             self.downloadData()
@@ -159,7 +159,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             return
         }
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let defaults = UserDefaults.standard
@@ -230,7 +230,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                     guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
                         self.presentConfirmationDialog(
                                 title: "alert_account_update_fail_title".localized,
-                                message: "app_network_unreachable_content".localized) {
+                                message: "alert_network_unreachable_content".localized) {
                             success in
                             if success {
                                 self.done(sender)
@@ -361,7 +361,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                     switch response.result {
                                     case .success:
                                         guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                            self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                            self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                                             return
                                         }
                                         if let imageUrl = URL(string: Service.filePath(withSubPath: data["profilePicture"] as? String)) {

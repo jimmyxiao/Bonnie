@@ -106,7 +106,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func confirm(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let id = work?.id,
@@ -131,7 +131,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.presentDialog(title: "alert_report_fail_title".localized, message: "app_network_unreachable_content".localized)
+                        self.presentDialog(title: "alert_report_fail_title".localized, message: "alert_network_unreachable_content".localized)
                         self.indicator.stopAnimating()
                         sender.isEnabled = true
                         return

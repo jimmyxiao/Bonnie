@@ -93,7 +93,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
 
     private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+            presentConfirmationDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
                 success in
                 if success {
                     self.downloadData()
@@ -114,7 +114,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
                 guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workData = data["work"] as? [String: Any] else {
                     self.presentConfirmationDialog(
                             title: "service_download_fail_title".localized,
-                            message: "app_network_unreachable_content".localized) {
+                            message: "alert_network_unreachable_content".localized) {
                         success in
                         if success {
                             self.downloadData()
@@ -188,7 +188,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
             return
         }
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         textField.text = nil
@@ -205,7 +205,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                    self.presentDialog(title: "service_leave_message_fail_title".localized, message: "app_network_unreachable_content".localized)
+                    self.presentDialog(title: "service_leave_message_fail_title".localized, message: "alert_network_unreachable_content".localized)
                     return
                 }
                 if response == 1 {
@@ -221,7 +221,7 @@ class CommentViewController: BackButtonViewController, UITableViewDataSource, UI
                 }
                 self.textField.isEnabled = true
                 self.indicator.stopAnimating()
-                self.presentDialog(title: "service_leave_message_fail_title".localized, message: "app_network_unreachable_content".localized)
+                self.presentDialog(title: "service_leave_message_fail_title".localized, message: "alert_network_unreachable_content".localized)
             }
         }
     }

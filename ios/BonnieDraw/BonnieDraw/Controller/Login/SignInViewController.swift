@@ -39,7 +39,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 
     @IBAction func signIn(_ sender: Any) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -93,7 +93,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     switch response.result {
                     case .success:
                         guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                            self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                            self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                             return
                         }
                         if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
@@ -106,7 +106,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                 switch response.result {
                                 case .success:
                                     guard let data = response.result.value as? [String: Any] else {
-                                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                        self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                                         return
                                     }
                                     let profile = Profile(withDictionary: data)
@@ -155,7 +155,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     case .success(let response):
                         guard let facebookId = response.dictionaryValue?["id"] as? String,
                               let facebookName = response.dictionaryValue?["name"] as? String else {
-                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "app_network_unreachable_content".localized)
+                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_network_unreachable_content".localized)
                             self.loading.hide(true)
                             return
                         }
@@ -310,7 +310,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                    self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                    self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                     return
                 }
                 if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
@@ -323,7 +323,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                         switch response.result {
                         case .success:
                             guard let data = response.result.value as? [String: Any] else {
-                                self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                                self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                                 return
                             }
                             let profile = Profile(withDictionary: data)

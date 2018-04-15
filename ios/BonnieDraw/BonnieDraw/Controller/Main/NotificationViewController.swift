@@ -59,7 +59,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
 
     private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+            presentConfirmationDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
                 success in
                 if success {
                     self.downloadData()
@@ -83,7 +83,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
                 guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let notificationList = data["notiMsgList"] as? [[String: Any]] else {
                     self.presentConfirmationDialog(
                             title: "service_download_fail_title".localized,
-                            message: "app_network_unreachable_content".localized) {
+                            message: "alert_network_unreachable_content".localized) {
                         success in
                         if success {
                             self.downloadData()

@@ -25,7 +25,7 @@ class ForgetPasswordViewController: BackButtonViewController, UITextFieldDelegat
 
     @IBAction func send(_ sender: Any) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -51,7 +51,7 @@ class ForgetPasswordViewController: BackButtonViewController, UITextFieldDelegat
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.showErrorMessage(message: "app_network_unreachable_content".localized)
+                        self.showErrorMessage(message: "alert_network_unreachable_content".localized)
                         return
                     }
                     if response == 1 {

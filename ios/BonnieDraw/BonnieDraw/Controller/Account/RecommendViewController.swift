@@ -95,7 +95,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
 
     private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized) {
+            presentConfirmationDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
                 success in
                 if success {
                     self.downloadData()
@@ -125,7 +125,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                     guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let userList = data["friendList"] as? [[String: Any]] else {
                         self.presentConfirmationDialog(
                                 title: "service_download_fail_title".localized,
-                                message: "app_network_unreachable_content".localized) {
+                                message: "alert_network_unreachable_content".localized) {
                             success in
                             if success {
                                 self.downloadData()
@@ -272,7 +272,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
 
     @IBAction func follow(_ sender: FollowButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "app_network_unreachable_title".localized, message: "app_network_unreachable_content".localized)
+            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Default.TOKEN),
@@ -293,7 +293,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                 guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
                     self.presentConfirmationDialog(
                             title: "service_download_fail_title".localized,
-                            message: "app_network_unreachable_content".localized) {
+                            message: "alert_network_unreachable_content".localized) {
                         success in
                         if success {
                             self.downloadData()

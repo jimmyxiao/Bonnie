@@ -52,7 +52,7 @@ class DebugViewController: UIViewController, UITableViewDataSource, UITableViewD
 //                    switch response.result {
 //                    case .success:
 //                        guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-//                            self.presentDialog(message: "app_network_unreachable_content".localized)
+//                            self.presentDialog(message: "alert_network_unreachable_content".localized)
 //                            return
 //                        }
 //                        let defaults = UserDefaults.standard
