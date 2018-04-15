@@ -186,7 +186,7 @@ struct Service {
 }
 
 struct Identifier {
-    static let PARENT = "parentViewController"
+    static let MAIN = "mainViewController"
     static let HOME = "homeViewController"
     static let FOLLOW = "followViewController"
     static let NOTIFICATION = "notificationViewController"

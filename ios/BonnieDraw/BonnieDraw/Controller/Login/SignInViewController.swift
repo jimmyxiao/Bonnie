@@ -256,7 +256,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
 
     @objc private func launchMain() {
-        UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.PARENT))
+        UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.MAIN))
     }
 
     private func registerForRemoteNotification() {

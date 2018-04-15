@@ -79,7 +79,7 @@
 		165ECC591F73A47D00E32AA5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC581F73A47C00E32AA5 /* StringExtension.swift */; };
 		165ECC5D1F73A83800E32AA5 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */; };
 		1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4A21F74AB3000809C32 /* DrawerViewController.swift */; };
-		1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4B61F74E5BB00809C32 /* ParentViewController.swift */; };
+		1664F4B71F74E5BB00809C32 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4B61F74E5BB00809C32 /* MainViewController.swift */; };
 		1664F4BD1F75123C00809C32 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664F4BC1F75123C00809C32 /* TabBarViewController.swift */; };
 		16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */; };
 		166889971FBC6802001CBFB3 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */; };
@@ -206,7 +206,7 @@
 		1664F4A21F74AB3000809C32 /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		1664F4A91F74AD9200809C32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1664F4AF1F74B2EF00809C32 /* BonnieDraw-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BonnieDraw-Bridging-Header.h"; sourceTree = "<group>"; };
-		1664F4B61F74E5BB00809C32 /* ParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentViewController.swift; sourceTree = "<group>"; };
+		1664F4B61F74E5BB00809C32 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		1664F4BC1F75123C00809C32 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		16684EFB1F97042B00AF0A7F /* AccountEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEditViewController.swift; sourceTree = "<group>"; };
 		166889961FBC6802001CBFB3 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
@@ -369,7 +369,7 @@
 			children = (
 				16D08F1E1FB14D84001D167C /* DebugViewController.swift */,
 				166BDF411F860E7900274C6C /* LaunchViewController.swift */,
-				1664F4B61F74E5BB00809C32 /* ParentViewController.swift */,
+				1664F4B61F74E5BB00809C32 /* MainViewController.swift */,
 				1664F4BC1F75123C00809C32 /* TabBarViewController.swift */,
 				1664F4A21F74AB3000809C32 /* DrawerViewController.swift */,
 				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
@@ -748,7 +748,7 @@
 				165710FF1F6BAB63004A8DD8 /* Path.swift in Sources */,
 				16332A231F7F3048007857E3 /* UploadViewController.swift in Sources */,
 				1633C0651F9ED4410039E7F6 /* WebViewController.swift in Sources */,
-				1664F4B71F74E5BB00809C32 /* ParentViewController.swift in Sources */,
+				1664F4B71F74E5BB00809C32 /* MainViewController.swift in Sources */,
 				16366AE71F7A39EC00E5799B /* ImageViewExtension.swift in Sources */,
 				1664F4A31F74AB3000809C32 /* DrawerViewController.swift in Sources */,
 				164AEC241FC69CCF00542354 /* ViewControllerExtension.swift in Sources */,

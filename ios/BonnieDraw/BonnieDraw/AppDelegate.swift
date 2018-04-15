@@ -85,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            let queryItems = components.queryItems {
             for queryItem in queryItems {
                 if queryItem.name == "id" {
-                    if window?.rootViewController is ParentViewController,
+                    if window?.rootViewController is MainViewController,
                        let topController = window?.topController() {
                         let storyboard = UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil)
                         if let navigationController = storyboard.instantiateViewController(withIdentifier: Identifier.NAVIGATION) as? UINavigationController,
@@ -118,7 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            let queryItems = components.queryItems {
             for queryItem in queryItems {
                 if queryItem.name == "id" {
-                    if window?.rootViewController is ParentViewController,
+                    if window?.rootViewController is MainViewController,
                        let topController = window?.topController() {
                         let storyboard = UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil)
                         if let navigationController = storyboard.instantiateViewController(withIdentifier: Identifier.NAVIGATION) as? UINavigationController,
@@ -135,26 +135,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         return false
-    }
-
-    static func hasNetworkConnection() -> Bool {
-        var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
-        zeroAddress.sin_family = sa_family_t(AF_INET)
-        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
-                SCNetworkReachabilityCreateWithAddress(nil, $0)
-            }
-        }) else {
-            return false
-        }
-        var flags: SCNetworkReachabilityFlags = []
-        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
-            return false
-        }
-        let isReachable = flags.contains(.reachable)
-        let needsConnection = flags.contains(.connectionRequired)
-        return (isReachable && !needsConnection)
     }
 
     private static func fetchAlbum() -> PHAssetCollection? {

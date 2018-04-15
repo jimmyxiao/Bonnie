@@ -1,5 +1,5 @@
 //
-//  ParentViewController.swift
+//  MainViewController.swift
 //  BonnieDraw
 //
 //  Created by Professor on 22/09/2017.
@@ -12,7 +12,7 @@ import FacebookLogin
 import TwitterKit
 import DeviceKit
 
-class ParentViewController: KYDrawerController, DrawerViewControllerDelegate, TabBarViewControllerDelegate {
+class MainViewController: KYDrawerController, DrawerViewControllerDelegate, TabBarViewControllerDelegate {
     override var prefersStatusBarHidden: Bool {
         return false
     }
