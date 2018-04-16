@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1aZ-0B-deB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1aZ-0B-deB">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -122,9 +122,7 @@
                                             <color key="titleColor" red="0.52156862745098043" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="pOY-DV-MXh" kind="show" id="vFa-C6-rbc">
-                                                <nil key="action"/>
-                                            </segue>
+                                            <segue destination="pOY-DV-MXh" kind="show" id="vFa-C6-rbc"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -230,9 +228,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="Sign Up"/>
                                         <connections>
-                                            <segue destination="0CD-P2-SAx" kind="show" id="wd2-B0-7UG">
-                                                <nil key="action"/>
-                                            </segue>
+                                            <segue destination="0CD-P2-SAx" kind="show" id="wd2-B0-7UG"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -520,7 +516,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done"/>
                                         <connections>
                                             <outlet property="delegate" destination="pOY-DV-MXh" id="p7u-Rv-dpg"/>
                                         </connections>
@@ -583,9 +579,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="Sign Up"/>
                                         <connections>
-                                            <segue destination="0CD-P2-SAx" kind="show" id="4WA-1n-7BP">
-                                                <nil key="action"/>
-                                            </segue>
+                                            <segue destination="0CD-P2-SAx" kind="show" id="4WA-1n-7BP"/>
                                         </connections>
                                     </button>
                                 </subviews>
