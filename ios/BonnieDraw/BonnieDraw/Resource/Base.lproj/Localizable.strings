@@ -25,7 +25,7 @@
 "alert_permission_camera" = "BonnieDraw will set the photo as your profile picture.";
 "alert_permission_notification" = "BonnieDraw will like to display notifications.";
 "alert_permission_photos" = "BonnieDraw will save the picture to your album.";
-"alert_permission_required" = "Permission request";
+"alert_permission_required_title" = "Permission request";
 "alert_report_fail_description_empty" = "Report reason should not be empty.";
 "alert_report_fail_title" = "Report is failed; please try it again.";
 "alert_reset_content" = "Press \"Clear\" and all the current motions will be deleted.";

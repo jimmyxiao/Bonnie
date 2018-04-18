@@ -44,7 +44,7 @@ extension UIViewController {
                         successHandler?()
                     } else {
                         if showAlert {
-                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_photos".localized) {
+                            self.presentConfirmationDialog(title: "alert_permission_required_title".localized, message: "alert_permission_photos".localized) {
                                 success in
                                 if success {
                                     UIApplication.shared.openSettings()
@@ -72,7 +72,7 @@ extension UIViewController {
                         successHandler?()
                     } else {
                         if showAlert {
-                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_camera".localized) {
+                            self.presentConfirmationDialog(title: "alert_permission_required_title".localized, message: "alert_permission_camera".localized) {
                                 success in
                                 if success {
                                     UIApplication.shared.openSettings()
@@ -100,7 +100,7 @@ extension UIViewController {
                         successHandler?()
                     } else {
                         if showAlert {
-                            self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_camera".localized) {
+                            self.presentConfirmationDialog(title: "alert_permission_required_title".localized, message: "alert_permission_camera".localized) {
                                 success in
                                 if success {
                                     UIApplication.shared.openSettings()
@@ -132,7 +132,7 @@ extension UIViewController {
                             successHandler?()
                         } else {
                             if showAlert {
-                                self.presentConfirmationDialog(title: "alert_permission_required".localized, message: "alert_permission_notification".localized) {
+                                self.presentConfirmationDialog(title: "alert_permission_required_title".localized, message: "alert_permission_notification".localized) {
                                     success in
                                     if success {
                                         UIApplication.shared.openSettings()
