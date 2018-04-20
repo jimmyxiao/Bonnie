@@ -20,6 +20,12 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
         dataRequest?.cancel()
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? WebViewController {
+            controller.url = URL(string: Service.TERM_OF_USE + "?lang=\(Locale.current.languageCode ?? "")-\(Locale.current.regionCode ?? "")")
+        }
+    }
+
     private func showErrorMessage(message: String?) {
         presentDialog(title: "alert_sign_up_fail_title".localized, message: message)
         loading.hide(true)

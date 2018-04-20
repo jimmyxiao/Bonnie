@@ -33,6 +33,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         NotificationCenter.default.removeObserver(self)
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? WebViewController {
+            controller.url = URL(string: Service.TERM_OF_USE + "?lang=\(Locale.current.languageCode ?? "")-\(Locale.current.regionCode ?? "")")
+        }
+    }
+
     @IBAction func signIn(_ sender: Any) {
         guard AppDelegate.reachability.connection != .none else {
             presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)

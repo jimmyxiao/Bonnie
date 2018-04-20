@@ -19,6 +19,8 @@
 "alert_edit_fail_title" = "Edit failed";
 "alert_forget_password_content" = "Please get your new password from your email address.";
 "alert_forget_password_title" = "Forgot password";
+"alert_network_unreachable_content" = "Please check your internet connection and try again.";
+"alert_network_unreachable_title" = "No network connection";
 "alert_new_password_unmatch" = "Passwords doesn't match.";
 "alert_old_password_unmatch" = "Old password is incorrect.";
 "alert_password_update_fail" = "Password update failed.";
@@ -44,8 +46,6 @@
 "alert_sign_up_fail_title" = "Sign up failed";
 "alert_sign_up_success_content" = "Please verify your email address within 30 minutes.";
 "alert_sign_up_success_title" = "Sign up successful";
-"alert_network_unreachable_content" = "Please check your internet connection and try again.";
-"alert_network_unreachable_title" = "No network connection";
 "canvas_animation_title" = "Playback Speed";
 "canvas_no_grid" = "Blank";
 "canvas_six_by_six_grid" = "6 x 6 Grid";

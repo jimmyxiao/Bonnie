@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j7s-VB-bQs">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j7s-VB-bQs">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
@@ -179,9 +179,7 @@
                         <outlet property="sizeButton" destination="Acs-9Q-imy" id="Xwy-BT-CC9"/>
                         <outlet property="undoButton" destination="AlP-0d-zc9" id="SiO-Ra-0RA"/>
                         <outlet property="uploadButton" destination="Ie1-Ie-uab" id="cPv-sH-A42"/>
-                        <segue destination="WrP-vG-tzf" kind="show" identifier="uploadSegue" id="o5Q-Xd-EIN">
-                            <nil key="action"/>
-                        </segue>
+                        <segue destination="WrP-vG-tzf" kind="show" identifier="uploadSegue" id="o5Q-Xd-EIN"/>
                         <segue destination="TMN-0X-9sU" kind="popoverPresentation" identifier="backgroundColorSegue" popoverAnchorBarButtonItem="oZS-le-Rg4" id="QaZ-ve-CKu">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
@@ -951,7 +949,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="brushPickerCell" id="diL-h9-8Zf" customClass="BrushPickerCollectionViewCell" customModule="BonnieDraw" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="brushPickerCell" id="diL-h9-8Zf" customClass="BrushPickerCollectionViewCell" customModule="BonnieDraw" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="65" height="128"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -959,7 +957,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="64" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="0OU-sd-CAT">
-                                                            <rect key="frame" x="0.0" y="0.0" width="64" height="128"/>
+                                                            <rect key="frame" x="-32" y="13.5" width="64" height="128"/>
                                                         </imageView>
                                                     </subviews>
                                                 </view>

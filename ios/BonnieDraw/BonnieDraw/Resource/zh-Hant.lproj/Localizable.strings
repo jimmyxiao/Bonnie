@@ -19,6 +19,8 @@
 "alert_edit_fail_title" = "編輯失敗";
 "alert_forget_password_content" = "請至您的電子信箱來獲得新密碼";
 "alert_forget_password_title" = "忘記密碼";
+"alert_network_unreachable_content" = "請檢查您的網路連線狀態後重試";
+"alert_network_unreachable_title" = "無網路連線";
 "alert_new_password_unmatch" = "密碼不一致";
 "alert_old_password_unmatch" = "舊密碼錯誤";
 "alert_password_update_fail" = "更新密碼失敗";
@@ -44,8 +46,6 @@
 "alert_sign_up_fail_title" = "註冊失敗";
 "alert_sign_up_success_content" = "請於30分鐘內至您的電子信箱啟用帳號。";
 "alert_sign_up_success_title" = "註冊成功";
-"alert_network_unreachable_content" = "請檢查您的網路連線狀態後重試";
-"alert_network_unreachable_title" = "無網路連線";
 "canvas_animation_title" = "播放速度";
 "canvas_no_grid" = "無格線";
 "canvas_six_by_six_grid" = "6 x 6 格線";

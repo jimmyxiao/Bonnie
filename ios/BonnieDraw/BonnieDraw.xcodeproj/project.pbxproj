@@ -132,9 +132,7 @@
 		1622704220172EE7004ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawing_iPad.storyboard; sourceTree = "<group>"; };
 		1622704520172EF0004ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account_iPad.storyboard; sourceTree = "<group>"; };
 		1622704720172F11004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
-		1622704820172F11004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login.strings"; sourceTree = "<group>"; };
 		1622704B20172F12004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main_iPad.strings"; sourceTree = "<group>"; };
-		1622704C20172F12004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login_iPad.strings"; sourceTree = "<group>"; };
 		1622704E20172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account_iPad.strings"; sourceTree = "<group>"; };
 		1622704F20172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AccountHeaderCollectionReusableView.strings"; sourceTree = "<group>"; };
 		1622705020172F13004ACD95 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -214,6 +212,8 @@
 		166C41231F90964F00A98385 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		166FB2DF207C80E700A05B93 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing.strings"; sourceTree = "<group>"; };
 		166FB2E1207C80F200A05B93 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawing_iPad.strings"; sourceTree = "<group>"; };
+		167726F4208A182600D229E0 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login.strings"; sourceTree = "<group>"; };
+		167726F8208A197700D229E0 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Login_iPad.strings"; sourceTree = "<group>"; };
 		16786F192004570500335BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		16812AD91F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTitleNavigationViewController.swift; sourceTree = "<group>"; };
 		16816AA61FAFF8DD00855104 /* ShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
@@ -375,7 +375,6 @@
 				16366AE11F7A0AA300E5799B /* HomeViewController.swift */,
 				16C013CC1F9F321100238463 /* FollowViewController.swift */,
 				16083DD61F7E75F0008BBB4B /* NotificationViewController.swift */,
-				1633C0641F9ED4400039E7F6 /* WebViewController.swift */,
 				16185C7C1F94A13F008F0840 /* WorkViewController.swift */,
 				16E5396F1FD965D800799E4D /* CommentViewController.swift */,
 				1694F2711FF355640063F9E9 /* ReportViewController.swift */,
@@ -407,6 +406,7 @@
 				16A82D0C1FB1B564007D6128 /* RecommendViewController.swift */,
 				165E1B5C1F9DE4920050A7BB /* PasswordViewController.swift */,
 				16C013CA1F9F2E3E00238463 /* UserViewController.swift */,
+				1633C0641F9ED4400039E7F6 /* WebViewController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -826,7 +826,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1622703F20172EE2004ACD95 /* Base */,
-				1622704C20172F12004ACD95 /* zh-Hant */,
+				167726F8208A197700D229E0 /* zh-Hant */,
 			);
 			name = Login_iPad.storyboard;
 			sourceTree = "<group>";
@@ -879,7 +879,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				16450EC0200319BF00BF8D6D /* Base */,
-				1622704820172F11004ACD95 /* zh-Hant */,
+				167726F4208A182600D229E0 /* zh-Hant */,
 			);
 			name = Login.storyboard;
 			sourceTree = "<group>";
