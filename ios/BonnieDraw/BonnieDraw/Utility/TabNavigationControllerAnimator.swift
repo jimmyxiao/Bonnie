@@ -9,7 +9,7 @@
 import UIKit
 
 class TabNavigationControllerAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    let duration = 0.2
+    let duration = 0.3
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
