@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CommentTableViewCell: CustomSelectorTableViewCell {
+class CommentTableViewCell: TableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var message: UILabel!

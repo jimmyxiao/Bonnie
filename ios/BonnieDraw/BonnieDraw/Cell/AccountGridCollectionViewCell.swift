@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountGridCollectionViewCell: CustomSelectorCollectionViewCell {
+class AccountGridCollectionViewCell: CollectionViewCell {
     @IBOutlet weak var thumbnail: UIImageView!
 
     override func awakeFromNib() {

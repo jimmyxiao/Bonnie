@@ -1,5 +1,5 @@
 //
-//  CustomSelectorTableViewCell.swift
+//  TableViewCell.swift
 //  BonnieDraw
 //
 //  Created by Professor on 29/12/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomSelectorTableViewCell: UITableViewCell {
+class TableViewCell: UITableViewCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
             alpha = 0.6

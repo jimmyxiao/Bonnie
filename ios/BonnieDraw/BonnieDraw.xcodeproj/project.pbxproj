@@ -101,8 +101,8 @@
 		16BE0F2E1FC67D5700B989CE /* CanvasSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */; };
 		16C013CB1F9F2E3E00238463 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CA1F9F2E3E00238463 /* UserViewController.swift */; };
 		16C013CD1F9F321100238463 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C013CC1F9F321100238463 /* FollowViewController.swift */; };
-		16CB8C731FF62A1100635F39 /* CustomSelectorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CB8C721FF62A1100635F39 /* CustomSelectorTableViewCell.swift */; };
-		16CB8C751FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CB8C741FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift */; };
+		16CB8C731FF62A1100635F39 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CB8C721FF62A1100635F39 /* TableViewCell.swift */; };
+		16CB8C751FF62A8D00635F39 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CB8C741FF62A8D00635F39 /* CollectionViewCell.swift */; };
 		16CEB89E1F72AF0400ADBC1F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */; };
 		16CEB8A01F72AFC300ADBC1F /* BackButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */; };
 		16CF01F0200CE4FA00C6CF0B /* Crayon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16CF01EF200CE4F900C6CF0B /* Crayon.png */; };
@@ -230,8 +230,8 @@
 		16BE0F2D1FC67D5700B989CE /* CanvasSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasSettingTableViewController.swift; sourceTree = "<group>"; };
 		16C013CA1F9F2E3E00238463 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		16C013CC1F9F321100238463 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
-		16CB8C721FF62A1100635F39 /* CustomSelectorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSelectorTableViewCell.swift; sourceTree = "<group>"; };
-		16CB8C741FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSelectorCollectionViewCell.swift; sourceTree = "<group>"; };
+		16CB8C721FF62A1100635F39 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		16CB8C741FF62A8D00635F39 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		16CEB89D1F72AF0400ADBC1F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		16CEB89F1F72AFC300ADBC1F /* BackButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButtonViewController.swift; sourceTree = "<group>"; };
 		16CF01EF200CE4F900C6CF0B /* Crayon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Crayon.png; sourceTree = "<group>"; };
@@ -274,8 +274,8 @@
 				163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */,
 				16353D471FCDA57200482807 /* BrushPickerCollectionViewCell.swift */,
 				16E539711FD9698000799E4D /* CommentTableViewCell.swift */,
-				16CB8C721FF62A1100635F39 /* CustomSelectorTableViewCell.swift */,
-				16CB8C741FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift */,
+				16CB8C721FF62A1100635F39 /* TableViewCell.swift */,
+				16CB8C741FF62A8D00635F39 /* CollectionViewCell.swift */,
 				1638083C2018B1D900689168 /* SwitchTableViewCell.swift */,
 			);
 			path = Cell;
@@ -735,7 +735,7 @@
 				163F65BF1F616C4F00945E04 /* CanvasViewController.swift in Sources */,
 				1638083D2018B1D900689168 /* SwitchTableViewCell.swift in Sources */,
 				16303BA91FD1494E00C42783 /* Brush.swift in Sources */,
-				16CB8C731FF62A1100635F39 /* CustomSelectorTableViewCell.swift in Sources */,
+				16CB8C731FF62A1100635F39 /* TableViewCell.swift in Sources */,
 				16386DD61FAC019A00DFE2E5 /* DataConverter.swift in Sources */,
 				166BDF421F860E7900274C6C /* LaunchViewController.swift in Sources */,
 				1649F2741FD7A43A00B90A1E /* LightStatusBarViewController.swift in Sources */,
@@ -759,7 +759,7 @@
 				16684EFC1F97042B00AF0A7F /* AccountEditViewController.swift in Sources */,
 				165ECC571F73A46200E32AA5 /* ColorExtension.swift in Sources */,
 				16492BD21F972ABB00E45D96 /* TextFieldExtension.swift in Sources */,
-				16CB8C751FF62A8D00635F39 /* CustomSelectorCollectionViewCell.swift in Sources */,
+				16CB8C751FF62A8D00635F39 /* CollectionViewCell.swift in Sources */,
 				16FC10241F6963B3008A6A92 /* ViewExtension.swift in Sources */,
 				16366AE51F7A131200E5799B /* HomeTableViewCell.swift in Sources */,
 				169490F61FBC5FA3000B4FB1 /* ColorPickerCollectionViewCell.swift in Sources */,

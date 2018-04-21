@@ -1,5 +1,5 @@
 //
-//  CustomSelectorCollectionViewCell.swift
+//  CollectionViewCell.swift
 //  BonnieDraw
 //
 //  Created by Professor on 29/12/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomSelectorCollectionViewCell: UICollectionViewCell {
+class CollectionViewCell: UICollectionViewCell {
     override var isHighlighted: Bool {
         willSet {
             if newValue {

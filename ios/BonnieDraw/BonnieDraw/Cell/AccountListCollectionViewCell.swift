@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountListCollectionViewCell: CustomSelectorCollectionViewCell {
+class AccountListCollectionViewCell: CollectionViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var title: UILabel!

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ColorPickerCollectionViewCell: CustomSelectorCollectionViewCell {
+class ColorPickerCollectionViewCell: CollectionViewCell {
     @IBOutlet weak var removeIcon: UIView!
 
     override func awakeFromNib() {

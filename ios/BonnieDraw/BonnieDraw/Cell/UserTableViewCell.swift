@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserTableViewCell: CustomSelectorTableViewCell {
+class UserTableViewCell: TableViewCell {
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var status: UILabel!

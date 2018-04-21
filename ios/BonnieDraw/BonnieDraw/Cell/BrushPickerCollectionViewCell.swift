@@ -8,6 +8,6 @@
 
 import UIKit
 
-class BrushPickerCollectionViewCell: CustomSelectorCollectionViewCell {
+class BrushPickerCollectionViewCell: CollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
 }
