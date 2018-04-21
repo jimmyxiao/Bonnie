@@ -12,7 +12,7 @@ class CustomSelectorCollectionViewCell: UICollectionViewCell {
     override var isHighlighted: Bool {
         willSet {
             if newValue {
-                alpha = 0.5
+                alpha = 0.6
             }
         }
         didSet {

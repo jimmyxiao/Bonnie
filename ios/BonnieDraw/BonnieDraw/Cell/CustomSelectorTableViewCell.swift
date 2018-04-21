@@ -11,7 +11,7 @@ import UIKit
 class CustomSelectorTableViewCell: UITableViewCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
-            alpha = 0.5
+            alpha = 0.6
         } else {
             UIView.animate(withDuration: 0.3) {
                 self.alpha = 1
