@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="baU-bA-93J">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="baU-bA-93J">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -671,13 +671,13 @@
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNJ-hm-v7g">
-                                                            <rect key="frame" x="156" y="0.0" width="0.0" height="44"/>
+                                                            <rect key="frame" x="156" y="0.0" width="44" height="44"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibk-bA-1Pb">
-                                                            <rect key="frame" x="156" y="0.0" width="44" height="44"/>
+                                                            <rect key="frame" x="200" y="0.0" width="44" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="44" id="cZw-e5-9Hw"/>
                                                             </constraints>
@@ -686,8 +686,8 @@
                                                                 <action selector="share:" destination="baU-bA-93J" eventType="touchUpInside" id="Dgg-cq-eFT"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Sw-D9-w7Q">
-                                                            <rect key="frame" x="200" y="0.0" width="44" height="44"/>
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Sw-D9-w7Q">
+                                                            <rect key="frame" x="244" y="0.0" width="44" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="44" id="8LO-wO-tQs"/>
                                                             </constraints>
@@ -830,9 +830,7 @@
                     <connections>
                         <outlet property="collectionView" destination="Aar-v7-sZc" id="Ulx-c9-xJE"/>
                         <outlet property="loading" destination="acv-aJ-1pY" id="dng-dx-S9v"/>
-                        <segue destination="bTs-G1-KZ1" kind="show" identifier="settingSegue" id="iFu-0J-Ux5">
-                            <nil key="action"/>
-                        </segue>
+                        <segue destination="bTs-G1-KZ1" kind="show" identifier="settingSegue" id="iFu-0J-Ux5"/>
                         <segue destination="XQV-AK-LI5" kind="show" identifier="recommendSegue" id="aOL-8Y-jWt"/>
                         <segue destination="SwJ-DG-QyH" kind="presentation" identifier="reportSegue" animates="NO" modalPresentationStyle="overFullScreen" id="umM-so-OMn"/>
                         <segue destination="mlI-Uy-vuT" kind="presentation" identifier="accountEditSegue" id="bMc-sh-nso"/>
@@ -950,9 +948,7 @@
                         <outlet property="loading" destination="8eX-EF-1DH" id="WpN-2i-wJR"/>
                         <outlet property="tableView" destination="BKq-Yz-Dlx" id="AiR-v7-tze"/>
                         <segue destination="mlI-Uy-vuT" kind="presentation" identifier="accountEditSegue" id="6mJ-Bl-V9p"/>
-                        <segue destination="Pph-uX-wOV" kind="show" identifier="webAboutSegue" id="gHb-TA-j0K">
-                            <nil key="action"/>
-                        </segue>
+                        <segue destination="Pph-uX-wOV" kind="show" identifier="webAboutSegue" id="gHb-TA-j0K"/>
                         <segue destination="jVo-Lo-mcg" kind="presentation" identifier="passwordSegue" id="nUI-uH-EhS"/>
                         <segue destination="Pph-uX-wOV" kind="show" identifier="webPrivacyPolicySegue" id="Got-4d-2Sa"/>
                         <segue destination="Pph-uX-wOV" kind="show" identifier="webTermOfUseSegue" id="jOp-Sf-yFO"/>
@@ -1317,7 +1313,7 @@
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
 c1dOU0NvbG9ygAKADRIgwAAAgAOAC1p7MzAwLCAzMDB90hUKFhhaTlMub2JqZWN0c6EXgASACtIVChod
-ohscgAWABoAJEADSIAohIl8QFE5TVElGRlJlcHJlc2VudGF0aW9ugAeACE8SAAWBQk1NACoABX5I5OTk
+ohscgAWABoAJEADSIAohIl8QFE5TVElGRlJlcHJlc2VudGF0aW9ugAeACE8SAAWBWk1NACoABX5I5OTk
 /+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk
 /+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk
 /+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk
@@ -7317,28 +7313,29 @@ ohscgAWABoAJEADSIAohIl8QFE5TVElGRlJlcHJlc2VudGF0aW9ugAeACE8SAAWBQk1NACoABX5I5OTk
 /+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk
 /+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk
 /+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk
-/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/AA4B
-AAADAAAAAQEsAAABAQADAAAAAQEsAAABAgADAAAABAAFfvYBAwADAAAAAQABAAABBgADAAAAAQACAAAB
-EQAEAAAAAwAFfwoBEgADAAAAAQABAAABFQADAAAAAQAEAAABFgADAAAAAQBtAAABFwAEAAAAAwAFfv4B
-HAADAAAAAQABAAABUgADAAAAAQABAAABUwADAAAABAAFfxaHcwAHAAACJAAFfx4AAAAAAAgACAAIAAgA
-Af7wAAH+8AABgGAAAAAIAAH++AAD/egAAQABAAEAAQAAAiRhcHBsBAAAAG1udHJSR0IgWFlaIAffAAoA
-DgANAAgAOWFjc3BBUFBMAAAAAEFQUEwAAAAAAAAAAAAAAAAAAAAAAAD21gABAAAAANMtYXBwbOW7Dphn
-vUbNS75Ebr0bdZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACmRlc2MAAAD8AAAAZWNwcnQA
-AAFkAAAAI3d0cHQAAAGIAAAAFHJYWVoAAAGcAAAAFGdYWVoAAAGwAAAAFGJYWVoAAAHEAAAAFHJUUkMA
-AAHYAAAAIGNoYWQAAAH4AAAALGJUUkMAAAHYAAAAIGdUUkMAAAHYAAAAIGRlc2MAAAAAAAAAC0Rpc3Bs
-YXkgUDMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgSW5jLiwgMjAx
-NQAAWFlaIAAAAAAAAPNRAAEAAAABFsxYWVogAAAAAAAAg98AAD2/////u1hZWiAAAAAAAABKvwAAsTcA
-AAq5WFlaIAAAAAAAACg4AAARCwAAyLlwYXJhAAAAAAADAAAAAmZmAADysAAADVAAABO2AAAJ/HNmMzIA
-AAAAAAEMQgAABd7///MmAAAHkwAA/ZD///ui///9owAAA9wAAMBu0iUmJyhaJGNsYXNzbmFtZVgkY2xh
-c3Nlc18QEE5TQml0bWFwSW1hZ2VSZXCjJykqWk5TSW1hZ2VSZXBYTlNPYmplY3TSJSYsLVdOU0FycmF5
-oiwq0iUmLzBeTlNNdXRhYmxlQXJyYXmjLywq0zIzCjQ1NldOU1doaXRlXE5TQ29sb3JTcGFjZUQwIDAA
-EAOADNIlJjg5V05TQ29sb3KiOCrSJSY7PFdOU0ltYWdlojsqXxAPTlNLZXllZEFyY2hpdmVy0T9AVHJv
-b3SAAQAAAAgAAAARAAAAGgAAACMAAAAtAAAAMgAAADcAAABGAAAATAAAAFcAAABeAAAAZQAAAHIAAAB5
-AAAAgQAAAIMAAACFAAAAigAAAIwAAACOAAAAmQAAAJ4AAACpAAAAqwAAAK0AAACvAAAAtAAAALcAAAC5
-AAAAuwAAAL0AAAC/AAAAxAAAANsAAADdAAAA3wAFgicABYIsAAWCNwAFgkAABYJTAAWCVwAFgmIABYJr
-AAWCcAAFgngABYJ7AAWCgAAFgo8ABYKTAAWCmgAFgqIABYKvAAWCtAAFgrYABYK4AAWCvQAFgsUABYLI
-AAWCzQAFgtUABYLYAAWC6gAFgu0ABYLyAAAAAAAABAEAAAAAAAAAQQAAAAAAAAAAAAAAAAAFgvQ
+/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/5OTk/+Tk5P/k5OT/ABAB
+AAADAAAAAQEsAAABAQADAAAAAQEsAAABAgADAAAABAAFfw4BAwADAAAAAQABAAABBgADAAAAAQACAAAB
+CgADAAAAAQABAAABEQAEAAAAAwAFfyIBEgADAAAAAQABAAABFQADAAAAAQAEAAABFgADAAAAAQBtAAAB
+FwAEAAAAAwAFfxYBHAADAAAAAQABAAABKAADAAAAAQACAAABUgADAAAAAQABAAABUwADAAAABAAFfy6H
+cwAHAAACJAAFfzYAAAAAAAgACAAIAAgAAf7wAAH+8AABgGAAAAAIAAH++AAD/egAAQABAAEAAQAAAiRh
+cHBsBAAAAG1udHJSR0IgWFlaIAfhAAcABwANABYAIGFjc3BBUFBMAAAAAEFQUEwAAAAAAAAAAAAAAAAA
+AAAAAAD21gABAAAAANMtYXBwbMoalYIlfxBNOJkT1dHqFYIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAACmRlc2MAAAD8AAAAZWNwcnQAAAFkAAAAI3d0cHQAAAGIAAAAFHJYWVoAAAGcAAAAFGdYWVoA
+AAGwAAAAFGJYWVoAAAHEAAAAFHJUUkMAAAHYAAAAIGNoYWQAAAH4AAAALGJUUkMAAAHYAAAAIGdUUkMA
+AAHYAAAAIGRlc2MAAAAAAAAAC0Rpc3BsYXkgUDMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdGV4dAAAAABD
+b3B5cmlnaHQgQXBwbGUgSW5jLiwgMjAxNwAAWFlaIAAAAAAAAPNRAAEAAAABFsxYWVogAAAAAAAAg98A
+AD2/////u1hZWiAAAAAAAABKvwAAsTcAAAq5WFlaIAAAAAAAACg4AAARCwAAyLlwYXJhAAAAAAADAAAA
+AmZmAADypwAADVkAABPQAAAKW3NmMzIAAAAAAAEMQgAABd7///MmAAAHkwAA/ZD///ui///9owAAA9wA
+AMBu0iUmJyhaJGNsYXNzbmFtZVgkY2xhc3Nlc18QEE5TQml0bWFwSW1hZ2VSZXCjJykqWk5TSW1hZ2VS
+ZXBYTlNPYmplY3TSJSYsLVdOU0FycmF5oiwq0iUmLzBeTlNNdXRhYmxlQXJyYXmjLywq0zIzCjQ1NldO
+U1doaXRlXE5TQ29sb3JTcGFjZUQwIDAAEAOADNIlJjg5V05TQ29sb3KiOCrSJSY7PFdOU0ltYWdlojsq
+XxAPTlNLZXllZEFyY2hpdmVy0T9AVHJvb3SAAQAAAAgAAAARAAAAGgAAACMAAAAtAAAAMgAAADcAAABG
+AAAATAAAAFcAAABeAAAAZQAAAHIAAAB5AAAAgQAAAIMAAACFAAAAigAAAIwAAACOAAAAmQAAAJ4AAACp
+AAAAqwAAAK0AAACvAAAAtAAAALcAAAC5AAAAuwAAAL0AAAC/AAAAxAAAANsAAADdAAAA3wAFgj8ABYJE
+AAWCTwAFglgABYJrAAWCbwAFgnoABYKDAAWCiAAFgpAABYKTAAWCmAAFgqcABYKrAAWCsgAFgroABYLH
+AAWCzAAFgs4ABYLQAAWC1QAFgt0ABYLgAAWC5QAFgu0ABYLwAAWDAgAFgwUABYMKAAAAAAAABAEAAAAA
+AAAAQQAAAAAAAAAAAAAAAAAFgww
 </mutableData>
         </image>
         <image name="personal_ic_list" width="20" height="15"/>
@@ -7356,7 +7353,7 @@ AAWCzQAFgtUABYLYAAWC6gAFgu0ABYLyAAAAAAAABAEAAAAAAAAAQQAAAAAAAAAAAAAAAAAFgvQ
     <inferredMetricsTieBreakers>
         <segue reference="jOp-Sf-yFO"/>
         <segue reference="hbO-lu-owc"/>
-        <segue reference="6mJ-Bl-V9p"/>
+        <segue reference="bMc-sh-nso"/>
         <segue reference="r42-p5-bz4"/>
     </inferredMetricsTieBreakers>
 </document>

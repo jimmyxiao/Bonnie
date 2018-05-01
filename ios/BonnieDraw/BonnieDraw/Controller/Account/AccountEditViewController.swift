@@ -40,11 +40,11 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             profileImage.setImage(with: profile?.image, placeholderImage: UIImage(named: "photo-square"))
         }
         setViewData()
-        if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
-            websiteLabel.isHidden = false
-            website.isHidden = false
-            websiteDivider.isHidden = false
-        }
+//        if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
+//            websiteLabel.isHidden = false
+//            website.isHidden = false
+//            websiteDivider.isHidden = false
+//        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

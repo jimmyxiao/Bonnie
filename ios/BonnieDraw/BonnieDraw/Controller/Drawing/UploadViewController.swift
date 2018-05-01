@@ -43,13 +43,13 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
             self.accessControl = self.dropDownItems[index].access
         }
         thumbnail.image = workThumbnail
-        if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
-            workLinkLabel.isHidden = false
-            workLink.isHidden = false
-            workLinkDivider.isHidden = false
-            workLinkHeight.constant = 44
-            workLinkDividerHeight.constant = 1
-        }
+//        if UserDefaults.standard.integer(forKey: Defaults.USER_GROUP) == 1 {
+//            workLinkLabel.isHidden = false
+//            workLink.isHidden = false
+//            workLinkDivider.isHidden = false
+//            workLinkHeight.constant = 44
+//            workLinkDividerHeight.constant = 1
+//        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
