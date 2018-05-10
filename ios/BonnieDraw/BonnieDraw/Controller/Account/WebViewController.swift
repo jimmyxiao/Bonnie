@@ -20,7 +20,6 @@ class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDel
         let webView = WKWebView()
         webView.uiDelegate = self
         webView.navigationDelegate = self
-        webView.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)
         container.addAndFill(subView: webView)
         indicator.startAnimating()
         self.webView = webView
@@ -31,8 +30,16 @@ class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDel
         }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        webView?.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         loadPage()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        webView?.removeObserver(self, forKeyPath: keyPath)
     }
 
     func loadPage() {
@@ -50,10 +57,6 @@ class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDel
                 }
             }
         }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        webView?.removeObserver(self, forKeyPath: keyPath)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
