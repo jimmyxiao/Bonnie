@@ -1299,6 +1299,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="container" destination="2yz-do-ZFD" id="kec-6W-Tj3"/>
+                        <outlet property="indicator" destination="m88-Sh-9ju" id="URk-zY-02y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zFe-d6-08f" userLabel="First Responder" sceneMemberID="firstResponder"/>

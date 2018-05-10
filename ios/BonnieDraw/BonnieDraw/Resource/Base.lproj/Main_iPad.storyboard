@@ -83,7 +83,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="seo-DO-eE2">
-                                                            <rect key="frame" x="16" y="8" width="864" height="44"/>
+                                                            <rect key="frame" x="16" y="8" width="608" height="44"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="1000" verticalHuggingPriority="251" image="imageView:FgY-bH-tnX:image" translatesAutoresizingMaskIntoConstraints="NO" id="FgY-bH-tnX">
                                                                     <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
@@ -97,7 +97,7 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LJy-QJ-VG8">
-                                                                    <rect key="frame" x="52" y="0.0" width="812" height="44"/>
+                                                                    <rect key="frame" x="52" y="0.0" width="556" height="44"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -109,13 +109,13 @@
                                                             </constraints>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWQ-A2-dyl">
-                                                            <rect key="frame" x="68" y="60" width="797" height="0.0"/>
+                                                            <rect key="frame" x="68" y="60" width="541" height="0.0"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mGF-g9-Ox8">
-                                                            <rect key="frame" x="865" y="67.5" width="0.0" height="224"/>
+                                                            <rect key="frame" x="609" y="67.5" width="0.0" height="224"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -1240,7 +1240,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qag-UD-sMC">
-                                                            <rect key="frame" x="67.5" y="8" width="769" height="18"/>
+                                                            <rect key="frame" x="67.5" y="8" width="513" height="18"/>
                                                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
                                                             <state key="normal">
                                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -1250,19 +1250,19 @@
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uq-uT-hRy">
-                                                            <rect key="frame" x="836.5" y="8" width="0.0" height="0.0"/>
+                                                            <rect key="frame" x="580.5" y="8" width="0.0" height="0.0"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wc7-mU-Wd6">
-                                                            <rect key="frame" x="67.5" y="51.5" width="770" height="0.0"/>
+                                                            <rect key="frame" x="67.5" y="51.5" width="514" height="0.0"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gM0-9w-7lz">
-                                                            <rect key="frame" x="845" y="8" width="44" height="43.5"/>
+                                                            <rect key="frame" x="589" y="8" width="44" height="43.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="44" id="kAs-z6-f5y"/>
                                                                 <constraint firstAttribute="height" constant="44" id="xVj-Yl-nnD"/>
@@ -1451,7 +1451,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0lN-Eo-NHE">
-                                            <rect key="frame" x="128" y="66" width="624" height="0.0"/>
+                                            <rect key="frame" x="128" y="66" width="880" height="0.0"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -1471,7 +1471,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2018 Sourcecode.tw Inc. All rights reserved" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yG4-4g-qZw">
-                                            <rect key="frame" x="16" y="16" width="736" height="20.5"/>
+                                            <rect key="frame" x="16" y="16" width="992" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1485,7 +1485,7 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="basicCell" textLabel="045-JS-EyD" imageView="foZ-hA-Xfj" style="IBUITableViewCellStyleDefault" id="bvI-B5-A6w">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="basicCell" textLabel="045-JS-EyD" imageView="foZ-hA-Xfj" style="IBUITableViewCellStyleDefault" id="bvI-B5-A6w">
                                         <rect key="frame" x="0.0" y="160" width="1024" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bvI-B5-A6w" id="2Dd-sP-9Ix">
@@ -1576,7 +1576,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="basicCell" textLabel="V0A-ix-o17" style="IBUITableViewCellStyleDefault" id="kTo-6v-Sje">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="basicCell" textLabel="V0A-ix-o17" style="IBUITableViewCellStyleDefault" id="kTo-6v-Sje">
                                         <rect key="frame" x="0.0" y="28" width="1024" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kTo-6v-Sje" id="EC7-ft-egh">
@@ -1654,19 +1654,19 @@
                             <tabBar contentMode="scaleToFill" itemPositioning="centered" translatesAutoresizingMaskIntoConstraints="NO" id="Inp-WT-cz2">
                                 <rect key="frame" x="0.0" y="719" width="1024" height="49"/>
                                 <items>
-                                    <tabBarItem title="" image="bottom_bar_ic_home" id="bfz-HT-zHs">
+                                    <tabBarItem title="" image="bottom_bar_ic_home" selectedImage="bottom_bar_ic_home_on" id="bfz-HT-zHs">
                                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                                     </tabBarItem>
-                                    <tabBarItem title="" image="bottom_bar_ic_like" id="I0j-30-s8y">
+                                    <tabBarItem title="" image="bottom_bar_ic_like" selectedImage="bottom_bar_ic_like_on" id="I0j-30-s8y">
                                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                                     </tabBarItem>
                                     <tabBarItem enabled="NO" title="" id="1m4-AD-oom">
                                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                                     </tabBarItem>
-                                    <tabBarItem title="" image="bottom_bar_ic_notice" id="qko-yF-9FZ">
+                                    <tabBarItem title="" image="bottom_bar_ic_notice" selectedImage="bottom_bar_ic_notice_on" id="qko-yF-9FZ">
                                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                                     </tabBarItem>
-                                    <tabBarItem title="" image="bottom_bar_ic_user" id="up7-zU-FRB">
+                                    <tabBarItem title="" image="bottom_bar_ic_user" selectedImage="bottom_bar_ic_user_on" id="up7-zU-FRB">
                                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                                     </tabBarItem>
                                 </items>
@@ -2238,10 +2238,14 @@
         <image name="Triangle_icon" width="13" height="13"/>
         <image name="back_icon" width="14" height="26"/>
         <image name="bottom_bar_ic_home" width="25" height="25"/>
+        <image name="bottom_bar_ic_home_on" width="23" height="23"/>
         <image name="bottom_bar_ic_like" width="25" height="23"/>
+        <image name="bottom_bar_ic_like_on" width="23" height="21"/>
         <image name="bottom_bar_ic_new" width="65" height="65"/>
         <image name="bottom_bar_ic_notice" width="25" height="25"/>
+        <image name="bottom_bar_ic_notice_on" width="25" height="25"/>
         <image name="bottom_bar_ic_user" width="22" height="25"/>
+        <image name="bottom_bar_ic_user_on" width="22" height="24"/>
         <image name="button:7LC-MI-PmI:image" width="22" height="6">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
