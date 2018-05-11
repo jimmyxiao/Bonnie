@@ -123,13 +123,17 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let userList = data["friendList"] as? [[String: Any]] else {
-                        self.presentConfirmationDialog(
-                                title: "service_download_fail_title".localized,
-                                message: "alert_network_unreachable_content".localized) {
-                            success in
-                            if success {
-                                self.downloadData()
-                            }
+//                        self.presentConfirmationDialog(
+//                                title: "service_download_fail_title".localized,
+//                                message: "alert_network_unreachable_content".localized) {
+//                            success in
+//                            if success {
+//                                self.downloadData()
+//                            }
+//                        }
+                        self.emptyLabel.isHidden = false
+                        if !self.loading.isHidden {
+                            self.loading.hide(true)
                         }
                         return
                     }
