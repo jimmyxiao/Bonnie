@@ -1717,11 +1717,11 @@
             <objects>
                 <viewController storyboardIdentifier="reportViewController" id="Hoj-RR-fqI" customClass="ReportViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gwq-Fd-KAT">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="719"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zgy-rD-DGC">
-                                <rect key="frame" x="296" y="266.5" width="432" height="235"/>
+                                <rect key="frame" x="296" y="242" width="432" height="235"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="FFp-kj-9h1">
                                     <rect key="frame" x="0.0" y="0.0" width="432" height="235"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1919,11 +1919,11 @@
             <objects>
                 <viewController storyboardIdentifier="editViewController" id="uTq-VR-1BZ" customClass="EditViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="H64-15-AAr">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="719"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMh-Dr-qna">
-                                <rect key="frame" x="296" y="158.5" width="432" height="451"/>
+                                <rect key="frame" x="296" y="134" width="432" height="451"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="VNP-SE-ua0">
                                     <rect key="frame" x="0.0" y="0.0" width="432" height="451"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -14432,9 +14432,9 @@ AAWIuQAFiL4AAAAAAAAEAQAAAAAAAABBAAAAAAAAAAAAAAAAAAWIwA
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QjV-Sq-9mO"/>
-        <segue reference="Kc0-Wa-PEp"/>
-        <segue reference="GKN-31-Thb"/>
-        <segue reference="WGO-60-ai1"/>
+        <segue reference="5NX-Xb-gBZ"/>
+        <segue reference="ssD-gC-Z13"/>
+        <segue reference="zZU-Ky-cte"/>
+        <segue reference="7Dv-w1-kWC"/>
     </inferredMetricsTieBreakers>
 </document>

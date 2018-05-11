@@ -258,6 +258,11 @@
                                                     <constraint firstItem="B12-yN-Xu2" firstAttribute="width" secondItem="StQ-MW-Dkj" secondAttribute="width" multiplier="0.6" id="aie-9d-FjC"/>
                                                     <constraint firstAttribute="bottom" secondItem="C8n-f2-gIw" secondAttribute="bottom" constant="16" id="iEd-S9-9Ef"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
                                             </view>
                                         </subviews>
                                         <constraints>
@@ -272,6 +277,7 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="GHI-K3-ESg" secondAttribute="bottom" id="Cm9-Dd-6OV"/>
                                     <constraint firstItem="GHI-K3-ESg" firstAttribute="top" secondItem="qDh-kJ-JU0" secondAttribute="top" id="DxX-O9-k6l"/>
+                                    <constraint firstItem="StQ-MW-Dkj" firstAttribute="width" secondItem="qDh-kJ-JU0" secondAttribute="width" id="M5b-7P-TWN"/>
                                     <constraint firstAttribute="trailing" secondItem="GHI-K3-ESg" secondAttribute="trailing" id="RSH-6K-GOt"/>
                                     <constraint firstAttribute="width" secondItem="qDh-kJ-JU0" secondAttribute="height" multiplier="1:1" id="Ssb-jp-wq1"/>
                                     <constraint firstItem="GHI-K3-ESg" firstAttribute="leading" secondItem="qDh-kJ-JU0" secondAttribute="leading" id="dGe-bE-hQa"/>
@@ -797,7 +803,7 @@
         <image name="back_icon" width="14" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dOD-KI-kjt"/>
+        <segue reference="SQb-wg-XXh"/>
         <segue reference="wd2-B0-7UG"/>
     </inferredMetricsTieBreakers>
 </document>
