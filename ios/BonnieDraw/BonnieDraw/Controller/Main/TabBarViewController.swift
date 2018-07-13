@@ -116,31 +116,42 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
     }
 
     private func checkUpdate() {
-        if let settings = RemoteConfigSettings(developerModeEnabled: DEBUG) {
-            RemoteConfig.remoteConfig().configSettings = settings
-        }
+        RemoteConfig.remoteConfig().configSettings = RemoteConfigSettings(developerModeEnabled: DEBUG)
         RemoteConfig.remoteConfig().fetch(withExpirationDuration: DEBUG ? 0 : UPDATE_INTERVAL) {
             status, error in
             if status == .success {
                 RemoteConfig.remoteConfig().activateFetched()
                 if let current = Version.current,
-                   let latestString = RemoteConfig.remoteConfig()[RemoteConfig.FORCE_UPDATE_CURRENT_VERSION].stringValue {
-                    let latest = Version(version: latestString)
-                    if latest > current,
-                       let url = URL(string: RemoteConfig.remoteConfig()[RemoteConfig.FORCE_UPDATE_STORE_URL].stringValue ?? ""),
-                       UIApplication.shared.canOpenURL(url) {
+                   let latestVersion = RemoteConfig.remoteConfig()[RemoteConfig.FORCE_UPDATE_CURRENT_VERSION].stringValue,
+                   let enforcedVersion = RemoteConfig.remoteConfig()[RemoteConfig.FORCE_UPDATE_ENFORCED_VERSION].stringValue,
+                   let updateUrlString = RemoteConfig.remoteConfig()[RemoteConfig.FORCE_UPDATE_STORE_URL].stringValue,
+                   let updateUrl = URL(string: updateUrlString) {
+                    if Version(version: enforcedVersion) > current {
                         let alert = UIAlertController(title: "alert_app_update_title".localized, message: "alert_app_update_content".localized, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "alert_button_update".localized, style: .default) {
                             action in
-                            UIApplication.shared.open(url, options: [:]) {
-                                finised in
-                                exit(0)
+                            if UIApplication.shared.canOpenURL(updateUrl) {
+                                UIApplication.shared.open(updateUrl, options: [:]) {
+                                    finised in
+                                    exit(0)
+                                }
                             }
                         })
                         alert.view.tintColor = UIColor.getAccentColor()
-                        if !(RemoteConfig.remoteConfig()[RemoteConfig.FORCE_UPDATE_REQUIRED].boolValue) {
-                            alert.addAction(UIAlertAction(title: "alert_button_cancel".localized, style: .cancel))
-                        }
+                        self.present(alert, animated: true)
+                    } else if Version(version: latestVersion) > current {
+                        let alert = UIAlertController(title: "alert_app_update_title".localized, message: "alert_app_update_content".localized, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "alert_button_update".localized, style: .default) {
+                            action in
+                            if UIApplication.shared.canOpenURL(updateUrl) {
+                                UIApplication.shared.open(updateUrl, options: [:]) {
+                                    finised in
+                                    exit(0)
+                                }
+                            }
+                        })
+                        alert.view.tintColor = UIColor.getAccentColor()
+                        alert.addAction(UIAlertAction(title: "alert_button_cancel".localized, style: .cancel))
                         self.present(alert, animated: true)
                     }
                 }

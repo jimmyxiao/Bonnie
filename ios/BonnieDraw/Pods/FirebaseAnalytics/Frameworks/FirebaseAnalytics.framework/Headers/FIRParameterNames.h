@@ -10,6 +10,8 @@
 /// be up to 100 characters long. The "firebase_", "google_", and "ga_" prefixes are reserved and
 /// should not be used.
 
+#import <Foundation/Foundation.h>
+
 /// Game achievement ID (NSString).
 /// <pre>
 ///     NSDictionary *params = @{
@@ -491,8 +493,7 @@ static NSString *const kFIRParameterVirtualCurrencyName
 ///       // ...
 ///     };
 /// </pre>
-static NSString *const kFIRParameterLevelName
-NS_SWIFT_NAME(AnalyticsParameterLevelName) =
+static NSString *const kFIRParameterLevelName NS_SWIFT_NAME(AnalyticsParameterLevelName) =
         @"level_name";
 
 /// The result of an operation. Specify 1 to indicate success and 0 to indicate failure (unsigned
@@ -503,5 +504,4 @@ NS_SWIFT_NAME(AnalyticsParameterLevelName) =
 ///       // ...
 ///     };
 /// </pre>
-static NSString *const kFIRParameterSuccess
-NS_SWIFT_NAME(AnalyticsParameterSuccess) = @"success";
+static NSString *const kFIRParameterSuccess NS_SWIFT_NAME(AnalyticsParameterSuccess) = @"success";

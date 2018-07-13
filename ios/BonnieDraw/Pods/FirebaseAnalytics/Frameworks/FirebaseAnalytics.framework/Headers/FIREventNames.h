@@ -10,6 +10,8 @@
 /// characters and underscores ("_"), and must start with an alphabetic character. The "firebase_",
 /// "google_", and "ga_" prefixes are reserved and should not be used.
 
+#import <Foundation/Foundation.h>
+
 /// Add Payment Info event. This event signifies that a user has submitted their payment information
 /// to your app.
 static NSString *const kFIREventAddPaymentInfo NS_SWIFT_NAME(AnalyticsEventAddPaymentInfo) =
@@ -393,8 +395,7 @@ static NSString *const kFIREventViewSearchResults NS_SWIFT_NAME(AnalyticsEventVi
 /// <ul>
 ///     <li>@c kFIRParameterLevelName (NSString)</li>
 /// </ul>
-static NSString *const kFIREventLevelStart
-NS_SWIFT_NAME(AnalyticsEventLevelStart) =
+static NSString *const kFIREventLevelStart NS_SWIFT_NAME(AnalyticsEventLevelStart) =
         @"level_start";
 
 /// Level End event. Log this event when the user finishes a level. Params:
@@ -403,5 +404,4 @@ NS_SWIFT_NAME(AnalyticsEventLevelStart) =
 ///     <li>@c kFIRParameterLevelName (NSString)</li>
 ///     <li>@c kFIRParameterSuccess (NSString)</li>
 /// </ul>
-static NSString *const kFIREventLevelEnd
-NS_SWIFT_NAME(AnalyticsEventLevelEnd) = @"level_end";
+static NSString *const kFIREventLevelEnd NS_SWIFT_NAME(AnalyticsEventLevelEnd) = @"level_end";

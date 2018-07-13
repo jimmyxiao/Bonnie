@@ -246,7 +246,7 @@ struct NotificationName {
 }
 
 extension RemoteConfig {
-    static let FORCE_UPDATE_REQUIRED = "force_update_required"
     static let FORCE_UPDATE_CURRENT_VERSION = "force_update_current_version"
+    static let FORCE_UPDATE_ENFORCED_VERSION = "force_update_enforce_version"
     static let FORCE_UPDATE_STORE_URL = "force_update_store_url"
 }
