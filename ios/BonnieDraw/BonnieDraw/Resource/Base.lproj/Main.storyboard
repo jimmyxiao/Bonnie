@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yXb-xA-XFY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yXb-xA-XFY">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -16,7 +16,7 @@
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="mainViewController" id="BYZ-38-t0r" customClass="MainViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="BYZ-38-t0r" customClass="MainViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,7 +30,7 @@
                     <connections>
                         <segue destination="wJz-eU-OoF" kind="custom" identifier="drawerSegue" customClass="KYEmbedDrawerControllerSegue" customModule="KYDrawerController" id="RF9-yg-SDi"/>
                         <segue destination="gqZ-Hv-WuX" kind="custom" identifier="mainSegue" customClass="KYEmbedMainControllerSegue" customModule="KYDrawerController" id="O5z-gT-8Zc"/>
-                        <segue destination="6Ch-pY-4KF" kind="presentation" identifier="accountEditSegue" id="GJ8-2T-54z"/>
+                        <segue destination="6Ch-pY-4KF" kind="presentation" identifier="AccountEditViewController" id="GJ8-2T-54z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -40,7 +40,7 @@
         <!--Comment-->
         <scene sceneID="hlz-FZ-BN3">
             <objects>
-                <viewController storyboardIdentifier="commentViewController" title="Comment" id="R9c-0p-Md0" customClass="CommentViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CommentViewController" title="Comment" id="R9c-0p-Md0" customClass="CommentViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZHj-jM-OjM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -54,7 +54,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="commentCell" rowHeight="300" id="RwB-fj-Tew" customClass="CommentTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentTableViewCell" rowHeight="300" id="RwB-fj-Tew" customClass="CommentTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RwB-fj-Tew" id="vg7-G2-qUQ">
@@ -237,7 +237,7 @@
         <!--Home View Controller-->
         <scene sceneID="VaJ-Ar-rsM">
             <objects>
-                <viewController storyboardIdentifier="homeViewController" id="gud-V7-B39" customClass="HomeViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" id="gud-V7-B39" customClass="HomeViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WQO-Jk-haa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -246,7 +246,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="homeCell" rowHeight="453" id="YrB-Qi-F35" customClass="HomeTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HomeTableViewCell" rowHeight="453" id="YrB-Qi-F35" customClass="HomeTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="453"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YrB-Qi-F35" id="mvH-jk-OsC">
@@ -427,7 +427,7 @@
                                             <outlet property="profileName" destination="f0M-dC-uac" id="Lrs-Vq-6cx"/>
                                             <outlet property="thumbnail" destination="0lX-TD-oiP" id="iPF-w7-VLE"/>
                                             <outlet property="title" destination="gLu-M5-t7c" id="b5O-Jr-zzz"/>
-                                            <segue destination="qCL-XZ-s9R" kind="presentation" identifier="workSegue" id="5NX-Xb-gBZ"/>
+                                            <segue destination="qCL-XZ-s9R" kind="presentation" identifier="WorkViewController" id="5NX-Xb-gBZ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -479,10 +479,10 @@
                         <outlet property="loading" destination="aaU-ra-y4I" id="tsj-BI-FJi"/>
                         <outlet property="menuButton" destination="dCA-X5-4qK" id="VuU-B0-i3D"/>
                         <outlet property="tableView" destination="VNc-7M-hET" id="AE5-BG-8E1"/>
-                        <segue destination="Hoj-RR-fqI" kind="presentation" identifier="reportSegue" animates="NO" modalPresentationStyle="overFullScreen" id="zZU-Ky-cte"/>
-                        <segue destination="6m7-rv-1Ux" kind="show" identifier="accountSegue" id="7Dv-w1-kWC"/>
-                        <segue destination="qCL-XZ-s9R" kind="presentation" identifier="commentSegue" id="39j-eH-1du"/>
-                        <segue destination="uTq-VR-1BZ" kind="presentation" identifier="editSegue" animates="NO" modalPresentationStyle="overFullScreen" id="ssD-gC-Z13"/>
+                        <segue destination="Hoj-RR-fqI" kind="presentation" identifier="ReportViewController" animates="NO" modalPresentationStyle="overFullScreen" id="zZU-Ky-cte"/>
+                        <segue destination="6m7-rv-1Ux" kind="show" identifier="AccountViewController" id="7Dv-w1-kWC"/>
+                        <segue destination="qCL-XZ-s9R" kind="presentation" identifier="CommentViewController" id="39j-eH-1du"/>
+                        <segue destination="uTq-VR-1BZ" kind="presentation" identifier="EditViewController" animates="NO" modalPresentationStyle="overFullScreen" id="ssD-gC-Z13"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyz-PE-3Pi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -492,7 +492,7 @@
         <!--Delegate-->
         <scene sceneID="nyB-2A-h4h">
             <objects>
-                <viewController storyboardIdentifier="workViewController" id="wJn-NR-0b0" customClass="WorkViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WorkViewController" id="wJn-NR-0b0" customClass="WorkViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Mm-Sd-DSY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -791,8 +791,8 @@
                         <outlet property="scrollView" destination="joQ-M3-DBe" id="eKq-5Y-1aG"/>
                         <outlet property="thumbnail" destination="onf-D7-UIT" id="xEV-db-9fI"/>
                         <outlet property="titleLabel" destination="Cka-qb-CIQ" id="01w-WI-eaS"/>
-                        <segue destination="Hoj-RR-fqI" kind="presentation" identifier="reportSegue" animates="NO" modalPresentationStyle="overCurrentContext" id="GKN-31-Thb"/>
-                        <segue destination="uTq-VR-1BZ" kind="presentation" identifier="editSegue" animates="NO" modalPresentationStyle="overFullScreen" id="Kc0-Wa-PEp"/>
+                        <segue destination="Hoj-RR-fqI" kind="presentation" identifier="ReportViewController" animates="NO" modalPresentationStyle="overCurrentContext" id="GKN-31-Thb"/>
+                        <segue destination="uTq-VR-1BZ" kind="presentation" identifier="EditViewController" animates="NO" modalPresentationStyle="overFullScreen" id="Kc0-Wa-PEp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-sx-Edr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -802,7 +802,7 @@
         <!--Follow View Controller-->
         <scene sceneID="3iE-eI-gSs">
             <objects>
-                <viewController storyboardIdentifier="followViewController" id="YPx-0H-Cfd" customClass="FollowViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FollowViewController" id="YPx-0H-Cfd" customClass="FollowViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Daw-iW-djO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -811,7 +811,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="followCell" rowHeight="453" id="kFq-J3-0GI" customClass="FollowTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FollowTableViewCell" rowHeight="453" id="kFq-J3-0GI" customClass="FollowTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="453"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kFq-J3-0GI" id="gtq-ap-qlG">
@@ -971,7 +971,7 @@
                                             <outlet property="profileName" destination="mBi-ig-sxj" id="E9I-5a-Yb9"/>
                                             <outlet property="thumbnail" destination="ZIv-07-8Ku" id="8YO-Eh-cMb"/>
                                             <outlet property="title" destination="5Ho-5I-mTC" id="sBk-Qm-CJ3"/>
-                                            <segue destination="qCL-XZ-s9R" kind="presentation" identifier="workSegue" id="QjV-Sq-9mO"/>
+                                            <segue destination="qCL-XZ-s9R" kind="presentation" identifier="WorkViewController" id="QjV-Sq-9mO"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1018,10 +1018,10 @@
                         <outlet property="emptyLabel" destination="pct-gg-31m" id="8VG-ie-NJi"/>
                         <outlet property="loading" destination="wLe-FF-rWl" id="IAV-6r-jhh"/>
                         <outlet property="tableView" destination="m2f-lW-bPO" id="wyG-kx-tF2"/>
-                        <segue destination="Hoj-RR-fqI" kind="presentation" identifier="reportSegue" animates="NO" modalPresentationStyle="overCurrentContext" id="4aL-pI-Agf"/>
-                        <segue destination="6m7-rv-1Ux" kind="show" identifier="accountSegue" id="2Op-Kq-GBM"/>
-                        <segue destination="qCL-XZ-s9R" kind="presentation" identifier="commentSegue" id="bBF-8j-5g5"/>
-                        <segue destination="uTq-VR-1BZ" kind="presentation" identifier="editSegue" animates="NO" modalPresentationStyle="overFullScreen" id="ioU-Av-ZYW"/>
+                        <segue destination="Hoj-RR-fqI" kind="presentation" identifier="ReportViewController" animates="NO" modalPresentationStyle="overCurrentContext" id="4aL-pI-Agf"/>
+                        <segue destination="6m7-rv-1Ux" kind="show" identifier="AccountViewController" id="2Op-Kq-GBM"/>
+                        <segue destination="qCL-XZ-s9R" kind="presentation" identifier="CommentViewController" id="bBF-8j-5g5"/>
+                        <segue destination="uTq-VR-1BZ" kind="presentation" identifier="EditViewController" animates="NO" modalPresentationStyle="overFullScreen" id="ioU-Av-ZYW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P8B-1q-Fml" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1031,7 +1031,7 @@
         <!--Notification-->
         <scene sceneID="vdd-3p-tbe">
             <objects>
-                <viewController storyboardIdentifier="notificationViewController" title="Notification" id="0iz-lF-Ckq" customClass="NotificationViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NotificationViewController" title="Notification" id="0iz-lF-Ckq" customClass="NotificationViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rvt-a0-2lM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1045,7 +1045,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" id="7Bu-8k-Wt5" customClass="NotificationTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotificationTableViewCell" id="7Bu-8k-Wt5" customClass="NotificationTableViewCell" customModule="BonnieDraw" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Bu-8k-Wt5" id="iCg-YG-WMe">
@@ -1163,8 +1163,8 @@
                         <outlet property="emptyLabel" destination="dkW-bQ-vtQ" id="xVZ-pm-jZa"/>
                         <outlet property="loading" destination="hdI-dF-gke" id="IkB-n6-kfJ"/>
                         <outlet property="tableView" destination="TBo-Ho-Wan" id="QJL-cA-opY"/>
-                        <segue destination="6m7-rv-1Ux" kind="show" identifier="accountSegue" id="28q-dZ-TbL"/>
-                        <segue destination="qCL-XZ-s9R" kind="presentation" identifier="workSegue" id="LLV-OV-k36"/>
+                        <segue destination="6m7-rv-1Ux" kind="show" identifier="AccountViewController" id="28q-dZ-TbL"/>
+                        <segue destination="qCL-XZ-s9R" kind="presentation" identifier="WorkViewController" id="LLV-OV-k36"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5e3-Xf-zpr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1262,7 +1262,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0lN-Eo-NHE">
-                                            <rect key="frame" x="128" y="66" width="231" height="0.0"/>
+                                            <rect key="frame" x="128" y="66" width="176" height="0.0"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -1282,7 +1282,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2018 Sourcecode.tw Inc. All rights reserved" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yG4-4g-qZw">
-                                            <rect key="frame" x="16" y="16" width="343" height="20.5"/>
+                                            <rect key="frame" x="16" y="16" width="288" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1296,7 +1296,7 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="basicCell" textLabel="045-JS-EyD" imageView="foZ-hA-Xfj" style="IBUITableViewCellStyleDefault" id="bvI-B5-A6w">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicTableViewCell" textLabel="045-JS-EyD" imageView="foZ-hA-Xfj" style="IBUITableViewCellStyleDefault" id="bvI-B5-A6w">
                                         <rect key="frame" x="0.0" y="160" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bvI-B5-A6w" id="2Dd-sP-9Ix">
@@ -1363,7 +1363,7 @@
                         <outlet property="profileImage" destination="qKm-xH-17o" id="kHJ-qW-5Lo"/>
                         <outlet property="profileName" destination="0lN-Eo-NHE" id="XRP-55-T1U"/>
                         <outlet property="tableView" destination="svE-S6-Wl5" id="rXi-Do-mGu"/>
-                        <segue destination="3ZD-a6-0Tg" kind="presentation" identifier="debugSegue" id="F1o-l4-g3a"/>
+                        <segue destination="3ZD-a6-0Tg" kind="presentation" identifier="DebugViewController" id="F1o-l4-g3a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bb6-Ol-Dzi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1387,7 +1387,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="basicCell" textLabel="V0A-ix-o17" style="IBUITableViewCellStyleDefault" id="kTo-6v-Sje">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicTableViewCell" textLabel="V0A-ix-o17" style="IBUITableViewCellStyleDefault" id="kTo-6v-Sje">
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kTo-6v-Sje" id="EC7-ft-egh">
@@ -1526,7 +1526,7 @@
         <!--Report View Controller-->
         <scene sceneID="eNS-lh-gaL">
             <objects>
-                <viewController storyboardIdentifier="reportViewController" id="Hoj-RR-fqI" customClass="ReportViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReportViewController" id="Hoj-RR-fqI" customClass="ReportViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gwq-Fd-KAT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1730,11 +1730,11 @@
             <objects>
                 <viewController storyboardIdentifier="editViewController" id="uTq-VR-1BZ" customClass="EditViewController" customModule="BonnieDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="H64-15-AAr">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMh-Dr-qna">
-                                <rect key="frame" x="16" y="58.5" width="288" height="451"/>
+                                <rect key="frame" x="16" y="34" width="288" height="451"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="VNP-SE-ua0">
                                     <rect key="frame" x="0.0" y="0.0" width="288" height="451"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2026,7 +2026,7 @@
         <!--Navigation Controller-->
         <scene sceneID="0Gu-6j-eiw">
             <objects>
-                <navigationController storyboardIdentifier="navigationViewController" id="qCL-XZ-s9R" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavigationViewController" id="qCL-XZ-s9R" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Yec-Vh-JxG">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -8126,8 +8126,8 @@ AAWIuQAFiL4AAAAAAAAEAQAAAAAAAABBAAAAAAAAAAAAAAAAAAWIwA
         <image name="works_ic_more" width="22" height="6"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QjV-Sq-9mO"/>
-        <segue reference="Kc0-Wa-PEp"/>
+        <segue reference="5NX-Xb-gBZ"/>
+        <segue reference="ssD-gC-Z13"/>
         <segue reference="GKN-31-Thb"/>
         <segue reference="WGO-60-ai1"/>
     </inferredMetricsTieBreakers>

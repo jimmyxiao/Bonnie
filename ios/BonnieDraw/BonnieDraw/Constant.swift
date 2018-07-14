@@ -119,24 +119,6 @@ struct FileUrl {
             create: true).appendingPathComponent("state.plist")
 }
 
-struct Cell {
-    static let BASIC = "basicCell"
-    static let HOME = "homeCell"
-    static let COLOR_PICKER = "colorPickerCell"
-    static let SIZE_PICKER = "sizePickerCell"
-    static let ACCOUNT_HEADER = "accountHeaderCell"
-    static let ACCOUNT_GRID = "accountGridCell"
-    static let ACCOUNT_LIST = "accountListCell"
-    static let ACCOUNT_FOOTER = "accountFooterCell"
-    static let FOLLOW = "followCell"
-    static let USER = "userCell"
-    static let NOTIFICATION = "notificationCell"
-    static let CANVAS_SETTING = "canvasSettingCell"
-    static let BRUSH_PICKER = "brushPickerCell"
-    static let COMMENT = "commentCell"
-    static let SWITCH = "switchCell"
-}
-
 struct Service {
     static let BASE = "/bonniedraw_service/BDService"
     static let SCHEME = "https"
@@ -185,36 +167,52 @@ struct Service {
     }
 }
 
+struct Cell {
+    static let ACCOUNT_HEADER = "AccountHeaderCollectionReusableView"
+    static let BASIC = "BasicTableViewCell"
+    static let HOME = "HomeTableViewCell"
+    static let COLOR_PICKER = "ColorPickerCollectionViewCell"
+    static let ACCOUNT_GRID = "AccountGridCollectionViewCell"
+    static let ACCOUNT_LIST = "AccountListCollectionViewCell"
+    static let ACCOUNT_FOOTER = "AccountFooterCollectionReusableView"
+    static let FOLLOW = "FollowTableViewCell"
+    static let USER = "UserTableViewCell"
+    static let NOTIFICATION = "NotificationTableViewCell"
+    static let BRUSH_PICKER = "BrushPickerCollectionViewCell"
+    static let COMMENT = "CommentTableViewCell"
+    static let SWITCH = "SwitchTableViewCell"
+}
+
 struct Identifier {
-    static let MAIN = "mainViewController"
-    static let HOME = "homeViewController"
-    static let FOLLOW = "followViewController"
-    static let NOTIFICATION = "notificationViewController"
-    static let REPORT = "reportViewController"
-    static let WORK = "workViewController"
-    static let COMMENT = "commentViewController"
-    static let NAVIGATION = "navigationViewController"
+    static let MAIN = "MainViewController"
+    static let HOME = "HomeViewController"
+    static let FOLLOW = "FollowViewController"
+    static let NOTIFICATION = "NotificationViewController"
+    static let REPORT = "ReportViewController"
+    static let WORK = "WorkViewController"
+    static let COMMENT = "CommentViewController"
+    static let NAVIGATION = "NavigationViewController"
 }
 
 struct Segue {
-    static let ACCOUNT = "accountSegue"
-    static let ACCOUNT_EDIT = "accountEditSegue"
-    static let SETTING = "settingSegue"
-    static let PASSWORD = "passwordSegue"
-    static let WEB_ABOUT = "webAboutSegue"
-    static let WEB_PRIVACY_POLICY = "webPrivacyPolicySegue"
-    static let WEB_TERM_OF_USE = "webTermOfUseSegue"
-    static let ANIMATION = "animationSegue"
-    static let UPLOAD = "uploadSegue"
-    static let DEBUG = "debugSegue"
-    static let RECOMMEND = "recommendSegue"
-    static let FAN = "fanSegue"
-    static let FOLLOW = "followSegue"
-    static let BACKGROUND_COLOR = "backgroundColorSegue"
-    static let WORK = "workSegue"
-    static let COMMENT = "commentSegue"
-    static let REPORT = "reportSegue"
-    static let EDIT = "editSegue"
+    static let ACCOUNT = "AccountViewController"
+    static let ACCOUNT_EDIT = "AccountEditViewController"
+    static let SETTING = "SettingViewController"
+    static let PASSWORD = "PasswordViewController"
+    static let WEB_ABOUT = "WebAboutViewController"
+    static let WEB_PRIVACY_POLICY = "WebPrivacyPolicyViewController"
+    static let WEB_TERM_OF_USE = "WebTermOfUseViewController"
+    static let ANIMATION = "CanvasAnimationViewController"
+    static let UPLOAD = "UploadViewController"
+    static let DEBUG = "DebugViewController"
+    static let RECOMMEND = "RecommendViewController"
+    static let FAN = "UserFanViewController"
+    static let FOLLOW = "UserFollowViewController"
+    static let COLOR_PICKER = "ColorPickerViewController"
+    static let WORK = "WorkViewController"
+    static let COMMENT = "CommentViewController"
+    static let REPORT = "ReportViewController"
+    static let EDIT = "EditViewController"
 }
 
 struct Defaults {

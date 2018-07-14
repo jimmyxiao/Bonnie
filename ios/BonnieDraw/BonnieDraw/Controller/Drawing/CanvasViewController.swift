@@ -207,7 +207,7 @@ class CanvasViewController:
             controller.preferredContentSize = CGSize(width: traitCollection.horizontalSizeClass == .compact ? view.bounds.width : view.bounds.width * 0.6, height: DEBUG ? 256 : 212)
         } else if let controller = segue.destination as? ColorPickerViewController {
             controller.delegate = self
-            if segue.identifier == Segue.BACKGROUND_COLOR {
+            if segue.identifier == Segue.COLOR_PICKER {
                 controller.type = .background
                 controller.color = gridView.backgroundColor ?? .white
             } else {
@@ -301,7 +301,7 @@ class CanvasViewController:
             alert.addAction(cancelAction)
             present(alert, animated: true)
         case 1:
-            performSegue(withIdentifier: Segue.BACKGROUND_COLOR, sender: nil)
+            performSegue(withIdentifier: Segue.COLOR_PICKER, sender: nil)
         case 2:
             checkPhotosPermission(successHandler: {
                 let bounds = self.canvas.bounds
@@ -589,7 +589,7 @@ class CanvasViewController:
                 if manager.fileExists(atPath: url.path) {
                     try manager.removeItem(at: url)
                 }
-                if try !self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
+                if try ! self.paths.isEmpty || (manager.attributesOfItem(atPath: FileUrl.CACHE.path)[FileAttributeKey.size] as? Int) ?? 0 > 0 {
                     try manager.copyItem(at: FileUrl.CACHE, to: url)
                     let writeHandle = try FileHandle(forWritingTo: url)
                     writeHandle.seekToEndOfFile()
