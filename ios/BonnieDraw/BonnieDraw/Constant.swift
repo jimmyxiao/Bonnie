@@ -16,7 +16,7 @@ let SERVICE_DEVICE_TYPE = 2
 let TOKEN_LIFETIME: TimeInterval = Double.greatestFiniteMagnitude
 let UPDATE_INTERVAL: TimeInterval = 3600
 let ANIMATION_TIMER: TimeInterval = 1.0 / 60.0
-let URL_APP_UPDATE = "https://www.appstore.com"
+let URL_APP_UPDATE = "https://itunes.apple.com/us/app/bonniedraw/id1291212817"
 
 enum Function: UInt16 {
     case draw = 0xa101
