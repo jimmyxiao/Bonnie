@@ -208,7 +208,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                                         return
                                                                     }
                                                                     self.navigationController?.dismiss(animated: true)
-                                                                    NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationName.PROFILE_CHANGE), object: nil)
+                                                                    NotificationCenter.default.post(name: .profileChanged, object: nil)
                                                                 case .failure(let error):
                                                                     if let error = error as? URLError, error.code == .cancelled {
                                                                         return

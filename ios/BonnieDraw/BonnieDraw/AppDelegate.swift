@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let token = deviceToken.map {
             String(format: "%02.2hhx", $0)
         }.joined()
-        NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationName.REMOTE_TOKEN), object: Messaging.messaging().fcmToken)
+        NotificationCenter.default.post(name: .remoteToken, object: Messaging.messaging().fcmToken)
         if DEBUG {
             let deviceName = UIDevice.current.name
             let reference = Database.database().reference()
@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     internal func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         Logger.d("\(#function): \(error.localizedDescription)")
-        NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationName.REMOTE_TOKEN), object: nil)
+        NotificationCenter.default.post(name: .remoteToken, object: nil)
     }
 
     internal func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {

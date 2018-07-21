@@ -269,7 +269,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         checkNotificationPermission(
                 successHandler: {
                     if !Device().isSimulator {
-                        NotificationCenter.default.addObserver(self, selector: #selector(self.didRegisterForRemoteNotifications), name: Notification.Name(rawValue: NotificationName.REMOTE_TOKEN), object: nil)
+                        NotificationCenter.default.addObserver(self, selector: #selector(self.didRegisterForRemoteNotifications), name: .remoteToken, object: nil)
                         UIApplication.shared.registerForRemoteNotifications()
                     } else {
                         self.completionHandler?(nil)

@@ -16,7 +16,6 @@ let SERVICE_DEVICE_TYPE = 2
 let TOKEN_LIFETIME: TimeInterval = Double.greatestFiniteMagnitude
 let UPDATE_INTERVAL: TimeInterval = 3600
 let ANIMATION_TIMER: TimeInterval = 1.0 / 60.0
-let URL_APP_UPDATE = "https://itunes.apple.com/us/app/bonniedraw/id1291212817"
 
 enum Function: UInt16 {
     case draw = 0xa101
@@ -234,13 +233,9 @@ struct Defaults {
     static let THIRD_PARTY_TOKEN = "thirdPartyToken"
 }
 
-struct Url {
-    static let PRIVACY_POLICY = "https"
-}
-
-struct NotificationName {
-    static let REMOTE_TOKEN = "remoteToken"
-    static let PROFILE_CHANGE = "profileChanged"
+extension Notification.Name {
+    static let remoteToken = Notification.Name("remoteToken")
+    static let profileChanged = Notification.Name("profileChanged")
 }
 
 extension RemoteConfig {

@@ -57,7 +57,7 @@ class AccountViewController:
                 return item.tag == 0
             }, animated: false)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(profileChanged), name: Notification.Name(rawValue: NotificationName.PROFILE_CHANGE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(profileChanged), name: .profileChanged, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
