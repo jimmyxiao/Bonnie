@@ -139,10 +139,10 @@ class AccountViewController:
         } else if let controller = segue.destination as? UserViewController {
             controller.delegate = self
             switch segue.identifier {
-            case Segue.FAN?:
+            case Segue.USER_FAN?:
                 controller.type = .fan
                 controller.title = "account_fan".localized
-            case Segue.FOLLOW?:
+            case Segue.USER_FOLLOW?:
                 controller.type = .follow
                 controller.title = "account_following".localized
             default:
@@ -420,11 +420,11 @@ class AccountViewController:
     }
 
     internal func accountHeaderFans(_ sender: Any) {
-        performSegue(withIdentifier: Segue.FAN, sender: sender)
+        performSegue(withIdentifier: Segue.USER_FAN, sender: sender)
     }
 
     internal func accountHeaderFollowings(_ sender: Any) {
-        performSegue(withIdentifier: Segue.FOLLOW, sender: sender)
+        performSegue(withIdentifier: Segue.USER_FOLLOW, sender: sender)
     }
 
     internal func recommend(didFollowUser follow: Bool) {
