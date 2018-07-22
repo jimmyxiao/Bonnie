@@ -10,7 +10,7 @@ import UIKit
 
 class TabNavigationControllerDelegate: NSObject, UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if operation == .push && navigationController.viewControllers.count == 1 {
+        if operation == .push && navigationController.viewControllers.count <= 1 {
             return TabNavigationControllerAnimator()
         }
         return nil
