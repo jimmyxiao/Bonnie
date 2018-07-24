@@ -11,7 +11,6 @@ import UIKit
 class UserTableViewCell: TableViewCell {
     @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var status: UILabel!
     @IBOutlet weak var follow: FollowButton!
 
     override func awakeFromNib() {

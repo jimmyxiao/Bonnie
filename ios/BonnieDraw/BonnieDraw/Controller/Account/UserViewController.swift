@@ -172,7 +172,6 @@ class UserViewController: BackButtonViewController, UITableViewDataSource, UITab
             let item = tableViewUsers[indexPath.row]
             cell.thumbnail.setImage(with: item.profileImage, placeholderImage: placeholderImage)
             cell.title.text = item.profileName
-            cell.status.text = item.status
             cell.follow.isSelected = item.isFollowing ?? false
             return cell
         }
