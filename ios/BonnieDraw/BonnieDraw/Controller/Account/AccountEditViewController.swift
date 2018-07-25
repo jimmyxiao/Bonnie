@@ -371,6 +371,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                     return
                                 }
                                 self.presentErrorDialog(message: error.localizedDescription)
+                                self.progressBar.isHidden = true
                             }
                         })
             }
