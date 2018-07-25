@@ -71,6 +71,12 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         NotificationCenter.default.removeObserver(self)
     }
 
+    private func presentErrorDialog(message: String?) {
+        presentDialog(title: "alert_account_update_fail_title".localized, message: message)
+        done.isEnabled = true
+        loading.hide(true)
+    }
+
     @objc func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size,
            let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
@@ -228,17 +234,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                        self.presentConfirmationDialog(
-                                title: "alert_account_update_fail_title".localized,
-                                message: "alert_network_unreachable_content".localized) {
-                            success in
-                            if success {
-                                self.done(sender)
-                            } else {
-                                sender.isEnabled = true
-                                self.loading.hide(true)
-                            }
-                        }
+                        self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
                         return
                     }
                     defaults.set(name, forKey: Defaults.NAME)
@@ -251,17 +247,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.loading.hide(true)
-                    self.presentConfirmationDialog(
-                            title: "alert_account_update_fail_title".localized,
-                            message: error.localizedDescription) {
-                        success in
-                        if success {
-                            self.done(sender)
-                        } else {
-                            sender.isEnabled = true
-                        }
-                    }
+                    self.presentErrorDialog(message: error.localizedDescription)
                 }
             }
         }
@@ -361,7 +347,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                     switch response.result {
                                     case .success:
                                         guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                            self.showErrorMessage(message: "alert_network_unreachable_content".localized)
+                                            self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
                                             return
                                         }
                                         if let imageUrl = URL(string: Service.filePath(withSubPath: data["profilePicture"] as? String)) {
@@ -370,20 +356,20 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                             self.profileImage.image = image
                                             self.loading.hide(true)
                                         } else {
-                                            self.showErrorMessage(message: data["msg"] as? String)
+                                            self.presentErrorDialog(message: data["msg"] as? String)
                                         }
                                     case .failure(let error):
                                         if let error = error as? URLError, error.code == .cancelled {
                                             return
                                         }
-                                        self.showErrorMessage(message: error.localizedDescription)
+                                        self.presentErrorDialog(message: error.localizedDescription)
                                     }
                                 })
                             case .failure(let error):
                                 if let error = error as? URLError, error.code == .cancelled {
                                     return
                                 }
-                                self.showErrorMessage(message: error.localizedDescription)
+                                self.presentErrorDialog(message: error.localizedDescription)
                             }
                         })
             }
@@ -439,12 +425,6 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         } else {
             gender.setTitle("gender_unspecified".localized, for: .normal)
         }
-    }
-
-    private func showErrorMessage(message: String?) {
-        presentDialog(title: "alert_save_fail_title".localized, message: message)
-        loading.hide(true)
-        progressBar.isHidden = true
     }
 }
 

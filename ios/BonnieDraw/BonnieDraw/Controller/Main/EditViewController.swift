@@ -119,7 +119,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         }
     }
 
-    private func showErrorMessage(message: String?) {
+    private func presentErrorDialog(message: String?) {
         presentDialog(title: "alert_edit_fail_title".localized, message: message)
         confirmButton.isEnabled = true
         indicator.stopAnimating()
@@ -200,11 +200,11 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.showErrorMessage(message: "alert_network_unreachable_content".localized)
+                        self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
                         return
                     }
                     if response != 1 {
-                        self.showErrorMessage(message: data["msg"] as? String)
+                        self.presentErrorDialog(message: data["msg"] as? String)
                     } else {
                         self.cancel(sender)
                         if let work = self.work {
@@ -215,7 +215,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.showErrorMessage(message: error.localizedDescription)
+                    self.presentErrorDialog(message: error.localizedDescription)
                 }
             }
         }

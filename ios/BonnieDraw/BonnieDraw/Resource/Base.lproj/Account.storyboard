@@ -365,14 +365,13 @@
                         <viewLayoutGuide key="safeArea" id="A9d-zf-IP5"/>
                     </view>
                     <connections>
-                        <outlet property="done" destination="lz2-za-OXe" id="z1M-fB-bOa"/>
+                        <outlet property="done" destination="lz2-za-OXe" id="Hx4-cN-NFz"/>
                         <outlet property="email" destination="byD-g0-iJW" id="aQA-sf-Wqg"/>
                         <outlet property="gender" destination="yYY-zy-lOQ" id="rPp-Nu-qYa"/>
                         <outlet property="loading" destination="eYv-rg-Igv" id="DgE-yX-iuG"/>
                         <outlet property="name" destination="TqA-zO-aBZ" id="RTP-m9-kEZ"/>
                         <outlet property="phone" destination="dMC-KY-Yvd" id="MKC-lu-hkw"/>
                         <outlet property="profileImage" destination="Dh2-33-3E9" id="TIb-Tf-1J8"/>
-                        <outlet property="progressBar" destination="Uab-9J-a2G" id="kiN-3h-wFc"/>
                         <outlet property="summery" destination="TFM-lW-gsH" id="HpX-FV-nKQ"/>
                         <outlet property="website" destination="554-JF-1Oh" id="Ipo-vj-7sT"/>
                         <outlet property="websiteDivider" destination="9AA-he-sWS" id="sbR-Gg-4rU"/>
@@ -540,6 +539,7 @@
                     <connections>
                         <outlet property="confirmPassword" destination="sRl-d2-wXp" id="h1l-q8-u25"/>
                         <outlet property="currentPassword" destination="Lpi-D2-2WR" id="66N-Nn-El2"/>
+                        <outlet property="done" destination="d37-dm-gdV" id="5Yi-1m-ISK"/>
                         <outlet property="loading" destination="uGe-a0-klV" id="rix-ce-Jms"/>
                         <outlet property="newPassword" destination="Iw2-v8-pXs" id="CgG-Cp-NjH"/>
                     </connections>
@@ -1125,11 +1125,11 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="3Nd-EH-RRU">
                             <view key="customView" contentMode="scaleToFill" id="wU5-hq-d8A">
-                                <rect key="frame" x="221" y="5.5" width="83" height="33"/>
+                                <rect key="frame" x="221" y="6" width="83" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="m88-Sh-9ju">
-                                        <rect key="frame" x="63" y="6.5" width="20" height="20"/>
+                                        <rect key="frame" x="63" y="6" width="20" height="20"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

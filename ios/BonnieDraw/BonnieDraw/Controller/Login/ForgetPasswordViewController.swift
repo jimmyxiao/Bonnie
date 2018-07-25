@@ -18,7 +18,7 @@ class ForgetPasswordViewController: BackButtonViewController, UITextFieldDelegat
         dataRequest?.cancel()
     }
 
-    private func showErrorMessage(message: String?) {
+    private func presentErrorDialog(message: String?) {
         presentDialog(title: "alert_forget_password_title".localized, message: message)
         loading.hide(true)
     }
@@ -51,7 +51,7 @@ class ForgetPasswordViewController: BackButtonViewController, UITextFieldDelegat
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.showErrorMessage(message: "alert_network_unreachable_content".localized)
+                        self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
                         return
                     }
                     if response == 1 {
@@ -60,13 +60,13 @@ class ForgetPasswordViewController: BackButtonViewController, UITextFieldDelegat
                             self.navigationController?.popViewController(animated: true)
                         }
                     } else {
-                        self.showErrorMessage(message: data["msg"] as? String)
+                        self.presentErrorDialog(message: data["msg"] as? String)
                     }
                 case .failure(let error):
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.showErrorMessage(message: error.localizedDescription)
+                    self.presentErrorDialog(message: error.localizedDescription)
                 }
             }
         }

@@ -95,7 +95,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     switch response.result {
                     case .success:
                         guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                            self.showErrorMessage(message: "alert_network_unreachable_content".localized)
+                            self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
                             return
                         }
                         if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
@@ -108,7 +108,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                 switch response.result {
                                 case .success:
                                     guard let data = response.result.value as? [String: Any] else {
-                                        self.showErrorMessage(message: "alert_network_unreachable_content".localized)
+                                        self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
                                         return
                                     }
                                     let profile = Profile(withDictionary: data)
@@ -127,17 +127,17 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                     if let error = error as? URLError, error.code == .cancelled {
                                         return
                                     }
-                                    self.showErrorMessage(message: error.localizedDescription)
+                                    self.presentErrorDialog(message: error.localizedDescription)
                                 }
                             }
                         } else {
-                            self.showErrorMessage(message: data["msg"] as? String)
+                            self.presentErrorDialog(message: data["msg"] as? String)
                         }
                     case .failure(let error):
                         if let error = error as? URLError, error.code == .cancelled {
                             return
                         }
-                        self.showErrorMessage(message: error.localizedDescription)
+                        self.presentErrorDialog(message: error.localizedDescription)
                     }
                 }
             }
@@ -254,7 +254,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         }
     }
 
-    private func showErrorMessage(message: String?) {
+    private func presentErrorDialog(message: String?) {
         UIApplication.shared.unregisterForRemoteNotifications()
         presentDialog(title: "alert_sign_in_fail_title".localized, message: message)
         loading.hide(true)
@@ -312,7 +312,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                    self.showErrorMessage(message: "alert_network_unreachable_content".localized)
+                    self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
                     return
                 }
                 if response == 1, let token = data["lk"] as? String, let userId = data["ui"] as? Int {
@@ -325,7 +325,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                         switch response.result {
                         case .success:
                             guard let data = response.result.value as? [String: Any] else {
-                                self.showErrorMessage(message: "alert_network_unreachable_content".localized)
+                                self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
                                 return
                             }
                             let profile = Profile(withDictionary: data)
@@ -349,17 +349,17 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                             if let error = error as? URLError, error.code == .cancelled {
                                 return
                             }
-                            self.showErrorMessage(message: error.localizedDescription)
+                            self.presentErrorDialog(message: error.localizedDescription)
                         }
                     }
                 } else {
-                    self.showErrorMessage(message: data["msg"] as? String)
+                    self.presentErrorDialog(message: data["msg"] as? String)
                 }
             case .failure(let error):
                 if let error = error as? URLError, error.code == .cancelled {
                     return
                 }
-                self.showErrorMessage(message: error.localizedDescription)
+                self.presentErrorDialog(message: error.localizedDescription)
             }
         }
     }

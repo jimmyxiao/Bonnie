@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 
 class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
+    @IBOutlet weak var done: UIBarButtonItem!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var currentPassword: UITextField!
     @IBOutlet weak var newPassword: UITextField!
@@ -25,8 +26,9 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
         return true
     }
 
-    private func showErrorMessage(message: String?) {
+    private func presentErrorDialog(message: String?) {
         presentDialog(title: "alert_password_update_fail".localized, message: message)
+        done.isEnabled = true
         loading.hide(true)
         newPassword.text = nil
         confirmPassword.text = nil
@@ -87,6 +89,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                 guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
                     return
                 }
+                sender.isEnabled = false
                 view.endEditing(true)
                 loading.hide(false)
                 dataRequest = Alamofire.request(
@@ -98,20 +101,20 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                     switch response.result {
                     case .success:
                         guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                            self.showErrorMessage(message: "alert_network_unreachable_content".localized)
+                            self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
                             return
                         }
                         if response == 1 {
                             UserDefaults.standard.set(newSecurePassword, forKey: Defaults.PASSWORD)
                             self.onBackPressed(sender)
                         } else {
-                            self.showErrorMessage(message: data["msg"] as? String)
+                            self.presentErrorDialog(message: data["msg"] as? String)
                         }
                     case .failure(let error):
                         if let error = error as? URLError, error.code == .cancelled {
                             return
                         }
-                        self.showErrorMessage(message: error.localizedDescription)
+                        self.presentErrorDialog(message: error.localizedDescription)
                     }
                 }
             }

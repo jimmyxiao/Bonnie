@@ -369,7 +369,6 @@
                         <outlet property="name" destination="TqA-zO-aBZ" id="RTP-m9-kEZ"/>
                         <outlet property="phone" destination="dMC-KY-Yvd" id="MKC-lu-hkw"/>
                         <outlet property="profileImage" destination="Dh2-33-3E9" id="TIb-Tf-1J8"/>
-                        <outlet property="progressBar" destination="Uab-9J-a2G" id="kiN-3h-wFc"/>
                         <outlet property="summery" destination="TFM-lW-gsH" id="HpX-FV-nKQ"/>
                         <outlet property="website" destination="ni2-00-1bT" id="aRi-Uh-4k4"/>
                         <outlet property="websiteDivider" destination="Xq3-YT-P3F" id="bsz-eN-M5T"/>
@@ -570,6 +569,7 @@
                     <connections>
                         <outlet property="confirmPassword" destination="sRl-d2-wXp" id="h1l-q8-u25"/>
                         <outlet property="currentPassword" destination="Lpi-D2-2WR" id="66N-Nn-El2"/>
+                        <outlet property="done" destination="d37-dm-gdV" id="SVq-ga-Apc"/>
                         <outlet property="loading" destination="uGe-a0-klV" id="rix-ce-Jms"/>
                         <outlet property="newPassword" destination="Iw2-v8-pXs" id="CgG-Cp-NjH"/>
                     </connections>
@@ -804,13 +804,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="45Z-6C-gEE">
-                                                    <rect key="frame" x="414.5" y="16" width="75" height="21"/>
+                                                    <rect key="frame" x="286.5" y="16" width="75" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rEG-QS-OFX">
-                                                    <rect key="frame" x="386.5" y="16" width="20" height="20"/>
+                                                    <rect key="frame" x="258.5" y="16" width="20" height="20"/>
                                                 </activityIndicatorView>
                                             </subviews>
                                             <constraints>
@@ -976,13 +976,13 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0v-dR-M3N">
-                                                            <rect key="frame" x="15" y="11" width="817" height="21"/>
+                                                            <rect key="frame" x="15" y="11" width="561" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="K5R-YP-fYA">
-                                                            <rect key="frame" x="840" y="6" width="51" height="31"/>
+                                                            <rect key="frame" x="584" y="6" width="51" height="31"/>
                                                             <color key="onTintColor" red="0.94117647059999998" green="0.3921568627" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <connections>
                                                                 <action selector="toggleNotification:" destination="bTs-G1-KZ1" eventType="valueChanged" id="bgL-ru-WMT"/>
