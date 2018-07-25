@@ -327,8 +327,8 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             if let imageData = UIImageJPEGRepresentation(image, 0) {
                 let userId = UserDefaults.standard.integer(forKey: Defaults.USER_ID)
                 loading.hide(false)
-                progressBar.isHidden = false
                 progressBar.progress = 0
+                progressBar.isHidden = false
                 Alamofire.upload(
                         multipartFormData: {
                             multipartFormData in
@@ -364,6 +364,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                         }
                                         self.presentErrorDialog(message: error.localizedDescription)
                                     }
+                                    self.progressBar.isHidden = true
                                 })
                             case .failure(let error):
                                 if let error = error as? URLError, error.code == .cancelled {
