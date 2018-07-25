@@ -69,7 +69,7 @@
 "more_remove_work" = "Delete";
 "more_report" = "Report";
 "notification_user_commented" = "Commented on your work.";
-"notification_user_followed" = "Has become a fan.";
+"notification_user_followed" = "Has became a fan.";
 "notification_user_liked" = "Liked your drawing.";
 "notification_user_posted" = "Posted new drawing";
 "report_other" = "Others";
