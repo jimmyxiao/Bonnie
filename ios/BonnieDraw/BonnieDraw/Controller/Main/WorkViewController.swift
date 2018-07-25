@@ -53,8 +53,8 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         thumbnail?.sd_setShowActivityIndicatorView(true)
         thumbnail?.sd_setIndicatorStyle(.gray)
         navigationItem.titleView = UIImageView(image: UIImage(named: "title_logo"))
-        if let work = work {
-            set(viewDataWith: work)
+        if work != nil {
+            setViewData()
         }
     }
 
@@ -111,12 +111,12 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         setActionButtons()
     }
 
-    private func set(viewDataWith work: Work) {
-        if work.userId == UserDefaults.standard.integer(forKey: Defaults.USER_ID) || delegate is AccountViewController {
+    private func setViewData() {
+        if work?.userId == UserDefaults.standard.integer(forKey: Defaults.USER_ID) || delegate is AccountViewController {
             profileImage.isUserInteractionEnabled = false
             profileName.isUserInteractionEnabled = false
         }
-        if work.isLike ?? false {
+        if work?.isLike == true {
             likeButton.isUserInteractionEnabled = false
             likeButton.isSelected = true
         } else {
@@ -124,25 +124,29 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             likeButton.isSelected = false
         }
         likeButton.setImage(UIImage(named: likeButton.isSelected ? "work_ic_like_on" : "work_ic_like"), for: .normal)
-        if let likes = work.likes, likes > 0 {
+        if let likes = work?.likes, likes > 0 {
             self.likes.text = "\(likes)"
             self.likes.isHidden = false
         } else {
             likes.isHidden = true
         }
-        if let comments = work.comments, comments > 0 {
+        if let comments = work?.comments, comments > 0 {
             self.comments.text = "\(comments)"
             self.comments.isHidden = false
         } else {
             comments.isHidden = true
         }
-        openLink.isHidden = work.link?.isEmpty ?? true
-        collect.isSelected = work.isCollect ?? false
+        if let url = URL(string: work?.link ?? ""), UIApplication.shared.canOpenURL(url) {
+            openLink.isHidden = false
+        } else {
+            openLink.isHidden = true
+        }
+        collect.isSelected = work?.isCollect ?? false
         collect.setImage(UIImage(named: collect.isSelected ? "collect_ic_on" : "collect_ic_off"), for: .normal)
-        profileImage.setImage(with: work.profileImage, placeholderImage: UIImage(named: "photo-square"))
-        profileName.setTitle(work.profileName, for: .normal)
-        titleLabel.text = work.title
-        descriptionLabel.text = work.summery
+        profileImage.setImage(with: work?.profileImage, placeholderImage: UIImage(named: "photo-square"))
+        profileName.setTitle(work?.profileName, for: .normal)
+        titleLabel.text = work?.title
+        descriptionLabel.text = work?.summery
     }
 
     private func downloadData() {
@@ -179,7 +183,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                     return
                 }
                 let work = Work(withDictionary: workDictionary)
-                self.set(viewDataWith: work)
+                self.setViewData()
                 self.work = work
                 if self.canvas.state == nil {
                     self.canvas.finishInit()
@@ -259,7 +263,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     internal func edit(didChange changedWork: Work) {
         work = changedWork
-        set(viewDataWith: changedWork)
+        setViewData()
         delegate?.work(didChange: changedWork)
     }
 

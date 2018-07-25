@@ -237,7 +237,11 @@ class FollowViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             cell.comments.isHidden = true
         }
-        cell.openLink.isHidden = work.link?.isEmpty ?? true
+        if let url = URL(string: work.link ?? ""), UIApplication.shared.canOpenURL(url) {
+            cell.openLink.isHidden = false
+        } else {
+            cell.openLink.isHidden = true
+        }
         if let isCollection = work.isCollect {
             if isCollection {
                 cell.collectButton.isSelected = true
