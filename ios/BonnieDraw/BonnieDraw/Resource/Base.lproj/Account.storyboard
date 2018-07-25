@@ -1044,7 +1044,7 @@
                                 </connections>
                             </tableView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpZ-kg-sjp">
-                                <rect key="frame" x="130" y="16" width="60" height="21"/>
+                                <rect key="frame" x="130" y="60" width="60" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1061,7 +1061,7 @@
                             <constraint firstItem="qmu-0J-B6b" firstAttribute="leading" secondItem="rHE-uD-7PN" secondAttribute="leading" id="Vma-CI-C7C"/>
                             <constraint firstAttribute="bottom" secondItem="Gp4-fZ-Uff" secondAttribute="bottom" id="Yx2-ye-V6r"/>
                             <constraint firstItem="qmu-0J-B6b" firstAttribute="trailing" secondItem="rHE-uD-7PN" secondAttribute="trailing" id="bKX-AY-bL8"/>
-                            <constraint firstItem="vpZ-kg-sjp" firstAttribute="top" secondItem="rHE-uD-7PN" secondAttribute="top" constant="16" id="cbm-O1-OSM"/>
+                            <constraint firstItem="vpZ-kg-sjp" firstAttribute="top" secondItem="rHE-uD-7PN" secondAttribute="top" constant="60" id="cbm-O1-OSM"/>
                             <constraint firstItem="qmu-0J-B6b" firstAttribute="top" secondItem="Zbs-pF-nyB" secondAttribute="top" id="qwj-to-XY8"/>
                             <constraint firstAttribute="bottom" secondItem="qmu-0J-B6b" secondAttribute="bottom" id="tui-yX-SyD"/>
                             <constraint firstItem="Gp4-fZ-Uff" firstAttribute="leading" secondItem="rHE-uD-7PN" secondAttribute="leading" id="u9w-T0-ndG"/>
@@ -1236,7 +1236,7 @@
                                 </connections>
                             </tableView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuN-qQ-hqy">
-                                <rect key="frame" x="130" y="16" width="60" height="21"/>
+                                <rect key="frame" x="130" y="60" width="60" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1255,7 +1255,7 @@
                             <constraint firstItem="hBf-4y-d2J" firstAttribute="top" secondItem="pP5-fU-HsO" secondAttribute="top" id="WJQ-Ga-4Ty"/>
                             <constraint firstItem="bVz-0d-6h8" firstAttribute="trailing" secondItem="hBf-4y-d2J" secondAttribute="trailing" id="aSe-Zf-fdp"/>
                             <constraint firstItem="l4Q-Pp-icc" firstAttribute="leading" secondItem="bVz-0d-6h8" secondAttribute="leading" id="l60-iM-VCB"/>
-                            <constraint firstItem="tuN-qQ-hqy" firstAttribute="top" secondItem="bVz-0d-6h8" secondAttribute="top" constant="16" id="m5q-ma-Ler"/>
+                            <constraint firstItem="tuN-qQ-hqy" firstAttribute="top" secondItem="bVz-0d-6h8" secondAttribute="top" constant="60" id="m5q-ma-Ler"/>
                             <constraint firstItem="bVz-0d-6h8" firstAttribute="trailing" secondItem="l4Q-Pp-icc" secondAttribute="trailing" id="qTM-aY-kDB"/>
                             <constraint firstItem="l4Q-Pp-icc" firstAttribute="top" secondItem="pP5-fU-HsO" secondAttribute="top" id="qbA-VK-UWT"/>
                         </constraints>
