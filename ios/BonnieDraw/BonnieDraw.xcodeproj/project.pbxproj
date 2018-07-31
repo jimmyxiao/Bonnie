@@ -44,7 +44,6 @@
 		1639863F20692B2000578AF9 /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 1639863920692B2000578AF9 /* colorlesspoint.vsh */; };
 		1639864020692B2000578AF9 /* quad.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 1639863A20692B2000578AF9 /* quad.fsh */; };
 		1639864120692B2000578AF9 /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 1639863B20692B2000578AF9 /* quad.vsh */; };
-		163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */; };
 		163A5E251FA061F100FE70BD /* FollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */; };
 		163A5E271FA062D500FE70BD /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A5E261FA062D500FE70BD /* FollowButton.swift */; };
 		163DDF3E1FC5526D0052DF80 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */; };
@@ -163,7 +162,6 @@
 		1639863920692B2000578AF9 /* colorlesspoint.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = colorlesspoint.vsh; sourceTree = "<group>"; };
 		1639863A20692B2000578AF9 /* quad.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.fsh; sourceTree = "<group>"; };
 		1639863B20692B2000578AF9 /* quad.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.vsh; sourceTree = "<group>"; };
-		163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowBarItem.swift; sourceTree = "<group>"; };
 		163A5E241FA061F100FE70BD /* FollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowTableViewCell.swift; sourceTree = "<group>"; };
 		163A5E261FA062D500FE70BD /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
 		163DDF3D1FC5526D0052DF80 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
@@ -293,7 +291,6 @@
 				165ECC5C1F73A83800E32AA5 /* LoadingIndicatorView.swift */,
 				16BC73711F96001800A872A8 /* AccountHeaderCollectionReusableView.swift */,
 				16109CCA1F96E96D000864DB /* AccountFooterCollectionReusableView.swift */,
-				163A5E1E1FA0275200FE70BD /* FollowBarItem.swift */,
 				163A5E261FA062D500FE70BD /* FollowButton.swift */,
 			);
 			path = View;
@@ -776,7 +773,6 @@
 				162AC4AB1F95FCED00FA26C9 /* AccountGridCollectionViewCell.swift in Sources */,
 				165E1B5D1F9DE4920050A7BB /* PasswordViewController.swift in Sources */,
 				16812ADA1F99FDCD00F9D4E1 /* CustomTitleNavigationViewController.swift in Sources */,
-				163A5E1F1FA0275200FE70BD /* FollowBarItem.swift in Sources */,
 				166C41241F90964F00A98385 /* DataExtension.swift in Sources */,
 				165996DA1FB4429200AAE7B3 /* SaturationBrightnessView.swift in Sources */,
 				16D42FD91FFFB694000944E5 /* EditViewController.swift in Sources */,

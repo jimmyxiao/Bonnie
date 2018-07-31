@@ -1209,7 +1209,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
-                                                        <action selector="follow:" destination="yes-be-jNb" eventType="touchUpInside" id="WH0-q2-ES6"/>
+                                                        <action selector="follow:" destination="XQV-AK-LI5" eventType="touchUpInside" id="g1E-RN-pTe"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1241,8 +1241,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l4Q-Pp-icc" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l4Q-Pp-icc" customClass="LoadingIndicatorView" customModule="BonnieDraw" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -1284,7 +1284,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gox-zi-hyF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5048" y="2337"/>
+            <point key="canvasLocation" x="5047.5" y="2336.6197183098593"/>
         </scene>
     </scenes>
     <resources>

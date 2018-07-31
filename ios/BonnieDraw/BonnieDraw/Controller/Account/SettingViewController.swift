@@ -103,16 +103,9 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                             break
                         }
                     }
-                    defaults.removeObject(forKey: Defaults.TOKEN)
-                    defaults.removeObject(forKey: Defaults.USER_ID)
-                    defaults.removeObject(forKey: Defaults.USER_TYPE)
-                    defaults.removeObject(forKey: Defaults.USER_GROUP)
-                    defaults.removeObject(forKey: Defaults.TOKEN_TIMESTAMP)
-                    defaults.removeObject(forKey: Defaults.THIRD_PARTY_TOKEN)
-                    defaults.removeObject(forKey: Defaults.THIRD_PARTY_ID)
-                    defaults.removeObject(forKey: Defaults.THIRD_PARTY_EMAIL)
-                    defaults.removeObject(forKey: Defaults.NAME)
-                    defaults.removeObject(forKey: Defaults.IMAGE)
+                    if let id = Bundle.main.bundleIdentifier {
+                        UserDefaults.standard.removePersistentDomain(forName: id)
+                    }
                     UIApplication.shared.unregisterForRemoteNotifications()
                     if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
                         UIApplication.shared.replace(rootViewControllerWith: controller)
@@ -223,5 +216,6 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
 
 protocol SettingViewControllerDelegate {
     func settings(profileDidChange profile: Profile)
+
     func settings(imageDidChange image: UIImage)
 }
