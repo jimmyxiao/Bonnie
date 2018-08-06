@@ -343,7 +343,7 @@ class CanvasViewController:
         }
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         picker.dismiss(animated: true) {
             if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let model = image.cgImage?.colorSpace?.model, model == .rgb {
                 self.brush.customBrush = JotSharedBrushTexture(image: image)
