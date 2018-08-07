@@ -10,8 +10,8 @@ import UIKit
 import SystemConfiguration
 import Photos
 import Firebase
-import FirebaseDatabase
 import FacebookCore
+import FirebaseDatabase
 import TwitterKit
 import Reachability
 import DeviceKit
@@ -67,10 +67,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             })
         }
-    }
-
-    internal func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        Logger.d("\(#function): \(userInfo)")
     }
 
     internal func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
