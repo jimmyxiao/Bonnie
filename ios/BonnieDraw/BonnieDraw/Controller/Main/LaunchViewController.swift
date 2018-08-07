@@ -96,11 +96,11 @@ class LaunchViewController: UIViewController {
         }
     }
 
-    func launchMain() {
+    private func launchMain() {
         UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.MAIN))
     }
 
-    func launchLogin() {
+    private func launchLogin() {
         if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
             UIApplication.shared.replace(rootViewControllerWith: controller)
         }
