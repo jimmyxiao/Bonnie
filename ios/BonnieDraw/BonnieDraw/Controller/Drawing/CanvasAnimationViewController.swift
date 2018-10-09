@@ -42,7 +42,7 @@ class CanvasAnimationViewController: BackButtonViewController, JotViewDelegate, 
             let stateProxy = JotViewStateProxy(delegate: self)
             stateProxy?.loadJotStateAsynchronously(false, with: canvas.bounds.size, andScale: UIScreen.main.scale, andContext: canvas.context, andBufferManager: JotBufferManager.sharedInstance())
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: .UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

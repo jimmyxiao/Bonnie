@@ -72,6 +72,8 @@ class LaunchViewController: UIViewController {
                 } else {
                     completion()
                 }
+            } else {
+                completion()
             }
         }
     }

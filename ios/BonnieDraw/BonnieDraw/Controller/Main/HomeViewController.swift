@@ -43,7 +43,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         tableView.refreshControl = refreshControl
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+        tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 44, right: 0)
     }
 
     override func viewDidAppear(_ animated: Bool) {

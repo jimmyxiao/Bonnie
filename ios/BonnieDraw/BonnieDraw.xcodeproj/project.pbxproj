@@ -538,7 +538,7 @@
 					163F65A61F61663800945E04 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 3MMZ7UBHWG;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -1043,7 +1043,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BonnieDraw/BonnieDraw-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1060,7 +1060,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BonnieDraw/BonnieDraw-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

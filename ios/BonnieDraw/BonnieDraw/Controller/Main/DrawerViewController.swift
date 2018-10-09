@@ -132,7 +132,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
         cell.imageView?.image = UIImage(named: tags[indexPath.row].image)
         cell.textLabel?.text = tags[indexPath.row].title
         if indexPath.row != 2 && indexPath.row != tags.count - 4 {
-            cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, tableView.bounds.width)
+            cell.separatorInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
         }
         return cell
     }

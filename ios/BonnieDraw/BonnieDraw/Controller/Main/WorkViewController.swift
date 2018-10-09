@@ -68,7 +68,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         } else {
             loading.hide(true)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: .UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

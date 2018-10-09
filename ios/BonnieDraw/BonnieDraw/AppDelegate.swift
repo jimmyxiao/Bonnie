@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static var pendingWorkId: Int?
     var window: UIWindow?
 
-    internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
+    internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
         SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         TWTRTwitter.sharedInstance().start(
@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.post(name: .remoteToken, object: nil)
     }
 
-    internal func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+    internal func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
            components.host == Service.HOST,
            components.path == "\(Service.BASE)\(Service.SOCIAL_SHARE)",
@@ -102,12 +102,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             didHandle = TWTRTwitter.sharedInstance().application(app, open: url, options: options)
         }
         if !didHandle {
-            didHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+            didHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
         }
         return didHandle
     }
 
-    internal func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    internal func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb,
            let url = userActivity.webpageURL,
            let components = URLComponents(url: url, resolvingAgainstBaseURL: true),

@@ -61,8 +61,8 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -83,13 +83,13 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size,
-           let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
-           let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size,
+           let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber,
+           let animationCurve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber {
             if viewOriginCenterY == nil {
                 viewOriginCenterY = view.center.y
             }
-            UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIViewAnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
+            UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIView.AnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
                 if let viewOriginCenterY = self.viewOriginCenterY {
                     self.view.center.y = viewOriginCenterY - keyboardSize.height / 3
                 }
@@ -98,9 +98,9 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
-        if let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
-           let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber {
-            UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIViewAnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
+        if let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber,
+           let animationCurve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber {
+            UIView.animate(withDuration: animationDuration.doubleValue, delay: 0, options: [UIView.AnimationOptions(rawValue: UInt(animationCurve.intValue))], animations: {
                 if let viewOriginCenterY = self.viewOriginCenterY {
                     self.view.center.y = viewOriginCenterY
                 }

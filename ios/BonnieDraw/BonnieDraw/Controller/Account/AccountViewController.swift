@@ -47,7 +47,7 @@ class AccountViewController:
 
     override func viewDidLoad() {
         navigationItem.hidesBackButton = true
-        collectionView.register(UINib(nibName: "AccountHeaderCollectionReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: Cell.ACCOUNT_HEADER)
+        collectionView.register(UINib(nibName: "AccountHeaderCollectionReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Cell.ACCOUNT_HEADER)
         collectionView.refreshControl = refreshControl
         if userId == nil {
             navigationItem.setLeftBarButton(nil, animated: false)
@@ -270,7 +270,7 @@ class AccountViewController:
     }
 
     internal func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader {
+        if kind == UICollectionView.elementKindSectionHeader {
             let headerView = self.headerView ?? collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Cell.ACCOUNT_HEADER, for: indexPath) as! AccountHeaderCollectionReusableView
             headerView.delegate = self
             if userId != nil {
@@ -299,7 +299,7 @@ class AccountViewController:
         headerView.profileName.text = profile?.name
         headerView.profileDescription.text = profile?.description
         headerView.websiteHeight.constant = profile?.website?.isEmpty ?? true ? 0 : 30
-        return headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize)
+        return headerView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
     }
 
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

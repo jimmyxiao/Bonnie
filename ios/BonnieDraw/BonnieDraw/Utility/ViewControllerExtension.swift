@@ -89,10 +89,10 @@ extension UIViewController {
     }
 
     func checkMicrophonePermission(successHandler: (() -> Void)? = nil, failHandler: (() -> Void)? = nil) {
-        if AVAudioSession.sharedInstance().recordPermission() == .granted {
+        if AVAudioSession.sharedInstance().recordPermission == .granted {
             successHandler?()
         } else {
-            let showAlert = AVAudioSession.sharedInstance().recordPermission() != .undetermined
+            let showAlert = AVAudioSession.sharedInstance().recordPermission != .undetermined
             AVAudioSession.sharedInstance().requestRecordPermission() {
                 status in
                 DispatchQueue.main.async {
