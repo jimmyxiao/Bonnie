@@ -135,10 +135,12 @@ typedef NS_ENUM(NSUInteger, FIRInstanceIDError) {
  */
 NS_SWIFT_NAME(InstanceIDResult)
 @interface FIRInstanceIDResult : NSObject <NSCopying>
+
 /**
  * An instanceID uniquely identifies the app instance.
  */
 @property(nonatomic, readonly, copy) NSString *instanceID;
+
 /*
  * Returns a Firebase Messaging scoped token for the firebase app.
  */

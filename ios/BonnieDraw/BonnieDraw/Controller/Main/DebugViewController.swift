@@ -10,7 +10,6 @@ import UIKit
 import Crashlytics
 import FacebookLogin
 import TwitterKit
-import DeviceKit
 import Alamofire
 
 class DebugViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -29,7 +28,7 @@ class DebugViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
+            if let controller = UIStoryboard(name: UIDevice.current.userInterfaceIdiom == .pad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
                 UIApplication.shared.replace(rootViewControllerWith: controller)
             }
 //            if let userType = UserType(rawValue: UserDefaults.standard.integer(forKey: Default.USER_TYPE)) {
@@ -83,7 +82,7 @@ class DebugViewController: UIViewController, UITableViewDataSource, UITableViewD
 //                        defaults.removeObject(forKey: Default.NAME)
 //                        defaults.removeObject(forKey: Default.IMAGE)
 //                        UIApplication.shared.unregisterForRemoteNotifications()
-//                        if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
+//                        if let controller = UIStoryboard(name: UIDevice.current.userInterfaceIdiom == .pad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
 //                            UIApplication.shared.replace(rootViewControllerWith: controller)
 //                        }
 //                    case .failure(let error):

@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 import Alamofire
-import DeviceKit
 import FirebaseRemoteConfig
 
 class LaunchViewController: UIViewController {
@@ -149,11 +148,11 @@ class LaunchViewController: UIViewController {
     }
 
     private func launchMain() {
-        UIApplication.shared.replace(rootViewControllerWith:UIStoryboard(name: Device().isPad ? "Main_iPad" : "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.MAIN))
+        UIApplication.shared.replace(rootViewControllerWith:UIStoryboard(name: UIDevice.current.userInterfaceIdiom == .pad ? "Main_iPad" : "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.MAIN))
     }
 
     private func launchLogin() {
-        if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
+        if let controller = UIStoryboard(name: UIDevice.current.userInterfaceIdiom == .pad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
             UIApplication.shared.replace(rootViewControllerWith: controller)
         }
     }

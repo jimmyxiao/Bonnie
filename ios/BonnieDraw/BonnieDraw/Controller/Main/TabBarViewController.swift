@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DeviceKit
 
 class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControllerDelegate, FollowViewControllerDelegate, NotificationViewControllerDelegate {
     @IBOutlet weak var tabBar: UITabBar!
@@ -17,6 +16,10 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
     var itemNotification: (item: UITabBarItem, viewController: NotificationViewController?)?
     var itemAccount: (item: UITabBarItem, viewController: AccountViewController?)?
     var customNavigationController: UINavigationController?
+
+    override func viewWillAppear(_ animated: Bool) {
+        tabBar.invalidateIntrinsicContentSize()
+    }
 
     internal func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         var controllers = [UIViewController]()
@@ -50,7 +53,7 @@ class TabBarViewController: UIViewController, UITabBarDelegate, HomeViewControll
         } else if item == itemAccount?.item {
             if let controller = itemAccount?.viewController {
                 controllers.append(controller)
-            } else if let controller = UIStoryboard(name: Device().isPad ? "Account_iPad" : "Account", bundle: nil).instantiateInitialViewController() as? AccountViewController {
+            } else if let controller = UIStoryboard(name: UIDevice.current.userInterfaceIdiom == .pad ? "Account_iPad" : "Account", bundle: nil).instantiateInitialViewController() as? AccountViewController {
                 itemAccount?.viewController = controller
                 controllers.append(controller)
             }

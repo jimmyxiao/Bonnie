@@ -11,8 +11,7 @@ import DeviceKit
 
 class HomeBarBackgroundView: UIView {
     override func awakeFromNib() {
-        let device = Device()
-        if device == .iPhoneX || device == .simulator(.iPhoneX) {
+        if Device().realDevice.isOneOf(Device.allFaceIDCapableDevices) {
             for constraint in constraints {
                 if constraint.constant == 44 {
                     constraint.constant = 78

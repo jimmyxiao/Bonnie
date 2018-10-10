@@ -9,8 +9,8 @@
 import UIKit
 import FacebookLogin
 import TwitterKit
-import DeviceKit
 import Alamofire
+import DeviceKit
 
 class SettingViewController: BackButtonViewController, UITableViewDataSource, UITableViewDelegate, AccountEditViewControllerDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
@@ -107,7 +107,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                         UserDefaults.standard.removePersistentDomain(forName: id)
                     }
                     UIApplication.shared.unregisterForRemoteNotifications()
-                    if let controller = UIStoryboard(name: Device().isPad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
+                    if let controller = UIStoryboard(name: UIDevice.current.userInterfaceIdiom == .pad ? "Login_iPad" : "Login", bundle: nil).instantiateInitialViewController() {
                         UIApplication.shared.replace(rootViewControllerWith: controller)
                     }
                 }
