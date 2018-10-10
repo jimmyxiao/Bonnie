@@ -320,10 +320,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     }
 
     internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
-        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
+        if let image = info[.originalImage] as? UIImage {
             guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
                 return
             }
@@ -437,16 +434,4 @@ protocol AccountEditViewControllerDelegate {
     func accountEdit(profileDidChange profile: Profile)
 
     func accountEdit(imageDidChange image: UIImage)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-    return Dictionary(uniqueKeysWithValues: input.map { key, value in
-        (key.rawValue, value)
-    })
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-    return input.rawValue
 }
