@@ -10,10 +10,9 @@ import UIKit
 
 struct Version {
     static var current: Version? {
-        if let currentString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            return Version(version: currentString)
-        }
-        return nil
+        let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        let buildString = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
+        return Version(version: "\(versionString).\(buildString)")
     }
     var major: Int?
     var minor: Int?
