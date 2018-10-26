@@ -116,7 +116,7 @@ class CanvasViewController:
 
     @IBAction func reset(_ sender: Any) {
         presentedViewController?.dismiss(animated: true)
-        presentConfirmationDialog(title: "alert_reset_title".localized, message: "alert_reset_content".localized, positiveTitle: "alert_button_clear".localized) {
+        presentConfirmationAlert(title: "alert_reset_title".localized, message: "alert_reset_content".localized, positiveTitle: "alert_button_clear".localized) {
             success in
             if success {
                 self.persistentBackgroundColor = nil
@@ -349,7 +349,7 @@ class CanvasViewController:
                 self.brush.customBrush = JotSharedBrushTexture(image: image)
                 self.brushButton.setImage(UIImage(named: "ic_android_white"), for: .normal)
             } else {
-                self.presentDialog(title: "檔案不支援", message: "圖檔請使用 RGB 色彩空間匯出，不可為 Monochrome 或 CMYK 等等")
+                self.presentAlert(title: "檔案不支援", message: "圖檔請使用 RGB 色彩空間匯出，不可為 Monochrome 或 CMYK 等等")
             }
         }
     }

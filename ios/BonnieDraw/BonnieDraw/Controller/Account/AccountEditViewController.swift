@@ -72,7 +72,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
     }
 
     private func presentErrorDialog(message: String?) {
-        presentDialog(title: "alert_account_update_fail_title".localized, message: message)
+        presentAlert(title: "alert_account_update_fail_title".localized, message: message)
         done.isEnabled = true
         loading.hide(true)
     }
@@ -105,7 +105,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
 
     private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
+            presentConfirmationAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
                 success in
                 if success {
                     self.downloadData()
@@ -126,7 +126,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                    self.presentConfirmationDialog(
+                    self.presentConfirmationAlert(
                             title: "service_download_fail_title".localized,
                             message: "alert_network_unreachable_content".localized) {
                         success in
@@ -147,7 +147,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                 if let error = error as? URLError, error.code == .cancelled {
                     return
                 }
-                self.presentConfirmationDialog(
+                self.presentConfirmationAlert(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription) {
                     success in
@@ -165,7 +165,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
             return
         }
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let defaults = UserDefaults.standard
@@ -179,17 +179,17 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         let phone = profile?.phone?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let gender = profile?.gender ?? .unspecified
         if name.isEmpty {
-            presentDialog(title: "alert_account_update_fail_title".localized, message: "alert_sign_in_fail_name_empty".localized) {
+            presentAlert(title: "alert_account_update_fail_title".localized, message: "alert_sign_in_fail_name_empty".localized) {
                 action in
                 self.name.becomeFirstResponder()
             }
         } else if email.isEmpty {
-            presentDialog(title: "alert_account_update_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
+            presentAlert(title: "alert_account_update_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if !email.isValidEmail() {
-            presentDialog(title: "alert_account_update_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
+            presentAlert(title: "alert_account_update_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
@@ -207,7 +207,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                     if let url = URL(string: website), UIApplication.shared.canOpenURL(url) {
                         postData["webLink"] = url.absoluteString
                     } else {
-                        presentDialog(title: "alert_account_update_fail_title".localized, message: "alert_account_update_fail_website_invaid".localized) {
+                        presentAlert(title: "alert_account_update_fail_title".localized, message: "alert_account_update_fail_website_invaid".localized) {
                             action in
                             self.website.becomeFirstResponder()
                         }

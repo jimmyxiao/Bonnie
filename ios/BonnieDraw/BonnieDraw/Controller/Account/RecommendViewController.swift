@@ -95,7 +95,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
 
     private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
+            presentConfirmationAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
                 success in
                 if success {
                     self.downloadData()
@@ -153,7 +153,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.presentConfirmationDialog(
+                    self.presentConfirmationAlert(
                             title: "service_download_fail_title".localized,
                             message: error.localizedDescription) {
                         success in
@@ -275,7 +275,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
 
     @IBAction func follow(_ sender: FollowButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
@@ -294,7 +294,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                    self.presentConfirmationDialog(
+                    self.presentConfirmationAlert(
                             title: "service_download_fail_title".localized,
                             message: "alert_network_unreachable_content".localized) {
                         success in
@@ -305,7 +305,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                     return
                 }
                 if response != 1 {
-                    self.presentDialog(
+                    self.presentAlert(
                             title: "service_download_fail_title".localized,
                             message: data["msg"] as? String)
                 } else {
@@ -330,7 +330,7 @@ class RecommendViewController: BackButtonViewController, UITableViewDataSource, 
                 if let error = error as? URLError, error.code == .cancelled {
                     return
                 }
-                self.presentConfirmationDialog(
+                self.presentConfirmationAlert(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription) {
                     success in

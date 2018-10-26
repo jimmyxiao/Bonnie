@@ -151,7 +151,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
+            presentConfirmationAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
                 success in
                 if success {
                     self.downloadData()
@@ -172,7 +172,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let workDictionary = data["work"] as? [String: Any] else {
-                    self.presentConfirmationDialog(
+                    self.presentConfirmationAlert(
                             title: "service_download_fail_title".localized,
                             message: "alert_network_unreachable_content".localized) {
                         success in
@@ -196,7 +196,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 if let error = error as? URLError, error.code == .cancelled {
                     return
                 }
-                self.presentConfirmationDialog(
+                self.presentConfirmationAlert(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription) {
                     success in
@@ -224,7 +224,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
         }.response(queue: DispatchQueue.main) {
             response in
             guard response.error == nil else {
-                self.presentConfirmationDialog(
+                self.presentConfirmationAlert(
                         title: "service_download_fail_title".localized,
                         message: "alert_network_unreachable_content".localized) {
                     success in
@@ -405,7 +405,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             let reportAction = UIAlertAction(title: "more_report".localized, style: .destructive) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
-                    self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+                    self.presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                     return
                 }
                 self.performSegue(withIdentifier: Segue.REPORT, sender: sender)
@@ -415,7 +415,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             let editAction = UIAlertAction(title: "more_edit_work".localized, style: .default) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
-                    self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+                    self.presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                     return
                 }
                 self.performSegue(withIdentifier: Segue.EDIT, sender: sender)
@@ -428,7 +428,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 alert.addAction(UIAlertAction(title: "alert_button_delete".localized, style: .destructive) {
                     action in
                     guard AppDelegate.reachability.connection != .none else {
-                        self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+                        self.presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                         return
                     }
                     guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
@@ -448,11 +448,11 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                         case .success:
                             self.loading.hide(true)
                             guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                                self.presentDialog(title: "alert_delete_fail_title".localized, message: "alert_network_unreachable_content".localized)
+                                self.presentAlert(title: "alert_delete_fail_title".localized, message: "alert_network_unreachable_content".localized)
                                 return
                             }
                             if response != 1 {
-                                self.presentDialog(
+                                self.presentAlert(
                                         title: "service_download_fail_title".localized,
                                         message: data["msg"] as? String)
                             } else {
@@ -464,7 +464,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                             if let error = error as? URLError, error.code == .cancelled {
                                 return
                             }
-                            self.presentDialog(title: "alert_delete_fail_title".localized, message: error.localizedDescription)
+                            self.presentAlert(title: "alert_delete_fail_title".localized, message: error.localizedDescription)
                         }
                     }
                 })
@@ -481,7 +481,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     @IBAction func like(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
@@ -497,13 +497,13 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let res = data["res"] as? Int else {
-                    self.presentDialog(
+                    self.presentAlert(
                             title: "service_download_fail_title".localized,
                             message: "alert_network_unreachable_content".localized)
                     return
                 }
                 if res != 1 {
-                    self.presentDialog(
+                    self.presentAlert(
                             title: "service_download_fail_title".localized,
                             message: data["msg"] as? String)
                 } else {
@@ -528,7 +528,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 if let error = error as? URLError, error.code == .cancelled {
                     return
                 }
-                self.presentDialog(
+                self.presentAlert(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription)
             }
@@ -556,7 +556,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
 
     @IBAction func collect(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
@@ -573,13 +573,13 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let res = data["res"] as? Int else {
-                    self.presentDialog(
+                    self.presentAlert(
                             title: "service_download_fail_title".localized,
                             message: "alert_network_unreachable_content".localized)
                     return
                 }
                 if res != 1 {
-                    self.presentDialog(
+                    self.presentAlert(
                             title: "service_download_fail_title".localized,
                             message: data["msg"] as? String)
                 } else {
@@ -594,7 +594,7 @@ class WorkViewController: BackButtonViewController, URLSessionDelegate, JotViewD
                 if let error = error as? URLError, error.code == .cancelled {
                     return
                 }
-                self.presentDialog(
+                self.presentAlert(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription)
             }

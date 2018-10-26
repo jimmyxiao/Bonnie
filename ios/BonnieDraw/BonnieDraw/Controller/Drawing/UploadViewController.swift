@@ -99,7 +99,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
     }
 
     private func presentErrorDialog(message: String?) {
-        presentDialog(title: "alert_save_fail_title".localized, message: message)
+        presentAlert(title: "alert_save_fail_title".localized, message: message)
         loading.hide(true)
     }
 
@@ -110,7 +110,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
 
     @IBAction func post(_ sender: UIBarButtonItem) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let workThumbnail = workThumbnail,
@@ -123,12 +123,12 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
         let description = workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let title = workTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if description.isEmpty {
-            presentDialog(title: "alert_save_fail_title".localized, message: "alert_save_fail_description_empty".localized) {
+            presentAlert(title: "alert_save_fail_title".localized, message: "alert_save_fail_description_empty".localized) {
                 action in
                 self.workDescription.becomeFirstResponder()
             }
         } else if title.isEmpty {
-            presentDialog(title: "alert_save_fail_title".localized, message: "alert_save_fail_name_empty".localized) {
+            presentAlert(title: "alert_save_fail_title".localized, message: "alert_save_fail_name_empty".localized) {
                 action in
                 self.workTitle.becomeFirstResponder()
             }
@@ -139,7 +139,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                     if let url = URL(string: link), UIApplication.shared.canOpenURL(url) {
                         postData["commodityUrl"] = url.absoluteString
                     } else {
-                        presentDialog(title: "alert_save_fail_title".localized, message: "alert_account_update_fail_website_invaid".localized) {
+                        presentAlert(title: "alert_save_fail_title".localized, message: "alert_account_update_fail_website_invaid".localized) {
                             action in
                             self.workDescription.becomeFirstResponder()
                         }

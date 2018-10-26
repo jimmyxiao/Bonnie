@@ -120,7 +120,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     }
 
     private func presentErrorDialog(message: String?) {
-        presentDialog(title: "alert_edit_fail_title".localized, message: message)
+        presentAlert(title: "alert_edit_fail_title".localized, message: message)
         confirmButton.isEnabled = true
         indicator.stopAnimating()
     }
@@ -145,7 +145,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             return
         }
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN) else {
@@ -156,12 +156,12 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         let link = workLink.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let description = self.workDescription.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if description.isEmpty {
-            presentDialog(title: "alert_edit_fail_title".localized, message: "alert_save_fail_description_empty".localized) {
+            presentAlert(title: "alert_edit_fail_title".localized, message: "alert_save_fail_description_empty".localized) {
                 action in
                 self.workDescription.becomeFirstResponder()
             }
         } else if title.isEmpty {
-            presentDialog(title: "alert_edit_fail_title".localized, message: "alert_save_fail_name_empty".localized) {
+            presentAlert(title: "alert_edit_fail_title".localized, message: "alert_save_fail_name_empty".localized) {
                 action in
                 self.workTitle.becomeFirstResponder()
             }
@@ -179,7 +179,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                     if let url = URL(string: link), UIApplication.shared.canOpenURL(url) {
                         postData["commodityUrl"] = url.absoluteString
                     } else {
-                        presentDialog(title: "alert_save_fail_title".localized, message: "alert_account_update_fail_website_invaid".localized) {
+                        presentAlert(title: "alert_save_fail_title".localized, message: "alert_account_update_fail_website_invaid".localized) {
                             action in
                             self.workDescription.becomeFirstResponder()
                         }

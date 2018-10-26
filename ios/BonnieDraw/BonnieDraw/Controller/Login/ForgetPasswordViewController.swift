@@ -19,23 +19,23 @@ class ForgetPasswordViewController: BackButtonViewController, UITextFieldDelegat
     }
 
     private func presentErrorDialog(message: String?) {
-        presentDialog(title: "alert_forget_password_title".localized, message: message)
+        presentAlert(title: "alert_forget_password_title".localized, message: message)
         loading.hide(true)
     }
 
     @IBAction func send(_ sender: Any) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if email.isEmpty {
-            presentDialog(title: "alert_forget_password_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
+            presentAlert(title: "alert_forget_password_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if !email.isValidEmail() {
-            presentDialog(title: "alert_forget_password_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
+            presentAlert(title: "alert_forget_password_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
@@ -55,7 +55,7 @@ class ForgetPasswordViewController: BackButtonViewController, UITextFieldDelegat
                         return
                     }
                     if response == 1 {
-                        self.presentDialog(title: "alert_forget_password_title".localized, message: "alert_forget_password_content".localized) {
+                        self.presentAlert(title: "alert_forget_password_title".localized, message: "alert_forget_password_content".localized) {
                             action in
                             self.navigationController?.popViewController(animated: true)
                         }

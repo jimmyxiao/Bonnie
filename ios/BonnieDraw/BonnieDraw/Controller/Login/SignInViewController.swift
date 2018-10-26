@@ -41,28 +41,28 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 
     @IBAction func signIn(_ sender: Any) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let password = self.password.text ?? ""
         if email.isEmpty {
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
+            presentAlert(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if !email.isValidEmail() {
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
+            presentAlert(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if password.isEmpty {
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_password_empty".localized) {
+            presentAlert(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_password_empty".localized) {
                 action in
                 self.password.becomeFirstResponder()
             }
         } else if password.count < 4 {
-            presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_password_invalid".localized) {
+            presentAlert(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.password.becomeFirstResponder()
             }
@@ -157,7 +157,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     case .success(let response):
                         guard let facebookId = response.dictionaryValue?["id"] as? String,
                               let facebookName = response.dictionaryValue?["name"] as? String else {
-                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_network_unreachable_content".localized)
+                            self.presentAlert(title: "alert_sign_in_fail_title".localized, message: "alert_network_unreachable_content".localized)
                             self.loading.hide(true)
                             return
                         }
@@ -177,25 +177,25 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                                     }
                                     self.registerForRemoteNotification()
                                 case .failed(let error):
-                                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+                                    self.presentAlert(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                                     fallthrough
                                 default:
                                     self.loading.hide(true)
                                 }
                             }
                         } else {
-                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_permission".localized)
+                            self.presentAlert(title: "alert_sign_in_fail_title".localized, message: "alert_sign_in_fail_email_permission".localized)
                             self.loading.hide(true)
                         }
                     case .failed(let error):
-                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+                        self.presentAlert(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                         fallthrough
                     default:
                         self.loading.hide(true)
                     }
                 }
             case .failed(let error):
-                self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+                self.presentAlert(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                 fallthrough
             default:
                 self.loading.hide(true)
@@ -209,14 +209,14 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             session, error in
             if let error = error as NSError? {
                 if error.code != TWTRLogInErrorCode.logInErrorCodeCancelled.rawValue {
-                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+                    self.presentAlert(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                 }
                 self.loading.hide(true)
             } else {
                 TWTRAPIClient.withCurrentUser().requestEmail() {
                     email, error in
                     if let error = error {
-                        self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+                        self.presentAlert(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
                         self.loading.hide(true)
                     } else {
                         TWTRAPIClient.withCurrentUser().loadUser(withID: session!.userID) {
@@ -242,7 +242,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     internal func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error as NSError? {
             if error.code != GIDSignInErrorCode.canceled.rawValue {
-                presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
+                presentAlert(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription)
             }
             loading.hide(true)
         } else {
@@ -256,7 +256,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 
     private func presentErrorDialog(message: String?) {
         UIApplication.shared.unregisterForRemoteNotifications()
-        presentDialog(title: "alert_sign_in_fail_title".localized, message: message)
+        presentAlert(title: "alert_sign_in_fail_title".localized, message: message)
         loading.hide(true)
         password.text = nil
     }

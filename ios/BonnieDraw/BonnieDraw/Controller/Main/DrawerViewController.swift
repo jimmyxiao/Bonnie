@@ -92,7 +92,7 @@ class DrawerViewController: UIViewController, UITableViewDataSource, UITableView
             self.refreshControl.endRefreshing()
         }
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             completionHandler(nil)
             return
         }

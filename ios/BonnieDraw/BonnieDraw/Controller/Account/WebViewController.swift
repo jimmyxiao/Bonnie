@@ -48,7 +48,7 @@ class WebViewController: BackButtonViewController, WKUIDelegate, WKNavigationDel
                 webView?.load(URLRequest(url: url))
             }
         } else {
-            presentConfirmationDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
+            presentConfirmationAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
                 success in
                 if success {
                     self.loadPage()

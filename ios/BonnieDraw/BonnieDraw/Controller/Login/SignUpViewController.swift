@@ -27,41 +27,41 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
     }
 
     private func presentErrorDialog(message: String?) {
-        presentDialog(title: "alert_sign_up_fail_title".localized, message: message)
+        presentAlert(title: "alert_sign_up_fail_title".localized, message: message)
         loading.hide(true)
         password.text = nil
     }
 
     @IBAction func signUp(_ sender: Any) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let name = self.name.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let email = self.email.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let password = self.password.text ?? ""
         if name.isEmpty {
-            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_name_empty".localized) {
+            presentAlert(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_name_empty".localized) {
                 action in
                 self.name.becomeFirstResponder()
             }
         } else if email.isEmpty {
-            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
+            presentAlert(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_email_empty".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if !email.isValidEmail() {
-            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
+            presentAlert(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_email_invaid".localized) {
                 action in
                 self.email.becomeFirstResponder()
             }
         } else if password.isEmpty {
-            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_password_empty".localized) {
+            presentAlert(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_password_empty".localized) {
                 action in
                 self.password.becomeFirstResponder()
             }
         } else if password.count < 4 {
-            presentDialog(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_password_invalid".localized) {
+            presentAlert(title: "alert_sign_up_fail_title".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.password.becomeFirstResponder()
             }
@@ -92,7 +92,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
                         return
                     }
                     if response == 1 {
-                        self.presentDialog(title: "alert_sign_up_success_title".localized, message: "alert_sign_up_success_content".localized) {
+                        self.presentAlert(title: "alert_sign_up_success_title".localized, message: "alert_sign_up_success_content".localized) {
                             action in
                             self.navigationController?.popToRootViewController(animated: true)
                         }

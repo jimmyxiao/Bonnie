@@ -96,7 +96,7 @@ class LaunchViewController: UIViewController {
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_network_unreachable_content".localized) {
+                    self.presentAlert(title: "alert_sign_in_fail_title".localized, message: "alert_network_unreachable_content".localized) {
                         action in
                         self.launchLogin()
                     }
@@ -112,7 +112,7 @@ class LaunchViewController: UIViewController {
                         switch response.result {
                         case .success:
                             guard let data = response.result.value as? [String: Any] else {
-                                self.presentDialog(title: "alert_sign_in_fail_title".localized, message: "alert_network_unreachable_content".localized) {
+                                self.presentAlert(title: "alert_sign_in_fail_title".localized, message: "alert_network_unreachable_content".localized) {
                                     action in
                                     self.launchLogin()
                                 }
@@ -126,20 +126,20 @@ class LaunchViewController: UIViewController {
                             defaults.set(Date(), forKey: Defaults.TOKEN_TIMESTAMP)
                             self.launchMain()
                         case .failure(let error):
-                            self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
+                            self.presentAlert(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
                                 action in
                                 self.launchLogin()
                             }
                         }
                     }
                 } else {
-                    self.presentDialog(title: "alert_sign_in_fail_title".localized, message: data["msg"] as? String) {
+                    self.presentAlert(title: "alert_sign_in_fail_title".localized, message: data["msg"] as? String) {
                         action in
                         self.launchLogin()
                     }
                 }
             case .failure(let error):
-                self.presentDialog(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
+                self.presentAlert(title: "alert_sign_in_fail_title".localized, message: error.localizedDescription) {
                     action in
                     self.launchLogin()
                 }
@@ -148,7 +148,7 @@ class LaunchViewController: UIViewController {
     }
 
     private func launchMain() {
-        UIApplication.shared.replace(rootViewControllerWith:UIStoryboard(name: UIDevice.current.userInterfaceIdiom == .pad ? "Main_iPad" : "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.MAIN))
+        UIApplication.shared.replace(rootViewControllerWith: UIStoryboard(name: UIDevice.current.userInterfaceIdiom == .pad ? "Main_iPad" : "Main", bundle: nil).instantiateViewController(withIdentifier: Identifier.MAIN))
     }
 
     private func launchLogin() {

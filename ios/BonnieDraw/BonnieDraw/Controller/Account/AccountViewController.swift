@@ -153,7 +153,7 @@ class AccountViewController:
 
     private func downloadData() {
         guard AppDelegate.reachability.connection != .none else {
-            presentConfirmationDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
+            presentConfirmationAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized) {
                 success in
                 if success {
                     self.downloadData()
@@ -182,7 +182,7 @@ class AccountViewController:
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                    self.presentConfirmationDialog(
+                    self.presentConfirmationAlert(
                             title: "service_download_fail_title".localized,
                             message: "alert_network_unreachable_content".localized) {
                         success in
@@ -206,7 +206,7 @@ class AccountViewController:
                     switch response.result {
                     case .success:
                         guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let works = data["workList"] as? [[String: Any]] else {
-                            self.presentConfirmationDialog(
+                            self.presentConfirmationAlert(
                                     title: "service_download_fail_title".localized,
                                     message: "alert_network_unreachable_content".localized) {
                                 success in
@@ -229,7 +229,7 @@ class AccountViewController:
                         if let error = error as? URLError, error.code == .cancelled {
                             return
                         }
-                        self.presentConfirmationDialog(
+                        self.presentConfirmationAlert(
                                 title: "service_download_fail_title".localized,
                                 message: error.localizedDescription) {
                             success in
@@ -243,7 +243,7 @@ class AccountViewController:
                 if let error = error as? URLError, error.code == .cancelled {
                     return
                 }
-                self.presentConfirmationDialog(
+                self.presentConfirmationAlert(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription) {
                     success in
@@ -361,7 +361,7 @@ class AccountViewController:
     internal func accountHeaderAction(_ sender: Any) {
         if let userId = userId {
             guard AppDelegate.reachability.connection != .none else {
-                presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+                presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                 return
             }
             guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
@@ -379,7 +379,7 @@ class AccountViewController:
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.presentConfirmationDialog(
+                        self.presentConfirmationAlert(
                                 title: "service_download_fail_title".localized,
                                 message: "alert_network_unreachable_content".localized) {
                             success in
@@ -390,7 +390,7 @@ class AccountViewController:
                         return
                     }
                     if response != 1 {
-                        self.presentDialog(
+                        self.presentAlert(
                                 title: "service_download_fail_title".localized,
                                 message: data["msg"] as? String)
                     } else {
@@ -404,7 +404,7 @@ class AccountViewController:
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.presentConfirmationDialog(
+                    self.presentConfirmationAlert(
                             title: "service_download_fail_title".localized,
                             message: error.localizedDescription) {
                         success in
@@ -533,7 +533,7 @@ class AccountViewController:
             let reportAction = UIAlertAction(title: "more_report".localized, style: .destructive) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
-                    self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+                    self.presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                     return
                 }
                 self.performSegue(withIdentifier: Segue.REPORT, sender: indexPath)
@@ -543,7 +543,7 @@ class AccountViewController:
             let editAction = UIAlertAction(title: "more_edit_work".localized, style: .default) {
                 action in
                 guard AppDelegate.reachability.connection != .none else {
-                    self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+                    self.presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                     return
                 }
                 self.performSegue(withIdentifier: Segue.EDIT, sender: indexPath)
@@ -556,7 +556,7 @@ class AccountViewController:
                 alert.addAction(UIAlertAction(title: "alert_button_delete".localized, style: .destructive) {
                     action in
                     guard AppDelegate.reachability.connection != .none else {
-                        self.presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+                        self.presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
                         return
                     }
                     guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
@@ -575,11 +575,11 @@ class AccountViewController:
                         case .success:
                             self.loading.hide(true)
                             guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                                self.presentDialog(title: "alert_delete_fail_title".localized, message: "alert_network_unreachable_content".localized)
+                                self.presentAlert(title: "alert_delete_fail_title".localized, message: "alert_network_unreachable_content".localized)
                                 return
                             }
                             if response != 1 {
-                                self.presentDialog(
+                                self.presentAlert(
                                         title: "service_download_fail_title".localized,
                                         message: data["msg"] as? String)
                             } else {
@@ -590,7 +590,7 @@ class AccountViewController:
                             if let error = error as? URLError, error.code == .cancelled {
                                 return
                             }
-                            self.presentDialog(title: "alert_delete_fail_title".localized, message: error.localizedDescription)
+                            self.presentAlert(title: "alert_delete_fail_title".localized, message: error.localizedDescription)
                         }
                     }
                 })
@@ -607,7 +607,7 @@ class AccountViewController:
 
     @IBAction func like(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
@@ -626,13 +626,13 @@ class AccountViewController:
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let res = data["res"] as? Int else {
-                    self.presentDialog(
+                    self.presentAlert(
                             title: "service_download_fail_title".localized,
                             message: "alert_network_unreachable_content".localized)
                     return
                 }
                 if res != 1 {
-                    self.presentDialog(
+                    self.presentAlert(
                             title: "service_download_fail_title".localized,
                             message: data["msg"] as? String)
                 } else {
@@ -662,7 +662,7 @@ class AccountViewController:
                 if let error = error as? URLError, error.code == .cancelled {
                     return
                 }
-                self.presentDialog(
+                self.presentAlert(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription)
             }
@@ -698,7 +698,7 @@ class AccountViewController:
 
     @IBAction func collect(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let token = UserDefaults.standard.string(forKey: Defaults.TOKEN),
@@ -717,13 +717,13 @@ class AccountViewController:
             switch response.result {
             case .success:
                 guard let data = response.result.value as? [String: Any], let res = data["res"] as? Int else {
-                    self.presentDialog(
+                    self.presentAlert(
                             title: "service_download_fail_title".localized,
                             message: "alert_network_unreachable_content".localized)
                     return
                 }
                 if res != 1 {
-                    self.presentDialog(
+                    self.presentAlert(
                             title: "service_download_fail_title".localized,
                             message: data["msg"] as? String)
                 } else {
@@ -742,7 +742,7 @@ class AccountViewController:
                 if let error = error as? URLError, error.code == .cancelled {
                     return
                 }
-                self.presentDialog(
+                self.presentAlert(
                         title: "service_download_fail_title".localized,
                         message: error.localizedDescription)
             }

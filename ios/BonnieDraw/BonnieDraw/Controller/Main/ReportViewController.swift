@@ -106,7 +106,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func confirm(_ sender: UIButton) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         guard let id = work?.id,
@@ -115,7 +115,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
         }
         let description = reportContent.text ?? ""
         if description.isEmpty {
-            presentDialog(title: "alert_report_fail_title".localized, message: "alert_report_fail_description_empty".localized) {
+            presentAlert(title: "alert_report_fail_title".localized, message: "alert_report_fail_description_empty".localized) {
                 action in
                 self.reportContent.becomeFirstResponder()
             }
@@ -131,7 +131,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.presentDialog(title: "alert_report_fail_title".localized, message: "alert_network_unreachable_content".localized)
+                        self.presentAlert(title: "alert_report_fail_title".localized, message: "alert_network_unreachable_content".localized)
                         self.indicator.stopAnimating()
                         sender.isEnabled = true
                         return
@@ -144,7 +144,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
                             self.dismiss(animated: false)
                         }
                     } else {
-                        self.presentDialog(title: "alert_report_fail_title".localized, message: data["msg"] as? String)
+                        self.presentAlert(title: "alert_report_fail_title".localized, message: data["msg"] as? String)
                         self.indicator.stopAnimating()
                         sender.isEnabled = true
                     }
@@ -152,7 +152,7 @@ class ReportViewController: UIViewController, UITextFieldDelegate {
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.presentDialog(title: "alert_report_fail_title".localized, message: error.localizedDescription)
+                    self.presentAlert(title: "alert_report_fail_title".localized, message: error.localizedDescription)
                     self.indicator.stopAnimating()
                     sender.isEnabled = true
                 }

@@ -82,7 +82,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
         if let segueId = setting.segueId {
             performSegue(withIdentifier: segueId, sender: nil)
         } else if setting.type != .notification {
-            presentConfirmationDialog(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
+            presentConfirmationAlert(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
                 success in
                 if success {
                     let defaults = UserDefaults.standard
@@ -118,7 +118,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
 
     @IBAction func toggleNotification(_ sender: UISwitch) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         if sender.isOn {
@@ -168,7 +168,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.presentDialog(title: "service_download_fail_title".localized, message: "alert_network_unreachable_content".localized)
+                        self.presentAlert(title: "service_download_fail_title".localized, message: "alert_network_unreachable_content".localized)
                         UIApplication.shared.unregisterForRemoteNotifications()
                         self.tableView.reloadRows(at: [IndexPath(row: SettingType.notification.rawValue, section: 0)], with: .automatic)
                         return
@@ -187,7 +187,7 @@ class SettingViewController: BackButtonViewController, UITableViewDataSource, UI
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.presentDialog(title: "service_download_fail_title".localized, message: error.localizedDescription)
+                    self.presentAlert(title: "service_download_fail_title".localized, message: error.localizedDescription)
                 }
             }
         } else {

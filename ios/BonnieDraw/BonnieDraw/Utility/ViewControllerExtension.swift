@@ -11,14 +11,14 @@ import Photos
 import UserNotifications
 
 extension UIViewController {
-    func presentDialog(title: String? = nil, message: String? = nil, buttonText: String? = nil, handler: ((UIAlertAction) -> Void)? = nil) {
+    func presentAlert(title: String? = nil, message: String? = nil, buttonText: String? = nil, handler: ((UIAlertAction) -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: buttonText ?? "alert_button_confirm".localized, style: .cancel, handler: handler))
         alert.view.tintColor = UIColor.getAccentColor()
         present(alert, animated: true)
     }
 
-    func presentConfirmationDialog(title: String? = nil, message: String? = nil, positiveTitle: String? = nil, negativeTitle: String? = nil, handler: @escaping ((Bool) -> Void)) {
+    func presentConfirmationAlert(title: String? = nil, message: String? = nil, positiveTitle: String? = nil, negativeTitle: String? = nil, handler: @escaping ((Bool) -> Void)) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: positiveTitle ?? "alert_button_confirm".localized, style: .default) {
             action in
@@ -44,7 +44,7 @@ extension UIViewController {
                         successHandler?()
                     } else {
                         if showAlert {
-                            self.presentConfirmationDialog(title: "alert_permission_required_title".localized, message: "alert_permission_photos".localized) {
+                            self.presentConfirmationAlert(title: "alert_permission_required_title".localized, message: "alert_permission_photos".localized) {
                                 success in
                                 if success {
                                     UIApplication.shared.openSettings()
@@ -72,7 +72,7 @@ extension UIViewController {
                         successHandler?()
                     } else {
                         if showAlert {
-                            self.presentConfirmationDialog(title: "alert_permission_required_title".localized, message: "alert_permission_camera".localized) {
+                            self.presentConfirmationAlert(title: "alert_permission_required_title".localized, message: "alert_permission_camera".localized) {
                                 success in
                                 if success {
                                     UIApplication.shared.openSettings()
@@ -100,7 +100,7 @@ extension UIViewController {
                         successHandler?()
                     } else {
                         if showAlert {
-                            self.presentConfirmationDialog(title: "alert_permission_required_title".localized, message: "alert_permission_camera".localized) {
+                            self.presentConfirmationAlert(title: "alert_permission_required_title".localized, message: "alert_permission_camera".localized) {
                                 success in
                                 if success {
                                     UIApplication.shared.openSettings()
@@ -132,7 +132,7 @@ extension UIViewController {
                             successHandler?()
                         } else {
                             if showAlert {
-                                self.presentConfirmationDialog(title: "alert_permission_required_title".localized, message: "alert_permission_notification".localized) {
+                                self.presentConfirmationAlert(title: "alert_permission_required_title".localized, message: "alert_permission_notification".localized) {
                                     success in
                                     if success {
                                         UIApplication.shared.openSettings()

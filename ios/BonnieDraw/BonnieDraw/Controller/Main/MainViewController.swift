@@ -33,7 +33,7 @@ class MainViewController: KYDrawerController, DrawerViewControllerDelegate, TabB
         case .account:
             performSegue(withIdentifier: Segue.ACCOUNT_EDIT, sender: nil)
         case .signOut:
-            presentConfirmationDialog(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
+            presentConfirmationAlert(title: "menu_sign_out".localized, message: "alert_sign_out_content".localized) {
                 success in
                 if success {
                     let defaults = UserDefaults.standard

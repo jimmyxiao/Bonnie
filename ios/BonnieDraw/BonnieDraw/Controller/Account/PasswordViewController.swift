@@ -27,7 +27,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
     }
 
     private func presentErrorDialog(message: String?) {
-        presentDialog(title: "alert_password_update_fail".localized, message: message)
+        presentAlert(title: "alert_password_update_fail".localized, message: message)
         done.isEnabled = true
         loading.hide(true)
         newPassword.text = nil
@@ -36,39 +36,39 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
 
     @IBAction func done(_ sender: UIBarButtonItem) {
         guard AppDelegate.reachability.connection != .none else {
-            presentDialog(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
+            presentAlert(title: "alert_network_unreachable_title".localized, message: "alert_network_unreachable_content".localized)
             return
         }
         let currentPassword = self.currentPassword.text ?? ""
         let newPassword = self.newPassword.text ?? ""
         let confirmPassword = self.confirmPassword.text ?? ""
         if currentPassword.isEmpty {
-            presentDialog(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_empty".localized) {
+            presentAlert(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_empty".localized) {
                 action in
                 self.currentPassword.becomeFirstResponder()
             }
         } else if currentPassword.count < 4 {
-            presentDialog(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_invalid".localized) {
+            presentAlert(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.currentPassword.becomeFirstResponder()
             }
         } else if newPassword.isEmpty {
-            presentDialog(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_empty".localized) {
+            presentAlert(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_empty".localized) {
                 action in
                 self.newPassword.becomeFirstResponder()
             }
         } else if newPassword.count < 4 {
-            presentDialog(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_invalid".localized) {
+            presentAlert(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.newPassword.becomeFirstResponder()
             }
         } else if confirmPassword.isEmpty {
-            presentDialog(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_empty".localized) {
+            presentAlert(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_empty".localized) {
                 action in
                 self.confirmPassword.becomeFirstResponder()
             }
         } else if confirmPassword.count < 4 {
-            presentDialog(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_invalid".localized) {
+            presentAlert(title: "alert_password_update_fail".localized, message: "alert_sign_in_fail_password_invalid".localized) {
                 action in
                 self.confirmPassword.becomeFirstResponder()
             }
@@ -76,12 +76,12 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
             let currentSecurePassword = currentPassword.MD5()
             let newSecurePassword = newPassword.MD5()
             if UserDefaults.standard.string(forKey: Defaults.PASSWORD) != currentSecurePassword {
-                presentDialog(title: "alert_password_update_fail".localized, message: "alert_old_password_unmatch".localized) {
+                presentAlert(title: "alert_password_update_fail".localized, message: "alert_old_password_unmatch".localized) {
                     action in
                     self.currentPassword.becomeFirstResponder()
                 }
             } else if newPassword != confirmPassword {
-                presentDialog(title: "alert_password_update_fail".localized, message: "alert_new_password_unmatch".localized) {
+                presentAlert(title: "alert_password_update_fail".localized, message: "alert_new_password_unmatch".localized) {
                     action in
                     self.confirmPassword.becomeFirstResponder()
                 }
