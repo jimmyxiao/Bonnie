@@ -1586,7 +1586,6 @@
                                         </label>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3hK-eF-uyv">
                                             <rect key="frame" x="16" y="129" width="256" height="44"/>
-                                            <color key="tintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="UYA-I4-QwQ"/>
                                             </constraints>
@@ -1806,7 +1805,6 @@
                                         </label>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sYR-b8-yWh">
                                             <rect key="frame" x="85.5" y="161" width="194.5" height="44"/>
-                                            <color key="tintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="TfA-AK-gol"/>
                                             </constraints>
@@ -1833,7 +1831,6 @@
                                         </label>
                                         <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G9U-L8-h8H">
                                             <rect key="frame" x="84" y="205" width="196" height="0.0"/>
-                                            <color key="tintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" id="ogd-tL-yT3"/>
                                             </constraints>
@@ -1860,7 +1857,6 @@
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="54R-H6-lRR">
                                             <rect key="frame" x="131.5" y="213" width="148.5" height="132"/>
-                                            <color key="tintColor" red="0.92156862750000001" green="0.25098039220000001" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="132" id="i4r-ZN-wEj"/>
                                             </constraints>
@@ -8126,6 +8122,7 @@ AAWIuQAFiL4AAAAAAAAEAQAAAAAAAABBAAAAAAAAAAAAAAAAAAWIwA
         <segue reference="QjV-Sq-9mO"/>
         <segue reference="ioU-Av-ZYW"/>
         <segue reference="4aL-pI-Agf"/>
-        <segue reference="2Op-Kq-GBM"/>
+        <segue reference="1sg-vk-6Jn"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.94901960780000005" green="0.43529411759999997" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
 </document>
