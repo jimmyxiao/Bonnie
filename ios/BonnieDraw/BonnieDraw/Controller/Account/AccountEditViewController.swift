@@ -71,7 +71,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
         NotificationCenter.default.removeObserver(self)
     }
 
-    private func presentErrorDialog(message: String?) {
+    private func presentErrorMessage(message: String?) {
         presentAlert(title: "alert_account_update_fail_title".localized, message: message)
         done.isEnabled = true
         loading.hide(true)
@@ -234,7 +234,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                        self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
+                        self.presentErrorMessage(message: "alert_network_unreachable_content".localized)
                         return
                     }
                     defaults.set(name, forKey: Defaults.NAME)
@@ -247,7 +247,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.presentErrorDialog(message: error.localizedDescription)
+                    self.presentErrorMessage(message: error.localizedDescription)
                 }
             }
         }
@@ -347,7 +347,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                     switch response.result {
                                     case .success:
                                         guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                            self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
+                                            self.presentErrorMessage(message: "alert_network_unreachable_content".localized)
                                             return
                                         }
                                         if let imageUrl = URL(string: Service.filePath(withSubPath: data["profilePicture"] as? String)) {
@@ -356,13 +356,13 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                             self.profileImage.image = image
                                             self.loading.hide(true)
                                         } else {
-                                            self.presentErrorDialog(message: data["msg"] as? String)
+                                            self.presentErrorMessage(message: data["msg"] as? String)
                                         }
                                     case .failure(let error):
                                         if let error = error as? URLError, error.code == .cancelled {
                                             return
                                         }
-                                        self.presentErrorDialog(message: error.localizedDescription)
+                                        self.presentErrorMessage(message: error.localizedDescription)
                                     }
                                     self.progressBar.isHidden = true
                                 })
@@ -370,7 +370,7 @@ class AccountEditViewController: BackButtonViewController, UITextFieldDelegate, 
                                 if let error = error as? URLError, error.code == .cancelled {
                                     return
                                 }
-                                self.presentErrorDialog(message: error.localizedDescription)
+                                self.presentErrorMessage(message: error.localizedDescription)
                                 self.progressBar.isHidden = true
                             }
                         })

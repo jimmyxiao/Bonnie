@@ -98,7 +98,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
         }
     }
 
-    private func presentErrorDialog(message: String?) {
+    private func presentErrorMessage(message: String?) {
         presentAlert(title: "alert_save_fail_title".localized, message: message)
         loading.hide(true)
     }
@@ -159,7 +159,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1, let workId = data["wid"] as? Int else {
-                        self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
+                        self.presentErrorMessage(message: "alert_network_unreachable_content".localized)
                         sender.isEnabled = true
                         return
                     }
@@ -181,7 +181,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                         switch response.result {
                                         case .success:
                                             guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                                self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
+                                                self.presentErrorMessage(message: "alert_network_unreachable_content".localized)
                                                 sender.isEnabled = true
                                                 return
                                             }
@@ -203,7 +203,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                                 switch response.result {
                                                                 case .success:
                                                                     guard let data = response.result.value as? [String: Any], data["res"] as? Int == 1 else {
-                                                                        self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
+                                                                        self.presentErrorMessage(message: "alert_network_unreachable_content".localized)
                                                                         sender.isEnabled = true
                                                                         return
                                                                     }
@@ -213,7 +213,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                                     if let error = error as? URLError, error.code == .cancelled {
                                                                         return
                                                                     }
-                                                                    self.presentErrorDialog(message: error.localizedDescription)
+                                                                    self.presentErrorMessage(message: error.localizedDescription)
                                                                     sender.isEnabled = true
                                                                 }
                                                             })
@@ -221,7 +221,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                                             if let error = error as? URLError, error.code == .cancelled {
                                                                 return
                                                             }
-                                                            self.presentErrorDialog(message: error.localizedDescription)
+                                                            self.presentErrorMessage(message: error.localizedDescription)
                                                             sender.isEnabled = true
                                                         }
                                                     })
@@ -229,7 +229,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                             if let error = error as? URLError, error.code == .cancelled {
                                                 return
                                             }
-                                            self.presentErrorDialog(message: error.localizedDescription)
+                                            self.presentErrorMessage(message: error.localizedDescription)
                                             sender.isEnabled = true
                                         }
                                     })
@@ -237,7 +237,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                                     if let error = error as? URLError, error.code == .cancelled {
                                         return
                                     }
-                                    self.presentErrorDialog(message: error.localizedDescription)
+                                    self.presentErrorMessage(message: error.localizedDescription)
                                     sender.isEnabled = true
                                 }
                             })
@@ -245,7 +245,7 @@ class UploadViewController: BackButtonViewController, UITextFieldDelegate {
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.presentErrorDialog(message: error.localizedDescription)
+                    self.presentErrorMessage(message: error.localizedDescription)
                     sender.isEnabled = true
                 }
             }

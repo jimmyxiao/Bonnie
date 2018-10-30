@@ -26,7 +26,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
         }
     }
 
-    private func presentErrorDialog(message: String?) {
+    private func presentErrorMessage(message: String?) {
         presentAlert(title: "alert_sign_up_fail_title".localized, message: message)
         loading.hide(true)
         password.text = nil
@@ -88,7 +88,7 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
                 switch response.result {
                 case .success:
                     guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                        self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
+                        self.presentErrorMessage(message: "alert_network_unreachable_content".localized)
                         return
                     }
                     if response == 1 {
@@ -97,13 +97,13 @@ class SignUpViewController: BackButtonViewController, UITextFieldDelegate {
                             self.navigationController?.popToRootViewController(animated: true)
                         }
                     } else {
-                        self.presentErrorDialog(message: data["msg"] as? String)
+                        self.presentErrorMessage(message: data["msg"] as? String)
                     }
                 case .failure(let error):
                     if let error = error as? URLError, error.code == .cancelled {
                         return
                     }
-                    self.presentErrorDialog(message: error.localizedDescription)
+                    self.presentErrorMessage(message: error.localizedDescription)
                 }
             }
         }

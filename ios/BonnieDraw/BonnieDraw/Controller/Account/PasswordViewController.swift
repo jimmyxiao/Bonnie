@@ -26,7 +26,7 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
         return true
     }
 
-    private func presentErrorDialog(message: String?) {
+    private func presentErrorMessage(message: String?) {
         presentAlert(title: "alert_password_update_fail".localized, message: message)
         done.isEnabled = true
         loading.hide(true)
@@ -101,20 +101,20 @@ class PasswordViewController: BackButtonViewController, UITextFieldDelegate {
                     switch response.result {
                     case .success:
                         guard let data = response.result.value as? [String: Any], let response = data["res"] as? Int else {
-                            self.presentErrorDialog(message: "alert_network_unreachable_content".localized)
+                            self.presentErrorMessage(message: "alert_network_unreachable_content".localized)
                             return
                         }
                         if response == 1 {
                             UserDefaults.standard.set(newSecurePassword, forKey: Defaults.PASSWORD)
                             self.onBackPressed(sender)
                         } else {
-                            self.presentErrorDialog(message: data["msg"] as? String)
+                            self.presentErrorMessage(message: data["msg"] as? String)
                         }
                     case .failure(let error):
                         if let error = error as? URLError, error.code == .cancelled {
                             return
                         }
-                        self.presentErrorDialog(message: error.localizedDescription)
+                        self.presentErrorMessage(message: error.localizedDescription)
                     }
                 }
             }
